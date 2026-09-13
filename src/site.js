@@ -142,3 +142,67 @@
   var vid=document.querySelector('.hero-video'); if(!vid) return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
 })();
+
+/* Motion. The references move: coffee-tech reveals on scroll, fauna runs
+   ScrollTrigger. This is the same behaviour without a library: things rise in
+   as they enter, images drift inside their frames, the hero types itself in.
+   Everything is off under prefers-reduced-motion. */
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root=document.documentElement;
+  if(reduce||!('IntersectionObserver' in window)){root.classList.add('no-motion');return;}
+  root.classList.add('motion');
+
+  /* rise in, staggered by position within the group */
+  var rise=document.querySelectorAll('[data-rise]');
+  if(rise.length){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var el=e.target, i=+el.dataset.i||0;
+        el.style.transitionDelay=(i*70)+'ms';
+        el.classList.add('is-in');
+        io.unobserve(el);
+      });
+    },{rootMargin:'0px 0px -12% 0px',threshold:0.08});
+    Array.prototype.forEach.call(rise,function(el){
+      var group=el.parentElement?el.parentElement.querySelectorAll(':scope > [data-rise]'):[el];
+      el.dataset.i=Math.min(Array.prototype.indexOf.call(group,el),5);
+      io.observe(el);
+    });
+  }
+
+  /* images drift inside their frames while the frame crosses the viewport */
+  var floats=document.querySelectorAll('[data-float] img, [data-float] video');
+  var hero=document.querySelector('.pop .bg');
+  var ticking=false;
+  function frame(){
+    ticking=false;
+    var vh=window.innerHeight;
+    Array.prototype.forEach.call(floats,function(m){
+      var box=m.parentElement.getBoundingClientRect();
+      if(box.bottom<-200||box.top>vh+200) return;
+      var p=(box.top+box.height/2-vh/2)/vh;      /* -1 above, 0 centred, 1 below */
+      m.style.transform='translate3d(0,'+(p*-5).toFixed(2)+'%,0) scale(1.1)';
+    });
+    if(hero){
+      var y=window.scrollY;
+      if(y<window.innerHeight*1.2) hero.style.transform='translate3d(0,'+(y*0.18).toFixed(1)+'px,0) scale(1.06)';
+    }
+  }
+  function onScroll(){ if(!ticking){ticking=true;requestAnimationFrame(frame);} }
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',onScroll);
+  frame();
+
+  /* the hero heading arrives line by line */
+  var h1=document.querySelector('.pop h1');
+  if(h1&&!h1.dataset.split){
+    h1.dataset.split='1';
+    var lines=h1.innerHTML.split(/<br\s*\/?>/i);
+    h1.innerHTML=lines.map(function(l,i){
+      return '<span class="ln"><span style="transition-delay:'+(120+i*90)+'ms">'+l+'</span></span>';
+    }).join('');
+    requestAnimationFrame(function(){requestAnimationFrame(function(){h1.classList.add('is-in');});});
+  }
+})();

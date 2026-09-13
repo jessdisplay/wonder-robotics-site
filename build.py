@@ -13,6 +13,7 @@ without the document wrapper); valley -> work/valley/index.html;
 lrd -> work/little-red-dumplings/index.html. The catalogue (machines/ and
 machines/<slug>/) is rendered from src/machines.py, one page per line.
 """
+import re
 import sys
 from html import escape
 from pathlib import Path
@@ -35,7 +36,7 @@ PAGES = {
                "desc": "The Robotics and Hardware Club: one night a month at 365 St Pauls Terrace for the people building robots and hardware in Queensland. Two talks, the machines running, the bench open."},
 }
 
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">\n'
+FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">\n'
 
 BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
 <header class="bar">
@@ -43,7 +44,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#services">What we sell</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#services">What we do</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="{{root}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -91,7 +92,30 @@ FOOTER = '''<footer>
 </footer>
 '''
 
+# Blocks that rise into view as they enter. Matched on the opening tag only.
+RISE = re.compile(
+    r'<(h1|h2|h3|figure|form|table|ol|ul)(?=[\s>])'
+    r'|<p(?=\s+class="(?:sub|statement|more|txt)")'
+    r'|<span(?=\s+class="tag")'
+    r'|<div(?=\s+class="(?:cases|bento|actions|related|acc|specs|qin|qsheet|details)")'
+    r'|<a(?=\s+class="big")')
+
+FLOAT = (('<figure class="plate"', '<figure class="plate" data-float'),
+         ('<div class="ph"', '<div class="ph" data-float'),
+         ('<figure class="card"', '<figure class="card" data-float'),
+         ('<div class="stage"', '<div class="stage" data-float'))
+
+
+def animate(body):
+    """Mark the page's own blocks so the motion script can reveal and drift them."""
+    body = RISE.sub(lambda m: m.group(0) + ' data-rise', body)
+    for a, b in FLOAT:
+        body = body.replace(a, b)
+    return body
+
+
 def render(body, cfg, name=None):
+    body = animate(body)
     css = (SRC / "site.css").read_text()
     js = (SRC / "site.js").read_text()
     mark = (SRC / "mark.js").read_text()
