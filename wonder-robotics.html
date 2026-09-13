@@ -1,5 +1,5 @@
 <title>Wonder Robotics</title>
-<meta name="description" content="Where Australian business gets into robotics. See it working in our building, pilot it in yours, then we build it.">
+<meta name="description" content="Where Australian business gets into robotics. We scope, design, brand, build and run robot kitchens and service robots, from one building in Fortitude Valley.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
@@ -35,7 +35,6 @@
   .bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
   .bar .grid{align-items:center;min-height:62px}
   .bar .mark{grid-column:1/4;display:flex;align-items:center}
-  .bar .mark img{height:24px;width:auto;filter:brightness(0)}
   .bar .clock{grid-column:4/7}
   .bar nav{grid-column:7/11;display:flex;gap:clamp(12px,1.6vw,26px)}
   .bar nav a{text-decoration:none}
@@ -200,7 +199,6 @@
   /* footer */
   footer{background:var(--night);color:var(--cream);padding-top:clamp(40px,6vw,90px);padding-bottom:22px}
   footer .label{color:color-mix(in srgb,var(--cream) 62%,var(--night))}
-  footer .lock{width:100%;height:auto;margin-bottom:clamp(32px,5vw,70px)}
   footer .made{display:flex;justify-content:space-between;border-top:1px solid color-mix(in srgb,var(--cream) 22%,transparent);padding-top:14px}
   footer .made span{color:var(--cream)}
 
@@ -241,14 +239,70 @@
   @media (prefers-reduced-motion:reduce){
     *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
   }
+
+  /* the drawn mark */
+  @font-face{font-family:'UnboundedW';src:url(fonts/UnboundedW.woff2) format('woff2');font-weight:100 900;font-display:swap}
+  .bar .mark canvas{display:block}
+  footer .lock{margin-bottom:clamp(32px,5vw,70px)}
+  footer canvas.lock{width:100%;height:auto}
+
+  /* process */
+  .steps .n{font-size:clamp(28px,3vw,48px);color:var(--ink);letter-spacing:-.03em;padding-top:22px}
+  .steps .name small{display:block;margin-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
+
+  /* work tiles */
+  .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .cases a{display:grid;gap:14px;text-decoration:none;color:inherit}
+  .cases .ph{aspect-ratio:3/2;overflow:hidden;background:var(--rule)}
+  .cases .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .cases a:hover .ph img{transform:scale(1.03)}
+  .cases h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .cases p{margin:0;color:var(--graphite);max-width:48ch}
+  .chip.build{color:var(--signal);border-color:color-mix(in srgb,var(--signal) 45%,transparent)}
+  .chip.concept{color:var(--graphite);border-color:var(--rule)}
+
+  /* case page */
+  .case-head{padding-top:clamp(28px,4vw,56px)}
+  .case-head .meta{margin-bottom:clamp(28px,5vw,72px)}
+  .case-head .meta > *:nth-child(1){grid-column:1/5}
+  .case-head .meta > *:nth-child(2){grid-column:5/9}
+  .case-head .meta > *:nth-child(3){grid-column:9/13;justify-self:end;text-align:right}
+  .case-head h1{font-size:clamp(44px,8vw,150px)}
+  .case-head .facts{grid-column:1/5;margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--ink)}
+  .case-head .intro{grid-column:6/12;margin-top:clamp(28px,4vw,56px);font-size:clamp(18px,1.5vw,24px);line-height:1.4;text-wrap:balance}
+  .case-head .intro p{margin:0 0 1em}
+  .story{padding-top:clamp(56px,7vw,110px)}
+  .story figure{margin:0 0 clamp(40px,5vw,80px)}
+  .story figure img{width:100%;height:auto}
+  .story figure.inset{width:min(100%,62%);margin-inline:auto}
+  .story figure.half{width:min(100%,48%)}
+  .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
+  .story .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
+  .story .pair figure{margin:0}
+  .story h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
+  .story .txt{max-width:60ch;color:var(--ink);font-size:clamp(16px,1.2vw,19px);margin-bottom:clamp(28px,4vw,56px)}
+  .story .txt p{margin:0 0 1em}
+  .note{border:1px solid var(--rule);padding:14px 16px;max-width:60ch;color:var(--graphite);font-size:15px;line-height:1.45}
+  .next{padding:clamp(56px,7vw,110px) 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
+  .next a{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);text-decoration:none;color:inherit;align-items:center}
+  .next .ph{aspect-ratio:3/2;overflow:hidden;background:var(--rule)}
+  .next .ph img{width:100%;height:100%;object-fit:cover}
+  .next h2{margin:12px 0 0;font-weight:400;font-size:clamp(34px,4.6vw,76px);letter-spacing:-.035em;line-height:.98}
+  @media (max-width:980px){
+    .cases{grid-template-columns:1fr}
+    .case-head .facts,.case-head .intro{grid-column:1/13}
+    .story .pair{grid-template-columns:1fr}
+    .story figure.inset,.story figure.half{width:100%}
+    .next a{grid-template-columns:1fr}
+  }
 </style>
 
 <header class="bar">
   <div class="wrap grid">
-    <a class="mark" href="#top" aria-label="Wonder Robotics home"><img src="img/lockup-robotics.png" alt="Wonder Robotics"></a>
+    <a class="mark" href="" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#how">How it works</a><a href="#running">Running now</a><a href="#quote">Quote</a><a href="#machines">Machines</a>
+      <a href="#process">The process</a><a href="#work">Work</a><a href="#quote">Quote</a><a href="#machines">Machines</a>
     </nav>
     <div class="cta"><a class="btn" href="#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -260,7 +314,7 @@
       <div class="grid meta label">
         <span><b>Wonder Robotics</b></span>
         <span>365 St Pauls Terrace, Fortitude Valley QLD</span>
-        <span>Draft for review &middot; 11 Sep 2026</span>
+        <span>Draft for review &middot; 13 Sep 2026</span>
       </div>
       <h1 aria-label="Where Australian business gets into robotics.">
         <span class="row" aria-hidden="true"><span class="w l">Where</span><span class="w r">Australian</span></span>
@@ -269,7 +323,7 @@
       <div class="tail">
         <h1 aria-hidden="true"><span class="w l">robotics.</span></h1>
         <div class="pitch">
-          <p>See it working in our building. Pilot it in yours. Then we build it. Any machine, one team.</p>
+          <p>We scope, design, brand, build and run robot kitchens and service robots, from one building in Fortitude Valley. Australia's first fully autonomous kitchen is ours, and it's running.</p>
           <div class="actions">
             <a class="btn" href="#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a>
             <a class="btn ghost" href="#quote"><span>Build a quote</span><i aria-hidden="true">+</i></a>
@@ -288,11 +342,12 @@
     </div>
   </section>
 
-  <section class="block" id="how">
+  <section class="block" id="process">
     <div class="wrap">
       <div class="grid head">
-        <span class="label">How it works</span>
-        <h2>You don't buy robots from a catalogue. You watch them work, then you try one.</h2>
+        <span class="label">The process</span>
+        <h2>One team takes it from the first conversation to the first service.</h2>
+        <p>Most robotics projects fall apart between vendors: the designer, the importer, the installer, the software people. We are all of them, in one building, so nothing falls between.</p>
       </div>
       <div class="steps-wrap">
         <table class="steps">
@@ -300,12 +355,34 @@
             <tr><th class="label">Step</th><th class="label">&nbsp;</th><th class="label">What happens</th><th class="label">You leave with</th></tr>
           </thead>
           <tbody>
-            <tr><td class="n">01</td><td class="name">See it</td><td class="what">Walk the building with an engineer. Watch the kitchen, the arms and the floor fleet work a real service, and put your own questions to the machines.</td><td class="get">A shortlist of what fits your business, and what doesn't.</td></tr>
-            <tr><td class="n">02</td><td class="name">Pilot it</td><td class="what">We put the right machine into one of your sites for a fixed run: installed, monitored and supported by the people who set it up.</td><td class="get">Numbers from your own floor, not a brochure.</td></tr>
-            <tr><td class="n">03</td><td class="name">Build it</td><td class="what">Concept, fitout, machines and software, integrated and commissioned by one team, so nothing falls between vendors.</td><td class="get">A working system, handed over and trained.</td></tr>
-            <tr><td class="n">04</td><td class="name">Run it</td><td class="what">Servicing, spares and software updates, with a team in Brisbane that answers the phone.</td><td class="get">Uptime you can plan a roster around.</td></tr>
+            <tr><td class="n">1</td><td class="name">Scope<small>Two weeks</small></td><td class="what">Walk our building, or we walk yours. What the robots should do, the menu, the floor, the services, the numbers you need to hit.</td><td class="get">A written scope and a fixed price for the design.</td></tr>
+            <tr><td class="n">2</td><td class="name">Design<small>Four to six weeks</small></td><td class="what">The kitchen or counter laid out around your workflow. The machines picked for the job, from any maker. Drawings a builder and a certifier can work from.</td><td class="get">Layout, equipment schedule, services plan, a build price.</td></tr>
+            <tr><td class="n">3</td><td class="name">Brand<small>Alongside design</small></td><td class="what">The concept, the name, the identity on the machines, the counter, the screens and the menus. Branding, concept and robots from one building, so it all matches.</td><td class="get">A brand you can open with, applied to every surface.</td></tr>
+            <tr><td class="n">4</td><td class="name">Build<small>About two months from order</small></td><td class="what">We order and supply the machines, fit out the space, install, program, integrate ordering and payment, commission and train your people.</td><td class="get">A working system, handed over, with your team trained on it.</td></tr>
+            <tr><td class="n">5</td><td class="name">Run<small>Ongoing</small></td><td class="what">Maintenance, spares, software updates and remote monitoring, with a team in Brisbane that answers the phone.</td><td class="get">Uptime you can plan a roster around.</td></tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">Work</span>
+        <h2>Two kitchens. One running, one being built.</h2>
+      </div>
+      <div class="cases">
+        <a href="work/valley/">
+          <div class="ph"><img src="img/tile-arm.jpg" alt="The kitchen's robot arm lifting a basket of chips, the WONDER ident on the wall screen" loading="lazy" style="object-position:50% 40%"></div>
+          <h3>365 St Pauls Terrace <span class="chip">Running</span></h3>
+          <p>Our own building in the Valley: a robot kitchen, a robot bar, a dessert kiosk and a service floor, in service every day.</p>
+        </a>
+        <a href="work/little-red-dumplings/">
+          <div class="ph"><img src="img/lrd-concept.jpg" alt="Concept render of a fully autonomous dumpling kitchen in a Gold Coast food hall" loading="lazy"></div>
+          <h3>Little Red Dumplings <span class="chip build">Under construction</span></h3>
+          <p>A fully autonomous dumpling kitchen at the Gold Coast Health and Knowledge Precinct, for a group with two dozen venues.</p>
+        </a>
       </div>
     </div>
   </section>
@@ -447,7 +524,7 @@
         <table class="machines">
           <thead><tr><th class="label">Class</th><th class="label">Good at</th><th class="label">On our floor</th><th class="label">Published spec</th></tr></thead>
           <tbody>
-            <tr><td>Robot arms</td><td>Coffee, frying, boiling, plating: repeated hot work</td><td>Coffee station, kitchen line</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
+            <tr><td>Robot arms</td><td>Coffee, frying, boiling, plating: repeated hot work</td><td>Kitchen line, robot bar, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
             <tr><td>Service robots</td><td>Carrying plates, running routes, greeting</td><td>UBTECH CadeBot, Cruzr</td><td class="spec">Sized at your visit</td></tr>
             <tr><td>Humanoids</td><td>Research, teaching, demonstration</td><td>Unitree G1</td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
             <tr><td>Quadrupeds</td><td>Inspection, mobility, public engagement</td><td>Sourced to order</td><td class="spec">Sized at your visit</td></tr>
@@ -474,11 +551,118 @@
 
 <footer>
   <div class="wrap">
-    <img class="lock" src="img/lockup-robotics.png" alt="Wonder Robotics" width="1200" height="278">
+    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="1320" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
     <div class="made label"><span>Made</span><span>in</span><span>Fortitude</span><span>Valley,</span><span>with</span><span>machines</span><span>that</span><span>work.</span></div>
   </div>
 </footer>
 
+<script>
+/* The WONDER ROBOTICS mark, drawn. Ported verbatim from the airtree footer
+   (rise-stories/app/public/site/mark.js) with the sector device from the
+   brand site (wonder-brand app/src/routes/index.tsx, deviceRobot): the
+   WonderBot face cut into the moon. RULE (Jesse, 12 Aug 2026): sector assets
+   carry the sector's own mark, never the parent moon.
+
+   Usage: <canvas data-wonder-mark data-ink="#131316" data-sub="ROBOTICS"
+                  data-w="150"></canvas> */
+(function () {
+  "use strict";
+  var CRESCENT = { cut: 0.5, rx: 0.7, ry: 0.76, rise: -0.06 };
+  function setTrack(g, px) { try { g.letterSpacing = px + "px"; } catch (e) {} }
+  function crescentRound(g, cx, cy, R, ink) {
+    var C = CRESCENT;
+    g.fillStyle = ink; g.save();
+    g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.clip();
+    g.beginPath();
+    g.arc(cx, cy, R, 0, Math.PI * 2, false);
+    g.moveTo(cx + R * C.cut + R * C.rx, cy + R * C.rise);
+    g.arc(cx + R * C.cut, cy + R * C.rise, R * C.rx, 0, Math.PI * 2, true);
+    g.fill("evenodd"); g.restore();
+  }
+  function deviceRobot(g, cx, cy, R, ink) {
+    g.save();
+    g.globalCompositeOperation = "destination-out";
+    var w = R * 1.3, h = R * 1.42, x0 = cx + R * 0.44 - w / 2, y0 = cy + R * 0.04 - h / 2;
+    g.beginPath(); g.roundRect(x0, y0, w, h, R * 0.3); g.fill();
+    g.restore();
+    g.fillStyle = ink;
+    var s = R * 0.19, ey = cy - R * 0.1;
+    [0.2, 0.7].forEach(function (dx) {
+      g.beginPath(); g.roundRect(cx + R * dx - s / 2, ey - s / 2, s, s, s * 0.26); g.fill();
+    });
+  }
+  function sectorORobot(g, cx, cy, RX, RY, ink) {
+    var R0 = 100;
+    g.save(); g.translate(cx, cy); g.scale(RX / R0, RY / R0);
+    crescentRound(g, 0, 0, R0, ink);
+    deviceRobot(g, 0, 0, R0, ink);
+    g.restore();
+  }
+  function measure(g, wt, px, track) {
+    g.font = wt + " " + px + "px 'UnboundedW'";
+    setTrack(g, track);
+    var om = g.measureText("o");
+    var xh = om.actualBoundingBoxAscent + om.actualBoundingBoxDescent;
+    var ow = ((om.actualBoundingBoxLeft || 0) + (om.actualBoundingBoxRight || 0)) || om.width;
+    return { wA: g.measureText("w").width, wB: g.measureText("nder").width, xh: xh, asc: om.actualBoundingBoxAscent, ow: ow };
+  }
+  function drawLockup(canvas, W, H, px, ink, sub) {
+    var dpr = Math.min(3, window.devicePixelRatio || 2);
+    if (!(W >= 2 && H >= 2)) return;   // an occluded pane reports a 0px viewport; never draw into nothing
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    var g = canvas.getContext("2d"); if (!g) return;
+    g.scale(dpr, dpr);
+    var wt = 700, track = 0;
+    var m = measure(g, wt, px, track);
+    var bear = px * 0.04 + track;
+    var w = m.wA + m.wB + m.ow + bear * 2;
+    var x = (W - w) / 2;
+    var baseline = sub ? H * 0.58 : H * 0.68;
+    g.textAlign = "left"; g.textBaseline = "alphabetic"; g.fillStyle = ink;
+    g.fillText("w", x, baseline);
+    var cur = x + m.wA + bear;
+    var ocx = cur + m.ow / 2, ocy = baseline - m.asc + m.xh / 2;
+    // the sector o: the face is punched out with destination-out, so draw it on
+    // its own layer or it would punch the letters too
+    var layer = document.createElement("canvas");
+    layer.width = canvas.width; layer.height = canvas.height;
+    var lg = layer.getContext("2d"); lg.scale(dpr, dpr);
+    sectorORobot(lg, ocx, ocy, m.ow / 2, m.xh / 2, ink);
+    g.drawImage(layer, 0, 0, W, H);
+    cur += m.ow + bear;
+    g.fillStyle = ink;
+    g.fillText("nder", cur, baseline);
+    if (sub) {
+      var sp = px * 0.155, st = sp * 0.62;
+      g.font = "400 " + sp + "px 'UnboundedW'";
+      setTrack(g, st);
+      g.textAlign = "center"; g.fillStyle = ink; g.globalAlpha = 0.85;
+      g.fillText(sub, W / 2 - st / 2, baseline + px * 0.36);
+      g.globalAlpha = 1;
+    }
+  }
+  function paintAll() {
+    document.querySelectorAll("canvas[data-wonder-mark]").forEach(function (cv) {
+      var W = +cv.dataset.w || 680;
+      if (cv.dataset.fit === "vw") W = Math.min(W, Math.round(Math.min(Math.max(window.innerWidth, 320), 1400) * (+cv.dataset.vw || 0.86)));
+      var px = Math.round(W * (+cv.dataset.pxr || 0.118));
+      var H = Math.round(W * (+cv.dataset.hr || (cv.dataset.sub ? 0.30 : 0.26)));
+      drawLockup(cv, W, H, px, cv.dataset.ink || "#F4F1EA", cv.dataset.sub || "");
+    });
+  }
+  var ready = function () { paintAll(); };
+  if (document.fonts && document.fonts.load) {
+    Promise.all([
+      document.fonts.load("700 84px UnboundedW"),
+      document.fonts.load("400 20px UnboundedW")
+    ]).then(ready, ready);
+    setTimeout(ready, 1200);
+  } else { setTimeout(ready, 400); }
+  var rsz; window.addEventListener("resize", function () { clearTimeout(rsz); rsz = setTimeout(paintAll, 180); });
+  window.WonderMark = { drawLockup: drawLockup, sectorORobot: sectorORobot, paintAll: paintAll };
+})();
+</script>
 <script>
 (function(){
   var clock=document.getElementById('clock');
@@ -520,6 +704,7 @@
   var GST=0.10;
 
   var form=document.getElementById('quote-form');
+  if(!form){return;}
   var el=function(id){return document.getElementById(id);};
   var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
   var qty={};
