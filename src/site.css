@@ -318,4 +318,3 @@
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}}

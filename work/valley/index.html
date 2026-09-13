@@ -330,7 +330,6 @@
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -707,11 +706,6 @@
   render();
 })();
 
-(function(){
-  // honour reduced motion for the hero: pause and show the still
-  var vid=document.querySelector('.hero-video'); if(!vid) return;
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
-})();
 </script>
 
 </head>

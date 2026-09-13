@@ -137,8 +137,3 @@
   render();
 })();
 
-(function(){
-  // honour reduced motion for the hero: pause and show the still
-  var vid=document.querySelector('.hero-video'); if(!vid) return;
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
-})();
