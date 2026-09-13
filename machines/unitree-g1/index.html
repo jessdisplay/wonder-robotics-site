@@ -401,30 +401,76 @@
   @media (max-width:640px){.offer{grid-template-columns:1fr}}
 
   /* the catalogue: machines/ and machines/<slug>/ */
-  .case-head h1{margin:0;font-weight:400;letter-spacing:-.045em;line-height:.9}
-  .case-head .intro .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-  .story figure.hero img{width:auto;max-width:100%;max-height:78vh;display:block;margin-inline:auto;border-radius:var(--r)}
-  .story .offer{margin:0 0 clamp(40px,5vw,80px);max-width:none}
-  .offer.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .facts.specs{grid-template-columns:minmax(0,2fr) minmax(0,3fr);max-width:960px;margin-bottom:clamp(40px,5vw,80px);border-top:1px solid var(--ink)}
-  .facts.specs dd{font-family:var(--display);text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink)}
-  .compare{margin-bottom:clamp(40px,5vw,80px)}
+  /* product page, after coffee-tech.com: night hero, detail, highlights, tiles, left-rail sections */
+  .pill{display:inline-block;border:1px solid currentColor;border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .phero,.pdetail{background:var(--night);color:var(--cream)}
+  .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
+  .phero h1{margin:clamp(20px,3vw,40px) 0 0;font-weight:400;font-size:clamp(56px,11vw,190px);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
+  .stage{margin-top:clamp(-40px,-3vw,-16px)}
+  .stage img{width:min(100%,900px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 62% 58% at 50% 55%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 58% at 50% 55%,#000 55%,transparent 100%)}
+  .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
+  .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
+  .pdetail h2.line{margin:22px auto 26px;max-width:18ch;color:var(--cream)}
+  .pdetail .sub{margin:26px auto 0;color:color-mix(in srgb,var(--cream) 72%,var(--night));max-width:62ch;text-align:center}
+  .pdetail .actions{display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+  .btn.cream{background:var(--cream);color:var(--night);border-color:var(--cream)}
+  .btn.cream i{border-left-color:color-mix(in srgb,var(--night) 25%,transparent)}
+  .btn.ghost.cream{background:transparent;color:var(--cream);border-color:var(--cream)}
+  .btn.ghost.cream i{border-left-color:var(--cream)}
+  .pfeatures .wrap{display:grid;grid-template-columns:7fr 5fr;gap:var(--gap);align-items:start;padding-top:clamp(56px,7vw,110px)}
+  .pfeatures figure{margin:0}
+  .pfeatures figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:var(--r);background:#EFEBDB}
+  .pfeatures figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
+  .hl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .hl li{border:1px solid var(--ink);border-radius:var(--r);padding:18px 18px 16px;display:grid;gap:8px;align-content:start}
+  .hl b{font-weight:400;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.025em;line-height:1.05}
+  .hl p{margin:0;font-size:13.5px;line-height:1.4;color:var(--graphite)}
+  .marquee{overflow:hidden;white-space:nowrap;margin:clamp(56px,8vw,120px) 0 0;line-height:.85;font-size:clamp(90px,19vw,340px);letter-spacing:-.05em;color:var(--ink);opacity:.92}
+  .marquee > div{display:flex;width:max-content;animation:crawl 40s linear infinite}
+  .marquee span{padding-right:.35em}
+  @keyframes crawl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.marquee > div{animation:none}}
+  .ptiles .wrap{padding-top:clamp(40px,5vw,80px)}
+  .ptiles h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(34px,4.6vw,76px);letter-spacing:-.035em;line-height:.98;text-align:center}
+  .tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
+  .tiles li{background:var(--night);color:var(--cream);border-radius:var(--r);padding:26px 24px;min-height:300px;display:grid;align-content:end;gap:12px}
+  .tiles b{font-weight:400;font-size:clamp(22px,2vw,32px);letter-spacing:-.03em;line-height:1.05}
+  .tiles p{margin:0;font-size:15px;line-height:1.45;color:color-mix(in srgb,var(--cream) 70%,var(--night))}
+  .rail .wrap{display:grid;grid-template-columns:4fr 8fr;gap:var(--gap);padding-top:clamp(64px,9vw,140px);align-items:start}
+  .rail > .wrap > .label{text-transform:none;letter-spacing:.02em;font-size:14px;color:var(--ink)}
+  .rail h2{margin:0 0 clamp(24px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
+  .rail figure{margin:0 0 var(--gap)}
+  .rail figure img{width:100%;height:auto;border-radius:var(--r)}
+  .rail figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
+  .rail.last .wrap{padding-bottom:clamp(80px,12vw,180px)}
+  .rail .txt{margin:0}
+  .fits{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .fits li{border:1px solid var(--rule);border-radius:var(--r);padding:28px 26px 30px;display:grid;gap:14px;align-content:start}
+  .fits b{font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
+  .fits p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
+  .related{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .related a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
+  .related .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
+  .related .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .related a:hover .ph img{transform:scale(1.03)}
+  .related h3{margin:0;font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
+  .related .pill{justify-self:start}
+  .acc details{border-bottom:1px solid var(--rule)}
+  .acc details:first-child{border-top:1px solid var(--ink)}
+  .acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:var(--gap);padding:18px 0;font-size:clamp(18px,1.6vw,26px);letter-spacing:-.02em;line-height:1.2}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none;font-size:20px}
+  .acc details[open] summary::after{content:"\2212"}
+  .acc p{margin:0 0 22px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:18px var(--gap);padding:6px 0 26px}
+  .specs div{display:grid;gap:3px}
+  .specs b{font-weight:500;font-size:14px}
+  .specs span{font-size:15px;line-height:1.45;color:var(--graphite)}
+  .compare{padding:6px 0 22px}
   .compare .machines{min-width:0}
-  .compare td:first-child{width:auto}
+  .compare td:first-child{width:auto;font-size:clamp(18px,1.5vw,24px)}
   .compare td:nth-child(2),.compare td:nth-child(3){width:auto}
-  .faq{max-width:760px;border-top:1px solid var(--ink);margin-bottom:clamp(40px,5vw,80px)}
-  .faq details{border-bottom:1px solid var(--rule)}
-  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:var(--gap);padding:16px 0;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.02em;line-height:1.2}
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none}
-  .faq details[open] summary::after{content:"\2212"}
-  .faq p{margin:0 0 20px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
-  .related{padding-top:0}
-  .cases.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .cases.four .ph{aspect-ratio:4/3;background:#EFEBDB}
-  .cases.four h3{font-size:clamp(20px,1.6vw,26px)}
-  .cases.four p{font-size:15px}
-  .related .txt{margin-top:clamp(28px,4vw,56px)}
   .catalogue{list-style:none;padding:0;margin:0 0 clamp(64px,9vw,140px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);row-gap:clamp(36px,4vw,56px)}
   .catalogue a{display:grid;gap:12px;text-decoration:none;color:inherit;align-content:start}
   .catalogue .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
@@ -438,11 +484,11 @@
   .partners{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);align-items:center;padding:20px 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
   .partners img{height:26px;width:auto;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.75;mix-blend-mode:multiply}
   @media (max-width:900px){
-    .offer.three,.catalogue,.cases.four{grid-template-columns:1fr 1fr}
-    .facts.specs{grid-template-columns:auto 1fr}
+    .catalogue,.tiles{grid-template-columns:1fr 1fr}
+    .pfeatures .wrap,.rail .wrap{grid-template-columns:1fr}
   }
   @media (max-width:600px){
-    .offer.three,.catalogue,.cases.four{grid-template-columns:1fr}
+    .catalogue,.tiles,.hl,.fits,.related,.specs{grid-template-columns:1fr}
   }
 </style>
 
@@ -458,51 +504,89 @@
   </div>
 </header>
 
-<main id="top">
-  <section class="case-head">
+<main id="top" class="product">
+  <section class="phero">
     <div class="wrap">
-      <div class="grid meta label">
-        <span><b>Machines</b> &middot; 01</span>
-        <span>Unitree &middot; Humanoid robot</span>
-        <span>On our floor</span>
-      </div>
+      <div class="pills"><span class="pill">Unitree</span><span class="pill">Humanoid robot</span><span class="pill">On our floor</span><span class="pill">Quoted to order</span></div>
       <h1>Unitree G1</h1>
-      <div class="grid">
-        <dl class="facts label"><dt>Maker</dt><dd>Unitree</dd><dt>Class</dt><dd>Humanoid robot</dd><dt>Where</dt><dd>On our floor</dd><dt>Price</dt><dd>Quoted to order</dd><dt>Supplied as</dt><dd>Supply, installation, training and maintenance, from Brisbane</dd></dl>
-
-        <div class="intro">
-          <p>A compact humanoid for research, development and the kind of demo people remember.</p>
-          <p>We supply the G1 EDU configuration: the secondary-development version with Jetson Orin compute, the higher-DOF build and Dex3-1 dexterous hands. It&#x27;s the one to quote when the project depends on hands and software, not just walking. One lives on our floor, so you can see it before you buy it.</p>
-          <p class="actions"><a class="btn" href="../../#quote"><span>Get a quote</span><i aria-hidden="true">+</i></a> <a class="btn ghost" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></p>
-        </div>
-      </div>
+      <div class="stage"><img src="../../img/machines/unitree-g1-stage.jpg" alt="Unitree G1" width="2048" height="2048"></div>
     </div>
   </section>
 
-  <section class="story">
+  <section class="pdetail">
     <div class="wrap">
-<figure class="hero"><img src="../../img/machines/g1-real.jpg" alt="Unitree G1" loading="lazy"><figcaption class="label"><span>Unitree G1</span><span>Photographed in our building</span></figcaption></figure>
+      <span class="label">[ Product details ]</span>
+      <h2 class="line">A compact humanoid for research, development and the kind of demo people remember.</h2>
+      <div class="pills"><span class="pill">Unitree</span><span class="pill">Humanoid robot</span><span class="pill">On our floor</span><span class="pill">Quoted to order</span></div>
+      <p class="sub">We supply the G1 EDU configuration: the secondary-development version with Jetson Orin compute, the higher-DOF build and Dex3-1 dexterous hands. It&#x27;s the one to quote when the project depends on hands and software, not just walking. One lives on our floor, so you can see it before you buy it.</p>
+      <div class="actions"><a class="btn cream" href="../../#quote"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+    </div>
+  </section>
+
+  <section class="pfeatures">
+    <div class="wrap">
+      <figure class="shot"><img src="../../img/machines/g1-real.jpg" alt="Unitree G1" loading="lazy" style="object-position:50% 62%"><figcaption class="label"><span>Unitree G1</span><span>Photographed in our building</span></figcaption></figure>
+
+      <ol class="hl"><li><b>1.27 m tall</b><p>Human scale, room scale</p></li><li><b>About 35 kg</b><p>With the battery in</p></li><li><b>Up to 43 DOF</b><p>23 on the standard build</p></li><li><b>Dex3-1 hands</b><p>Three fingers, optional tactile sensing</p></li><li><b>Jetson Orin</b><p>40 TOPS on board</p></li><li><b>3D LiDAR</b><p>Plus a depth camera</p></li><li><b>About 2 hours</b><p>9000 mAh quick-release battery</p></li><li><b>18-month warranty</b><p>Secondary development on EDU</p></li></ol>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div><span>Unitree G1</span><span>Unitree G1</span></div></div>
+
+  <section class="ptiles">
+    <div class="wrap">
       <h2>What it does</h2>
-<ol class="offer three"><li><b>Precision manipulation</b><p>Dex3-1 three-fingered hands, optional tactile sensing, force-position hybrid control. The configuration for grasping and interaction work.</p></li><li><b>Autonomous navigation</b><p>Depth camera and 3D LiDAR in a 1.27 m body, which makes it easy to evaluate in labs, showrooms and spaces built for people.</p></li><li><b>Research-grade compute</b><p>NVIDIA Jetson Orin, secondary development, OTA updates. Custom software, embodied AI, perception work, platform evaluation.</p></li></ol>
-      <h2>Where it fits</h2>
-<ol class="offer"><li><b>Universities and labs</b><p>Embodied AI, human-robot interaction, locomotion research and teaching, with ROS 2 access and on-board compute.</p></li><li><b>Enterprise pilots</b><p>We manage the pilot, the hardware and the support through the evaluation. Most enterprise enquiries start here.</p></li><li><b>Control and perception prototyping</b><p>Teams building control systems, interaction logic or perception workflows who need a real body to test against.</p></li><li><b>Events and activations</b><p>Trade shows and public demonstrations where presence and movement quality are the point.</p></li></ol>
-      <h2>Specification</h2>
-<dl class="facts specs label"><dt>Model</dt><dd>Unitree G1 EDU</dd><dt>Height</dt><dd>About 1.27 m</dd><dt>Weight with battery</dt><dd>About 35 kg</dd><dt>Degrees of freedom</dt><dd>23 to 43 depending on configuration</dd><dt>Waist DOF</dt><dd>1, plus optional 2</dd><dt>Hand DOF</dt><dd>Dex3-1: 7, plus optional 2 wrist DOF</dd><dt>Maximum knee torque</dt><dd>120 N·m</dd><dt>Arm maximum load</dt><dd>About 3 kg</dd><dt>Basic compute</dt><dd>8-core high-performance CPU</dd><dt>High-compute module</dt><dd>NVIDIA Jetson Orin, 40 TOPS</dd><dt>Sensing</dt><dd>Depth camera and 3D LiDAR</dd><dt>Wireless</dt><dd>Wi-Fi 6, Bluetooth 5.2</dd><dt>Audio</dt><dd>4-microphone array, 5 W speaker</dd><dt>Battery</dt><dd>9000 mAh quick-release smart battery</dd><dt>Runtime</dt><dd>About 2 hours</dd><dt>Secondary development</dt><dd>Supported on EDU</dd><dt>Warranty</dt><dd>18 months</dd></dl>
-      <h2>G1 Standard vs G1 EDU</h2>
-      <div class="machines-wrap compare"><table class="machines"><tbody><tr><td>Active DOF</td><td>23</td><td>43, expandable</td></tr><tr><td>AI compute</td><td>8 TOPS</td><td>40 TOPS, Jetson Orin</td></tr><tr><td>Charging</td><td>Manual</td><td>Auto-dock</td></tr><tr><td>Hands</td><td>None</td><td>Dex3-1 dexterous hand, optional wrist DOF</td></tr><tr><td>Secondary development</td><td>Not supported</td><td>Supported</td></tr><tr><td>Best fit</td><td>Retail, demonstration</td><td>Research, evaluation, development</td></tr></tbody></table></div>
-<div class="pair"><figure class=""><img src="../../img/machines/g1-hero.jpg" alt="Unitree G1" loading="lazy"><figcaption class="label"><span>Unitree G1</span><span>Maker's image</span></figcaption></figure>
+      <ol class="tiles"><li><b>Precision manipulation</b><p>Dex3-1 three-fingered hands, optional tactile sensing, force-position hybrid control. The configuration for grasping and interaction work.</p></li><li><b>Autonomous navigation</b><p>Depth camera and 3D LiDAR in a 1.27 m body, which makes it easy to evaluate in labs, showrooms and spaces built for people.</p></li><li><b>Research-grade compute</b><p>NVIDIA Jetson Orin, secondary development, OTA updates. Custom software, embodied AI, perception work, platform evaluation.</p></li></ol>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Where it fits ]</span>
+      <ol class="fits"><li><b>Universities and labs</b><p>Embodied AI, human-robot interaction, locomotion research and teaching, with ROS 2 access and on-board compute.</p></li><li><b>Enterprise pilots</b><p>We manage the pilot, the hardware and the support through the evaluation. Most enterprise enquiries start here.</p></li><li><b>Control and perception prototyping</b><p>Teams building control systems, interaction logic or perception workflows who need a real body to test against.</p></li><li><b>Events and activations</b><p>Trade shows and public demonstrations where presence and movement quality are the point.</p></li></ol>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Maker's images ]</span>
+      <div><figure class=""><img src="../../img/machines/g1-hero.jpg" alt="Unitree G1" loading="lazy"><figcaption class="label"><span>Unitree G1</span><span>Maker's image</span></figcaption></figure>
 <figure class=""><img src="../../img/machines/g1-specs.jpg" alt="Unitree G1" loading="lazy"><figcaption class="label"><span>Unitree G1</span><span>Maker's image</span></figcaption></figure>
 </div>
-      <h2>Questions</h2>
-      <div class="faq"><details><summary>Which version do you supply?</summary><p>The EDU. Unitree lists secondary development on EDU only, so for ROS 2 work, custom software or platform development it&#x27;s the one to quote.</p></details><details><summary>Where does it work best?</summary><p>Indoor, structured spaces: labs, showrooms, event floors. We check floor conditions, operating space, power and supervision before recommending a format.</p></details><details><summary>Can you write software for it?</summary><p>Yes. Interface layers, perception workflows and application logic on the EDU platform, scoped as supply, a local pilot or a wider software job.</p></details><details><summary>Lead time?</summary><p>Depends on configuration and Unitree availability. We confirm hardware timing, shipping and any software scope at quotation, not as a generic estimate.</p></details></div>
     </div>
   </section>
 
-  <section class="story related">
+  <section class="rail">
     <div class="wrap">
-      <h2>You might also want</h2>
-      <div class="cases four"><a href="../../machines/unitree-go2/"><div class="ph"><img src="../../img/machines/go2-hero.jpg" alt="Unitree GO2" loading="lazy" style="object-position:50% 62%"></div><h3>Unitree GO2</h3><p>Quadruped robot</p></a><a href="../../machines/ubtech-cruzr-y1/"><div class="ph"><img src="../../img/machines/y1-hero.jpg" alt="UBTECH Cruzr Y1" loading="lazy"></div><h3>UBTECH Cruzr Y1</h3><p>Material handling robot</p></a><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/cruzr-hero.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><p>Service robot</p></a><a href="../../machines/ubtech-cadebot/"><div class="ph"><img src="../../img/machines/cadebot-hero.jpg" alt="UBTECH CadeBot" loading="lazy" style="object-position:50% 30%"></div><h3>UBTECH CadeBot</h3><p>Delivery robot</p></a></div>
-      <p class="txt"><a class="link" href="../../machines/">Every machine we sell</a></p>
+      <span class="label">[ Related ]</span>
+      <div>
+        <h2>Add these to complete the job</h2>
+        <div class="related"><a href="../../machines/unitree-go2/"><div class="ph"><img src="../../img/machines/go2-hero.jpg" alt="Unitree GO2" loading="lazy" style="object-position:50% 62%"></div><h3>Unitree GO2</h3><span class="pill">Quadruped robot</span></a><a href="../../machines/ubtech-cruzr-y1/"><div class="ph"><img src="../../img/machines/y1-hero.jpg" alt="UBTECH Cruzr Y1" loading="lazy"></div><h3>UBTECH Cruzr Y1</h3><span class="pill">Material handling robot</span></a><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/cruzr-hero.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><span class="pill">Service robot</span></a><a href="../../machines/ubtech-cadebot/"><div class="ph"><img src="../../img/machines/cadebot-hero.jpg" alt="UBTECH CadeBot" loading="lazy" style="object-position:50% 30%"></div><h3>UBTECH CadeBot</h3><span class="pill">Delivery robot</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Specifications ]</span>
+      <div class="acc">
+        <details open><summary>Published specification</summary><div class="specs"><div><b>Model</b><span>Unitree G1 EDU</span></div><div><b>Height</b><span>About 1.27 m</span></div><div><b>Weight with battery</b><span>About 35 kg</span></div><div><b>Degrees of freedom</b><span>23 to 43 depending on configuration</span></div><div><b>Waist DOF</b><span>1, plus optional 2</span></div><div><b>Hand DOF</b><span>Dex3-1: 7, plus optional 2 wrist DOF</span></div><div><b>Maximum knee torque</b><span>120 N·m</span></div><div><b>Arm maximum load</b><span>About 3 kg</span></div><div><b>Basic compute</b><span>8-core high-performance CPU</span></div><div><b>High-compute module</b><span>NVIDIA Jetson Orin, 40 TOPS</span></div><div><b>Sensing</b><span>Depth camera and 3D LiDAR</span></div><div><b>Wireless</b><span>Wi-Fi 6, Bluetooth 5.2</span></div><div><b>Audio</b><span>4-microphone array, 5 W speaker</span></div><div><b>Battery</b><span>9000 mAh quick-release smart battery</span></div><div><b>Runtime</b><span>About 2 hours</span></div><div><b>Secondary development</b><span>Supported on EDU</span></div><div><b>Warranty</b><span>18 months</span></div></div></details>
+        <details open><summary>G1 Standard vs G1 EDU</summary><div class="machines-wrap compare"><table class="machines"><tbody><tr><td>Active DOF</td><td>23</td><td>43, expandable</td></tr><tr><td>AI compute</td><td>8 TOPS</td><td>40 TOPS, Jetson Orin</td></tr><tr><td>Charging</td><td>Manual</td><td>Auto-dock</td></tr><tr><td>Hands</td><td>None</td><td>Dex3-1 dexterous hand, optional wrist DOF</td></tr><tr><td>Secondary development</td><td>Not supported</td><td>Supported</td></tr><tr><td>Best fit</td><td>Retail, demonstration</td><td>Research, evaluation, development</td></tr></tbody></table></div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Questions ]</span>
+      <div class="acc faq"><details><summary>Which version do you supply?</summary><p>The EDU. Unitree lists secondary development on EDU only, so for ROS 2 work, custom software or platform development it&#x27;s the one to quote.</p></details><details><summary>Where does it work best?</summary><p>Indoor, structured spaces: labs, showrooms, event floors. We check floor conditions, operating space, power and supervision before recommending a format.</p></details><details><summary>Can you write software for it?</summary><p>Yes. Interface layers, perception workflows and application logic on the EDU platform, scoped as supply, a local pilot or a wider software job.</p></details><details><summary>Lead time?</summary><p>Depends on configuration and Unitree availability. We confirm hardware timing, shipping and any software scope at quotation, not as a generic estimate.</p></details></div>
+    </div>
+  </section>
+
+  <section class="rail last">
+    <div class="wrap">
+      <span class="label">[ Every machine ]</span>
+      <p class="txt"><a class="link" href="../../machines/">Back to the catalogue</a></p>
     </div>
   </section>
 </main>

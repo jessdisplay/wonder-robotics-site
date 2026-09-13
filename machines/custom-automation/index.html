@@ -401,30 +401,76 @@
   @media (max-width:640px){.offer{grid-template-columns:1fr}}
 
   /* the catalogue: machines/ and machines/<slug>/ */
-  .case-head h1{margin:0;font-weight:400;letter-spacing:-.045em;line-height:.9}
-  .case-head .intro .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-  .story figure.hero img{width:auto;max-width:100%;max-height:78vh;display:block;margin-inline:auto;border-radius:var(--r)}
-  .story .offer{margin:0 0 clamp(40px,5vw,80px);max-width:none}
-  .offer.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .facts.specs{grid-template-columns:minmax(0,2fr) minmax(0,3fr);max-width:960px;margin-bottom:clamp(40px,5vw,80px);border-top:1px solid var(--ink)}
-  .facts.specs dd{font-family:var(--display);text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink)}
-  .compare{margin-bottom:clamp(40px,5vw,80px)}
+  /* product page, after coffee-tech.com: night hero, detail, highlights, tiles, left-rail sections */
+  .pill{display:inline-block;border:1px solid currentColor;border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .phero,.pdetail{background:var(--night);color:var(--cream)}
+  .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
+  .phero h1{margin:clamp(20px,3vw,40px) 0 0;font-weight:400;font-size:clamp(56px,11vw,190px);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
+  .stage{margin-top:clamp(-40px,-3vw,-16px)}
+  .stage img{width:min(100%,900px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 62% 58% at 50% 55%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 58% at 50% 55%,#000 55%,transparent 100%)}
+  .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
+  .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
+  .pdetail h2.line{margin:22px auto 26px;max-width:18ch;color:var(--cream)}
+  .pdetail .sub{margin:26px auto 0;color:color-mix(in srgb,var(--cream) 72%,var(--night));max-width:62ch;text-align:center}
+  .pdetail .actions{display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+  .btn.cream{background:var(--cream);color:var(--night);border-color:var(--cream)}
+  .btn.cream i{border-left-color:color-mix(in srgb,var(--night) 25%,transparent)}
+  .btn.ghost.cream{background:transparent;color:var(--cream);border-color:var(--cream)}
+  .btn.ghost.cream i{border-left-color:var(--cream)}
+  .pfeatures .wrap{display:grid;grid-template-columns:7fr 5fr;gap:var(--gap);align-items:start;padding-top:clamp(56px,7vw,110px)}
+  .pfeatures figure{margin:0}
+  .pfeatures figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:var(--r);background:#EFEBDB}
+  .pfeatures figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
+  .hl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .hl li{border:1px solid var(--ink);border-radius:var(--r);padding:18px 18px 16px;display:grid;gap:8px;align-content:start}
+  .hl b{font-weight:400;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.025em;line-height:1.05}
+  .hl p{margin:0;font-size:13.5px;line-height:1.4;color:var(--graphite)}
+  .marquee{overflow:hidden;white-space:nowrap;margin:clamp(56px,8vw,120px) 0 0;line-height:.85;font-size:clamp(90px,19vw,340px);letter-spacing:-.05em;color:var(--ink);opacity:.92}
+  .marquee > div{display:flex;width:max-content;animation:crawl 40s linear infinite}
+  .marquee span{padding-right:.35em}
+  @keyframes crawl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.marquee > div{animation:none}}
+  .ptiles .wrap{padding-top:clamp(40px,5vw,80px)}
+  .ptiles h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(34px,4.6vw,76px);letter-spacing:-.035em;line-height:.98;text-align:center}
+  .tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
+  .tiles li{background:var(--night);color:var(--cream);border-radius:var(--r);padding:26px 24px;min-height:300px;display:grid;align-content:end;gap:12px}
+  .tiles b{font-weight:400;font-size:clamp(22px,2vw,32px);letter-spacing:-.03em;line-height:1.05}
+  .tiles p{margin:0;font-size:15px;line-height:1.45;color:color-mix(in srgb,var(--cream) 70%,var(--night))}
+  .rail .wrap{display:grid;grid-template-columns:4fr 8fr;gap:var(--gap);padding-top:clamp(64px,9vw,140px);align-items:start}
+  .rail > .wrap > .label{text-transform:none;letter-spacing:.02em;font-size:14px;color:var(--ink)}
+  .rail h2{margin:0 0 clamp(24px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
+  .rail figure{margin:0 0 var(--gap)}
+  .rail figure img{width:100%;height:auto;border-radius:var(--r)}
+  .rail figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
+  .rail.last .wrap{padding-bottom:clamp(80px,12vw,180px)}
+  .rail .txt{margin:0}
+  .fits{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .fits li{border:1px solid var(--rule);border-radius:var(--r);padding:28px 26px 30px;display:grid;gap:14px;align-content:start}
+  .fits b{font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
+  .fits p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
+  .related{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .related a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
+  .related .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
+  .related .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .related a:hover .ph img{transform:scale(1.03)}
+  .related h3{margin:0;font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
+  .related .pill{justify-self:start}
+  .acc details{border-bottom:1px solid var(--rule)}
+  .acc details:first-child{border-top:1px solid var(--ink)}
+  .acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:var(--gap);padding:18px 0;font-size:clamp(18px,1.6vw,26px);letter-spacing:-.02em;line-height:1.2}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none;font-size:20px}
+  .acc details[open] summary::after{content:"\2212"}
+  .acc p{margin:0 0 22px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:18px var(--gap);padding:6px 0 26px}
+  .specs div{display:grid;gap:3px}
+  .specs b{font-weight:500;font-size:14px}
+  .specs span{font-size:15px;line-height:1.45;color:var(--graphite)}
+  .compare{padding:6px 0 22px}
   .compare .machines{min-width:0}
-  .compare td:first-child{width:auto}
+  .compare td:first-child{width:auto;font-size:clamp(18px,1.5vw,24px)}
   .compare td:nth-child(2),.compare td:nth-child(3){width:auto}
-  .faq{max-width:760px;border-top:1px solid var(--ink);margin-bottom:clamp(40px,5vw,80px)}
-  .faq details{border-bottom:1px solid var(--rule)}
-  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:var(--gap);padding:16px 0;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.02em;line-height:1.2}
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none}
-  .faq details[open] summary::after{content:"\2212"}
-  .faq p{margin:0 0 20px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
-  .related{padding-top:0}
-  .cases.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .cases.four .ph{aspect-ratio:4/3;background:#EFEBDB}
-  .cases.four h3{font-size:clamp(20px,1.6vw,26px)}
-  .cases.four p{font-size:15px}
-  .related .txt{margin-top:clamp(28px,4vw,56px)}
   .catalogue{list-style:none;padding:0;margin:0 0 clamp(64px,9vw,140px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);row-gap:clamp(36px,4vw,56px)}
   .catalogue a{display:grid;gap:12px;text-decoration:none;color:inherit;align-content:start}
   .catalogue .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
@@ -438,11 +484,11 @@
   .partners{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);align-items:center;padding:20px 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
   .partners img{height:26px;width:auto;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.75;mix-blend-mode:multiply}
   @media (max-width:900px){
-    .offer.three,.catalogue,.cases.four{grid-template-columns:1fr 1fr}
-    .facts.specs{grid-template-columns:auto 1fr}
+    .catalogue,.tiles{grid-template-columns:1fr 1fr}
+    .pfeatures .wrap,.rail .wrap{grid-template-columns:1fr}
   }
   @media (max-width:600px){
-    .offer.three,.catalogue,.cases.four{grid-template-columns:1fr}
+    .catalogue,.tiles,.hl,.fits,.related,.specs{grid-template-columns:1fr}
   }
 </style>
 
@@ -458,46 +504,80 @@
   </div>
 </header>
 
-<main id="top">
-  <section class="case-head">
+<main id="top" class="product">
+  <section class="phero">
     <div class="wrap">
-      <div class="grid meta label">
-        <span><b>Machines</b> &middot; 11</span>
-        <span>Wonder Robotics &middot; Robotics engineering</span>
-        <span>Scoped first</span>
-      </div>
+      <div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotics engineering</span><span class="pill">Scoped first</span><span class="pill">Scoped first</span></div>
       <h1>Custom automation</h1>
-      <div class="grid">
-        <dl class="facts label"><dt>Maker</dt><dd>Wonder Robotics</dd><dt>Class</dt><dd>Robotics engineering</dd><dt>Where</dt><dd>Scoped first</dd><dt>Price</dt><dd>Scoped first</dd><dt>Supplied as</dt><dd>Supply, installation, training and maintenance, from Brisbane</dd></dl>
+      <div class="stage"><img src="../../img/machines/custom-automation-stage.jpg" alt="Custom automation" width="2048" height="2048"></div>
+    </div>
+  </section>
 
-        <div class="intro">
-          <p>When a standard format doesn&#x27;t fit, we build the cell around your process.</p>
-          <p>Arm, tooling and mounting; the cell and its safety; the control logic that ties the sequence together. Three decisions, made around your equipment, layout and output target, in our workshop first.</p>
-          <p class="actions"><a class="btn" href="../../#quote"><span>Get a quote</span><i aria-hidden="true">+</i></a> <a class="btn ghost" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></p>
-        </div>
+  <section class="pdetail">
+    <div class="wrap">
+      <span class="label">[ Product details ]</span>
+      <h2 class="line">When a standard format doesn&#x27;t fit, we build the cell around your process.</h2>
+      <div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotics engineering</span><span class="pill">Scoped first</span><span class="pill">Scoped first</span></div>
+      <p class="sub">Arm, tooling and mounting; the cell and its safety; the control logic that ties the sequence together. Three decisions, made around your equipment, layout and output target, in our workshop first.</p>
+      <div class="actions"><a class="btn cream" href="../../#quote"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+    </div>
+  </section>
+
+  <section class="pfeatures">
+    <div class="wrap">
+      <figure class="shot"><img src="../../img/machines/custom-hero.jpg" alt="Custom automation" loading="lazy"><figcaption class="label"><span>Custom automation</span><span>Maker's image</span></figcaption></figure>
+
+      <ol class="hl"><li><b>Arm to the task</b><p>Reach, payload, mounting</p></li><li><b>Tooling to the part</b><p>End-effector for the real handling</p></li><li><b>Cell to the floor</b><p>Pickup, drop, staging, guarding</p></li><li><b>Logic to the sequence</b><p>PLC, triggers, cycle targets</p></li><li><b>Existing equipment kept</b><p>Conveyors and stations stay</p></li><li><b>Assess, map, configure</b><p>Three steps to a scope</p></li><li><b>Prototyped in the Valley</b><p>Our workshop first</p></li><li><b>Installed on your floor</b><p>Then supported from Brisbane</p></li></ol>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div><span>Custom automation</span><span>Custom automation</span></div></div>
+
+  <section class="ptiles">
+    <div class="wrap">
+      <h2>What it does</h2>
+      <ol class="tiles"><li><b>Arm, tooling and mounting</b><p>Reach, payload, orientation, working area and end-effector chosen for the handling task.</p></li><li><b>Cell design and safety</b><p>Pickup points, drop positions, staging, guarding and operator interaction arranged around the line.</p></li><li><b>Logic, sequencing and output</b><p>PLC, software, triggers, step transitions, cycle targets and operator handoff around your sequence.</p></li></ol>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Where it fits ]</span>
+      <ol class="fits"><li><b>Existing equipment</b><p>Machines, conveyors or stations that must stay in the workflow.</p></li><li><b>Site layout</b><p>Reach, mounting, guarding and access set by the real floor plan.</p></li><li><b>Process logic</b><p>Pickup order, handoff, cycle timing and triggers specific to the job.</p></li><li><b>Non-standard formats</b><p>When no coffee, kitchen or service-robot format matches the requirement.</p></li></ol>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Related ]</span>
+      <div>
+        <h2>Add these to complete the job</h2>
+        <div class="related"><a href="../../machines/kitchen-robot/"><div class="ph"><img src="../../img/hero-kitchen.jpg" alt="Robot kitchens" loading="lazy"></div><h3>Robot kitchens</h3><span class="pill">Kitchen automation</span></a><a href="../../machines/coffee-robot/"><div class="ph"><img src="../../img/tile-coffee.jpg" alt="Coffee and bar robots" loading="lazy" style="object-position:50% 42%"></div><h3>Coffee and bar robots</h3><span class="pill">Robotic beverage station</span></a><a href="../../machines/ubtech-cruzr-y1/"><div class="ph"><img src="../../img/machines/y1-hero.jpg" alt="UBTECH Cruzr Y1" loading="lazy"></div><h3>UBTECH Cruzr Y1</h3><span class="pill">Material handling robot</span></a></div>
       </div>
     </div>
   </section>
 
-  <section class="story">
+  <section class="rail">
     <div class="wrap">
-<figure class="hero"><img src="../../img/machines/custom-hero.jpg" alt="Custom automation" loading="lazy"><figcaption class="label"><span>Custom automation</span><span>Maker's image</span></figcaption></figure>
-      <h2>What it does</h2>
-<ol class="offer three"><li><b>Arm, tooling and mounting</b><p>Reach, payload, orientation, working area and end-effector chosen for the handling task.</p></li><li><b>Cell design and safety</b><p>Pickup points, drop positions, staging, guarding and operator interaction arranged around the line.</p></li><li><b>Logic, sequencing and output</b><p>PLC, software, triggers, step transitions, cycle targets and operator handoff around your sequence.</p></li></ol>
-      <h2>Where it fits</h2>
-<ol class="offer"><li><b>Existing equipment</b><p>Machines, conveyors or stations that must stay in the workflow.</p></li><li><b>Site layout</b><p>Reach, mounting, guarding and access set by the real floor plan.</p></li><li><b>Process logic</b><p>Pickup order, handoff, cycle timing and triggers specific to the job.</p></li><li><b>Non-standard formats</b><p>When no coffee, kitchen or service-robot format matches the requirement.</p></li></ol>
-      <h2>Specification</h2>
-<dl class="facts specs label"><dt>Assess</dt><dd>Define the task: what the arm moves, loads, places or operates, and the timing</dd><dt>Map</dt><dd>The surrounding cell: machines, stations, utilities, safety rules, operator handoff</dd><dt>Configure</dt><dd>Arm platform, tooling, layout and control logic chosen for the operating environment</dd><dt>Delivered as</dt><dd>A recommended arm cell, tooling and control scope, then the build</dd></dl>
-      <h2>Questions</h2>
-      <div class="faq"><details><summary>When is this the right route?</summary><p>When the requirement doesn&#x27;t map to a standard format, or depends heavily on your own equipment and layout.</p></details><details><summary>Can the arm itself be customised?</summary><p>Yes: selection, reach, payload, mounting, tooling and how it interacts with the surrounding equipment.</p></details><details><summary>What do you need for the first conversation?</summary><p>The task, target throughput, available space, safety constraints and the machines the arm works with.</p></details><details><summary>Where is it built?</summary><p>Scoped and prototyped in our workshop in Fortitude Valley, then installed on your floor.</p></details></div>
+      <span class="label">[ Specifications ]</span>
+      <div class="acc">
+        <details open><summary>Published specification</summary><div class="specs"><div><b>Assess</b><span>Define the task: what the arm moves, loads, places or operates, and the timing</span></div><div><b>Map</b><span>The surrounding cell: machines, stations, utilities, safety rules, operator handoff</span></div><div><b>Configure</b><span>Arm platform, tooling, layout and control logic chosen for the operating environment</span></div><div><b>Delivered as</b><span>A recommended arm cell, tooling and control scope, then the build</span></div></div></details>
+        
+      </div>
     </div>
   </section>
 
-  <section class="story related">
+  <section class="rail">
     <div class="wrap">
-      <h2>You might also want</h2>
-      <div class="cases four"><a href="../../machines/kitchen-robot/"><div class="ph"><img src="../../img/hero-kitchen.jpg" alt="Robot kitchens" loading="lazy"></div><h3>Robot kitchens</h3><p>Kitchen automation</p></a><a href="../../machines/coffee-robot/"><div class="ph"><img src="../../img/tile-coffee.jpg" alt="Coffee and bar robots" loading="lazy" style="object-position:50% 42%"></div><h3>Coffee and bar robots</h3><p>Robotic beverage station</p></a><a href="../../machines/ubtech-cruzr-y1/"><div class="ph"><img src="../../img/machines/y1-hero.jpg" alt="UBTECH Cruzr Y1" loading="lazy"></div><h3>UBTECH Cruzr Y1</h3><p>Material handling robot</p></a></div>
-      <p class="txt"><a class="link" href="../../machines/">Every machine we sell</a></p>
+      <span class="label">[ Questions ]</span>
+      <div class="acc faq"><details><summary>When is this the right route?</summary><p>When the requirement doesn&#x27;t map to a standard format, or depends heavily on your own equipment and layout.</p></details><details><summary>Can the arm itself be customised?</summary><p>Yes: selection, reach, payload, mounting, tooling and how it interacts with the surrounding equipment.</p></details><details><summary>What do you need for the first conversation?</summary><p>The task, target throughput, available space, safety constraints and the machines the arm works with.</p></details><details><summary>Where is it built?</summary><p>Scoped and prototyped in our workshop in Fortitude Valley, then installed on your floor.</p></details></div>
+    </div>
+  </section>
+
+  <section class="rail last">
+    <div class="wrap">
+      <span class="label">[ Every machine ]</span>
+      <p class="txt"><a class="link" href="../../machines/">Back to the catalogue</a></p>
     </div>
   </section>
 </main>

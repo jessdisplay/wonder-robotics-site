@@ -93,9 +93,10 @@ def page(name, cfg):
 BY_SLUG = {m["slug"]: m for m in MACHINES}
 
 
-def fig(src, alt, caption, real, cls=""):
+def fig(src, alt, caption, real, cls="", pos=None):
     who = "Photographed in our building" if real else "Maker's image"
-    return (f'<figure class="{cls}"><img src="{{{{root}}}}img/{src}" alt="{escape(alt)}" loading="lazy">'
+    style = f' style="object-position:{pos}"' if pos else ""
+    return (f'<figure class="{cls}"><img src="{{{{root}}}}img/{src}" alt="{escape(alt)}" loading="lazy"{style}>'
             f'<figcaption class="label"><span>{escape(caption)}</span><span>{who}</span></figcaption></figure>\n')
 
 
@@ -115,61 +116,107 @@ def thumb(m):
 
 
 def machine_body(m):
-    n = MACHINES.index(m) + 1
-    facts = [("Maker", m["maker"]), ("Class", m["kind"]), ("Where", m["status"]), ("Price", m["price"]),
-             ("Supplied as", "Supply, installation, training and maintenance, from Brisbane")]
-    body = f'''<main id="top">
-  <section class="case-head">
+    pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in [m["maker"], m["kind"], m["status"], m["price"]])
+    stage = f'<div class="stage"><img src="{{{{root}}}}img/{m["stage"]}" alt="{escape(m["name"])}" width="2048" height="2048"></div>' if m.get("stage") else ""
+    shot_html = fig(m["hero"], m["name"], m["name"], m["hero_real"], "shot", m.get("pos")) if m["hero"] else ""
+    hl = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["highlights"])
+    tiles = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["features"])
+    fits = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["fits"])
+    rel = "".join(f'<a href="{{{{root}}}}machines/{r}/"><div class="ph">{thumb(BY_SLUG[r])}</div><h3>{escape(BY_SLUG[r]["name"])}</h3><span class="pill">{escape(BY_SLUG[r]["kind"])}</span></a>' for r in m["related"])
+    specs = "".join(f'<div><b>{escape(k)}</b><span>{escape(v)}</span></div>' for k, v in m["specs"])
+    compare = ""
+    if m["compare"]:
+        title, rows = m["compare"]
+        compare = f'<details open><summary>{escape(title)}</summary><div class="machines-wrap compare"><table class="machines"><tbody>' + "".join(
+            "<tr>" + "".join(f"<td>{escape(c)}</td>" for c in r) + "</tr>" for r in rows) + "</tbody></table></div></details>"
+    faq = "".join(f"<details><summary>{escape(q)}</summary><p>{escape(a)}</p></details>" for q, a in m["faq"])
+    floor = ""
+    if m["gallery"]:
+        floor = f'''
+  <section class="rail">
     <div class="wrap">
-      <div class="grid meta label">
-        <span><b>Machines</b> &middot; {n:02d}</span>
-        <span>{escape(m["maker"])} &middot; {escape(m["kind"])}</span>
-        <span>{escape(m["status"])}</span>
-      </div>
+      <span class="label">[ Maker's images ]</span>
+      <div>{"".join(fig(g, m["name"], m["name"], False) for g in m["gallery"])}</div>
+    </div>
+  </section>
+'''
+    return f'''<main id="top" class="product">
+  <section class="phero">
+    <div class="wrap">
+      <div class="pills">{pills}</div>
       <h1>{escape(m["name"])}</h1>
-      <div class="grid">
-        {dl(facts, "facts label")}
-        <div class="intro">
-          <p>{escape(m["line"])}</p>
-          <p>{escape(m["intro"])}</p>
-          <p class="actions"><a class="btn" href="{{{{root}}}}#quote"><span>Get a quote</span><i aria-hidden="true">+</i></a> <a class="btn ghost" href="{{{{root}}}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></p>
-        </div>
+      {stage}
+    </div>
+  </section>
+
+  <section class="pdetail">
+    <div class="wrap">
+      <span class="label">[ Product details ]</span>
+      <h2 class="line">{escape(m["line"])}</h2>
+      <div class="pills">{pills}</div>
+      <p class="sub">{escape(m["intro"])}</p>
+      <div class="actions"><a class="btn cream" href="{{{{root}}}}#quote"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="{{{{root}}}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+    </div>
+  </section>
+
+  <section class="pfeatures">
+    <div class="wrap">
+      {shot_html}
+      <ol class="hl">{hl}</ol>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div><span>{escape(m["name"])}</span><span>{escape(m["name"])}</span></div></div>
+
+  <section class="ptiles">
+    <div class="wrap">
+      <h2>What it does</h2>
+      <ol class="tiles">{tiles}</ol>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Where it fits ]</span>
+      <ol class="fits">{fits}</ol>
+    </div>
+  </section>
+{floor}
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Related ]</span>
+      <div>
+        <h2>Add these to complete the job</h2>
+        <div class="related">{rel}</div>
       </div>
     </div>
   </section>
 
-  <section class="story">
+  <section class="rail">
     <div class="wrap">
-'''
-    if m["hero"]:
-        body += fig(m["hero"], m["name"], m["name"], m["hero_real"], "hero")
-    body += "      <h2>What it does</h2>\n" + cards(m["features"], "offer three")
-    body += "      <h2>Where it fits</h2>\n" + cards(m["fits"])
-    body += "      <h2>Specification</h2>\n" + dl(m["specs"], "facts specs label")
-    if m["compare"]:
-        title, rows = m["compare"]
-        body += f'      <h2>{escape(title)}</h2>\n      <div class="machines-wrap compare"><table class="machines"><tbody>' + "".join(
-            "<tr>" + "".join(f"<td>{escape(c)}</td>" for c in r) + "</tr>" for r in rows) + "</tbody></table></div>\n"
-    if len(m["gallery"]) == 1:
-        body += fig(m["gallery"][0], m["name"], m["name"], False, "inset")
-    elif m["gallery"]:
-        body += '<div class="pair">' + "".join(fig(g, m["name"], m["name"], False) for g in m["gallery"]) + "</div>\n"
-    body += '      <h2>Questions</h2>\n      <div class="faq">' + "".join(
-        f"<details><summary>{escape(q)}</summary><p>{escape(a)}</p></details>" for q, a in m["faq"]) + "</div>\n"
-    rel = "".join(f'<a href="{{{{root}}}}machines/{r}/"><div class="ph">{thumb(BY_SLUG[r])}</div><h3>{escape(BY_SLUG[r]["name"])}</h3><p>{escape(BY_SLUG[r]["kind"])}</p></a>' for r in m["related"])
-    body += f'''    </div>
+      <span class="label">[ Specifications ]</span>
+      <div class="acc">
+        <details open><summary>Published specification</summary><div class="specs">{specs}</div></details>
+        {compare}
+      </div>
+    </div>
   </section>
 
-  <section class="story related">
+  <section class="rail">
     <div class="wrap">
-      <h2>You might also want</h2>
-      <div class="cases four">{rel}</div>
-      <p class="txt"><a class="link" href="{{{{root}}}}machines/">Every machine we sell</a></p>
+      <span class="label">[ Questions ]</span>
+      <div class="acc faq">{faq}</div>
+    </div>
+  </section>
+
+  <section class="rail last">
+    <div class="wrap">
+      <span class="label">[ Every machine ]</span>
+      <p class="txt"><a class="link" href="{{{{root}}}}machines/">Back to the catalogue</a></p>
     </div>
   </section>
 </main>
 '''
-    return body
 
 
 def catalogue_body():
