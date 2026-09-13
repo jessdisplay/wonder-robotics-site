@@ -116,11 +116,13 @@
   .facts dt{padding-right:18px}
   .facts dd{font-size:15px;line-height:1.4}
 
-  /* calculator */
-  .calc{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:32px;align-items:start}
-  .inputs{grid-column:1/6;display:grid;gap:26px}
-  .field{display:grid;gap:10px;border:0;margin:0;padding:0;min-width:0}
-  .field legend,.field .label{padding:0;margin-bottom:10px}
+  /* quote */
+  .quote{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:34px;align-items:start}
+  .qin{grid-column:1/8;display:grid;gap:34px;min-width:0}
+  .field{display:grid;gap:12px;border:0;margin:0;padding:0;min-width:0}
+  .field legend,.field > .label{padding:0;margin-bottom:8px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .hint{margin:0;font-size:14px;line-height:1.45;color:var(--graphite);max-width:36ch}
   .choices{display:flex;flex-wrap:wrap;gap:6px}
   .choices input{position:absolute;opacity:0;pointer-events:none}
   .choices label{font-size:15px;padding:8px 12px;border:1px solid var(--rule);cursor:pointer;user-select:none;transition:border-color .15s,background .15s,color .15s}
@@ -129,25 +131,55 @@
   .choices input:focus-visible + label{outline:2px solid var(--signal);outline-offset:2px}
   .range-row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
   .range-row output{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;min-width:8ch;text-align:right}
+  .range-row.off{opacity:.35}
   input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;background:transparent;margin:0}
   input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--ink)}
   input[type=range]::-moz-range-track{height:1px;background:var(--ink)}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-7.5px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
   input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
   input[type=range]:disabled{opacity:.3}
-  .field.off{opacity:.35}
 
-  .sheet{grid-column:7/13;border:1px solid var(--ink);background:#fff;position:sticky;top:84px}
-  .sheet .top{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink)}
-  .sheet .big{padding:22px 16px 18px;border-bottom:1px solid var(--rule)}
-  .sheet .big .num{font-size:clamp(56px,7vw,112px);line-height:.9;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--signal)}
-  .sheet .big .unit{margin-top:10px}
-  .sheet table{width:100%;border-collapse:collapse}
-  .sheet th,.sheet td{text-align:left;vertical-align:top;padding:10px 16px;border-bottom:1px solid var(--rule)}
-  .sheet th{width:38%}
-  .sheet td{font-size:15px;line-height:1.4}
-  .sheet .price td{font-family:var(--mono);font-size:13px}
-  .sheet .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;flex-wrap:wrap}
+  .cat-wrap{overflow-x:auto}
+  .cat{width:100%;border-collapse:collapse;min-width:520px}
+  .cat th,.cat td{text-align:left;vertical-align:middle;padding:12px var(--gap) 12px 0;border-bottom:1px solid var(--rule)}
+  .cat thead th{padding-top:0;padding-bottom:10px}
+  .cat th.num,.cat td.num{text-align:right;padding-right:0}
+  .cat td.name{font-size:clamp(18px,1.5vw,24px);letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
+  .cat td.name small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
+  .cat td.kit{font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--graphite);max-width:30ch}
+  .cat td.price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cat tr.on td{color:var(--ink)}
+  .cat tr.on td.price{color:var(--signal)}
+  .qty{display:inline-grid;grid-template-columns:32px 36px 32px;border:1px solid var(--ink);margin-left:auto}
+  .qty button{height:32px;background:none;border:0;font:inherit;font-size:18px;line-height:1;cursor:pointer;color:var(--ink)}
+  .qty button:hover{background:var(--signal);color:var(--paper)}
+  .qty output{font-family:var(--mono);font-size:14px;line-height:32px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
+
+  .qsheet{grid-column:8/13;border:1px solid var(--ink);background:#fff;position:sticky;top:84px}
+  .qsheet .top{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink)}
+  .qsheet .big{padding:22px 16px 18px;border-bottom:1px solid var(--rule)}
+  .qsheet .big .num{font-size:clamp(44px,5.2vw,84px);line-height:.9;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--signal);word-break:break-word}
+  .qsheet .big .num small{font-size:.38em;letter-spacing:-.01em;margin-right:.25em;color:var(--graphite)}
+  .qsheet .big .unit{margin-top:10px}
+  .lines{width:100%;border-collapse:collapse}
+  .lines th,.lines td{text-align:left;vertical-align:top;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.4}
+  .lines th{font-weight:400}
+  .lines td{text-align:right;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .lines th small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
+  .lines .scope td{color:var(--graphite)}
+  .lines .empty th{color:var(--graphite);font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+  .lines.sums{border-top:1px solid var(--ink)}
+  .lines.sums th{font-family:var(--mono)}
+  .lines.sums .tot th,.lines.sums .tot td{border-bottom:0;color:var(--ink);font-weight:500}
+  .qsheet .terms{padding:12px 16px;border-top:1px solid var(--rule);line-height:1.6}
+  .qsheet .foot{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:14px 16px;flex-wrap:wrap;border-top:1px solid var(--rule)}
+
+  @media print{
+    body *{visibility:hidden}
+    #qsheet,#qsheet *{visibility:visible}
+    #qsheet{position:absolute;inset:0 auto auto 0;width:100%;border:0}
+    #qsheet .foot{display:none}
+  }
 
   /* machines */
   .machines-wrap{overflow-x:auto}
@@ -183,8 +215,8 @@
     .hero .tail h1{grid-column:1/13}
     .hero .pitch{grid-column:1/13;padding-top:26px}
     .proof{grid-template-columns:1fr 1fr}
-    .inputs,.sheet{grid-column:1/13}
-    .sheet{position:static}
+    .qin,.qsheet{grid-column:1/13}
+    .qsheet{position:static}
     .visit .details > div{grid-column:span 6}
     .head .label{grid-column:1/13;margin-bottom:12px}
     .head h2,.head p{grid-column:1/13}
@@ -205,6 +237,7 @@
     .steps thead{display:none}
     .steps tr{display:grid;grid-template-columns:1fr;border-bottom:1px solid var(--rule);padding:18px 0}
     .steps td{border:0;padding:4px 0 !important;width:auto !important}
+    .pair{grid-template-columns:1fr}
     .visit .details > div{grid-column:1/13}
     footer .made{flex-wrap:wrap;gap:6px 14px;justify-content:flex-start}
   }
@@ -218,7 +251,7 @@
     <a class="mark" href="#top" aria-label="Wonder Robotics home"><img src="img/lockup-robotics.png" alt="Wonder Robotics"></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#how">How it works</a><a href="#running">Running now</a><a href="#scope">Scope</a><a href="#machines">Machines</a>
+      <a href="#how">How it works</a><a href="#running">Running now</a><a href="#quote">Quote</a><a href="#machines">Machines</a>
     </nav>
     <div class="cta"><a class="btn" href="#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -242,7 +275,7 @@
           <p>See it working in our building. Pilot it in yours. Then we build it. Any machine, one team.</p>
           <div class="actions">
             <a class="btn" href="#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a>
-            <a class="btn ghost" href="#scope"><span>Scope your first robot</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" href="#quote"><span>Build a quote</span><i aria-hidden="true">+</i></a>
           </div>
         </div>
       </div>
@@ -319,65 +352,80 @@
     </div>
   </section>
 
-  <section class="block" id="scope">
+  <section class="block" id="quote">
     <div class="wrap">
       <div class="grid head">
-        <span class="label">Scope your first robot</span>
-        <h2>Tell us the job. We'll size the machine.</h2>
-        <p>This builds a scope you can send us before your visit. Output is worked from published machine specs; prices come from our rate card.</p>
+        <span class="label">Build a quote</span>
+        <h2>Supply, installation and maintenance. One quote.</h2>
+        <p>Pick the machines, choose how far we take it, and the quote writes itself. List prices are from the 2026 Moton Australia price list; installation and maintenance are Wonder's own rates.</p>
       </div>
-      <form class="calc" id="calc" onsubmit="return false">
-        <div class="inputs">
+      <form class="quote" id="quote-form" onsubmit="return false">
+        <div class="qin">
           <fieldset class="field">
-            <legend class="label">What should the robot do?</legend>
-            <div class="choices" role="radiogroup">
-              <input type="radio" name="job" id="j-coffee" value="coffee" checked><label for="j-coffee">Make coffee</label>
-              <input type="radio" name="job" id="j-cook" value="cook"><label for="j-cook">Cook</label>
-              <input type="radio" name="job" id="j-serve" value="serve"><label for="j-serve">Serve and carry</label>
-              <input type="radio" name="job" id="j-welcome" value="welcome"><label for="j-welcome">Welcome and guide</label>
-              <input type="radio" name="job" id="j-research" value="research"><label for="j-research">Research and teach</label>
+            <legend class="label">Supply</legend>
+            <div class="cat-wrap">
+              <table class="cat" id="cat">
+                <thead><tr><th class="label">Machine</th><th class="label">Built on</th><th class="label num">List price</th><th class="label num">Qty</th></tr></thead>
+                <tbody></tbody>
+              </table>
             </div>
           </fieldset>
-          <fieldset class="field">
-            <legend class="label">Where do you want to start?</legend>
-            <div class="choices" role="radiogroup">
-              <input type="radio" name="step" id="s-see" value="see"><label for="s-see">See it</label>
-              <input type="radio" name="step" id="s-pilot" value="pilot" checked><label for="s-pilot">Pilot it</label>
-              <input type="radio" name="step" id="s-build" value="build"><label for="s-build">Build it</label>
-            </div>
-          </fieldset>
-          <div class="field">
-            <label class="label" for="sites">Sites</label>
-            <div class="range-row"><input type="range" id="sites" min="1" max="12" value="1"><output id="sites-out" for="sites">1 site</output></div>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Installation</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="install" id="i-full" value="full" checked><label for="i-full">Install and commission</label>
+                <input type="radio" name="install" id="i-none" value="none"><label for="i-none">Supply only</label>
+              </div>
+              <p class="hint">Site survey, placement, services, first run and handover, by the team that set up our own floor.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">Maintenance</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
+                <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
+                <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
+              </div>
+              <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
+            </fieldset>
           </div>
-          <div class="field">
-            <label class="label" for="hours">Hours of service a day</label>
-            <div class="range-row"><input type="range" id="hours" min="2" max="16" value="10"><output id="hours-out" for="hours">10 h</output></div>
-          </div>
-          <div class="field" id="weeks-field">
-            <label class="label" for="weeks">Pilot length</label>
-            <div class="range-row"><input type="range" id="weeks" min="2" max="12" value="6"><output id="weeks-out" for="weeks">6 weeks</output></div>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Delivery</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="site" id="d-port" value="port" checked><label for="d-port">Within 100 km of a port</label>
+                <input type="radio" name="site" id="d-far" value="far"><label for="d-far">Further inland</label>
+              </div>
+              <p class="hint">Prices are delivered duty unpaid to a site within 100 km of an Australian port.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">GST</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="gst" id="g-ex" value="ex" checked><label for="g-ex">Show ex GST</label>
+                <input type="radio" name="gst" id="g-inc" value="inc"><label for="g-inc">Show inc GST</label>
+              </div>
+            </fieldset>
           </div>
         </div>
 
-        <div class="sheet" aria-live="polite">
-          <div class="top label"><span><b>Scope sheet</b></span><span id="sheet-ref">WR-COFFEE-P1</span></div>
+        <div class="qsheet" id="qsheet" aria-live="polite">
+          <div class="top label"><span><b>Quote</b></span><span id="q-ref">WR-Q</span></div>
           <div class="big">
-            <div class="num" id="big-num">514</div>
-            <div class="unit label" id="big-unit">Cups a day at full output</div>
+            <div class="num" id="q-total">$0</div>
+            <div class="unit label" id="q-total-note">Total, ex GST</div>
           </div>
-          <table>
+          <table class="lines"><tbody id="q-lines"></tbody></table>
+          <table class="lines sums">
             <tbody>
-              <tr><th class="label">Machine</th><td id="o-machine">Robot arm coffee station</td></tr>
-              <tr><th class="label">Per site</th><td id="o-site">About 2 m² of floor, 4000 W, one 70 second cycle per cup</td></tr>
-              <tr><th class="label">Step</th><td id="o-step">Pilot, 6 weeks, 1 site</td></tr>
-              <tr><th class="label">We bring</th><td id="o-bring">Install, operator training, remote monitoring, a weekly numbers report</td></tr>
-              <tr class="price"><th class="label">Price</th><td>Rate card pending</td></tr>
+              <tr><th class="label">Subtotal ex GST</th><td id="q-sub">$0</td></tr>
+              <tr><th class="label">GST 10%</th><td id="q-gst">$0</td></tr>
+              <tr class="tot"><th class="label">Total inc GST</th><td id="q-inc">$0</td></tr>
             </tbody>
           </table>
+          <div class="terms label">Valid 30 days &middot; manufacturer warranty one year &middot; delivery about two months from order &middot; delivered duty unpaid</div>
           <div class="foot">
-            <span class="label">Worked from published specs. Not a quote.</span>
-            <a class="btn" id="send" href="mailto:info@wonderbytech.com"><span>Send this scope</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="q-print" href="#quote"><span>Print</span><i aria-hidden="true">+</i></a>
+            <a class="btn" id="q-send" href="mailto:info@wonderbytech.com"><span>Send this quote</span><i aria-hidden="true">+</i></a>
           </div>
         </div>
       </form>
@@ -448,59 +496,111 @@
   }
   tick(); setInterval(tick,15000);
 
-  var CUP_CYCLE_S=70;
-  var JOBS={
-    coffee:{code:'COFFEE',machine:'Robot arm coffee station',site:'About 2 m² of floor, 4000 W, one 70 second cycle per cup',
-      big:function(v){return Math.floor(3600/CUP_CYCLE_S*v.hours)*v.sites;},unit:'Cups a day at full output'},
-    cook:{code:'KITCHEN',machine:'Robot arm kitchen line',site:'Fry, boil or hybrid line, laid out around your menu and extraction',
-      big:function(v){return v.sites;},unit:function(v){return v.sites===1?'Kitchen line to design':'Kitchen lines to design';}},
-    serve:{code:'SERVICE',machine:'Service robots',site:'Routes mapped to your floor plan, fleet sized at your visit',
-      big:function(v){return v.hours*v.sites;},unit:'Floor hours covered a day'},
-    welcome:{code:'WELCOME',machine:'Reception robot',site:'One at each entry, scripted to your venue',
-      big:function(v){return v.hours*v.sites;},unit:'Door hours covered a day'},
-    research:{code:'HUMANOID',machine:'Unitree G1 humanoid',site:'About 1.27 m, 35 kg, about 2 h a battery, quick-release swap',
-      big:function(v){return Math.ceil(v.hours/2)*v.sites;},unit:'Battery swaps a day'}
+  // Supply: the 2026 Moton Australia price list, list prices in AUD ex GST.
+  var MACHINES=[
+    {id:'eff',  name:'Coffee robot',     model:'Smart EFF, vending kiosk',    kit:'Dual arm, Dr.Coffee F200, ice, 3 syrups, milk frother, cup printing', price:74000},
+    {id:'bpro', name:'Coffee barista',   model:'B Pro, bar type',             kit:'Dual arm, Eversys, ice, cup printing', price:100000},
+    {id:'bstd', name:'Coffee barista',   model:'B Standard, bar type',        kit:'Dual arm, Dr.Coffee F3, ice, cup printing', price:67000},
+    {id:'bar',  name:'Robot bartender',  model:'T Standard',                  kit:'Dobot arm, ice, 3 syrups', price:39000},
+    {id:'ice',  name:'Ice cream robot',  model:'I Pro',                       kit:'Pasteurising machine, 3 syrups, 2 toppings', price:41000},
+    {id:'noo',  name:'Noodle robot',     model:'N Standard',                  kit:'Dobot arm, 6 noodle stoves', price:52000},
+    {id:'fry',  name:'Deep frying robot',model:'F Standard',                  kit:'Dobot arm, 6 frying stoves', price:42000}
+  ];
+  // Wonder's own rates. A null rate prints "on scope" and keeps the total honest.
+  // Fill these from the rate card; nothing else needs to change.
+  var RATES={
+    install_per_machine:null,          // AUD ex GST, per machine, install and commission
+    maintenance_per_machine_year:{standard:null, priority:null},
+    delivery_inland:null               // AUD ex GST, flat, beyond 100 km of a port
   };
-  var STEPS={
-    see:{code:'S',text:function(v){return 'See it, at 365 St Pauls Terrace';},bring:'An engineer, the running floor, a written shortlist'},
-    pilot:{code:'P',text:function(v){return 'Pilot, '+v.weeks+' weeks, '+v.sites+(v.sites===1?' site':' sites');},bring:'Install, operator training, remote monitoring, a weekly numbers report'},
-    build:{code:'B',text:function(v){return 'Build, '+v.sites+(v.sites===1?' site':' sites');},bring:'Concept, fitout, integration, commissioning, handover'}
-  };
-  var form=document.getElementById('calc');
+  var GST=0.10;
+
+  var form=document.getElementById('quote-form');
   var el=function(id){return document.getElementById(id);};
-  var nf=new Intl.NumberFormat('en-AU');
+  var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
+  var qty={};
+
+  var tbody=el('cat').querySelector('tbody');
+  MACHINES.forEach(function(m){
+    qty[m.id]=0;
+    var tr=document.createElement('tr'); tr.id='row-'+m.id;
+    tr.innerHTML='<td class="name">'+m.name+'<small>'+m.model+'</small></td><td class="kit">'+m.kit+'</td>'+
+      '<td class="price num">'+money.format(m.price)+'</td>'+
+      '<td class="num"><span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="More '+m.name+'">+</button></span></td>';
+    tbody.appendChild(tr);
+  });
+  tbody.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-id]'); if(!b) return;
+    var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10)));
+    render();
+  });
 
   function read(){
     return {
-      job:form.querySelector('input[name=job]:checked').value,
-      step:form.querySelector('input[name=step]:checked').value,
-      sites:parseInt(el('sites').value,10)||1,
-      hours:parseInt(el('hours').value,10)||1,
-      weeks:parseInt(el('weeks').value,10)||2
+      install:form.querySelector('input[name=install]:checked').value,
+      plan:form.querySelector('input[name=plan]:checked').value,
+      term:parseInt(el('term').value,10)||1,
+      site:form.querySelector('input[name=site]:checked').value,
+      gst:form.querySelector('input[name=gst]:checked').value
     };
   }
+  function line(label,sub,value){ return {label:label,sub:sub,value:value}; }
+
   function render(){
-    var v=read(), j=JOBS[v.job], s=STEPS[v.step];
-    if(!j||!s){return;}
-    el('sites-out').textContent=v.sites+(v.sites===1?' site':' sites');
-    el('hours-out').textContent=v.hours+' h';
-    el('weeks-out').textContent=v.weeks+' weeks';
-    var pilot=v.step==='pilot';
-    el('weeks').disabled=!pilot;
-    el('weeks-field').classList.toggle('off',!pilot);
-    el('big-num').textContent=nf.format(j.big(v));
-    el('big-unit').textContent=typeof j.unit==='function'?j.unit(v):j.unit;
-    el('o-machine').textContent=j.machine;
-    el('o-site').textContent=j.site;
-    el('o-step').textContent=s.text(v);
-    el('o-bring').textContent=s.bring;
-    var ref='WR-'+j.code+'-'+s.code+v.sites;
-    el('sheet-ref').textContent=ref;
-    var body=['Scope '+ref,'Job: '+j.machine,'Step: '+s.text(v),'Hours a day: '+v.hours,el('big-unit').textContent+': '+el('big-num').textContent].join('\n');
-    el('send').href='mailto:info@wonderbytech.com?subject='+encodeURIComponent('Scope '+ref)+'&body='+encodeURIComponent(body);
+    var v=read();
+    var count=0, supply=0, lines=[], open=[];
+    MACHINES.forEach(function(m){
+      var n=qty[m.id]; el('qty-'+m.id).textContent=n;
+      el('row-'+m.id).classList.toggle('on',n>0);
+      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
+    });
+    var noPlan=v.plan==='none';
+    el('term').disabled=noPlan; el('term-row').classList.toggle('off',noPlan);
+    el('term-out').textContent=v.term+(v.term===1?' year':' years');
+
+    var sub=supply;
+    if(count>0&&v.install==='full'){
+      var r=RATES.install_per_machine;
+      if(r==null){open.push('installation'); lines.push(line('Installation and commissioning',count+(count===1?' machine':' machines')+', by Wonder',null));}
+      else{sub+=r*count; lines.push(line('Installation and commissioning',count+' \u00d7 '+money.format(r),r*count));}
+    }
+    if(count>0&&!noPlan){
+      var mr=RATES.maintenance_per_machine_year[v.plan];
+      var label=(v.plan==='priority'?'Priority':'Standard')+' maintenance';
+      var sub2=count+(count===1?' machine':' machines')+', '+v.term+(v.term===1?' year':' years');
+      if(mr==null){open.push('maintenance'); lines.push(line(label,sub2,null));}
+      else{var mt=mr*count*v.term; sub+=mt; lines.push(line(label,sub2+', '+money.format(mr)+' a machine a year',mt));}
+    }
+    if(count>0){
+      if(v.site==='port'){lines.push(line('Delivery','Within 100 km of a port, included',0));}
+      else{var dr=RATES.delivery_inland; if(dr==null){open.push('delivery'); lines.push(line('Delivery','Beyond 100 km of a port',null));} else{sub+=dr; lines.push(line('Delivery','Beyond 100 km of a port',dr));}}
+    }
+
+    var tb=el('q-lines'); tb.innerHTML='';
+    if(!lines.length){ tb.innerHTML='<tr class="empty"><th colspan="2">Add a machine to start the quote</th></tr>'; }
+    lines.forEach(function(l){
+      var tr=document.createElement('tr');
+      if(l.value==null) tr.className='scope';
+      tr.innerHTML='<th>'+l.label+'<small>'+l.sub+'</small></th><td>'+(l.value==null?'On scope':(l.value===0?'Included':money.format(l.value)))+'</td>';
+      tb.appendChild(tr);
+    });
+
+    var gst=Math.round(sub*GST), inc=sub+gst;
+    el('q-sub').textContent=money.format(sub); el('q-gst').textContent=money.format(gst); el('q-inc').textContent=money.format(inc);
+    var shown=v.gst==='inc'?inc:sub;
+    el('q-total').innerHTML=(open.length?'<small>from</small>':'')+money.format(shown);
+    el('q-total-note').textContent=(v.gst==='inc'?'Total, inc GST':'Total, ex GST')+(open.length?', plus '+open.join(', ')+' on scope':'');
+
+    var d=new Date(), ref='WR-Q'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'-'+count;
+    el('q-ref').textContent=ref;
+    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value==null?'on scope':(l.value===0?'included':money.format(l.value)));}))
+      .concat(['Subtotal ex GST: '+money.format(sub),'GST: '+money.format(gst),'Total inc GST: '+money.format(inc),'','Site:','Contact:']).join('\n');
+    el('q-send').href='mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body);
   }
   form.addEventListener('input',render);
   form.addEventListener('change',render);
+  el('q-print').addEventListener('click',function(e){e.preventDefault();window.print();});
+  qty.noo=1; qty.fry=1;
   render();
 })();
 </script>
