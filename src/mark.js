@@ -68,6 +68,7 @@
     // its own layer or it would punch the letters too
     var layer = document.createElement("canvas");
     layer.width = canvas.width; layer.height = canvas.height;
+    if (!(layer.width > 0 && layer.height > 0)) return;
     var lg = layer.getContext("2d"); lg.scale(dpr, dpr);
     sectorORobot(lg, ocx, ocy, m.ow / 2, m.xh / 2, ink);
     g.drawImage(layer, 0, 0, W, H);

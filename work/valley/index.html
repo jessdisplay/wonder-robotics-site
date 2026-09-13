@@ -301,6 +301,8 @@
     .story figure.inset,.story figure.half{width:100%}
     .next a{grid-template-columns:1fr}
   }
+  .case-head .intro .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .story .txt b{font-weight:500}
 </style>
 
 <header class="bar">
@@ -308,7 +310,7 @@
     <a class="mark" href="../../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="../../#process">The process</a><a href="../../#work">Work</a><a href="../../#quote">Quote</a><a href="../../#machines">Machines</a>
+      <a href="../../#process">The process</a><a href="../../#work">Work</a><a href="../../#quote">Quote</a><a href="../../events/">Events</a>
     </nav>
     <div class="cta"><a class="btn" href="../../#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -499,6 +501,7 @@
     // its own layer or it would punch the letters too
     var layer = document.createElement("canvas");
     layer.width = canvas.width; layer.height = canvas.height;
+    if (!(layer.width > 0 && layer.height > 0)) return;
     var lg = layer.getContext("2d"); lg.scale(dpr, dpr);
     sectorORobot(lg, ocx, ocy, m.ow / 2, m.xh / 2, ink);
     g.drawImage(layer, 0, 0, W, H);

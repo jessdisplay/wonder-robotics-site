@@ -24,6 +24,8 @@ PAGES = {
                "desc": "Our own building in Fortitude Valley: a robot kitchen, a robot bar, a dessert kiosk and a service floor, all running."},
     "lrd": {"out": "work/little-red-dumplings/index.html", "root": "../../", "title": "Little Red Dumplings, Wonder Robotics",
             "desc": "A fully autonomous dumpling kitchen at the Gold Coast Health and Knowledge Precinct, under construction."},
+    "events": {"out": "events/index.html", "root": "../", "title": "Robotics and Engineering, Wonder Robotics",
+               "desc": "A monthly night at 365 St Pauls Terrace for the people building robots and hardware in Queensland: two talks, the machines running, the workshop bench open."},
 }
 
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">\n'
@@ -33,7 +35,7 @@ BAR = '''<header class="bar">
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#process">The process</a><a href="{{root}}#work">Work</a><a href="{{root}}#quote">Quote</a><a href="{{root}}#machines">Machines</a>
+      <a href="{{root}}#process">The process</a><a href="{{root}}#work">Work</a><a href="{{root}}#quote">Quote</a><a href="{{root}}events/">Events</a>
     </nav>
     <div class="cta"><a class="btn" href="{{root}}#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a></div>
   </div>

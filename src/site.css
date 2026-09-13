@@ -289,3 +289,5 @@
     .story figure.inset,.story figure.half{width:100%}
     .next a{grid-template-columns:1fr}
   }
+  .case-head .intro .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .story .txt b{font-weight:500}

@@ -295,6 +295,8 @@
     .story figure.inset,.story figure.half{width:100%}
     .next a{grid-template-columns:1fr}
   }
+  .case-head .intro .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .story .txt b{font-weight:500}
 </style>
 
 <header class="bar">
@@ -302,7 +304,7 @@
     <a class="mark" href="" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#process">The process</a><a href="#work">Work</a><a href="#quote">Quote</a><a href="#machines">Machines</a>
+      <a href="#process">The process</a><a href="#work">Work</a><a href="#quote">Quote</a><a href="events/">Events</a>
     </nav>
     <div class="cta"><a class="btn" href="#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -543,7 +545,7 @@
         <div><span class="label">Where</span><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div>
         <div><span class="label">When</span><p>Monday to Friday, 9 am to 7 pm<br>Saturday, 10 am to 5 pm</p></div>
         <div><span class="label">Talk to us</span><p><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></p></div>
-        <div><span class="label">Next</span><p><a class="btn" href="mailto:info@wonderbytech.com?subject=Book%20a%20visit%20to%20Wonder%20Robotics"><span>Book a visit</span><i aria-hidden="true">+</i></a></p></div>
+        <div><span class="label">Or come on a night</span><p><a href="events/">Robotics and Engineering, monthly</a><br>Two talks, the machines running, the bench open.</p></div>
       </div>
     </div>
   </section>
@@ -627,6 +629,7 @@
     // its own layer or it would punch the letters too
     var layer = document.createElement("canvas");
     layer.width = canvas.width; layer.height = canvas.height;
+    if (!(layer.width > 0 && layer.height > 0)) return;
     var lg = layer.getContext("2d"); lg.scale(dpr, dpr);
     sectorORobot(lg, ocx, ocy, m.ow / 2, m.xh / 2, ink);
     g.drawImage(layer, 0, 0, W, H);
