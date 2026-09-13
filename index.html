@@ -211,6 +211,10 @@
   footer .made{display:flex;justify-content:space-between;border-top:1px solid color-mix(in srgb,var(--cream) 22%,transparent);padding-top:14px}
   footer .made span{color:var(--cream)}
 
+  @media (max-width:1300px){
+    .bar .clock{display:none}
+    .bar nav{grid-column:3/11}
+  }
   @media (max-width:980px){
     .bar nav{display:none}
     .bar .mark{grid-column:1/6}
@@ -226,7 +230,6 @@
     .head h2,.head p{grid-column:1/13}
   }
   @media (max-width:640px){
-    .bar .clock{display:none}
     .bar .mark{grid-column:1/8}
     .bar .cta{grid-column:8/13}
     .bar .btn span{padding:9px 10px}
@@ -384,6 +387,10 @@
   .services .sub{text-align:center}
   .offer{list-style:none;margin:clamp(28px,4vw,48px) auto 0;padding:0;max-width:1240px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap)}
   .offer li{display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:22px;border-radius:calc(var(--r) + 6px);background:#EFEBDB}
+  .offer b a{color:inherit;text-decoration:none}
+  .offer b a:hover{text-decoration:underline;text-underline-offset:4px}
+  .machines td a{color:inherit;text-decoration:none}
+  .machines td a:hover{text-decoration:underline;text-underline-offset:4px}
   .offer b{font-weight:400;font-size:clamp(22px,1.9vw,30px);letter-spacing:-.03em;line-height:1.05}
   .offer p{margin:0;font-size:15px;line-height:1.45;color:var(--graphite)}
   .offer .from{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent);padding-top:12px}
@@ -392,6 +399,51 @@
   #quote .head h2,#machines .head h2{letter-spacing:-.035em}
   @media (max-width:980px){.offer{grid-template-columns:1fr 1fr}}
   @media (max-width:640px){.offer{grid-template-columns:1fr}}
+
+  /* the catalogue: machines/ and machines/<slug>/ */
+  .case-head h1{margin:0;font-weight:400;letter-spacing:-.045em;line-height:.9}
+  .case-head .intro .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .story figure.hero img{width:auto;max-width:100%;max-height:78vh;display:block;margin-inline:auto;border-radius:var(--r)}
+  .story .offer{margin:0 0 clamp(40px,5vw,80px);max-width:none}
+  .offer.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .facts.specs{grid-template-columns:minmax(0,2fr) minmax(0,3fr);max-width:960px;margin-bottom:clamp(40px,5vw,80px);border-top:1px solid var(--ink)}
+  .facts.specs dd{font-family:var(--display);text-transform:none;letter-spacing:0;font-size:17px;color:var(--ink)}
+  .compare{margin-bottom:clamp(40px,5vw,80px)}
+  .compare .machines{min-width:0}
+  .compare td:first-child{width:auto}
+  .compare td:nth-child(2),.compare td:nth-child(3){width:auto}
+  .faq{max-width:760px;border-top:1px solid var(--ink);margin-bottom:clamp(40px,5vw,80px)}
+  .faq details{border-bottom:1px solid var(--rule)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:var(--gap);padding:16px 0;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.02em;line-height:1.2}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq p{margin:0 0 20px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
+  .related{padding-top:0}
+  .cases.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .cases.four .ph{aspect-ratio:4/3;background:#EFEBDB}
+  .cases.four h3{font-size:clamp(20px,1.6vw,26px)}
+  .cases.four p{font-size:15px}
+  .related .txt{margin-top:clamp(28px,4vw,56px)}
+  .catalogue{list-style:none;padding:0;margin:0 0 clamp(64px,9vw,140px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);row-gap:clamp(36px,4vw,56px)}
+  .catalogue a{display:grid;gap:12px;text-decoration:none;color:inherit;align-content:start}
+  .catalogue .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
+  .catalogue .ph img,.cases.four .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .catalogue a:hover .ph img{transform:scale(1.03)}
+  .glyph{display:grid;place-items:center;height:100%;font-size:clamp(28px,3vw,48px);letter-spacing:-.04em;color:var(--graphite);padding:24px;box-sizing:border-box;text-align:center;line-height:1}
+  .catalogue .meta{display:flex;justify-content:space-between;gap:var(--gap);color:var(--graphite)}
+  .catalogue h3{margin:0;font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em;line-height:1.02}
+  .catalogue p{margin:0;color:var(--graphite);font-size:15px;line-height:1.45;max-width:40ch}
+  .catalogue .from{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent);padding-top:12px}
+  .partners{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);align-items:center;padding:20px 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
+  .partners img{height:26px;width:auto;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.75;mix-blend-mode:multiply}
+  @media (max-width:900px){
+    .offer.three,.catalogue,.cases.four{grid-template-columns:1fr 1fr}
+    .facts.specs{grid-template-columns:auto 1fr}
+  }
+  @media (max-width:600px){
+    .offer.three,.catalogue,.cases.four{grid-template-columns:1fr}
+  }
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -400,7 +452,7 @@
     <a class="mark" href="" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#services">What we sell</a><a href="#quote">Pricing</a><a href="work/valley/">The building</a><a href="work/little-red-dumplings/">Little Red Dumplings</a><a href="events/">The club</a>
+      <a href="#services">What we sell</a><a href="machines/">Machines</a><a href="#quote">Pricing</a><a href="work/valley/">The building</a><a href="work/little-red-dumplings/">Little Red Dumplings</a><a href="events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -433,9 +485,9 @@
       <ol class="offer">
         <li><b>Automate your business</b><p>Tell us the job. We work out what a robot should do, what it costs and what it returns, on your site or on our floor.</p><span class="from">Scoped first, fixed fee</span></li>
         <li><b>Robotics engineering</b><p>Custom machines, cells and lines, designed, built and tested in our workshop before they go on your floor.</p><span class="from">Quoted to the job</span></li>
-        <li><b>Machinery supply</b><p>Robot arms, cooking and coffee lines, service robots, humanoids and quadrupeds, from any maker. Supplied, delivered and commissioned.</p><span class="from">From $39,000</span></li>
-        <li><b>Programming and integration</b><p>We program the robots to your task and plug them into your ordering, payment, stock and systems. Software and AI agents included.</p><span class="from">On every quote</span></li>
-        <li><b>Robot kitchens, bars and kiosks</b><p>The proven one. Fry and noodle lines, autonomous kitchens, barista and bartender counters, dessert kiosks, service fleets.</p><span class="from">From $42,000</span></li>
+        <li><b><a href="machines/">Machinery supply</a></b><p>Robot arms, cooking and coffee lines, service robots, humanoids and quadrupeds, from any maker. Supplied, delivered and commissioned. <a class="link" href="machines/">Every machine we sell</a></p><span class="from">From $39,000</span></li>
+        <li><b><a href="machines/software/">Programming and integration</a></b><p>We program the robots to your task and plug them into your ordering, payment, stock and systems. Software and AI agents included.</p><span class="from">On every quote</span></li>
+        <li><b><a href="machines/kitchen-robot/">Robot kitchens, bars and kiosks</a></b><p>The proven one. Fry and noodle lines, autonomous kitchens, barista and bartender counters, dessert kiosks, service fleets.</p><span class="from">From $42,000</span></li>
         <li><b>Install, train, run</b><p>Installation, staff training, maintenance plans, spares and remote monitoring, from Brisbane.</p><span class="from">Priced with the machine</span></li>
         <li><b>Pilot it here</b><p>Run your idea on our floor before you build it on yours: our machines, our engineers, your product.</p><span class="from">By arrangement</span></li>
         <li><b>The venue</b><p>A working robotics venue in the Valley: demos, pilots, research, the club, and a floor you can hire for your own robotics work.</p><span class="from">Come and see it</span></li>
@@ -529,16 +581,17 @@
       <div class="grid head">
         <span class="label">Machines we work with</span>
         <h2>Not tied to one maker.</h2>
-        <p>We pick the machine that fits the job, then make it work with everything else in the building.</p>
+        <p>We pick the machine that fits the job, then make it work with everything else in the building. <a class="link" href="machines/">Every machine has its own page, with the full specification.</a></p>
       </div>
       <div class="machines-wrap">
         <table class="machines">
           <thead><tr><th class="label">Class</th><th class="label">Good at</th><th class="label">On our floor</th><th class="label">Published spec</th></tr></thead>
           <tbody>
-            <tr><td>Robot arms</td><td>Coffee, frying, boiling, plating: repeated hot work</td><td>Kitchen line, robot bar, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
-            <tr><td>Service robots</td><td>Carrying plates, running routes, greeting</td><td>UBTECH CadeBot, Cruzr</td><td class="spec">Sized at your visit</td></tr>
-            <tr><td>Humanoids</td><td>Research, teaching, demonstration</td><td>Unitree G1</td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
-            <tr><td>Quadrupeds</td><td>Inspection, mobility, public engagement</td><td>Sourced to order</td><td class="spec">Sized at your visit</td></tr>
+            <tr><td><a href="machines/coffee-robot/">Robot arms</a></td><td>Coffee, frying, boiling, plating: repeated hot work</td><td><a href="machines/kitchen-robot/">Kitchen line</a>, <a href="machines/coffee-robot/">robot bar</a>, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
+            <tr><td><a href="machines/ubtech-cadebot/">Service robots</a></td><td>Carrying plates, running routes, greeting, warehouse handling</td><td><a href="machines/ubtech-cadebot/">UBTECH CadeBot</a>, <a href="machines/ubtech-cruzr-1s/">Cruzr 1S</a></td><td class="spec">CadeBot 40 kg on 3 trays &middot; 6 h &middot; 650 mm aisle</td></tr>
+            <tr><td><a href="machines/unitree-g1/">Humanoids</a></td><td>Research, teaching, demonstration</td><td><a href="machines/unitree-g1/">Unitree G1</a></td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
+            <tr><td><a href="machines/unitree-go2/">Quadrupeds</a></td><td>Inspection, patrol, public engagement</td><td>Sourced to order</td><td class="spec">GO2 15 kg &middot; 12 DOF &middot; about 40° climb &middot; 12 month warranty</td></tr>
+            <tr><td><a href="machines/ubtech-ugot/">Education kits</a></td><td>Classrooms, clubs, competitions</td><td>Sourced to order</td><td class="spec">uKit &middot; UGOT &middot; Yanshee</td></tr>
           </tbody>
         </table>
       </div>

@@ -10,12 +10,17 @@ root for that page ('' at root, '../../' two levels down).
 
 Pages: home -> index.html (and wonder-robotics.html, the artifact source,
 without the document wrapper); valley -> work/valley/index.html;
-lrd -> work/little-red-dumplings/index.html.
+lrd -> work/little-red-dumplings/index.html. The catalogue (machines/ and
+machines/<slug>/) is rendered from src/machines.py, one page per line.
 """
+import sys
+from html import escape
 from pathlib import Path
 
 HERE = Path(__file__).parent
 SRC = HERE / "src"
+sys.path.insert(0, str(SRC))
+from machines import MACHINES, PARTNERS  # noqa: E402
 
 PAGES = {
     "home": {"out": "index.html", "root": "", "title": "Wonder Robotics",
@@ -38,7 +43,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#services">What we sell</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#services">What we sell</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="{{root}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -54,11 +59,10 @@ FOOTER = '''<footer>
 '''
 
 
-def page(name, cfg):
+def render(body, cfg, name=None):
     css = (SRC / "site.css").read_text()
     js = (SRC / "site.js").read_text()
     mark = (SRC / "mark.js").read_text()
-    body = (SRC / "pages" / f"{name}.html").read_text()
     root = cfg["root"]
     inner = (
         f'<title>{cfg["title"]}</title>\n'
@@ -82,5 +86,141 @@ def page(name, cfg):
         print("wonder-robotics.html (artifact source) refreshed")
 
 
+def page(name, cfg):
+    render((SRC / "pages" / f"{name}.html").read_text(), cfg, name)
+
+
+BY_SLUG = {m["slug"]: m for m in MACHINES}
+
+
+def fig(src, alt, caption, real, cls=""):
+    who = "Photographed in our building" if real else "Maker's image"
+    return (f'<figure class="{cls}"><img src="{{{{root}}}}img/{src}" alt="{escape(alt)}" loading="lazy">'
+            f'<figcaption class="label"><span>{escape(caption)}</span><span>{who}</span></figcaption></figure>\n')
+
+
+def cards(items, cls="offer"):
+    return f'<ol class="{cls}">' + "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in items) + "</ol>\n"
+
+
+def dl(pairs, cls):
+    return f'<dl class="{cls}">' + "".join(f"<dt>{escape(k)}</dt><dd>{escape(v)}</dd>" for k, v in pairs) + "</dl>\n"
+
+
+def thumb(m):
+    if m["hero"]:
+        pos = f' style="object-position:{m["pos"]}"' if m.get("pos") else ""
+        return f'<img src="{{{{root}}}}img/{m["hero"]}" alt="{escape(m["name"])}" loading="lazy"{pos}>'
+    return f'<span class="glyph">{escape(m["name"])}</span>'
+
+
+def machine_body(m):
+    n = MACHINES.index(m) + 1
+    facts = [("Maker", m["maker"]), ("Class", m["kind"]), ("Where", m["status"]), ("Price", m["price"]),
+             ("Supplied as", "Supply, installation, training and maintenance, from Brisbane")]
+    body = f'''<main id="top">
+  <section class="case-head">
+    <div class="wrap">
+      <div class="grid meta label">
+        <span><b>Machines</b> &middot; {n:02d}</span>
+        <span>{escape(m["maker"])} &middot; {escape(m["kind"])}</span>
+        <span>{escape(m["status"])}</span>
+      </div>
+      <h1>{escape(m["name"])}</h1>
+      <div class="grid">
+        {dl(facts, "facts label")}
+        <div class="intro">
+          <p>{escape(m["line"])}</p>
+          <p>{escape(m["intro"])}</p>
+          <p class="actions"><a class="btn" href="{{{{root}}}}#quote"><span>Get a quote</span><i aria-hidden="true">+</i></a> <a class="btn ghost" href="{{{{root}}}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="wrap">
+'''
+    if m["hero"]:
+        body += fig(m["hero"], m["name"], m["name"], m["hero_real"], "hero")
+    body += "      <h2>What it does</h2>\n" + cards(m["features"], "offer three")
+    body += "      <h2>Where it fits</h2>\n" + cards(m["fits"])
+    body += "      <h2>Specification</h2>\n" + dl(m["specs"], "facts specs label")
+    if m["compare"]:
+        title, rows = m["compare"]
+        body += f'      <h2>{escape(title)}</h2>\n      <div class="machines-wrap compare"><table class="machines"><tbody>' + "".join(
+            "<tr>" + "".join(f"<td>{escape(c)}</td>" for c in r) + "</tr>" for r in rows) + "</tbody></table></div>\n"
+    if len(m["gallery"]) == 1:
+        body += fig(m["gallery"][0], m["name"], m["name"], False, "inset")
+    elif m["gallery"]:
+        body += '<div class="pair">' + "".join(fig(g, m["name"], m["name"], False) for g in m["gallery"]) + "</div>\n"
+    body += '      <h2>Questions</h2>\n      <div class="faq">' + "".join(
+        f"<details><summary>{escape(q)}</summary><p>{escape(a)}</p></details>" for q, a in m["faq"]) + "</div>\n"
+    rel = "".join(f'<a href="{{{{root}}}}machines/{r}/"><div class="ph">{thumb(BY_SLUG[r])}</div><h3>{escape(BY_SLUG[r]["name"])}</h3><p>{escape(BY_SLUG[r]["kind"])}</p></a>' for r in m["related"])
+    body += f'''    </div>
+  </section>
+
+  <section class="story related">
+    <div class="wrap">
+      <h2>You might also want</h2>
+      <div class="cases four">{rel}</div>
+      <p class="txt"><a class="link" href="{{{{root}}}}machines/">Every machine we sell</a></p>
+    </div>
+  </section>
+</main>
+'''
+    return body
+
+
+def catalogue_body():
+    items = "".join(
+        f'<li><a href="{{{{root}}}}machines/{m["slug"]}/"><div class="ph">{thumb(m)}</div>'
+        f'<div class="meta label"><span>{escape(m["maker"])} &middot; {escape(m["kind"])}</span><span>{escape(m["status"])}</span></div>'
+        f'<h3>{escape(m["name"])}</h3><p>{escape(m["line"])}</p><span class="from">{escape(m["price"])}</span></a></li>'
+        for m in MACHINES)
+    logos = "".join(f'<img src="{{{{root}}}}img/machines/logo-{k}.jpg" alt="{escape(v)}" loading="lazy">' for k, v in PARTNERS)
+    facts = [("Makers", "Unitree, UBTECH, Moton, JAKA, Dobot, and whoever makes the right machine for the job"),
+             ("Prices", "List, ex GST, delivered within 100 km of an Australian port"),
+             ("With every machine", "Installation, programming to your task, staff training, maintenance"),
+             ("See them", "Most of the range is on our floor at 365 St Pauls Terrace")]
+    return f'''<main id="top">
+  <section class="case-head">
+    <div class="wrap">
+      <div class="grid meta label">
+        <span><b>Machines</b> &middot; {len(MACHINES)} lines</span>
+        <span>Supplied, installed and maintained from Brisbane</span>
+        <span>Any maker</span>
+      </div>
+      <h1>Every machine we sell.</h1>
+      <div class="grid">
+        {dl(facts, "facts label")}
+        <div class="intro">
+          <p>Humanoids and quadrupeds for research, service robots for the floor, coffee, bar and kitchen lines for food, kits for the classroom, and the engineering and software to make any of them do your job.</p>
+          <p>Every line comes with us attached: we scope it, program it, install it and keep it running. Pick the machine, then <a class="link" href="{{{{root}}}}#quote">price it</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="wrap">
+      <ul class="catalogue">{items}</ul>
+      <h2>Who we have worked with</h2>
+      <div class="partners">{logos}</div>
+    </div>
+  </section>
+</main>
+'''
+
+
+def catalogue():
+    render(catalogue_body(), {"out": "machines/index.html", "root": "../", "title": "Machines, Wonder Robotics",
+                              "desc": "Every machine Wonder Robotics sells: Unitree G1 and GO2, UBTECH Cruzr, CadeBot, Cruzr Y1, Yanshee, UGOT and uKit, coffee and kitchen robots, custom automation, AI agents and software. Supplied, installed and maintained from Brisbane."})
+    for m in MACHINES:
+        render(machine_body(m), {"out": f"machines/{m['slug']}/index.html", "root": "../../",
+                                 "title": f"{m['name']}, Wonder Robotics", "desc": escape(m["line"])})
+
+
 for name, cfg in PAGES.items():
     page(name, cfg)
+catalogue()
