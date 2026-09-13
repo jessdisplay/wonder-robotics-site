@@ -76,6 +76,9 @@
   .plate figcaption{padding-top:12px}
   .plate figcaption > *:first-child{grid-column:1/7}
   .plate figcaption > *:last-child{grid-column:7/13;justify-self:end;text-align:right}
+  .plate.wide{margin-top:var(--gap)}
+  .plate.wide img{aspect-ratio:16/9}
+  .plate.wide figcaption{padding-inline:0}
 
   /* sections */
   section.block{padding-top:clamp(72px,10vw,150px)}
@@ -276,10 +279,10 @@
     </div>
     <div class="plate">
       <figure>
-        <img src="img/floor.jpg" alt="The dining floor at 365 St Pauls Terrace with service robots standing among the tables" width="2400" height="1350">
+        <img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace in service: the arm on its rail, fryers and noodle baths steaming, the dining room through the window" width="2400" height="1018">
         <figcaption class="wrap grid label">
-          <span><b>The floor</b> &middot; 365 St Pauls Terrace</span>
-          <span>Service robots in the room. A capture of the real space, not a render.</span>
+          <span><b>The robot kitchen</b> &middot; 365 St Pauls Terrace</span>
+          <span>Our own line, in service. The real kitchen, photographed in the building.</span>
         </figcaption>
       </figure>
     </div>
@@ -316,33 +319,40 @@
       </div>
       <div class="proof">
         <article>
-          <div class="ph"><img src="img/kitchen.jpg" alt="The stainless robot kitchen line behind glass" loading="lazy"></div>
+          <div class="ph"><img src="img/tile-arm.jpg" alt="The kitchen's robot arm on its rail lifting a basket of chips out of the fryer, the WONDER ident on the wall screen" loading="lazy"></div>
           <h3>The robot kitchen <span class="chip">In service</span></h3>
           <dl class="facts label">
             <dt>Site</dt><dd>365 St Pauls Terrace</dd>
-            <dt>Runs</dt><dd>Yum cha, canapés or a full menu</dd>
+            <dt>Does</dt><dd>Fries, boils, plates, from an ingredient store</dd>
             <dt>Scope</dt><dd>Concept, fitout, machines, software</dd>
           </dl>
         </article>
         <article>
-          <div class="ph"><img src="img/service.jpg" alt="A tray delivery robot standing between dining tables" loading="lazy" style="object-position:30% 50%"></div>
-          <h3>The service floor <span class="chip">In service</span></h3>
+          <div class="ph"><img src="img/tile-coffee.jpg" alt="The robot bar's arm pouring a drink under the bottle rack" loading="lazy"></div>
+          <h3>The robot bar <span class="chip">In service</span></h3>
           <dl class="facts label">
-            <dt>Machines</dt><dd>UBTECH CadeBot, UBTECH Cruzr</dd>
-            <dt>Does</dt><dd>Carries plates, greets at the door</dd>
-            <dt>Scope</dt><dd>Routes, integration, operator training</dd>
+            <dt>Site</dt><dd>365 St Pauls Terrace</dd>
+            <dt>Does</dt><dd>Coffee, cocktails and soft drinks to order</dd>
+            <dt>Scope</dt><dd>Counter, arm, dispensers, ordering</dd>
           </dl>
         </article>
         <article>
-          <div class="ph"><img src="img/g1.jpg" alt="A Unitree G1 humanoid robot on its support stand beside a table" loading="lazy" style="object-position:50% 40%"></div>
-          <h3>The humanoid bench <span class="chip">On site</span></h3>
+          <div class="ph"><img src="img/tile-kiosk.jpg" alt="The dessert kiosk's arm filling a cup under the soft-serve machine" loading="lazy"></div>
+          <h3>The dessert kiosk <span class="chip">In service</span></h3>
           <dl class="facts label">
-            <dt>Machine</dt><dd>Unitree G1</dd>
-            <dt>Spec</dt><dd>About 1.27 m, 35 kg, 2 h a battery</dd>
-            <dt>Scope</dt><dd>Research, education, demonstration</dd>
+            <dt>Site</dt><dd>365 St Pauls Terrace</dd>
+            <dt>Does</dt><dd>Soft serve and slushies, unattended</dd>
+            <dt>Scope</dt><dd>Kiosk, arm, machines, payment</dd>
           </dl>
         </article>
       </div>
+      <figure class="plate wide">
+        <img src="img/floor-lunch.jpg" alt="The dining floor at 365 St Pauls Terrace at lunch, service robots working between the tables" loading="lazy" width="2400" height="1339">
+        <figcaption class="grid label">
+          <span><b>The floor</b> &middot; lunch service</span>
+          <span>The room the machines work in. Captured in the building; the service robots are ours.</span>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
