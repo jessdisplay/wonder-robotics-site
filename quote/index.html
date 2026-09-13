@@ -1,5 +1,11 @@
-<title>Wonder Robotics</title>
-<meta name="description" content="Where Australian business gets into robotics. We scope, design, brand, build and run robot kitchens and service robots, from one building in Fortitude Valley.">
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Get a quote, Wonder Robotics</title>
+<meta name="description" content="Supply, installation and maintenance for robot kitchen equipment, priced from the 2026 Moton Australia list, with Wonder's own rates for install and support.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
@@ -244,7 +250,7 @@
   }
 
   /* the drawn mark */
-  @font-face{font-family:'UnboundedW';src:url(fonts/UnboundedW.woff2) format('woff2');font-weight:100 900;font-display:swap}
+  @font-face{font-family:'UnboundedW';src:url(../fonts/UnboundedW.woff2) format('woff2');font-weight:100 900;font-display:swap}
   .bar .mark canvas{display:block}
   footer .lock{margin-bottom:clamp(32px,5vw,70px)}
   footer canvas.lock{width:100%;height:auto}
@@ -377,118 +383,123 @@
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
 <header class="bar">
   <div class="wrap grid">
-    <a class="mark" href="" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
+    <a class="mark" href="../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#services">What we do</a><a href="work/valley/">The building</a><a href="work/little-red-dumplings/">Little Red Dumplings</a><a href="events/">The club</a><a href="quote/">Quote</a>
+      <a href="../#services">What we do</a><a href="../work/valley/">The building</a><a href="../work/little-red-dumplings/">Little Red Dumplings</a><a href="../events/">The club</a><a href="../quote/">Quote</a>
     </nav>
-    <div class="cta"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+    <div class="cta"><a class="btn" href="../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
 </header>
 
 <main id="top">
-  <section class="open">
+  <section class="say" style="padding-bottom:0">
     <div class="wrap">
-      <h1 class="line">Where Australian business gets into robotics.</h1>
-      <p class="sub">We build robot kitchens, and everything around them. Come and see ours work.</p>
-      <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="quote/"><span>Get a quote</span><i aria-hidden="true">+</i></a></div>
-    </div>
-    <figure class="film">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" width="1280" height="720" aria-label="The robot kitchen line at 365 St Pauls Terrace in service">
-        <source src="img/hero-kitchen.mp4" type="video/mp4">
-        <img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace" width="2400" height="1018">
-      </video>
-      <figcaption>Our kitchen, 365 St Pauls Terrace, Fortitude Valley</figcaption>
-    </figure>
-  </section>
-
-  <section class="say" id="what">
-    <div class="wrap">
-      <h2 class="line">A kitchen that runs itself is only the start. We do the whole job around it.</h2>
-      <p class="sub">Design, brand, build, install and run. One team, one building, so nothing falls between vendors.</p>
+      <h1 class="line">Tell us what you want to build. Here's what it costs.</h1>
+      <p class="sub">Pick the machines, choose how far we take it, and the quote writes itself. List prices from the 2026 Moton Australia list; installation and maintenance are our own rates.</p>
     </div>
   </section>
-
-  <section class="services" id="services">
+  <section class="block" id="quote">
     <div class="wrap">
-      <ol class="svc">
-        <li><b>Scope</b><p>We walk your site, or you walk ours. What the kitchen should cook, how many covers, what the floor and the services can take.</p></li>
-        <li><b>Design</b><p>The kitchen laid out around your menu. The machines picked for the job, from any maker. Drawings a builder can price.</p></li>
-        <li><b>Brand</b><p>The concept, the name, the identity on the counter, the screens and the boxes. It all comes from one building, so it all matches.</p></li>
-        <li><b>Build</b><p>We supply, install, program and commission. About two months from order to first service, with your people trained on it.</p></li>
-        <li><b>Run</b><p>Maintenance, spares, software updates and remote monitoring, with a Brisbane number that answers.</p></li>
-      </ol>
+      <div class="grid head">
+        <span class="label">Build a quote</span>
+        <h2>Supply, installation and maintenance. One quote.</h2>
+        <p>Pick the machines, choose how far we take it, and the quote writes itself. List prices are from the 2026 Moton Australia price list; installation and maintenance are Wonder's own rates.</p>
+      </div>
+      <form class="quote" id="quote-form" onsubmit="return false">
+        <div class="qin">
+          <fieldset class="field">
+            <legend class="label">Supply</legend>
+            <div class="cat-wrap">
+              <table class="cat" id="cat">
+                <thead><tr><th class="label">Machine</th><th class="label">Built on</th><th class="label num">List price</th><th class="label num">Qty</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </fieldset>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Installation</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="install" id="i-full" value="full" checked><label for="i-full">Install and commission</label>
+                <input type="radio" name="install" id="i-none" value="none"><label for="i-none">Supply only</label>
+              </div>
+              <p class="hint">Site survey, placement, services, first run and handover, by the team that set up our own floor.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">Maintenance</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
+                <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
+                <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
+              </div>
+              <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
+            </fieldset>
+          </div>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Delivery</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="site" id="d-port" value="port" checked><label for="d-port">Within 100 km of a port</label>
+                <input type="radio" name="site" id="d-far" value="far"><label for="d-far">Further inland</label>
+              </div>
+              <p class="hint">Prices are delivered duty unpaid to a site within 100 km of an Australian port.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">GST</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="gst" id="g-ex" value="ex" checked><label for="g-ex">Show ex GST</label>
+                <input type="radio" name="gst" id="g-inc" value="inc"><label for="g-inc">Show inc GST</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="qsheet" id="qsheet" aria-live="polite">
+          <div class="top label"><span><b>Quote</b></span><span id="q-ref">WR-Q</span></div>
+          <div class="big">
+            <div class="num" id="q-total">$0</div>
+            <div class="unit label" id="q-total-note">Total, ex GST</div>
+          </div>
+          <table class="lines"><tbody id="q-lines"></tbody></table>
+          <table class="lines sums">
+            <tbody>
+              <tr><th class="label">Subtotal ex GST</th><td id="q-sub">$0</td></tr>
+              <tr><th class="label">GST 10%</th><td id="q-gst">$0</td></tr>
+              <tr class="tot"><th class="label">Total inc GST</th><td id="q-inc">$0</td></tr>
+            </tbody>
+          </table>
+          <div class="terms label">Valid 30 days &middot; manufacturer warranty one year &middot; delivery about two months from order &middot; delivered duty unpaid</div>
+          <div class="foot">
+            <a class="btn ghost" id="q-print" href="#quote"><span>Print</span><i aria-hidden="true">+</i></a>
+            <a class="btn" id="q-send" href="mailto:info@wonderbytech.com"><span>Send this quote</span><i aria-hidden="true">+</i></a>
+          </div>
+        </div>
+      </form>
     </div>
   </section>
 
-  <section class="feature" id="kitchen">
+  <section class="block" id="machines">
     <div class="wrap">
-      <figure class="card">
-        <img src="img/tile-arm.jpg" alt="The kitchen's robot arm on its rail lifting a basket from the fryer" loading="lazy">
-      </figure>
-      <div class="side">
-        <h2 class="line">Australia's first fully autonomous kitchen is ours. You can eat from it today.</h2>
-        <p class="sub">It fries, boils and plates from an ingredient store, in a converted warehouse in the Valley that's open to the public. Everything we sell, we run here first.</p>
-        <a class="link" href="work/valley/">See the building</a>
+      <div class="grid head">
+        <span class="label">Machines we work with</span>
+        <h2>Not tied to one maker.</h2>
+        <p>We pick the machine that fits the job, then make it work with everything else in the building.</p>
+      </div>
+      <div class="machines-wrap">
+        <table class="machines">
+          <thead><tr><th class="label">Class</th><th class="label">Good at</th><th class="label">On our floor</th><th class="label">Published spec</th></tr></thead>
+          <tbody>
+            <tr><td>Robot arms</td><td>Coffee, frying, boiling, plating: repeated hot work</td><td>Kitchen line, robot bar, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
+            <tr><td>Service robots</td><td>Carrying plates, running routes, greeting</td><td>UBTECH CadeBot, Cruzr</td><td class="spec">Sized at your visit</td></tr>
+            <tr><td>Humanoids</td><td>Research, teaching, demonstration</td><td>Unitree G1</td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
+            <tr><td>Quadrupeds</td><td>Inspection, mobility, public engagement</td><td>Sourced to order</td><td class="spec">Sized at your visit</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
-  <section class="feature flip" id="lrd">
-    <div class="wrap">
-      <figure class="card">
-        <img src="img/lrd-concept.jpg" alt="Concept render of the Little Red Dumplings autonomous kitchen in a Gold Coast food hall" loading="lazy">
-        <figcaption>Concept. The kitchen is under construction.</figcaption>
-      </figure>
-      <div class="side">
-        <span class="eyebrow">Little Red Dumplings</span>
-        <h2 class="line">A dumpling kitchen that runs itself, from the order to the pass.</h2>
-        <p class="sub">For a Queensland group with two dozen venues, being built now at the Gold Coast Health and Knowledge Precinct. Scope, design, build and run, by us.</p>
-        <a class="link" href="work/little-red-dumplings/">Read the case study</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="say" id="play">
-    <div class="wrap">
-      <h2 class="line">It's also a bit of a playground.</h2>
-      <p class="sub">An arm that pours drinks. A kiosk that serves soft serve on its own. Robots carrying plates across the floor. Pepper at the door. Gino built most of it and is the happiest man in the room when something new moves.</p>
-    </div>
-    <div class="wrap trio">
-      <figure class="card"><img src="img/tile-coffee.jpg" alt="The robot bar's arm pouring a drink" loading="lazy"><figcaption>The bar. An arm that pours.</figcaption></figure>
-      <figure class="card"><img src="img/tile-kiosk.jpg" alt="The dessert kiosk's arm filling a cup with soft serve" loading="lazy"><figcaption>The kiosk. Runs itself.</figcaption></figure>
-      <figure class="card"><img src="img/pepper-door.jpg" alt="Pepper waving in the doorway" loading="lazy"><figcaption>Pepper. Front of house.</figcaption></figure>
-    </div>
-  </section>
-
-  <section class="people" id="people">
-    <div class="wrap trio">
-      <figure class="card"><img src="img/gino.jpg" alt="Gino Feng" loading="lazy"><figcaption><b>Gino Feng</b> Robotics. Runs the workshop, has built and sold businesses, works with some of the best engineers going.</figcaption></figure>
-      <figure class="card"><img src="img/jesse.jpg" alt="Jesse Costelloe" loading="lazy"><figcaption><b>Jesse Costelloe</b> Design. Twenty years in brand, a lot of it with factories. The concept, the name and the look come from him.</figcaption></figure>
-      <figure class="card room"><img src="img/floor-lunch.jpg" alt="The dining floor at lunch with the service robots working" loading="lazy"><figcaption><b>The floor</b> Where it all runs, six days a week, in Fortitude Valley.</figcaption></figure>
-    </div>
-  </section>
-
-  <section class="say band" id="club">
-    <div class="wrap">
-      <span class="eyebrow">The Robotics and Hardware Club</span>
-      <h2 class="line">One night a month, the building is yours.</h2>
-      <p class="sub">Two talks from people who ship hardware, the machines running, the bench open. For anyone in Queensland building things that move.</p>
-      <div class="actions"><a class="btn" href="events/"><span>The club</span><i aria-hidden="true">+</i></a></div>
-    </div>
-  </section>
-
-  <section class="visit" id="visit">
-    <div class="wrap">
-      <h2 class="line">Come and see it working.</h2>
-      <div class="details">
-        <div><span class="eyebrow">Where</span><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div>
-        <div><span class="eyebrow">When</span><p>Monday to Friday, 9 am to 7 pm<br>Saturday, 10 am to 5 pm</p></div>
-        <div><span class="eyebrow">Talk to us</span><p><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></p></div>
-        <div><span class="eyebrow">Next</span><p><a class="btn" href="mailto:info@wonderbytech.com?subject=Come%20and%20see%20the%20kitchen"><span>Book a visit</span><i aria-hidden="true">+</i></a></p></div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer>
@@ -752,3 +763,6 @@
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
 })();
 </script>
+
+</head>
+</html>

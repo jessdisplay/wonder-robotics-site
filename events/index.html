@@ -42,9 +42,9 @@
   /* bar */
   .bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
   .bar .grid{align-items:center;min-height:62px}
-  .bar .mark{grid-column:1/4;display:flex;align-items:center}
-  .bar .clock{grid-column:4/7}
-  .bar nav{grid-column:7/11;display:flex;gap:clamp(12px,1.6vw,26px)}
+  .bar .mark{grid-column:1/3;display:flex;align-items:center}
+  .bar .clock{grid-column:3/5;white-space:nowrap}
+  .bar nav{grid-column:5/11;display:flex;gap:clamp(12px,1.6vw,26px);white-space:nowrap;justify-content:flex-end;padding-right:var(--gap)}
   .bar nav a{text-decoration:none}
   .bar nav a:hover{color:var(--ink)}
   .bar .cta{grid-column:11/13;justify-self:end}
@@ -315,15 +315,6 @@
   .studio .half{grid-column:span 6}
   .studio .half img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r)}
   @media (max-width:980px){.studio .half{grid-column:1/13}}
-  /* people */
-  .people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
-  .people figure{margin:0;display:grid;gap:14px}
-  .people img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:var(--r);background:var(--rule)}
-  .people figcaption{display:grid;gap:6px}
-  .people figcaption b{font-weight:500;font-size:clamp(20px,1.6vw,26px);letter-spacing:-.02em}
-  .people figcaption span{color:var(--graphite);font-size:15px;line-height:1.45;max-width:36ch}
-  @media (max-width:980px){.people{grid-template-columns:1fr 1fr}}
-  @media (max-width:640px){.people{grid-template-columns:1fr}}
   /* loader: the mark on cream, first visit per session, under a second */
   .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
   .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease}
@@ -331,6 +322,62 @@
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
   @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}}
+
+  /* the warm home: one idea per screen */
+  .line{margin:0;font-weight:400;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
+  h1.line{font-size:clamp(40px,6.4vw,104px)}
+  h2.line{font-size:clamp(30px,4.2vw,66px)}
+  .sub{margin:22px auto 0;max-width:52ch;font-size:clamp(17px,1.4vw,22px);line-height:1.45;color:var(--graphite);text-wrap:pretty}
+  .eyebrow{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-bottom:16px}
+  .open{padding-top:clamp(56px,9vw,140px);text-align:center}
+  .open .wrap{max-width:1100px;margin-inline:auto}
+  .open h1.line{max-width:16ch;margin-inline:auto}
+  .open .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:28px}
+  .film{margin:clamp(36px,5vw,72px) var(--m) 0}
+  .film video,.film img{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;object-position:50% 50%;border-radius:calc(var(--r) + 6px);background:var(--rule)}
+  .film figcaption{margin-top:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);text-align:center}
+  .say{padding-top:clamp(80px,12vw,180px);text-align:center}
+  .say .wrap{max-width:1000px;margin-inline:auto}
+  .say h2.line{max-width:22ch;margin-inline:auto}
+  .say .actions{display:flex;justify-content:center;gap:10px;margin-top:28px}
+  .say.band{margin-top:clamp(80px,12vw,180px);padding:clamp(64px,9vw,140px) 0;background:#EBE7D6}
+  .services{padding-top:clamp(48px,6vw,96px)}
+  .svc{list-style:none;margin:0 auto;padding:0;max-width:1100px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gap)}
+  .svc li{display:grid;gap:12px;align-content:start;padding:22px;border-radius:calc(var(--r) + 6px);background:#EFEBDB}
+  .svc b{font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em;line-height:1}
+  .svc p{margin:0;font-size:15px;line-height:1.45;color:var(--graphite)}
+  .feature{padding-top:clamp(80px,12vw,180px)}
+  .feature .wrap{display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,4vw,64px);align-items:center}
+  .feature.flip .wrap{grid-template-columns:5fr 7fr}
+  .feature.flip .card{order:2}
+  .card{margin:0}
+  .card img{display:block;width:100%;height:auto;border-radius:calc(var(--r) + 6px);background:var(--rule)}
+  .card figcaption{margin-top:12px;font-size:15px;line-height:1.45;color:var(--graphite)}
+  .card figcaption b{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
+  .feature .side h2.line{text-align:left}
+  .feature .side .sub{margin-left:0}
+  .link{display:inline-block;margin-top:24px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:3px}
+  .link:hover{border-color:var(--signal);color:var(--signal)}
+  .trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin-top:clamp(36px,5vw,64px);text-align:left}
+  .trio .card img{aspect-ratio:4/5;object-fit:cover;object-position:50% 25%}
+  .trio .card.room img{object-position:50% 50%}
+  .people{padding-top:clamp(24px,3vw,40px)}
+  .people .trio{margin-top:0}
+  .visit{padding:clamp(80px,12vw,180px) 0 clamp(72px,10vw,150px);text-align:center}
+  .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) auto 0;max-width:1100px;text-align:left}
+  .visit .details p{margin:0;font-size:16px;line-height:1.45}
+  @media (max-width:980px){
+    .svc{grid-template-columns:1fr 1fr}
+    .feature .wrap,.feature.flip .wrap{grid-template-columns:1fr}
+    .feature.flip .card{order:0}
+    .trio{grid-template-columns:1fr 1fr}
+    .visit .details{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .svc,.trio,.visit .details{grid-template-columns:1fr}
+    .film{margin-inline:0}
+    .film video,.film img{border-radius:0}
+  }
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -339,9 +386,9 @@
     <a class="mark" href="../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="../#process">The process</a><a href="../#work">Work</a><a href="../#quote">Quote</a><a href="../events/">The club</a>
+      <a href="../#services">What we do</a><a href="../work/valley/">The building</a><a href="../work/little-red-dumplings/">Little Red Dumplings</a><a href="../events/">The club</a><a href="../quote/">Quote</a>
     </nav>
-    <div class="cta"><a class="btn" href="../#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a></div>
+    <div class="cta"><a class="btn" href="../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
 </header>
 
