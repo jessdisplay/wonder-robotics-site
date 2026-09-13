@@ -274,7 +274,7 @@
   .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
   .cases a{display:grid;gap:14px;text-decoration:none;color:inherit}
   .cases .ph{aspect-ratio:3/2;overflow:hidden;background:var(--rule);border-radius:var(--r-big)}
-  .cases .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .cases .ph img,.cases .ph video{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .cases a:hover .ph img{transform:scale(1.03)}
   .cases h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
   .cases p{margin:0;color:var(--graphite);max-width:48ch}
@@ -518,8 +518,12 @@
   .pop .foot{display:grid;grid-template-columns:1fr auto;gap:clamp(20px,3vw,56px);align-items:end;margin:clamp(26px,3.4vw,52px) 0 clamp(28px,3.6vw,56px)}
   .pop .sub{margin:0;max-width:58ch;color:var(--graphite);font-size:clamp(15px,1.2vw,19px)}
   .pop .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .hero-media{display:grid;grid-template-columns:minmax(0,2.35fr) minmax(0,1fr);gap:var(--gap);align-items:stretch}
   .hero-card{margin:0;position:relative;border-radius:var(--r-big);overflow:hidden;background:var(--rule)}
-  .hero-card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:50% 46%;display:block}
+  .hero-side{margin:0;position:relative;border-radius:var(--r-big);overflow:hidden;background:var(--rule)}
+  .hero-side video,.hero-side img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
+  .hero-side figcaption{position:absolute;left:0;right:0;bottom:0;padding:clamp(16px,1.8vw,24px);color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:linear-gradient(to top,rgba(28,18,10,.62),transparent)}
+  .hero-card img,.hero-card video{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;object-position:50% 46%;display:block}
   .hero-card figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:var(--gap);padding:clamp(18px,2.4vw,30px) clamp(20px,2.6vw,34px);color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:linear-gradient(to top,rgba(28,18,10,.62),transparent)}
 
   .strip{background:var(--ink);color:var(--paper)}
@@ -604,7 +608,7 @@
   .bento .b:nth-child(3){border-radius:var(--r) var(--r-big) var(--r-big) var(--r)}
   .bento .b:nth-child(4){border-radius:var(--r) var(--r) var(--r-big) var(--r-big)}
   .bento .b:nth-child(6){border-radius:var(--r-big) var(--r-big) var(--r) var(--r)}
-  .bento .b img{width:100%;height:100%;object-fit:cover}
+  .bento .b img,.bento .b video{width:100%;height:100%;object-fit:cover;display:block}
   .bento .b figcaption{position:absolute;left:16px;right:16px;bottom:14px;color:#fff;font-size:14.5px;line-height:1.3;text-shadow:0 1px 12px rgba(0,0,0,.55)}
   .bento .b-tall{grid-row:span 2}
   .bento .b-wide{grid-column:span 2}
@@ -623,7 +627,7 @@
   .founder{padding-top:clamp(80px,11vw,180px)}
   .founder .wrap{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,80px);align-items:center;max-width:1400px;margin-inline:auto}
   .founder figure{margin:0}
-  .founder figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 32%;border-radius:var(--r-big)}
+  .founder figure img,.founder figure video{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 32%;border-radius:var(--r-big);display:block}
   .founder .statement{margin:20px 0 0;font-size:clamp(19px,1.75vw,28px);line-height:1.34;letter-spacing:-.02em;text-wrap:balance}
   .bios{margin:clamp(26px,3vw,40px) 0 0;display:grid;gap:22px}
   .bios > div{display:grid;gap:5px;padding-top:18px;border-top:1px solid var(--rule)}
@@ -650,6 +654,8 @@
   footer canvas.lock{display:block;width:100%;height:auto;margin-inline:auto}
 
   @media (max-width:1000px){
+    .hero-media{grid-template-columns:1fr}
+    .hero-side{display:none}
     .pop .foot{grid-template-columns:1fr}
     .strip .wrap{grid-template-columns:1fr}
   }
@@ -694,8 +700,8 @@
   .motion .pop h1[data-rise]{opacity:1;transform:none;transition:none}
   .motion .catalogue a .ph,.motion .related a .ph{transition:transform .5s cubic-bezier(.2,.7,.1,1)}
   .motion .catalogue a:hover .ph,.motion .related a:hover .ph{transform:translateY(-6px)}
-  .motion .bento .b img{transition:transform .9s cubic-bezier(.2,.7,.1,1)}
-  .motion .bento .b:hover img{transform:scale(1.16)}
+  .motion .bento .b img,.motion .bento .b video{transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+  .motion .bento .b:hover img,.motion .bento .b:hover video{transform:scale(1.16)}
   .motion .cases a .ph img{transition:transform 1.1s cubic-bezier(.2,.7,.1,1)}
 
   /* Typography. Both references set their display at weight 500 with heavy
@@ -734,10 +740,16 @@
         <p data-rise class="sub">If your company wants AI automation or robotics, you do not have to assemble a team for it. We take it from the idea to the sketch, brand it, supply and fabricate the machines, fit out the whole space and keep it running. One company, one building, one number to call.</p>
         <div data-rise class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">&rarr;</i></a><a class="btn ghost" href="#quote"><span>Price a machine</span><i aria-hidden="true">&rarr;</i></a></div>
       </div>
+      <div class="hero-media">
       <figure data-rise class="hero-card" data-float>
-        <img src="img/warm-entry.jpg" alt="Pepper waving hello to a family arriving through the street door in the late afternoon sun" width="2400" height="1339">
+        <video class="" autoplay muted loop playsinline preload="none" poster="img/loops/entry.jpg" aria-label="Pepper waving hello to a family arriving through the street door in the late afternoon sun"><source src="img/loops/entry.mp4" type="video/mp4"><img src="img/loops/entry.jpg" alt="Pepper waving hello to a family arriving through the street door in the late afternoon sun"></video>
         <figcaption><span>Pepper says hello, most afternoons</span><span>365 St Pauls Terrace, Fortitude Valley</span></figcaption>
       </figure>
+      <figure data-rise class="hero-side" data-float>
+        <video autoplay muted loop playsinline preload="none" poster="img/loops/pepper.jpg" aria-label="Pepper turning to the camera and waving"><source src="img/loops/pepper.mp4" type="video/mp4"><img src="img/loops/pepper.jpg" alt="Pepper turning to the camera and waving"></video>
+        <figcaption><span>Say hi to Pepper</span></figcaption>
+      </figure>
+      </div>
     </div>
   </section>
 
@@ -814,7 +826,7 @@
         <a data-rise class="big" href="#visit"><span>Talk to us about a care setting</span><i aria-hidden="true">&rarr;</i></a>
       </div>
       <figure data-rise class="plate">
-        <img src="img/warm-entry.jpg" alt="Pepper waving to a young family arriving through the street door in the afternoon sun" loading="lazy">
+        <video class="" autoplay muted loop playsinline preload="none" poster="img/loops/entry.jpg" aria-label="Pepper waving to a family arriving through the street door"><source src="img/loops/entry.mp4" type="video/mp4"><img src="img/loops/entry.jpg" alt="Pepper waving to a family arriving through the street door"></video>
         <figcaption class="label"><span>Pepper on the door</span><span>Every session, every week</span></figcaption>
       </figure>
     </div>
@@ -826,7 +838,7 @@
       <h2 data-rise class="big-h">Two kitchens.<br>One open, one under construction.</h2>
       <div data-rise class="cases">
         <a href="work/valley/">
-          <div class="ph" data-float><img src="img/warm-kitchen.jpg" alt="A father lifting his daughter to watch the robot arm through the kitchen window" loading="lazy"></div>
+          <div class="ph" data-float><video class="" autoplay muted loop playsinline preload="none" poster="img/loops/glass.jpg" aria-label="A father lifting his daughter to watch the robot arm through the kitchen window"><source src="img/loops/glass.mp4" type="video/mp4"><img src="img/loops/glass.jpg" alt="A father lifting his daughter to watch the robot arm through the kitchen window"></video></div>
           <h3 data-rise><span>365 St Pauls Terrace</span><span class="pill live">Open</span></h3>
           <p>Our own building: a robot kitchen, a robot bar, a dessert kiosk and a service floor, all running six days a week.</p>
         </a>
@@ -844,12 +856,12 @@
       <span data-rise class="tag">[ And it is a bit of a playground ]</span>
       <h2 data-rise class="big-h">Nobody leaves without a photo.</h2>
       <div data-rise class="bento">
-        <figure data-rise class="b b-tall"><img src="img/warm-kiosk.jpg" alt="A boy on tiptoe taking a soft serve from the kiosk's robot arm, his grandmother behind him" loading="lazy"><figcaption>The kiosk hands you a soft serve</figcaption></figure>
+        <figure data-rise class="b b-tall"><video class="" autoplay muted loop playsinline preload="none" poster="img/loops/kiosk.jpg" aria-label="A boy on tiptoe taking a soft serve from the kiosk's robot arm, his grandmother behind him"><source src="img/loops/kiosk.mp4" type="video/mp4"><img src="img/loops/kiosk.jpg" alt="A boy on tiptoe taking a soft serve from the kiosk's robot arm, his grandmother behind him"></video><figcaption>The kiosk hands you a soft serve</figcaption></figure>
         <div class="b b-fill amber"><p>Press your nose to the glass. Robots are only scary in the abstract.</p></div>
-        <figure data-rise class="b"><img src="img/warm-friends.jpg" alt="Two friends laughing at a table as Pepper tells a joke" loading="lazy"><figcaption>Pepper tells jokes. Some of them land</figcaption></figure>
-        <figure data-rise class="b b-wide"><img src="img/warm-tray.jpg" alt="A tray robot arriving at a couple's table with two bowls" loading="lazy"><figcaption>The fleet brings the bowls to your table</figcaption></figure>
+        <figure data-rise class="b"><video class="" autoplay muted loop playsinline preload="none" poster="img/loops/friends.jpg" aria-label="Two friends laughing at a table as Pepper tells a joke"><source src="img/loops/friends.mp4" type="video/mp4"><img src="img/loops/friends.jpg" alt="Two friends laughing at a table as Pepper tells a joke"></video><figcaption>Pepper tells jokes. Some of them land</figcaption></figure>
+        <figure data-rise class="b b-wide"><video class="" autoplay muted loop playsinline preload="none" poster="img/loops/tray.jpg" aria-label="A tray robot arriving at a couple's table with two bowls"><source src="img/loops/tray.mp4" type="video/mp4"><img src="img/loops/tray.jpg" alt="A tray robot arriving at a couple's table with two bowls"></video><figcaption>The fleet brings the bowls to your table</figcaption></figure>
         <div class="b b-fill night"><p><b>Six days a week.</b> Lunch is cooked by a machine and carried to you by another one.</p></div>
-        <figure data-rise class="b"><img src="img/tile-coffee.jpg" alt="The robot bar arm pouring a drink under the overhead dispensers" loading="lazy"><figcaption>The bar pours to order</figcaption></figure>
+        <figure data-rise class="b"><video class="" autoplay muted loop playsinline preload="none" poster="img/loops/bar.jpg" aria-label="The robot bar arm pouring a drink under the overhead dispensers"><source src="img/loops/bar.mp4" type="video/mp4"><img src="img/loops/bar.jpg" alt="The robot bar arm pouring a drink under the overhead dispensers"></video><figcaption>The bar pours to order</figcaption></figure>
       </div>
     </div>
   </section>
@@ -945,7 +957,7 @@
 
   <section class="founder" id="gino">
     <div class="wrap">
-      <figure data-rise><img src="img/warm-gino.jpg" alt="Gino laughing at the workshop bench, showing a small robot arm to an engineer" loading="lazy"></figure>
+      <figure data-rise><video class="" autoplay muted loop playsinline preload="none" poster="img/loops/bench.jpg" aria-label="Gino laughing at the workshop bench, showing a small robot arm to an engineer"><source src="img/loops/bench.mp4" type="video/mp4"><img src="img/loops/bench.jpg" alt="Gino laughing at the workshop bench, showing a small robot arm to an engineer"></video></figure>
       <div class="side">
         <span data-rise class="tag">[ The two of us ]</span>
         <p data-rise class="statement">The reason we can do the whole thing is that the two halves of it sit in one building. Gino builds robots from the ground up, hardware and software. Jesse has spent twenty years in brand, most of it taken all the way to the factory floor. Concept, brand and machine get argued out in the same room, usually over lunch the kitchen cooked.</p>

@@ -280,7 +280,7 @@
   .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
   .cases a{display:grid;gap:14px;text-decoration:none;color:inherit}
   .cases .ph{aspect-ratio:3/2;overflow:hidden;background:var(--rule);border-radius:var(--r-big)}
-  .cases .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .cases .ph img,.cases .ph video{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .cases a:hover .ph img{transform:scale(1.03)}
   .cases h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
   .cases p{margin:0;color:var(--graphite);max-width:48ch}
@@ -524,8 +524,12 @@
   .pop .foot{display:grid;grid-template-columns:1fr auto;gap:clamp(20px,3vw,56px);align-items:end;margin:clamp(26px,3.4vw,52px) 0 clamp(28px,3.6vw,56px)}
   .pop .sub{margin:0;max-width:58ch;color:var(--graphite);font-size:clamp(15px,1.2vw,19px)}
   .pop .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .hero-media{display:grid;grid-template-columns:minmax(0,2.35fr) minmax(0,1fr);gap:var(--gap);align-items:stretch}
   .hero-card{margin:0;position:relative;border-radius:var(--r-big);overflow:hidden;background:var(--rule)}
-  .hero-card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:50% 46%;display:block}
+  .hero-side{margin:0;position:relative;border-radius:var(--r-big);overflow:hidden;background:var(--rule)}
+  .hero-side video,.hero-side img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
+  .hero-side figcaption{position:absolute;left:0;right:0;bottom:0;padding:clamp(16px,1.8vw,24px);color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:linear-gradient(to top,rgba(28,18,10,.62),transparent)}
+  .hero-card img,.hero-card video{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;object-position:50% 46%;display:block}
   .hero-card figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;gap:var(--gap);padding:clamp(18px,2.4vw,30px) clamp(20px,2.6vw,34px);color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:linear-gradient(to top,rgba(28,18,10,.62),transparent)}
 
   .strip{background:var(--ink);color:var(--paper)}
@@ -610,7 +614,7 @@
   .bento .b:nth-child(3){border-radius:var(--r) var(--r-big) var(--r-big) var(--r)}
   .bento .b:nth-child(4){border-radius:var(--r) var(--r) var(--r-big) var(--r-big)}
   .bento .b:nth-child(6){border-radius:var(--r-big) var(--r-big) var(--r) var(--r)}
-  .bento .b img{width:100%;height:100%;object-fit:cover}
+  .bento .b img,.bento .b video{width:100%;height:100%;object-fit:cover;display:block}
   .bento .b figcaption{position:absolute;left:16px;right:16px;bottom:14px;color:#fff;font-size:14.5px;line-height:1.3;text-shadow:0 1px 12px rgba(0,0,0,.55)}
   .bento .b-tall{grid-row:span 2}
   .bento .b-wide{grid-column:span 2}
@@ -629,7 +633,7 @@
   .founder{padding-top:clamp(80px,11vw,180px)}
   .founder .wrap{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,80px);align-items:center;max-width:1400px;margin-inline:auto}
   .founder figure{margin:0}
-  .founder figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 32%;border-radius:var(--r-big)}
+  .founder figure img,.founder figure video{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 32%;border-radius:var(--r-big);display:block}
   .founder .statement{margin:20px 0 0;font-size:clamp(19px,1.75vw,28px);line-height:1.34;letter-spacing:-.02em;text-wrap:balance}
   .bios{margin:clamp(26px,3vw,40px) 0 0;display:grid;gap:22px}
   .bios > div{display:grid;gap:5px;padding-top:18px;border-top:1px solid var(--rule)}
@@ -656,6 +660,8 @@
   footer canvas.lock{display:block;width:100%;height:auto;margin-inline:auto}
 
   @media (max-width:1000px){
+    .hero-media{grid-template-columns:1fr}
+    .hero-side{display:none}
     .pop .foot{grid-template-columns:1fr}
     .strip .wrap{grid-template-columns:1fr}
   }
@@ -700,8 +706,8 @@
   .motion .pop h1[data-rise]{opacity:1;transform:none;transition:none}
   .motion .catalogue a .ph,.motion .related a .ph{transition:transform .5s cubic-bezier(.2,.7,.1,1)}
   .motion .catalogue a:hover .ph,.motion .related a:hover .ph{transform:translateY(-6px)}
-  .motion .bento .b img{transition:transform .9s cubic-bezier(.2,.7,.1,1)}
-  .motion .bento .b:hover img{transform:scale(1.16)}
+  .motion .bento .b img,.motion .bento .b video{transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+  .motion .bento .b:hover img,.motion .bento .b:hover video{transform:scale(1.16)}
   .motion .cases a .ph img{transition:transform 1.1s cubic-bezier(.2,.7,.1,1)}
 
   /* Typography. Both references set their display at weight 500 with heavy
