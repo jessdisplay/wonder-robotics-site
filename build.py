@@ -108,9 +108,13 @@ def dl(pairs, cls):
     return f'<dl class="{cls}">' + "".join(f"<dt>{escape(k)}</dt><dd>{escape(v)}</dd>" for k, v in pairs) + "</dl>\n"
 
 
+def pillrow(m):
+    return "".join(f'<span class="pill">{escape(x)}</span>' for x in (m["maker"], m["kind"], m["status"]))
+
+
 def thumb(m):
-    # the stage render gives every tile the same ground; the maker's image is the fallback
-    src = m.get("stage") or m["hero"]
+    # the light render gives every tile the same ground, as coffee-tech's cards; the maker's image is the fallback
+    src = m.get("light") or m["hero"]
     if src:
         return f'<img src="{{{{root}}}}img/{src}" alt="{escape(m["name"])}" loading="lazy">'
     return f'<span class="glyph">{escape(m["name"])}</span>'
@@ -119,11 +123,15 @@ def thumb(m):
 def machine_body(m):
     pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in [m["maker"], m["kind"], m["status"], m["price"]])
     stage = f'<div class="stage"><img src="{{{{root}}}}img/{m["stage"]}" alt="{escape(m["name"])}" width="2048" height="2048"></div>' if m.get("stage") else ""
-    shot_html = fig(m["hero"], m["name"], m["name"], m["hero_real"], "shot", m.get("pos")) if m["hero"] else ""
+    shot = m.get("light") or m["hero"]
+    shot_html = fig(shot, m["name"], m["name"], False, "shot") if shot else ""
     hl = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["highlights"])
-    tiles = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["features"])
+    dets = m.get("details") or []
+    tiles = "".join(
+        (f'<li style="background-image:url({{{{root}}}}img/{dets[i]})">' if i < len(dets) else "<li>")
+        + f'<b>{escape(t)}</b><p>{escape(d)}</p></li>' for i, (t, d) in enumerate(m["features"]))
     fits = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["fits"])
-    rel = "".join(f'<a href="{{{{root}}}}machines/{r}/"><div class="ph">{thumb(BY_SLUG[r])}</div><h3>{escape(BY_SLUG[r]["name"])}</h3><span class="pill">{escape(BY_SLUG[r]["kind"])}</span></a>' for r in m["related"])
+    rel = "".join(f'<a href="{{{{root}}}}machines/{r}/"><div class="ph">{thumb(BY_SLUG[r])}</div><h3>{escape(BY_SLUG[r]["name"])}</h3><div class="pills">{pillrow(BY_SLUG[r])}</div></a>' for r in m["related"])
     specs = "".join(f'<div><b>{escape(k)}</b><span>{escape(v)}</span></div>' for k, v in m["specs"])
     compare = ""
     if m["compare"]:
@@ -223,8 +231,7 @@ def machine_body(m):
 def catalogue_body():
     items = "".join(
         f'<li><a href="{{{{root}}}}machines/{m["slug"]}/"><div class="ph">{thumb(m)}</div>'
-        f'<div class="meta label"><span>{escape(m["maker"])} &middot; {escape(m["kind"])}</span><span>{escape(m["status"])}</span></div>'
-        f'<h3>{escape(m["name"])}</h3><p>{escape(m["line"])}</p><span class="from">{escape(m["price"])}</span></a></li>'
+        f'<h3>{escape(m["name"])}</h3><div class="pills">{pillrow(m)}<span class="pill price">{escape(m["price"])}</span></div></a></li>'
         for m in MACHINES)
     logos = "".join(f'<img src="{{{{root}}}}img/machines/logo-{k}.jpg" alt="{escape(v)}" loading="lazy">' for k, v in PARTNERS)
     facts = [("Makers", "Unitree, UBTECH, Moton, JAKA, Dobot, and whoever makes the right machine for the job"),

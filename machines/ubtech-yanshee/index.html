@@ -404,6 +404,8 @@
   /* product page, after coffee-tech.com: night hero, detail, highlights, tiles, left-rail sections */
   .pill{display:inline-block;border:1px solid currentColor;border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
   .pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .catalogue .pills,.related .pills{justify-content:flex-start}
+  .pill.price{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .phero,.pdetail{background:var(--night);color:var(--cream)}
   .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
   .phero h1{margin:clamp(20px,3vw,40px) 0 0;font-weight:400;font-size:clamp(56px,11vw,190px);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
@@ -420,7 +422,7 @@
   .btn.ghost.cream i{border-left-color:var(--cream)}
   .pfeatures .wrap{display:grid;grid-template-columns:7fr 5fr;gap:var(--gap);align-items:start;padding-top:clamp(56px,7vw,110px)}
   .pfeatures figure{margin:0}
-  .pfeatures figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:var(--r);background:#EFEBDB}
+  .pfeatures figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
   .pfeatures figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
   .hl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .hl li{border:1px solid var(--ink);border-radius:var(--r);padding:18px 18px 16px;display:grid;gap:8px;align-content:start}
@@ -434,7 +436,9 @@
   .ptiles .wrap{padding-top:clamp(40px,5vw,80px)}
   .ptiles h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(34px,4.6vw,76px);letter-spacing:-.035em;line-height:.98;text-align:center}
   .tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
-  .tiles li{background:var(--night);color:var(--cream);border-radius:var(--r);padding:26px 24px;min-height:300px;display:grid;align-content:end;gap:12px}
+  .tiles li{position:relative;overflow:hidden;background:var(--night) center/cover no-repeat;color:var(--cream);border-radius:var(--r);padding:26px 24px;aspect-ratio:4/3;display:grid;align-content:end;gap:12px}
+  .tiles li::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(16,8,30,.92) 0%,rgba(16,8,30,.55) 38%,rgba(16,8,30,0) 70%)}
+  .tiles li > *{position:relative}
   .tiles b{font-weight:400;font-size:clamp(22px,2vw,32px);letter-spacing:-.03em;line-height:1.05}
   .tiles p{margin:0;font-size:15px;line-height:1.45;color:color-mix(in srgb,var(--cream) 70%,var(--night))}
   .rail .wrap{display:grid;grid-template-columns:4fr 8fr;gap:var(--gap);padding-top:clamp(64px,9vw,140px);align-items:start}
@@ -451,8 +455,8 @@
   .fits p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
   .related{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
   .related a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
-  .related .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--night)}
-  .related .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .related .ph{aspect-ratio:5/4;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
+  .related .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .related a:hover .ph img{transform:scale(1.03)}
   .related h3{margin:0;font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
   .related .pill{justify-self:start}
@@ -473,12 +477,12 @@
   .compare td:nth-child(2),.compare td:nth-child(3){width:auto}
   .catalogue{list-style:none;padding:0;margin:0 0 clamp(64px,9vw,140px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);row-gap:clamp(36px,4vw,56px)}
   .catalogue a{display:grid;gap:12px;text-decoration:none;color:inherit;align-content:start}
-  .catalogue .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--night)}
-  .catalogue .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .catalogue .ph{aspect-ratio:5/4;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
+  .catalogue .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .catalogue a:hover .ph img{transform:scale(1.03)}
-  .glyph{display:grid;place-items:center;height:100%;font-size:clamp(28px,3vw,48px);letter-spacing:-.04em;color:var(--cream);padding:24px;box-sizing:border-box;text-align:center;line-height:1}
+  .glyph{display:grid;place-items:center;height:100%;font-size:clamp(28px,3vw,48px);letter-spacing:-.04em;color:var(--graphite);padding:24px;box-sizing:border-box;text-align:center;line-height:1}
   .catalogue .meta{display:flex;justify-content:space-between;gap:var(--gap);color:var(--graphite)}
-  .catalogue h3{margin:0;font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em;line-height:1.02}
+  .catalogue h3{margin:6px 0 0;font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em;line-height:1.02}
   .catalogue p{margin:0;color:var(--graphite);font-size:15px;line-height:1.45;max-width:40ch}
   .catalogue .from{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent);padding-top:12px}
   .partners{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);align-items:center;padding:20px 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
@@ -525,7 +529,7 @@
 
   <section class="pfeatures">
     <div class="wrap">
-      <figure class="shot"><img src="../../img/machines/yanshee-hero.jpg" alt="UBTECH Yanshee" loading="lazy"><figcaption class="label"><span>UBTECH Yanshee</span><span>Maker's image</span></figcaption></figure>
+      <figure class="shot"><img src="../../img/machines/ubtech-yanshee-light.jpg" alt="UBTECH Yanshee" loading="lazy"><figcaption class="label"><span>UBTECH Yanshee</span><span>Maker's image</span></figcaption></figure>
 
       <ol class="hl"><li><b>17 servos</b><p>Neck, arms, legs</p></li><li><b>37 cm, 2.1 kg</b><p>Desk-sized humanoid</p></li><li><b>Raspberry Pi 3B</b><p>1 GB RAM, 16 GB eMMC</p></li><li><b>8 MP camera</b><p>Up to 30 fps</p></li><li><b>Python and Scratch</b><p>Linux, ROS concepts, GPIO</p></li><li><b>9-axis IMU</b><p>Plus ultrasonic, IR, climate</p></li><li><b>About 3 hours</b><p>3000 mAh battery</p></li><li><b>STM32 co-processor</b><p>Real-time joint control</p></li></ol>
     </div>
@@ -536,7 +540,7 @@
   <section class="ptiles">
     <div class="wrap">
       <h2>What it does</h2>
-      <ol class="tiles"><li><b>Humanoid motion</b><p>17 DOF for head, arms and legs: walks, poses, dances and runs repeatable motion sequences for teaching kinematics and behaviour design.</p></li><li><b>Vision and interaction</b><p>8 MP camera, microphones, speakers, IMU and environmental sensors for vision tasks and human-robot interaction exercises.</p></li><li><b>Open coding workflow</b><p>Raspberry Pi 3B, Python and Scratch, ROS concepts, Linux tooling and GPIO for hardware extension.</p></li></ol>
+      <ol class="tiles"><li style="background-image:url(../../img/machines/ubtech-yanshee-d1.jpg)"><b>Humanoid motion</b><p>17 DOF for head, arms and legs: walks, poses, dances and runs repeatable motion sequences for teaching kinematics and behaviour design.</p></li><li style="background-image:url(../../img/machines/ubtech-yanshee-d2.jpg)"><b>Vision and interaction</b><p>8 MP camera, microphones, speakers, IMU and environmental sensors for vision tasks and human-robot interaction exercises.</p></li><li style="background-image:url(../../img/machines/ubtech-yanshee-d3.jpg)"><b>Open coding workflow</b><p>Raspberry Pi 3B, Python and Scratch, ROS concepts, Linux tooling and GPIO for hardware extension.</p></li></ol>
     </div>
   </section>
 
@@ -560,7 +564,7 @@
       <span class="label">[ Related ]</span>
       <div>
         <h2>Add these to complete the job</h2>
-        <div class="related"><a href="../../machines/ubtech-ugot/"><div class="ph"><img src="../../img/machines/ubtech-ugot-stage.jpg" alt="UBTECH UGOT" loading="lazy"></div><h3>UBTECH UGOT</h3><span class="pill">STEM robotics kit</span></a><a href="../../machines/ubtech-ukit/"><div class="ph"><img src="../../img/machines/ubtech-ukit-stage.jpg" alt="UBTECH uKit" loading="lazy"></div><h3>UBTECH uKit</h3><span class="pill">STEM education kit</span></a><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/ubtech-cruzr-1s-stage.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><span class="pill">Service robot</span></a><a href="../../machines/unitree-g1/"><div class="ph"><img src="../../img/machines/unitree-g1-stage.jpg" alt="Unitree G1" loading="lazy"></div><h3>Unitree G1</h3><span class="pill">Humanoid robot</span></a></div>
+        <div class="related"><a href="../../machines/ubtech-ugot/"><div class="ph"><img src="../../img/machines/ubtech-ugot-light.jpg" alt="UBTECH UGOT" loading="lazy"></div><h3>UBTECH UGOT</h3><div class="pills"><span class="pill">UBTECH</span><span class="pill">STEM robotics kit</span><span class="pill">Sourced to order</span></div></a><a href="../../machines/ubtech-ukit/"><div class="ph"><img src="../../img/machines/ubtech-ukit-light.jpg" alt="UBTECH uKit" loading="lazy"></div><h3>UBTECH uKit</h3><div class="pills"><span class="pill">UBTECH</span><span class="pill">STEM education kit</span><span class="pill">Sourced to order</span></div></a><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/ubtech-cruzr-1s-light.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><div class="pills"><span class="pill">UBTECH</span><span class="pill">Service robot</span><span class="pill">On our floor</span></div></a><a href="../../machines/unitree-g1/"><div class="ph"><img src="../../img/machines/unitree-g1-light.jpg" alt="Unitree G1" loading="lazy"></div><h3>Unitree G1</h3><div class="pills"><span class="pill">Unitree</span><span class="pill">Humanoid robot</span><span class="pill">On our floor</span></div></a></div>
       </div>
     </div>
   </section>
