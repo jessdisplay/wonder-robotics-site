@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Get a quote, Wonder Robotics</title>
-<meta name="description" content="Supply, installation and maintenance for robot kitchen equipment, priced from the 2026 Moton Australia list, with Wonder's own rates for install and support.">
+<title>How we work, Wonder Robotics</title>
+<meta name="description" content="Idea, sketch, brand, supply, fabricate, fit out, maintain. The whole chain from one team in one building in Fortitude Valley, plus our two specialisations, food and care.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
@@ -750,111 +750,75 @@
 </header>
 
 <main id="top">
-  <section class="say" style="padding-bottom:0">
+  <section class="chain" id="chain">
     <div class="wrap">
-      <h1 data-rise class="line">Tell us what you want to build. Here's what it costs.</h1>
-      <p data-rise class="sub">Pick the machines, choose how far we take it, and the quote writes itself. List prices from the 2026 Moton Australia list; installation and maintenance are our own rates.</p>
-    </div>
-  </section>
-  <section class="block" id="quote">
-    <div class="wrap">
-      <div class="grid head">
-        <span class="label">Build a quote</span>
-        <h2 data-rise>Supply, installation and maintenance. One quote.</h2>
-        <p>Pick the machines, choose how far we take it, and the quote writes itself. List prices are from the 2026 Moton Australia price list; installation and maintenance are Wonder's own rates.</p>
-      </div>
-      <form data-rise class="quote" id="quote-form" onsubmit="return false">
-        <div data-rise class="qin">
-          <fieldset class="field">
-            <legend class="label">Supply</legend>
-            <div class="cat-wrap">
-              <table data-rise class="cat" id="cat">
-                <thead><tr><th class="label">Machine</th><th class="label">Built on</th><th class="label num">List price</th><th class="label num">Qty</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </fieldset>
-          <div class="pair">
-            <fieldset class="field">
-              <legend class="label">Installation</legend>
-              <div class="choices" role="radiogroup">
-                <input type="radio" name="install" id="i-full" value="full" checked><label for="i-full">Install and commission</label>
-                <input type="radio" name="install" id="i-none" value="none"><label for="i-none">Supply only</label>
-              </div>
-              <p class="hint">Site survey, placement, services, first run and handover, by the team that set up our own floor.</p>
-            </fieldset>
-            <fieldset class="field">
-              <legend class="label">Maintenance</legend>
-              <div class="choices" role="radiogroup">
-                <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
-                <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
-                <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
-              </div>
-              <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
-            </fieldset>
-          </div>
-          <div class="pair">
-            <fieldset class="field">
-              <legend class="label">Delivery</legend>
-              <div class="choices" role="radiogroup">
-                <input type="radio" name="site" id="d-port" value="port" checked><label for="d-port">Within 100 km of a port</label>
-                <input type="radio" name="site" id="d-far" value="far"><label for="d-far">Further inland</label>
-              </div>
-              <p class="hint">Prices are delivered duty unpaid to a site within 100 km of an Australian port.</p>
-            </fieldset>
-            <fieldset class="field">
-              <legend class="label">GST</legend>
-              <div class="choices" role="radiogroup">
-                <input type="radio" name="gst" id="g-ex" value="ex" checked><label for="g-ex">Show ex GST</label>
-                <input type="radio" name="gst" id="g-inc" value="inc"><label for="g-inc">Show inc GST</label>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-
-        <div data-rise class="qsheet" id="qsheet" aria-live="polite">
-          <div class="top label"><span><b>Quote</b></span><span id="q-ref">WR-Q</span></div>
-          <div class="big">
-            <div class="num" id="q-total">$0</div>
-            <div class="unit label" id="q-total-note">Total, ex GST</div>
-          </div>
-          <table data-rise class="lines"><tbody id="q-lines"></tbody></table>
-          <table data-rise class="lines sums">
-            <tbody>
-              <tr><th class="label">Subtotal ex GST</th><td id="q-sub">$0</td></tr>
-              <tr><th class="label">GST 10%</th><td id="q-gst">$0</td></tr>
-              <tr class="tot"><th class="label">Total inc GST</th><td id="q-inc">$0</td></tr>
-            </tbody>
-          </table>
-          <div class="terms label">Valid 30 days &middot; manufacturer warranty one year &middot; delivery about two months from order &middot; delivered duty unpaid</div>
-          <div class="foot">
-            <a class="btn ghost" id="q-print" href="#quote"><span>Print</span><i aria-hidden="true">+</i></a>
-            <a class="btn" id="q-send" href="mailto:info@wonderbytech.com"><span>Send this quote</span><i aria-hidden="true">+</i></a>
-          </div>
-        </div>
-      </form>
-
+      <span data-rise class="tag">[ End to end ]</span>
+      <h2 data-rise class="big-h">Idea to maintenance,<br>without changing companies.</h2>
+      <p data-rise class="sub">Concept, design, brand, supply, fabrication, fitout and support all come out of the same building and the same team. Nobody hands you to a third party halfway through.</p>
+      <ol class="chain-steps">
+        <li data-rise><span class="n">01</span><b>Idea</b><p>Tell us the job. We work out what a robot should do, what it costs and what it gives back, on your site or on our floor.</p></li>
+        <li data-rise><span class="n">02</span><b>Sketch</b><p>Concepts and layouts drawn against your real floor plan, workflow, utilities and output target.</p></li>
+        <li data-rise><span class="n">03</span><b>Brand</b><p>Twenty years of brand work in the building, so the name, the look and the machine are designed in the same room.</p></li>
+        <li data-rise><span class="n">04</span><b>Supply</b><p>Machinery from any maker, alongside the arms, cells and lines we build ourselves. One quote covers it.</p></li>
+        <li data-rise><span class="n">05</span><b>Fabricate</b><p>Built and tested in our own workshop in Fortitude Valley before it goes anywhere near your floor.</p></li>
+        <li data-rise><span class="n">06</span><b>Fit out</b><p>The whole space: machines, joinery, services, screens and signage, installed and commissioned by us.</p></li>
+        <li data-rise><span class="n">07</span><b>Maintain</b><p>Staff training, maintenance plans, spares, remote monitoring, and a number in Brisbane that answers.</p></li>
+      </ol>
     </div>
   </section>
 
-  <section class="block" id="machines">
+
+  <section class="sector" id="food">
     <div class="wrap">
-      <div class="grid head">
-        <span class="label">Machines we work with</span>
-        <h2 data-rise>Not tied to one maker.</h2>
-        <p>We pick the machine that fits the job, then make it work with everything else in the building.</p>
+      <div class="txt">
+        <span data-rise class="tag">[ Service type 01 &middot; Food ]</span>
+        <h2 data-rise class="line">A kitchen that cooks a full menu with nobody at the pass.</h2>
+        <p data-rise class="sub">Fryers, noodle baths, an ingredient store and a six-axis arm on a rail, taking orders from the screens and plating to the window. We built it for ourselves first, opened it to the public, and it has been cooking every service since. Now we build them for other people.</p>
+        <a data-rise class="big" href="../work/valley/"><span>Inside the kitchen</span><i aria-hidden="true">&rarr;</i></a>
       </div>
-      <div class="machines-wrap">
-        <table data-rise class="machines">
-          <thead><tr><th class="label">Class</th><th class="label">Good at</th><th class="label">On our floor</th><th class="label">Published spec</th></tr></thead>
-          <tbody>
-            <tr><td>Robot arms</td><td>Coffee, frying, boiling, plating: repeated hot work</td><td>Kitchen line, robot bar, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
-            <tr><td>Service robots</td><td>Carrying plates, running routes, greeting</td><td>UBTECH CadeBot, Cruzr</td><td class="spec">Sized at your visit</td></tr>
-            <tr><td>Humanoids</td><td>Research, teaching, demonstration</td><td>Unitree G1</td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
-            <tr><td>Quadrupeds</td><td>Inspection, mobility, public engagement</td><td>Sourced to order</td><td class="spec">Sized at your visit</td></tr>
-          </tbody>
-        </table>
+      <figure data-rise class="plate">
+        <video autoplay muted loop playsinline preload="none" poster="../img/hero-kitchen.jpg" aria-label="The robot kitchen line in service"><source src="../img/hero-kitchen.mp4" type="video/mp4"><img src="../img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace"></video>
+        <figcaption class="label"><span>The line, in service</span><span>365 St Pauls Terrace</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sector flip" id="care">
+    <div class="wrap">
+      <div class="txt">
+        <span data-rise class="tag">[ Service type 02 &middot; Care ]</span>
+        <h2 data-rise class="line">The same machines, in rooms where the point is the person.</h2>
+        <p data-rise class="sub">Our building is also home to an accessibility and inclusion club, so the robots here work for people of every ability every week: Pepper on the door, a tray robot that brings the food out, a kiosk anyone can reach. That is where we learn what a care setting actually needs, before we quote one.</p>
+        <a data-rise class="big" href="#visit"><span>Talk to us about a care setting</span><i aria-hidden="true">&rarr;</i></a>
       </div>
+      <figure data-rise class="plate">
+        <img src="../img/warm-entry.jpg" alt="Pepper waving to a family arriving through the street door in the afternoon sun" loading="lazy">
+        <figcaption class="label"><span>Pepper on the door</span><span>Every session, every week</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="play" id="play">
+    <div class="wrap">
+      <span data-rise class="tag">[ And it is a bit of a playground ]</span>
+      <h2 data-rise class="big-h">Nobody leaves without a photo.</h2>
+      <div data-rise class="bento">
+        <figure data-rise class="b b-tall"><video class="" autoplay muted loop playsinline preload="none" poster="../img/loops/kiosk.jpg" aria-label="A boy on tiptoe taking a soft serve from the kiosk's robot arm, his grandmother behind him"><source src="../img/loops/kiosk.mp4" type="video/mp4"><img src="../img/loops/kiosk.jpg" alt="A boy on tiptoe taking a soft serve from the kiosk's robot arm, his grandmother behind him"></video><figcaption>The kiosk hands you a soft serve</figcaption></figure>
+        <div class="b b-fill amber"><p>Press your nose to the glass. Robots are only scary in the abstract.</p></div>
+        <figure data-rise class="b"><video class="" autoplay muted loop playsinline preload="none" poster="../img/loops/friends.jpg" aria-label="Two friends laughing at a table as Pepper tells a joke"><source src="../img/loops/friends.mp4" type="video/mp4"><img src="../img/loops/friends.jpg" alt="Two friends laughing at a table as Pepper tells a joke"></video><figcaption>Pepper tells jokes. Some of them land</figcaption></figure>
+        <figure data-rise class="b b-wide"><video class="" autoplay muted loop playsinline preload="none" poster="../img/loops/tray.jpg" aria-label="A tray robot arriving at a couple's table with two bowls"><source src="../img/loops/tray.mp4" type="video/mp4"><img src="../img/loops/tray.jpg" alt="A tray robot arriving at a couple's table with two bowls"></video><figcaption>The fleet brings the bowls to your table</figcaption></figure>
+        <div class="b b-fill night"><p><b>Six days a week.</b> Lunch is cooked by a machine and carried to you by another one.</p></div>
+        <figure data-rise class="b"><video class="" autoplay muted loop playsinline preload="none" poster="../img/loops/bar.jpg" aria-label="The robot bar arm pouring a drink under the overhead dispensers"><source src="../img/loops/bar.mp4" type="video/mp4"><img src="../img/loops/bar.jpg" alt="The robot bar arm pouring a drink under the overhead dispensers"></video><figcaption>The bar pours to order</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="say band" id="club">
+    <div class="wrap">
+      <span data-rise class="tag">[ The Robotics and Hardware Club ]</span>
+      <h2 data-rise class="line">One night a month, the building is yours.</h2>
+      <p data-rise class="sub">Two talks from people who ship hardware, the machines running, the bench open. For anyone in Queensland building things that move.</p>
+      <div data-rise class="actions"><a class="btn" href="../events/"><span>The club</span><i aria-hidden="true">&rarr;</i></a></div>
     </div>
   </section>
 
