@@ -38,7 +38,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#services">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a><a href="{{root}}quote/">Quote</a>
+      <a href="{{root}}#services">What we sell</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="{{root}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>

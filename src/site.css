@@ -368,3 +368,15 @@
   }
   .card video{display:block;width:100%;height:auto;aspect-ratio:64/27;object-fit:cover;border-radius:calc(var(--r) + 6px);background:var(--rule)}
   .film img{aspect-ratio:16/9}
+  .services h2.centre{text-align:center;max-width:22ch;margin-inline:auto}
+  .services .sub{text-align:center}
+  .offer{list-style:none;margin:clamp(28px,4vw,48px) auto 0;padding:0;max-width:1240px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap)}
+  .offer li{display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:22px;border-radius:calc(var(--r) + 6px);background:#EFEBDB}
+  .offer b{font-weight:400;font-size:clamp(22px,1.9vw,30px);letter-spacing:-.03em;line-height:1.05}
+  .offer p{margin:0;font-size:15px;line-height:1.45;color:var(--graphite)}
+  .offer .from{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent);padding-top:12px}
+  .services .how{max-width:60ch;margin:clamp(24px,3vw,40px) auto 0;text-align:center;color:var(--graphite);font-size:16px;line-height:1.5}
+  .services .how b{font-weight:500;color:var(--ink)}
+  #quote .head h2,#machines .head h2{letter-spacing:-.035em}
+  @media (max-width:980px){.offer{grid-template-columns:1fr 1fr}}
+  @media (max-width:640px){.offer{grid-template-columns:1fr}}

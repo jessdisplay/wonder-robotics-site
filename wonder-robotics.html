@@ -374,6 +374,18 @@
   }
   .card video{display:block;width:100%;height:auto;aspect-ratio:64/27;object-fit:cover;border-radius:calc(var(--r) + 6px);background:var(--rule)}
   .film img{aspect-ratio:16/9}
+  .services h2.centre{text-align:center;max-width:22ch;margin-inline:auto}
+  .services .sub{text-align:center}
+  .offer{list-style:none;margin:clamp(28px,4vw,48px) auto 0;padding:0;max-width:1240px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap)}
+  .offer li{display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:22px;border-radius:calc(var(--r) + 6px);background:#EFEBDB}
+  .offer b{font-weight:400;font-size:clamp(22px,1.9vw,30px);letter-spacing:-.03em;line-height:1.05}
+  .offer p{margin:0;font-size:15px;line-height:1.45;color:var(--graphite)}
+  .offer .from{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent);padding-top:12px}
+  .services .how{max-width:60ch;margin:clamp(24px,3vw,40px) auto 0;text-align:center;color:var(--graphite);font-size:16px;line-height:1.5}
+  .services .how b{font-weight:500;color:var(--ink)}
+  #quote .head h2,#machines .head h2{letter-spacing:-.035em}
+  @media (max-width:980px){.offer{grid-template-columns:1fr 1fr}}
+  @media (max-width:640px){.offer{grid-template-columns:1fr}}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -382,7 +394,7 @@
     <a class="mark" href="" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#services">What we do</a><a href="work/valley/">The building</a><a href="work/little-red-dumplings/">Little Red Dumplings</a><a href="events/">The club</a><a href="quote/">Quote</a>
+      <a href="#services">What we sell</a><a href="#quote">Pricing</a><a href="work/valley/">The building</a><a href="work/little-red-dumplings/">Little Red Dumplings</a><a href="events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -391,8 +403,8 @@
 <main id="top">
   <section class="open">
     <div class="wrap">
-      <h1 class="line">Say hello to the kitchen that cooks for you.</h1>
-      <p class="sub">We're Wonder Robotics. We design, build and run robot kitchens for Australian business, and everything around them. Come in. Pepper will show you round.</p>
+      <h1 class="line">The robotics venue for Australian business.</h1>
+      <p class="sub">Want to automate? Need machinery, or robots programmed to your job? Come to the building in Fortitude Valley: see it running, get it scoped, get it built. Pepper will show you round.</p>
       <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="quote/"><span>Get a quote</span><i aria-hidden="true">+</i></a></div>
     </div>
     <figure class="film">
@@ -404,19 +416,126 @@
   <section class="say" id="what">
     <div class="wrap">
       <h2 class="line">Where Australian business gets into robotics.</h2>
-      <p class="sub">A kitchen that runs itself is only the start. We do the whole job around it: the scope, the design, the brand, the build and the running of it. One team, one building, so nothing falls between vendors.</p>
+      <p class="sub">Engineers, a workshop, a floor full of working machines and a team that supplies, programs, installs and runs them. Whatever you make or serve, if there's a job in it a robot should be doing, this is where you find out how.</p>
     </div>
   </section>
 
   <section class="services" id="services">
     <div class="wrap">
-      <ol class="svc">
-        <li><b>Scope</b><p>We walk your site, or you walk ours. What the kitchen should cook, how many covers, what the floor and the services can take.</p></li>
-        <li><b>Design</b><p>The kitchen laid out around your menu. The machines picked for the job, from any maker. Drawings a builder can price.</p></li>
-        <li><b>Brand</b><p>The concept, the name, the look on the counter, the screens and the boxes. It all comes from one building, so it all matches.</p></li>
-        <li><b>Build</b><p>We supply, install, program and commission. About two months from order to first service, with your people trained on it.</p></li>
-        <li><b>Run</b><p>Maintenance, spares, software updates and remote monitoring, with a Brisbane number that answers.</p></li>
+      <h2 class="line centre">What we sell</h2>
+      <p class="sub">Every line is supplied, installed and looked after by us. Prices are list prices, ex GST, delivered to a site within 100 km of an Australian port; installation and maintenance are quoted with them.</p>
+      <ol class="offer">
+        <li><b>Automate your business</b><p>Tell us the job. We work out what a robot should do, what it costs and what it returns, on your site or on our floor.</p><span class="from">Scoped first, fixed fee</span></li>
+        <li><b>Robotics engineering</b><p>Custom machines, cells and lines, designed, built and tested in our workshop before they go on your floor.</p><span class="from">Quoted to the job</span></li>
+        <li><b>Machinery supply</b><p>Robot arms, cooking and coffee lines, service robots, humanoids and quadrupeds, from any maker. Supplied, delivered and commissioned.</p><span class="from">From $39,000</span></li>
+        <li><b>Programming and integration</b><p>We program the robots to your task and plug them into your ordering, payment, stock and systems. Software and AI agents included.</p><span class="from">On every quote</span></li>
+        <li><b>Robot kitchens, bars and kiosks</b><p>The proven one. Fry and noodle lines, autonomous kitchens, barista and bartender counters, dessert kiosks, service fleets.</p><span class="from">From $42,000</span></li>
+        <li><b>Install, train, run</b><p>Installation, staff training, maintenance plans, spares and remote monitoring, from Brisbane.</p><span class="from">Priced with the machine</span></li>
+        <li><b>Pilot it here</b><p>Run your idea on our floor before you build it on yours: our machines, our engineers, your product.</p><span class="from">By arrangement</span></li>
+        <li><b>The venue</b><p>A working robotics venue in the Valley: demos, pilots, research, the club, and a floor you can hire for your own robotics work.</p><span class="from">Come and see it</span></li>
       </ol>
+      <p class="how"><b>How it goes:</b> we scope it with you, design it around your job and your floor, supply and program the machines, brand the whole thing if you want it to match, install it, then keep it running.</p>
+    </div>
+  </section>
+
+  <section class="block" id="quote">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">Build a quote</span>
+        <h2>Supply, installation and maintenance. One quote.</h2>
+        <p>Pick the machines, choose how far we take it, and the quote writes itself. List prices are from the 2026 Moton Australia price list; installation and maintenance are Wonder's own rates.</p>
+      </div>
+      <form class="quote" id="quote-form" onsubmit="return false">
+        <div class="qin">
+          <fieldset class="field">
+            <legend class="label">Supply</legend>
+            <div class="cat-wrap">
+              <table class="cat" id="cat">
+                <thead><tr><th class="label">Machine</th><th class="label">Built on</th><th class="label num">List price</th><th class="label num">Qty</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </fieldset>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Installation</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="install" id="i-full" value="full" checked><label for="i-full">Install and commission</label>
+                <input type="radio" name="install" id="i-none" value="none"><label for="i-none">Supply only</label>
+              </div>
+              <p class="hint">Site survey, placement, services, first run and handover, by the team that set up our own floor.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">Maintenance</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
+                <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
+                <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
+              </div>
+              <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
+            </fieldset>
+          </div>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Delivery</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="site" id="d-port" value="port" checked><label for="d-port">Within 100 km of a port</label>
+                <input type="radio" name="site" id="d-far" value="far"><label for="d-far">Further inland</label>
+              </div>
+              <p class="hint">Prices are delivered duty unpaid to a site within 100 km of an Australian port.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">GST</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="gst" id="g-ex" value="ex" checked><label for="g-ex">Show ex GST</label>
+                <input type="radio" name="gst" id="g-inc" value="inc"><label for="g-inc">Show inc GST</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="qsheet" id="qsheet" aria-live="polite">
+          <div class="top label"><span><b>Quote</b></span><span id="q-ref">WR-Q</span></div>
+          <div class="big">
+            <div class="num" id="q-total">$0</div>
+            <div class="unit label" id="q-total-note">Total, ex GST</div>
+          </div>
+          <table class="lines"><tbody id="q-lines"></tbody></table>
+          <table class="lines sums">
+            <tbody>
+              <tr><th class="label">Subtotal ex GST</th><td id="q-sub">$0</td></tr>
+              <tr><th class="label">GST 10%</th><td id="q-gst">$0</td></tr>
+              <tr class="tot"><th class="label">Total inc GST</th><td id="q-inc">$0</td></tr>
+            </tbody>
+          </table>
+          <div class="terms label">Valid 30 days &middot; manufacturer warranty one year &middot; delivery about two months from order &middot; delivered duty unpaid</div>
+          <div class="foot">
+            <a class="btn ghost" id="q-print" href="#quote"><span>Print</span><i aria-hidden="true">+</i></a>
+            <a class="btn" id="q-send" href="mailto:info@wonderbytech.com"><span>Send this quote</span><i aria-hidden="true">+</i></a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" id="machines">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">Machines we work with</span>
+        <h2>Not tied to one maker.</h2>
+        <p>We pick the machine that fits the job, then make it work with everything else in the building.</p>
+      </div>
+      <div class="machines-wrap">
+        <table class="machines">
+          <thead><tr><th class="label">Class</th><th class="label">Good at</th><th class="label">On our floor</th><th class="label">Published spec</th></tr></thead>
+          <tbody>
+            <tr><td>Robot arms</td><td>Coffee, frying, boiling, plating: repeated hot work</td><td>Kitchen line, robot bar, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
+            <tr><td>Service robots</td><td>Carrying plates, running routes, greeting</td><td>UBTECH CadeBot, Cruzr</td><td class="spec">Sized at your visit</td></tr>
+            <tr><td>Humanoids</td><td>Research, teaching, demonstration</td><td>Unitree G1</td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
+            <tr><td>Quadrupeds</td><td>Inspection, mobility, public engagement</td><td>Sourced to order</td><td class="spec">Sized at your visit</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -427,8 +546,8 @@
         <figcaption>Our line, in service. Come and eat from it.</figcaption>
       </figure>
       <div class="side">
-        <h2 class="line">Australia's first fully autonomous kitchen is ours. It's open, and it's good.</h2>
-        <p class="sub">It fries, boils and plates from an ingredient store, in a converted warehouse in the Valley. Watch it through the glass, then order. Everything we sell, we run here first.</p>
+        <h2 class="line">The proof: Australia's first fully autonomous kitchen is ours, and it's open.</h2>
+        <p class="sub">We built it to show what we can do, then opened it to the public. It fries, boils and plates from an ingredient store, and it's the same engineering we put into any job. Watch it through the glass, then order.</p>
         <a class="link" href="work/valley/">See the building</a>
       </div>
     </div>
