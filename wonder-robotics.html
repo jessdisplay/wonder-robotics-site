@@ -324,6 +324,7 @@
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
+  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -363,10 +364,13 @@
     </div>
     <div class="plate">
       <figure>
-        <img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace: the arm on its rail, the ingredient store, fryers and noodle baths, the dining room through the window" width="2400" height="992">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" width="1280" height="720" aria-label="The robot kitchen line at 365 St Pauls Terrace in service: the arm on its rail, fryers and noodle baths steaming, the dining room through the window">
+          <source src="img/hero-kitchen.mp4" type="video/mp4">
+          <img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace in service" width="2400" height="1018">
+        </video>
         <figcaption class="wrap grid label">
           <span><b>The robot kitchen</b> &middot; 365 St Pauls Terrace</span>
-          <span>Our own line. The real kitchen, as captured in the building.</span>
+          <span>Our own line, in service. The real kitchen, photographed in the building.</span>
         </figcaption>
       </figure>
     </div>
@@ -882,4 +886,9 @@
   render();
 })();
 
+(function(){
+  // honour reduced motion for the hero: pause and show the still
+  var vid=document.querySelector('.hero-video'); if(!vid) return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
+})();
 </script>
