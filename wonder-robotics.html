@@ -400,18 +400,18 @@
   .pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
   .catalogue .pills,.related .pills{justify-content:flex-start}
   .pill.price{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .phero,.pdetail{background:var(--night);color:var(--cream)}
+  .phero,.pdetail{background:#0A0A0C;color:var(--cream)}
   .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
   .phero h1{margin:clamp(20px,3vw,40px) 0 0;font-weight:400;font-size:clamp(56px,11vw,190px);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
   .stage{margin-top:clamp(-40px,-3vw,-16px)}
-  .stage img{width:min(100%,900px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 62% 58% at 50% 55%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 58% at 50% 55%,#000 55%,transparent 100%)}
+  .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 62% at 50% 52%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 66% 62% at 50% 52%,#000 62%,transparent 100%)}
   .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
   .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
   .pdetail h2.line{margin:22px auto 26px;max-width:18ch;color:var(--cream)}
-  .pdetail .sub{margin:26px auto 0;color:color-mix(in srgb,var(--cream) 72%,var(--night));max-width:62ch;text-align:center}
+  .pdetail .sub{margin:26px auto 0;color:color-mix(in srgb,var(--cream) 72%,#0A0A0C);max-width:62ch;text-align:center}
   .pdetail .actions{display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
   .btn.cream{background:var(--cream);color:var(--night);border-color:var(--cream)}
-  .btn.cream i{border-left-color:color-mix(in srgb,var(--night) 25%,transparent)}
+  .btn.cream i{border-left-color:color-mix(in srgb,#0A0A0C 25%,transparent)}
   .btn.ghost.cream{background:transparent;color:var(--cream);border-color:var(--cream)}
   .btn.ghost.cream i{border-left-color:var(--cream)}
   .pfeatures .wrap{display:grid;grid-template-columns:7fr 5fr;gap:var(--gap);align-items:start;padding-top:clamp(56px,7vw,110px)}
@@ -430,11 +430,11 @@
   .ptiles .wrap{padding-top:clamp(40px,5vw,80px)}
   .ptiles h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(34px,4.6vw,76px);letter-spacing:-.035em;line-height:.98;text-align:center}
   .tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
-  .tiles li{position:relative;overflow:hidden;background:var(--night) center/cover no-repeat;color:var(--cream);border-radius:var(--r);padding:26px 24px;aspect-ratio:4/3;display:grid;align-content:end;gap:12px}
-  .tiles li::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(16,8,30,.92) 0%,rgba(16,8,30,.55) 38%,rgba(16,8,30,0) 70%)}
+  .tiles li{position:relative;overflow:hidden;background:#0A0A0C center/cover no-repeat;color:var(--cream);border-radius:var(--r);padding:28px 26px;aspect-ratio:4/3;display:grid;align-content:end;gap:12px}
+  .tiles li::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,8,.94) 0%,rgba(6,6,8,.6) 40%,rgba(6,6,8,0) 74%)}
   .tiles li > *{position:relative}
   .tiles b{font-weight:400;font-size:clamp(22px,2vw,32px);letter-spacing:-.03em;line-height:1.05}
-  .tiles p{margin:0;font-size:15px;line-height:1.45;color:color-mix(in srgb,var(--cream) 70%,var(--night))}
+  .tiles p{margin:0;font-size:15px;line-height:1.45;color:color-mix(in srgb,var(--cream) 74%,#0A0A0C)}
   .rail .wrap{display:grid;grid-template-columns:4fr 8fr;gap:var(--gap);padding-top:clamp(64px,9vw,140px);align-items:start}
   .rail > .wrap > .label{text-transform:none;letter-spacing:.02em;font-size:14px;color:var(--ink)}
   .rail h2{margin:0 0 clamp(24px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
@@ -488,6 +488,54 @@
   @media (max-width:600px){
     .catalogue,.tiles,.hl,.fits,.related,.specs{grid-template-columns:1fr}
   }
+
+  /* home: the pop hero, the sector stories, the machine row, the footer columns */
+  .pop{position:relative;background:#0A0A0C;color:var(--cream);min-height:min(92vh,900px);display:grid;align-items:end;overflow:hidden;isolation:isolate}
+  .pop .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .pop .scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(10,10,12,.94) 0%,rgba(10,10,12,.72) 42%,rgba(10,10,12,.34) 74%,rgba(10,10,12,.55) 100%)}
+  .pop .wrap{padding-top:clamp(120px,22vh,260px);padding-bottom:clamp(48px,7vw,110px);max-width:1500px;margin-inline:auto;width:100%}
+  .pop .eyebrow{color:color-mix(in srgb,var(--cream) 70%,transparent)}
+  .pop h1{margin:18px 0 0;font-weight:400;font-size:clamp(40px,6.6vw,120px);line-height:.96;letter-spacing:-.045em;text-wrap:balance}
+  .pop .sub{margin:clamp(20px,2.6vw,34px) 0 0;max-width:58ch;color:color-mix(in srgb,var(--cream) 76%,transparent);font-size:clamp(16px,1.35vw,21px)}
+  .pop .actions{display:flex;gap:10px;margin-top:clamp(26px,3vw,40px);flex-wrap:wrap}
+  .strip{background:var(--ink);color:var(--paper)}
+  .strip .wrap{max-width:1500px;margin-inline:auto;padding-block:clamp(26px,3vw,44px)}
+  .strip p{margin:0;font-size:clamp(18px,1.9vw,30px);line-height:1.3;letter-spacing:-.02em;max-width:44ch}
+  .strip .link{color:var(--paper);border-bottom-color:color-mix(in srgb,var(--paper) 45%,transparent);white-space:nowrap}
+  .sector{padding-top:clamp(64px,9vw,150px)}
+  .sector .wrap{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,72px);align-items:center;max-width:1500px;margin-inline:auto}
+  .sector.flip .txt{order:2}
+  .sector .txt{align-self:center}
+  .sector h2.line{margin:16px 0 0}
+  .sector .sub{margin-top:20px;max-width:46ch}
+  .sector .link{margin-top:26px;display:inline-block}
+  .sector .plate{margin:0}
+  .sector .plate img,.sector .plate video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) + 6px);background:var(--rule)}
+  .sector figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
+  .builds{padding-top:clamp(72px,10vw,160px)}
+  .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
+  .builds .cases h3 .label{white-space:nowrap}
+  .mrow{padding-top:clamp(72px,10vw,160px)}
+  .mrow .catalogue{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:0}
+  .mrow .more{margin:clamp(32px,4vw,56px) 0 0;display:flex;justify-content:center}
+  footer .cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);row-gap:36px;padding-bottom:clamp(40px,5vw,72px);border-bottom:1px solid color-mix(in srgb,var(--cream) 18%,transparent);margin-bottom:clamp(20px,2vw,32px)}
+  footer .cols > div{display:grid;gap:10px;align-content:start}
+  footer .cols .label{margin-bottom:4px}
+  footer .cols a{color:var(--cream);text-decoration:none;font-size:15.5px;line-height:1.3;width:fit-content;border-bottom:1px solid transparent}
+  footer .cols a:hover{border-bottom-color:var(--cream)}
+  footer .cols .addr{color:color-mix(in srgb,var(--cream) 62%,var(--night));font-size:15.5px;line-height:1.4;margin-top:6px}
+  footer canvas.lock{display:block;width:100%;height:auto;margin-inline:auto}
+  @media (max-width:900px){
+    .sector .wrap{grid-template-columns:1fr}
+    .sector.flip .txt{order:0}
+    .mrow .catalogue{grid-template-columns:1fr 1fr}
+    footer .cols{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:600px){
+    .mrow .catalogue{grid-template-columns:1fr}
+    footer .cols{grid-template-columns:1fr}
+    .pop{min-height:auto}
+  }
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -503,40 +551,84 @@
 </header>
 
 <main id="top">
-  <section class="open">
+  <section class="pop">
+    <video class="bg" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" aria-hidden="true"><source src="img/hero-kitchen.mp4" type="video/mp4"></video>
     <div class="wrap">
-      <h1 class="line">The robotics venue for Australian business.</h1>
-      <p class="sub">Want to automate? Need machinery, or robots programmed to your job? Come to the building in Fortitude Valley: see it running, get it scoped, get it built. Pepper will show you round.</p>
-      <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="quote/"><span>Get a quote</span><i aria-hidden="true">+</i></a></div>
+      <span class="eyebrow">Fortitude Valley, Brisbane</span>
+      <h1>We build the robots.<br>Then we run them<br>in front of you.</h1>
+      <p class="sub">Wonder Robotics is a robotics venue and an engineering firm. Australia's first fully autonomous kitchen is ours, it is open to the public, and everything we sell you has already done a shift in our own building.</p>
+      <div class="actions"><a class="btn cream" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#quote"><span>Price a machine</span><i aria-hidden="true">+</i></a></div>
     </div>
-    <figure class="film">
-      <img src="img/warm-entry.jpg" alt="Pepper waving to a young family arriving through the street door at 365 St Pauls Terrace in the afternoon sun" width="2400" height="1340">
-      <figcaption>Pepper on the door, 365 St Pauls Terrace, Fortitude Valley</figcaption>
-    </figure>
+    <div class="scrim" aria-hidden="true"></div>
   </section>
 
-  <section class="say" id="what">
+  <section class="strip">
     <div class="wrap">
-      <h2 class="line">Where Australian business gets into robotics.</h2>
-      <p class="sub">Engineers, a workshop, a floor full of working machines and a team that supplies, programs, installs and runs them. Whatever you make or serve, if there's a job in it a robot should be doing, this is where you find out how.</p>
+      <p>We scope the job, engineer the machine, supply it from any maker, program it to your task, install it and keep it running. <a class="link" href="machines/">See every machine we sell</a></p>
     </div>
   </section>
 
-  <section class="services" id="services">
+  <section class="sector" id="food">
     <div class="wrap">
-      <h2 class="line centre">What we sell</h2>
-      <p class="sub">Every line is supplied, installed and looked after by us. Prices are list prices, ex GST, delivered to a site within 100 km of an Australian port; installation and maintenance are quoted with them.</p>
-      <ol class="offer">
-        <li><b>Automate your business</b><p>Tell us the job. We work out what a robot should do, what it costs and what it returns, on your site or on our floor.</p><span class="from">Scoped first, fixed fee</span></li>
-        <li><b>Robotics engineering</b><p>Custom machines, cells and lines, designed, built and tested in our workshop before they go on your floor.</p><span class="from">Quoted to the job</span></li>
-        <li><b><a href="machines/">Machinery supply</a></b><p>Robot arms, cooking and coffee lines, service robots, humanoids and quadrupeds, from any maker. Supplied, delivered and commissioned. <a class="link" href="machines/">Every machine we sell</a></p><span class="from">From $39,000</span></li>
-        <li><b><a href="machines/software/">Programming and integration</a></b><p>We program the robots to your task and plug them into your ordering, payment, stock and systems. Software and AI agents included.</p><span class="from">On every quote</span></li>
-        <li><b><a href="machines/kitchen-robot/">Robot kitchens, bars and kiosks</a></b><p>The proven one. Fry and noodle lines, autonomous kitchens, barista and bartender counters, dessert kiosks, service fleets.</p><span class="from">From $42,000</span></li>
-        <li><b>Install, train, run</b><p>Installation, staff training, maintenance plans, spares and remote monitoring, from Brisbane.</p><span class="from">Priced with the machine</span></li>
-        <li><b>Pilot it here</b><p>Run your idea on our floor before you build it on yours: our machines, our engineers, your product.</p><span class="from">By arrangement</span></li>
-        <li><b>The venue</b><p>A working robotics venue in the Valley: demos, pilots, research, the club, and a floor you can hire for your own robotics work.</p><span class="from">Come and see it</span></li>
-      </ol>
-      <p class="how"><b>How it goes:</b> we scope it with you, design it around your job and your floor, supply and program the machines, brand the whole thing if you want it to match, install it, then keep it running.</p>
+      <div class="txt">
+        <span class="eyebrow">Specialisation 01 &middot; Food</span>
+        <h2 class="line">A kitchen that cooks a full menu with nobody at the pass.</h2>
+        <p class="sub">Fryers, noodle baths, an ingredient store and a six-axis arm on a rail, taking orders from the screens and plating to the window. We built it for ourselves first, opened it to the public, and it has been cooking every service since. Now we build them for other people.</p>
+        <a class="link" href="work/valley/">Inside the kitchen</a>
+      </div>
+      <figure class="plate">
+        <video autoplay muted loop playsinline preload="none" poster="img/hero-kitchen.jpg" aria-label="The robot kitchen line in service"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace"></video>
+        <figcaption class="label"><span>The line, in service</span><span>365 St Pauls Terrace</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sector flip" id="care">
+    <div class="wrap">
+      <div class="txt">
+        <span class="eyebrow">Specialisation 02 &middot; Care</span>
+        <h2 class="line">The same machines, in rooms where the point is the person.</h2>
+        <p class="sub">Our building is also home to an accessibility and inclusion club, so the robots here work for people of every ability every week: Pepper on the door, a tray robot that brings the food out, a kiosk anyone can reach. That is where we learn what a care setting actually needs, before we quote one.</p>
+        <a class="link" href="#visit">Talk to us about a care setting</a>
+      </div>
+      <figure class="plate">
+        <img src="img/warm-entry.jpg" alt="Pepper waving to a young family arriving through the street door in the afternoon sun" loading="lazy">
+        <figcaption class="label"><span>Pepper on the door</span><span>Every session, every week</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="builds" id="work">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">The builds</span>
+        <h2>Two kitchens. One open, one under construction.</h2>
+        <p>Every project is scoped, designed, branded, built and run by the same team, in the same building.</p>
+      </div>
+      <div class="cases">
+        <a href="work/valley/">
+          <div class="ph"><img src="img/warm-kitchen.jpg" alt="A father lifting his daughter to watch the robot arm through the kitchen window" loading="lazy"></div>
+          <h3><span>365 St Pauls Terrace</span><span class="label">Open</span></h3>
+          <p>Our own building: a robot kitchen, a robot bar, a dessert kiosk and a service floor, all running six days a week.</p>
+        </a>
+        <a href="work/little-red-dumplings/">
+          <div class="ph"><img src="img/lrd-concept.jpg" alt="Concept render of the Little Red Dumplings autonomous kitchen" loading="lazy"></div>
+          <h3><span>Little Red Dumplings</span><span class="label">Building</span></h3>
+          <p>A fully autonomous dumpling kitchen at the Gold Coast Health and Knowledge Precinct, for a Queensland group with two dozen venues.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mrow" id="services">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">What we sell</span>
+        <h2>Machines that have already worked a shift.</h2>
+        <p>Humanoids, quadrupeds, service robots, coffee and kitchen lines, and the engineering and software to make any of them do your job. Supplied, installed and maintained from Brisbane.</p>
+      </div>
+      <ul class="catalogue"><li><a href="machines/kitchen-robot/"><div class="ph"><img src="img/machines/kitchen-robot-light.jpg" alt="Robot kitchens" loading="lazy"></div><h3>Robot kitchens</h3><p>Fry lines, noodle lines and full autonomous kitchens, built around your menu.</p><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Kitchen automation</span><span class="pill">On our floor</span><span class="pill price">From $42,000</span></div></a></li><li><a href="machines/coffee-robot/"><div class="ph"><img src="img/machines/coffee-robot-light.jpg" alt="Coffee and bar robots" loading="lazy"></div><h3>Coffee and bar robots</h3><p>A barista or a bartender in about two square metres, seventy seconds a drink, and a show every time.</p><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotic beverage station</span><span class="pill">On our floor</span><span class="pill price">From $39,000</span></div></a></li><li><a href="machines/ubtech-cadebot/"><div class="ph"><img src="img/machines/ubtech-cadebot-light.jpg" alt="UBTECH CadeBot" loading="lazy"></div><h3>UBTECH CadeBot</h3><p>The tray robot. Three trays, 40 kg, a 21.5-inch screen, and it finds its own way to the table.</p><div class="pills"><span class="pill">UBTECH</span><span class="pill">Delivery robot</span><span class="pill">On our floor</span><span class="pill price">Quoted to your floor</span></div></a></li><li><a href="machines/unitree-g1/"><div class="ph"><img src="img/machines/unitree-g1-light.jpg" alt="Unitree G1" loading="lazy"></div><h3>Unitree G1</h3><p>A compact humanoid for research, development and the kind of demo people remember.</p><div class="pills"><span class="pill">Unitree</span><span class="pill">Humanoid robot</span><span class="pill">On our floor</span><span class="pill price">Quoted to order</span></div></a></li><li><a href="machines/custom-automation/"><div class="ph"><img src="img/machines/custom-automation-light.jpg" alt="Custom automation" loading="lazy"></div><h3>Custom automation</h3><p>When a standard format doesn&#x27;t fit, we build the cell around your process.</p><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotics engineering</span><span class="pill">Scoped first</span><span class="pill price">Scoped first</span></div></a></li><li><a href="machines/ubtech-cruzr-1s/"><div class="ph"><img src="img/machines/ubtech-cruzr-1s-light.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><p>The reception robot. Greets, guides, plays your content and comes back to charge.</p><div class="pills"><span class="pill">UBTECH</span><span class="pill">Service robot</span><span class="pill">On our floor</span><span class="pill price">Quoted to your floor</span></div></a></li></ul>
+      <p class="more"><a class="btn ghost" href="machines/"><span>Every machine we sell</span><i aria-hidden="true">+</i></a></p>
     </div>
   </section>
 
@@ -547,7 +639,7 @@
         <h2>Supply, installation and maintenance. One quote.</h2>
         <p>Pick the machines, choose how far we take it, and the quote writes itself. List prices are from the 2026 Moton Australia price list; installation and maintenance are Wonder's own rates.</p>
       </div>
-      <form class="quote" id="quote-form" onsubmit="return false">
+            <form class="quote" id="quote-form" onsubmit="return false">
         <div class="qin">
           <fieldset class="field">
             <legend class="label">Supply</legend>
@@ -617,82 +709,7 @@
           </div>
         </div>
       </form>
-    </div>
-  </section>
 
-  <section class="block" id="machines">
-    <div class="wrap">
-      <div class="grid head">
-        <span class="label">Machines we work with</span>
-        <h2>Not tied to one maker.</h2>
-        <p>We pick the machine that fits the job, then make it work with everything else in the building. <a class="link" href="machines/">Every machine has its own page, with the full specification.</a></p>
-      </div>
-      <div class="machines-wrap">
-        <table class="machines">
-          <thead><tr><th class="label">Class</th><th class="label">Good at</th><th class="label">On our floor</th><th class="label">Published spec</th></tr></thead>
-          <tbody>
-            <tr><td><a href="machines/coffee-robot/">Robot arms</a></td><td>Coffee, frying, boiling, plating: repeated hot work</td><td><a href="machines/kitchen-robot/">Kitchen line</a>, <a href="machines/coffee-robot/">robot bar</a>, dessert kiosk</td><td class="spec">70 s per cup &middot; about 2 m² &middot; 4000 W</td></tr>
-            <tr><td><a href="machines/ubtech-cadebot/">Service robots</a></td><td>Carrying plates, running routes, greeting, warehouse handling</td><td><a href="machines/ubtech-cadebot/">UBTECH CadeBot</a>, <a href="machines/ubtech-cruzr-1s/">Cruzr 1S</a></td><td class="spec">CadeBot 40 kg on 3 trays &middot; 6 h &middot; 650 mm aisle</td></tr>
-            <tr><td><a href="machines/unitree-g1/">Humanoids</a></td><td>Research, teaching, demonstration</td><td><a href="machines/unitree-g1/">Unitree G1</a></td><td class="spec">1.27 m &middot; about 35 kg &middot; about 2 h runtime &middot; 18 month warranty</td></tr>
-            <tr><td><a href="machines/unitree-go2/">Quadrupeds</a></td><td>Inspection, patrol, public engagement</td><td>Sourced to order</td><td class="spec">GO2 15 kg &middot; 12 DOF &middot; about 40° climb &middot; 12 month warranty</td></tr>
-            <tr><td><a href="machines/ubtech-ugot/">Education kits</a></td><td>Classrooms, clubs, competitions</td><td>Sourced to order</td><td class="spec">uKit &middot; UGOT &middot; Yanshee</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature" id="kitchen">
-    <div class="wrap">
-      <figure class="card">
-        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" width="1280" height="540" aria-label="The robot kitchen line in service"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace"></video>
-        <figcaption>Our line, in service. Come and eat from it.</figcaption>
-      </figure>
-      <div class="side">
-        <h2 class="line">The proof: Australia's first fully autonomous kitchen is ours, and it's open.</h2>
-        <p class="sub">We built it to show what we can do, then opened it to the public. It fries, boils and plates from an ingredient store, and it's the same engineering we put into any job. Watch it through the glass, then order.</p>
-        <a class="link" href="work/valley/">See the building</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature flip" id="watch">
-    <div class="wrap">
-      <figure class="card">
-        <img src="img/warm-kitchen.jpg" alt="A father lifting his young daughter to watch the robot arm through the kitchen window in the afternoon light" loading="lazy">
-        <figcaption>The window everyone ends up at.</figcaption>
-      </figure>
-      <div class="side">
-        <h2 class="line">The first thing people do is press their nose to the glass.</h2>
-        <p class="sub">That's the point. Robots are only scary in the abstract. Watch one lift a basket of chips and it's just a kitchen, only calmer.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="feature" id="lrd">
-    <div class="wrap">
-      <figure class="card">
-        <img src="img/lrd-concept.jpg" alt="Concept render of the Little Red Dumplings autonomous kitchen in a Gold Coast food hall" loading="lazy">
-        <figcaption>Concept. The kitchen is under construction.</figcaption>
-      </figure>
-      <div class="side">
-        <span class="eyebrow">Little Red Dumplings</span>
-        <h2 class="line">Next up: a dumpling kitchen that runs itself, on the Gold Coast.</h2>
-        <p class="sub">For a Queensland group with two dozen venues, being built now at the Gold Coast Health and Knowledge Precinct. Scope, design, build and run, by us.</p>
-        <a class="link" href="work/little-red-dumplings/">Read the case study</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="say" id="play">
-    <div class="wrap">
-      <h2 class="line">It's also a bit of a playground.</h2>
-      <p class="sub">A kiosk that hands you a soft serve. Robots that bring the bowls to your table. Pepper, who tells jokes. Nobody leaves without a photo.</p>
-    </div>
-    <div class="wrap trio">
-      <figure class="card"><img src="img/warm-kiosk.jpg" alt="A boy on tiptoe receiving a soft serve from the kiosk's robot arm, his grandmother behind him" loading="lazy"><figcaption>The kiosk. Hands you a soft serve.</figcaption></figure>
-      <figure class="card"><img src="img/warm-friends.jpg" alt="Two friends laughing at a table as Pepper tells a joke" loading="lazy"><figcaption>Pepper. Tells jokes. Some of them land.</figcaption></figure>
-      <figure class="card"><img src="img/warm-tray.jpg" alt="A tray robot arriving at a couple's table with two bowls" loading="lazy" style="aspect-ratio:4/5;object-fit:cover;object-position:55% 50%"><figcaption>The fleet. Brings the bowls to you.</figcaption></figure>
     </div>
   </section>
 
@@ -705,7 +722,7 @@
       <div class="side">
         <span class="eyebrow">The people</span>
         <h2 class="line">Meet Gino. He built most of what moves in here.</h2>
-        <p class="sub">Robotics is his thing: he's built and sold businesses, works with some of the best engineers going, and is the happiest man in the building when something new moves for the first time. Jesse does the design, twenty years in brand, a lot of it with factories, so the concept, the name and the look come from the same room as the machines.</p>
+        <p class="sub">Robotics is his thing: he has built and sold businesses, works with some of the best engineers going, and is the happiest man in the building when something new moves for the first time. Jesse does the design, twenty years in brand and a lot of it with factories, so the concept, the name and the look come out of the same room as the machines.</p>
         <a class="link" href="events/">Come to a club night and meet him</a>
       </div>
     </div>
@@ -723,7 +740,7 @@
   <section class="visit" id="visit">
     <div class="wrap">
       <h2 class="line">Come and see it working.</h2>
-      <p class="sub">We're open six days. Have lunch, watch the kitchen, say hi to Pepper, then let's talk about yours.</p>
+      <p class="sub">We are open six days. Have lunch, watch the kitchen, say hello to Pepper, then let's talk about yours.</p>
       <div class="details">
         <div><span class="eyebrow">Where</span><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div>
         <div><span class="eyebrow">When</span><p>Monday to Friday, 9 am to 7 pm<br>Saturday, 10 am to 5 pm</p></div>
@@ -736,7 +753,40 @@
 
 <footer>
   <div class="wrap">
-    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="1320" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
+    <nav class="cols" aria-label="Footer">
+      <div>
+        <span class="label">Machines</span>
+        <a href="machines/">Every machine we sell</a>
+        <a href="machines/kitchen-robot/">Robot kitchens</a>
+        <a href="machines/coffee-robot/">Coffee and bar robots</a>
+        <a href="machines/ubtech-cadebot/">Service robots</a>
+        <a href="machines/unitree-g1/">Humanoids and quadrupeds</a>
+        <a href="machines/custom-automation/">Custom automation</a>
+      </div>
+      <div>
+        <span class="label">Work</span>
+        <a href="work/valley/">365 St Pauls Terrace</a>
+        <a href="work/little-red-dumplings/">Little Red Dumplings</a>
+        <a href="#food">Food</a>
+        <a href="#care">Care</a>
+      </div>
+      <div>
+        <span class="label">Sell and support</span>
+        <a href="#quote">Build a quote</a>
+        <a href="quote/">Pricing and rates</a>
+        <a href="machines/ai-agents/">AI agents</a>
+        <a href="machines/software/">Software</a>
+      </div>
+      <div>
+        <span class="label">Come in</span>
+        <a href="#visit">Book a visit</a>
+        <a href="events/">The Robotics and Hardware Club</a>
+        <a href="tel:1800983404">1800 983 404</a>
+        <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
+        <span class="addr">365 St Pauls Terrace<br>Fortitude Valley QLD 4006</span>
+      </div>
+    </nav>
+    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="2200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
     <div class="made label"><span>Made</span><span>in</span><span>Fortitude</span><span>Valley,</span><span>with</span><span>machines</span><span>that</span><span>work.</span></div>
   </div>
 </footer>
@@ -831,7 +881,7 @@
   function paintAll() {
     document.querySelectorAll("canvas[data-wonder-mark]").forEach(function (cv) {
       var W = +cv.dataset.w || 680;
-      if (cv.dataset.fit === "vw") W = Math.min(W, Math.round(Math.min(Math.max(window.innerWidth, 320), 1400) * (+cv.dataset.vw || 0.86)));
+      if (cv.dataset.fit === "vw") W = Math.min(W, Math.round(Math.min(Math.max(window.innerWidth, 320), 2400) * (+cv.dataset.vw || 0.86)));
       var px = Math.round(W * (+cv.dataset.pxr || 0.118));
       var H = Math.round(W * (+cv.dataset.hr || (cv.dataset.sub ? 0.30 : 0.26)));
       drawLockup(cv, W, H, px, cv.dataset.ink || "#F4F1EA", cv.dataset.sub || "");

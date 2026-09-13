@@ -1,0 +1,70 @@
+      <form class="quote" id="quote-form" onsubmit="return false">
+        <div class="qin">
+          <fieldset class="field">
+            <legend class="label">Supply</legend>
+            <div class="cat-wrap">
+              <table class="cat" id="cat">
+                <thead><tr><th class="label">Machine</th><th class="label">Built on</th><th class="label num">List price</th><th class="label num">Qty</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </fieldset>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Installation</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="install" id="i-full" value="full" checked><label for="i-full">Install and commission</label>
+                <input type="radio" name="install" id="i-none" value="none"><label for="i-none">Supply only</label>
+              </div>
+              <p class="hint">Site survey, placement, services, first run and handover, by the team that set up our own floor.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">Maintenance</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
+                <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
+                <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
+              </div>
+              <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
+            </fieldset>
+          </div>
+          <div class="pair">
+            <fieldset class="field">
+              <legend class="label">Delivery</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="site" id="d-port" value="port" checked><label for="d-port">Within 100 km of a port</label>
+                <input type="radio" name="site" id="d-far" value="far"><label for="d-far">Further inland</label>
+              </div>
+              <p class="hint">Prices are delivered duty unpaid to a site within 100 km of an Australian port.</p>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">GST</legend>
+              <div class="choices" role="radiogroup">
+                <input type="radio" name="gst" id="g-ex" value="ex" checked><label for="g-ex">Show ex GST</label>
+                <input type="radio" name="gst" id="g-inc" value="inc"><label for="g-inc">Show inc GST</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="qsheet" id="qsheet" aria-live="polite">
+          <div class="top label"><span><b>Quote</b></span><span id="q-ref">WR-Q</span></div>
+          <div class="big">
+            <div class="num" id="q-total">$0</div>
+            <div class="unit label" id="q-total-note">Total, ex GST</div>
+          </div>
+          <table class="lines"><tbody id="q-lines"></tbody></table>
+          <table class="lines sums">
+            <tbody>
+              <tr><th class="label">Subtotal ex GST</th><td id="q-sub">$0</td></tr>
+              <tr><th class="label">GST 10%</th><td id="q-gst">$0</td></tr>
+              <tr class="tot"><th class="label">Total inc GST</th><td id="q-inc">$0</td></tr>
+            </tbody>
+          </table>
+          <div class="terms label">Valid 30 days &middot; manufacturer warranty one year &middot; delivery about two months from order &middot; delivered duty unpaid</div>
+          <div class="foot">
+            <a class="btn ghost" id="q-print" href="#quote"><span>Print</span><i aria-hidden="true">+</i></a>
+            <a class="btn" id="q-send" href="mailto:info@wonderbytech.com"><span>Send this quote</span><i aria-hidden="true">+</i></a>
+          </div>
+        </div>
+      </form>

@@ -87,7 +87,7 @@
   function paintAll() {
     document.querySelectorAll("canvas[data-wonder-mark]").forEach(function (cv) {
       var W = +cv.dataset.w || 680;
-      if (cv.dataset.fit === "vw") W = Math.min(W, Math.round(Math.min(Math.max(window.innerWidth, 320), 1400) * (+cv.dataset.vw || 0.86)));
+      if (cv.dataset.fit === "vw") W = Math.min(W, Math.round(Math.min(Math.max(window.innerWidth, 320), 2400) * (+cv.dataset.vw || 0.86)));
       var px = Math.round(W * (+cv.dataset.pxr || 0.118));
       var H = Math.round(W * (+cv.dataset.hr || (cv.dataset.sub ? 0.30 : 0.26)));
       drawLockup(cv, W, H, px, cv.dataset.ink || "#F4F1EA", cv.dataset.sub || "");

@@ -52,12 +52,44 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
 
 FOOTER = '''<footer>
   <div class="wrap">
-    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="1320" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
+    <nav class="cols" aria-label="Footer">
+      <div>
+        <span class="label">Machines</span>
+        <a href="{{root}}machines/">Every machine we sell</a>
+        <a href="{{root}}machines/kitchen-robot/">Robot kitchens</a>
+        <a href="{{root}}machines/coffee-robot/">Coffee and bar robots</a>
+        <a href="{{root}}machines/ubtech-cadebot/">Service robots</a>
+        <a href="{{root}}machines/unitree-g1/">Humanoids and quadrupeds</a>
+        <a href="{{root}}machines/custom-automation/">Custom automation</a>
+      </div>
+      <div>
+        <span class="label">Work</span>
+        <a href="{{root}}work/valley/">365 St Pauls Terrace</a>
+        <a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a>
+        <a href="{{root}}#food">Food</a>
+        <a href="{{root}}#care">Care</a>
+      </div>
+      <div>
+        <span class="label">Sell and support</span>
+        <a href="{{root}}#quote">Build a quote</a>
+        <a href="{{root}}quote/">Pricing and rates</a>
+        <a href="{{root}}machines/ai-agents/">AI agents</a>
+        <a href="{{root}}machines/software/">Software</a>
+      </div>
+      <div>
+        <span class="label">Come in</span>
+        <a href="{{root}}#visit">Book a visit</a>
+        <a href="{{root}}events/">The Robotics and Hardware Club</a>
+        <a href="tel:1800983404">1800 983 404</a>
+        <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
+        <span class="addr">365 St Pauls Terrace<br>Fortitude Valley QLD 4006</span>
+      </div>
+    </nav>
+    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="2200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
     <div class="made label"><span>Made</span><span>in</span><span>Fortitude</span><span>Valley,</span><span>with</span><span>machines</span><span>that</span><span>work.</span></div>
   </div>
 </footer>
 '''
-
 
 def render(body, cfg, name=None):
     css = (SRC / "site.css").read_text()
@@ -86,8 +118,17 @@ def render(body, cfg, name=None):
         print("wonder-robotics.html (artifact source) refreshed")
 
 
+HOME_MACHINES = ["kitchen-robot", "coffee-robot", "ubtech-cadebot", "unitree-g1", "custom-automation", "ubtech-cruzr-1s"]
+
+
 def page(name, cfg):
-    render((SRC / "pages" / f"{name}.html").read_text(), cfg, name)
+    body = (SRC / "pages" / f"{name}.html").read_text()
+    if "{{quote}}" in body:
+        body = body.replace("{{quote}}", (SRC / "_quote-form.html").read_text())
+    if "{{machines}}" in body:
+        body = body.replace("{{machines}}", '<ul class="catalogue">' + "".join(
+            card(BY_SLUG[slug]) for slug in HOME_MACHINES) + "</ul>")
+    render(body, cfg, name)
 
 
 BY_SLUG = {m["slug"]: m for m in MACHINES}
@@ -106,6 +147,12 @@ def cards(items, cls="offer"):
 
 def dl(pairs, cls):
     return f'<dl class="{cls}">' + "".join(f"<dt>{escape(k)}</dt><dd>{escape(v)}</dd>" for k, v in pairs) + "</dl>\n"
+
+
+def card(m):
+    return (f'<li><a href="{{{{root}}}}machines/{m["slug"]}/"><div class="ph">{thumb(m)}</div>'
+            f'<h3>{escape(m["name"])}</h3><p>{escape(m["line"])}</p>'
+            f'<div class="pills">{pillrow(m)}<span class="pill price">{escape(m["price"])}</span></div></a></li>')
 
 
 def pillrow(m):
@@ -229,10 +276,7 @@ def machine_body(m):
 
 
 def catalogue_body():
-    items = "".join(
-        f'<li><a href="{{{{root}}}}machines/{m["slug"]}/"><div class="ph">{thumb(m)}</div>'
-        f'<h3>{escape(m["name"])}</h3><div class="pills">{pillrow(m)}<span class="pill price">{escape(m["price"])}</span></div></a></li>'
-        for m in MACHINES)
+    items = "".join(card(m) for m in MACHINES)
     logos = "".join(f'<img src="{{{{root}}}}img/machines/logo-{k}.jpg" alt="{escape(v)}" loading="lazy">' for k, v in PARTNERS)
     facts = [("Makers", "Unitree, UBTECH, Moton, JAKA, Dobot, and whoever makes the right machine for the job"),
              ("Prices", "List, ex GST, delivered within 100 km of an Australian port"),
