@@ -109,9 +109,10 @@ def dl(pairs, cls):
 
 
 def thumb(m):
-    if m["hero"]:
-        pos = f' style="object-position:{m["pos"]}"' if m.get("pos") else ""
-        return f'<img src="{{{{root}}}}img/{m["hero"]}" alt="{escape(m["name"])}" loading="lazy"{pos}>'
+    # the stage render gives every tile the same ground; the maker's image is the fallback
+    src = m.get("stage") or m["hero"]
+    if src:
+        return f'<img src="{{{{root}}}}img/{src}" alt="{escape(m["name"])}" loading="lazy">'
     return f'<span class="glyph">{escape(m["name"])}</span>'
 
 

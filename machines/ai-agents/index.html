@@ -451,8 +451,8 @@
   .fits p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
   .related{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
   .related a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
-  .related .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
-  .related .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .related .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--night)}
+  .related .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .related a:hover .ph img{transform:scale(1.03)}
   .related h3{margin:0;font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
   .related .pill{justify-self:start}
@@ -473,10 +473,10 @@
   .compare td:nth-child(2),.compare td:nth-child(3){width:auto}
   .catalogue{list-style:none;padding:0;margin:0 0 clamp(64px,9vw,140px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);row-gap:clamp(36px,4vw,56px)}
   .catalogue a{display:grid;gap:12px;text-decoration:none;color:inherit;align-content:start}
-  .catalogue .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
-  .catalogue .ph img,.cases.four .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .catalogue .ph{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--night)}
+  .catalogue .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .catalogue a:hover .ph img{transform:scale(1.03)}
-  .glyph{display:grid;place-items:center;height:100%;font-size:clamp(28px,3vw,48px);letter-spacing:-.04em;color:var(--graphite);padding:24px;box-sizing:border-box;text-align:center;line-height:1}
+  .glyph{display:grid;place-items:center;height:100%;font-size:clamp(28px,3vw,48px);letter-spacing:-.04em;color:var(--cream);padding:24px;box-sizing:border-box;text-align:center;line-height:1}
   .catalogue .meta{display:flex;justify-content:space-between;gap:var(--gap);color:var(--graphite)}
   .catalogue h3{margin:0;font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em;line-height:1.02}
   .catalogue p{margin:0;color:var(--graphite);font-size:15px;line-height:1.45;max-width:40ch}
@@ -551,7 +551,7 @@
       <span class="label">[ Related ]</span>
       <div>
         <h2>Add these to complete the job</h2>
-        <div class="related"><a href="../../machines/software/"><div class="ph"><span class="glyph">Software</span></div><h3>Software</h3><span class="pill">Custom software</span></a><a href="../../machines/custom-automation/"><div class="ph"><img src="../../img/machines/custom-hero.jpg" alt="Custom automation" loading="lazy"></div><h3>Custom automation</h3><span class="pill">Robotics engineering</span></a><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/cruzr-hero.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><span class="pill">Service robot</span></a></div>
+        <div class="related"><a href="../../machines/software/"><div class="ph"><span class="glyph">Software</span></div><h3>Software</h3><span class="pill">Custom software</span></a><a href="../../machines/custom-automation/"><div class="ph"><img src="../../img/machines/custom-automation-stage.jpg" alt="Custom automation" loading="lazy"></div><h3>Custom automation</h3><span class="pill">Robotics engineering</span></a><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/ubtech-cruzr-1s-stage.jpg" alt="UBTECH Cruzr 1S" loading="lazy"></div><h3>UBTECH Cruzr 1S</h3><span class="pill">Service robot</span></a></div>
       </div>
     </div>
   </section>

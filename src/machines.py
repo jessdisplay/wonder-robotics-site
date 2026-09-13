@@ -9,7 +9,7 @@ MACHINES = [
         "kind": "Humanoid robot", "status": "On our floor",
         "line": "A compact humanoid for research, development and the kind of demo people remember.",
         "intro": "We supply the G1 EDU configuration: the secondary-development version with Jetson Orin compute, the higher-DOF build and Dex3-1 dexterous hands. It's the one to quote when the project depends on hands and software, not just walking. One lives on our floor, so you can see it before you buy it.",
-        "hero": "machines/g1-real.jpg", "hero_real": True, "gallery": ["machines/g1-hero.jpg", "machines/g1-specs.jpg"],
+        "hero": "machines/g1-hero.jpg", "hero_real": False, "gallery": ["machines/g1-specs.jpg"],
         "features": [
             ("Precision manipulation", "Dex3-1 three-fingered hands, optional tactile sensing, force-position hybrid control. The configuration for grasping and interaction work."),
             ("Autonomous navigation", "Depth camera and 3D LiDAR in a 1.27 m body, which makes it easy to evaluate in labs, showrooms and spaces built for people."),
