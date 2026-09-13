@@ -1,4 +1,14 @@
 (function(){
+  var L=document.getElementById('loader'); if(!L) return;
+  var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(seen||reduce){L.remove();return;}
+  var lift=function(){L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
+  var start=function(){ if(window.WonderMark){WonderMark.paintAll();} L.classList.add('in'); setTimeout(lift,900); };
+  if(document.fonts&&document.fonts.load){ document.fonts.load('700 84px UnboundedW').then(start,start); setTimeout(start,700); } else { setTimeout(start,200); }
+  setTimeout(lift,2200); // never trap anyone behind it
+})();
+(function(){
   var clock=document.getElementById('clock');
   var state=document.getElementById('floor-state');
   var dot=document.getElementById('floor-dot');

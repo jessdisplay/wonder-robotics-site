@@ -309,8 +309,24 @@
   .studio .half{grid-column:span 6}
   .studio .half img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r)}
   @media (max-width:980px){.studio .half{grid-column:1/13}}
+  /* people */
+  .people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
+  .people figure{margin:0;display:grid;gap:14px}
+  .people img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:var(--r);background:var(--rule)}
+  .people figcaption{display:grid;gap:6px}
+  .people figcaption b{font-weight:500;font-size:clamp(20px,1.6vw,26px);letter-spacing:-.02em}
+  .people figcaption span{color:var(--graphite);font-size:15px;line-height:1.45;max-width:36ch}
+  @media (max-width:980px){.people{grid-template-columns:1fr 1fr}}
+  @media (max-width:640px){.people{grid-template-columns:1fr}}
+  /* loader: the mark on cream, first visit per session, under a second */
+  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
+  .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease}
+  .loader.in canvas{opacity:1;transform:none}
+  .loader.out{opacity:0;visibility:hidden}
+  @media (prefers-reduced-motion:reduce){.loader{display:none}}
 </style>
 
+<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
 <header class="bar">
   <div class="wrap grid">
     <a class="mark" href="" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
@@ -337,7 +353,7 @@
       <div class="tail">
         <h1 aria-hidden="true"><span class="w l">robotics.</span></h1>
         <div class="pitch">
-          <p>The place any company in Australia comes to when it wants to automate. We design, build and run robot kitchens and service robots, from a building in Fortitude Valley where you can watch ours work. Australia's first fully autonomous kitchen is here. Come and eat from it.</p>
+          <p>The place any company in Australia comes to when it wants to automate. We design, build and run robot kitchens and service robots, and Australia's first fully autonomous kitchen is in our building in Fortitude Valley. Come and eat from it.</p>
           <div class="actions">
             <a class="btn" href="#visit"><span>Book a visit</span><i aria-hidden="true">+</i></a>
             <a class="btn ghost" href="#quote"><span>Build a quote</span><i aria-hidden="true">+</i></a>
@@ -399,6 +415,30 @@
         <figure class="half">
           <img src="img/valley-cadebot.jpg" alt="A CadeBot on the dining floor, running a route we mapped" loading="lazy">
           <figcaption class="label"><span><b>The floor fleet</b></span><span>Routes, integration and training, ours</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="people">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">The people</span>
+        <h2>A robotics company that's actually fun to visit.</h2>
+        <p>The building is a bit of a playground. Gino built most of what runs in it and is the happiest man in the room when something new moves for the first time. Pepper meets you at the door. Come and see.</p>
+      </div>
+      <div class="people">
+        <figure>
+          <img src="img/gino.jpg" alt="Gino Feng" loading="lazy">
+          <figcaption><b>Gino Feng</b><span>Robotics. Has bought, built and sold businesses, works with some of the best engineers going, and runs the workshop. If a machine in the building moves, he probably built it.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="img/jesse.jpg" alt="Jesse Costelloe" loading="lazy">
+          <figcaption><b>Jesse Costelloe</b><span>Design. Twenty years in brand, a lot of it with factories, and the reason the concept, the name and the identity on the machines all come from the same building.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="img/pepper-door.jpg" alt="Pepper, the robot that greets people at the door, waving in the doorway" loading="lazy">
+          <figcaption><b>Pepper</b><span>Front of house. Greets you at the door, remembers your order, and is warmer than most receptionists.</span></figcaption>
         </figure>
       </div>
     </div>
@@ -703,6 +743,16 @@
 })();
 </script>
 <script>
+(function(){
+  var L=document.getElementById('loader'); if(!L) return;
+  var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(seen||reduce){L.remove();return;}
+  var lift=function(){L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
+  var start=function(){ if(window.WonderMark){WonderMark.paintAll();} L.classList.add('in'); setTimeout(lift,900); };
+  if(document.fonts&&document.fonts.load){ document.fonts.load('700 84px UnboundedW').then(start,start); setTimeout(start,700); } else { setTimeout(start,200); }
+  setTimeout(lift,2200); // never trap anyone behind it
+})();
 (function(){
   var clock=document.getElementById('clock');
   var state=document.getElementById('floor-state');
