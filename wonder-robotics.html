@@ -372,6 +372,8 @@
     .film{margin-inline:0}
     .film video,.film img{border-radius:0}
   }
+  .card video{display:block;width:100%;height:auto;aspect-ratio:64/27;object-fit:cover;border-radius:calc(var(--r) + 6px);background:var(--rule)}
+  .film img{aspect-ratio:16/9}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -389,23 +391,20 @@
 <main id="top">
   <section class="open">
     <div class="wrap">
-      <h1 class="line">Where Australian business gets into robotics.</h1>
-      <p class="sub">We build robot kitchens, and everything around them. Come and see ours work.</p>
+      <h1 class="line">Say hello to the kitchen that cooks for you.</h1>
+      <p class="sub">We're Wonder Robotics. We design, build and run robot kitchens for Australian business, and everything around them. Come in. Pepper will show you round.</p>
       <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="quote/"><span>Get a quote</span><i aria-hidden="true">+</i></a></div>
     </div>
     <figure class="film">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" width="1280" height="540" aria-label="The robot kitchen line at 365 St Pauls Terrace in service">
-        <source src="img/hero-kitchen.mp4" type="video/mp4">
-        <img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace" width="2400" height="1018">
-      </video>
-      <figcaption>Our kitchen, 365 St Pauls Terrace, Fortitude Valley</figcaption>
+      <img src="img/warm-entry.jpg" alt="Pepper waving to a young family arriving through the street door at 365 St Pauls Terrace in the afternoon sun" width="2400" height="1340">
+      <figcaption>Pepper on the door, 365 St Pauls Terrace, Fortitude Valley</figcaption>
     </figure>
   </section>
 
   <section class="say" id="what">
     <div class="wrap">
-      <h2 class="line">A kitchen that runs itself is only the start. We do the whole job around it.</h2>
-      <p class="sub">Design, brand, build, install and run. One team, one building, so nothing falls between vendors.</p>
+      <h2 class="line">Where Australian business gets into robotics.</h2>
+      <p class="sub">A kitchen that runs itself is only the start. We do the whole job around it: the scope, the design, the brand, the build and the running of it. One team, one building, so nothing falls between vendors.</p>
     </div>
   </section>
 
@@ -414,7 +413,7 @@
       <ol class="svc">
         <li><b>Scope</b><p>We walk your site, or you walk ours. What the kitchen should cook, how many covers, what the floor and the services can take.</p></li>
         <li><b>Design</b><p>The kitchen laid out around your menu. The machines picked for the job, from any maker. Drawings a builder can price.</p></li>
-        <li><b>Brand</b><p>The concept, the name, the identity on the counter, the screens and the boxes. It all comes from one building, so it all matches.</p></li>
+        <li><b>Brand</b><p>The concept, the name, the look on the counter, the screens and the boxes. It all comes from one building, so it all matches.</p></li>
         <li><b>Build</b><p>We supply, install, program and commission. About two months from order to first service, with your people trained on it.</p></li>
         <li><b>Run</b><p>Maintenance, spares, software updates and remote monitoring, with a Brisbane number that answers.</p></li>
       </ol>
@@ -424,17 +423,31 @@
   <section class="feature" id="kitchen">
     <div class="wrap">
       <figure class="card">
-        <img src="img/tile-arm.jpg" alt="The kitchen's robot arm on its rail lifting a basket from the fryer" loading="lazy">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" width="1280" height="540" aria-label="The robot kitchen line in service"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace"></video>
+        <figcaption>Our line, in service. Come and eat from it.</figcaption>
       </figure>
       <div class="side">
-        <h2 class="line">Australia's first fully autonomous kitchen is ours. You can eat from it today.</h2>
-        <p class="sub">It fries, boils and plates from an ingredient store, in a converted warehouse in the Valley that's open to the public. Everything we sell, we run here first.</p>
+        <h2 class="line">Australia's first fully autonomous kitchen is ours. It's open, and it's good.</h2>
+        <p class="sub">It fries, boils and plates from an ingredient store, in a converted warehouse in the Valley. Watch it through the glass, then order. Everything we sell, we run here first.</p>
         <a class="link" href="work/valley/">See the building</a>
       </div>
     </div>
   </section>
 
-  <section class="feature flip" id="lrd">
+  <section class="feature flip" id="watch">
+    <div class="wrap">
+      <figure class="card">
+        <img src="img/warm-kitchen.jpg" alt="A father lifting his young daughter to watch the robot arm through the kitchen window in the afternoon light" loading="lazy">
+        <figcaption>The window everyone ends up at.</figcaption>
+      </figure>
+      <div class="side">
+        <h2 class="line">The first thing people do is press their nose to the glass.</h2>
+        <p class="sub">That's the point. Robots are only scary in the abstract. Watch one lift a basket of chips and it's just a kitchen, only calmer.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature" id="lrd">
     <div class="wrap">
       <figure class="card">
         <img src="img/lrd-concept.jpg" alt="Concept render of the Little Red Dumplings autonomous kitchen in a Gold Coast food hall" loading="lazy">
@@ -442,7 +455,7 @@
       </figure>
       <div class="side">
         <span class="eyebrow">Little Red Dumplings</span>
-        <h2 class="line">A dumpling kitchen that runs itself, from the order to the pass.</h2>
+        <h2 class="line">Next up: a dumpling kitchen that runs itself, on the Gold Coast.</h2>
         <p class="sub">For a Queensland group with two dozen venues, being built now at the Gold Coast Health and Knowledge Precinct. Scope, design, build and run, by us.</p>
         <a class="link" href="work/little-red-dumplings/">Read the case study</a>
       </div>
@@ -452,20 +465,27 @@
   <section class="say" id="play">
     <div class="wrap">
       <h2 class="line">It's also a bit of a playground.</h2>
-      <p class="sub">An arm that pours drinks. A kiosk that serves soft serve on its own. Robots carrying plates across the floor. Pepper at the door. Gino built most of it and is the happiest man in the room when something new moves.</p>
+      <p class="sub">A kiosk that hands you a soft serve. Robots that bring the bowls to your table. Pepper, who tells jokes. Nobody leaves without a photo.</p>
     </div>
     <div class="wrap trio">
-      <figure class="card"><img src="img/tile-coffee.jpg" alt="The robot bar's arm pouring a drink" loading="lazy"><figcaption>The bar. An arm that pours.</figcaption></figure>
-      <figure class="card"><img src="img/tile-kiosk.jpg" alt="The dessert kiosk's arm filling a cup with soft serve" loading="lazy"><figcaption>The kiosk. Runs itself.</figcaption></figure>
-      <figure class="card"><img src="img/pepper-door.jpg" alt="Pepper waving in the doorway" loading="lazy"><figcaption>Pepper. Front of house.</figcaption></figure>
+      <figure class="card"><img src="img/warm-kiosk.jpg" alt="A boy on tiptoe receiving a soft serve from the kiosk's robot arm, his grandmother behind him" loading="lazy"><figcaption>The kiosk. Hands you a soft serve.</figcaption></figure>
+      <figure class="card"><img src="img/warm-friends.jpg" alt="Two friends laughing at a table as Pepper tells a joke" loading="lazy"><figcaption>Pepper. Tells jokes. Some of them land.</figcaption></figure>
+      <figure class="card"><img src="img/warm-tray.jpg" alt="A tray robot arriving at a couple's table with two bowls" loading="lazy" style="aspect-ratio:4/5;object-fit:cover;object-position:55% 50%"><figcaption>The fleet. Brings the bowls to you.</figcaption></figure>
     </div>
   </section>
 
-  <section class="people" id="people">
-    <div class="wrap trio">
-      <figure class="card"><img src="img/gino.jpg" alt="Gino Feng" loading="lazy"><figcaption><b>Gino Feng</b> Robotics. Runs the workshop, has built and sold businesses, works with some of the best engineers going.</figcaption></figure>
-      <figure class="card"><img src="img/jesse.jpg" alt="Jesse Costelloe" loading="lazy"><figcaption><b>Jesse Costelloe</b> Design. Twenty years in brand, a lot of it with factories. The concept, the name and the look come from him.</figcaption></figure>
-      <figure class="card room"><img src="img/floor-lunch.jpg" alt="The dining floor at lunch with the service robots working" loading="lazy"><figcaption><b>The floor</b> Where it all runs, six days a week, in Fortitude Valley.</figcaption></figure>
+  <section class="feature flip" id="gino">
+    <div class="wrap">
+      <figure class="card">
+        <img src="img/warm-gino.jpg" alt="Gino laughing at the workshop bench, showing a small robot arm to an engineer" loading="lazy">
+        <figcaption>Gino, at the bench, where he'd rather be.</figcaption>
+      </figure>
+      <div class="side">
+        <span class="eyebrow">The people</span>
+        <h2 class="line">Meet Gino. He built most of what moves in here.</h2>
+        <p class="sub">Robotics is his thing: he's built and sold businesses, works with some of the best engineers going, and is the happiest man in the building when something new moves for the first time. Jesse does the design, twenty years in brand, a lot of it with factories, so the concept, the name and the look come from the same room as the machines.</p>
+        <a class="link" href="events/">Come to a club night and meet him</a>
+      </div>
     </div>
   </section>
 
@@ -481,6 +501,7 @@
   <section class="visit" id="visit">
     <div class="wrap">
       <h2 class="line">Come and see it working.</h2>
+      <p class="sub">We're open six days. Have lunch, watch the kitchen, say hi to Pepper, then let's talk about yours.</p>
       <div class="details">
         <div><span class="eyebrow">Where</span><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div>
         <div><span class="eyebrow">When</span><p>Monday to Friday, 9 am to 7 pm<br>Saturday, 10 am to 5 pm</p></div>
