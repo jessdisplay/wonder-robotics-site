@@ -551,26 +551,33 @@
     .pop{min-height:auto}
   }
 
-  /* The four disciplines. Typographic on purpose: the machine cards below carry
-     the pictures, so this block has to read as a statement, not a product row. */
+  /* The four disciplines, drawn as a stack rather than a row, because the point
+     of the section is that the software and the AI sit under the machines and
+     drive them. The layout is the diagram; no illustration needed. */
   .disc{padding-top:clamp(72px,9vw,132px)}
-  .disc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
-  .disc-grid li{display:grid;gap:10px;align-content:start;padding:26px 26px 30px 0;border-right:1px solid var(--rule)}
-  .disc-grid li:last-child{border-right:0}
-  .disc-grid .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--graphite)}
-  .disc-grid b{font-weight:400;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1}
-  .disc-grid p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
-  .disc-grid .link{justify-self:start;margin-top:2px}
+  .stack{display:grid;gap:0}
+  .layer{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,4.5fr) minmax(0,4.5fr);gap:var(--gap);align-items:start;padding:clamp(26px,3vw,40px) 0}
+  .layer.top{border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  .layer.bottom{background:var(--night);color:var(--cream);border-radius:0 0 var(--r) var(--r);padding-inline:clamp(20px,2.4vw,34px);margin-inline:calc(clamp(20px,2.4vw,34px) * -1)}
+  .layer-tag{font-family:var(--mono);font-size:11.5px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);padding-top:4px}
+  .layer.bottom .layer-tag{color:color-mix(in srgb,var(--cream) 70%,var(--night))}
+  .layer .cell{display:grid;gap:9px;align-content:start}
+  .layer .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--graphite)}
+  .layer.bottom .n{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
+  .layer b{font-weight:400;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1}
+  .layer p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite);max-width:40ch}
+  .layer.bottom p{color:color-mix(in srgb,var(--cream) 66%,var(--night))}
+  .layer .link{justify-self:start;margin-top:2px}
+  .layer.bottom .link{color:var(--cream);border-bottom-color:color-mix(in srgb,var(--cream) 45%,transparent)}
   .disc-note{margin:clamp(28px,3.4vw,48px) 0 0;max-width:64ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
   .disc-note b{font-weight:500;color:var(--ink)}
-  @media (max-width:1000px){
-    .disc-grid{grid-template-columns:1fr 1fr}
-    .disc-grid li:nth-child(2){border-right:0}
+  @media (max-width:900px){
+    .layer{grid-template-columns:1fr 1fr;row-gap:22px}
+    .layer-tag{grid-column:1/3}
   }
-  @media (max-width:640px){
-    .disc-grid{grid-template-columns:1fr}
-    .disc-grid li{border-right:0;border-bottom:1px solid var(--rule)}
-    .disc-grid li:last-child{border-bottom:0}
+  @media (max-width:600px){
+    .layer{grid-template-columns:1fr}
+    .layer-tag{grid-column:1/2}
   }
 
   /* The process. Set on the night so it alternates against the disciplines block

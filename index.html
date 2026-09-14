@@ -551,26 +551,33 @@
     .pop{min-height:auto}
   }
 
-  /* The four disciplines. Typographic on purpose: the machine cards below carry
-     the pictures, so this block has to read as a statement, not a product row. */
+  /* The four disciplines, drawn as a stack rather than a row, because the point
+     of the section is that the software and the AI sit under the machines and
+     drive them. The layout is the diagram; no illustration needed. */
   .disc{padding-top:clamp(72px,9vw,132px)}
-  .disc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
-  .disc-grid li{display:grid;gap:10px;align-content:start;padding:26px 26px 30px 0;border-right:1px solid var(--rule)}
-  .disc-grid li:last-child{border-right:0}
-  .disc-grid .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--graphite)}
-  .disc-grid b{font-weight:400;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1}
-  .disc-grid p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
-  .disc-grid .link{justify-self:start;margin-top:2px}
+  .stack{display:grid;gap:0}
+  .layer{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,4.5fr) minmax(0,4.5fr);gap:var(--gap);align-items:start;padding:clamp(26px,3vw,40px) 0}
+  .layer.top{border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  .layer.bottom{background:var(--night);color:var(--cream);border-radius:0 0 var(--r) var(--r);padding-inline:clamp(20px,2.4vw,34px);margin-inline:calc(clamp(20px,2.4vw,34px) * -1)}
+  .layer-tag{font-family:var(--mono);font-size:11.5px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);padding-top:4px}
+  .layer.bottom .layer-tag{color:color-mix(in srgb,var(--cream) 70%,var(--night))}
+  .layer .cell{display:grid;gap:9px;align-content:start}
+  .layer .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--graphite)}
+  .layer.bottom .n{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
+  .layer b{font-weight:400;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1}
+  .layer p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite);max-width:40ch}
+  .layer.bottom p{color:color-mix(in srgb,var(--cream) 66%,var(--night))}
+  .layer .link{justify-self:start;margin-top:2px}
+  .layer.bottom .link{color:var(--cream);border-bottom-color:color-mix(in srgb,var(--cream) 45%,transparent)}
   .disc-note{margin:clamp(28px,3.4vw,48px) 0 0;max-width:64ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
   .disc-note b{font-weight:500;color:var(--ink)}
-  @media (max-width:1000px){
-    .disc-grid{grid-template-columns:1fr 1fr}
-    .disc-grid li:nth-child(2){border-right:0}
+  @media (max-width:900px){
+    .layer{grid-template-columns:1fr 1fr;row-gap:22px}
+    .layer-tag{grid-column:1/3}
   }
-  @media (max-width:640px){
-    .disc-grid{grid-template-columns:1fr}
-    .disc-grid li{border-right:0;border-bottom:1px solid var(--rule)}
-    .disc-grid li:last-child{border-bottom:0}
+  @media (max-width:600px){
+    .layer{grid-template-columns:1fr}
+    .layer-tag{grid-column:1/2}
   }
 
   /* The process. Set on the night so it alternates against the disciplines block
@@ -627,7 +634,7 @@
 
   <section class="strip">
     <div class="wrap">
-      <p>We plan it, design it, supply or build the machine, write the software, install it and service it. <a class="link" href="machines/">See the whole catalogue</a></p>
+      <p>Thirteen lines in the catalogue, from a $39,000 robot bartender to a Unitree humanoid. Five of them are running downstairs right now and you can come and stand in front of any of them. <a class="link" href="machines/">See the whole catalogue</a></p>
     </div>
   </section>
 
@@ -637,31 +644,40 @@
       <div class="grid head">
         <span class="label">What we build</span>
         <h2>We are an engineering company. Robots are most of what we build.</h2>
-        <p>Four things, one team, one building. Most jobs need two or three of them. A robot on its own does nothing useful, so we write the software and the AI that run it.</p>
+        <p>Four things, one team, one building. Most jobs need two or three of them.</p>
       </div>
-      <ol class="disc-grid">
-        <li>
-          <span class="n">01</span><b>Robotics</b>
-          <p>Humanoids, quadrupeds, service robots, arms. We are not tied to one maker: Unitree, UBTech, AgiBot, Dobot, JAKA, whoever fits the job. We program them and plug them into your systems.</p>
-          <a class="link" href="machines/">The catalogue</a>
-        </li>
-        <li>
-          <span class="n">02</span><b>Hardware</b>
-          <p>When nothing off the shelf fits, we draw it and build it. Cell, tooling, guarding, control logic. Made and tested in the workshop here before it goes anywhere.</p>
-          <a class="link" href="machines/custom-automation/">Custom automation</a>
-        </li>
-        <li>
-          <span class="n">03</span><b>AI</b>
-          <p>What the machine sees, what it picks up, when it stops. We also build agents for office work: support triage, approvals, invoice matching, all grounded in your own documents.</p>
-          <a class="link" href="machines/ai-agents/">AI agents</a>
-        </li>
-        <li>
-          <span class="n">04</span><b>Apps and software</b>
-          <p>Every robot we install talks to something: ordering, payment, stock, dispatch. We build that layer, plus the dashboards and the customer app. React, Node, Python, Postgres.</p>
-          <a class="link" href="machines/software/">Software</a>
-        </li>
-      </ol>
-      <p class="disc-note">Robot kitchens are one <b>specialisation</b>. We have built more of those than anything else, which is why there is a working one downstairs.</p>
+
+      <div class="stack">
+        <div class="layer top">
+          <span class="layer-tag">The part<br>that moves</span>
+          <div class="cell">
+            <span class="n">01</span><b>Robotics</b>
+            <p>Humanoids, quadrupeds, service robots and arms from Unitree, UBTech, AgiBot, Dobot and JAKA.</p>
+            <a class="link" href="machines/">The catalogue</a>
+          </div>
+          <div class="cell">
+            <span class="n">02</span><b>Hardware</b>
+            <p>When nothing off the shelf fits we draw the cell, the tooling and the guarding, and build it in the workshop here.</p>
+            <a class="link" href="machines/custom-automation/">Custom automation</a>
+          </div>
+        </div>
+
+        <div class="layer bottom">
+          <span class="layer-tag">The part that<br>makes it work</span>
+          <div class="cell">
+            <span class="n">03</span><b>AI</b>
+            <p>What the machine sees, what it picks up, when it stops. Plus agents for support triage, approvals and invoice matching.</p>
+            <a class="link" href="machines/ai-agents/">AI agents</a>
+          </div>
+          <div class="cell">
+            <span class="n">04</span><b>Apps and software</b>
+            <p>The ordering, payment, stock and dispatch every robot talks to, plus the dashboard and the customer app. React, Node, Python, Postgres.</p>
+            <a class="link" href="machines/software/">Software</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="disc-note">Robot kitchens are one <b>specialisation</b>. We have built more of those than anything else. There is a working one downstairs.</p>
     </div>
   </section>
 
