@@ -187,3 +187,59 @@
     sync(rail);
   });
 })();
+
+/* The robot looks round the edge of the moon before it commits. Runs once, on
+   the footer mark, when it comes into view. Off under reduced motion. */
+(function () {
+  var cv = document.querySelector('footer canvas[data-wonder-mark]');
+  if (!cv || !window.WonderMark || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var HOME = WonderMark.HOME, OUT = 1.62;        // OUT puts the face off the moon entirely
+  // peek, hesitate, then slide in. Keyframes rather than one curve so the
+  // hesitation is something we can tune rather than a happy accident.
+  var KEYS = [[0, OUT], [0.30, 1.18], [0.46, 1.14], [1, HOME]];
+  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+  function at(t) {
+    for (var i = 1; i < KEYS.length; i++) {
+      if (t <= KEYS[i][0]) {
+        var a = KEYS[i-1], b = KEYS[i];
+        var p = (t - a[0]) / (b[0] - a[0] || 1);
+        return a[1] + (b[1] - a[1]) * ease(p);
+      }
+    }
+    return HOME;
+  }
+  function run() {
+    var g = WonderMark.geom(cv);
+    if (!g) return;
+    var DUR = 1700, t0 = null;
+    (function frame(now) {
+      if (t0 === null) t0 = now;
+      var t = Math.min(1, (now - t0) / DUR);
+      cv._wmdx = at(t);
+      WonderMark.drawLockup(cv, g.W, g.H, g.px, g.ink, g.sub, cv._wmdx);
+      if (t < 1) requestAnimationFrame(frame); else cv._wmdx = undefined;
+    })(performance.now());
+  }
+  cv._wmdx = OUT;                                  // hold it off-stage until seen
+  var g0 = WonderMark.geom(cv);
+  if (g0) WonderMark.drawLockup(cv, g0.W, g0.H, g0.px, g0.ink, g0.sub, OUT);
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); setTimeout(run, 220); } });
+  }, { threshold: 0.4 });
+  io.observe(cv);
+})();
+
+/* The footer line arrives a word at a time. */
+(function () {
+  var made = document.querySelector('footer .made');
+  if (!made || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  made.classList.add('stagger');
+  [].forEach.call(made.children, function (el, i) { el.style.transitionDelay = (i * 55) + 'ms'; });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { made.classList.add('is-in'); io.disconnect(); } });
+  }, { threshold: 0.5 });
+  io.observe(made);
+})();

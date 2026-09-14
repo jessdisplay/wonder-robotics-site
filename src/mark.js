@@ -20,23 +20,26 @@
     g.arc(cx + R * C.cut, cy + R * C.rise, R * C.rx, 0, Math.PI * 2, true);
     g.fill("evenodd"); g.restore();
   }
-  function deviceRobot(g, cx, cy, R, ink) {
+  var HOME = 0.44;                       // where the face sits at rest
+  function deviceRobot(g, cx, cy, R, ink, dx) {
+    if (dx == null) dx = HOME;
     g.save();
     g.globalCompositeOperation = "destination-out";
-    var w = R * 1.3, h = R * 1.42, x0 = cx + R * 0.44 - w / 2, y0 = cy + R * 0.04 - h / 2;
+    var w = R * 1.3, h = R * 1.42, x0 = cx + R * dx - w / 2, y0 = cy + R * 0.04 - h / 2;
     g.beginPath(); g.roundRect(x0, y0, w, h, R * 0.3); g.fill();
     g.restore();
     g.fillStyle = ink;
-    var s = R * 0.19, ey = cy - R * 0.1;
-    [0.2, 0.7].forEach(function (dx) {
-      g.beginPath(); g.roundRect(cx + R * dx - s / 2, ey - s / 2, s, s, s * 0.26); g.fill();
+    var s = R * 0.19, ey = cy - R * 0.1, slide = dx - HOME;
+    [0.2, 0.7].forEach(function (ex) {
+      g.beginPath(); g.roundRect(cx + R * (ex + slide) - s / 2, ey - s / 2, s, s, s * 0.26); g.fill();
     });
   }
-  function sectorORobot(g, cx, cy, RX, RY, ink) {
+  function sectorORobot(g, cx, cy, RX, RY, ink, dx) {
     var R0 = 100;
     g.save(); g.translate(cx, cy); g.scale(RX / R0, RY / R0);
+    g.beginPath(); g.arc(0, 0, R0, 0, Math.PI * 2); g.clip();   // the face never escapes the moon
     crescentRound(g, 0, 0, R0, ink);
-    deviceRobot(g, 0, 0, R0, ink);
+    deviceRobot(g, 0, 0, R0, ink, dx);
     g.restore();
   }
   function measure(g, wt, px, track) {
@@ -47,7 +50,7 @@
     var ow = ((om.actualBoundingBoxLeft || 0) + (om.actualBoundingBoxRight || 0)) || om.width;
     return { wA: g.measureText("w").width, wB: g.measureText("nder").width, xh: xh, asc: om.actualBoundingBoxAscent, ow: ow };
   }
-  function drawLockup(canvas, W, H, px, ink, sub) {
+  function drawLockup(canvas, W, H, px, ink, sub, dx) {
     var dpr = Math.min(3, window.devicePixelRatio || 2);
     if (!(W >= 2 && H >= 2)) return;   // an occluded pane reports a 0px viewport; never draw into nothing
     canvas.width = W * dpr; canvas.height = H * dpr;
@@ -70,7 +73,7 @@
     layer.width = canvas.width; layer.height = canvas.height;
     if (!(layer.width > 0 && layer.height > 0)) return;
     var lg = layer.getContext("2d"); lg.scale(dpr, dpr);
-    sectorORobot(lg, ocx, ocy, m.ow / 2, m.xh / 2, ink);
+    sectorORobot(lg, ocx, ocy, m.ow / 2, m.xh / 2, ink, dx);
     g.drawImage(layer, 0, 0, W, H);
     cur += m.ow + bear;
     g.fillStyle = ink;
@@ -90,9 +93,11 @@
       if (cv.dataset.fit === "vw") W = Math.min(W, Math.round(Math.min(Math.max(window.innerWidth, 320), 2400) * (+cv.dataset.vw || 0.86)));
       var px = Math.round(W * (+cv.dataset.pxr || 0.118));
       var H = Math.round(W * (+cv.dataset.hr || (cv.dataset.sub ? 0.30 : 0.26)));
-      drawLockup(cv, W, H, px, cv.dataset.ink || "#F4F1EA", cv.dataset.sub || "");
+      cv._wm = { W: W, H: H, px: px, ink: cv.dataset.ink || "#F4F1EA", sub: cv.dataset.sub || "" };
+      drawLockup(cv, W, H, px, cv._wm.ink, cv._wm.sub, cv._wmdx);
     });
   }
+  function geom(cv) { return cv._wm; }
   var ready = function () { paintAll(); };
   if (document.fonts && document.fonts.load) {
     Promise.all([
@@ -102,5 +107,5 @@
     setTimeout(ready, 1200);
   } else { setTimeout(ready, 400); }
   var rsz; window.addEventListener("resize", function () { clearTimeout(rsz); rsz = setTimeout(paintAll, 180); });
-  window.WonderMark = { drawLockup: drawLockup, sectorORobot: sectorORobot, paintAll: paintAll };
+  window.WonderMark = { drawLockup: drawLockup, sectorORobot: sectorORobot, paintAll: paintAll, HOME: HOME, geom: geom };
 })();

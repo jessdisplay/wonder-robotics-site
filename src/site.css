@@ -621,3 +621,6 @@
   .wr-lift .layer.bottom.is-in{transform:none;opacity:1}
   .wr-lift .layer.bottom .cell{transition:opacity .6s ease .18s;opacity:0}
   .wr-lift .layer.bottom.is-in .cell{opacity:1}
+
+  .made.stagger span{opacity:0;transform:translate3d(0,10px,0);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.1,1)}
+  .made.stagger.is-in span{opacity:1;transform:none}
