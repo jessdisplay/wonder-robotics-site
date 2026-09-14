@@ -294,6 +294,11 @@
   .story{padding-top:clamp(56px,7vw,110px)}
   .story figure{margin:0 0 clamp(40px,5vw,80px)}
   .story figure img{width:100%;height:auto}
+  /* The opening plate runs to the edges. Negative margin rather than 100vw so a
+     real scrollbar cannot push the page sideways. */
+  .story figure.bleed{margin-inline:calc(var(--m) * -1)}
+  .story figure.bleed img{border-radius:0}
+  .story figure.bleed figcaption{padding-inline:var(--m)}
   .story figure.inset{width:min(100%,62%);margin-inline:auto}
   .story figure.half{width:min(100%,48%)}
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
@@ -324,6 +329,15 @@
     .story figure.inset,.story figure.half{width:100%}
     .next a{grid-template-columns:1fr}
   }
+  /* The accent earns its keep at rest, not only on hover: the status of the job
+     and the word that says whether a picture is real. 6.86:1 on paper. */
+  .case-head .meta > *:nth-child(3){color:var(--signal)}
+  .story figcaption > span:last-child{color:var(--signal)}
+  /* Numbered like the drawings they sit next to. Counter rather than markup so
+     the numbers cannot drift out of step with the sections. */
+  .story .wrap{counter-reset:sec}
+  .story h2{counter-increment:sec}
+  .story h2::before{content:counter(sec,decimal-leading-zero);display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--signal);margin-bottom:clamp(10px,1.2vw,16px)}
   .case-head .intro .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
   .story .txt b{font-weight:500}
   /* design and develop */
@@ -337,7 +351,7 @@
   @media (max-width:980px){.studio .half{grid-column:1/13}}
   /* loader: the mark on cream, first visit per session, under a second */
   .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
-  .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease}
+  .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease;max-width:calc(100vw - var(--m) * 2);height:auto}
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
@@ -521,6 +535,14 @@
   .pop h1{margin:18px 0 0;font-weight:400;font-size:clamp(40px,6.6vw,120px);line-height:.96;letter-spacing:-.045em;text-wrap:balance}
   .pop .sub{margin:clamp(20px,2.6vw,34px) 0 0;max-width:58ch;color:color-mix(in srgb,var(--cream) 76%,transparent);font-size:clamp(16px,1.35vw,21px)}
   .pop .actions{display:flex;gap:10px;margin-top:clamp(26px,3vw,40px);flex-wrap:wrap}
+  /* Light hero: the robot holds the lower left of the plate, so the type takes
+     the right of the grid and the plate is never covered by it. */
+  .pop.light{background:var(--paper);color:var(--ink)}
+  .pop.light .bg{object-position:50% 78%}
+  .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
+  .pop.light .wrap > *{grid-column:5/13}
+  .pop.light .eyebrow{color:var(--signal)}
+  .pop.light .sub{color:var(--graphite);max-width:46ch}
   .strip{background:var(--ink);color:var(--paper)}
   .strip .wrap{max-width:1500px;margin-inline:auto;padding-block:clamp(26px,3vw,44px)}
   .strip p{margin:0;font-size:clamp(18px,1.9vw,30px);line-height:1.3;letter-spacing:-.02em;max-width:44ch}
@@ -558,6 +580,12 @@
     .mrow .catalogue{grid-template-columns:1fr}
     footer .cols{grid-template-columns:1fr}
     .pop{min-height:auto}
+    .pop.light .wrap > *{grid-column:1/13}
+    /* No room to stand the type beside the robot, so the plate becomes a band
+       above it. Cropped to the robot, not to a fraction of the frame. */
+    .pop.light{display:block;min-height:0}
+    .pop.light .bg{position:static;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;object-position:18% 62%}
+    .pop.light .wrap{padding-top:clamp(26px,6vw,44px)}
   }
 
   /* The four disciplines, drawn as a stack rather than a row, because the point
@@ -567,7 +595,9 @@
   .stack{display:grid;gap:0}
   .layer{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,4.5fr) minmax(0,4.5fr);gap:var(--gap);align-items:start;padding:clamp(26px,3vw,40px) 0}
   .layer.top{border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
-  .layer.bottom{background:var(--night);color:var(--cream);border-radius:0 0 var(--r) var(--r);padding-inline:clamp(20px,2.4vw,34px);margin-inline:calc(clamp(20px,2.4vw,34px) * -1)}
+  /* Bleeds to the page edge, so it pays the page margin, not a second one of
+     its own. The old clamp was 20px against an 18px wrap and leaked 2px. */
+  .layer.bottom{background:var(--night);color:var(--cream);border-radius:0 0 var(--r) var(--r);padding-inline:var(--m);margin-inline:calc(var(--m) * -1)}
   .layer-tag{font-family:var(--mono);font-size:11.5px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);padding-top:4px}
   .layer.bottom .layer-tag{color:color-mix(in srgb,var(--cream) 70%,var(--night))}
   .layer .cell{display:grid;gap:9px;align-content:start}
@@ -660,15 +690,14 @@
 </header>
 
 <main id="top">
-  <section class="pop">
-    <video class="bg" autoplay muted loop playsinline preload="metadata" poster="img/hero-kitchen.jpg" aria-hidden="true"><source src="img/hero-kitchen.mp4" type="video/mp4"></video>
+  <section class="pop light">
+    <img class="bg" src="img/hero-bot.jpg" alt="" aria-hidden="true" fetchpriority="high" width="2400" height="1339">
     <div class="wrap">
       <span class="eyebrow">Fortitude Valley, Brisbane</span>
       <h1>Every good idea<br>starts small.</h1>
       <p class="sub">You bring the job. We work out what should do it. Sometimes that is a robot from another maker, sometimes a machine we draw and build ourselves, sometimes software with nothing moving at all.</p>
-      <div class="actions"><a class="btn cream" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#quote"><span>Price a machine</span><i aria-hidden="true">+</i></a></div>
+      <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#quote"><span>Price a machine</span><i aria-hidden="true">+</i></a></div>
     </div>
-    <div class="scrim" aria-hidden="true"></div>
   </section>
 
   <section class="strip">
