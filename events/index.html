@@ -581,7 +581,8 @@
   .pop.light .sub{color:var(--graphite);max-width:46ch}
   .strip{background:var(--ink);color:var(--paper)}
   .strip .wrap{max-width:1500px;margin-inline:auto;padding-block:clamp(26px,3vw,44px)}
-  .strip p{margin:0;font-size:clamp(18px,1.9vw,30px);line-height:1.3;letter-spacing:-.02em;max-width:44ch}
+  /* The strip is the one-line claim. It reads as a headline, not a caption. */
+  .strip p{margin:0;font-size:clamp(24px,2.8vw,52px);line-height:1.12;letter-spacing:-.03em;max-width:24ch;text-wrap:balance}
   .strip .link{color:var(--paper);border-bottom-color:color-mix(in srgb,var(--paper) 45%,transparent);white-space:nowrap}
   .sector{padding-top:clamp(64px,9vw,150px)}
   .sector .wrap{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,72px);align-items:center;max-width:1500px;margin-inline:auto}
