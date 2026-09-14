@@ -611,20 +611,26 @@
     .proc-grid li:last-child{border-bottom:0}
   }
 
-  /* The building. Front of the page now, because it is the venue you can walk
-     into, not a case study. Two plates: the line running, and Pepper on the door. */
+  /* The building, as a horizontal rail. Native scroll-snap so it works on a
+     trackpad, a touchscreen and the keyboard with no library; the arrows are
+     an affordance on top, not the mechanism. */
   .venue{padding-top:clamp(64px,8vw,120px)}
-  .venue-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:var(--gap);align-items:start}
-  .venue-grid .plate{margin:0}
-  .venue-grid .plate video,.venue-grid .plate img{display:block;width:100%;height:auto;object-fit:cover;border-radius:var(--r);background:var(--rule)}
-  .venue-grid .plate.wide video,.venue-grid .plate.wide img{aspect-ratio:16/9}
-  .venue-grid .plate:not(.wide) img{aspect-ratio:4/5}
-  .venue-grid figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
-  .venue-note{margin:clamp(28px,3.4vw,44px) 0 0;max-width:72ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
-  @media (max-width:900px){
-    .venue-grid{grid-template-columns:1fr}
-    .venue-grid .plate:not(.wide) img{aspect-ratio:16/9}
-  }
+  .rail-wrap{position:relative}
+  .rail-scroll{display:flex;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;scrollbar-width:thin}
+  .rail-scroll::-webkit-scrollbar{height:6px}
+  .rail-scroll::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+  .rail-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
+  .shot{margin:0;flex:0 0 clamp(280px,42vw,620px);scroll-snap-align:start}
+  .shot img,.shot video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);background:var(--rule)}
+  .shot figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .rail-nav{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+  .rail-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:15px;cursor:pointer;transition:background .25s,color .25s}
+  .rail-btn:hover{background:var(--ink);color:var(--paper)}
+  .rail-btn[disabled]{opacity:.3;cursor:default}
+  .rail-btn[disabled]:hover{background:transparent;color:var(--ink)}
+  .venue-note{margin:clamp(24px,3vw,40px) 0 0;max-width:72ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
+  @media (prefers-reduced-motion:reduce){ .rail-scroll{scroll-behavior:auto} }
+
   .cases .label{white-space:nowrap}
 
   .wr-lift .layer.bottom{transform:translate3d(0,28px,0);opacity:0;transition:transform .85s cubic-bezier(.16,.84,.24,1),opacity .6s ease}
@@ -671,15 +677,20 @@
         <h2>365 St Pauls Terrace. Come and stand in it.</h2>
         <p>Not a showroom. A working floor with a Unitree G1, two tray robots, Pepper on the door, a robot bar, a dessert kiosk and a kitchen that cooks a full menu with nobody at the pass. Open to the public six days a week.</p>
       </div>
-      <div class="venue-grid">
-        <figure class="plate wide">
-          <video autoplay muted loop playsinline preload="none" poster="img/hero-kitchen.jpg" aria-label="The robot kitchen line in service"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace"></video>
-          <figcaption class="label"><span>The kitchen, mid service</span><span>Six days a week</span></figcaption>
-        </figure>
-        <figure class="plate">
-          <img src="img/warm-entry.jpg" alt="Pepper waving to a family arriving through the street door in the afternoon sun" loading="lazy">
-          <figcaption class="label"><span>Pepper works the door</span><span>Ask him anything</span></figcaption>
-        </figure>
+      <div class="rail-wrap">
+        <div class="rail-scroll" id="venue-rail" tabindex="0" role="region" aria-label="Inside the building, scroll for more">
+          <figure class="shot"><video autoplay muted loop playsinline preload="none" poster="img/hero-kitchen.jpg" aria-label="The kitchen line"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The kitchen line"></video><figcaption class="label"><span>The kitchen line</span><span>Fries, boils and plates the whole menu</span></figcaption></figure>
+          <figure class="shot"><img src="img/warm-entry.jpg" alt="Pepper on the door" loading="lazy"><figcaption class="label"><span>Pepper on the door</span><span>He greets, he answers, he tells bad jokes</span></figcaption></figure>
+          <figure class="shot"><img src="img/tile-coffee.jpg" alt="The robot bar" loading="lazy"><figcaption class="label"><span>The robot bar</span><span>An arm on the dispensers, pouring to order</span></figcaption></figure>
+          <figure class="shot"><img src="img/warm-kiosk.jpg" alt="The dessert kiosk" loading="lazy"><figcaption class="label"><span>The dessert kiosk</span><span>Soft serve, handed over at kid height</span></figcaption></figure>
+          <figure class="shot"><img src="img/floor-lunch.jpg" alt="The floor at lunch" loading="lazy"><figcaption class="label"><span>The floor at lunch</span><span>Tray robots working between the tables</span></figcaption></figure>
+          <figure class="shot"><img src="img/valley-cadebot.jpg" alt="UBTECH CadeBot" loading="lazy"><figcaption class="label"><span>UBTECH CadeBot</span><span>Forty kilos of plates on a mapped route</span></figcaption></figure>
+          <figure class="shot"><img src="img/warm-gino.jpg" alt="The workshop" loading="lazy"><figcaption class="label"><span>The workshop</span><span>Where the custom machines get built and broken</span></figcaption></figure>
+        </div>
+        <div class="rail-nav">
+          <button class="rail-btn" type="button" data-rail="venue-rail" data-dir="-1" aria-label="Scroll left">&larr;</button>
+          <button class="rail-btn" type="button" data-rail="venue-rail" data-dir="1" aria-label="Scroll right">&rarr;</button>
+        </div>
       </div>
       <p class="venue-note">The building is also home to an accessibility and inclusion club, so the robots here work for people of every ability every week. That is how we find out what a care setting actually needs. <a class="link" href="work/valley/">Inside the building</a></p>
     </div>
@@ -1228,6 +1239,33 @@
     });
   }, { rootMargin: '0px 0px -18% 0px', threshold: 0.15 });
   io.observe(el);
+})();
+
+/* Rail arrows. The scroller already works without them; these just page it by
+   one card and grey themselves out at each end. */
+(function () {
+  var btns = document.querySelectorAll('.rail-btn');
+  if (!btns.length) return;
+  function step(rail) {
+    var card = rail.querySelector('.shot');
+    return card ? card.getBoundingClientRect().width + 24 : rail.clientWidth * 0.8;
+  }
+  function sync(rail) {
+    var max = rail.scrollWidth - rail.clientWidth - 2;
+    document.querySelectorAll('[data-rail="' + rail.id + '"]').forEach(function (b) {
+      var back = b.dataset.dir === '-1';
+      b.disabled = back ? rail.scrollLeft <= 2 : rail.scrollLeft >= max;
+    });
+  }
+  btns.forEach(function (b) {
+    var rail = document.getElementById(b.dataset.rail);
+    if (!rail) return;
+    b.addEventListener('click', function () {
+      rail.scrollBy({ left: step(rail) * (+b.dataset.dir), behavior: 'smooth' });
+    });
+    rail.addEventListener('scroll', function () { sync(rail); }, { passive: true });
+    sync(rail);
+  });
 })();
 </script>
 

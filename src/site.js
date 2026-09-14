@@ -160,3 +160,30 @@
   }, { rootMargin: '0px 0px -18% 0px', threshold: 0.15 });
   io.observe(el);
 })();
+
+/* Rail arrows. The scroller already works without them; these just page it by
+   one card and grey themselves out at each end. */
+(function () {
+  var btns = document.querySelectorAll('.rail-btn');
+  if (!btns.length) return;
+  function step(rail) {
+    var card = rail.querySelector('.shot');
+    return card ? card.getBoundingClientRect().width + 24 : rail.clientWidth * 0.8;
+  }
+  function sync(rail) {
+    var max = rail.scrollWidth - rail.clientWidth - 2;
+    document.querySelectorAll('[data-rail="' + rail.id + '"]').forEach(function (b) {
+      var back = b.dataset.dir === '-1';
+      b.disabled = back ? rail.scrollLeft <= 2 : rail.scrollLeft >= max;
+    });
+  }
+  btns.forEach(function (b) {
+    var rail = document.getElementById(b.dataset.rail);
+    if (!rail) return;
+    b.addEventListener('click', function () {
+      rail.scrollBy({ left: step(rail) * (+b.dataset.dir), behavior: 'smooth' });
+    });
+    rail.addEventListener('scroll', function () { sync(rail); }, { passive: true });
+    sync(rail);
+  });
+})();

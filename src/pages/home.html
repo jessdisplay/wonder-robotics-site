@@ -24,15 +24,20 @@
         <h2>365 St Pauls Terrace. Come and stand in it.</h2>
         <p>Not a showroom. A working floor with a Unitree G1, two tray robots, Pepper on the door, a robot bar, a dessert kiosk and a kitchen that cooks a full menu with nobody at the pass. Open to the public six days a week.</p>
       </div>
-      <div class="venue-grid">
-        <figure class="plate wide">
-          <video autoplay muted loop playsinline preload="none" poster="img/hero-kitchen.jpg" aria-label="The robot kitchen line in service"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The robot kitchen line at 365 St Pauls Terrace"></video>
-          <figcaption class="label"><span>The kitchen, mid service</span><span>Six days a week</span></figcaption>
-        </figure>
-        <figure class="plate">
-          <img src="img/warm-entry.jpg" alt="Pepper waving to a family arriving through the street door in the afternoon sun" loading="lazy">
-          <figcaption class="label"><span>Pepper works the door</span><span>Ask him anything</span></figcaption>
-        </figure>
+      <div class="rail-wrap">
+        <div class="rail-scroll" id="venue-rail" tabindex="0" role="region" aria-label="Inside the building, scroll for more">
+          <figure class="shot"><video autoplay muted loop playsinline preload="none" poster="img/hero-kitchen.jpg" aria-label="The kitchen line"><source src="img/hero-kitchen.mp4" type="video/mp4"><img src="img/hero-kitchen.jpg" alt="The kitchen line"></video><figcaption class="label"><span>The kitchen line</span><span>Fries, boils and plates the whole menu</span></figcaption></figure>
+          <figure class="shot"><img src="img/warm-entry.jpg" alt="Pepper on the door" loading="lazy"><figcaption class="label"><span>Pepper on the door</span><span>He greets, he answers, he tells bad jokes</span></figcaption></figure>
+          <figure class="shot"><img src="img/tile-coffee.jpg" alt="The robot bar" loading="lazy"><figcaption class="label"><span>The robot bar</span><span>An arm on the dispensers, pouring to order</span></figcaption></figure>
+          <figure class="shot"><img src="img/warm-kiosk.jpg" alt="The dessert kiosk" loading="lazy"><figcaption class="label"><span>The dessert kiosk</span><span>Soft serve, handed over at kid height</span></figcaption></figure>
+          <figure class="shot"><img src="img/floor-lunch.jpg" alt="The floor at lunch" loading="lazy"><figcaption class="label"><span>The floor at lunch</span><span>Tray robots working between the tables</span></figcaption></figure>
+          <figure class="shot"><img src="img/valley-cadebot.jpg" alt="UBTECH CadeBot" loading="lazy"><figcaption class="label"><span>UBTECH CadeBot</span><span>Forty kilos of plates on a mapped route</span></figcaption></figure>
+          <figure class="shot"><img src="img/warm-gino.jpg" alt="The workshop" loading="lazy"><figcaption class="label"><span>The workshop</span><span>Where the custom machines get built and broken</span></figcaption></figure>
+        </div>
+        <div class="rail-nav">
+          <button class="rail-btn" type="button" data-rail="venue-rail" data-dir="-1" aria-label="Scroll left">&larr;</button>
+          <button class="rail-btn" type="button" data-rail="venue-rail" data-dir="1" aria-label="Scroll right">&rarr;</button>
+        </div>
       </div>
       <p class="venue-note">The building is also home to an accessibility and inclusion club, so the robots here work for people of every ability every week. That is how we find out what a care setting actually needs. <a class="link" href="work/valley/">Inside the building</a></p>
     </div>
