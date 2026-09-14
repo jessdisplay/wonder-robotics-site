@@ -626,6 +626,19 @@
   .pop h1{margin:18px 0 0;font-weight:400;font-size:clamp(40px,6.6vw,120px);line-height:.96;letter-spacing:-.045em;text-wrap:balance}
   .pop .sub{margin:clamp(20px,2.6vw,34px) 0 0;max-width:58ch;color:color-mix(in srgb,var(--cream) 76%,transparent);font-size:clamp(16px,1.35vw,21px)}
   .pop .actions{display:flex;gap:10px;margin-top:clamp(26px,3vw,40px);flex-wrap:wrap}
+  /* Hero entrance: eyebrow, title, sub and actions rise in on load, staggered,
+     the same curve the reveal-on-scroll elements use elsewhere on the site.
+     Runs once on load, not on scroll, since the hero is above the fold. */
+  @media (prefers-reduced-motion:no-preference){
+    .hero-in .eyebrow,.hero-in h1,.hero-in .sub,.hero-in .actions{opacity:0;transform:translate3d(0,22px,0);animation:heroRise .9s cubic-bezier(.16,.84,.24,1) forwards}
+    .hero-in .eyebrow{animation-delay:.05s}
+    .hero-in h1{animation-delay:.15s}
+    .hero-in .sub{animation-delay:.32s}
+    .hero-in .actions{animation-delay:.46s}
+    .hero-in .bg{animation:heroZoom 1.8s cubic-bezier(.16,.84,.24,1) both}
+  }
+  @keyframes heroRise{to{opacity:1;transform:none}}
+  @keyframes heroZoom{from{transform:scale(1.045)}to{transform:scale(1)}}
   /* Light hero: the robot holds the lower left of the plate, so the type takes
      the right of the grid and the plate is never covered by it. */
   .pop.light{background:var(--paper);color:var(--ink)}
@@ -800,15 +813,17 @@
 </header>
 
 <main id="top">
-  <section class="pop light">
+  <section class="pop light hero-in">
     <img class="bg" src="img/hero-bot.jpg" alt="" aria-hidden="true" fetchpriority="high" width="2400" height="1339">
     <div class="wrap">
       <span class="eyebrow">Fortitude Valley, Brisbane</span>
-      <h1>Every good idea<br>starts small.</h1>
+      <h1>Robotics and automation, end to end.</h1>
       <p class="sub">A robot from another maker, a machine we build, or software that never moves. You bring the job.</p>
       <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#quote"><span>Price a machine</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
+
+  <div class="marquee" aria-hidden="true"><div><span>WONDER ROBOTICS</span><span>WONDER ROBOTICS</span></div></div>
 
   <section class="strip">
     <div class="wrap">
