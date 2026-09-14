@@ -896,15 +896,67 @@
 })();
 </script>
 <script>
+/* The robot looks round the edge of the moon before it commits. One
+   implementation, used by the loader and by the footer mark. */
+window.WonderSneak = (function () {
+  var OUT = 1.62;                                // OUT puts the face off the moon entirely
+  // peek, hesitate, then slide in. Keyframes rather than one curve so the
+  // hesitation is something we can tune rather than a happy accident.
+  var KEYS = [[0, OUT], [0.30, 1.18], [0.46, 1.14], [1, null]];
+  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+  function at(t, home) {
+    for (var i = 1; i < KEYS.length; i++) {
+      if (t <= KEYS[i][0]) {
+        var a = KEYS[i-1], b = KEYS[i];
+        var av = a[1] === null ? home : a[1], bv = b[1] === null ? home : b[1];
+        return av + (bv - av) * ease((t - a[0]) / (b[0] - a[0] || 1));
+      }
+    }
+    return home;
+  }
+  function park(cv) {
+    if (!cv || !window.WonderMark) return false;
+    var g = WonderMark.geom(cv);
+    if (!g) return false;
+    cv._wmdx = OUT;
+    WonderMark.drawLockup(cv, g.W, g.H, g.px, g.ink, g.sub, OUT);
+    return true;
+  }
+  function run(cv, dur, done) {
+    var g = window.WonderMark && WonderMark.geom(cv);
+    if (!g) { if (done) done(); return; }
+    var home = WonderMark.HOME, t0 = null;
+    (function frame(now) {
+      if (t0 === null) t0 = now;
+      var t = Math.min(1, (now - t0) / dur);
+      cv._wmdx = at(t, home);
+      WonderMark.drawLockup(cv, g.W, g.H, g.px, g.ink, g.sub, cv._wmdx);
+      if (t < 1) requestAnimationFrame(frame);
+      else { cv._wmdx = undefined; if (done) done(); }
+    })(performance.now());
+  }
+  return { OUT: OUT, park: park, run: run };
+})();
 (function(){
   var L=document.getElementById('loader'); if(!L) return;
   var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(seen||reduce){L.remove();return;}
-  var lift=function(){L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
-  var start=function(){ if(window.WonderMark){WonderMark.paintAll();} L.classList.add('in'); setTimeout(lift,900); };
+  var lifted=false, started=false;
+  var lift=function(){ if(lifted) return; lifted=true;
+    L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
+  // The loader plays the same sneak as the footer, faster, and leaves the
+  // moment the robot is home. Nobody waits on a logo.
+  var start=function(){ if(started) return; started=true;
+    if(window.WonderMark){WonderMark.paintAll();}
+    var cv=L.querySelector('canvas[data-wonder-mark]');
+    var ran=cv&&window.WonderSneak&&WonderSneak.park(cv);
+    L.classList.add('in');
+    if(ran) WonderSneak.run(cv,1150,function(){setTimeout(lift,260);});
+    else setTimeout(lift,900);
+  };
   if(document.fonts&&document.fonts.load){ document.fonts.load('700 84px UnboundedW').then(start,start); setTimeout(start,700); } else { setTimeout(start,200); }
-  setTimeout(lift,2200); // never trap anyone behind it
+  setTimeout(lift,2600); // never trap anyone behind it
 })();
 (function(){
   var clock=document.getElementById('clock');
@@ -1086,45 +1138,16 @@
   });
 })();
 
-/* The robot looks round the edge of the moon before it commits. Runs once, on
-   the footer mark, when it comes into view. Off under reduced motion. */
+/* The footer mark runs the sneak once, when it scrolls into view. */
 (function () {
   var cv = document.querySelector('footer canvas[data-wonder-mark]');
-  if (!cv || !window.WonderMark || !('IntersectionObserver' in window)) return;
+  if (!cv || !window.WonderSneak || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var HOME = WonderMark.HOME, OUT = 1.62;        // OUT puts the face off the moon entirely
-  // peek, hesitate, then slide in. Keyframes rather than one curve so the
-  // hesitation is something we can tune rather than a happy accident.
-  var KEYS = [[0, OUT], [0.30, 1.18], [0.46, 1.14], [1, HOME]];
-  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
-  function at(t) {
-    for (var i = 1; i < KEYS.length; i++) {
-      if (t <= KEYS[i][0]) {
-        var a = KEYS[i-1], b = KEYS[i];
-        var p = (t - a[0]) / (b[0] - a[0] || 1);
-        return a[1] + (b[1] - a[1]) * ease(p);
-      }
-    }
-    return HOME;
-  }
-  function run() {
-    var g = WonderMark.geom(cv);
-    if (!g) return;
-    var DUR = 1700, t0 = null;
-    (function frame(now) {
-      if (t0 === null) t0 = now;
-      var t = Math.min(1, (now - t0) / DUR);
-      cv._wmdx = at(t);
-      WonderMark.drawLockup(cv, g.W, g.H, g.px, g.ink, g.sub, cv._wmdx);
-      if (t < 1) requestAnimationFrame(frame); else cv._wmdx = undefined;
-    })(performance.now());
-  }
-  cv._wmdx = OUT;                                  // hold it off-stage until seen
-  var g0 = WonderMark.geom(cv);
-  if (g0) WonderMark.drawLockup(cv, g0.W, g0.H, g0.px, g0.ink, g0.sub, OUT);
+  if (!WonderSneak.park(cv)) return;              // hold it off-stage until seen
   var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); setTimeout(run, 220); } });
+    es.forEach(function (e) {
+      if (e.isIntersecting) { io.disconnect(); setTimeout(function () { WonderSneak.run(cv, 1700); }, 220); }
+    });
   }, { threshold: 0.4 });
   io.observe(cv);
 })();
