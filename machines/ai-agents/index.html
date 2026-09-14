@@ -1190,44 +1190,57 @@ window.WonderSneak = (function () {
   });
 })();
 
-/* The rails drive sideways as the page scrolls down. Progress is how far the
-   rail has travelled up the viewport, mapped onto its own scroll range, so it
-   finishes as it leaves. The moment somebody drags, wheels sideways or uses an
-   arrow, that rail is theirs until it has scrolled out of view. Off under
-   reduced motion, and the snap and smooth CSS are lifted only while we drive,
-   because both fight a scrollLeft that changes every frame. */
+/* The rails drift on their own (Jesse, 14 Sep 2026: "these can scroll
+   without click"). They used to ride the page scroll, which meant a rail only
+   moved while the visitor was moving, and a visitor who stopped to look saw
+   it stop too. Now a rail in view travels at a slow constant speed, holds a
+   beat at each end and comes back, so it is always alive and never lost.
+   A hand on it pauses it (hover, focus, touch); a drag, a sideways wheel or
+   an arrow hands the rail to the visitor for good. Off under reduced motion.
+   Snap and smooth CSS are lifted only while we drive, because both fight a
+   scrollLeft that changes every frame. */
 (function () {
   var rails = [].slice.call(document.querySelectorAll('.rail-scroll'));
   if (!rails.length) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var SPEED = 26;      // px per second
+  var HOLD = 1800;     // ms at each end
   function take(rail) { rail._manual = true; rail.style.scrollSnapType = ''; rail.style.scrollBehavior = ''; }
   rails.forEach(function (rail) {
+    rail._dir = 1; rail._hold = 0; rail._paused = false; rail._x = rail.scrollLeft;
     rail.addEventListener('pointerdown', function () { take(rail); }, { passive: true });
     rail.addEventListener('wheel', function (e) { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) take(rail); }, { passive: true });
+    rail.addEventListener('pointerenter', function () { rail._paused = true; });
+    rail.addEventListener('pointerleave', function () { rail._paused = false; });
+    rail.addEventListener('focusin', function () { rail._paused = true; });
+    rail.addEventListener('focusout', function () { rail._paused = false; });
     document.querySelectorAll('[data-rail="' + rail.id + '"]').forEach(function (b) {
       b.addEventListener('click', function () { take(rail); });
     });
   });
-  var ticking = false;
-  function frame() {
-    ticking = false;
+  var last = 0;
+  function frame(now) {
+    var dt = last ? Math.min(64, now - last) : 0;
+    last = now;
     var vh = window.innerHeight;
     rails.forEach(function (rail) {
-      var r = rail.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh) { rail._manual = false; return; }   // out of view: hand it back
       if (rail._manual) return;
+      var r = rail.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;            // out of view: rest
       var max = rail.scrollWidth - rail.clientWidth;
       if (max <= 0) return;
-      // enters at 90% down the viewport, done by the time its bottom passes 30%
-      var t = (vh * 0.9 - r.top) / (vh * 0.9 - (vh * 0.3 - r.height));
-      t = Math.max(0, Math.min(1, t));
+      if (rail._paused || document.hidden) return;
+      if (rail._hold > 0) { rail._hold -= dt; return; }
       rail.style.scrollSnapType = 'none';
       rail.style.scrollBehavior = 'auto';
-      rail.scrollLeft = t * max;
+      rail._x += rail._dir * SPEED * dt / 1000;
+      if (rail._x >= max) { rail._x = max; rail._dir = -1; rail._hold = HOLD; }
+      if (rail._x <= 0) { rail._x = 0; rail._dir = 1; rail._hold = HOLD; }
+      rail.scrollLeft = rail._x;
     });
+    requestAnimationFrame(frame);
   }
-  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
-  frame();
+  requestAnimationFrame(frame);
 })();
 
 /* The footer mark runs the sneak once, when it scrolls into view. */
