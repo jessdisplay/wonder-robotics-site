@@ -1,0 +1,76 @@
+<main id="top">
+  <section class="case-head">
+    <div class="wrap">
+      <div class="grid meta label">
+        <span><b>Case study</b> &middot; Care</span>
+        <span>Florence &middot; residential aged care</span>
+        <span>In design</span>
+      </div>
+      <h1 aria-label="Fall Sense">
+        <span class="row" aria-hidden="true"><span class="w l">Fall</span><span class="w r">Sense</span></span>
+      </h1>
+      <div class="grid">
+        <dl class="facts label">
+          <dt>Brand</dt><dd>Florence, a separate company. Fall Sense is its first device</dd>
+          <dt>Type</dt><dd>Ceiling-mounted edge AI unit for residential aged care</dd>
+          <dt>Where</dt><dd>Inside the building, one per room, above the bed and the bathroom door</dd>
+          <dt>Sees</dt><dd>Falls, time out of bed, time in the bathroom, nobody in for hours</dd>
+          <dt>We do</dt><dd>Enclosure, electronics, firmware, models, the app behind it</dd>
+          <dt>Scope</dt><dd>Planning, design, fabrication, implementation, maintenance</dd>
+          <dt>Status</dt><dd>In design</dd>
+        </dl>
+        <div class="intro">
+          <p>Most of our work starts with somebody else's building. This one started on a bench here: a shallow disc that mounts on the ceiling of a care home bedroom and works out what is happening below it without ever making a picture.</p>
+          <p>Florence is its own company with its own name, palette and type, built here alongside the device. Fall Sense is the first thing it sells. There is no arm in it and nothing moves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="wrap">
+      <figure class="bleed">
+        <img src="{{root}}img/fallsense/room.jpg" alt="A care home bedroom in late afternoon light, the small white disc of the unit mounted flush on the ceiling above the bed" loading="lazy" width="2000" height="1116">
+        <figcaption class="label"><span>One unit, one room</span><span>Concept visualisation</span></figcaption>
+      </figure>
+
+      <h2>The problem</h2>
+      <div class="txt">
+        <p>A resident goes down at two in the morning. The call button is on the wall by the bed and they are on the floor by the bathroom, so it may as well be in another building. Nobody finds out until the round.</p>
+        <p>The obvious fix is a camera in the bedroom, and every operator who has tried it has run into the same wall. Residents will not have it, families will not have it, and they are right. A bedroom is somebody's home.</p>
+      </div>
+
+      <h2>What it does about it</h2>
+      <div class="txt">
+        <p>It mounts flush on the ceiling, one to a room, and it works out what is happening below it without ever producing a picture a person could look at. What leaves the unit is the event: somebody is on the floor, somebody has been in the bathroom for forty minutes, somebody has not got out of bed this morning.</p>
+        <p>That is the whole design argument. There is no footage to leak, no screen for a night staffer to sit in front of, and nothing for a family to object to on a tour.</p>
+      </div>
+
+      <figure>
+        <img src="{{root}}img/fallsense/ga.jpg" alt="General arrangement drawing of the ceiling unit: plan from below, side elevation and a section through the mounting plate and the plasterboard" loading="lazy" width="2000" height="1493">
+        <figcaption class="label"><span>General arrangement, ceiling mount</span><span>Design drawing</span></figcaption>
+      </figure>
+
+      <figure class="inset">
+        <img src="{{root}}img/fallsense/florence-lockup.png" alt="The Florence wordmark with the halo above it" loading="lazy">
+        <figcaption class="label"><span>Florence, the brand the device is sold under</span><span>Halo, Optima, warm neutrals</span></figcaption>
+      </figure>
+
+      <h2>The stack</h2>
+      <div class="txt">
+        <p>Shallow enclosure, cut and folded in the workshop here, sitting close enough to the ceiling that it reads as a smoke alarm rather than a device. Edge compute on the board, so the model runs in the room. Python and Postgres behind it, and the same dashboard our kitchen managers use, because we had already written it.</p>
+        <p>Firmware updates over the air. When one stops reporting, it tells us before it tells you.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="next">
+    <div class="wrap">
+      <a href="{{root}}work/container-kitchen/">
+        <div><span class="label">Next</span><h2>The container kitchen</h2></div>
+        <div class="ph"><img src="{{root}}img/container/arm.jpg" alt="The container kitchen at Eat Street" loading="lazy"></div>
+      </a>
+    </div>
+  </section>
+</main>
