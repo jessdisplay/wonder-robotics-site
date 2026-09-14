@@ -293,6 +293,21 @@ window.WonderSneak = (function () {
   requestAnimationFrame(frame);
 })();
 
+/* The process plates ink in as they come into view, one after another. */
+(function () {
+  var shots = [].slice.call(document.querySelectorAll('.process .shot'));
+  if (!shots.length || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var i = shots.indexOf(e.target);
+      setTimeout(function () { e.target.classList.add('inked'); }, Math.max(0, i) * 180);
+    });
+  }, { threshold: 0.35 });
+  shots.forEach(function (s) { io.observe(s); });
+})();
+
 /* The footer mark runs the sneak once, when it scrolls into view. */
 (function () {
   var cv = document.querySelector('footer canvas[data-wonder-mark]');

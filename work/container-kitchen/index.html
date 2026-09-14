@@ -357,6 +357,11 @@
      the numbers cannot drift out of step with the sections. */
   .story .wrap{counter-reset:sec}
   .story h2{counter-increment:sec}
+  /* The brief and the outcome bookend the five stages and stay outside the count,
+     so 01 to 05 on a case page are the same 01 to 05 as the process on the home. */
+  .story h2.plain{counter-increment:none}
+  .story h2.plain::before{content:none}
+  .story figure.inset.tall{width:min(100%,40%)}
   .story h2::before{content:counter(sec,decimal-leading-zero);display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--signal);margin-bottom:clamp(10px,1.2vw,16px)}
   .case-head .intro .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
   .story .txt b{font-weight:500}
@@ -662,7 +667,18 @@
   .process .shot figcaption .label{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
   .process .shot figcaption .label b{color:var(--cream);font-weight:500}
   .process .shot figcaption p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 66%,var(--night));max-width:44ch}
-  .process .shot img{aspect-ratio:3/2;background:color-mix(in srgb,var(--cream) 10%,var(--night))}
+  /* The five plates are drawings on paper, not photographs (14 Sep 2026: the
+     generated site photos of "planning" and "supply" were stock, because a
+     photo of an abstraction always is). One object, the container, drawn
+     through all five stages in the house GA style. Each plate is inked in as
+     it arrives: a wipe from the left, the way a plotter lays a sheet down,
+     started by .inked from the observer in site.js. Reduced motion draws
+     them complete. */
+  .process .shot img{aspect-ratio:3/2;background:#FCF5EA;object-fit:cover}
+  @media (prefers-reduced-motion:no-preference){
+    .process .shot img{clip-path:inset(0 100% 0 0);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
+    .process .shot.inked img{clip-path:inset(0 0 0 0)}
+  }
   .process .rail-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--cream) 24%,transparent)}
   .process .rail-btn{border-color:var(--cream);color:var(--cream)}
   .process .rail-btn:hover{background:var(--cream);color:var(--night)}
@@ -752,18 +768,41 @@
         <figcaption class="label"><span>Eat Street Northshore, midday, wrap off</span><span>Concept visualisation</span></figcaption>
       </figure>
 
-      <h2>The problem</h2>
+      <h2 class="plain">The brief</h2>
       <div class="txt">
-        <p>A market stall gets about three seconds. Someone walks past with a drink in their hand and decides. Signage does not win that, and neither does a menu board, because everyone has one and they all look the same after the fourth container.</p>
-        <p>The second problem is the box itself. A twenty foot container is 6 metres by 2.4, and a commercial kitchen wants more than that. Put a brigade in there and you lose the floor to people. Put an arm in there and the people leave, the cooking stays, and the window you would have filled with staff becomes the show.</p>
+        <p>Our own. A twenty foot container kitchen for Eat Street Northshore in Hamilton, where 180 containers trade Friday to Sunday and more than seventy of them are kitchens. It has to cook without a brigade, and it has to win the three seconds someone gives a stall as they walk past with a drink in their hand.</p>
       </div>
-
-      <h2>Scope</h2>
+      <h2>Planning</h2>
       <div class="txt">
-        <p>Concept, the room drawn to build, the brand and the screen content, the fabrication, the arm and its integration, the software, commissioning, then the maintenance contract. Every stage in one building. The container is our own, so this one is also the prototype for the next client who asks for a version of it.</p>
+        <p>Signage does not win three seconds, and neither does a menu board, because everyone has one and they all look the same after the fourth container. A robot arm working behind glass does. People stop to watch it.</p>
+        <p>The second problem is the box. A twenty foot container is 6 metres by 2.4, and a commercial kitchen wants more than that. Put a brigade in there and you lose the floor to people. Put an arm in there and the people leave, the cooking stays, and the window you would have filled with staff becomes the show. The container is ours, so it is also the prototype for the next client who asks for one.</p>
       </div>
-
-      <h2>How it is built</h2>
+      <h2>Design</h2>
+      <div class="txt">
+        <p>One long side comes out for the hatch, which folds up to become the awning. The arm runs on a rail down the back wall over a fryer and a hot line, extraction goes out through the roof, and the counter runs the length of the opening.</p>
+      </div>
+      <figure>
+        <img src="../../img/container/ga.jpg" alt="General arrangement drawing of the container: side elevation with the hatch and awning open, cutaway showing the arm on its rail, cooking line, extraction through the roof, counter and stools" loading="lazy" width="2000" height="1116">
+        <figcaption class="label"><span>General arrangement, hatch side</span><span>Design drawing</span></figcaption>
+      </figure>
+      <div class="txt">
+        <p>The brand pass is the skin. Three faces of the container carry an emissive micro-LED wrap. It is not a printed vinyl and it is not a television bolted to the side. The panel is the cladding, so the corrugation reads through it and the whole box lights up. That buys a thing paint cannot: the container is one brand on Friday and another on Saturday. Run the Wonder crescent when it is ours, run a rainforest when the menu turns, run a sponsor when someone has paid for the night.</p>
+      </div>
+      <div class="pair">
+        <figure>
+          <img src="../../img/container/wrap.jpg" alt="The container showing the Wonder crescent mark glowing across the LED wrap in white and purple, crowd walking past on wet tarmac" loading="lazy">
+          <figcaption class="label"><span>The mark, run as light</span><span>Concept visualisation</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../../img/container/jungle.jpg" alt="The same container with a full rainforest scene running edge to edge across the LED wrap, green light spilling onto the ground" loading="lazy">
+          <figcaption class="label"><span>Same box, different night</span><span>Concept visualisation</span></figcaption>
+        </figure>
+      </div>
+      <h2>Supply</h2>
+      <div class="txt">
+        <p>A twenty foot high-cube container. A six-axis arm on a horizontal rail, a fryer, a hot line, extraction, the glass screen and the hatch hardware. Micro-LED panels for three faces and the controller that drives them. Behind the counter, the same stack that runs the kitchen at 365 St Pauls Terrace: ordering, payment, stock, the manager dashboard, and the content scheduler for the wrap.</p>
+      </div>
+      <h2>Implementation</h2>
       <div class="txt">
         <p>The box arrives as a box. One long side comes out for the hatch and gets reframed in steel, the shell is lined and insulated, then the stainless goes in and the arm goes on its rail. Every stage happens in our yard, so the first time it meets the public it has already cooked.</p>
       </div>
@@ -781,32 +820,13 @@
           <figcaption class="label"><span>Open, the wrap on</span><span>Concept visualisation</span></figcaption>
         </figure>
       </div>
-
-      <figure>
-        <img src="../../img/container/ga.jpg" alt="General arrangement drawing of the container: side elevation with the hatch and awning open, cutaway showing the arm on its rail, cooking line, extraction through the roof, counter and stools" loading="lazy" width="2000" height="1116">
-        <figcaption class="label"><span>General arrangement, hatch side</span><span>Design drawing</span></figcaption>
-      </figure>
-
-      <h2>Why the skin is a screen</h2>
+      <h2>Maintenance</h2>
       <div class="txt">
-        <p>Three faces of the container carry an emissive micro-LED wrap. It is not a printed vinyl and it is not a television bolted to the side. The panel is the cladding, so the corrugation reads through it and the whole box lights up.</p>
-        <p>That buys a thing paint cannot. The container is one brand on Friday and another on Saturday. Run the Wonder crescent when it is ours, run a rainforest when the menu turns, run a sponsor when someone has paid for the night. Same steel, different business.</p>
+        <p>It trades three nights and sits in our yard the other four, which is the easiest service schedule we have. The arm, the fryer and the wrap all report to the same dashboard as our kitchen, and the content for the skin is scheduled from the office, not from a ladder.</p>
       </div>
-
-      <div class="pair">
-        <figure>
-          <img src="../../img/container/wrap.jpg" alt="The container showing the Wonder crescent mark glowing across the LED wrap in white and purple, crowd walking past on wet tarmac" loading="lazy">
-          <figcaption class="label"><span>The mark, run as light</span><span>Concept visualisation</span></figcaption>
-        </figure>
-        <figure>
-          <img src="../../img/container/jungle.jpg" alt="The same container with a full rainforest scene running edge to edge across the LED wrap, green light spilling onto the ground" loading="lazy">
-          <figcaption class="label"><span>Same box, different night</span><span>Concept visualisation</span></figcaption>
-        </figure>
-      </div>
-
-      <h2>What is in it</h2>
+      <h2 class="plain">The outcome</h2>
       <div class="txt">
-        <p>A six-axis arm on a horizontal rail down the back wall, working a fryer and a hot line. Extraction out through the roof. The hatch folds up to become the awning, and the counter runs the length of it. Behind the counter, the same stack that runs the kitchen at 365 St Pauls Terrace: ordering, payment, stock, the manager dashboard, and the content scheduler that drives the wrap.</p>
+        <p>In development. The first trading weekend, what the wrap did to the queue against the container next door, and the photography go here once it is on site.</p>
       </div>
 
     </div>
@@ -1269,6 +1289,21 @@ window.WonderSneak = (function () {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+
+/* The process plates ink in as they come into view, one after another. */
+(function () {
+  var shots = [].slice.call(document.querySelectorAll('.process .shot'));
+  if (!shots.length || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var i = shots.indexOf(e.target);
+      setTimeout(function () { e.target.classList.add('inked'); }, Math.max(0, i) * 180);
+    });
+  }, { threshold: 0.35 });
+  shots.forEach(function (s) { io.observe(s); });
 })();
 
 /* The footer mark runs the sneak once, when it scrolls into view. */

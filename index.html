@@ -357,6 +357,11 @@
      the numbers cannot drift out of step with the sections. */
   .story .wrap{counter-reset:sec}
   .story h2{counter-increment:sec}
+  /* The brief and the outcome bookend the five stages and stay outside the count,
+     so 01 to 05 on a case page are the same 01 to 05 as the process on the home. */
+  .story h2.plain{counter-increment:none}
+  .story h2.plain::before{content:none}
+  .story figure.inset.tall{width:min(100%,40%)}
   .story h2::before{content:counter(sec,decimal-leading-zero);display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--signal);margin-bottom:clamp(10px,1.2vw,16px)}
   .case-head .intro .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
   .story .txt b{font-weight:500}
@@ -662,7 +667,18 @@
   .process .shot figcaption .label{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
   .process .shot figcaption .label b{color:var(--cream);font-weight:500}
   .process .shot figcaption p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 66%,var(--night));max-width:44ch}
-  .process .shot img{aspect-ratio:3/2;background:color-mix(in srgb,var(--cream) 10%,var(--night))}
+  /* The five plates are drawings on paper, not photographs (14 Sep 2026: the
+     generated site photos of "planning" and "supply" were stock, because a
+     photo of an abstraction always is). One object, the container, drawn
+     through all five stages in the house GA style. Each plate is inked in as
+     it arrives: a wipe from the left, the way a plotter lays a sheet down,
+     started by .inked from the observer in site.js. Reduced motion draws
+     them complete. */
+  .process .shot img{aspect-ratio:3/2;background:#FCF5EA;object-fit:cover}
+  @media (prefers-reduced-motion:no-preference){
+    .process .shot img{clip-path:inset(0 100% 0 0);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
+    .process .shot.inked img{clip-path:inset(0 0 0 0)}
+  }
   .process .rail-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--cream) 24%,transparent)}
   .process .rail-btn{border-color:var(--cream);color:var(--cream)}
   .process .rail-btn:hover{background:var(--cream);color:var(--night)}
@@ -821,15 +837,15 @@
       <div class="grid head">
         <span class="label">How we work</span>
         <h2>Planning, design, supply, implementation, maintenance.</h2>
-        <p>The same five stages whether it is one robot arm, a software platform or a whole fitout. Same team through all of them. You can stop after any one.</p>
+        <p>The same five stages whether it is one robot arm, a software platform or a whole fitout. Same team through all of them. You can stop after any one. Drawn here for the container: one job, start to finish.</p>
       </div>
       <div class="rail-wrap">
         <div class="rail-scroll" id="process-rail" tabindex="0" role="region" aria-label="The five stages, scroll for more">
-          <figure class="shot"><img src="img/process/01-planning.jpg" alt="Planning" loading="lazy" width="1600" height="1067"><figcaption><span class="label"><b>01</b> Planning</span><p>What the job is, what a machine would do with it, what it costs and what it saves. On your site or on our floor, before anyone commits.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/02-design.jpg" alt="Design" loading="lazy" width="1600" height="1067"><figcaption><span class="label"><b>02</b> Design</span><p>Layouts against your real floor plan, the cell and its safety, the software and data model, the brand if it needs one. Piloted on our own floor so the design is proven before we cut anything.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/03-supply.jpg" alt="Supply" loading="lazy" width="1600" height="1067"><figcaption><span class="label"><b>03</b> Supply</span><p>Machinery from any maker, alongside what we build ourselves. Freight and delivery on the same quote. A lot of jobs stop here, and that is fine.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/04-implementation.jpg" alt="Implementation" loading="lazy" width="1600" height="1067"><figcaption><span class="label"><b>04</b> Implementation</span><p>Fabricate, program, integrate, install, commission, train your staff. We pilot it on the real line before we hand it over.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/05-maintenance.jpg" alt="Maintenance" loading="lazy" width="1600" height="1067"><figcaption><span class="label"><b>05</b> Maintenance</span><p>Service schedules, spares, remote monitoring, software updates. A Brisbane number that answers. Priced on the same quote as the machine.</p></figcaption></figure>
+          <figure class="shot"><img src="img/process/01-planning.jpg" alt="Site plan drawn in ink: the container's footprint dashed onto a paved laneway, hatch and stools, customer flow arrows, power and water points, a north arrow" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>01</b> Planning</span><p>What the job is, what a machine would do with it, what it costs and what it saves. On your site or on our floor, before anyone commits.</p></figcaption></figure>
+          <figure class="shot"><img src="img/process/02-design.jpg" alt="General arrangement drawing of the container: side elevation with the hatch and awning open, cutaway showing the arm on its rail, cooking line, extraction through the roof, counter and stools" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>02</b> Design</span><p>Layouts against your real floor plan, the cell and its safety, the software and data model, the brand if it needs one. Piloted on our own floor so the design is proven before we cut anything.</p></figcaption></figure>
+          <figure class="shot"><img src="img/process/03-supply.jpg" alt="Ink drawing of the closed container sliding off a tilt-tray truck, and the fitout crated on pallets beneath it: the arm, the fryers, the pot, the stools, the LED panels" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>03</b> Supply</span><p>Machinery from any maker, alongside what we build ourselves. Freight and delivery on the same quote. A lot of jobs stop here, and that is fine.</p></figcaption></figure>
+          <figure class="shot"><img src="img/process/04-implementation.jpg" alt="Ink drawing of the container on site during fitout: a gantry hoist lowering the arm onto its ceiling rail, one person on a ladder guiding it, one at a laptop, the fryer wheeled in, a wall panel offered up" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>04</b> Implementation</span><p>Fabricate, program, integrate, install, commission, train your staff. We pilot it on the real line before we hand it over.</p></figcaption></figure>
+          <figure class="shot"><img src="img/process/05-maintenance.jpg" alt="Exploded ink drawing of the robot arm with its rail trolley, drive belt, gearbox, control box, wrist and gripper called out as spares; the container small in one corner with its service hatch open, a service dial in the other" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>05</b> Maintenance</span><p>Service schedules, spares, remote monitoring, software updates. A Brisbane number that answers. Priced on the same quote as the machine.</p></figcaption></figure>
         </div>
         <div class="rail-nav">
           <button class="rail-btn" type="button" data-rail="process-rail" data-dir="-1" aria-label="Scroll left">&larr;</button>
@@ -955,7 +971,7 @@
   <section class="feature flip" id="gino">
     <div class="wrap">
       <figure class="card">
-        <img src="img/warm-gino.jpg" alt="Gino laughing at the workshop bench, a small robot arm in his hands" loading="lazy">
+        <img src="img/warm-gino.jpg" alt="Gino laughing at the workshop bench, showing a small robot arm to an engineer" loading="lazy">
         <figcaption>Gino, at the bench, where he'd rather be.</figcaption>
       </figure>
       <div class="side">
@@ -1442,6 +1458,21 @@ window.WonderSneak = (function () {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+
+/* The process plates ink in as they come into view, one after another. */
+(function () {
+  var shots = [].slice.call(document.querySelectorAll('.process .shot'));
+  if (!shots.length || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var i = shots.indexOf(e.target);
+      setTimeout(function () { e.target.classList.add('inked'); }, Math.max(0, i) * 180);
+    });
+  }, { threshold: 0.35 });
+  shots.forEach(function (s) { io.observe(s); });
 })();
 
 /* The footer mark runs the sneak once, when it scrolls into view. */
