@@ -27,7 +27,7 @@ PAGES = {
              "desc": "Where Australian business gets into robotics. We scope, design, brand, build and run robot kitchens and service robots, from one building in Fortitude Valley."},
     "valley": {"out": "work/valley/index.html", "root": "../../", "title": "365 St Pauls Terrace, Wonder Robotics",
                "desc": "Our own building in Fortitude Valley: a robot kitchen, a robot bar, a dessert kiosk and a service floor, all running."},
-    "lrd": {"out": "work/little-red-dumplings/index.html", "root": "../../", "title": "Little Red Dumplings, Wonder Robotics",
+    "lrd": {"out": "work/little-red-dumplings/index.html", "root": "../../", "title": "Little Red Dumpling, Wonder Robotics",
             "desc": "A fully autonomous dumpling kitchen at the Gold Coast Health and Knowledge Precinct, under construction."},
     "quote": {"out": "quote/index.html", "root": "../", "title": "Get a quote, Wonder Robotics",
               "desc": "Supply, installation and maintenance for robot kitchen equipment, priced from the 2026 Moton Australia list, with Wonder's own rates for install and support."},
@@ -43,7 +43,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#services">What we sell</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#services">What we sell</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumpling</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="{{root}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -65,7 +65,7 @@ FOOTER = '''<footer>
       <div>
         <span class="label">Work</span>
         <a href="{{root}}work/valley/">365 St Pauls Terrace</a>
-        <a href="{{root}}work/little-red-dumplings/">Little Red Dumplings</a>
+        <a href="{{root}}work/little-red-dumplings/">Little Red Dumpling</a>
         <a href="{{root}}#food">Food</a>
         <a href="{{root}}#care">Care</a>
       </div>
@@ -118,7 +118,9 @@ def render(body, cfg, name=None):
         print("wonder-robotics.html (artifact source) refreshed")
 
 
-HOME_MACHINES = ["kitchen-robot", "coffee-robot", "ubtech-cadebot", "unitree-g1", "custom-automation", "ubtech-cruzr-1s"]
+# The home row is the breadth argument, so it spans the classes rather than
+# stacking the food lines: humanoid, quadruped, service, warehouse, custom, kitchen.
+HOME_MACHINES = ["unitree-g1", "unitree-go2", "ubtech-cadebot", "ubtech-cruzr-y1", "custom-automation", "kitchen-robot"]
 
 
 def page(name, cfg):

@@ -206,7 +206,7 @@ MACHINES = [
         "slug": "kitchen-robot", "details": ['machines/kitchen-robot-d1.jpg', 'machines/kitchen-robot-d2.jpg', 'machines/kitchen-robot-d3.jpg'], "light": "machines/kitchen-robot-light.jpg", "stage": "machines/kitchen-robot-stage.jpg", "highlights": [('6 fry stoves', 'F Standard deep frying robot'), ('6 noodle stoves', 'N Standard noodle robot'), ('Dobot arms', 'Reach and payload matched to the line'), ('Built around the menu', 'Cooking module chosen for the output'), ('Guarded hot process', 'Separation scoped per kitchen'), ('Recipe sequencing', 'Timing and step transitions'), ('Fully autonomous option', 'Order to pass, as in our building'), ('About two months', 'From order, DDU to port')], "maker": "Wonder Robotics", "name": "Robot kitchens",
         "kind": "Kitchen automation", "status": "On our floor",
         "line": "Fry lines, noodle lines and full autonomous kitchens, built around your menu.",
-        "intro": "Back-of-house automation for the repeated hot steps: deep frying, boiling, and connected lines with an ingredient store and a pass. Ours runs every day at 365 St Pauls Terrace; the next one is under construction for Little Red Dumplings on the Gold Coast.",
+        "intro": "Back-of-house automation for the repeated hot steps: deep frying, boiling, and connected lines with an ingredient store and a pass. Ours runs every day at 365 St Pauls Terrace; the next one is under construction for Little Red Dumpling on the Gold Coast.",
         "hero": "hero-kitchen.jpg", "hero_real": True, "gallery": ["machines/kitchen-hero.jpg"],
         "features": [
             ("Frying workflows", "Basket handling, timing and repeatable fryer output where consistency beats presentation."),
@@ -217,7 +217,7 @@ MACHINES = [
             ("Deep-fry automation", "The reference format: a fry station robot for high-repeat production around hot oil."),
             ("Boiling stations", "Soup, noodle and boiling processes where timing and ingredient order must hold."),
             ("Hybrid lines", "Frying plus transfer, pickup or staging: a broader handoff between cooking and the pass."),
-            ("Fully autonomous kitchens", "Order to pass by machine, as at 365 St Pauls Terrace and the Little Red Dumplings build."),
+            ("Fully autonomous kitchens", "Order to pass by machine, as at 365 St Pauls Terrace and the Little Red Dumpling build."),
         ],
         "specs": [("Formats", "N Standard noodle robot · F Standard deep frying robot · custom lines"), ("Noodle robot", "Dobot arm, 6 noodle stoves"), ("Deep frying robot", "Dobot arm, 6 frying stoves"), ("Cooking module", "Fry or boiling equipment selected around the menu and output"), ("Feeding and pickup", "Ingredient loading, basket transfer, staging and pickup points around operator flow"), ("Safety and guarding", "Guarding, separation and hot-process handling scoped per kitchen"), ("Control logic", "Timing, recipe sequence and step transitions around the real process"), ("Arm selection", "Reach, payload, mounting and end-effector matched to the task"), ("Warranty", "One year"), ("Delivery", "About two months from order, DDU within 100 km of an Australian port")],
         "compare": ("The two standard lines", [("N Standard noodle robot", "Dobot arm, 6 noodle stoves", "$52,000"), ("F Standard deep frying robot", "Dobot arm, 6 frying stoves", "$42,000")]),
@@ -292,4 +292,4 @@ MACHINES = [
     },
 ]
 
-PARTNERS = [("ubtech", "UBTECH"), ("qut", "QUT"), ("kuehne-nagel", "Kuehne+Nagel"), ("onyx-tyres", "Onyx Tyres"), ("powerskills-ai", "PowerSkills AI"), ("muzix-audio", "Muzix Audio"), ("stellaris-robotics", "Stellaris Robotics"), ("blue-sun-group", "Blue Sun Group"), ("little-red-dumplings", "Little Red Dumplings")]
+PARTNERS = [("ubtech", "UBTECH"), ("qut", "QUT"), ("kuehne-nagel", "Kuehne+Nagel"), ("onyx-tyres", "Onyx Tyres"), ("powerskills-ai", "PowerSkills AI"), ("muzix-audio", "Muzix Audio"), ("stellaris-robotics", "Stellaris Robotics"), ("blue-sun-group", "Blue Sun Group"), ("little-red-dumplings", "Little Red Dumpling")]
