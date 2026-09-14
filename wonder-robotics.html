@@ -536,6 +536,28 @@
     footer .cols{grid-template-columns:1fr}
     .pop{min-height:auto}
   }
+
+  /* The four disciplines. Typographic on purpose: the machine cards below carry
+     the pictures, so this block has to read as a statement, not a product row. */
+  .disc{padding-top:clamp(72px,9vw,132px)}
+  .disc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--ink)}
+  .disc-grid li{display:grid;gap:10px;align-content:start;padding:26px 26px 30px 0;border-right:1px solid var(--rule)}
+  .disc-grid li:last-child{border-right:0}
+  .disc-grid .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--graphite)}
+  .disc-grid b{font-weight:400;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1}
+  .disc-grid p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
+  .disc-grid .link{justify-self:start;margin-top:2px}
+  .disc-note{margin:clamp(28px,3.4vw,48px) 0 0;max-width:64ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
+  .disc-note b{font-weight:500;color:var(--ink)}
+  @media (max-width:1000px){
+    .disc-grid{grid-template-columns:1fr 1fr}
+    .disc-grid li:nth-child(2){border-right:0}
+  }
+  @media (max-width:640px){
+    .disc-grid{grid-template-columns:1fr}
+    .disc-grid li{border-right:0;border-bottom:1px solid var(--rule)}
+    .disc-grid li:last-child{border-bottom:0}
+  }
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -564,7 +586,41 @@
 
   <section class="strip">
     <div class="wrap">
-      <p>We scope the job, engineer the machine, supply it from any maker, program it to your task, install it and keep it running. <a class="link" href="machines/">See every machine we sell</a></p>
+      <p>Engineering, robotics, hardware, AI and the software that runs it. We scope the job, design and fabricate the machine, write the code, train the agents, install the lot and keep it running. <a class="link" href="machines/">See the whole catalogue</a></p>
+    </div>
+  </section>
+
+
+  <section class="disc" id="disciplines">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">What we build</span>
+        <h2>An engineering company that happens to be very good at robots.</h2>
+        <p>Four disciplines under one roof in Fortitude Valley. Most jobs need two or three of them, which is the reason to use one company instead of four.</p>
+      </div>
+      <ol class="disc-grid">
+        <li>
+          <span class="n">01</span><b>Robotics</b>
+          <p>Humanoids, quadrupeds, service robots and arms. Supplied from any maker, programmed to your task, integrated with everything else you run.</p>
+          <a class="link" href="machines/">The catalogue</a>
+        </li>
+        <li>
+          <span class="n">02</span><b>Hardware</b>
+          <p>Machines we design and fabricate ourselves when nothing off the shelf fits: the cell, the tooling, the guarding and the control logic, built and tested in our own workshop.</p>
+          <a class="link" href="machines/custom-automation/">Custom automation</a>
+        </li>
+        <li>
+          <span class="n">03</span><b>AI</b>
+          <p>Agents that work inside a real process: grounded in your documentation, wired into your systems, with review gates and a person still in charge.</p>
+          <a class="link" href="machines/ai-agents/">AI agents</a>
+        </li>
+        <li>
+          <span class="n">04</span><b>Apps and software</b>
+          <p>Portals, internal systems, dashboards, APIs, and the software layer behind any robot we install. React, Node, Python, PostgreSQL, built in stages.</p>
+          <a class="link" href="machines/software/">Software</a>
+        </li>
+      </ol>
+      <p class="disc-note">Robot kitchens are a <b>specialisation</b>, not the business. They are simply where we have built the most, and where you can go and eat the proof.</p>
     </div>
   </section>
 
