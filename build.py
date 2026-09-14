@@ -164,11 +164,21 @@ def dl(pairs, cls):
 def card(m):
     return (f'<li><a href="{{{{root}}}}machines/{m["slug"]}/"><div class="ph">{thumb(m)}</div>'
             f'<h3>{escape(m["name"])}</h3><p>{escape(m["line"])}</p>'
-            f'<div class="pills">{pillrow(m)}<span class="pill price">{escape(m["price"])}</span></div></a></li>')
+            f'<div class="pills">{pillrow(m)}{price_pill(m)}</div></a></li>')
 
+
+def pills_of(m, price=False):
+    # status and price are both "Scoped first" on the service lines; one pill, not two
+    out = []
+    for x in [m["maker"], m["kind"], m["status"]] + ([m["price"]] if price else []):
+        if x and x not in out: out.append(x)
+    return out
 
 def pillrow(m):
-    return "".join(f'<span class="pill">{escape(x)}</span>' for x in (m["maker"], m["kind"], m["status"]))
+    return "".join(f'<span class="pill">{escape(x)}</span>' for x in pills_of(m))
+
+def price_pill(m):
+    return "" if m["price"] in pills_of(m) else f'<span class="pill price">{escape(m["price"])}</span>'
 
 
 def thumb(m):
@@ -183,7 +193,7 @@ def thumb(m):
 
 
 def machine_body(m):
-    pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in [m["maker"], m["kind"], m["status"], m["price"]])
+    pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in pills_of(m, price=True))
     stage = f'<div class="stage"><img src="{{{{root}}}}img/{m["stage"]}" alt="{escape(m["name"])}" width="2048" height="2048"></div>' if m.get("stage") else ""
     shot = m.get("light") or m["hero"]
     shot_html = fig(shot, m["name"], m["name"], False, "shot") if shot else ""

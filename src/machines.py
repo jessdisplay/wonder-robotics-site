@@ -205,7 +205,7 @@ MACHINES = [
     {
         "slug": "kitchen-robot", "details": ['machines/kitchen-robot-d1.jpg', 'machines/kitchen-robot-d2.jpg', 'machines/kitchen-robot-d3.jpg'], "light": "machines/kitchen-robot-light.jpg", "stage": "machines/kitchen-robot-stage.jpg", "highlights": [('6 fry stoves', 'F Standard deep frying robot'), ('6 noodle stoves', 'N Standard noodle robot'), ('Dobot arms', 'Reach and payload matched to the line'), ('Built around the menu', 'Cooking module chosen for the output'), ('Guarded hot process', 'Separation scoped per kitchen'), ('Recipe sequencing', 'Timing and step transitions'), ('Fully autonomous option', 'Order to pass, as in our building'), ('About two months', 'From order, DDU to port')], "maker": "Wonder Robotics", "name": "Robot kitchens",
         "kind": "Kitchen automation", "status": "On our floor",
-        "line": "Fry lines, noodle lines and full autonomous kitchens, built around your menu.",
+        "line": "An arm on a rail, fryers, noodle baths, an ingredient store. The one downstairs cooks the whole menu six days a week.",
         "intro": "Back-of-house automation for the repeated hot steps: deep frying, boiling, and connected lines with an ingredient store and a pass. Ours runs every day at 365 St Pauls Terrace; the next one is under construction for Little Red Dumpling on the Gold Coast.",
         "hero": "hero-kitchen.jpg", "hero_real": True, "gallery": ["machines/kitchen-hero.jpg"],
         "features": [
@@ -227,7 +227,7 @@ MACHINES = [
     {
         "slug": "custom-automation", "light": "machines/custom-automation-light.jpg", "thumb_pos": "50% 42%", "details": ['machines/custom-automation-d1.jpg', 'machines/custom-automation-d2.jpg', 'machines/custom-automation-d3.jpg'], "stage": "machines/custom-automation-stage.jpg", "highlights": [('Arm to the task', 'Reach, payload, mounting'), ('Tooling to the part', 'End-effector for the real handling'), ('Cell to the floor', 'Pickup, drop, staging, guarding'), ('Logic to the sequence', 'PLC, triggers, cycle targets'), ('Existing equipment kept', 'Conveyors and stations stay'), ('Assess, map, configure', 'Three steps to a scope'), ('Prototyped in the Valley', 'Our workshop first'), ('Installed on your floor', 'Then supported from Brisbane')], "maker": "Wonder Robotics", "name": "Custom automation",
         "kind": "Robotics engineering", "status": "Scoped first",
-        "line": "When a standard format doesn't fit, we build the cell around your process.",
+        "line": "A pallet, a fry basket, a bar dispenser. Drawn against your floor plan, built in the workshop here, run on our floor before it ships.",
         "intro": "Arm, tooling and mounting; the cell and its safety; the control logic that ties the sequence together. Three decisions, made around your equipment, layout and output target, in our workshop first.",
         "hero": "machines/custom-hero.jpg", "hero_real": False, "gallery": [],
         "features": [
@@ -249,7 +249,7 @@ MACHINES = [
     {
         "slug": "ai-agents", "highlights": [('One live workflow', 'Pilot, prove, then expand'), ('Grounded in your docs', 'SOPs, policy, product information'), ('Review gates', 'A person stays in charge'), ('CRM and helpdesk', 'Salesforce, HubSpot, Zendesk, Freshdesk'), ('ERP and finance', 'Xero, MYOB, internal databases'), ('Escalation rules', 'Act directly or hand over'), ('Monitoring', 'Usage signals and revision cycles'), ('Named owner', 'After handover, in your team')], "maker": "Wonder Robotics", "name": "AI agents",
         "kind": "Software", "status": "Scoped first",
-        "line": "AI agents that work inside your process, with a person still in charge.",
+        "line": "Invoice matching, approvals, support triage, and the vision that tells an arm when to stop. Runs on your data, and a person signs off.",
         "intro": "We connect an agent to the software you already run, ground it in your documentation and business rules, and deploy it into one live workflow with review points your team controls. Most projects prove themselves in one workflow before they grow.",
         "hero": None, "hero_real": False, "gallery": [],
         "features": [
@@ -271,7 +271,7 @@ MACHINES = [
     {
         "slug": "software", "highlights": [('React and Next.js', 'Front ends people like using'), ('Node and Python', 'Services around your data'), ('PostgreSQL', 'Data model designed early'), ('REST and GraphQL', 'Documented contracts, webhooks'), ('Scoped first', 'Workflow, roles, integrations'), ('Staged build', 'Working software at every milestone'), ('Acceptance tested', 'Then deployed to production'), ('Handed over', 'Documentation your team can run on')], "maker": "Wonder Robotics", "name": "Software",
         "kind": "Custom software", "status": "Scoped first",
-        "line": "Portals, internal systems, dashboards and the layer behind the robots.",
+        "line": "The ordering, payment, stock and dispatch every robot here talks to, and the dashboard the manager watches on a phone. React, Node, Python, Postgres.",
         "intro": "Customer-facing platforms, internal tools, dashboards, APIs and the software behind robotics and AI agent deployments. React, Next.js, Node, Python, PostgreSQL, REST and GraphQL, built in stages with working software at each review.",
         "hero": None, "hero_real": False, "gallery": [],
         "features": [

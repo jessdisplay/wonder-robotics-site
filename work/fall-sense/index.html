@@ -206,7 +206,7 @@
   .visit h2{margin:0;font-weight:400;font-size:clamp(52px,9.4vw,176px);line-height:.9;letter-spacing:-.045em}
   .visit .row{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--gap);flex-wrap:wrap}
   .visit .details{margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--ink);padding-top:14px;row-gap:22px}
-  .visit .details > div{grid-column:span 3;display:grid;gap:6px;align-content:start}
+  .visit .details > div{display:grid;gap:6px;align-content:start}
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
 
   /* footer */
@@ -229,7 +229,7 @@
     .proof{grid-template-columns:1fr 1fr}
     .qin,.qsheet{grid-column:1/13}
     .qsheet{position:static}
-    .visit .details > div{grid-column:span 6}
+    .visit .details{grid-template-columns:1fr 1fr}
     .head .label{grid-column:1/13;margin-bottom:12px}
     .head h2,.head p{grid-column:1/13}
   }
@@ -249,7 +249,7 @@
     .steps tr{display:grid;grid-template-columns:1fr;border-bottom:1px solid var(--rule);padding:18px 0}
     .steps td{border:0;padding:4px 0 !important;width:auto !important}
     .pair{grid-template-columns:1fr}
-    .visit .details > div{grid-column:1/13}
+    .visit .details{grid-template-columns:1fr}
     footer .made{flex-wrap:wrap;gap:6px 14px;justify-content:flex-start}
   }
   @media (prefers-reduced-motion:reduce){
@@ -305,6 +305,16 @@
   .story figure.bleed{margin-inline:calc(var(--m) * -1)}
   .story figure.bleed img{border-radius:0}
   .story figure.bleed figcaption{padding-inline:var(--m)}
+  /* Diagrams with words in them are drawn, not generated, so the words are real. */
+  .story figure.diag svg{width:100%;height:auto;display:block;overflow:visible}
+  .story figure.diag .ln{fill:none;stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke}
+  .story figure.diag .ln.thin{stroke:var(--rule);stroke-width:1}
+  .story figure.diag .fill{fill:var(--ink)}
+  .story figure.diag .lab{font-family:var(--mono);font-size:12px;letter-spacing:.06em;fill:var(--graphite)}
+  .story figure.diag .lab.acc{fill:var(--signal)}
+  .story figure.diag .cap{font-family:var(--display);font-size:17px;fill:var(--ink)}
+  .story figure.diag .cap.dim{fill:var(--graphite);font-size:15px}
+  @media (max-width:700px){ .story figure.diag{overflow-x:auto} .story figure.diag svg{min-width:900px} }
   .story figure.inset{width:min(100%,62%);margin-inline:auto}
   .story figure.half{width:min(100%,48%)}
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
@@ -409,6 +419,12 @@
   .people .trio{margin-top:0}
   .visit{padding:clamp(80px,12vw,180px) 0 clamp(72px,10vw,150px);text-align:center}
   .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) auto 0;max-width:1100px;text-align:left}
+  /* Both doors, "Come and see it" and "Book a visit", land here. So the space is here. */
+  .visit .peek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);max-width:1100px;margin:clamp(36px,5vw,64px) auto 0}
+  .visit .peek a{display:block;text-decoration:none;color:inherit}
+  .visit .peek img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
+  .visit .peek .label{display:block;text-align:left;padding-top:10px}
+  @media (max-width:700px){ .visit .peek{grid-template-columns:1fr} }
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
   @media (max-width:980px){
     .svc{grid-template-columns:1fr 1fr}
@@ -450,8 +466,13 @@
   .phero,.pdetail{background:#0A0A0C;color:var(--cream)}
   .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
   .phero h1{margin:clamp(20px,3vw,40px) 0 0;font-weight:400;font-size:clamp(56px,11vw,190px);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
-  .stage{margin-top:clamp(-40px,-3vw,-16px)}
-  .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 62% at 50% 52%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 66% 62% at 50% 52%,#000 62%,transparent 100%)}
+  /* The stage tucks up under the title. The old mask ellipse reached above the
+     image's top edge, so its opaque centre painted a hard band across the lower
+     half of the letters. The title now sits above it, and the mask fades out
+     before the edge so nothing hard can show between the letters either. */
+  .phero h1{position:relative;z-index:1}
+  .stage{margin-top:clamp(-40px,-3vw,-16px);position:relative;z-index:0}
+  .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%)}
   .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
   .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
   .pdetail h2.line{margin:22px auto 26px;max-width:18ch;color:var(--cream)}
@@ -749,6 +770,30 @@
         <figcaption class="label"><span>In the room. It has to earn its place in a ceiling like this</span><span>Concept visualisation</span></figcaption>
       </figure>
 
+      <h2>The sketches</h2>
+      <div class="txt">
+        <p>It started as a speaker. Every reference on the board was a round thing that recesses into a ceiling and shows a mesh face, so the first page of the book is a dozen of those, most of them crossed out. What survived: a bezel no prouder than a downlight, a domed face, and the ring of light tried at four widths before it settled at the thinnest one.</p>
+      </div>
+      <figure>
+        <img src="../../img/fallsense/sketch.jpg" alt="A sketchbook spread of thumbnail studies for the unit: a dozen round recessed forms from below and in section, most crossed out, the light ring tried at different widths, a marker rendering of the glow" loading="lazy" width="2000" height="1333">
+        <figcaption class="label"><span>The first page. Ten out of twelve crossed out</span><span>Concept sketches</span></figcaption>
+      </figure>
+
+      <h2>How it goes together</h2>
+      <div class="txt">
+        <p>Seven parts. Bezel, mesh face, the diffuser ring that carries the light, the board with the sensor module at its centre, a spreader plate, the can, and two spring clips. It pushes up into a 90 mm cutout and the clips hold it, which is the same install as a downlight, so an electrician fits it in the time it takes to fit a downlight.</p>
+      </div>
+      <div class="pair">
+        <figure>
+          <img src="../../img/fallsense/exploded.jpg" alt="Exploded isometric drawing of the unit: bezel, mesh face, light ring diffuser, circuit board with sensor module, spreader plate, can and two spring clips separated along a centre axis" loading="lazy">
+          <figcaption class="label"><span>Exploded, seven parts</span><span>Design drawing</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../../img/fallsense/coverage.jpg" alt="Section and plan of a bedroom showing the unit's field of view: a cone from the ceiling to the floor in section, a shaded circle over the bed, bedside, chair and bathroom door in plan" loading="lazy">
+          <figcaption class="label"><span>Coverage. Bed, floor beside it, bathroom door</span><span>Design drawing</span></figcaption>
+        </figure>
+      </div>
+
       <figure>
         <img src="../../img/fallsense/ga.jpg" alt="General arrangement drawing of the recessed unit: plan from below with the mesh face, side elevation, and a section through the plasterboard showing the can and the spring clips" loading="lazy" width="2000" height="1493">
         <figcaption class="label"><span>General arrangement, recessed</span><span>Design drawing</span></figcaption>
@@ -764,6 +809,58 @@
         <p>A round unit that recesses into the ceiling on two spring clips, the way a good in-ceiling speaker does, with a fine woven mesh face and a thin ring of warm light at the rim that is the only thing it ever shows. No visible screws, no vents, no lens you can see. It is designed to the standard of the objects people already choose to have in their homes, because a care home bedroom is one. Edge compute on the board, so the model runs in the room. Python and Postgres behind it, and the same dashboard our kitchen managers use, because we had already written it.</p>
         <p>Firmware updates over the air. When one stops reporting, it tells us before it tells you.</p>
       </div>
+
+      <h2>What leaves the room</h2>
+      <div class="txt">
+        <p>This is the diagram the whole product hangs on. The sensing and the model both live inside the can. Nothing that could be looked at is ever written anywhere. The only thing that crosses the ceiling is a sentence.</p>
+      </div>
+      <figure class="diag">
+        <svg viewBox="0 0 1200 340" role="img" aria-label="Diagram: inside the unit, sensing feeds a model that runs on the board; no image is stored or sent; only an event leaves the room and reaches the nurse station and the phone">
+          <g class="col">
+            <text class="lab" x="0" y="22">IN THE ROOM</text>
+            <ellipse cx="90" cy="120" rx="72" ry="26" class="ln"/>
+            <ellipse cx="90" cy="120" rx="52" ry="18" class="ln thin"/>
+            <circle cx="90" cy="120" r="3" class="fill"/>
+            <text class="cap" x="0" y="190">The unit, one per room</text>
+            <text class="cap dim" x="0" y="214">Sees the bed, the floor,</text>
+            <text class="cap dim" x="0" y="236">the bathroom door</text>
+          </g>
+          <g class="col" transform="translate(300 0)">
+            <text class="lab" x="0" y="22">ON THE BOARD</text>
+            <rect x="0" y="60" width="250" height="150" rx="10" class="ln"/>
+            <text class="cap" x="20" y="98">Sensing</text>
+            <text class="cap dim" x="20" y="122">no image is formed</text>
+            <line x1="20" y1="140" x2="230" y2="140" class="ln thin"/>
+            <text class="cap" x="20" y="172">The model</text>
+            <text class="cap dim" x="20" y="196">runs here, on the unit</text>
+            <text class="cap dim" x="0" y="256">Nothing stored.</text>
+            <text class="cap dim" x="0" y="278">Nothing to leak.</text>
+          </g>
+          <g transform="translate(560 0)">
+            <line x1="0" y1="135" x2="80" y2="135" class="ln"/>
+            <path d="M72 128 L82 135 L72 142" class="ln"/>
+            <text class="lab acc" x="0" y="112">ONE LINE OUT</text>
+          </g>
+          <g class="col" transform="translate(660 0)">
+            <text class="lab" x="0" y="22">WHAT LEAVES</text>
+            <text class="cap" x="0" y="98">Somebody is on the floor</text>
+            <text class="cap" x="0" y="130">Forty minutes in the bathroom</text>
+            <text class="cap" x="0" y="162">Not out of bed this morning</text>
+            <text class="cap" x="0" y="194">Unit 14 has stopped reporting</text>
+            <text class="cap dim" x="0" y="256">Never a picture.</text>
+            <text class="cap dim" x="0" y="278">Never a recording.</text>
+          </g>
+          <g class="col" transform="translate(1010 0)">
+            <text class="lab" x="0" y="22">WHO SEES IT</text>
+            <rect x="0" y="60" width="150" height="96" rx="10" class="ln"/>
+            <text class="cap" x="18" y="100">Nurse station</text>
+            <text class="cap dim" x="18" y="124">and the phone</text>
+            <text class="cap dim" x="0" y="256">Every event logged,</text>
+            <text class="cap dim" x="0" y="278">with the time.</text>
+          </g>
+        </svg>
+        <figcaption class="label"><span>The one rule. Events cross the ceiling, pictures do not</span><span>System diagram</span></figcaption>
+      </figure>
 
     </div>
   </section>
@@ -1172,6 +1269,46 @@ window.WonderSneak = (function () {
     rail.addEventListener('scroll', function () { sync(rail); }, { passive: true });
     sync(rail);
   });
+})();
+
+/* The rails drive sideways as the page scrolls down. Progress is how far the
+   rail has travelled up the viewport, mapped onto its own scroll range, so it
+   finishes as it leaves. The moment somebody drags, wheels sideways or uses an
+   arrow, that rail is theirs until it has scrolled out of view. Off under
+   reduced motion, and the snap and smooth CSS are lifted only while we drive,
+   because both fight a scrollLeft that changes every frame. */
+(function () {
+  var rails = [].slice.call(document.querySelectorAll('.rail-scroll'));
+  if (!rails.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function take(rail) { rail._manual = true; rail.style.scrollSnapType = ''; rail.style.scrollBehavior = ''; }
+  rails.forEach(function (rail) {
+    rail.addEventListener('pointerdown', function () { take(rail); }, { passive: true });
+    rail.addEventListener('wheel', function (e) { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) take(rail); }, { passive: true });
+    document.querySelectorAll('[data-rail="' + rail.id + '"]').forEach(function (b) {
+      b.addEventListener('click', function () { take(rail); });
+    });
+  });
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    var vh = window.innerHeight;
+    rails.forEach(function (rail) {
+      var r = rail.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) { rail._manual = false; return; }   // out of view: hand it back
+      if (rail._manual) return;
+      var max = rail.scrollWidth - rail.clientWidth;
+      if (max <= 0) return;
+      // enters at 90% down the viewport, done by the time its bottom passes 30%
+      var t = (vh * 0.9 - r.top) / (vh * 0.9 - (vh * 0.3 - r.height));
+      t = Math.max(0, Math.min(1, t));
+      rail.style.scrollSnapType = 'none';
+      rail.style.scrollBehavior = 'auto';
+      rail.scrollLeft = t * max;
+    });
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  frame();
 })();
 
 /* The footer mark runs the sneak once, when it scrolls into view. */

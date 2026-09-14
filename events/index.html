@@ -206,7 +206,7 @@
   .visit h2{margin:0;font-weight:400;font-size:clamp(52px,9.4vw,176px);line-height:.9;letter-spacing:-.045em}
   .visit .row{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--gap);flex-wrap:wrap}
   .visit .details{margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--ink);padding-top:14px;row-gap:22px}
-  .visit .details > div{grid-column:span 3;display:grid;gap:6px;align-content:start}
+  .visit .details > div{display:grid;gap:6px;align-content:start}
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
 
   /* footer */
@@ -229,7 +229,7 @@
     .proof{grid-template-columns:1fr 1fr}
     .qin,.qsheet{grid-column:1/13}
     .qsheet{position:static}
-    .visit .details > div{grid-column:span 6}
+    .visit .details{grid-template-columns:1fr 1fr}
     .head .label{grid-column:1/13;margin-bottom:12px}
     .head h2,.head p{grid-column:1/13}
   }
@@ -249,7 +249,7 @@
     .steps tr{display:grid;grid-template-columns:1fr;border-bottom:1px solid var(--rule);padding:18px 0}
     .steps td{border:0;padding:4px 0 !important;width:auto !important}
     .pair{grid-template-columns:1fr}
-    .visit .details > div{grid-column:1/13}
+    .visit .details{grid-template-columns:1fr}
     footer .made{flex-wrap:wrap;gap:6px 14px;justify-content:flex-start}
   }
   @media (prefers-reduced-motion:reduce){
@@ -305,6 +305,16 @@
   .story figure.bleed{margin-inline:calc(var(--m) * -1)}
   .story figure.bleed img{border-radius:0}
   .story figure.bleed figcaption{padding-inline:var(--m)}
+  /* Diagrams with words in them are drawn, not generated, so the words are real. */
+  .story figure.diag svg{width:100%;height:auto;display:block;overflow:visible}
+  .story figure.diag .ln{fill:none;stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke}
+  .story figure.diag .ln.thin{stroke:var(--rule);stroke-width:1}
+  .story figure.diag .fill{fill:var(--ink)}
+  .story figure.diag .lab{font-family:var(--mono);font-size:12px;letter-spacing:.06em;fill:var(--graphite)}
+  .story figure.diag .lab.acc{fill:var(--signal)}
+  .story figure.diag .cap{font-family:var(--display);font-size:17px;fill:var(--ink)}
+  .story figure.diag .cap.dim{fill:var(--graphite);font-size:15px}
+  @media (max-width:700px){ .story figure.diag{overflow-x:auto} .story figure.diag svg{min-width:900px} }
   .story figure.inset{width:min(100%,62%);margin-inline:auto}
   .story figure.half{width:min(100%,48%)}
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
@@ -409,6 +419,12 @@
   .people .trio{margin-top:0}
   .visit{padding:clamp(80px,12vw,180px) 0 clamp(72px,10vw,150px);text-align:center}
   .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) auto 0;max-width:1100px;text-align:left}
+  /* Both doors, "Come and see it" and "Book a visit", land here. So the space is here. */
+  .visit .peek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);max-width:1100px;margin:clamp(36px,5vw,64px) auto 0}
+  .visit .peek a{display:block;text-decoration:none;color:inherit}
+  .visit .peek img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
+  .visit .peek .label{display:block;text-align:left;padding-top:10px}
+  @media (max-width:700px){ .visit .peek{grid-template-columns:1fr} }
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
   @media (max-width:980px){
     .svc{grid-template-columns:1fr 1fr}
@@ -450,8 +466,13 @@
   .phero,.pdetail{background:#0A0A0C;color:var(--cream)}
   .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
   .phero h1{margin:clamp(20px,3vw,40px) 0 0;font-weight:400;font-size:clamp(56px,11vw,190px);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
-  .stage{margin-top:clamp(-40px,-3vw,-16px)}
-  .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 62% at 50% 52%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 66% 62% at 50% 52%,#000 62%,transparent 100%)}
+  /* The stage tucks up under the title. The old mask ellipse reached above the
+     image's top edge, so its opaque centre painted a hard band across the lower
+     half of the letters. The title now sits above it, and the mask fades out
+     before the edge so nothing hard can show between the letters either. */
+  .phero h1{position:relative;z-index:1}
+  .stage{margin-top:clamp(-40px,-3vw,-16px);position:relative;z-index:0}
+  .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%)}
   .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
   .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
   .pdetail h2.line{margin:22px auto 26px;max-width:18ch;color:var(--cream)}
@@ -1170,6 +1191,46 @@ window.WonderSneak = (function () {
     rail.addEventListener('scroll', function () { sync(rail); }, { passive: true });
     sync(rail);
   });
+})();
+
+/* The rails drive sideways as the page scrolls down. Progress is how far the
+   rail has travelled up the viewport, mapped onto its own scroll range, so it
+   finishes as it leaves. The moment somebody drags, wheels sideways or uses an
+   arrow, that rail is theirs until it has scrolled out of view. Off under
+   reduced motion, and the snap and smooth CSS are lifted only while we drive,
+   because both fight a scrollLeft that changes every frame. */
+(function () {
+  var rails = [].slice.call(document.querySelectorAll('.rail-scroll'));
+  if (!rails.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function take(rail) { rail._manual = true; rail.style.scrollSnapType = ''; rail.style.scrollBehavior = ''; }
+  rails.forEach(function (rail) {
+    rail.addEventListener('pointerdown', function () { take(rail); }, { passive: true });
+    rail.addEventListener('wheel', function (e) { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) take(rail); }, { passive: true });
+    document.querySelectorAll('[data-rail="' + rail.id + '"]').forEach(function (b) {
+      b.addEventListener('click', function () { take(rail); });
+    });
+  });
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    var vh = window.innerHeight;
+    rails.forEach(function (rail) {
+      var r = rail.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) { rail._manual = false; return; }   // out of view: hand it back
+      if (rail._manual) return;
+      var max = rail.scrollWidth - rail.clientWidth;
+      if (max <= 0) return;
+      // enters at 90% down the viewport, done by the time its bottom passes 30%
+      var t = (vh * 0.9 - r.top) / (vh * 0.9 - (vh * 0.3 - r.height));
+      t = Math.max(0, Math.min(1, t));
+      rail.style.scrollSnapType = 'none';
+      rail.style.scrollBehavior = 'auto';
+      rail.scrollLeft = t * max;
+    });
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  frame();
 })();
 
 /* The footer mark runs the sneak once, when it scrolls into view. */

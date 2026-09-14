@@ -240,6 +240,46 @@ window.WonderSneak = (function () {
   });
 })();
 
+/* The rails drive sideways as the page scrolls down. Progress is how far the
+   rail has travelled up the viewport, mapped onto its own scroll range, so it
+   finishes as it leaves. The moment somebody drags, wheels sideways or uses an
+   arrow, that rail is theirs until it has scrolled out of view. Off under
+   reduced motion, and the snap and smooth CSS are lifted only while we drive,
+   because both fight a scrollLeft that changes every frame. */
+(function () {
+  var rails = [].slice.call(document.querySelectorAll('.rail-scroll'));
+  if (!rails.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function take(rail) { rail._manual = true; rail.style.scrollSnapType = ''; rail.style.scrollBehavior = ''; }
+  rails.forEach(function (rail) {
+    rail.addEventListener('pointerdown', function () { take(rail); }, { passive: true });
+    rail.addEventListener('wheel', function (e) { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) take(rail); }, { passive: true });
+    document.querySelectorAll('[data-rail="' + rail.id + '"]').forEach(function (b) {
+      b.addEventListener('click', function () { take(rail); });
+    });
+  });
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    var vh = window.innerHeight;
+    rails.forEach(function (rail) {
+      var r = rail.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) { rail._manual = false; return; }   // out of view: hand it back
+      if (rail._manual) return;
+      var max = rail.scrollWidth - rail.clientWidth;
+      if (max <= 0) return;
+      // enters at 90% down the viewport, done by the time its bottom passes 30%
+      var t = (vh * 0.9 - r.top) / (vh * 0.9 - (vh * 0.3 - r.height));
+      t = Math.max(0, Math.min(1, t));
+      rail.style.scrollSnapType = 'none';
+      rail.style.scrollBehavior = 'auto';
+      rail.scrollLeft = t * max;
+    });
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  frame();
+})();
+
 /* The footer mark runs the sneak once, when it scrolls into view. */
 (function () {
   var cv = document.querySelector('footer canvas[data-wonder-mark]');
