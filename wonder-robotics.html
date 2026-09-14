@@ -258,6 +258,14 @@
 
   /* work tiles */
   .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .cases:has(> a:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* A build with nothing to show yet. It has to read as deliberate, not broken,
+     and must never carry an invented picture of the thing. */
+  .cases a.soon .ph{background:var(--night);display:grid;place-items:center}
+  .cases a.soon .holding{display:grid;gap:10px;justify-items:center;text-align:center;padding:24px}
+  .cases a.soon .holding b{font-weight:400;font-size:clamp(28px,3vw,46px);letter-spacing:-.04em;color:var(--cream);line-height:1}
+  .cases a.soon .holding .label{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
+  @media (max-width:900px){ .cases:has(> a:nth-child(3)){grid-template-columns:1fr} }
   .cases a{display:grid;gap:14px;text-decoration:none;color:inherit}
   .cases .ph{aspect-ratio:3/2;overflow:hidden;background:var(--rule);border-radius:var(--r)}
   .cases .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
@@ -671,7 +679,7 @@
     <div class="wrap">
       <div class="grid head">
         <span class="label">The builds</span>
-        <h2>A floor you can walk into, and a build under way.</h2>
+        <h2>A floor you can walk into, a kitchen going in, and a device in development.</h2>
         <p>Every project is scoped, designed, branded, built and run by the same team, in the same building.</p>
       </div>
       <div class="cases">
@@ -684,6 +692,11 @@
           <div class="ph"><img src="img/lrd-concept.jpg" alt="Concept render of the Little Red Dumpling autonomous kitchen" loading="lazy"></div>
           <h3><span>Little Red Dumpling</span><span class="label">Building</span></h3>
           <p>A fully autonomous kitchen at Nexus Way on the Gold Coast, for a Queensland dumpling group with thirteen venues behind them.</p>
+        </a>
+        <a class="soon" href="#visit">
+          <div class="ph"><span class="holding"><b>harry.ai</b><span class="label">Images to come</span></span></div>
+          <h3><span>harry.ai</span><span class="label">In development</span></h3>
+          <p>A roof-mounted AI device, designed and built here. Hardware, firmware and the software behind it, all in one building. More on this one shortly.</p>
         </a>
       </div>
     </div>
