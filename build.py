@@ -175,7 +175,10 @@ def thumb(m):
     # the light render gives every tile the same ground, as coffee-tech's cards; the maker's image is the fallback
     src = m.get("light") or m["hero"]
     if src:
-        return f'<img src="{{{{root}}}}img/{src}" alt="{escape(m["name"])}" loading="lazy">'
+        # The plates are portrait and the card is 5:4, so a centred crop takes the
+        # head off six of them. thumb_pos is measured per machine, not guessed.
+        pos = f' style="object-position:{m["thumb_pos"]}"' if m.get("thumb_pos") else ""
+        return f'<img src="{{{{root}}}}img/{src}" alt="{escape(m["name"])}" loading="lazy"{pos}>'
     return f'<span class="glyph">{escape(m["name"])}</span>'
 
 
