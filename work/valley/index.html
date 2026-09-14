@@ -322,8 +322,8 @@
   .story .pair figure{margin:0}
   /* Two plates side by side must share a box. The sources never quite match
      (16:9 beside 3:2, 1400x2489 beside 1400x1738), so the pair sets the shape. */
-  .story .pair figure img{aspect-ratio:3/2;object-fit:cover;width:100%}
-  .story .pair.tall figure img{aspect-ratio:4/5}
+  .story .pair figure img,.story .pair figure video{aspect-ratio:3/2;object-fit:cover;width:100%;display:block;border-radius:var(--r);background:var(--rule)}
+  .story .pair.tall figure img,.story .pair.tall figure video{aspect-ratio:4/5}
   /* A landscape photograph beside a portrait screen. Fixed box, or the 9:16
      video sets a row height the photograph can never fill. */
   .story .duo{display:grid;grid-template-columns:1fr minmax(0,300px);gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
@@ -713,6 +713,16 @@
 
   .cases .label{white-space:nowrap}
 
+  /* Plates arrive: a short rise and a settle from a hair over scale, so the
+     page feels loaded rather than dumped. Only under .wr-lift, so with no JS
+     everything is simply there. */
+  .wr-lift .story figure:not(.diag),.wr-lift .cases .ph,.wr-lift .catalogue .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .related .ph,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .story figure.is-in,.wr-lift .cases .ph.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .related .ph.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
+  /* The settle scales the image, so the figure clips it: the bleed plate is
+     viewport-wide and 2.5% over that is a horizontal scrollbar. */
+  .wr-lift .story figure{overflow:hidden}
+  .wr-lift .story figure img,.wr-lift .cases .ph img,.wr-lift .catalogue .ph img{transform:scale(1.025);transition:transform 1.6s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .story figure.is-in img,.wr-lift .cases .ph.is-in img,.wr-lift .catalogue .ph.is-in img{transform:none}
   .wr-lift .layer.bottom{transform:translate3d(0,28px,0);opacity:0;transition:transform .85s cubic-bezier(.16,.84,.24,1),opacity .6s ease}
   .wr-lift .layer.bottom.is-in{transform:none;opacity:1}
   .wr-lift .layer.bottom .cell{transition:opacity .6s ease .18s;opacity:0}
@@ -782,6 +792,10 @@
         <p>Kitchen on the long wall, pass at the end so the room can watch. A curved bar. The kiosk where the queue forms. The floor mapped for CadeBots.</p>
         <p>The brand pass is Wonder itself: the crescent, the cream, the night.</p>
       </div>
+      <figure class="inset">
+        <img src="../../img/lockup-robotics.png" alt="The Wonder Robotics lockup: the wordmark with the crescent and the robot face in the o" loading="lazy">
+        <figcaption class="label"><span>The mark, drawn here</span><span>Brand, Wonder</span></figcaption>
+      </figure>
       <h2>Supply</h2>
       <div class="txt">
         <p>A cobot on a rail with an ingredient store, three fryers, six noodle baths. A bar cobot. A kiosk arm. Two CadeBots and a Cruzr. Our stack behind it.</p>
@@ -823,10 +837,6 @@
       <figure>
         <img src="../../img/floor-lunch.jpg" alt="The dining floor at lunch with service robots between the tables" loading="lazy" width="2400" height="1339">
         <figcaption class="label"><span>The floor at lunch</span><span>Captured in the building; the service robots are ours</span></figcaption>
-      </figure>
-      <figure class="half">
-        <img src="../../img/valley-cadebot.jpg" alt="A CadeBot tray robot beside the tables, the kiosk behind" loading="lazy">
-        <figcaption class="label"><span>CadeBot</span><span>Plates, on a mapped route</span></figcaption>
       </figure>
       <h2>Maintenance</h2>
       <div class="txt">
@@ -1217,8 +1227,11 @@ window.WonderSneak = (function () {
    cream half, so the page acts out what the section says. Off under reduced
    motion, and it only ever runs once. */
 (function () {
-  var el = document.querySelector('.layer.bottom');
-  if (!el || !('IntersectionObserver' in window)) return;
+  // The same observer now lifts every plate on the site as it arrives
+  // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
+  // The process rail keeps its own ink wipe and is left out here.
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
+  if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');
   var io = new IntersectionObserver(function (entries) {
@@ -1227,8 +1240,8 @@ window.WonderSneak = (function () {
       e.target.classList.add('is-in');
       io.unobserve(e.target);
     });
-  }, { rootMargin: '0px 0px -18% 0px', threshold: 0.15 });
-  io.observe(el);
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+  els.forEach(function (n) { io.observe(n); });
 })();
 
 /* Rail arrows. The scroller already works without them; these just page it by
