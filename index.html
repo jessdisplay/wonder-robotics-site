@@ -572,6 +572,28 @@
     .disc-grid li{border-right:0;border-bottom:1px solid var(--rule)}
     .disc-grid li:last-child{border-bottom:0}
   }
+
+  /* The process. Set on the night so it alternates against the disciplines block
+     above it; same grid, inverted, so the two read as a pair not a repeat. */
+  .process{background:var(--night);color:var(--cream);padding-block:clamp(72px,9vw,132px);margin-top:clamp(56px,7vw,104px)}
+  .process .head{border-top-color:color-mix(in srgb,var(--cream) 40%,transparent)}
+  .process .head h2{color:var(--cream)}
+  .process .head .label,.process .head p{color:color-mix(in srgb,var(--cream) 66%,var(--night))}
+  .proc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid color-mix(in srgb,var(--cream) 24%,transparent)}
+  .proc-grid li{display:grid;gap:10px;align-content:start;padding:26px 26px 0 0;border-right:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
+  .proc-grid li:last-child{border-right:0}
+  .proc-grid .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:color-mix(in srgb,var(--cream) 58%,var(--night))}
+  .proc-grid b{font-weight:400;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1;color:var(--cream)}
+  .proc-grid p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 64%,var(--night))}
+  @media (max-width:1000px){
+    .proc-grid{grid-template-columns:1fr 1fr}
+    .proc-grid li:nth-child(2){border-right:0}
+  }
+  @media (max-width:640px){
+    .proc-grid{grid-template-columns:1fr}
+    .proc-grid li{border-right:0;padding-bottom:22px;border-bottom:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
+    .proc-grid li:last-child{border-bottom:0}
+  }
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -610,7 +632,7 @@
       <div class="grid head">
         <span class="label">What we build</span>
         <h2>An engineering company that happens to be very good at robots.</h2>
-        <p>Four disciplines under one roof in Fortitude Valley. Most jobs need two or three of them, which is the reason to use one company instead of four.</p>
+        <p>Four disciplines under one roof in Fortitude Valley. The robots are the half you can see. The AI and the software are what make them do your job, and we write those too, which is the reason to use one company instead of four.</p>
       </div>
       <ol class="disc-grid">
         <li>
@@ -625,12 +647,12 @@
         </li>
         <li>
           <span class="n">03</span><b>AI</b>
-          <p>Agents that work inside a real process: grounded in your documentation, wired into your systems, with review gates and a person still in charge.</p>
+          <p>The decisions a machine makes on its own: what it sees, what it picks, when it stops. Plus agents that work inside your own processes, grounded in your documentation with a person still in charge.</p>
           <a class="link" href="machines/ai-agents/">AI agents</a>
         </li>
         <li>
           <span class="n">04</span><b>Apps and software</b>
-          <p>Portals, internal systems, dashboards, APIs, and the software layer behind any robot we install. React, Node, Python, PostgreSQL, built in stages.</p>
+          <p>What actually drives the robot: the ordering, payment, stock and dispatch it talks to, the dashboard you watch it on, the app your customer taps. Portals and internal systems as their own jobs too.</p>
           <a class="link" href="machines/software/">Software</a>
         </li>
       </ol>
@@ -678,6 +700,35 @@
         <img src="img/warm-entry.jpg" alt="Pepper waving to a young family arriving through the street door in the afternoon sun" loading="lazy">
         <figcaption class="label"><span>Pepper on the door</span><span>Every session, every week</span></figcaption>
       </figure>
+    </div>
+  </section>
+
+
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">How we work</span>
+        <h2>Planning, design, implementation, maintenance.</h2>
+        <p>The same four stages whether it is one robot arm, a software platform or a whole fitout. You deal with the same team through all of them.</p>
+      </div>
+      <ol class="proc-grid">
+        <li>
+          <span class="n">01</span><b>Planning</b>
+          <p>What the job actually is, what a machine should do with it, what it costs and what it gives back. On your site or on our floor, before anyone commits.</p>
+        </li>
+        <li>
+          <span class="n">02</span><b>Design</b>
+          <p>Layouts against your real floor plan, the cell and its safety, the software and data model, and the brand if it needs one. Drawn and agreed before we cut anything.</p>
+        </li>
+        <li>
+          <span class="n">03</span><b>Implementation</b>
+          <p>Fabricate, program, integrate, install, commission and train your staff on it. Built and tested in our workshop first, so your floor is not the test bed.</p>
+        </li>
+        <li>
+          <span class="n">04</span><b>Maintenance</b>
+          <p>Service schedules, spares, remote monitoring, software updates and a number in Brisbane that answers. Priced on the same quote as the machine.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
