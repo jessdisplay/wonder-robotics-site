@@ -253,6 +253,8 @@
   /* work tiles */
   .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
   .cases:has(> a:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* four cases read as a square, not three plus an orphan */
+  .cases:has(> a:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}
   /* A build with nothing to show yet. It has to read as deliberate, not broken,
      and must never carry an invented picture of the thing. */
   .cases a.soon .ph{background:var(--night);display:grid;place-items:center}
@@ -287,6 +289,13 @@
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
   .story .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
   .story .pair figure{margin:0}
+  /* A landscape photograph beside a portrait screen. Fixed box, or the 9:16
+     video sets a row height the photograph can never fill. */
+  .story .duo{display:grid;grid-template-columns:1fr minmax(0,300px);gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
+  .story .duo figure{margin:0}
+  .story .duo .frame{height:clamp(320px,40vw,520px);border-radius:var(--r);overflow:hidden;background:var(--night)}
+  .story .duo .frame > *{width:100%;height:100%;object-fit:cover;display:block}
+  .story .duo .screen .frame > *{object-fit:contain}
   .story h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
   .story .txt{max-width:60ch;color:var(--ink);font-size:clamp(16px,1.2vw,19px);margin-bottom:clamp(28px,4vw,56px)}
   .story .txt p{margin:0 0 1em}
@@ -300,6 +309,8 @@
     .cases{grid-template-columns:1fr}
     .case-head .facts,.case-head .intro{grid-column:1/13}
     .story .pair{grid-template-columns:1fr}
+    .story .duo{grid-template-columns:1fr}
+    .story .duo .screen .frame{height:60vw}
     .story figure.inset,.story figure.half{width:100%}
     .next a{grid-template-columns:1fr}
   }

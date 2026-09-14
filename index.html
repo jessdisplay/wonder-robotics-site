@@ -269,6 +269,8 @@
   /* work tiles */
   .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
   .cases:has(> a:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* four cases read as a square, not three plus an orphan */
+  .cases:has(> a:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}
   /* A build with nothing to show yet. It has to read as deliberate, not broken,
      and must never carry an invented picture of the thing. */
   .cases a.soon .ph{background:var(--night);display:grid;place-items:center}
@@ -303,6 +305,13 @@
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
   .story .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
   .story .pair figure{margin:0}
+  /* A landscape photograph beside a portrait screen. Fixed box, or the 9:16
+     video sets a row height the photograph can never fill. */
+  .story .duo{display:grid;grid-template-columns:1fr minmax(0,300px);gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
+  .story .duo figure{margin:0}
+  .story .duo .frame{height:clamp(320px,40vw,520px);border-radius:var(--r);overflow:hidden;background:var(--night)}
+  .story .duo .frame > *{width:100%;height:100%;object-fit:cover;display:block}
+  .story .duo .screen .frame > *{object-fit:contain}
   .story h2{margin:0 0 clamp(20px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
   .story .txt{max-width:60ch;color:var(--ink);font-size:clamp(16px,1.2vw,19px);margin-bottom:clamp(28px,4vw,56px)}
   .story .txt p{margin:0 0 1em}
@@ -316,6 +325,8 @@
     .cases{grid-template-columns:1fr}
     .case-head .facts,.case-head .intro{grid-column:1/13}
     .story .pair{grid-template-columns:1fr}
+    .story .duo{grid-template-columns:1fr}
+    .story .duo .screen .frame{height:60vw}
     .story figure.inset,.story figure.half{width:100%}
     .next a{grid-template-columns:1fr}
   }
@@ -790,8 +801,8 @@
     <div class="wrap">
       <div class="grid head">
         <span class="label">Case studies</span>
-        <h2>Three jobs we are building for other people.</h2>
-        <p>One in food, one in care, one a device of our own. All three scoped, designed, built and run by the same team.</p>
+        <h2>Four jobs on the bench right now.</h2>
+        <p>A cafe on the Gold Coast, a container at Eat Street, a sensor for care and a device of our own. Same team on all four, from the first sketch to the service schedule.</p>
       </div>
       <div class="cases">
         <a href="work/little-red-dumplings/">
@@ -804,10 +815,15 @@
           <h3><span>Florence sensor</span><span class="label">Care</span></h3>
           <p>A sensor that works like a care nurse. Our own device: hardware, firmware and the software behind it. More on this one shortly.</p>
         </a>
-        <a class="soon" href="#visit">
-          <div class="ph"><span class="holding"><b>harry.ai</b><span class="label">Images to come</span></span></div>
-          <h3><span>harry.ai</span><span class="label">Device</span></h3>
-          <p>A roof-mounted AI device. Hardware, firmware and software, all designed and built here. More on this one shortly.</p>
+        <a href="work/container-kitchen/">
+          <div class="ph"><img src="img/container/arm.jpg" alt="The container kitchen at Eat Street Northshore, the arm lit behind glass" loading="lazy"></div>
+          <h3><span>The container kitchen</span><span class="label">Food</span></h3>
+          <p>A twenty foot container at Eat Street Northshore with an arm cooking behind glass and a micro-LED wrap for a skin.</p>
+        </a>
+        <a href="work/roof-device/">
+          <div class="ph"><img src="img/roof/unit.jpg" alt="The roof device mounted on a commercial roof" loading="lazy"></div>
+          <h3><span>The roof device</span><span class="label">Device</span></h3>
+          <p>Our own edge AI unit. Enclosure, electronics, firmware and the software behind it, all drawn and built in the Valley.</p>
         </a>
       </div>
     </div>
