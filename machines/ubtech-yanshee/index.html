@@ -6,6 +6,10 @@
 <meta name="robots" content="noindex">
 <title>UBTECH Yanshee, Wonder Robotics</title>
 <meta name="description" content="A real jointed humanoid for classrooms and labs, with Python, Scratch and ROS underneath.">
+<link rel="icon" href="../../favicon-32.png" sizes="32x32">
+<link rel="icon" href="../../favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<meta name="theme-color" content="#20103A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
@@ -606,6 +610,27 @@
     .proc-grid li{border-right:0;padding-bottom:22px;border-bottom:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
     .proc-grid li:last-child{border-bottom:0}
   }
+
+  /* The building. Front of the page now, because it is the venue you can walk
+     into, not a case study. Two plates: the line running, and Pepper on the door. */
+  .venue{padding-top:clamp(64px,8vw,120px)}
+  .venue-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:var(--gap);align-items:start}
+  .venue-grid .plate{margin:0}
+  .venue-grid .plate video,.venue-grid .plate img{display:block;width:100%;height:auto;object-fit:cover;border-radius:var(--r);background:var(--rule)}
+  .venue-grid .plate.wide video,.venue-grid .plate.wide img{aspect-ratio:16/9}
+  .venue-grid .plate:not(.wide) img{aspect-ratio:4/5}
+  .venue-grid figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
+  .venue-note{margin:clamp(28px,3.4vw,44px) 0 0;max-width:72ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
+  @media (max-width:900px){
+    .venue-grid{grid-template-columns:1fr}
+    .venue-grid .plate:not(.wide) img{aspect-ratio:16/9}
+  }
+  .cases .label{white-space:nowrap}
+
+  .wr-lift .layer.bottom{transform:translate3d(0,28px,0);opacity:0;transition:transform .85s cubic-bezier(.16,.84,.24,1),opacity .6s ease}
+  .wr-lift .layer.bottom.is-in{transform:none;opacity:1}
+  .wr-lift .layer.bottom .cell{transition:opacity .6s ease .18s;opacity:0}
+  .wr-lift .layer.bottom.is-in .cell{opacity:1}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -614,7 +639,7 @@
     <a class="mark" href="../../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="../../#services">What we sell</a><a href="../../machines/">Machines</a><a href="../../#quote">Pricing</a><a href="../../work/valley/">The building</a><a href="../../work/little-red-dumplings/">Little Red Dumpling</a><a href="../../events/">The club</a>
+      <a href="../../#disciplines">What we do</a><a href="../../work/valley/">The building</a><a href="../../machines/">Machines</a><a href="../../#work">Case studies</a><a href="../../#quote">Pricing</a><a href="../../events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -720,10 +745,10 @@
       </div>
       <div>
         <span class="label">Work</span>
+        <a href="../../#work">Case studies</a>
         <a href="../../work/valley/">365 St Pauls Terrace</a>
         <a href="../../work/little-red-dumplings/">Little Red Dumpling</a>
-        <a href="../../#food">Food</a>
-        <a href="../../#care">Care</a>
+        <a href="../../#building">The building</a>
       </div>
       <div>
         <span class="label">Sell and support</span>
@@ -998,6 +1023,24 @@
   // honour reduced motion for the hero: pause and show the still
   var vid=document.querySelector('.hero-video'); if(!vid) return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
+})();
+
+/* One small animation. The night half of the stack rises into place under the
+   cream half, so the page acts out what the section says. Off under reduced
+   motion, and it only ever runs once. */
+(function () {
+  var el = document.querySelector('.layer.bottom');
+  if (!el || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.classList.add('wr-lift');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -18% 0px', threshold: 0.15 });
+  io.observe(el);
 })();
 </script>
 

@@ -142,3 +142,21 @@
   var vid=document.querySelector('.hero-video'); if(!vid) return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
 })();
+
+/* One small animation. The night half of the stack rises into place under the
+   cream half, so the page acts out what the section says. Off under reduced
+   motion, and it only ever runs once. */
+(function () {
+  var el = document.querySelector('.layer.bottom');
+  if (!el || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.classList.add('wr-lift');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -18% 0px', threshold: 0.15 });
+  io.observe(el);
+})();

@@ -35,6 +35,11 @@ PAGES = {
                "desc": "The Robotics and Hardware Club: one night a month at 365 St Pauls Terrace for the people building robots and hardware in Queensland. Two talks, the machines running, the bench open."},
 }
 
+ICONS = ('<link rel="icon" href="{{root}}favicon-32.png" sizes="32x32">\n'
+         '<link rel="icon" href="{{root}}favicon-16.png" sizes="16x16">\n'
+         '<link rel="apple-touch-icon" href="{{root}}apple-touch-icon.png">\n'
+         '<meta name="theme-color" content="#20103A">\n')
+
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">\n'
 
 BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -43,7 +48,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#services">What we sell</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}work/little-red-dumplings/">Little Red Dumpling</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><a class="btn" href="{{root}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
   </div>
@@ -64,10 +69,10 @@ FOOTER = '''<footer>
       </div>
       <div>
         <span class="label">Work</span>
+        <a href="{{root}}#work">Case studies</a>
         <a href="{{root}}work/valley/">365 St Pauls Terrace</a>
         <a href="{{root}}work/little-red-dumplings/">Little Red Dumpling</a>
-        <a href="{{root}}#food">Food</a>
-        <a href="{{root}}#care">Care</a>
+        <a href="{{root}}#building">The building</a>
       </div>
       <div>
         <span class="label">Sell and support</span>
@@ -99,6 +104,7 @@ def render(body, cfg, name=None):
     inner = (
         f'<title>{cfg["title"]}</title>\n'
         f'<meta name="description" content="{cfg["desc"]}">\n'
+        + ICONS
         + FONTS
         + "<style>\n" + css + "</style>\n\n"
         + BAR + "\n" + body + "\n" + FOOTER

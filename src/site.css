@@ -594,3 +594,24 @@
     .proc-grid li{border-right:0;padding-bottom:22px;border-bottom:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
     .proc-grid li:last-child{border-bottom:0}
   }
+
+  /* The building. Front of the page now, because it is the venue you can walk
+     into, not a case study. Two plates: the line running, and Pepper on the door. */
+  .venue{padding-top:clamp(64px,8vw,120px)}
+  .venue-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:var(--gap);align-items:start}
+  .venue-grid .plate{margin:0}
+  .venue-grid .plate video,.venue-grid .plate img{display:block;width:100%;height:auto;object-fit:cover;border-radius:var(--r);background:var(--rule)}
+  .venue-grid .plate.wide video,.venue-grid .plate.wide img{aspect-ratio:16/9}
+  .venue-grid .plate:not(.wide) img{aspect-ratio:4/5}
+  .venue-grid figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
+  .venue-note{margin:clamp(28px,3.4vw,44px) 0 0;max-width:72ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
+  @media (max-width:900px){
+    .venue-grid{grid-template-columns:1fr}
+    .venue-grid .plate:not(.wide) img{aspect-ratio:16/9}
+  }
+  .cases .label{white-space:nowrap}
+
+  .wr-lift .layer.bottom{transform:translate3d(0,28px,0);opacity:0;transition:transform .85s cubic-bezier(.16,.84,.24,1),opacity .6s ease}
+  .wr-lift .layer.bottom.is-in{transform:none;opacity:1}
+  .wr-lift .layer.bottom .cell{transition:opacity .6s ease .18s;opacity:0}
+  .wr-lift .layer.bottom.is-in .cell{opacity:1}
