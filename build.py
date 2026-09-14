@@ -30,7 +30,7 @@ PAGES = {
     "lrd": {"out": "work/little-red-dumplings/index.html", "root": "../../", "title": "Little Red Dumpling, Wonder Robotics",
             "desc": "A fully autonomous dumpling kitchen at the Gold Coast Health and Knowledge Precinct, under construction."},
     "container": {"out": "work/container-kitchen/index.html", "root": "../../", "title": "The container kitchen, Wonder Robotics",
-                  "desc": "A twenty foot shipping container fitted as a robot kitchen for Eat Street Northshore in Hamilton, with a six-axis arm behind glass and a micro-LED wrap for a skin."},
+                  "desc": "A twenty foot shipping container fitted as a robot kitchen for Eat Street Northshore in Hamilton, with a six-axis arm behind glass and a projector-glass skin that changes its brand by the night."},
     "fallsense": {"out": "work/fall-sense/index.html", "root": "../../", "title": "Fall Sense, Wonder Robotics",
                   "desc": "Florence Fall Sense: a ceiling-mounted edge AI unit for residential aged care that reports the event, never the footage. Brand, enclosure, electronics, firmware and software, all built in Fortitude Valley."},
     "quote": {"out": "quote/index.html", "root": "../", "title": "Get a quote, Wonder Robotics",
