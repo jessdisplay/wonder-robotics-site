@@ -310,6 +310,10 @@
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
   .story .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
   .story .pair figure{margin:0}
+  /* Two plates side by side must share a box. The sources never quite match
+     (16:9 beside 3:2, 1400x2489 beside 1400x1738), so the pair sets the shape. */
+  .story .pair figure img{aspect-ratio:3/2;object-fit:cover;width:100%}
+  .story .pair.tall figure img{aspect-ratio:4/5}
   /* A landscape photograph beside a portrait screen. Fixed box, or the 9:16
      video sets a row height the photograph can never fill. */
   .story .duo{display:grid;grid-template-columns:1fr minmax(0,300px);gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
@@ -631,25 +635,22 @@
   .process .head{border-top-color:color-mix(in srgb,var(--cream) 40%,transparent)}
   .process .head h2{color:var(--cream)}
   .process .head .label,.process .head p{color:color-mix(in srgb,var(--cream) 66%,var(--night))}
-  .proc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid color-mix(in srgb,var(--cream) 24%,transparent)}
-  .proc-grid li{display:grid;gap:10px;align-content:start;padding:26px 26px 0 0;border-right:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
-  .proc-grid li:last-child{border-right:0}
-  .proc-grid .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:color-mix(in srgb,var(--cream) 58%,var(--night))}
-  .proc-grid b{font-weight:400;font-size:clamp(22px,1.95vw,31px);letter-spacing:-.04em;line-height:1.02;color:var(--cream)}
-  .proc-grid p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 64%,var(--night))}
+  /* The five stages as a rail, one plate each. Same component as the venue
+     rail, restyled for the night ground so the arrows stay visible. */
+  .process .shot figcaption{display:grid;gap:8px}
+  .process .shot figcaption .label{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
+  .process .shot figcaption .label b{color:var(--cream);font-weight:500}
+  .process .shot figcaption p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 66%,var(--night));max-width:44ch}
+  .process .shot img{aspect-ratio:3/2;background:color-mix(in srgb,var(--cream) 10%,var(--night))}
+  .process .rail-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--cream) 24%,transparent)}
+  .process .rail-btn{border-color:var(--cream);color:var(--cream)}
+  .process .rail-btn:hover{background:var(--cream);color:var(--night)}
+  .process .rail-btn[disabled]:hover{background:transparent;color:var(--cream)}
   @media (max-width:1180px){
-    .proc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .proc-grid li:nth-child(3){border-right:0}
   }
   @media (max-width:820px){
-    .proc-grid{grid-template-columns:1fr 1fr}
-    .proc-grid li{border-right:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
-    .proc-grid li:nth-child(2n){border-right:0}
   }
   @media (max-width:640px){
-    .proc-grid{grid-template-columns:1fr}
-    .proc-grid li{border-right:0;padding-bottom:22px;border-bottom:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
-    .proc-grid li:last-child{border-bottom:0}
   }
 
   /* The building, as a horizontal rail. Native scroll-snap so it works on a
@@ -726,8 +727,8 @@
   <section class="story">
     <div class="wrap">
       <figure class="bleed">
-        <img src="../../img/container/arm.jpg" alt="The container at Eat Street at night, wrapped in deep blue and purple light, the robot arm and the stainless cook line lit behind a long glass window" loading="lazy" width="2000" height="1341">
-        <figcaption class="label"><span>Eat Street Northshore, the arm behind glass</span><span>Concept visualisation</span></figcaption>
+        <img src="../../img/container/day.jpg" alt="The container at Eat Street by day: a twenty foot box in matte aubergine with the long side window open, the arm and cook line visible inside, people at the counter" loading="lazy" width="2000" height="1125">
+        <figcaption class="label"><span>Eat Street Northshore, midday, wrap off</span><span>Concept visualisation</span></figcaption>
       </figure>
 
       <h2>The problem</h2>
@@ -739,6 +740,25 @@
       <h2>Scope</h2>
       <div class="txt">
         <p>Concept, the room drawn to build, the brand and the screen content, the fabrication, the arm and its integration, the software, commissioning, then the maintenance contract. Every stage in one building. The container is our own, so this one is also the prototype for the next client who asks for a version of it.</p>
+      </div>
+
+      <h2>How it is built</h2>
+      <div class="txt">
+        <p>The box arrives as a box. One long side comes out for the hatch and gets reframed in steel, the shell is lined and insulated, then the stainless goes in and the arm goes on its rail. Every stage happens in our yard, so the first time it meets the public it has already cooked.</p>
+      </div>
+      <figure>
+        <img src="../../img/container/construction.jpg" alt="The container on stands in the fabrication yard, one side cut open and reframed in steel, a fabricator grinding the opening" loading="lazy" width="2000" height="1125">
+        <figcaption class="label"><span>The hatch cut and reframed</span><span>Concept visualisation</span></figcaption>
+      </figure>
+      <div class="pair">
+        <figure>
+          <img src="../../img/container/fitout.jpg" alt="Inside the lined container during fitout, the arm bolted to its rail and still in film, a technician at the controller with a laptop" loading="lazy">
+          <figcaption class="label"><span>Fitout, the arm on its rail</span><span>Concept visualisation</span></figcaption>
+        </figure>
+        <figure>
+          <img src="../../img/container/arm.jpg" alt="The finished container at night, the wrap lit and the arm working behind glass" loading="lazy">
+          <figcaption class="label"><span>Open, the wrap on</span><span>Concept visualisation</span></figcaption>
+        </figure>
       </div>
 
       <figure>

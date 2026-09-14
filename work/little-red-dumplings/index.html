@@ -310,6 +310,10 @@
   .story figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
   .story .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
   .story .pair figure{margin:0}
+  /* Two plates side by side must share a box. The sources never quite match
+     (16:9 beside 3:2, 1400x2489 beside 1400x1738), so the pair sets the shape. */
+  .story .pair figure img{aspect-ratio:3/2;object-fit:cover;width:100%}
+  .story .pair.tall figure img{aspect-ratio:4/5}
   /* A landscape photograph beside a portrait screen. Fixed box, or the 9:16
      video sets a row height the photograph can never fill. */
   .story .duo{display:grid;grid-template-columns:1fr minmax(0,300px);gap:var(--gap);align-items:start;margin-bottom:clamp(40px,5vw,80px)}
@@ -631,25 +635,22 @@
   .process .head{border-top-color:color-mix(in srgb,var(--cream) 40%,transparent)}
   .process .head h2{color:var(--cream)}
   .process .head .label,.process .head p{color:color-mix(in srgb,var(--cream) 66%,var(--night))}
-  .proc-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid color-mix(in srgb,var(--cream) 24%,transparent)}
-  .proc-grid li{display:grid;gap:10px;align-content:start;padding:26px 26px 0 0;border-right:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
-  .proc-grid li:last-child{border-right:0}
-  .proc-grid .n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:color-mix(in srgb,var(--cream) 58%,var(--night))}
-  .proc-grid b{font-weight:400;font-size:clamp(22px,1.95vw,31px);letter-spacing:-.04em;line-height:1.02;color:var(--cream)}
-  .proc-grid p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 64%,var(--night))}
+  /* The five stages as a rail, one plate each. Same component as the venue
+     rail, restyled for the night ground so the arrows stay visible. */
+  .process .shot figcaption{display:grid;gap:8px}
+  .process .shot figcaption .label{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
+  .process .shot figcaption .label b{color:var(--cream);font-weight:500}
+  .process .shot figcaption p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in srgb,var(--cream) 66%,var(--night));max-width:44ch}
+  .process .shot img{aspect-ratio:3/2;background:color-mix(in srgb,var(--cream) 10%,var(--night))}
+  .process .rail-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--cream) 24%,transparent)}
+  .process .rail-btn{border-color:var(--cream);color:var(--cream)}
+  .process .rail-btn:hover{background:var(--cream);color:var(--night)}
+  .process .rail-btn[disabled]:hover{background:transparent;color:var(--cream)}
   @media (max-width:1180px){
-    .proc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .proc-grid li:nth-child(3){border-right:0}
   }
   @media (max-width:820px){
-    .proc-grid{grid-template-columns:1fr 1fr}
-    .proc-grid li{border-right:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
-    .proc-grid li:nth-child(2n){border-right:0}
   }
   @media (max-width:640px){
-    .proc-grid{grid-template-columns:1fr}
-    .proc-grid li{border-right:0;padding-bottom:22px;border-bottom:1px solid color-mix(in srgb,var(--cream) 14%,transparent)}
-    .proc-grid li:last-child{border-bottom:0}
   }
 
   /* The building, as a horizontal rail. Native scroll-snap so it works on a
@@ -736,7 +737,7 @@
         <p>Everything under the counter is ours too: the ordering, the payment, the stock counts, the dashboard the manager watches on a phone. The same stack that runs our own kitchen in Fortitude Valley, set to a single-menu, high-volume dumpling operation.</p>
       </div>
 
-      <div class="pair">
+      <div class="pair tall">
         <figure>
           <img src="../../img/lrd/wells.jpg" alt="Visualisation of the six-well boiling unit installed and steaming, bamboo baskets on the stainless surface" loading="lazy">
           <figcaption class="label"><span>The boiling line</span><span>Visualisation</span></figcaption>
