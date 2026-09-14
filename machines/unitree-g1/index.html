@@ -1013,7 +1013,19 @@ window.WonderSneak = (function () {
       else { cv._wmdx = undefined; if (done) done(); }
     })(performance.now());
   }
-  return { OUT: OUT, park: park, run: run };
+  function hide(cv, dur, done) {
+    var g = window.WonderMark && WonderMark.geom(cv);
+    if (!g) { if (done) done(); return; }
+    var home = WonderMark.HOME, t0 = null;
+    (function frame(now) {
+      if (t0 === null) t0 = now;
+      var t = Math.min(1, (now - t0) / dur);
+      cv._wmdx = home + (OUT - home) * ease(t);
+      WonderMark.drawLockup(cv, g.W, g.H, g.px, g.ink, g.sub, cv._wmdx);
+      if (t < 1) requestAnimationFrame(frame); else if (done) done();
+    })(performance.now());
+  }
+  return { OUT: OUT, park: park, run: run, hide: hide };
 })();
 (function(){
   var L=document.getElementById('loader'); if(!L) return;
@@ -1271,18 +1283,44 @@ window.WonderSneak = (function () {
   shots.forEach(function (s) { io.observe(s); });
 })();
 
-/* The footer mark runs the sneak once, when it scrolls into view. */
+/* The footer robot peeks round the moon, and keeps peeking while the footer is
+   in view: out of sight, a beat, then the sneak in, a hold at home, and again.
+   The mark paints after the font loads, so parking has to wait for geometry;
+   the old version parked once at script time, lost the race and never ran. */
 (function () {
   var cv = document.querySelector('footer canvas[data-wonder-mark]');
   if (!cv || !window.WonderSneak || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (!WonderSneak.park(cv)) return;              // hold it off-stage until seen
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) {
-      if (e.isIntersecting) { io.disconnect(); setTimeout(function () { WonderSneak.run(cv, 1700); }, 220); }
+  var seen = false, busy = false, timer = null;
+  var HOLD = 3200, GONE = 700;
+  function cycle() {
+    if (!seen || busy || document.hidden) return;
+    busy = true;
+    WonderSneak.hide(cv, 480, function () {
+      timer = setTimeout(function () {
+        WonderSneak.run(cv, 1700, function () { busy = false; timer = setTimeout(cycle, HOLD); });
+      }, GONE);
     });
-  }, { threshold: 0.4 });
-  io.observe(cv);
+  }
+  function arm() {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        seen = e.isIntersecting;
+        if (seen && !busy) {
+          clearTimeout(timer);
+          busy = true;
+          timer = setTimeout(function () { WonderSneak.run(cv, 1700, function () { busy = false; timer = setTimeout(cycle, HOLD); }); }, 220);
+        }
+        if (!seen) { clearTimeout(timer); }
+      });
+    }, { threshold: 0.4 });
+    io.observe(cv);
+  }
+  var tries = 0;
+  (function park() {
+    if (WonderSneak.park(cv)) { arm(); return; }   // geometry exists: hold it off-stage
+    if (++tries < 400) requestAnimationFrame(park); // ~6s at 60fps, then give up quietly
+  })();
 })();
 
 /* The footer line arrives a word at a time. */
