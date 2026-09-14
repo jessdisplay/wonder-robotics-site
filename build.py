@@ -328,7 +328,9 @@ def machine_body(m):
 
 def catalogue_body():
     items = "".join(card(m) for m in MACHINES)
-    logos = "".join(f'<img src="{{{{root}}}}img/machines/logo-{k}.jpg" alt="{escape(v)}" loading="lazy">' for k, v in PARTNERS)
+    row = "".join(f'<img src="{{{{root}}}}img/partners/{k}" alt="{escape(v)}" loading="lazy">' for k, v in PARTNERS)
+    # three copies: one row is narrower than a wide viewport, so two would gap
+    logos = f'<div class="track"><div>{row}</div><div aria-hidden="true">{row}</div><div aria-hidden="true">{row}</div></div>'
     facts = [("Makers", "Unitree, UBTECH, Moton, JAKA, Dobot, and whoever makes the right machine for the job"),
              ("Prices", "List, ex GST, delivered within 100 km of an Australian port"),
              ("With every machine", "Installation, programming to your task, staff training, maintenance"),
@@ -356,7 +358,7 @@ def catalogue_body():
     <div class="wrap">
       <ul class="catalogue">{items}</ul>
       <h2>Who we have worked with</h2>
-      <div class="partners">{logos}</div>
+      <div class="partners" aria-label="Who we have worked with">{logos}</div>
     </div>
   </section>
 </main>

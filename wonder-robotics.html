@@ -573,8 +573,19 @@
   .catalogue h3{margin:6px 0 0;font-weight:400;font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em;line-height:1.02}
   .catalogue p{margin:0;color:var(--graphite);font-size:15px;line-height:1.45;max-width:40ch}
   .catalogue .from{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;border-top:1px solid color-mix(in srgb,var(--ink) 15%,transparent);padding-top:12px}
-  .partners{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);align-items:center;padding:20px 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
-  .partners img{height:26px;width:auto;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.75;mix-blend-mode:multiply}
+  /* The partners crawl. Two copies of the row, the first translated a full
+     width; a hand on it pauses it. Reduced motion gets a wrapped row instead. */
+  .partners{overflow:hidden;padding:28px 0 clamp(72px,10vw,150px);border-top:1px solid var(--ink)}
+  .partners .track{display:flex;width:max-content;animation:crawl3 54s linear infinite}
+  @keyframes crawl3{from{transform:translateX(0)}to{transform:translateX(-33.3333%)}}
+  .partners .track > div{display:flex;align-items:center;gap:clamp(40px,5vw,88px);padding-right:clamp(40px,5vw,88px)}
+  .partners:hover .track{animation-play-state:paused}
+  .partners img{height:44px;width:auto;max-width:240px;object-fit:contain;filter:grayscale(1);opacity:.8;mix-blend-mode:multiply}
+  @media (prefers-reduced-motion:reduce){
+    .partners .track{width:auto;flex-wrap:wrap;animation:none}
+    .partners .track > div{flex-wrap:wrap}
+    .partners .track > div[aria-hidden]{display:none}
+  }
   @media (max-width:900px){
     .catalogue,.tiles{grid-template-columns:1fr 1fr}
     .pfeatures .wrap,.rail .wrap{grid-template-columns:1fr}
