@@ -477,6 +477,18 @@
      before the edge so nothing hard can show between the letters either. */
   .phero h1{position:relative;z-index:1}
   .stage{margin-top:clamp(-40px,-3vw,-16px);position:relative;z-index:0}
+  /* Case studies wear the product hero. The stage is a photograph, not a
+     machine on black, so no mask and no tuck under the title. */
+  .stage.photo{margin:clamp(28px,4vw,56px) 0 0}
+  .stage.photo img{width:100%;max-width:none;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r);-webkit-mask-image:none;mask-image:none}
+  .stage.photo figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);color:color-mix(in srgb,var(--cream) 60%,#0A0A0C);text-align:left}
+  .stage.photo figcaption span:last-child{color:var(--signal)}
+  .case .phero h1{font-size:clamp(48px,9vw,160px)}
+  .case .pdetail .wrap{padding-top:clamp(56px,7vw,110px)}
+  .hl.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .case .story{padding-top:clamp(40px,5vw,80px)}
+  @media (max-width:900px){ .hl.three{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .hl.three{grid-template-columns:1fr} .stage.photo img{aspect-ratio:4/3} }
   .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%)}
   .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
   .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
@@ -759,41 +771,34 @@
   </div>
 </header>
 
-<main id="top">
-  <section class="case-head">
+<main id="top" class="product case">
+  <section class="phero">
     <div class="wrap">
-      <div class="grid meta label">
-        <span><b>Case study</b> &middot; Food</span>
-        <span>Eat Street Northshore, Hamilton</span>
-        <span>In development</span>
-      </div>
-      <h1 aria-label="The container kitchen">
-        <span class="row" aria-hidden="true"><span class="w l">The container</span><span class="w r">kitchen</span></span>
-      </h1>
-      <div class="grid">
-        <dl class="facts label">
-          <dt>Site</dt><dd>Eat Street Northshore, Hamilton, Brisbane</dd>
-          <dt>Format</dt><dd>Twenty foot shipping container, one side opening to a serving hatch</dd>
-          <dt>Machine</dt><dd>Six-axis arm on a rail, cooking line behind glass</dd>
-          <dt>Skin</dt><dd>Micro-LED wrap across three faces of the box</dd>
-          <dt>Scope</dt><dd>Planning, design, brand, fabrication, implementation, maintenance</dd>
-          <dt>Status</dt><dd>In development</dd>
-        </dl>
-        <div class="intro">
-          <p>Eat Street: 180 containers, seventy kitchens, Friday to Sunday. People stop to watch an arm cook.</p>
-          <p>The arm cooks behind glass. The skin is a screen.</p>
-        </div>
-      </div>
+      <div class="pills"><span class="pill">Case study</span><span class="pill">Food</span><span class="pill">Eat Street Northshore, Hamilton</span><span class="pill price">In development</span></div>
+      <h1>The container kitchen</h1>
+      <figure class="stage photo"><img src="../../img/container/day.jpg" alt="The container at Eat Street by day: a twenty foot box in matte aubergine with the long side window open, the arm and cook line visible inside, people at the counter" loading="lazy" width="2000" height="1125"><figcaption class="label"><span>Eat Street Northshore, midday, wrap off</span><span>Concept visualisation</span></figcaption></figure>
     </div>
   </section>
 
+  <section class="pdetail">
+    <div class="wrap">
+      <span class="label">[ The job ]</span>
+      <h2 class="line">Eat Street: 180 containers, seventy kitchens, Friday to Sunday. People stop to watch an arm cook.</h2>
+      <p class="sub">The arm cooks behind glass. The skin is a screen.</p>
+      <div class="actions"><a class="btn cream" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../quote/"><span>Build a quote</span><i aria-hidden="true">+</i></a></div>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ At a glance ]</span>
+      <ol class="hl three"><li><b>Eat Street Northshore, Hamilton, Brisbane</b><p>Site</p></li><li><b>Twenty foot shipping container, one side opening to a serving hatch</b><p>Format</p></li><li><b>Six-axis arm on a rail, cooking line behind glass</b><p>Machine</p></li><li><b>Micro-LED wrap across three faces of the box</b><p>Skin</p></li><li><b>Planning, design, brand, fabrication, implementation, maintenance</b><p>Scope</p></li><li><b>In development</b><p>Status</p></li></ol>
+    </div>
+  </section>
+
+
   <section class="story">
     <div class="wrap">
-      <figure class="bleed">
-        <img src="../../img/container/day.jpg" alt="The container at Eat Street by day: a twenty foot box in matte aubergine with the long side window open, the arm and cook line visible inside, people at the counter" loading="lazy" width="2000" height="1125">
-        <figcaption class="label"><span>Eat Street Northshore, midday, wrap off</span><span>Concept visualisation</span></figcaption>
-      </figure>
-
       <h2 class="plain">The brief</h2>
       <div class="txt">
         <p>Our own container for Eat Street Northshore: 180 containers, seventy kitchens, three nights a week. Win the three seconds someone gives a stall.</p>

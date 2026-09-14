@@ -477,6 +477,18 @@
      before the edge so nothing hard can show between the letters either. */
   .phero h1{position:relative;z-index:1}
   .stage{margin-top:clamp(-40px,-3vw,-16px);position:relative;z-index:0}
+  /* Case studies wear the product hero. The stage is a photograph, not a
+     machine on black, so no mask and no tuck under the title. */
+  .stage.photo{margin:clamp(28px,4vw,56px) 0 0}
+  .stage.photo img{width:100%;max-width:none;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r);-webkit-mask-image:none;mask-image:none}
+  .stage.photo figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);color:color-mix(in srgb,var(--cream) 60%,#0A0A0C);text-align:left}
+  .stage.photo figcaption span:last-child{color:var(--signal)}
+  .case .phero h1{font-size:clamp(48px,9vw,160px)}
+  .case .pdetail .wrap{padding-top:clamp(56px,7vw,110px)}
+  .hl.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .case .story{padding-top:clamp(40px,5vw,80px)}
+  @media (max-width:900px){ .hl.three{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .hl.three{grid-template-columns:1fr} .stage.photo img{aspect-ratio:4/3} }
   .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%)}
   .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
   .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
@@ -759,41 +771,34 @@
   </div>
 </header>
 
-<main id="top">
-  <section class="case-head">
+<main id="top" class="product case">
+  <section class="phero">
     <div class="wrap">
-      <div class="grid meta label">
-        <span><b>Case study</b> &middot; Food</span>
-        <span>Nexus Way, Gold Coast</span>
-        <span>Under construction</span>
-      </div>
-      <h1 aria-label="Little Red Dumpling">
-        <span class="row" aria-hidden="true"><span class="w l">Little Red</span><span class="w r">Dumpling</span></span>
-      </h1>
-      <div class="grid">
-        <dl class="facts label">
-          <dt>Client</dt><dd>Little Red Dumpling, thirteen venues open across Queensland</dd>
-          <dt>Site</dt><dd>Nexus Way, Gold Coast Health and Knowledge Precinct</dd>
-          <dt>Type</dt><dd>Robot dumpling kitchen, front of house and back</dd>
-          <dt>Scope</dt><dd>Planning, design, supply, implementation, maintenance</dd>
-          <dt>Year</dt><dd>2026</dd>
-          <dt>Status</dt><dd>Machines delivered, fitout under way</dd>
-        </dl>
-        <div class="intro">
-          <p>Thirteen shops in, Little Red Dumpling wanted the fourteenth to cook without a brigade.</p>
-          <p>The machines are on site. The images are ours, from the walkthrough. Photography the week it opens.</p>
-        </div>
-      </div>
+      <div class="pills"><span class="pill">Case study</span><span class="pill">Food</span><span class="pill">Nexus Way, Gold Coast</span><span class="pill price">Under construction</span></div>
+      <h1>Little Red Dumpling</h1>
+      <figure class="stage photo"><img src="../../img/lrd/room.jpg" alt="Visualisation of the finished dumpling cafe: robot arm on a rail behind glass, red lanterns, diners at timber tables under the high raked roof" loading="lazy" width="2000" height="1116"><figcaption class="label"><span>Visualisation, built from the room as filmed</span><span>Not a photograph</span></figcaption></figure>
     </div>
   </section>
 
+  <section class="pdetail">
+    <div class="wrap">
+      <span class="label">[ The job ]</span>
+      <h2 class="line">Thirteen shops in, Little Red Dumpling wanted the fourteenth to cook without a brigade.</h2>
+      <p class="sub">The machines are on site. The images are ours, from the walkthrough. Photography the week it opens.</p>
+      <div class="actions"><a class="btn cream" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../quote/"><span>Build a quote</span><i aria-hidden="true">+</i></a></div>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ At a glance ]</span>
+      <ol class="hl three"><li><b>Little Red Dumpling, thirteen venues open across Queensland</b><p>Client</p></li><li><b>Nexus Way, Gold Coast Health and Knowledge Precinct</b><p>Site</p></li><li><b>Robot dumpling kitchen, front of house and back</b><p>Type</p></li><li><b>Planning, design, supply, implementation, maintenance</b><p>Scope</p></li><li><b>2026</b><p>Year</p></li><li><b>Machines delivered, fitout under way</b><p>Status</p></li></ol>
+    </div>
+  </section>
+
+
   <section class="story">
     <div class="wrap">
-      <figure class="bleed">
-        <img src="../../img/lrd/room.jpg" alt="Visualisation of the finished dumpling cafe: robot arm on a rail behind glass, red lanterns, diners at timber tables under the high raked roof" loading="lazy" width="2000" height="1116">
-        <figcaption class="label"><span>Visualisation, built from the room as filmed</span><span>Not a photograph</span></figcaption>
-      </figure>
-
       <h2 class="plain">The brief</h2>
       <div class="txt">
         <p>Thirteen shops, one menu. The fourteenth, at Nexus Way on the Gold Coast, cooks it without a brigade.</p>

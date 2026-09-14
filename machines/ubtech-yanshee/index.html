@@ -477,6 +477,18 @@
      before the edge so nothing hard can show between the letters either. */
   .phero h1{position:relative;z-index:1}
   .stage{margin-top:clamp(-40px,-3vw,-16px);position:relative;z-index:0}
+  /* Case studies wear the product hero. The stage is a photograph, not a
+     machine on black, so no mask and no tuck under the title. */
+  .stage.photo{margin:clamp(28px,4vw,56px) 0 0}
+  .stage.photo img{width:100%;max-width:none;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r);-webkit-mask-image:none;mask-image:none}
+  .stage.photo figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);color:color-mix(in srgb,var(--cream) 60%,#0A0A0C);text-align:left}
+  .stage.photo figcaption span:last-child{color:var(--signal)}
+  .case .phero h1{font-size:clamp(48px,9vw,160px)}
+  .case .pdetail .wrap{padding-top:clamp(56px,7vw,110px)}
+  .hl.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .case .story{padding-top:clamp(40px,5vw,80px)}
+  @media (max-width:900px){ .hl.three{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .hl.three{grid-template-columns:1fr} .stage.photo img{aspect-ratio:4/3} }
   .stage img{width:min(100%,1000px);height:auto;margin-inline:auto;display:block;-webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 66% 50% at 50% 56%,#000 56%,transparent 100%)}
   .pdetail .wrap{max-width:900px;margin-inline:auto;text-align:center;padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(80px,12vw,180px)}
   .pdetail .label{color:var(--cream);text-transform:none;letter-spacing:.02em;font-size:14px}
