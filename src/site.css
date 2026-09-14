@@ -518,6 +518,21 @@
   .acc summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none;font-size:20px}
   .acc details[open] summary::after{content:"\2212"}
   .acc p{margin:0 0 22px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
+  /* The ask form at the foot of every product. Static site, so it composes a
+     mail with the machine and the answers in it; the hint says so. */
+  .ask{display:grid;gap:18px;max-width:720px;margin-top:22px}
+  .ask .row{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .ask label{display:grid;gap:8px}
+  .ask input,.ask textarea{font:inherit;font-size:16px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;padding:10px 0;outline:none;width:100%}
+  .ask input:focus,.ask textarea:focus{border-bottom-color:var(--signal)}
+  .ask textarea{resize:vertical;min-height:96px}
+  .ask ::placeholder{color:var(--graphite)}
+  .ask .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .ask .actions .btn{cursor:pointer;font:inherit}
+  .ask .hint{margin:0;font-size:13.5px;color:var(--graphite)}
+  .ask .hint a{color:inherit}
+  .ask-rail h2{margin:0;font-weight:400;font-size:clamp(30px,3.6vw,56px);letter-spacing:-.03em;line-height:1;max-width:16ch}
+  @media (max-width:640px){ .ask .row{grid-template-columns:1fr} }
   .specs{display:grid;grid-template-columns:1fr 1fr;gap:18px var(--gap);padding:6px 0 26px}
   .specs div{display:grid;gap:3px}
   .specs b{font-weight:500;font-size:14px}

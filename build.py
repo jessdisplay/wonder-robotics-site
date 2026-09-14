@@ -290,6 +290,32 @@ def machine_body(m):
     </div>
   </section>
 
+  <section class="rail ask-rail" id="ask">
+    <div class="wrap">
+      <span class="label">[ Ask about this one ]</span>
+      <div>
+        <h2>Tell us the job. We come back with a price.</h2>
+        <form class="ask" data-product="{escape(m["name"])}" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain">
+          <input type="hidden" name="machine" value="{escape(m["name"])}">
+          <div class="row">
+            <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+            <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+          </div>
+          <div class="row">
+            <label><span class="label">Company</span><input type="text" name="company" autocomplete="organization"></label>
+            <label><span class="label">Where</span><input type="text" name="where" placeholder="Suburb or city"></label>
+          </div>
+          <label><span class="label">What should it do?</span><textarea name="job" rows="4" placeholder="The task, the room, the volume. Two lines is plenty."></textarea></label>
+          <div class="actions">
+            <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
+            <a class="btn ghost" href="{{{{root}}}}quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
+          </div>
+          <p class="hint">Opens in your mail app with the machine and your answers filled in. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section class="rail last">
     <div class="wrap">
       <span class="label">[ Every machine ]</span>

@@ -534,6 +534,21 @@
   .acc summary::after{content:"+";font-family:var(--mono);color:var(--graphite);flex:none;font-size:20px}
   .acc details[open] summary::after{content:"\2212"}
   .acc p{margin:0 0 22px;max-width:60ch;color:var(--graphite);font-size:16px;line-height:1.5}
+  /* The ask form at the foot of every product. Static site, so it composes a
+     mail with the machine and the answers in it; the hint says so. */
+  .ask{display:grid;gap:18px;max-width:720px;margin-top:22px}
+  .ask .row{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+  .ask label{display:grid;gap:8px}
+  .ask input,.ask textarea{font:inherit;font-size:16px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;padding:10px 0;outline:none;width:100%}
+  .ask input:focus,.ask textarea:focus{border-bottom-color:var(--signal)}
+  .ask textarea{resize:vertical;min-height:96px}
+  .ask ::placeholder{color:var(--graphite)}
+  .ask .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .ask .actions .btn{cursor:pointer;font:inherit}
+  .ask .hint{margin:0;font-size:13.5px;color:var(--graphite)}
+  .ask .hint a{color:inherit}
+  .ask-rail h2{margin:0;font-weight:400;font-size:clamp(30px,3.6vw,56px);letter-spacing:-.03em;line-height:1;max-width:16ch}
+  @media (max-width:640px){ .ask .row{grid-template-columns:1fr} }
   .specs{display:grid;grid-template-columns:1fr 1fr;gap:18px var(--gap);padding:6px 0 26px}
   .specs div{display:grid;gap:3px}
   .specs b{font-weight:500;font-size:14px}
@@ -822,6 +837,32 @@
     </div>
   </section>
 
+  <section class="rail ask-rail" id="ask">
+    <div class="wrap">
+      <span class="label">[ Ask about this one ]</span>
+      <div>
+        <h2>Tell us the job. We come back with a price.</h2>
+        <form class="ask" data-product="Unitree GO2" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain">
+          <input type="hidden" name="machine" value="Unitree GO2">
+          <div class="row">
+            <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+            <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+          </div>
+          <div class="row">
+            <label><span class="label">Company</span><input type="text" name="company" autocomplete="organization"></label>
+            <label><span class="label">Where</span><input type="text" name="where" placeholder="Suburb or city"></label>
+          </div>
+          <label><span class="label">What should it do?</span><textarea name="job" rows="4" placeholder="The task, the room, the volume. Two lines is plenty."></textarea></label>
+          <div class="actions">
+            <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
+            <a class="btn ghost" href="../../quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
+          </div>
+          <p class="hint">Opens in your mail app with the machine and your answers filled in. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section class="rail last">
     <div class="wrap">
       <span class="label">[ Every machine ]</span>
@@ -1035,7 +1076,7 @@ window.WonderSneak = (function () {
       if (t < 1) requestAnimationFrame(frame); else if (done) done();
     })(performance.now());
   }
-  return { OUT: OUT, park: park, run: run, hide: hide };
+  return { OUT: OUT, park: park, run: run, hide: hide, at: at };
 })();
 (function(){
   var L=document.getElementById('loader'); if(!L) return;
@@ -1296,44 +1337,58 @@ window.WonderSneak = (function () {
   shots.forEach(function (s) { io.observe(s); });
 })();
 
-/* The footer robot peeks round the moon, and keeps peeking while the footer is
-   in view: out of sight, a beat, then the sneak in, a hold at home, and again.
-   The mark paints after the font loads, so parking has to wait for geometry;
-   the old version parked once at script time, lost the race and never ran. */
+/* The footer robot rides the scroll (Jesse, 14 Sep 2026: "smoothly and on
+   scroll"). Its position is the footer's progress up the viewport mapped onto
+   the same peek-hesitate-slide keyframes the loader uses, and a lerp carries it
+   between scroll events so it never steps. Scroll back up and it retreats.
+   The mark paints after the font loads, so parking waits for geometry. */
 (function () {
   var cv = document.querySelector('footer canvas[data-wonder-mark]');
-  if (!cv || !window.WonderSneak || !('IntersectionObserver' in window)) return;
+  if (!cv || !window.WonderSneak || !window.WonderMark) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var seen = false, busy = false, timer = null;
-  var HOLD = 3200, GONE = 700;
-  function cycle() {
-    if (!seen || busy || document.hidden) return;
-    busy = true;
-    WonderSneak.hide(cv, 480, function () {
-      timer = setTimeout(function () {
-        WonderSneak.run(cv, 1700, function () { busy = false; timer = setTimeout(cycle, HOLD); });
-      }, GONE);
-    });
+  var g = null, cur = WonderSneak.OUT, target = cur, raf = null;
+  function progress() {
+    var r = cv.getBoundingClientRect(), vh = window.innerHeight;
+    // enters at the bottom edge, home by the time its centre is 58% up
+    return Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.42 + r.height * 0.5)));
   }
-  function arm() {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        seen = e.isIntersecting;
-        if (seen && !busy) {
-          clearTimeout(timer);
-          busy = true;
-          timer = setTimeout(function () { WonderSneak.run(cv, 1700, function () { busy = false; timer = setTimeout(cycle, HOLD); }); }, 220);
-        }
-        if (!seen) { clearTimeout(timer); }
-      });
-    }, { threshold: 0.4 });
-    io.observe(cv);
+  function frame() {
+    raf = null;
+    cur += (target - cur) * 0.16;
+    if (Math.abs(target - cur) < 0.0015) cur = target;
+    cv._wmdx = cur;
+    WonderMark.drawLockup(cv, g.W, g.H, g.px, g.ink, g.sub, cur);
+    if (cur !== target) raf = requestAnimationFrame(frame);
+  }
+  function onScroll() {
+    if (!g) return;
+    target = WonderSneak.at(progress(), WonderMark.HOME);
+    if (!raf) raf = requestAnimationFrame(frame);
   }
   var tries = 0;
   (function park() {
-    if (WonderSneak.park(cv)) { arm(); return; }   // geometry exists: hold it off-stage
-    if (++tries < 400) requestAnimationFrame(park); // ~6s at 60fps, then give up quietly
+    if (WonderSneak.park(cv)) { g = WonderMark.geom(cv); onScroll(); return; }
+    if (++tries < 400) requestAnimationFrame(park);
   })();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { g = WonderMark.geom(cv); onScroll(); });
+})();
+
+/* The ask form. mailto: with enctype text/plain works in most mail apps but
+   not all, so we compose the message ourselves and open it. */
+(function () {
+  var f = document.querySelector('form.ask');
+  if (!f) return;
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
+    var machine = f.dataset.product || v('machine');
+    var lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
+    if (v('company')) lines.push('Company: ' + v('company'));
+    if (v('where')) lines.push('Where: ' + v('where'));
+    if (v('job')) lines.push('', 'What it should do:', v('job'));
+    window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent('Quote: ' + machine) + '&body=' + encodeURIComponent(lines.join('\n'));
+  });
 })();
 
 /* The footer line arrives a word at a time. */
