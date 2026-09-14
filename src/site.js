@@ -291,7 +291,7 @@ window.WonderSneak = (function () {
       var i = shots.indexOf(e.target);
       setTimeout(function () { e.target.classList.add('inked'); }, Math.max(0, i) * 180);
     });
-  }, { threshold: 0.35 });
+  }, { threshold: 0.15 });
   shots.forEach(function (s) { io.observe(s); });
 })();
 

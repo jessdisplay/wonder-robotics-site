@@ -755,8 +755,8 @@
           <dt>Status</dt><dd>In design</dd>
         </dl>
         <div class="intro">
-          <p>Most of our work starts with somebody else's building. This one started on a bench here: a shallow disc that mounts on the ceiling of a care home bedroom and works out what is happening below it without ever making a picture.</p>
-          <p>Florence is its own company with its own name, palette and type, built here alongside the device. Fall Sense is the first thing it sells. There is no arm in it and nothing moves.</p>
+          <p>A disc in a care home ceiling that knows what happened below it, without ever making a picture.</p>
+          <p>Florence is its own company. Fall Sense is the first thing it sells.</p>
         </div>
       </div>
     </div>
@@ -765,22 +765,23 @@
   <section class="story">
     <div class="wrap">
       <figure class="bleed">
-        <img src="../../img/fallsense/unit.jpg" alt="The Fall Sense unit seen from below: a round white bezel flush with the ceiling, a fine white mesh face, a thin ring of warm light at the rim and a single pinhole at the centre" loading="lazy" width="2000" height="1116">
-        <figcaption class="label"><span>The unit. Recessed, mesh faced, one pinhole, one ring of light</span><span>Concept visualisation</span></figcaption>
+        <img src="../../img/fallsense/unit.jpg" alt="The Fall Sense unit seen from below: a warm white ceramic bezel flush with the ceiling, an oat mesh face, an amber ring of light at the rim and a single pinhole at the centre" loading="lazy" width="2000" height="1116">
+        <figcaption class="label"><span>The unit. Recessed, mesh faced, one pinhole, one ring of amber</span><span>Concept visualisation</span></figcaption>
       </figure>
 
       <h2 class="plain">The brief</h2>
       <div class="txt">
-        <p>A resident goes down at two in the morning. The call button is on the wall by the bed and they are on the floor by the bathroom, so it may as well be in another building. Nobody finds out until the round. The brief, written on our own bench: know that it happened, the minute it happened, without a camera in the room.</p>
+        <p>A resident goes down at 2 am. The call button is on the wall. Nobody finds out until the round.</p>
+        <p>The brief: know the minute it happened, without a camera.</p>
       </div>
       <h2>Planning</h2>
       <div class="txt">
-        <p>The obvious fix is a camera in the bedroom, and every operator who has tried it has run into the same wall. Residents will not have it, families will not have it, and they are right. A bedroom is somebody's home.</p>
-        <p>So the unit works out what is happening below it without ever producing a picture a person could look at. What leaves it is the event: somebody is on the floor, somebody has been in the bathroom for forty minutes, somebody has not got out of bed this morning. That is the whole design argument. There is no footage to leak, no screen for a night staffer to sit in front of, and nothing for a family to object to on a tour. It also needed its own name, because a care home will not put a robotics company's logo on a bedroom ceiling. Florence is that company.</p>
+        <p>A camera in a bedroom is something families are right to refuse.</p>
+        <p>So the unit reports the event, never a picture. Nothing to leak, nothing to watch, nothing to object to on a tour. And its own name: Florence.</p>
       </div>
       <h2>Design</h2>
       <div class="txt">
-        <p>It started as a speaker. Every reference on the board was a round thing that recesses into a ceiling and shows a mesh face, so the first page of the book is a dozen of those, most of them crossed out. What survived: a bezel no prouder than a downlight, a domed face, and the ring of light tried at four widths before it settled at the thinnest one.</p>
+        <p>It started as a speaker. A dozen sketches, ten crossed out. A bezel no prouder than a downlight, a domed face, the thinnest ring of light.</p>
       </div>
       <figure>
         <img src="../../img/fallsense/sketch.jpg" alt="A sketchbook spread of thumbnail studies for the unit: a dozen round recessed forms from below and in section, most crossed out, the light ring tried at different widths, a marker rendering of the glow" loading="lazy" width="2000" height="1333">
@@ -801,11 +802,15 @@
         <figcaption class="label"><span>General arrangement, recessed</span><span>Design drawing</span></figcaption>
       </figure>
       <div class="txt">
-        <p>The brand pass. Florence is a separate company with its own name and its own mark, and nothing in it borrows from Wonder. The references were Apple, IDEO, Audi and John Lautner: geometric, engineered, monochrome. The mark is the unit seen from below, drawn the way Lautner drew a roof, one heavy ring with a single opening, and the opening is where the light is.</p>
+        <p>The brand pass. Florence: geometric like Apple and Lautner, warm like Humane and Daylight. The mark is the unit from below, one ring, one opening, where the light is.</p>
       </div>
       <figure class="inset">
-        <img src="../../img/fallsense/florence-lockup.png" alt="The Florence mark, a heavy ring with one opening, beside the wordmark in tracked capitals" loading="lazy">
-        <figcaption class="label"><span>Florence, the brand the device is sold under</span><span>Ink, bone, aluminium, one light</span></figcaption>
+        <img src="../../img/fallsense/florence-lockup.png" alt="The Florence mark, a ring with one amber opening, beside the wordmark in lowercase" loading="lazy">
+        <figcaption class="label"><span>Florence, the brand the device is sold under</span><span>Ink, paper, stone, amber</span></figcaption>
+      </figure>
+      <figure class="inset">
+        <img src="../../img/fallsense/packaging.jpg" alt="The unit in its box: unbleached card, a pulp tray, an amber lined lid, the ring mark debossed on the lid" loading="lazy">
+        <figcaption class="label"><span>The box. Card, pulp, amber, the mark debossed</span><span>Concept visualisation</span></figcaption>
       </figure>
       <figure>
         <img src="../../img/fallsense/room.jpg" alt="A care home bedroom in the manner of Frank Lloyd Wright: timber batten ceiling, stone wall, glass to the bush, the Fall Sense unit recessed small in the ceiling" loading="lazy" width="2000" height="1116">
@@ -813,11 +818,11 @@
       </figure>
       <h2>Supply</h2>
       <div class="txt">
-        <p>Seven parts. Bezel, mesh face, the diffuser ring that carries the light, the board with the sensor module at its centre, a spreader plate, the can, and two spring clips. Edge compute on the board, so the model runs in the room. Python and Postgres behind it, and the same dashboard our kitchen managers use, because we had already written it.</p>
+        <p>Seven parts. Bezel, mesh, diffuser ring, board, spreader, can, two clips. The model runs on the board. Python and Postgres behind it.</p>
       </div>
       <h2>Implementation</h2>
       <div class="txt">
-        <p>It pushes up into a 90 mm cutout and the clips hold it, which is the same install as a downlight, so an electrician fits it in the time it takes to fit a downlight. One to a room. Then the only thing that crosses the ceiling is a sentence.</p>
+        <p>A 90 mm cutout and two clips. The same install as a downlight. Then the only thing that crosses the ceiling is a sentence.</p>
       </div>
       <figure class="diag">
         <svg viewBox="0 0 1200 340" role="img" aria-label="Diagram: inside the unit, sensing feeds a model that runs on the board; no image is stored or sent; only an event leaves the room and reaches the nurse station and the phone">
@@ -868,11 +873,11 @@
       </figure>
       <h2>Maintenance</h2>
       <div class="txt">
-        <p>Firmware updates over the air. Every event logged with the time. When a unit stops reporting, it tells us before it tells you, and the line that says so is on the same dashboard as the falls.</p>
+        <p>Firmware over the air. Every event logged. When a unit stops reporting, it tells us first.</p>
       </div>
       <h2 class="plain">The outcome</h2>
       <div class="txt">
-        <p>In design. The first install, and what the night staff say about it after a month, go here.</p>
+        <p>In design. The first install goes here.</p>
       </div>
 
     </div>
@@ -1335,7 +1340,7 @@ window.WonderSneak = (function () {
       var i = shots.indexOf(e.target);
       setTimeout(function () { e.target.classList.add('inked'); }, Math.max(0, i) * 180);
     });
-  }, { threshold: 0.35 });
+  }, { threshold: 0.15 });
   shots.forEach(function (s) { io.observe(s); });
 })();
 
