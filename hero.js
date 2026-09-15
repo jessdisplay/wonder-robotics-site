@@ -110,6 +110,13 @@ function start() {
     const baked = src.material;
     baked.side = THREE.FrontSide;
     const lum = sampleLuminance(baked.map);
+    // The bake's metallic map turns the satin silver helmet into dark chrome
+    // and lacquers the wood (Jesse: "he is all shiny", and the old viewer hit
+    // the same thing). The master is satin everywhere: no metalness, a fixed
+    // mid roughness, the room reflection pulled well back. Normal map stays.
+    baked.metalness = 0; baked.metalnessMap = null;
+    baked.roughness = 0.5; baked.roughnessMap = null;
+    baked.envMapIntensity = 0.45;
 
     const pos = geom.attributes.position.array, nrm = geom.attributes.normal.array, uv = geom.attributes.uv.array;
     const idx = geom.index.array;
@@ -134,12 +141,14 @@ function start() {
       }
     }
 
+    // Master visor: near-black purple that only reads purple where the light
+    // hits, one big soft highlight, not a blue glass ball throwing the room.
     const visorMat = new THREE.MeshPhysicalMaterial({
-      color: 0x24114a, emissive: 0x130827, roughness: 0.08, metalness: 0,
-      clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.3
+      color: 0x160a2e, emissive: 0x0a0418, roughness: 0.22, metalness: 0,
+      clearcoat: 0.7, clearcoatRoughness: 0.18, envMapIntensity: 0.7
     });
     const bootMat = baked.clone();
-    bootMat.metalness = 0; bootMat.metalnessMap = null; bootMat.roughness = 0.38; bootMat.roughnessMap = null;
+    bootMat.roughness = 0.42;
     bootMat.color = new THREE.Color(0xffffff);
 
     const part = (lists, mats) => {
