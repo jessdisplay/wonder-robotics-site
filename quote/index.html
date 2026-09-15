@@ -648,12 +648,13 @@
   /* Light hero: the robot holds the lower left of the plate, so the type takes
      the right of the grid and the plate is never covered by it. */
   .pop.light{background:var(--paper);color:var(--ink)}
-  /* Bottom-anchored: the robot sits low in a mostly empty frame, so any vertical
-     crop should come off the top (empty background) never the bottom (the
-     boots). 78% still shaved the feet on wide-but-short windows; 100% cannot,
-     regardless of viewport height, since it aligns the image's bottom edge to
-     the container's bottom edge exactly. */
-  .pop.light .bg{object-position:50% 100%}
+  /* Jesse, 15 Sep: "we dont need to crop it his display is for a full screen" -
+     the plate was rendered at 2400x1340, near enough to 16:9 that it was made
+     to be seen whole. No object-position value can promise that on every
+     aspect ratio; contain can, at the cost of some paper showing at the sides
+     on windows wider than 16:9. Bottom-aligned so the boots sit on the same
+     ground line as the text baseline below, never floating mid-frame. */
+  .pop.light .bg{object-fit:contain;object-position:50% 100%}
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
