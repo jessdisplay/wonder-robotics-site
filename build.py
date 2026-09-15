@@ -13,6 +13,7 @@ without the document wrapper); valley -> work/valley/index.html;
 lrd -> work/little-red-dumplings/index.html. The catalogue (machines/ and
 machines/<slug>/) is rendered from src/machines.py, one page per line.
 """
+import hashlib
 import sys
 from html import escape
 from pathlib import Path
@@ -105,6 +106,10 @@ def render(body, cfg, name=None):
     js = (SRC / "site.js").read_text()
     mark = (SRC / "mark.js").read_text()
     root = cfg["root"]
+    # hero.js is the one script that is not inlined, so browsers cache it.
+    # Its URL carries a hash of its own contents: a change ships, an unchanged
+    # file stays cached. Same for the model it loads.
+    body = body.replace("{{herov}}", hashlib.sha1((HERE / "hero.js").read_bytes()).hexdigest()[:8])
     inner = (
         f'<title>{cfg["title"]}</title>\n'
         f'<meta name="description" content="{cfg["desc"]}">\n'

@@ -270,9 +270,10 @@ function start() {
     const tpit = idle ? Math.sin(t * 0.21 + 1.3) * 0.05 : py * 0.11;
     const k = 1 - Math.exp(-dt * (idle ? 1.6 : 5));
     yaw += (tyaw - yaw) * k; pitch += (tpit - pitch) * k;
+    // Only the head moves. He stands on the ground like the master render;
+    // a bob or sway read as a toy on a string (Jesse: "it doesn't need to
+    // float either").
     headPivot.rotation.set(pitch, yaw, -yaw * 0.12);
-    rig.position.y = Math.sin(t * 1.05) * H * 0.006;
-    rig.rotation.y = Math.sin(t * 0.7) * 0.02;
     renderer.render(scene, camera);
   }
   frame();

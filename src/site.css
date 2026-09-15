@@ -633,7 +633,11 @@
      the right of the grid and the plate is never covered by it. */
   /* Full screen (Jesse, 15 Sep: "i want the full width header"), not 92vh
      with a band of paper under it. */
-  .pop.light{background:var(--paper);color:var(--ink);min-height:100vh}
+  .pop.light{background:var(--paper);color:var(--ink);min-height:100vh;align-items:center}
+  /* Full height means the type is centred on the screen, not parked at the
+     bottom with a void over it (Jesse: "the header is off center"). The
+     robot is framed to the same centre in hero.js. */
+  .pop.light .wrap{padding-top:clamp(56px,7vh,110px);padding-bottom:clamp(56px,7vh,110px)}
   /* The mesh hero (hero.js). .is-3d swaps the plate for its own vignette,
      rebuilt from the plate's sampled colours so the switch is invisible;
      .is-live fades the rendered robot up once he has a frame. Both classes
