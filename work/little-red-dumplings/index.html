@@ -648,13 +648,14 @@
   /* Light hero: the robot holds the lower left of the plate, so the type takes
      the right of the grid and the plate is never covered by it. */
   .pop.light{background:var(--paper);color:var(--ink)}
-  /* Jesse, 15 Sep: "we dont need to crop it his display is for a full screen" -
-     the plate was rendered at 2400x1340, near enough to 16:9 that it was made
-     to be seen whole. No object-position value can promise that on every
-     aspect ratio; contain can, at the cost of some paper showing at the sides
-     on windows wider than 16:9. Bottom-aligned so the boots sit on the same
-     ground line as the text baseline below, never floating mid-frame. */
-  .pop.light .bg{object-fit:contain;object-position:50% 100%}
+  /* Full-bleed, bottom-anchored. contain was tried (Jesse, 15 Sep: "his
+     display is for a full screen") and rejected the same day ("it should not
+     be squared like this"): on anything wider than 16:9 it pillarboxes into
+     a photo-in-a-box. A flat plate cannot both fill every window shape and
+     never crop, so cover wins and the crop comes off the empty top, never
+     the boots. Zero crop on every shape needs a scene with no edge (WebGL),
+     not a cleverer object-position. */
+  .pop.light .bg{object-fit:cover;object-position:50% 100%}
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
