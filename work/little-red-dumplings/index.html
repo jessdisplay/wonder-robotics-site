@@ -626,10 +626,34 @@
   .pop h1{margin:18px 0 0;font-weight:400;font-size:clamp(40px,6.6vw,120px);line-height:.96;letter-spacing:-.045em;text-wrap:balance}
   .pop .sub{margin:clamp(20px,2.6vw,34px) 0 0;max-width:58ch;color:color-mix(in srgb,var(--cream) 76%,transparent);font-size:clamp(16px,1.35vw,21px)}
   .pop .actions{display:flex;gap:10px;margin-top:clamp(26px,3vw,40px);flex-wrap:wrap}
+  /* Hero entrance: eyebrow, title, sub and actions rise in on load, staggered,
+     the same curve the reveal-on-scroll elements use elsewhere on the site.
+     Runs once on load, not on scroll, since the hero is above the fold. */
+  @media (prefers-reduced-motion:no-preference){
+    .hero-in .eyebrow,.hero-in h1,.hero-in .sub,.hero-in .actions{opacity:0;transform:translate3d(0,22px,0);animation:heroRise .9s cubic-bezier(.16,.84,.24,1) forwards}
+    .hero-in .eyebrow{animation-delay:.05s}
+    .hero-in h1{animation-delay:.15s}
+    .hero-in .sub{animation-delay:.32s}
+    .hero-in .actions{animation-delay:.46s}
+    .hero-in .bg{animation:heroZoom 1.8s cubic-bezier(.16,.84,.24,1) both}
+    /* The robot idles once he's landed: a slow float and a hair of sway, like
+       he's actually standing there rather than a still photo. Starts exactly
+       at heroZoom's handoff (both end at true identity transform, so there's
+       no jump), and being last in the list it owns transform from then on. */
+    .pop.light.hero-in .bg{animation:heroZoom 1.8s cubic-bezier(.16,.84,.24,1) both,heroIdle 6s ease-in-out 1.8s infinite}
+  }
+  @keyframes heroRise{to{opacity:1;transform:none}}
+  @keyframes heroZoom{from{transform:scale(1.045)}to{transform:scale(1)}}
+  @keyframes heroIdle{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(0,-9px,0) rotate(-.35deg)}}
   /* Light hero: the robot holds the lower left of the plate, so the type takes
      the right of the grid and the plate is never covered by it. */
   .pop.light{background:var(--paper);color:var(--ink)}
-  .pop.light .bg{object-position:50% 78%}
+  /* Bottom-anchored: the robot sits low in a mostly empty frame, so any vertical
+     crop should come off the top (empty background) never the bottom (the
+     boots). 78% still shaved the feet on wide-but-short windows; 100% cannot,
+     regardless of viewport height, since it aligns the image's bottom edge to
+     the container's bottom edge exactly. */
+  .pop.light .bg{object-position:50% 100%}
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
@@ -1287,7 +1311,12 @@ window.WonderSneak = (function () {
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
+  // Text joins the same reveal as images (Jesse, 15 Sep: 'subtle animations across
+  // the site'): section heads, case-study stage headings and the shared product/
+  // case-study detail band all rise on scroll now, not just photographs. Still one
+  // observer, still one CSS system (.wr-lift), so reduced-motion and the trigger
+  // logic below apply to everything identically.
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li, .grid.head, .story h2, .rail .wrap > .label, .rail .wrap > div > h2, .pdetail .label, .pdetail h2.line, .pdetail .sub'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');

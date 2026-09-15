@@ -620,13 +620,24 @@
     .hero-in .sub{animation-delay:.32s}
     .hero-in .actions{animation-delay:.46s}
     .hero-in .bg{animation:heroZoom 1.8s cubic-bezier(.16,.84,.24,1) both}
+    /* The robot idles once he's landed: a slow float and a hair of sway, like
+       he's actually standing there rather than a still photo. Starts exactly
+       at heroZoom's handoff (both end at true identity transform, so there's
+       no jump), and being last in the list it owns transform from then on. */
+    .pop.light.hero-in .bg{animation:heroZoom 1.8s cubic-bezier(.16,.84,.24,1) both,heroIdle 6s ease-in-out 1.8s infinite}
   }
   @keyframes heroRise{to{opacity:1;transform:none}}
   @keyframes heroZoom{from{transform:scale(1.045)}to{transform:scale(1)}}
+  @keyframes heroIdle{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(0,-9px,0) rotate(-.35deg)}}
   /* Light hero: the robot holds the lower left of the plate, so the type takes
      the right of the grid and the plate is never covered by it. */
   .pop.light{background:var(--paper);color:var(--ink)}
-  .pop.light .bg{object-position:50% 78%}
+  /* Bottom-anchored: the robot sits low in a mostly empty frame, so any vertical
+     crop should come off the top (empty background) never the bottom (the
+     boots). 78% still shaved the feet on wide-but-short windows; 100% cannot,
+     regardless of viewport height, since it aligns the image's bottom edge to
+     the container's bottom edge exactly. */
+  .pop.light .bg{object-position:50% 100%}
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
