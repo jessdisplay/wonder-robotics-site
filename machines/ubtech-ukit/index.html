@@ -647,7 +647,17 @@
   @keyframes heroIdle{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(0,-9px,0) rotate(-.35deg)}}
   /* Light hero: the robot holds the lower left of the plate, so the type takes
      the right of the grid and the plate is never covered by it. */
-  .pop.light{background:var(--paper);color:var(--ink)}
+  /* Full screen (Jesse, 15 Sep: "i want the full width header"), not 92vh
+     with a band of paper under it. */
+  .pop.light{background:var(--paper);color:var(--ink);min-height:100vh}
+  /* The mesh hero (hero.js). .is-3d swaps the plate for its own vignette,
+     rebuilt from the plate's sampled colours so the switch is invisible;
+     .is-live fades the rendered robot up once he has a frame. Both classes
+     come off again if the model fails or is slow, and the plate returns. */
+  .pop .stage{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:0;transform:translate3d(0,14px,0);transition:opacity .9s ease,transform 1.2s cubic-bezier(.16,.84,.24,1);pointer-events:none}
+  .pop.light.is-3d{background:radial-gradient(70% 42% at 50% 100%,#EEE9E4 0%,rgba(238,233,228,0) 100%),radial-gradient(120% 92% at 50% 6%,#F7F2EE 0%,#ECE6DF 36%,#DBD1C7 72%,#C8BDB2 100%)}
+  .pop.light.is-3d .bg{visibility:hidden;animation:none}
+  .pop.light.is-live .stage{opacity:1;transform:none}
   /* Full-bleed, bottom-anchored. contain was tried (Jesse, 15 Sep: "his
      display is for a full screen") and rejected the same day ("it should not
      be squared like this"): on anything wider than 16:9 it pillarboxes into
