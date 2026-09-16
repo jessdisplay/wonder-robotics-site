@@ -78,84 +78,138 @@
   .bar .cta{grid-column:11/13;justify-self:end}
   /* the glyph turns, not the box, so the hover fill stays a square */
   .btn.want i b{font-weight:400;display:inline-block;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
-  .bar.bar-open .btn.want i b{transform:rotate(45deg)}
 
-  /* The quote drop. It slides down over the page from under the bar, and the
-     page behind it dims, so it reads as a layer you pulled down rather than a
-     section you scrolled to.
-     It is the bar's sibling, fixed, not its child: inside the bar it hung off
-     top:100% of a sticky parent and Chrome resolved that against a height the
-     panel was feeding, which pushed the page down on open. A sibling also sits
-     outside the bar's backdrop-filter, which would otherwise contain it. */
-  .drop{position:fixed;left:0;right:0;top:64px;z-index:19;background:var(--paper);border-bottom:1px solid var(--rule);
-        display:grid;grid-template-rows:0fr;visibility:hidden;
-        box-shadow:0 30px 60px -34px color-mix(in srgb,var(--ink) 60%,transparent);
-        transition:grid-template-rows .5s cubic-bezier(.16,.84,.24,1),visibility .5s,top .34s cubic-bezier(.16,.84,.24,1)}
-  .bar.bar-set + .drop{top:52px}
-  .bar.bar-open + .drop{grid-template-rows:1fr;visibility:visible}
-  .drop-clip{overflow:hidden;min-height:0}
-  /* taller than the window on a laptop, so the drop scrolls inside itself and
-     the page under it stays where you left it */
-  .drop-in{max-height:calc(100dvh - 64px);overflow-y:auto;overscroll-behavior:contain;
-           transform:translateY(-14px);opacity:0;transition:transform .5s cubic-bezier(.16,.84,.24,1),opacity .3s ease}
-  .bar.bar-set + .drop .drop-in{max-height:calc(100dvh - 52px)}
-  .bar.bar-open + .drop .drop-in{transform:none;opacity:1;transition-delay:.06s}
-  .drop-in > .wrap{padding-top:clamp(20px,2.4vw,34px);padding-bottom:clamp(18px,2vw,28px)}
-  .drop-scrim{position:fixed;inset:0;z-index:18;background:color-mix(in srgb,var(--ink) 34%,transparent);
-              opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s}
-  .bar.bar-open ~ .drop-scrim{opacity:1;visibility:visible}
+  /* The quote sheet. Served over the top of everything, bar included: it
+     slides down from the top edge to a hand's width short of the bottom, so
+     the dimmed page underneath says it is a layer you can put back. The
+     picker scrolls, the tray on the right does not, so the total is always in
+     view while you choose. */
+  .qs{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s linear .56s}
+  .qs.on{visibility:visible;transition:none}
+  .qs-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 55%,transparent);opacity:0;transition:opacity .45s ease}
+  .qs.on .qs-scrim{opacity:1}
+  .qs-sheet{position:absolute;left:0;right:0;top:0;height:calc(100dvh - clamp(28px,5vh,56px));
+            background:var(--paper);border-radius:0 0 calc(var(--r) + 8px) calc(var(--r) + 8px);
+            box-shadow:0 40px 90px -40px color-mix(in srgb,var(--ink) 80%,transparent);
+            display:flex;flex-direction:column;overflow:hidden;
+            transform:translateY(-104%);transition:transform .56s cubic-bezier(.16,.84,.24,1)}
+  .qs.on .qs-sheet{transform:none}
+  html.qs-lock,html.qs-lock body{overflow:hidden}
 
-  .dq-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(16px,1.8vw,24px)}
-  .dq-say h2{margin:8px 0 0;font-weight:400;font-size:clamp(24px,2.3vw,36px);line-height:1.02;letter-spacing:-.03em}
-  .dq-total{text-align:right}
-  .dq-num{font-size:clamp(28px,2.8vw,44px);letter-spacing:-.035em;line-height:1;color:var(--signal);font-variant-numeric:tabular-nums}
-  .dq-num small{font-size:.42em;color:var(--graphite);letter-spacing:0;margin-right:.35em;vertical-align:.35em}
-  .dq-total .label{margin-top:6px;display:block}
+  .qs-top{display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:14px clamp(20px,3vw,48px);
+          padding:clamp(18px,2.2vw,30px) var(--m) 0;border-bottom:1px solid var(--rule)}
+  .qs-say h2{margin:6px 0 clamp(14px,1.6vw,20px);font-weight:400;font-size:clamp(26px,2.6vw,42px);line-height:1;letter-spacing:-.035em}
+  .qs-tabs{display:flex;gap:clamp(14px,2vw,30px);align-self:end;overflow-x:auto;scrollbar-width:none}
+  .qs-tabs::-webkit-scrollbar{display:none}
+  .qs-tabs button{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+                  background:none;border:0;padding:0 0 14px;color:var(--graphite);cursor:pointer;position:relative}
+  .qs-tabs button::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
+  .qs-tabs button:hover{color:var(--ink)}
+  .qs-tabs button[aria-selected="true"]{color:var(--ink)}
+  .qs-tabs button[aria-selected="true"]::after{transform:none}
+  .qs-tabs button b{font-weight:400;color:var(--signal);margin-left:6px}
+  .qs-close{align-self:start;width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;
+            font-size:24px;line-height:1;display:grid;place-items:center;transition:background .15s,color .15s}
+  .qs-close span{display:block;transform:rotate(45deg)}
+  .qs-close:hover{background:var(--ink);color:var(--paper)}
+  .qs-tabs button:focus-visible,.qs-close:focus-visible,.qs-card button:focus-visible,.qs-peek:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
 
-  /* machines: one row of picture cards, the rail scrolls sideways when the
-     window is narrower than seven of them */
-  .dq-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(176px,1fr);gap:10px;
-           overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:12px}
-  .dq-card{scroll-snap-align:start;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;
-           display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s}
-  .dq-card:hover{border-color:var(--graphite)}
-  .dq-card.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-  .dq-card .ph{aspect-ratio:4/3;overflow:hidden;background:var(--rule)}
-  .dq-card .ph img{width:100%;height:100%;object-fit:cover;display:block}
-  .dq-card-b{padding:10px 11px 10px;display:flex;flex-direction:column;gap:6px;flex:1}
-  .dq-card h3{margin:0;font-weight:400;font-size:15px;line-height:1.15;letter-spacing:-.015em}
-  .dq-card h3 small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
-  .dq-card-f{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto}
-  .dq-card .price{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
-  .dq-card.on .price{color:var(--signal)}
-  .dq-card .qty{grid-template-columns:26px 26px 26px}
-  .dq-card .qty button{height:26px;font-size:15px}
-  .dq-card .qty output{line-height:26px;font-size:12px}
+  .qs-body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,26vw,400px)}
+  .qs-pick{overflow-y:auto;overscroll-behavior:contain;padding:clamp(16px,1.8vw,26px) var(--m) clamp(28px,3vw,44px)}
+  .qs-grid{display:grid;gap:clamp(10px,1vw,16px)}
+  .qs-grid[hidden]{display:none}
+  .qs-grid.food{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  .qs-grid.robots{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .qs-grid.addons{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  .qs-grid .qs-sub{grid-column:1/-1;margin:clamp(10px,1.2vw,18px) 0 -2px}
+  .qs-grid .qs-sub:first-child{margin-top:0}
 
-  /* add-ons: small toggles with the price always showing */
-  .dq-chips{display:flex;flex-wrap:wrap;gap:6px}
-  .dq-chip{font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink);background:transparent;border:1px solid var(--rule);
-           border-radius:999px;padding:7px 12px 7px 14px;display:inline-flex;align-items:center;gap:10px;transition:border-color .15s,background .15s,color .15s}
-  .dq-chip:hover{border-color:var(--ink)}
-  .dq-chip .p{font-family:var(--mono);font-size:11.5px;color:var(--graphite);font-variant-numeric:tabular-nums}
-  .dq-chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-  .dq-chip[aria-pressed="true"] .p{color:color-mix(in srgb,var(--paper) 70%,transparent)}
-  .dq-chip:focus-visible,.dq-card button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .qs-card{position:relative;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;display:flex;flex-direction:column;
+           transition:border-color .18s,box-shadow .18s,transform .3s cubic-bezier(.16,.84,.24,1)}
+  .qs-card:hover{border-color:var(--graphite)}
+  .qs-card.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .qs-card .ph{aspect-ratio:4/3;overflow:hidden;background:var(--rule)}
+  .qs-grid.robots .qs-card .ph{aspect-ratio:4/5}
+  .qs-card .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.16,.84,.24,1)}
+  .qs-card:hover .ph img{transform:scale(1.035)}
+  .qs-card .tag{position:absolute;left:10px;top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+                background:color-mix(in srgb,var(--paper) 92%,transparent);border-radius:999px;padding:5px 9px 5px 8px;display:inline-flex;align-items:center;gap:6px}
+  .qs-card .tag i{width:6px;height:6px;border-radius:50%;background:var(--graphite)}
+  .qs-card .tag.floor i{background:var(--live)}
+  .qs-card .n{position:absolute;right:10px;top:10px;min-width:26px;height:26px;padding:0 7px;border-radius:999px;background:var(--signal);color:var(--paper);
+              font-family:var(--mono);font-size:12px;display:grid;place-items:center;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+  .qs-card.on .n{transform:none}
+  .qs-card-b{padding:12px 13px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+  .qs-card h3{margin:0;font-weight:400;font-size:17px;line-height:1.12;letter-spacing:-.02em}
+  .qs-card h3 small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
+  .qs-card p{margin:0;font-size:12.5px;line-height:1.42;color:var(--graphite);flex:1}
+  .qs-card-f{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}
+  .qs-card .price{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+  .qs-card .price.ask{color:var(--graphite)}
+  .qs-card.on .price{color:var(--signal)}
+  .qs-toggle{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
+             border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:var(--rb);padding:7px 11px;transition:background .15s,color .15s}
+  .qs-toggle:hover{background:var(--ink);color:var(--paper)}
+  .qs-card.on .qs-toggle{background:var(--ink);color:var(--paper)}
 
-  .dq-foot{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;
-           margin-top:clamp(16px,1.8vw,22px);padding-top:clamp(14px,1.4vw,18px);border-top:1px solid var(--rule)}
-  .dq-fine{margin:0;font-size:12.5px;line-height:1.45;color:var(--graphite);max-width:52ch}
-  .dq-go{display:flex;gap:10px;flex-wrap:wrap}
-  @media (max-width:700px){
-    .dq-head{align-items:flex-start;flex-direction:column;gap:10px}
-    .dq-total{text-align:left}
-    .dq-rail{grid-auto-columns:minmax(58%,1fr)}
-    .dq-go{width:100%}
-    .dq-go .btn{flex:1;justify-content:space-between}
+  /* the tray: what you picked, as pictures, with the money beside each */
+  .qs-tray{border-left:1px solid var(--rule);background:#FBFAF3;display:flex;flex-direction:column;min-height:0;
+           padding:clamp(16px,1.8vw,26px) clamp(16px,1.8vw,26px) clamp(16px,1.6vw,22px)}
+  .qs-peek{display:none}
+  .qs-lines{list-style:none;margin:12px 0 0;padding:0;overflow-y:auto;flex:1;min-height:0}
+  .qs-lines li{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:11px;align-items:center;padding:9px 0;border-bottom:1px solid var(--rule);text-align:left;
+               animation:qs-in .4s cubic-bezier(.16,.84,.24,1) both}
+  .qs-lines li .t{width:52px;height:52px;border-radius:calc(var(--rb) - 2px);overflow:hidden;background:var(--rule)}
+  .qs-lines li .t img{width:100%;height:100%;object-fit:cover;display:block}
+  .qs-lines li b{display:block;font-weight:400;font-size:14px;line-height:1.2;letter-spacing:-.01em}
+  .qs-lines li small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
+  .qs-lines li .v{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .qs-lines li .v.ask{color:var(--graphite)}
+  .qs-lines li.empty{display:block;border:1px dashed var(--rule);border-radius:var(--r);padding:22px 16px;text-align:center;color:var(--graphite);font-size:13.5px;line-height:1.45;animation:none}
+  @keyframes qs-in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+  .qs-sum{padding-top:14px}
+  .qs-num{font-size:clamp(34px,3vw,50px);letter-spacing:-.04em;line-height:1;color:var(--signal);font-variant-numeric:tabular-nums}
+  .qs-num small{font-size:.36em;color:var(--graphite);letter-spacing:0;margin-right:.4em;vertical-align:.5em}
+  .qs-sum .label{display:block;margin-top:7px}
+  .qs-fine{margin:12px 0 0;font-size:11.5px;line-height:1.45;color:var(--graphite)}
+  .qs-go{display:grid;gap:8px;margin-top:14px}
+  .qs-go .btn{justify-content:space-between}
+
+  @media (max-width:980px){
+    .qs-top{grid-template-columns:1fr auto}
+    .qs-tabs{grid-column:1/-1;grid-row:2}
+    .qs-say h2{margin-bottom:6px}
+    .qs-body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
+    .qs-sheet{height:100dvh;border-radius:0}
+    /* on a phone the tray is a bar along the bottom of the sheet: the faces of
+       what you picked and the total, tap it for the lines */
+    .qs-tray{border-left:0;border-top:1px solid var(--rule);padding:10px var(--m) 12px;max-height:72dvh;
+             box-shadow:0 -18px 40px -30px color-mix(in srgb,var(--ink) 60%,transparent)}
+    .qs-tray-h,.qs-fine{display:none}
+    .qs-peek{display:flex;align-items:center;gap:10px;width:100%;font:inherit;background:none;border:0;padding:0 0 8px;cursor:pointer;color:var(--ink);text-align:left}
+    .qs-thumbs{display:flex}
+    .qs-thumbs img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid #FBFAF3;margin-left:-8px;background:var(--rule)}
+    .qs-thumbs img:first-child{margin-left:0}
+    .qs-peek-t{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
+    .qs-lines{display:none;margin-top:0}
+    .qs-tray.open .qs-lines{display:block}
+    .qs-sum{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:4px}
+    .qs-num{font-size:30px}
+    .qs-sum .label{margin-top:0;text-align:right}
+    .qs-go{grid-template-columns:1fr 1fr;margin-top:10px}
+    .qs-go .btn span{padding:10px 10px}
+    .qs-grid.food,.qs-grid.addons{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+    .qs-grid.robots{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+    .qs-grid.robots .qs-card-f{flex-direction:column;align-items:flex-start;gap:8px}
+    .qs-grid.robots .qs-card h3{font-size:15px}
+  }
+  @media (max-width:420px){
+    .qs-grid.food,.qs-grid.addons{grid-template-columns:1fr}
+    .qs-go{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
-    .drop,.drop-in,.drop-scrim{transition:opacity .01s,visibility .01s}
-    .drop-in{transform:none}
+    .qs,.qs-scrim,.qs-sheet{transition:none}
+    .qs-lines li{animation:none}
     .bar nav a::after{transition:none}
   }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
@@ -261,6 +315,10 @@
   .pick:hover{border-color:var(--graphite)}
   .pick.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
   .pick .ph{aspect-ratio:4/3;background:var(--rule);overflow:hidden}
+  /* the robots are full-length portrait renders, so they get their own rows
+     at 4:5 under their own heading rather than a 4:3 crop at the knees */
+  .picker .pick-sub{grid-column:1/-1;margin-top:10px;padding-top:14px;border-top:1px solid var(--rule)}
+  .pick.robot .ph{aspect-ratio:4/5}
   .pick .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
   .pick:hover .ph img{transform:scale(1.03)}
   .pick-b{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
@@ -303,6 +361,13 @@
   .lines th{font-weight:400}
   .lines td{text-align:right;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .lines th small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
+  /* the quote is something you can see: a picture of every machine, robot and
+     piece of work on it, the same thumbnails the quote sheet in the bar uses */
+  .lines tr.pic th .lr{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center}
+  .lines tr.pic td{vertical-align:middle}
+  .lines th .t{width:48px;height:48px;border-radius:calc(var(--rb) - 2px);overflow:hidden;background:var(--rule)}
+  .lines th .t img{width:100%;height:100%;object-fit:cover;display:block}
+  @media print{.lines th .t{width:36px;height:36px}.lines tr.pic th .lr{grid-template-columns:36px minmax(0,1fr)}}
   .lines .scope td{color:var(--graphite)}
   .lines .empty th{color:var(--graphite);font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
   .lines.sums{border-top:1px solid var(--ink)}
@@ -1019,34 +1084,47 @@
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
 </header>
-  <div class="drop" id="wantpanel" role="region" aria-label="Build a quote">
-    <div class="drop-clip">
-      <div class="drop-in">
-        <div class="wrap">
-          <div class="dq-head">
-            <div class="dq-say">
-              <span class="label">[ Build your quote ]</span>
-              <h2>Pick what you want built.</h2>
-            </div>
-            <div class="dq-total" aria-live="polite">
-              <div class="dq-num" id="dq-total">$0</div>
-              <div class="label" id="dq-note">Pick a machine to start</div>
-            </div>
-          </div>
-          <div class="dq-rail" id="dq-machines" role="group" aria-label="Machines"></div>
-          <div class="dq-chips" id="dq-addons" role="group" aria-label="Add to it"></div>
-          <div class="dq-foot">
-            <p class="dq-fine">Machines at list. Add-ons indicative, confirmed on scope. Maintenance and delivery on the full quote.</p>
-            <div class="dq-go">
-              <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
-              <a class="btn" id="want-go" href="../../quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
-            </div>
-          </div>
+  <div class="qs" id="wantpanel" role="dialog" aria-modal="true" aria-labelledby="qs-title">
+    <div class="qs-scrim" id="wantscrim"></div>
+    <div class="qs-sheet">
+      <div class="qs-top">
+        <div class="qs-say">
+          <span class="label">[ Build your quote ]</span>
+          <h2 id="qs-title">Pick what you want built.</h2>
         </div>
+        <div class="qs-tabs" role="tablist" aria-label="What to add">
+          <button type="button" role="tab" id="qt-food" aria-controls="qp-food" aria-selected="true">Food and drink</button>
+          <button type="button" role="tab" id="qt-robots" aria-controls="qp-robots" aria-selected="false" tabindex="-1">Showroom robots</button>
+          <button type="button" role="tab" id="qt-addons" aria-controls="qp-addons" aria-selected="false" tabindex="-1">Add-ons and the work</button>
+        </div>
+        <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
+      </div>
+      <div class="qs-body">
+        <div class="qs-pick">
+          <div class="qs-grid food" role="tabpanel" id="qp-food" aria-labelledby="qt-food"></div>
+          <div class="qs-grid robots" role="tabpanel" id="qp-robots" aria-labelledby="qt-robots" hidden></div>
+          <div class="qs-grid addons" role="tabpanel" id="qp-addons" aria-labelledby="qt-addons" hidden></div>
+        </div>
+        <aside class="qs-tray" id="qs-tray" aria-label="Your quote">
+          <button type="button" class="qs-peek" id="qs-peek" aria-expanded="false" aria-controls="qs-lines">
+            <span class="qs-thumbs" id="qs-thumbs" aria-hidden="true"></span>
+            <span class="qs-peek-t" id="qs-peek-t">Your quote</span>
+          </button>
+          <div class="qs-tray-h label">Your quote</div>
+          <ul class="qs-lines" id="qs-lines"></ul>
+          <div class="qs-sum" aria-live="polite">
+            <div class="qs-num" id="dq-total">$0</div>
+            <div class="label" id="dq-note">Pick a machine to start</div>
+          </div>
+          <p class="qs-fine">Machines at list. The rest indicative, confirmed on scope. Robots are priced to order. Maintenance and delivery on the full quote.</p>
+          <div class="qs-go">
+            <a class="btn" id="want-go" href="../../quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
+          </div>
+        </aside>
       </div>
     </div>
   </div>
-  <div class="drop-scrim" id="wantscrim" aria-hidden="true"></div>
 
 <main id="top" class="product case">
   <section class="phero">
@@ -1501,6 +1579,10 @@ window.WonderQuote = (function(){
     {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
      img:'../../img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
   ];
+  // The showroom robots, written in from the catalogue at build time. There is
+  // no list price for any of them, so they sit on a quote as a line priced on
+  // request and never move the total.
+  var ROBOTS=[{"id": "unitree-g1", "name": "Unitree G1", "kind": "Humanoid robot", "status": "On our floor", "note": "Quoted to order", "img": "../../img/machines/unitree-g1-light.jpg", "url": "../../machines/unitree-g1/"}, {"id": "ubtech-cruzr-1s", "name": "UBTECH Cruzr 1S", "kind": "Service robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../../img/machines/ubtech-cruzr-1s-light.jpg", "url": "../../machines/ubtech-cruzr-1s/"}, {"id": "ubtech-cadebot", "name": "UBTECH CadeBot", "kind": "Delivery robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../../img/machines/ubtech-cadebot-light.jpg", "url": "../../machines/ubtech-cadebot/"}, {"id": "unitree-go2", "name": "Unitree GO2", "kind": "Quadruped robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/unitree-go2-light.jpg", "url": "../../machines/unitree-go2/"}, {"id": "ubtech-cruzr-y1", "name": "UBTECH Cruzr Y1", "kind": "Material handling robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-cruzr-y1-light.jpg", "url": "../../machines/ubtech-cruzr-y1/"}, {"id": "ubtech-yanshee", "name": "UBTECH Yanshee", "kind": "Educational humanoid", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-yanshee-light.jpg", "url": "../../machines/ubtech-yanshee/"}, {"id": "ubtech-ugot", "name": "UBTECH UGOT", "kind": "STEM robotics kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-ugot-light.jpg", "url": "../../machines/ubtech-ugot/"}, {"id": "ubtech-ukit", "name": "UBTECH uKit", "kind": "STEM education kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-ukit-light.jpg", "url": "../../machines/ubtech-ukit/"}];
   var RATES={
     maintenance_pct_per_year:{standard:0.07, priority:0.11},
     delivery_inland:2400
@@ -1513,13 +1595,13 @@ window.WonderQuote = (function(){
     var out={qty:{},parts:{},svc:{}}; if(!str) return out;
     decodeURIComponent(str).split(',').forEach(function(tok){
       var kv=tok.split(':'), id=kv[0], n=Math.max(1,Math.min(20,parseInt(kv[1],10)||1));
-      if(MACHINES.some(function(m){return m.id===id;})) out.qty[id]=n;
+      if(MACHINES.some(function(m){return m.id===id;})||ROBOTS.some(function(r){return r.id===id;})) out.qty[id]=n;
       else if(PARTS.some(function(p){return p.id===id;})) out.parts[id]=true;
       else if(SERVICES.some(function(x){return x.id===id;})) out.svc[id]=true;
     });
     return out;
   }
-  return {MACHINES:MACHINES,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {MACHINES:MACHINES,ROBOTS:ROBOTS,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The loader does not fade out, it walks to its post. The robot sneaks home
@@ -1603,111 +1685,202 @@ window.WonderQuote = (function(){
   });
   if(best) best.setAttribute('aria-current','page');
 
-  var btn=document.getElementById('want'), panel=document.getElementById('wantpanel'), scrim=document.getElementById('wantscrim');
-  if(!btn||!panel) return;
-  function isOpen(){ return bar.classList.contains('bar-open'); }
-  function open(on){
-    bar.classList.toggle('bar-open',on); btn.setAttribute('aria-expanded',on?'true':'false');
-    if(on){ drawOnce(); }
-  }
-  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!isOpen()); });
-  if(scrim) scrim.addEventListener('click',function(){ open(false); });
-  // The panel is the bar's sibling, not its child, so an outside click asks both.
-  document.addEventListener('click',function(e){
-    if(!isOpen()||bar.contains(e.target)||panel.contains(e.target)) return;
-    open(false);
-  });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ open(false); btn.focus(); } });
+  var btn=document.getElementById('want'), sheet=document.getElementById('wantpanel');
+  var Q=window.WonderQuote;
+  if(!btn||!sheet||!Q) return;
+  var $=function(id){return document.getElementById(id);};
+  var esc=function(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
+  var money=Q.money;
 
-  // The quote drop: the same list the quote page reads, as a compact builder.
-  // Cards and chips are drawn the first time it opens, so nobody pays for
-  // seven card images on a page they never open the drop on.
-  var Q=window.WonderQuote; if(!Q) return;
-  var rail=document.getElementById('dq-machines'), chips=document.getElementById('dq-addons');
-  var totalEl=document.getElementById('dq-total'), noteEl=document.getElementById('dq-note');
-  var go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
-  if(!rail||!chips||!go) return;
-  var goBase=go.getAttribute('href');
-  var qty={}, parts={}, svc={}, drawn=false;
-  Q.MACHINES.forEach(function(m){ qty[m.id]=0; });
+  // One state for the sheet. Machines and robots count, add-ons toggle.
+  var qty={}, parts={}, svc={}, drawn=false, lastFocus=null;
+  Q.MACHINES.concat(Q.ROBOTS).forEach(function(m){ qty[m.id]=0; });
   Q.PARTS.forEach(function(x){ parts[x.id]=false; });
   Q.SERVICES.forEach(function(x){ svc[x.id]=!!x.on; });
 
-  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-  function drawOnce(){
-    if(drawn) return; drawn=true;
-    rail.innerHTML=Q.MACHINES.map(function(m){
-      return '<div class="dq-card" id="dq-'+m.id+'">'+
-        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="dq-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3>'+
-        '<div class="dq-card-f"><span class="price">'+Q.money.format(m.price)+'</span>'+
-        '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+esc(m.model)+'">&minus;</button>'+
-        '<output id="dqn-'+m.id+'">0</output>'+
-        '<button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+esc(m.model)+'">+</button></span></div></div></div>';
-    }).join('');
-    var list=Q.PARTS.map(function(x){return {o:x,g:'part'};}).concat(Q.SERVICES.map(function(x){return {o:x,g:'svc'};}));
-    chips.innerHTML=list.map(function(it){
-      return '<button type="button" class="dq-chip" data-g="'+it.g+'" data-id="'+it.o.id+'" aria-pressed="false">'+
-        esc(it.o.name)+'<span class="p" id="dqp-'+it.o.id+'"></span></button>';
-    }).join('');
-    render();
+  // ---- open and close. It is a modal: focus goes in, the page stops
+  // scrolling underneath, Escape and the scrim put it back, focus returns.
+  function isOpen(){ return sheet.classList.contains('on'); }
+  function setOpen(on){
+    if(on===isOpen()) return;
+    if(on){
+      draw(); lastFocus=document.activeElement;
+      var sw=window.innerWidth-document.documentElement.clientWidth;
+      document.documentElement.style.paddingRight=sw>0?sw+'px':'';
+      document.documentElement.classList.add('qs-lock');
+      sheet.classList.add('on'); btn.setAttribute('aria-expanded','true');
+      setTimeout(function(){ var t=sheet.querySelector('.qs-tabs [aria-selected="true"]'); if(t) t.focus({preventScroll:true}); },60);
+    }else{
+      sheet.classList.remove('on'); btn.setAttribute('aria-expanded','false');
+      document.documentElement.classList.remove('qs-lock'); document.documentElement.style.paddingRight='';
+      if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true});
+    }
   }
-  rail.addEventListener('click',function(e){
-    var b=e.target.closest('button[data-id]'); if(!b) return;
-    var id=b.getAttribute('data-id');
-    qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10)));
-    render();
+  btn.addEventListener('click',function(e){ e.preventDefault(); setOpen(true); });
+  $('qs-close').addEventListener('click',function(){ setOpen(false); });
+  $('wantscrim').addEventListener('click',function(){ setOpen(false); });
+  document.addEventListener('keydown',function(e){
+    if(!isOpen()) return;
+    if(e.key==='Escape'){ e.preventDefault(); setOpen(false); return; }
+    if(e.key==='Tab'){   // keep Tab inside the sheet
+      var f=[].filter.call(sheet.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])'),function(n){ return n.offsetParent!==null&&!n.disabled; });
+      if(!f.length) return;
+      var first=f[0], last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
   });
-  chips.addEventListener('click',function(e){
-    var b=e.target.closest('.dq-chip'); if(!b) return;
-    var id=b.getAttribute('data-id');
-    if(b.getAttribute('data-g')==='part') parts[id]=!parts[id]; else svc[id]=!svc[id];
-    render();
+  // Any link on the site that points at the quote section can open the sheet
+  // instead of scrolling: <a data-quote> or ?pick= style hrefs keep working.
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[data-quote]'); if(!a) return;
+    e.preventDefault(); setOpen(true);
   });
 
+  // ---- tabs, with arrow keys as a tablist should have
+  var tabs=[].slice.call(sheet.querySelectorAll('.qs-tabs [role="tab"]'));
+  function selectTab(t){
+    tabs.forEach(function(x){
+      var on=x===t; x.setAttribute('aria-selected',on?'true':'false'); x.tabIndex=on?0:-1;
+      $(x.getAttribute('aria-controls')).hidden=!on;
+    });
+    sheet.querySelector('.qs-pick').scrollTop=0;
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){ selectTab(t); });
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
+      e.preventDefault(); var n=tabs[(i+d+tabs.length)%tabs.length]; selectTab(n); n.focus();
+    });
+  });
+
+  // ---- the cards, drawn the first time the sheet opens so no page pays for
+  // two dozen images it never shows
+  function stepper(id,label){
+    return '<span class="qty"><button type="button" data-id="'+id+'" data-d="-1" aria-label="Fewer '+esc(label)+'">&minus;</button>'+
+           '<output id="qn-'+id+'">0</output><button type="button" data-id="'+id+'" data-d="1" aria-label="Add '+esc(label)+'">+</button></span>';
+  }
+  function draw(){
+    if(drawn) return; drawn=true;
+    $('qp-food').innerHTML=Q.MACHINES.map(function(m){
+      return '<article class="qs-card" id="qc-'+m.id+'"><span class="n" id="qb-'+m.id+'" aria-hidden="true"></span>'+
+        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="qs-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3><p>'+esc(m.kit)+'</p>'+
+        '<div class="qs-card-f"><span class="price">'+money.format(m.price)+'</span>'+stepper(m.id,m.model)+'</div></div></article>';
+    }).join('');
+    $('qp-robots').innerHTML=Q.ROBOTS.map(function(r){
+      var floor=/floor/i.test(r.status);
+      return '<article class="qs-card" id="qc-'+r.id+'"><span class="n" id="qb-'+r.id+'" aria-hidden="true"></span>'+
+        '<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'+
+        '<div class="ph"><img src="'+r.img+'" alt="'+esc(r.name)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="qs-card-b"><h3>'+esc(r.name)+'<small>'+esc(r.kind)+'</small></h3>'+
+        '<div class="qs-card-f"><span class="price ask">On request</span>'+stepper(r.id,r.name)+'</div></div></article>';
+    }).join('');
+    function addon(o,g){
+      return '<article class="qs-card" id="qc-'+o.id+'">'+
+        '<div class="ph"><img src="'+o.img+'" alt="'+esc(o.alt||o.name)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="qs-card-b"><h3>'+esc(o.name)+'</h3><p>'+esc(o.sub)+'</p>'+
+        '<div class="qs-card-f"><span class="price" id="qpv-'+o.id+'"></span>'+
+        '<button type="button" class="qs-toggle" data-g="'+g+'" data-id="'+o.id+'" aria-pressed="false">Add</button></div></div></article>';
+    }
+    $('qp-addons').innerHTML='<div class="qs-sub label">On the machine</div>'+Q.PARTS.map(function(x){return addon(x,'part');}).join('')+
+      '<div class="qs-sub label">The work around it</div>'+Q.SERVICES.map(function(x){return addon(x,'svc');}).join('');
+    render();
+  }
+  sheet.querySelector('.qs-pick').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-d]');
+    if(b){ var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10))); render(); return; }
+    var t=e.target.closest('.qs-toggle');
+    if(t){ var tid=t.getAttribute('data-id'); if(t.getAttribute('data-g')==='part') parts[tid]=!parts[tid]; else svc[tid]=!svc[tid]; render(); }
+  });
+  $('qs-peek').addEventListener('click',function(){
+    var tray=$('qs-tray'), o=!tray.classList.contains('open');
+    tray.classList.toggle('open',o); this.setAttribute('aria-expanded',o?'true':'false');
+  });
+
+  // ---- the tray and the total
   function render(){
-    var count=0, supply=0, total=0, picked=[];
+    var count=0, supply=0, total=0, asks=0, lines=[], pick=[], faces=[];
+    var tabCount={food:0,robots:0,addons:0};
     Q.MACHINES.forEach(function(m){
-      var n=qty[m.id]; count+=n; supply+=n*m.price;
-      var card=document.getElementById('dq-'+m.id); if(card) card.classList.toggle('on',n>0);
-      var out=document.getElementById('dqn-'+m.id); if(out) out.textContent=n;
-      if(n>0) picked.push(n>1?m.id+':'+n:m.id);
+      var n=qty[m.id]; mark(m.id,n);
+      if(!n) return;
+      count+=n; supply+=n*m.price; tabCount.food+=n; pick.push(n>1?m.id+':'+n:m.id); faces.push(m.img);
+      lines.push({img:m.img,name:m.name,sub:(n>1?n+' × ':'')+m.model,v:money.format(n*m.price)});
+    });
+    Q.ROBOTS.forEach(function(r){
+      var n=qty[r.id]; mark(r.id,n);
+      if(!n) return;
+      asks+=n; tabCount.robots+=n; pick.push(n>1?r.id+':'+n:r.id); faces.push(r.img);
+      lines.push({img:r.img,name:r.name,sub:(n>1?n+' × ':'')+r.kind,v:'On request',ask:true});
     });
     total=supply;
     Q.PARTS.forEach(function(x){
-      var p=document.getElementById('dqp-'+x.id); if(p) p.textContent=Q.money.format(x.price);
-      if(parts[x.id]){ total+=x.price; picked.push(x.id); }
+      var pv=$('qpv-'+x.id); if(pv) pv.textContent=money.format(x.price);
+      toggle(x.id,parts[x.id]);
+      if(!parts[x.id]) return;
+      total+=x.price; tabCount.addons++; pick.push(x.id);
+      lines.push({img:x.img,name:x.name,sub:'Add-on, indicative',v:money.format(x.price)});
     });
     Q.SERVICES.forEach(function(x){
       var amt=count?Q.serviceAmount(x,supply):0;
-      var p=document.getElementById('dqp-'+x.id); if(p) p.textContent=count?Q.money.format(amt):'on your machines';
-      if(svc[x.id]){ picked.push(x.id); if(count) total+=amt; }
+      var pv=$('qpv-'+x.id); if(pv){ pv.textContent=count?money.format(amt):'Priced on your machines'; pv.classList.toggle('ask',!count); }
+      toggle(x.id,svc[x.id]);
+      if(!svc[x.id]) return;
+      if(x.id!=='inst'){ tabCount.addons++; pick.push(x.id); }
+      if(!count&&!asks) return;
+      if(count) total+=amt;
+      lines.push({img:x.img,name:x.name,sub:count?Math.round(x.pct*100)+'% of the machines, indicative':'Priced with the robots',v:count?money.format(amt):'On request',ask:!count});
     });
-    chips.querySelectorAll('.dq-chip').forEach(function(b){
-      var id=b.getAttribute('data-id'), on=b.getAttribute('data-g')==='part'?parts[id]:svc[id];
-      b.setAttribute('aria-pressed',on?'true':'false');
+
+    tabs.forEach(function(t){
+      var k=t.id.replace('qt-',''), n=tabCount[k], b=t.querySelector('b');
+      if(n&&!b){ b=document.createElement('b'); t.appendChild(b); }
+      if(b){ if(n) b.textContent=n; else b.remove(); }
     });
-    var extra=total>supply;
-    if(!count){ totalEl.textContent=Q.money.format(total); noteEl.textContent='Pick a machine to start'; }
+
+    var ul=$('qs-lines');
+    ul.innerHTML=lines.length?lines.map(function(l){
+      return '<li><span class="t"><img src="'+l.img+'" alt=""></span><span><b>'+esc(l.name)+'</b><small>'+esc(l.sub)+'</small></span>'+
+             '<span class="v'+(l.ask?' ask':'')+'">'+esc(l.v)+'</span></li>';
+    }).join(''):'<li class="empty">Nothing yet. Pick a machine or a robot and it lands here, priced.</li>';
+
+    var things=count+asks;
+    var totalEl=$('dq-total'), noteEl=$('dq-note');
+    if(!things){ totalEl.textContent=money.format(0); noteEl.textContent='Pick a machine to start'; }
     else{
-      totalEl.innerHTML=(extra?'<small>about</small>':'')+Q.money.format(total);
-      noteEl.textContent=count+(count===1?' machine':' machines')+', ex GST';
+      totalEl.innerHTML=(total>supply||asks?'<small>about</small>':'')+money.format(total);
+      var bits=[];
+      if(count) bits.push(count+(count===1?' machine':' machines'));
+      if(asks) bits.push(asks+(asks===1?' robot on request':' robots on request'));
+      noteEl.textContent=bits.join(', ')+'. Ex GST';
     }
-    // only what someone chose rides along; install is on by default on the page too
-    var chosen=picked.filter(function(id){ return id!=='inst'; });
-    go.href=chosen.length?goBase+'?pick='+chosen.join(','):goBase;
+    $('qs-thumbs').innerHTML=faces.slice(0,5).map(function(src){return '<img src="'+src+'" alt="">';}).join('');
+    $('qs-peek-t').textContent=things?('See the '+lines.length+(lines.length===1?' line':' lines')):'Your quote';
+
+    var go=$('want-go'); go.href=go.getAttribute('data-base')+(pick.length?'?pick='+pick.join(','):'');
   }
+  function mark(id,n){
+    var c=$('qc-'+id); if(c) c.classList.toggle('on',n>0);
+    var o=$('qn-'+id); if(o) o.textContent=n;
+    var b=$('qb-'+id); if(b) b.textContent=n;
+  }
+  function toggle(id,on){
+    var c=$('qc-'+id); if(c) c.classList.toggle('on',!!on);
+    var t=c&&c.querySelector('.qs-toggle'); if(t){ t.setAttribute('aria-pressed',on?'true':'false'); t.textContent=on?'Added':'Add'; }
+  }
+  var goEl=$('want-go'); goEl.setAttribute('data-base',goEl.getAttribute('href'));
 
   // "Have us call you" ticks the matching boxes in the band above the footer,
-  // which is on every page, then takes you there.
+  // which is on every page, then closes the sheet and takes you there.
   var TO_BAND={bpro:'eoi-coffee',bstd:'eoi-coffee',eff:'eoi-coffee',bar:'eoi-cocktail',ice:'eoi-icecream',
                fry:'eoi-kitchen',noo:'eoi-kitchen',eng:'eoi-fitout',brand:'eoi-brand',soft:'eoi-software'};
-  if(mail) mail.addEventListener('click',function(){
+  $('want-mail').addEventListener('click',function(){
     Object.keys(TO_BAND).forEach(function(id){
       var on=(qty[id]>0)||parts[id]||(svc[id]&&id!=='inst');
       var box=document.getElementById(TO_BAND[id]); if(on&&box) box.checked=true;
     });
-    open(false);
+    setOpen(false);
   });
 })();
 (function(){
@@ -1715,13 +1888,14 @@ window.WonderQuote = (function(){
   var state=document.getElementById('floor-state');
   var dot=document.getElementById('floor-dot');
   var fmt=new Intl.DateTimeFormat('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Australia/Brisbane'});
-  var parts=new Intl.DateTimeFormat('en-AU',{weekday:'short',hour:'numeric',minute:'numeric',hour12:false,timeZone:'Australia/Brisbane'});
+  // not "parts": the quote builder below shares this scope and has its own
+  var clockParts=new Intl.DateTimeFormat('en-AU',{weekday:'short',hour:'numeric',minute:'numeric',hour12:false,timeZone:'Australia/Brisbane'});
   var HOURS={Mon:[9,19],Tue:[9,19],Wed:[9,19],Thu:[9,19],Fri:[9,19],Sat:[10,17]};
   function tick(){
     var now=new Date();
     clock.textContent=fmt.format(now);
     var p={};
-    parts.formatToParts(now).forEach(function(x){p[x.type]=x.value;});
+    clockParts.formatToParts(now).forEach(function(x){p[x.type]=x.value;});
     var h=parseInt(p.hour,10)%24+parseInt(p.minute,10)/60;
     var span=HOURS[p.weekday];
     var open=!!span&&h>=span[0]&&h<span[1];
@@ -1747,6 +1921,18 @@ window.WonderQuote = (function(){
       '<div class="pick-b"><h3>'+m.name+'<small>'+m.model+'</small></h3><p>'+m.kit+'</p>'+
       '<div class="pick-f"><span class="price">'+money.format(m.price)+'</span>'+
       '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+m.name+'">+</button></span></div></div>';
+    picker.appendChild(c);
+  });
+  // the showroom robots, priced on request, in the same grid
+  var ROBOTS=Q.ROBOTS||[];
+  if(ROBOTS.length){ var hd=document.createElement('div'); hd.className='pick-sub label'; hd.textContent='Showroom robots, priced to order'; picker.appendChild(hd); }
+  ROBOTS.forEach(function(r){
+    qty[r.id]=0;
+    var c=document.createElement('div'); c.className='pick robot'; c.id='pick-'+r.id;
+    c.innerHTML='<div class="ph"><img src="'+r.img+'" alt="'+r.name+'" loading="lazy"></div>'+
+      '<div class="pick-b"><h3>'+r.name+'<small>'+r.kind+'</small></h3><p>'+r.status+'. Priced to order.</p>'+
+      '<div class="pick-f"><span class="price">On request</span>'+
+      '<span class="qty"><button type="button" data-id="'+r.id+'" data-d="-1" aria-label="Fewer '+r.name+'">&minus;</button><output id="qty-'+r.id+'">0</output><button type="button" data-id="'+r.id+'" data-d="1" aria-label="Add '+r.name+'">+</button></span></div></div>';
     picker.appendChild(c);
   });
   picker.addEventListener('click',function(e){
@@ -1781,7 +1967,7 @@ window.WonderQuote = (function(){
       gst:form.querySelector('input[name=gst]:checked').value
     };
   }
-  function line(label,sub,value,ind){ return {label:label,sub:sub,value:value,ind:ind}; }
+  function line(label,sub,value,ind,img){ return {label:label,sub:sub,value:value,ind:ind,img:img}; }
 
   function render(){
     var v=read();
@@ -1789,20 +1975,27 @@ window.WonderQuote = (function(){
     MACHINES.forEach(function(m){
       var n=qty[m.id]; el('qty-'+m.id).textContent=n;
       el('pick-'+m.id).classList.toggle('on',n>0);
-      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
+      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price, false, m.img));}
+    });
+
+    var asks=0;
+    ROBOTS.forEach(function(r){
+      var n=qty[r.id]; el('qty-'+r.id).textContent=n;
+      el('pick-'+r.id).classList.toggle('on',n>0);
+      if(n>0){ asks+=n; indicative=true; lines.push(line(r.name, n+' \u00d7 '+r.kind+', priced to order', null, true, r.img)); }
     });
 
     var sub=supply;
     PARTS.forEach(function(p){
       var on=parts[p.id]; el('ad-'+p.id).classList.toggle('on',on); el('ad-'+p.id).setAttribute('aria-pressed',on?'true':'false');
       el('adp-'+p.id).textContent=money.format(p.price);
-      if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true)); }
+      if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true,p.img)); }
     });
     SERVICES.forEach(function(s){
       var on=svc[s.id], amt=count?Q.serviceAmount(s,supply):0;
       el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
       el('adp-'+s.id).textContent=count?money.format(amt):'Priced on your machines';
-      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true)); }
+      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true,s.img)); }
     });
 
     var noPlan=v.plan==='none';
@@ -1825,7 +2018,8 @@ window.WonderQuote = (function(){
     lines.forEach(function(l){
       var tr=document.createElement('tr');
       if(l.ind) tr.className='scope';
-      tr.innerHTML='<th>'+l.label+'<small>'+l.sub+'</small></th><td>'+(l.value===0?'Included':money.format(l.value))+'</td>';
+      if(l.img) tr.className+=(tr.className?' ':'')+'pic';
+      tr.innerHTML='<th><span class="lr">'+(l.img?'<span class="t"><img src="'+l.img+'" alt=""></span>':'')+'<span>'+l.label+'<small>'+l.sub+'</small></span></span></th><td>'+(l.value===null?'On request':l.value===0?'Included':money.format(l.value))+'</td>';
       tb.appendChild(tr);
     });
 
@@ -1837,7 +2031,7 @@ window.WonderQuote = (function(){
 
     var d=new Date(), ref='WR-Q'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'-'+count;
     el('q-ref').textContent=ref;
-    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value===0?'included':money.format(l.value));}))
+    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value===null?'on request':l.value===0?'included':money.format(l.value));}))
       .concat(['Subtotal ex GST: '+money.format(sub),'GST: '+money.format(gst),'Total inc GST: '+money.format(inc),'',
                'Machines at 2026 Moton list. Everything else indicative, confirmed on scope.','','Site:','Contact:']).join('\n');
     el('q-send').href='mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body);

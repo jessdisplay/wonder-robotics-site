@@ -14,6 +14,7 @@ lrd -> work/little-red-dumplings/index.html. The catalogue (machines/ and
 machines/<slug>/) is rendered from src/machines.py, one page per line.
 """
 import hashlib
+import json
 import sys
 from html import escape
 from pathlib import Path
@@ -69,34 +70,47 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
 </header>
-  <div class="drop" id="wantpanel" role="region" aria-label="Build a quote">
-    <div class="drop-clip">
-      <div class="drop-in">
-        <div class="wrap">
-          <div class="dq-head">
-            <div class="dq-say">
-              <span class="label">[ Build your quote ]</span>
-              <h2>Pick what you want built.</h2>
-            </div>
-            <div class="dq-total" aria-live="polite">
-              <div class="dq-num" id="dq-total">$0</div>
-              <div class="label" id="dq-note">Pick a machine to start</div>
-            </div>
-          </div>
-          <div class="dq-rail" id="dq-machines" role="group" aria-label="Machines"></div>
-          <div class="dq-chips" id="dq-addons" role="group" aria-label="Add to it"></div>
-          <div class="dq-foot">
-            <p class="dq-fine">Machines at list. Add-ons indicative, confirmed on scope. Maintenance and delivery on the full quote.</p>
-            <div class="dq-go">
-              <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
-              <a class="btn" id="want-go" href="{{root}}quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
-            </div>
-          </div>
+  <div class="qs" id="wantpanel" role="dialog" aria-modal="true" aria-labelledby="qs-title">
+    <div class="qs-scrim" id="wantscrim"></div>
+    <div class="qs-sheet">
+      <div class="qs-top">
+        <div class="qs-say">
+          <span class="label">[ Build your quote ]</span>
+          <h2 id="qs-title">Pick what you want built.</h2>
         </div>
+        <div class="qs-tabs" role="tablist" aria-label="What to add">
+          <button type="button" role="tab" id="qt-food" aria-controls="qp-food" aria-selected="true">Food and drink</button>
+          <button type="button" role="tab" id="qt-robots" aria-controls="qp-robots" aria-selected="false" tabindex="-1">Showroom robots</button>
+          <button type="button" role="tab" id="qt-addons" aria-controls="qp-addons" aria-selected="false" tabindex="-1">Add-ons and the work</button>
+        </div>
+        <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
+      </div>
+      <div class="qs-body">
+        <div class="qs-pick">
+          <div class="qs-grid food" role="tabpanel" id="qp-food" aria-labelledby="qt-food"></div>
+          <div class="qs-grid robots" role="tabpanel" id="qp-robots" aria-labelledby="qt-robots" hidden></div>
+          <div class="qs-grid addons" role="tabpanel" id="qp-addons" aria-labelledby="qt-addons" hidden></div>
+        </div>
+        <aside class="qs-tray" id="qs-tray" aria-label="Your quote">
+          <button type="button" class="qs-peek" id="qs-peek" aria-expanded="false" aria-controls="qs-lines">
+            <span class="qs-thumbs" id="qs-thumbs" aria-hidden="true"></span>
+            <span class="qs-peek-t" id="qs-peek-t">Your quote</span>
+          </button>
+          <div class="qs-tray-h label">Your quote</div>
+          <ul class="qs-lines" id="qs-lines"></ul>
+          <div class="qs-sum" aria-live="polite">
+            <div class="qs-num" id="dq-total">$0</div>
+            <div class="label" id="dq-note">Pick a machine to start</div>
+          </div>
+          <p class="qs-fine">Machines at list. The rest indicative, confirmed on scope. Robots are priced to order. Maintenance and delivery on the full quote.</p>
+          <div class="qs-go">
+            <a class="btn" id="want-go" href="{{root}}quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
+          </div>
+        </aside>
       </div>
     </div>
   </div>
-  <div class="drop-scrim" id="wantscrim" aria-hidden="true"></div>
 '''
 
 EOI = '''<section class="eoi" id="eoi">
@@ -192,6 +206,27 @@ FOOTER = '''<footer>
 </footer>
 '''
 
+# The showroom robots in the quote builder come from the catalogue, not a copy
+# of it: rename a robot or change its render in machines.py and the quote
+# follows. No list prices exist for these, so they carry the catalogue's own
+# price line and price as a line "on request".
+QUOTE_ROBOTS = ["unitree-g1", "ubtech-cruzr-1s", "ubtech-cadebot", "unitree-go2",
+                "ubtech-cruzr-y1", "ubtech-yanshee", "ubtech-ugot", "ubtech-ukit"]
+
+
+def robots_json():
+    by = {m["slug"]: m for m in MACHINES}
+    rows = []
+    for slug in QUOTE_ROBOTS:
+        m = by[slug]
+        if not (HERE / "img" / m["light"]).exists():
+            sys.exit(f"quote robot {slug}: missing render img/{m['light']}")
+        rows.append({"id": slug, "name": m["name"], "kind": m["kind"], "status": m["status"],
+                     "note": m["price"], "img": "{{root}}img/" + m["light"],
+                     "url": "{{root}}machines/" + slug + "/"})
+    return json.dumps(rows, ensure_ascii=False).replace("</", "<\\/")
+
+
 def render(body, cfg, name=None):
     css = (SRC / "site.css").read_text()
     js = (SRC / "site.js").read_text()
@@ -201,6 +236,7 @@ def render(body, cfg, name=None):
     # Its URL carries a hash of its own contents: a change ships, an unchanged
     # file stays cached. Same for the model it loads.
     body = body.replace("{{herov}}", hashlib.sha1((HERE / "hero.js").read_bytes()).hexdigest()[:8])
+    js = js.replace("/*{{robots}}*/[]", robots_json())
     inner = (
         f'<title>{cfg["title"]}</title>\n'
         f'<meta name="description" content="{cfg["desc"]}">\n'

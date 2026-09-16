@@ -95,6 +95,10 @@ window.WonderQuote = (function(){
     {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
      img:'{{root}}img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
   ];
+  // The showroom robots, written in from the catalogue at build time. There is
+  // no list price for any of them, so they sit on a quote as a line priced on
+  // request and never move the total.
+  var ROBOTS=/*{{robots}}*/[];
   var RATES={
     maintenance_pct_per_year:{standard:0.07, priority:0.11},
     delivery_inland:2400
@@ -107,13 +111,13 @@ window.WonderQuote = (function(){
     var out={qty:{},parts:{},svc:{}}; if(!str) return out;
     decodeURIComponent(str).split(',').forEach(function(tok){
       var kv=tok.split(':'), id=kv[0], n=Math.max(1,Math.min(20,parseInt(kv[1],10)||1));
-      if(MACHINES.some(function(m){return m.id===id;})) out.qty[id]=n;
+      if(MACHINES.some(function(m){return m.id===id;})||ROBOTS.some(function(r){return r.id===id;})) out.qty[id]=n;
       else if(PARTS.some(function(p){return p.id===id;})) out.parts[id]=true;
       else if(SERVICES.some(function(x){return x.id===id;})) out.svc[id]=true;
     });
     return out;
   }
-  return {MACHINES:MACHINES,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {MACHINES:MACHINES,ROBOTS:ROBOTS,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The loader does not fade out, it walks to its post. The robot sneaks home
@@ -197,111 +201,202 @@ window.WonderQuote = (function(){
   });
   if(best) best.setAttribute('aria-current','page');
 
-  var btn=document.getElementById('want'), panel=document.getElementById('wantpanel'), scrim=document.getElementById('wantscrim');
-  if(!btn||!panel) return;
-  function isOpen(){ return bar.classList.contains('bar-open'); }
-  function open(on){
-    bar.classList.toggle('bar-open',on); btn.setAttribute('aria-expanded',on?'true':'false');
-    if(on){ drawOnce(); }
-  }
-  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!isOpen()); });
-  if(scrim) scrim.addEventListener('click',function(){ open(false); });
-  // The panel is the bar's sibling, not its child, so an outside click asks both.
-  document.addEventListener('click',function(e){
-    if(!isOpen()||bar.contains(e.target)||panel.contains(e.target)) return;
-    open(false);
-  });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ open(false); btn.focus(); } });
+  var btn=document.getElementById('want'), sheet=document.getElementById('wantpanel');
+  var Q=window.WonderQuote;
+  if(!btn||!sheet||!Q) return;
+  var $=function(id){return document.getElementById(id);};
+  var esc=function(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
+  var money=Q.money;
 
-  // The quote drop: the same list the quote page reads, as a compact builder.
-  // Cards and chips are drawn the first time it opens, so nobody pays for
-  // seven card images on a page they never open the drop on.
-  var Q=window.WonderQuote; if(!Q) return;
-  var rail=document.getElementById('dq-machines'), chips=document.getElementById('dq-addons');
-  var totalEl=document.getElementById('dq-total'), noteEl=document.getElementById('dq-note');
-  var go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
-  if(!rail||!chips||!go) return;
-  var goBase=go.getAttribute('href');
-  var qty={}, parts={}, svc={}, drawn=false;
-  Q.MACHINES.forEach(function(m){ qty[m.id]=0; });
+  // One state for the sheet. Machines and robots count, add-ons toggle.
+  var qty={}, parts={}, svc={}, drawn=false, lastFocus=null;
+  Q.MACHINES.concat(Q.ROBOTS).forEach(function(m){ qty[m.id]=0; });
   Q.PARTS.forEach(function(x){ parts[x.id]=false; });
   Q.SERVICES.forEach(function(x){ svc[x.id]=!!x.on; });
 
-  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-  function drawOnce(){
-    if(drawn) return; drawn=true;
-    rail.innerHTML=Q.MACHINES.map(function(m){
-      return '<div class="dq-card" id="dq-'+m.id+'">'+
-        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="dq-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3>'+
-        '<div class="dq-card-f"><span class="price">'+Q.money.format(m.price)+'</span>'+
-        '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+esc(m.model)+'">&minus;</button>'+
-        '<output id="dqn-'+m.id+'">0</output>'+
-        '<button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+esc(m.model)+'">+</button></span></div></div></div>';
-    }).join('');
-    var list=Q.PARTS.map(function(x){return {o:x,g:'part'};}).concat(Q.SERVICES.map(function(x){return {o:x,g:'svc'};}));
-    chips.innerHTML=list.map(function(it){
-      return '<button type="button" class="dq-chip" data-g="'+it.g+'" data-id="'+it.o.id+'" aria-pressed="false">'+
-        esc(it.o.name)+'<span class="p" id="dqp-'+it.o.id+'"></span></button>';
-    }).join('');
-    render();
+  // ---- open and close. It is a modal: focus goes in, the page stops
+  // scrolling underneath, Escape and the scrim put it back, focus returns.
+  function isOpen(){ return sheet.classList.contains('on'); }
+  function setOpen(on){
+    if(on===isOpen()) return;
+    if(on){
+      draw(); lastFocus=document.activeElement;
+      var sw=window.innerWidth-document.documentElement.clientWidth;
+      document.documentElement.style.paddingRight=sw>0?sw+'px':'';
+      document.documentElement.classList.add('qs-lock');
+      sheet.classList.add('on'); btn.setAttribute('aria-expanded','true');
+      setTimeout(function(){ var t=sheet.querySelector('.qs-tabs [aria-selected="true"]'); if(t) t.focus({preventScroll:true}); },60);
+    }else{
+      sheet.classList.remove('on'); btn.setAttribute('aria-expanded','false');
+      document.documentElement.classList.remove('qs-lock'); document.documentElement.style.paddingRight='';
+      if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true});
+    }
   }
-  rail.addEventListener('click',function(e){
-    var b=e.target.closest('button[data-id]'); if(!b) return;
-    var id=b.getAttribute('data-id');
-    qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10)));
-    render();
+  btn.addEventListener('click',function(e){ e.preventDefault(); setOpen(true); });
+  $('qs-close').addEventListener('click',function(){ setOpen(false); });
+  $('wantscrim').addEventListener('click',function(){ setOpen(false); });
+  document.addEventListener('keydown',function(e){
+    if(!isOpen()) return;
+    if(e.key==='Escape'){ e.preventDefault(); setOpen(false); return; }
+    if(e.key==='Tab'){   // keep Tab inside the sheet
+      var f=[].filter.call(sheet.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])'),function(n){ return n.offsetParent!==null&&!n.disabled; });
+      if(!f.length) return;
+      var first=f[0], last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
   });
-  chips.addEventListener('click',function(e){
-    var b=e.target.closest('.dq-chip'); if(!b) return;
-    var id=b.getAttribute('data-id');
-    if(b.getAttribute('data-g')==='part') parts[id]=!parts[id]; else svc[id]=!svc[id];
-    render();
+  // Any link on the site that points at the quote section can open the sheet
+  // instead of scrolling: <a data-quote> or ?pick= style hrefs keep working.
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[data-quote]'); if(!a) return;
+    e.preventDefault(); setOpen(true);
   });
 
+  // ---- tabs, with arrow keys as a tablist should have
+  var tabs=[].slice.call(sheet.querySelectorAll('.qs-tabs [role="tab"]'));
+  function selectTab(t){
+    tabs.forEach(function(x){
+      var on=x===t; x.setAttribute('aria-selected',on?'true':'false'); x.tabIndex=on?0:-1;
+      $(x.getAttribute('aria-controls')).hidden=!on;
+    });
+    sheet.querySelector('.qs-pick').scrollTop=0;
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){ selectTab(t); });
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
+      e.preventDefault(); var n=tabs[(i+d+tabs.length)%tabs.length]; selectTab(n); n.focus();
+    });
+  });
+
+  // ---- the cards, drawn the first time the sheet opens so no page pays for
+  // two dozen images it never shows
+  function stepper(id,label){
+    return '<span class="qty"><button type="button" data-id="'+id+'" data-d="-1" aria-label="Fewer '+esc(label)+'">&minus;</button>'+
+           '<output id="qn-'+id+'">0</output><button type="button" data-id="'+id+'" data-d="1" aria-label="Add '+esc(label)+'">+</button></span>';
+  }
+  function draw(){
+    if(drawn) return; drawn=true;
+    $('qp-food').innerHTML=Q.MACHINES.map(function(m){
+      return '<article class="qs-card" id="qc-'+m.id+'"><span class="n" id="qb-'+m.id+'" aria-hidden="true"></span>'+
+        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="qs-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3><p>'+esc(m.kit)+'</p>'+
+        '<div class="qs-card-f"><span class="price">'+money.format(m.price)+'</span>'+stepper(m.id,m.model)+'</div></div></article>';
+    }).join('');
+    $('qp-robots').innerHTML=Q.ROBOTS.map(function(r){
+      var floor=/floor/i.test(r.status);
+      return '<article class="qs-card" id="qc-'+r.id+'"><span class="n" id="qb-'+r.id+'" aria-hidden="true"></span>'+
+        '<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'+
+        '<div class="ph"><img src="'+r.img+'" alt="'+esc(r.name)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="qs-card-b"><h3>'+esc(r.name)+'<small>'+esc(r.kind)+'</small></h3>'+
+        '<div class="qs-card-f"><span class="price ask">On request</span>'+stepper(r.id,r.name)+'</div></div></article>';
+    }).join('');
+    function addon(o,g){
+      return '<article class="qs-card" id="qc-'+o.id+'">'+
+        '<div class="ph"><img src="'+o.img+'" alt="'+esc(o.alt||o.name)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="qs-card-b"><h3>'+esc(o.name)+'</h3><p>'+esc(o.sub)+'</p>'+
+        '<div class="qs-card-f"><span class="price" id="qpv-'+o.id+'"></span>'+
+        '<button type="button" class="qs-toggle" data-g="'+g+'" data-id="'+o.id+'" aria-pressed="false">Add</button></div></div></article>';
+    }
+    $('qp-addons').innerHTML='<div class="qs-sub label">On the machine</div>'+Q.PARTS.map(function(x){return addon(x,'part');}).join('')+
+      '<div class="qs-sub label">The work around it</div>'+Q.SERVICES.map(function(x){return addon(x,'svc');}).join('');
+    render();
+  }
+  sheet.querySelector('.qs-pick').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-d]');
+    if(b){ var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10))); render(); return; }
+    var t=e.target.closest('.qs-toggle');
+    if(t){ var tid=t.getAttribute('data-id'); if(t.getAttribute('data-g')==='part') parts[tid]=!parts[tid]; else svc[tid]=!svc[tid]; render(); }
+  });
+  $('qs-peek').addEventListener('click',function(){
+    var tray=$('qs-tray'), o=!tray.classList.contains('open');
+    tray.classList.toggle('open',o); this.setAttribute('aria-expanded',o?'true':'false');
+  });
+
+  // ---- the tray and the total
   function render(){
-    var count=0, supply=0, total=0, picked=[];
+    var count=0, supply=0, total=0, asks=0, lines=[], pick=[], faces=[];
+    var tabCount={food:0,robots:0,addons:0};
     Q.MACHINES.forEach(function(m){
-      var n=qty[m.id]; count+=n; supply+=n*m.price;
-      var card=document.getElementById('dq-'+m.id); if(card) card.classList.toggle('on',n>0);
-      var out=document.getElementById('dqn-'+m.id); if(out) out.textContent=n;
-      if(n>0) picked.push(n>1?m.id+':'+n:m.id);
+      var n=qty[m.id]; mark(m.id,n);
+      if(!n) return;
+      count+=n; supply+=n*m.price; tabCount.food+=n; pick.push(n>1?m.id+':'+n:m.id); faces.push(m.img);
+      lines.push({img:m.img,name:m.name,sub:(n>1?n+' × ':'')+m.model,v:money.format(n*m.price)});
+    });
+    Q.ROBOTS.forEach(function(r){
+      var n=qty[r.id]; mark(r.id,n);
+      if(!n) return;
+      asks+=n; tabCount.robots+=n; pick.push(n>1?r.id+':'+n:r.id); faces.push(r.img);
+      lines.push({img:r.img,name:r.name,sub:(n>1?n+' × ':'')+r.kind,v:'On request',ask:true});
     });
     total=supply;
     Q.PARTS.forEach(function(x){
-      var p=document.getElementById('dqp-'+x.id); if(p) p.textContent=Q.money.format(x.price);
-      if(parts[x.id]){ total+=x.price; picked.push(x.id); }
+      var pv=$('qpv-'+x.id); if(pv) pv.textContent=money.format(x.price);
+      toggle(x.id,parts[x.id]);
+      if(!parts[x.id]) return;
+      total+=x.price; tabCount.addons++; pick.push(x.id);
+      lines.push({img:x.img,name:x.name,sub:'Add-on, indicative',v:money.format(x.price)});
     });
     Q.SERVICES.forEach(function(x){
       var amt=count?Q.serviceAmount(x,supply):0;
-      var p=document.getElementById('dqp-'+x.id); if(p) p.textContent=count?Q.money.format(amt):'on your machines';
-      if(svc[x.id]){ picked.push(x.id); if(count) total+=amt; }
+      var pv=$('qpv-'+x.id); if(pv){ pv.textContent=count?money.format(amt):'Priced on your machines'; pv.classList.toggle('ask',!count); }
+      toggle(x.id,svc[x.id]);
+      if(!svc[x.id]) return;
+      if(x.id!=='inst'){ tabCount.addons++; pick.push(x.id); }
+      if(!count&&!asks) return;
+      if(count) total+=amt;
+      lines.push({img:x.img,name:x.name,sub:count?Math.round(x.pct*100)+'% of the machines, indicative':'Priced with the robots',v:count?money.format(amt):'On request',ask:!count});
     });
-    chips.querySelectorAll('.dq-chip').forEach(function(b){
-      var id=b.getAttribute('data-id'), on=b.getAttribute('data-g')==='part'?parts[id]:svc[id];
-      b.setAttribute('aria-pressed',on?'true':'false');
+
+    tabs.forEach(function(t){
+      var k=t.id.replace('qt-',''), n=tabCount[k], b=t.querySelector('b');
+      if(n&&!b){ b=document.createElement('b'); t.appendChild(b); }
+      if(b){ if(n) b.textContent=n; else b.remove(); }
     });
-    var extra=total>supply;
-    if(!count){ totalEl.textContent=Q.money.format(total); noteEl.textContent='Pick a machine to start'; }
+
+    var ul=$('qs-lines');
+    ul.innerHTML=lines.length?lines.map(function(l){
+      return '<li><span class="t"><img src="'+l.img+'" alt=""></span><span><b>'+esc(l.name)+'</b><small>'+esc(l.sub)+'</small></span>'+
+             '<span class="v'+(l.ask?' ask':'')+'">'+esc(l.v)+'</span></li>';
+    }).join(''):'<li class="empty">Nothing yet. Pick a machine or a robot and it lands here, priced.</li>';
+
+    var things=count+asks;
+    var totalEl=$('dq-total'), noteEl=$('dq-note');
+    if(!things){ totalEl.textContent=money.format(0); noteEl.textContent='Pick a machine to start'; }
     else{
-      totalEl.innerHTML=(extra?'<small>about</small>':'')+Q.money.format(total);
-      noteEl.textContent=count+(count===1?' machine':' machines')+', ex GST';
+      totalEl.innerHTML=(total>supply||asks?'<small>about</small>':'')+money.format(total);
+      var bits=[];
+      if(count) bits.push(count+(count===1?' machine':' machines'));
+      if(asks) bits.push(asks+(asks===1?' robot on request':' robots on request'));
+      noteEl.textContent=bits.join(', ')+'. Ex GST';
     }
-    // only what someone chose rides along; install is on by default on the page too
-    var chosen=picked.filter(function(id){ return id!=='inst'; });
-    go.href=chosen.length?goBase+'?pick='+chosen.join(','):goBase;
+    $('qs-thumbs').innerHTML=faces.slice(0,5).map(function(src){return '<img src="'+src+'" alt="">';}).join('');
+    $('qs-peek-t').textContent=things?('See the '+lines.length+(lines.length===1?' line':' lines')):'Your quote';
+
+    var go=$('want-go'); go.href=go.getAttribute('data-base')+(pick.length?'?pick='+pick.join(','):'');
   }
+  function mark(id,n){
+    var c=$('qc-'+id); if(c) c.classList.toggle('on',n>0);
+    var o=$('qn-'+id); if(o) o.textContent=n;
+    var b=$('qb-'+id); if(b) b.textContent=n;
+  }
+  function toggle(id,on){
+    var c=$('qc-'+id); if(c) c.classList.toggle('on',!!on);
+    var t=c&&c.querySelector('.qs-toggle'); if(t){ t.setAttribute('aria-pressed',on?'true':'false'); t.textContent=on?'Added':'Add'; }
+  }
+  var goEl=$('want-go'); goEl.setAttribute('data-base',goEl.getAttribute('href'));
 
   // "Have us call you" ticks the matching boxes in the band above the footer,
-  // which is on every page, then takes you there.
+  // which is on every page, then closes the sheet and takes you there.
   var TO_BAND={bpro:'eoi-coffee',bstd:'eoi-coffee',eff:'eoi-coffee',bar:'eoi-cocktail',ice:'eoi-icecream',
                fry:'eoi-kitchen',noo:'eoi-kitchen',eng:'eoi-fitout',brand:'eoi-brand',soft:'eoi-software'};
-  if(mail) mail.addEventListener('click',function(){
+  $('want-mail').addEventListener('click',function(){
     Object.keys(TO_BAND).forEach(function(id){
       var on=(qty[id]>0)||parts[id]||(svc[id]&&id!=='inst');
       var box=document.getElementById(TO_BAND[id]); if(on&&box) box.checked=true;
     });
-    open(false);
+    setOpen(false);
   });
 })();
 (function(){
@@ -309,13 +404,14 @@ window.WonderQuote = (function(){
   var state=document.getElementById('floor-state');
   var dot=document.getElementById('floor-dot');
   var fmt=new Intl.DateTimeFormat('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Australia/Brisbane'});
-  var parts=new Intl.DateTimeFormat('en-AU',{weekday:'short',hour:'numeric',minute:'numeric',hour12:false,timeZone:'Australia/Brisbane'});
+  // not "parts": the quote builder below shares this scope and has its own
+  var clockParts=new Intl.DateTimeFormat('en-AU',{weekday:'short',hour:'numeric',minute:'numeric',hour12:false,timeZone:'Australia/Brisbane'});
   var HOURS={Mon:[9,19],Tue:[9,19],Wed:[9,19],Thu:[9,19],Fri:[9,19],Sat:[10,17]};
   function tick(){
     var now=new Date();
     clock.textContent=fmt.format(now);
     var p={};
-    parts.formatToParts(now).forEach(function(x){p[x.type]=x.value;});
+    clockParts.formatToParts(now).forEach(function(x){p[x.type]=x.value;});
     var h=parseInt(p.hour,10)%24+parseInt(p.minute,10)/60;
     var span=HOURS[p.weekday];
     var open=!!span&&h>=span[0]&&h<span[1];
@@ -341,6 +437,18 @@ window.WonderQuote = (function(){
       '<div class="pick-b"><h3>'+m.name+'<small>'+m.model+'</small></h3><p>'+m.kit+'</p>'+
       '<div class="pick-f"><span class="price">'+money.format(m.price)+'</span>'+
       '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+m.name+'">+</button></span></div></div>';
+    picker.appendChild(c);
+  });
+  // the showroom robots, priced on request, in the same grid
+  var ROBOTS=Q.ROBOTS||[];
+  if(ROBOTS.length){ var hd=document.createElement('div'); hd.className='pick-sub label'; hd.textContent='Showroom robots, priced to order'; picker.appendChild(hd); }
+  ROBOTS.forEach(function(r){
+    qty[r.id]=0;
+    var c=document.createElement('div'); c.className='pick robot'; c.id='pick-'+r.id;
+    c.innerHTML='<div class="ph"><img src="'+r.img+'" alt="'+r.name+'" loading="lazy"></div>'+
+      '<div class="pick-b"><h3>'+r.name+'<small>'+r.kind+'</small></h3><p>'+r.status+'. Priced to order.</p>'+
+      '<div class="pick-f"><span class="price">On request</span>'+
+      '<span class="qty"><button type="button" data-id="'+r.id+'" data-d="-1" aria-label="Fewer '+r.name+'">&minus;</button><output id="qty-'+r.id+'">0</output><button type="button" data-id="'+r.id+'" data-d="1" aria-label="Add '+r.name+'">+</button></span></div></div>';
     picker.appendChild(c);
   });
   picker.addEventListener('click',function(e){
@@ -375,7 +483,7 @@ window.WonderQuote = (function(){
       gst:form.querySelector('input[name=gst]:checked').value
     };
   }
-  function line(label,sub,value,ind){ return {label:label,sub:sub,value:value,ind:ind}; }
+  function line(label,sub,value,ind,img){ return {label:label,sub:sub,value:value,ind:ind,img:img}; }
 
   function render(){
     var v=read();
@@ -383,20 +491,27 @@ window.WonderQuote = (function(){
     MACHINES.forEach(function(m){
       var n=qty[m.id]; el('qty-'+m.id).textContent=n;
       el('pick-'+m.id).classList.toggle('on',n>0);
-      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
+      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price, false, m.img));}
+    });
+
+    var asks=0;
+    ROBOTS.forEach(function(r){
+      var n=qty[r.id]; el('qty-'+r.id).textContent=n;
+      el('pick-'+r.id).classList.toggle('on',n>0);
+      if(n>0){ asks+=n; indicative=true; lines.push(line(r.name, n+' \u00d7 '+r.kind+', priced to order', null, true, r.img)); }
     });
 
     var sub=supply;
     PARTS.forEach(function(p){
       var on=parts[p.id]; el('ad-'+p.id).classList.toggle('on',on); el('ad-'+p.id).setAttribute('aria-pressed',on?'true':'false');
       el('adp-'+p.id).textContent=money.format(p.price);
-      if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true)); }
+      if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true,p.img)); }
     });
     SERVICES.forEach(function(s){
       var on=svc[s.id], amt=count?Q.serviceAmount(s,supply):0;
       el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
       el('adp-'+s.id).textContent=count?money.format(amt):'Priced on your machines';
-      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true)); }
+      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true,s.img)); }
     });
 
     var noPlan=v.plan==='none';
@@ -419,7 +534,8 @@ window.WonderQuote = (function(){
     lines.forEach(function(l){
       var tr=document.createElement('tr');
       if(l.ind) tr.className='scope';
-      tr.innerHTML='<th>'+l.label+'<small>'+l.sub+'</small></th><td>'+(l.value===0?'Included':money.format(l.value))+'</td>';
+      if(l.img) tr.className+=(tr.className?' ':'')+'pic';
+      tr.innerHTML='<th><span class="lr">'+(l.img?'<span class="t"><img src="'+l.img+'" alt=""></span>':'')+'<span>'+l.label+'<small>'+l.sub+'</small></span></span></th><td>'+(l.value===null?'On request':l.value===0?'Included':money.format(l.value))+'</td>';
       tb.appendChild(tr);
     });
 
@@ -431,7 +547,7 @@ window.WonderQuote = (function(){
 
     var d=new Date(), ref='WR-Q'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'-'+count;
     el('q-ref').textContent=ref;
-    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value===0?'included':money.format(l.value));}))
+    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value===null?'on request':l.value===0?'included':money.format(l.value));}))
       .concat(['Subtotal ex GST: '+money.format(sub),'GST: '+money.format(gst),'Total inc GST: '+money.format(inc),'',
                'Machines at 2026 Moton list. Everything else indicative, confirmed on scope.','','Site:','Contact:']).join('\n');
     el('q-send').href='mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body);
