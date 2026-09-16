@@ -1,0 +1,14 @@
+<main class="proposal" id="top">
+  <div class="pp-tools">
+    <div class="pp-tools-in">
+      <label class="pp-for"><span class="label">Prepared for</span><input id="pp-for" type="text" maxlength="80" autocomplete="organization" placeholder="Business or venue name"></label>
+      <div class="pp-actions">
+        <a class="btn ghost" id="pp-edit" href="{{root}}quote/"><span>Change the quote</span><i aria-hidden="true">+</i></a>
+        <button type="button" class="btn ghost" id="pp-copy"><span>Copy the link</span><i aria-hidden="true">+</i></button>
+        <button type="button" class="btn" id="pp-print"><span>Save as PDF</span><i aria-hidden="true">+</i></button>
+      </div>
+    </div>
+  </div>
+  <div class="pp" id="pp" aria-live="polite"></div>
+  <noscript><p class="pp-nojs">A proposal is drawn from the quote. <a class="link" href="{{root}}quote/">Build the quote</a> to see it.</p></noscript>
+</main>

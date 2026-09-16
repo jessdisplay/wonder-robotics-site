@@ -55,6 +55,8 @@ PAGES = {
                          "desc": "A robot café bought whole: brand design, website, branding on the machine, the robot coffee bar, fit-out, programming, install and a year of maintenance, from one team at one price, with 10% off the work. Robot coffee bar, robot café and robot container kitchen packages, from Brisbane."},
     "container-landing": {"out": "robot-container-kitchens/index.html", "root": "../", "title": "Robot container kitchens, Brisbane. Wonder Robotics",
                           "desc": "A twenty foot shipping container fitted as a robot kitchen in our Brisbane yard: an arm on a rail over fryers and noodle baths, a serving hatch, extraction, and projector glass on three faces that carries the brand. Sold whole, brand to opening day."},
+    "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics",
+                 "desc": "A Wonder Robotics proposal: the machines, the brand, the fit-out and the first year, priced as one job. Save it as a PDF or share the link."},
     "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
              "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
@@ -124,6 +126,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
           <p class="qs-fine">Machines at list. The rest indicative, confirmed on scope. Robots are priced to order. Maintenance and delivery on the full quote.</p>
           <div class="qs-go">
             <a class="btn" id="want-go" href="{{root}}quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="want-proposal" href="{{root}}quote/proposal/"><span>See it as a proposal</span><i aria-hidden="true">+</i></a>
             <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
           </div>
         </aside>
@@ -300,7 +303,7 @@ def pk_number(pid, line):
             f'<div class="pn-row"><p>{escape(line)}</p>'
             f'<dl class="pn-sum"><dt>Bought separately</dt><dd><s>{money(q["separate"])}</s></dd><dt>You save</dt><dd class="save">{money(q["save"])}</dd><dt>Ex GST</dt><dd>Delivered within 100 km of a port</dd></dl></div>'
             f'<div class="actions"><a class="btn" href="{{{{root}}}}quote/?pkg={pid}" data-quote data-pkg="{pid}"><span>Build this package</span><i aria-hidden="true">+</i></a>'
-            f'<a class="btn ghost" href="{{{{root}}}}quote/?pkg={pid}"><span>See the full quote</span><i aria-hidden="true">+</i></a>'
+            f'<a class="btn ghost" href="{{{{root}}}}quote/proposal/?pkg={pid}"><span>The proposal, PDF</span><i aria-hidden="true">+</i></a>'
             f'<a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div>'
             f'</div></section>')
 

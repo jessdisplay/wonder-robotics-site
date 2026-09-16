@@ -336,6 +336,108 @@
     .pkt,.pkt:nth-child(even){grid-template-columns:1fr;row-gap:18px}
     .pkt-ph,.pkt-b,.pkt:nth-child(even) .pkt-ph,.pkt:nth-child(even) .pkt-b{grid-column:1;grid-row:auto}
   }
+  /* The proposal. A4 sheets: on screen they sit on a darker ground like
+     paper on a desk; saved as a PDF each sheet is exactly one page, edge to
+     edge. Everything inside is sized in cqw, a hundredth of the sheet's
+     width, so a sheet on a phone is the same design, smaller. */
+  body:has(main.proposal){background:color-mix(in srgb,var(--ink) 9%,var(--paper))}
+  body:has(main.proposal) .eoi,body:has(main.proposal) > footer{display:none}
+  .proposal{padding:0 16px clamp(40px,6vw,90px)}
+  .pp-tools{position:sticky;top:64px;z-index:5;margin:0 -16px 28px;background:color-mix(in srgb,var(--ink) 9%,var(--paper));border-bottom:1px solid var(--rule)}
+  .pp-tools-in{max-width:calc(210mm + 32px);margin:0 auto;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end;justify-content:space-between}
+  .pp-for{display:grid;gap:6px;flex:1 1 240px}
+  .pp-for input{font:inherit;font-size:17px;padding:9px 12px;border:1px solid var(--ink);border-radius:var(--rb);background:var(--paper);color:var(--ink);width:100%}
+  .pp-for input:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .pp-actions{display:flex;flex-wrap:wrap;gap:8px}
+  .pp-actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
+  .pp{display:grid;gap:clamp(20px,3vw,36px);justify-items:center}
+  .sheet{position:relative;width:min(210mm,100%);aspect-ratio:210/297;container-type:inline-size;overflow:hidden;background:var(--paper);color:var(--ink);
+         border-radius:4px;box-shadow:0 30px 60px -36px color-mix(in srgb,var(--ink) 55%,transparent),0 0 0 1px color-mix(in srgb,var(--ink) 8%,transparent)}
+  .sh-in{position:absolute;inset:0;padding:7cqw 7cqw 9cqw;display:flex;flex-direction:column}
+  .sheet .label{font-size:1.45cqw;letter-spacing:.06em}
+  .sh-foot{position:absolute;left:7cqw;right:7cqw;bottom:3.6cqw;display:flex;justify-content:space-between;font-family:var(--mono);font-size:1.25cqw;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);border-top:1px solid var(--rule);padding-top:1.4cqw}
+
+  .pp-cover{background:var(--night);color:var(--cream)}
+  .pp-cover .cv-img{position:absolute;left:0;right:0;top:0;height:60%;width:100%;object-fit:cover}
+  .cv-band{position:absolute;left:0;right:0;bottom:0;height:40%;padding:5.5cqw 7cqw 6cqw;display:flex;flex-direction:column}
+  .cv-top{display:flex;justify-content:space-between;align-items:center}
+  /* the lockup is drawn centred in its canvas, so the canvas steps left to put the w on the margin */
+  .cv-top canvas{width:30cqw !important;height:auto !important;margin-left:-3.2cqw}
+  .cv-kind{font-family:var(--mono);font-size:1.6cqw;letter-spacing:.1em;text-transform:uppercase;border:1px solid color-mix(in srgb,var(--cream) 55%,transparent);border-radius:999px;padding:.8cqw 2cqw}
+  .pp-cover h1{margin:auto 0 0;font-weight:500;font-size:10cqw;line-height:.92;letter-spacing:-.045em;max-width:17ch}
+  .cv-meta{margin:4cqw 0 0;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.4cqw;border-top:1px solid color-mix(in srgb,var(--cream) 30%,transparent);padding-top:2cqw}
+  .cv-meta dt{font-family:var(--mono);font-size:1.2cqw;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .cv-meta dd{margin:.8cqw 0 0;font-size:1.9cqw;line-height:1.2}
+  .cv-meta .blank{display:block;height:2.4cqw;border-bottom:1px solid color-mix(in srgb,var(--cream) 55%,transparent)}
+
+  .ps-fig{font-size:17cqw;line-height:.84;letter-spacing:-.065em;margin:3cqw 0 0 -.05em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ps-fig small{font-size:.16em;letter-spacing:0;color:var(--graphite);margin-right:.3em;vertical-align:.9em}
+  .ps-row{display:grid;grid-template-columns:1fr 1fr;gap:4cqw;margin-top:4cqw;padding-top:2.4cqw;border-top:2px solid var(--ink)}
+  .ps-row p{margin:0;font-size:2.3cqw;line-height:1.3;letter-spacing:-.01em}
+  .ps-sums{margin:0;display:grid;grid-template-columns:1fr auto;align-self:start;border-top:1px solid var(--rule)}
+  .ps-sums dt,.ps-sums dd{margin:0;padding:1.1cqw 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:1.35cqw;letter-spacing:.05em;text-transform:uppercase}
+  .ps-sums dt{color:var(--graphite)}
+  .ps-sums dd{text-align:right;font-variant-numeric:tabular-nums}
+  .ps-sums .save{color:var(--signal)}
+  .ps-sums .tot{color:var(--ink);font-size:1.7cqw;border-bottom:2px solid var(--ink)}
+  .ps-in{margin-top:auto;padding-top:4cqw}
+  .ps-grid{list-style:none;margin:1.6cqw 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw}
+  .ps-grid li{display:grid;grid-template-columns:auto 1fr;gap:.4cqw .9cqw;align-content:start;font-size:1.45cqw;line-height:1.2}
+  .ps-grid img{grid-column:1/-1;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:.6cqw;background:var(--rule);margin-bottom:.6cqw}
+  .ps-grid .i{font-family:var(--mono);font-size:1.1cqw;color:var(--graphite);padding-top:.2cqw}
+  .ps-grid b{font-weight:400}
+  .ps-grid .v{grid-column:2;font-family:var(--mono);font-size:1.3cqw;font-variant-numeric:tabular-nums}
+  .ps-grid .v.ask{color:var(--graphite)}
+  .ps-grid.many{grid-template-columns:repeat(5,1fr);gap:1.3cqw}
+
+  .pp-parts .sh-in{gap:3.4cqw}
+  .pp-parts .label{margin-bottom:-1.4cqw}
+  .pp-part{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;column-gap:3.4cqw;row-gap:1.4cqw;padding-top:2.6cqw;border-top:2px solid var(--ink)}
+  .pt-img{grid-column:1;grid-row:1/5;width:100%;height:100%;min-height:0;object-fit:cover;border-radius:.8cqw;background:var(--rule)}
+  .pt-h{grid-column:2;display:flex;align-items:center;gap:1.4cqw;font-family:var(--mono);font-size:1.3cqw;color:var(--graphite)}
+  .pt-h .stage{letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);border-radius:999px;padding:.4cqw 1.2cqw;color:var(--ink)}
+  .pt-v{margin-left:auto;font-size:2.8cqw;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .pt-v.ask{color:var(--graphite);font-size:2cqw}
+  .pp-part h2{grid-column:2;margin:0;font-weight:500;font-size:4.2cqw;line-height:.95;letter-spacing:-.04em}
+  .pt-lead{grid-column:2;margin:0;font-size:1.9cqw;line-height:1.3}
+  .pt-cols{grid-column:2;display:grid;grid-template-columns:1.2fr 1fr;gap:2.4cqw;align-self:start;margin-top:1cqw}
+  .pt-cols ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+  .pt-cols li{padding:.7cqw 0;border-bottom:1px solid var(--rule);font-size:1.45cqw;line-height:1.25}
+  .pt-cols dl{margin:0;border-top:1px solid var(--ink)}
+  .pt-cols dt{padding-top:.7cqw;font-family:var(--mono);font-size:1.05cqw;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
+  .pt-cols dd{margin:0;padding:.2cqw 0 .7cqw;border-bottom:1px solid var(--rule);font-size:1.45cqw;line-height:1.25}
+  .pp-part:only-of-type{flex:0 0 50%}
+
+  .pp-close{background:var(--night);color:var(--cream)}
+  .pp-close .label{color:color-mix(in srgb,var(--cream) 70%,transparent)}
+  .pp-close .sh-foot{color:color-mix(in srgb,var(--cream) 55%,transparent);border-top-color:color-mix(in srgb,var(--cream) 22%,transparent)}
+  .pc-stages{list-style:none;margin:2cqw 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:2cqw;border-top:2px solid var(--cream);padding-top:2cqw}
+  .pc-stages .i{font-family:var(--mono);font-size:1.2cqw;color:color-mix(in srgb,var(--cream) 55%,transparent)}
+  .pc-stages b{display:block;margin-top:1cqw;font-weight:500;font-size:3cqw;letter-spacing:-.035em;line-height:1}
+  .pc-stages p{margin:1cqw 0 0;font-size:1.5cqw;line-height:1.3;color:color-mix(in srgb,var(--cream) 78%,transparent)}
+  .pc-row{display:grid;grid-template-columns:1.4fr 1fr;gap:5cqw;margin-top:6cqw}
+  .pc-terms{list-style:none;margin:1.4cqw 0 0;padding:0;border-top:1px solid color-mix(in srgb,var(--cream) 30%,transparent)}
+  .pc-terms li{padding:.9cqw 0;border-bottom:1px solid color-mix(in srgb,var(--cream) 16%,transparent);font-size:1.55cqw;line-height:1.3}
+  .pc-contact{margin:1.4cqw 0 0;font-size:2.6cqw;line-height:1.35;letter-spacing:-.015em}
+  .pc-contact a{color:inherit;text-decoration:none}
+  .pc-yes{margin-top:auto}
+  .pc-yes .lines{display:grid;grid-template-columns:1.3fr 1.3fr 1fr;gap:3cqw;margin-top:4cqw}
+  .pc-yes span{display:block;height:5cqw;border-bottom:1px solid var(--cream)}
+  .pc-yes em{display:block;margin-top:.8cqw;font-style:normal;font-family:var(--mono);font-size:1.15cqw;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--cream) 60%,transparent)}
+
+  .pp-empty h1{margin:3cqw 0 0;font-weight:500;font-size:8cqw;line-height:.92;letter-spacing:-.05em}
+  .pp-empty p{font-size:2.4cqw;max-width:34ch}
+  .pp-nojs{text-align:center;font-size:17px}
+
+  @media print{
+    @page{size:A4;margin:0}
+    html,body,body:has(main.proposal){background:#fff}
+    body:has(main.proposal) .bar,body:has(main.proposal) .loader,body:has(main.proposal) .qs,.pp-tools{display:none !important}
+    .proposal{padding:0}
+    .pp{display:block}
+    .sheet{width:210mm;height:297mm;aspect-ratio:auto;border-radius:0;box-shadow:none;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .sheet:last-child{break-after:auto;page-break-after:auto}
+  }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -500,12 +602,6 @@
   .qsheet .terms{padding:12px 16px;border-top:1px solid var(--rule);line-height:1.6}
   .qsheet .foot{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:14px 16px;flex-wrap:wrap;border-top:1px solid var(--rule)}
 
-  @media print{
-    body *{visibility:hidden}
-    #qsheet,#qsheet *{visibility:visible}
-    #qsheet{position:absolute;inset:0 auto auto 0;width:100%;border:0}
-    #qsheet .foot{display:none}
-  }
 
   /* machines */
   .machines-wrap{overflow-x:auto}
@@ -1255,6 +1351,7 @@
           <p class="qs-fine">Machines at list. The rest indicative, confirmed on scope. Robots are priced to order. Maintenance and delivery on the full quote.</p>
           <div class="qs-go">
             <a class="btn" id="want-go" href="../quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="want-proposal" href="../quote/proposal/"><span>See it as a proposal</span><i aria-hidden="true">+</i></a>
             <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
           </div>
         </aside>
@@ -1287,7 +1384,7 @@
     </div>
   </section>
 
-  <section class="pnum"><div class="wrap"><span class="label">[ The whole job, one price ]</span><div class="pn-fig">$147,500</div><span class="pn-extra">plus the container build, priced on scope</span><div class="pn-row"><p>The robot line, the container fitted in our yard, the skin and the brand, the website, programming, install and a year of maintenance. Machines at list, the work 10% less.</p><dl class="pn-sum"><dt>Bought separately</dt><dd><s>$153,500</s></dd><dt>You save</dt><dd class="save">$6,000</dd><dt>Ex GST</dt><dd>Delivered within 100 km of a port</dd></dl></div><div class="actions"><a class="btn" href="../quote/?pkg=box" data-quote data-pkg="box"><span>Build this package</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="../quote/?pkg=box"><span>See the full quote</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div></div></section>
+  <section class="pnum"><div class="wrap"><span class="label">[ The whole job, one price ]</span><div class="pn-fig">$147,500</div><span class="pn-extra">plus the container build, priced on scope</span><div class="pn-row"><p>The robot line, the container fitted in our yard, the skin and the brand, the website, programming, install and a year of maintenance. Machines at list, the work 10% less.</p><dl class="pn-sum"><dt>Bought separately</dt><dd><s>$153,500</s></dd><dt>You save</dt><dd class="save">$6,000</dd><dt>Ex GST</dt><dd>Delivered within 100 km of a port</dd></dl></div><div class="actions"><a class="btn" href="../quote/?pkg=box" data-quote data-pkg="box"><span>Build this package</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="../quote/proposal/?pkg=box"><span>The proposal, PDF</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div></div></section>
 
   <section class="incs"><div class="wrap"><div class="incs-h"><span class="label">[ Everything in it ]</span><h2>Ten parts. One price.</h2></div><article class="inc"><div class="inc-h"><span class="inc-i">(01)</span><span class="inc-stage">Supply</span><h3>Deep frying robot, F Standard</h3><div class="inc-price">$42,000<small>List, ex GST</small></div></div><figure class="inc-ph"><img src="../img/tile-arm.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">A Dobot arm working six frying stoves: basket in, timed, lifted, drained, plated.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>F Standard deep frying robot</li><li>Dobot arm</li><li>Six frying stoves</li><li>One year warranty</li></ul></div><dl class="inc-facts"><dt>On our floor</dt><dd>365 St Pauls Terrace</dd><dt>Lead time</dt><dd>About two months from order</dd><dt>Delivered</dt><dd>Within 100 km of a port</dd></dl></div></div></article><article class="inc flip"><div class="inc-h"><span class="inc-i">(02)</span><span class="inc-stage">Supply</span><h3>Noodle robot, N Standard</h3><div class="inc-price">$52,000<small>List, ex GST</small></div></div><figure class="inc-ph"><img src="../img/valley-baths.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">A Dobot arm over six noodle stoves, cooking to the order, bowl after bowl.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>N Standard noodle robot</li><li>Dobot arm</li><li>Six noodle stoves</li><li>One year warranty</li></ul></div><dl class="inc-facts"><dt>On our floor</dt><dd>365 St Pauls Terrace</dd><dt>Lead time</dt><dd>About two months from order</dd><dt>Delivered</dt><dd>Within 100 km of a port</dd></dl></div></div></article><article class="inc"><div class="inc-h"><span class="inc-i">(03)</span><span class="inc-stage">Design</span><h3>Branding</h3><div class="inc-price">$6,000<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/coffee/brand-01-family.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">A brand, not a sticker. The mark and everything it goes on, drawn as one system across the machine and the room.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>The mark and its lockups</li><li>Colours and type</li><li>Cups, bags and sacks</li><li>The menu</li><li>Signage</li><li>Uniforms</li></ul></div><dl class="inc-facts"><dt>Worked example</dt><dd>Wonder Bean, Sol and Luna</dd><dt>Designed</dt><dd>In Fortitude Valley</dd></dl></div></div></article><article class="inc flip"><div class="inc-h"><span class="inc-i">(04)</span><span class="inc-stage">Design</span><h3>Website</h3><div class="inc-price">$6,500<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/offer/website.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">The website in the same brand, with the menu on it and ordering one tap away.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>Designed in the brand</li><li>Built and launched</li><li>The menu</li><li>Ordering</li><li>Your venue, hours and directions</li></ul></div><dl class="inc-facts"><dt>Example</dt><dd>This site is one of ours</dd><dt>Designed</dt><dd>In Fortitude Valley</dd></dl></div></div></article><article class="inc"><div class="inc-h"><span class="inc-i">(05)</span><span class="inc-stage">Build</span><h3>Branding on the machine</h3><div class="inc-price">$2,800<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/coffee/bar-02-front.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">Your colours on the arms and the body, your mark on the screen and the cup. The machine is the first thing in the brand people see.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>Colours on the arms</li><li>The body finished in the brand</li><li>Your mark on the screen</li><li>Your mark on the cup</li></ul></div><dl class="inc-facts"><dt>Worked example</dt><dd>The Wonder Bean bar</dd><dt>Finished</dt><dd>Before it leaves us</dd></dl></div></div></article><article class="inc flip"><div class="inc-h"><span class="inc-i">(06)</span><span class="inc-stage">Build</span><h3>Engineering and fit-out</h3><div class="inc-price">$20,700<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/process/03-fitout.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">The counter or cell the machine lives in, drawn to your floor plan and built by our trades or yours, to our drawings.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>Drawings to your floor plan</li><li>The counter or cell</li><li>Guarding</li><li>Services: power, water, drainage</li><li>Extraction</li><li>Joinery, stone, the skin, the screen</li></ul></div><dl class="inc-facts"><dt>Where</dt><dd>The venue you have, or a new one</dd><dt>Drawn</dt><dd>To your floor plan</dd></dl></div></div></article><article class="inc"><div class="inc-h"><span class="inc-i">(07)</span><span class="inc-stage">Commission</span><h3>Software</h3><div class="inc-price">$9,400<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/lrd/menu.jpg" alt="" loading="lazy" style="object-position:50% 18%"></figure><div class="inc-b"><p class="inc-lead">The ordering, payment and screen every machine talks to, and the dashboard that tells you the numbers.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>Ordering</li><li>Payment</li><li>The menu on the screen</li><li>The dashboard</li><li>The numbers</li></ul></div><dl class="inc-facts"><dt>Runs</dt><dd>On the machines and the counter</dd><dt>Built</dt><dd>In Fortitude Valley</dd></dl></div></div></article><article class="inc flip"><div class="inc-h"><span class="inc-i">(08)</span><span class="inc-stage">Commission</span><h3>Install and handover</h3><div class="inc-price">$7,500<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/process/04-commission.jpg" alt="" loading="lazy" style="object-position:50% 50%"></figure><div class="inc-b"><p class="inc-lead">We survey the site, place and connect the machines, program the menu, run it and train your people.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>Site survey</li><li>Placement and services</li><li>Menu programmed</li><li>First run</li><li>Staff training</li></ul></div><dl class="inc-facts"><dt>Signed off</dt><dd>After the first hundred served</dd><dt>On site</dt><dd>Our team</dd></dl></div></div></article><article class="inc"><div class="inc-h"><span class="inc-i">(09)</span><span class="inc-stage">Run</span><h3>A year of maintenance</h3><div class="inc-price">$6,600<small>Indicative, ex GST</small></div></div><figure class="inc-ph"><img src="../img/hero-kitchen.jpg" alt="" loading="lazy" style="object-position:50% 60%"></figure><div class="inc-b"><p class="inc-lead">The first year looked after: spares, monitoring and updates, and a number that answers when something stops.</p><div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets"><li>Spares</li><li>Monitoring</li><li>Software updates</li><li>A number that answers</li></ul></div><dl class="inc-facts"><dt>Plan</dt><dd>Standard, the first year</dd><dt>After that</dt><dd>Priced by the year</dd></dl></div></div></article><article class="inc flip"><div class="inc-h"><span class="inc-i">(10)</span><span class="inc-stage">Build</span><h3>The container build</h3><div class="inc-price ask">Priced on scope<small>Until we have seen the site</small></div></div><figure class="inc-ph"><img src="../img/container/day.jpg" alt="" loading="lazy"></figure><div class="inc-b"><p class="inc-lead">Twenty foot high-cube: cut, frame, line, hatch, extraction, the skin.</p></div></article><div class="inc-sum"><dl><dt>Bought separately</dt><dd><s>$153,500</s></dd><dt>Package, 10% off the work</dt><dd class="save">−$6,000</dd></dl><div class="inc-total"><span class="label">The package, ex GST, plus the container build</span><span class="inc-fig">$147,500</span></div><div class="actions"><a class="btn" href="../quote/?pkg=box" data-quote data-pkg="box"><span>Build this package</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div></div></div></section>
 
@@ -1711,6 +1808,89 @@ window.WonderQuote = (function(){
     var save=Math.round(work*PACKAGE_OFF/100)*100;
     return {lines:lines, supply:supply, work:work, separate:supply+work, save:save, total:supply+work-save, extra:pk.extra||null};
   }
+  // What each part of a quote is: its stage in the job, one line on what it
+  // is, what you get, and the facts that matter. Written only from facts the
+  // site already states. Package pages and proposals both read this.
+  var DETAILS={"bpro": {"stage": "Supply", "lead": "Two arms at an Eversys machine: one pulls the shot, one steams and pours. About seventy seconds a drink.", "gets": ["Dual-arm barista, bar type", "Eversys espresso machine", "BTB Z02 ice maker", "Yingmei cup printer", "8 and 12 oz, hot and iced", "One year warranty"], "facts": [["Footprint", "About two square metres"], ["Lead time", "About two months from order"], ["Delivered", "Within 100 km of a port"]]}, "ice": {"stage": "Supply", "lead": "A pasteurising soft-serve machine and a kiosk arm that hands the cone over. Ours runs the dessert kiosk downstairs.", "gets": ["I Pro ice cream robot", "Pasteurising machine", "Three syrups", "Two toppings", "Kiosk arm", "One year warranty"], "facts": [["On our floor", "365 St Pauls Terrace"], ["Lead time", "About two months from order"], ["Delivered", "Within 100 km of a port"]]}, "fry": {"stage": "Supply", "lead": "A Dobot arm working six frying stoves: basket in, timed, lifted, drained, plated.", "gets": ["F Standard deep frying robot", "Dobot arm", "Six frying stoves", "One year warranty"], "facts": [["On our floor", "365 St Pauls Terrace"], ["Lead time", "About two months from order"], ["Delivered", "Within 100 km of a port"]]}, "noo": {"stage": "Supply", "lead": "A Dobot arm over six noodle stoves, cooking to the order, bowl after bowl.", "gets": ["N Standard noodle robot", "Dobot arm", "Six noodle stoves", "One year warranty"], "facts": [["On our floor", "365 St Pauls Terrace"], ["Lead time", "About two months from order"], ["Delivered", "Within 100 km of a port"]]}, "brand": {"stage": "Design", "lead": "A brand, not a sticker. The mark and everything it goes on, drawn as one system across the machine and the room.", "gets": ["The mark and its lockups", "Colours and type", "Cups, bags and sacks", "The menu", "Signage", "Uniforms"], "facts": [["Worked example", "Wonder Bean, Sol and Luna"], ["Designed", "In Fortitude Valley"]]}, "web": {"stage": "Design", "lead": "The website in the same brand, with the menu on it and ordering one tap away.", "gets": ["Designed in the brand", "Built and launched", "The menu", "Ordering", "Your venue, hours and directions"], "facts": [["Example", "This site is one of ours"], ["Designed", "In Fortitude Valley"]]}, "wrap": {"stage": "Build", "lead": "Your colours on the arms and the body, your mark on the screen and the cup. The machine is the first thing in the brand people see.", "gets": ["Colours on the arms", "The body finished in the brand", "Your mark on the screen", "Your mark on the cup"], "facts": [["Worked example", "The Wonder Bean bar"], ["Finished", "Before it leaves us"]]}, "eng": {"stage": "Build", "lead": "The counter or cell the machine lives in, drawn to your floor plan and built by our trades or yours, to our drawings.", "gets": ["Drawings to your floor plan", "The counter or cell", "Guarding", "Services: power, water, drainage", "Extraction", "Joinery, stone, the skin, the screen"], "facts": [["Where", "The venue you have, or a new one"], ["Drawn", "To your floor plan"]]}, "soft": {"stage": "Commission", "lead": "The ordering, payment and screen every machine talks to, and the dashboard that tells you the numbers.", "gets": ["Ordering", "Payment", "The menu on the screen", "The dashboard", "The numbers"], "facts": [["Runs", "On the machines and the counter"], ["Built", "In Fortitude Valley"]]}, "inst": {"stage": "Commission", "lead": "We survey the site, place and connect the machines, program the menu, run it and train your people.", "gets": ["Site survey", "Placement and services", "Menu programmed", "First run", "Staff training"], "facts": [["Signed off", "After the first hundred served"], ["On site", "Our team"]]}, "care": {"stage": "Run", "lead": "The first year looked after: spares, monitoring and updates, and a number that answers when something stops.", "gets": ["Spares", "Monitoring", "Software updates", "A number that answers"], "facts": [["Plan", "Standard, the first year"], ["After that", "Priced by the year"]]}};
+  // Pictures that need a different frame or a different subject on a page.
+  var DETAIL_IMG={care:'../img/hero-kitchen.jpg'};
+  var IMG_POS={'img/lrd/menu.jpg':'50% 18%','img/tile-kiosk.jpg':'50% 10%','img/hero-kitchen.jpg':'50% 60%','img/offer/website.jpg':'0% 40%'};
+
+  // The whole quote from a state, as numbers and lines, with no page in it.
+  // The quote page draws it, the proposal draws it, the build reads it.
+  // state: {qty:{id:n}, parts:{id:bool}, svc:{id:bool}, pkg:id|null,
+  //         plan:'standard'|'priority'|'none', term:1..5, site:'port'|'far'}
+  function compute(st){
+    var qty=st.qty||{}, parts=st.parts||{}, svc=st.svc||{}, plan=st.plan||'standard', term=st.term||1, site=st.site||'port';
+    var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
+    var lines=[], count=0, supply=0, asks=0, sub=0, workSum=0, indicative=false;
+    MACHINES.forEach(function(m){ var n=qty[m.id]||0; if(!n) return;
+      count+=n; supply+=n*m.price;
+      lines.push({id:m.id,kind:'machine',n:n,label:m.name+', '+m.model,name:m.name,model:m.model,sub:n+' \u00d7 '+money.format(m.price)+', supply',value:n*m.price,img:m.img}); });
+    ROBOTS.forEach(function(r){ var n=qty[r.id]||0; if(!n) return;
+      asks+=n; indicative=true;
+      lines.push({id:r.id,kind:'robot',n:n,label:r.name,name:r.name,model:r.kind,status:r.status,sub:n+' \u00d7 '+r.kind+', priced to order',value:null,ind:true,img:r.img}); });
+    sub=supply;
+    PARTS.forEach(function(p){ if(!parts[p.id]) return;
+      sub+=p.price; indicative=true;
+      lines.push({id:p.id,kind:'part',label:p.name,name:p.name,sub:p.sub+', indicative',value:p.price,ind:true,img:p.img}); });
+    SERVICES.forEach(function(x){ if(!svc[x.id]||!count) return;
+      var amt=serviceAmount(x,supply); sub+=amt; workSum+=amt; indicative=true;
+      lines.push({id:x.id,kind:'service',label:x.name,name:x.name,sub:x.sub+', indicative',value:amt,ind:true,img:x.img}); });
+    var noPlan=plan==='none', yr=0;
+    if(count>0&&!noPlan){
+      yr=Math.round(supply*RATES.maintenance_pct_per_year[plan]/100)*100;
+      sub+=yr*term; indicative=true;
+      lines.push({id:'care',kind:'care',label:(plan==='priority'?'Priority':'Standard')+' maintenance',name:(plan==='priority'?'Priority':'Standard')+' maintenance',
+        sub:term+(term===1?' year':' years')+', '+money.format(yr)+' a year, indicative',value:yr*term,ind:true,img:DETAIL_IMG.care}); }
+    var pk=st.pkg&&PACKAGES.filter(function(x){return x.id===st.pkg;})[0];
+    var held=pk&&!noPlan&&Object.keys(pk.machines).every(function(m){return (qty[m]||0)>=pk.machines[m];})&&PACKAGE_WORK.every(function(w){return svc[w];});
+    var save=0;
+    if(held){
+      save=Math.round((workSum+yr)*PACKAGE_OFF/100)*100;
+      if(pk.extra){ lines.push({id:'extra',kind:'extra',label:pk.extra.name,name:pk.extra.name,sub:pk.extra.sub,value:null,note:pk.extra.note,ind:true,img:pk.img}); indicative=true; }
+      sub-=save;
+      lines.push({id:'save',kind:'save',label:'Package saving',name:'Package saving',sub:pk.name+', 10% off the work',value:-save,ind:true,img:pk.img});
+    }
+    if(count>0){
+      if(site==='port') lines.push({id:'delivery',kind:'delivery',label:'Delivery',name:'Delivery',sub:'Within 100 km of a port, included',value:0});
+      else{ sub+=RATES.delivery_inland; indicative=true; lines.push({id:'delivery',kind:'delivery',label:'Delivery',name:'Delivery',sub:'Beyond 100 km of a port, indicative',value:RATES.delivery_inland,ind:true}); }
+    }
+    var gst=Math.round(sub*GST);
+    return {lines:lines,count:count,asks:asks,supply:supply,sub:sub,gst:gst,inc:sub+gst,indicative:indicative,pkg:held?pk:null,save:save,plan:plan,term:term,site:site};
+  }
+
+  // A quote as a URL and back, so a quote can be a link: the full quote page,
+  // the proposal, an email. Unknown ids are ignored, numbers are clamped.
+  function stateFromQuery(search){
+    var get=function(k){ var m=(search||'').match(new RegExp('[?&]'+k+'=([^&]*)')); return m?decodeURIComponent(m[1]):''; };
+    var st={qty:{},parts:{},svc:{},pkg:null,plan:'standard',term:1,site:'port',who:get('for').slice(0,80)};
+    SERVICES.forEach(function(x){ if(x.on) st.svc[x.id]=true; });
+    var pk=PACKAGES.filter(function(x){return x.id===get('pkg');})[0];
+    if(pk){ st.pkg=pk.id; Object.keys(pk.machines).forEach(function(m){ st.qty[m]=pk.machines[m]; }); PACKAGE_WORK.forEach(function(w){ st.svc[w]=true; }); }
+    var pp=parsePick(get('pick'));
+    Object.keys(pp.qty).forEach(function(id){ st.qty[id]=pp.qty[id]; });
+    Object.keys(pp.parts).forEach(function(id){ st.parts[id]=true; });
+    Object.keys(pp.svc).forEach(function(id){ st.svc[id]=true; });
+    if(['standard','priority','none'].indexOf(get('plan'))>=0) st.plan=get('plan');
+    var t=parseInt(get('term'),10); if(t>=1&&t<=5) st.term=t;
+    if(get('site')==='far') st.site='far';
+    return st;
+  }
+  function toQuery(st){
+    var pick=[];
+    Object.keys(st.qty||{}).forEach(function(id){ var n=st.qty[id]; if(n>0) pick.push(n>1?id+':'+n:id); });
+    Object.keys(st.parts||{}).forEach(function(id){ if(st.parts[id]) pick.push(id); });
+    Object.keys(st.svc||{}).forEach(function(id){ if(st.svc[id]&&id!=='inst') pick.push(id); });
+    var q=[]; if(pick.length) q.push('pick='+pick.join(','));
+    if(st.pkg) q.push('pkg='+st.pkg);
+    if(st.plan&&st.plan!=='standard') q.push('plan='+st.plan);
+    if(st.term&&st.term!==1) q.push('term='+st.term);
+    if(st.site==='far') q.push('site=far');
+    if(st.who) q.push('for='+encodeURIComponent(st.who));
+    return q.length?'?'+q.join('&'):'';
+  }
+
   // ?pick=bpro:2,prnt,eng  ->  {qty:{bpro:2}, parts:{prnt:true}, svc:{eng:true}}
   function parsePick(str){
     var out={qty:{},parts:{},svc:{}}; if(!str) return out;
@@ -1722,9 +1902,134 @@ window.WonderQuote = (function(){
     });
     return out;
   }
-  return {MACHINES:MACHINES,ROBOTS:ROBOTS,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {MACHINES:MACHINES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
+/* The proposal: a quote drawn as a document. Same state, same maths as the
+   quote page, read from the address, so a proposal is a link you can send
+   and a PDF you can save. A4 sheets on screen and on paper. */
+(function(){
+  var host=document.getElementById('pp'); var Q=window.WonderQuote;
+  if(!host||!Q) return;
+  var money=Q.money;
+  var esc=function(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
+  var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
+  var st=Q.stateFromQuery(location.search);
+  var forInput=document.getElementById('pp-for');
+  var long=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'long',year:'numeric'});
+
+  function pos(img){ var k=Object.keys(Q.IMG_POS).filter(function(x){return img&&img.indexOf(x)>=0;})[0]; return k?Q.IMG_POS[k]:'50% 50%'; }
+  function pic(src,cls){ return src?'<img class="'+(cls||'')+'" src="'+src+'" alt="" loading="eager" style="object-position:'+pos(src)+'">':''; }
+  function val(l){ return l.value===null?(l.note||'On request'):l.value===0?'Included':money.format(l.value); }
+  function joinNames(xs){ return xs.length<2?(xs[0]||''):xs.slice(0,-1).join(', ')+' and '+xs[xs.length-1]; }
+
+  function draw(){
+    var c=Q.compute(st);
+    var picked=c.lines.filter(function(l){ return l.kind==='machine'||l.kind==='robot'; });
+    if(!picked.length){
+      host.innerHTML='<section class="sheet pp-empty"><div class="sh-in"><span class="label">[ Proposal ]</span><h1>Nothing to propose yet.</h1>'+
+        '<p>Pick the machines and the work on the quote, and the proposal draws itself.</p><a class="btn" href="'+root+'quote/"><span>Build the quote</span><i aria-hidden="true">+</i></a></div></section>';
+      return;
+    }
+    var now=new Date(), until=new Date(now.getTime()+30*864e5);
+    var ref='WR-P'+String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+('0'+now.getDate()).slice(-2)+'-'+(c.count+c.asks);
+    var title=c.pkg?c.pkg.name:joinNames(picked.map(function(l){ return (l.n>1?l.n+' × ':'')+l.name; }));
+    var hero=c.pkg?c.pkg.img:picked[0].img;
+    var parts=c.lines.filter(function(l){ return l.kind!=='delivery'&&l.kind!=='save'; });
+    var sheets=[];
+
+    // 1. cover
+    sheets.push('<section class="sheet pp-cover">'+pic(hero,'cv-img')+
+      '<div class="cv-band"><div class="cv-top"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas><span class="cv-kind">Proposal</span></div>'+
+      '<h1>'+esc(title)+'</h1>'+
+      '<dl class="cv-meta"><div><dt>Prepared for</dt><dd class="cv-for">'+(st.who?esc(st.who):'<span class="blank"></span>')+'</dd></div>'+
+      '<div><dt>Reference</dt><dd>'+ref+'</dd></div><div><dt>Date</dt><dd>'+long.format(now)+'</dd></div><div><dt>Valid until</dt><dd>'+long.format(until)+'</dd></div></dl></div></section>');
+
+    // 2. the investment
+    var del=c.lines.filter(function(l){return l.kind==='delivery';})[0];
+    var work=c.sub-c.supply+c.save-(del&&del.value?del.value:0);
+    var sums='<dt>Machines at list</dt><dd>'+money.format(c.supply)+'</dd>';
+    sums+='<dt>The work and care</dt><dd>'+money.format(work)+'</dd>';
+    if(c.pkg) sums+='<dt>'+esc(c.pkg.name)+', 10% off the work</dt><dd class="save">'+money.format(-c.save)+'</dd>';
+    if(del) sums+='<dt>Delivery, '+(c.site==='far'?'beyond':'within')+' 100 km of a port</dt><dd>'+val(del)+'</dd>';
+    sums+='<dt>Total ex GST</dt><dd>'+money.format(c.sub)+'</dd><dt>GST 10%</dt><dd>'+money.format(c.gst)+'</dd><dt class="tot">Total inc GST</dt><dd class="tot">'+money.format(c.inc)+'</dd>';
+    var grid=parts.map(function(l,i){
+      return '<li>'+pic(l.img)+'<span class="i">'+('0'+(i+1)).slice(-2)+'</span><b>'+esc(l.label)+'</b><span class="v'+(l.value===null?' ask':'')+'">'+val(l)+'</span></li>';
+    }).join('');
+    sheets.push('<section class="sheet pp-sum"><div class="sh-in">'+
+      '<span class="label">[ The whole job, one price ]</span>'+
+      '<div class="ps-fig">'+(c.indicative?'<small>about</small>':'')+money.format(c.sub)+'</div>'+
+      '<div class="ps-row"><p>'+(c.pkg?esc(c.pkg.line)+' Bought as one job, the work costs 10% less.':'Everything on this proposal, designed, supplied, built and looked after by one team in Fortitude Valley.')+
+      (c.asks?' Robots are priced to order and follow on their own quote.':'')+'</p><dl class="ps-sums">'+sums+'</dl></div>'+
+      '<span class="label ps-in">In this proposal</span><ol class="ps-grid'+(parts.length>8?' many':'')+'">'+grid+'</ol></div>'+foot(ref)+'</section>');
+
+    // 3. every part, two to a sheet
+    var blocks=parts.map(function(l,i){
+      var d=Q.DETAILS[l.id]||null, img=(l.id==='care'?(Q.DETAIL_IMG.care||l.img):l.img);
+      if(l.id==='care'&&d){
+        // the words must match the plan on this quote, not the package default
+        d={stage:d.stage,gets:d.gets,
+           lead:'Looked after: spares, monitoring and updates, and a number that answers when something stops.',
+           facts:[['Plan',(c.plan==='priority'?'Priority':'Standard')+', '+c.term+(c.term===1?' year':' years')],['After that','Priced by the year']]};
+      }
+      var stage=d?d.stage:(l.kind==='robot'?'Supply':l.kind==='part'?'Supply':l.kind==='extra'?'Build':'');
+      var lead=d?d.lead:(l.kind==='robot'?(l.status+'. '+l.model+', priced to order.'):l.sub);
+      var gets=d?'<ul>'+d.gets.map(function(g){return '<li>'+esc(g)+'</li>';}).join('')+'</ul>':'';
+      var facts=d?'<dl>'+d.facts.map(function(f){return '<div><dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd></div>';}).join('')+'</dl>':'';
+      var name=l.kind==='machine'?l.name+', '+l.model:l.label;
+      return '<article class="pp-part">'+pic(img,'pt-img')+
+        '<div class="pt-h"><span class="i">('+('0'+(i+1)).slice(-2)+')</span>'+(stage?'<span class="stage">'+esc(stage)+'</span>':'')+
+        '<span class="pt-v'+(l.value===null?' ask':'')+'">'+val(l)+'</span></div>'+
+        '<h2>'+esc((l.n>1?l.n+' × ':'')+name)+'</h2><p class="pt-lead">'+esc(lead)+'</p>'+
+        '<div class="pt-cols">'+gets+facts+'</div></article>';
+    });
+    for(var i=0;i<blocks.length;i+=2){
+      sheets.push('<section class="sheet pp-parts"><div class="sh-in">'+(i===0?'<span class="label">[ Everything in it ]</span>':'')+blocks.slice(i,i+2).join('')+'</div>'+foot(ref)+'</section>');
+    }
+
+    // 4. how it goes, terms, the yes
+    var stages=[['Plan','The site, the power, the queue, the menu.'],['Design','The brand, the counter, the website, the drawings.'],['Build','Machines ordered, fit-out made, the skin finished.'],['Commission','Menu programmed, staff trained, the first hundred served.'],['Open','About two months from order. Then we keep it running.']];
+    sheets.push('<section class="sheet pp-close"><div class="sh-in">'+
+      '<span class="label">[ How it goes ]</span><ol class="pc-stages">'+stages.map(function(x,j){return '<li><span class="i">0'+(j+1)+'</span><b>'+x[0]+'</b><p>'+x[1]+'</p></li>';}).join('')+'</ol>'+
+      '<div class="pc-row"><div><span class="label">Terms</span><ul class="pc-terms"><li>Machines at the 2026 Moton Australia list, ex GST</li><li>Everything else indicative, confirmed once we have seen the site</li>'+
+      '<li>Valid 30 days, until '+long.format(until)+'</li><li>One year warranty on the machines</li><li>About two months from order</li><li>Delivered duty unpaid within 100 km of an Australian port</li>'+(c.asks?'<li>Robots priced to order on their own quote</li>':'')+(c.pkg&&c.pkg.extra?'<li>'+esc(c.pkg.extra.name)+' priced on scope</li>':'')+'</ul></div>'+
+      '<div><span class="label">Talk to us</span><p class="pc-contact"><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
+      '<div class="pc-yes"><span class="label">Accepted</span><div class="lines"><div><span></span><em>Name</em></div><div><span></span><em>Signature</em></div><div><span></span><em>Date</em></div></div></div>'+
+      '</div>'+foot(ref)+'</section>');
+
+    host.innerHTML=sheets.join('');
+    var n=host.querySelectorAll('.sheet').length;
+    [].forEach.call(host.querySelectorAll('.sh-foot .pg'),function(el,k){ el.textContent=(k+2)+' of '+n; });
+    if(window.WonderMark) WonderMark.paintAll();
+    document.title='Proposal '+ref+(st.who?', '+st.who:'')+', Wonder Robotics';
+    var edit=document.getElementById('pp-edit'); if(edit) edit.href=root+'quote/'+Q.toQuery(st);
+  }
+  function foot(ref){ return '<div class="sh-foot"><span>Wonder Robotics</span><span>'+ref+'</span><span class="pg"></span></div>'; }
+
+  if(forInput){
+    forInput.value=st.who||'';
+    forInput.addEventListener('input',function(){
+      st.who=forInput.value.slice(0,80);
+      var dd=host.querySelector('.cv-for'); if(dd) dd.innerHTML=st.who?esc(st.who):'<span class="blank"></span>';
+      try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){}
+    });
+  }
+  var copy=document.getElementById('pp-copy');
+  if(copy) copy.addEventListener('click',function(){
+    var span=copy.querySelector('span'), done=function(t){ span.textContent=t; setTimeout(function(){span.textContent='Copy the link';},1800); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(location.href).then(function(){done('Copied');},function(){done('Copy it from the address bar');});
+    else done('Copy it from the address bar');
+  });
+  var printBtn=document.getElementById('pp-print');
+  // Printing before the pictures have arrived gives grey boxes on paper, so
+  // wait for every picture on the sheets first.
+  if(printBtn) printBtn.addEventListener('click',function(){
+    var imgs=[].slice.call(host.querySelectorAll('img'));
+    Promise.all(imgs.map(function(im){ return im.complete?0:new Promise(function(r){ im.onload=im.onerror=r; }); })).then(function(){ window.print(); });
+  });
+  draw();
+})();
+
 /* The loader does not fade out, it walks to its post. The robot sneaks home
    on the full screen mark, then the whole lockup flies into the header and
    becomes the header mark, so the load is one continuous idea instead of a
@@ -2037,6 +2342,7 @@ window.WonderQuote = (function(){
     var plain=pick.filter(function(x){return x.indexOf('pkg=')!==0;});
     var qs=[]; if(plain.length) qs.push('pick='+plain.join(',')); if(pkgParam) qs.push(pkgParam);
     var go=$('want-go'); go.href=go.getAttribute('data-base')+(qs.length?'?'+qs.join('&'):'');
+    var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+(qs.length?'?'+qs.join('&'):'');
   }
   function mark(id,n){
     var c=$('qc-'+id); if(!c) return;
@@ -2070,7 +2376,6 @@ window.WonderQuote = (function(){
   var state=document.getElementById('floor-state');
   var dot=document.getElementById('floor-dot');
   var fmt=new Intl.DateTimeFormat('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Australia/Brisbane'});
-  // not "parts": the quote builder below shares this scope and has its own
   var clockParts=new Intl.DateTimeFormat('en-AU',{weekday:'short',hour:'numeric',minute:'numeric',hour12:false,timeZone:'Australia/Brisbane'});
   var HOURS={Mon:[9,19],Tue:[9,19],Wed:[9,19],Thu:[9,19],Fri:[9,19],Sat:[10,17]};
   function tick(){
@@ -2085,6 +2390,11 @@ window.WonderQuote = (function(){
     dot.classList.toggle('shut',!open);
   }
   tick(); setInterval(tick,15000);
+})();
+
+/* The quote page builder. Its own scope: it once shared one with the bar
+   clock, and two different names in it collided (parts, then state). */
+(function(){
 
   var Q=window.WonderQuote, MACHINES=Q.MACHINES, PARTS=Q.PARTS, SERVICES=Q.SERVICES, RATES=Q.RATES, GST=Q.GST;
 
@@ -2151,61 +2461,32 @@ window.WonderQuote = (function(){
   }
   function line(label,sub,value,ind,img){ return {label:label,sub:sub,value:value,ind:ind,img:img}; }
 
-  function render(){
+  function state(){
     var v=read();
-    var count=0, supply=0, lines=[], indicative=false;
-    MACHINES.forEach(function(m){
-      var n=qty[m.id]; el('qty-'+m.id).textContent=n;
-      el('pick-'+m.id).classList.toggle('on',n>0);
-      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price, false, m.img));}
+    return {qty:qty,parts:parts,svc:svc,pkg:pagePkg,plan:v.plan,term:v.term,site:v.site};
+  }
+  function render(){
+    var v=read(), c=Q.compute(state());
+    var lines=c.lines.map(function(l){ return {label:l.label,sub:l.sub,value:l.value,note:l.note,ind:l.ind,img:l.img}; });
+    var sub=c.sub, count=c.count, indicative=c.indicative;
+    // the cards
+    MACHINES.concat(ROBOTS).forEach(function(m){
+      var n=qty[m.id]; el('qty-'+m.id).textContent=n; el('pick-'+m.id).classList.toggle('on',n>0);
     });
-
-    var asks=0;
-    ROBOTS.forEach(function(r){
-      var n=qty[r.id]; el('qty-'+r.id).textContent=n;
-      el('pick-'+r.id).classList.toggle('on',n>0);
-      if(n>0){ asks+=n; indicative=true; lines.push(line(r.name, n+' \u00d7 '+r.kind+', priced to order', null, true, r.img)); }
-    });
-
-    var sub=supply, workSum=0;
     PARTS.forEach(function(p){
       var on=parts[p.id]; el('ad-'+p.id).classList.toggle('on',on); el('ad-'+p.id).setAttribute('aria-pressed',on?'true':'false');
       el('adp-'+p.id).textContent=money.format(p.price);
-      if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true,p.img)); }
     });
     SERVICES.forEach(function(s){
-      var on=svc[s.id], amt=count?Q.serviceAmount(s,supply):0;
+      var on=svc[s.id], amt=c.count?Q.serviceAmount(s,c.supply):0;
       el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
-      el('adp-'+s.id).textContent=count?money.format(amt):'Priced on your machines';
-      if(on&&count){ sub+=amt; workSum+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true,s.img)); }
+      el('adp-'+s.id).textContent=c.count?money.format(amt):'Priced on your machines';
     });
-
     var noPlan=v.plan==='none';
     el('term').disabled=noPlan; el('term-row').classList.toggle('off',noPlan);
     el('term-out').textContent=v.term+(v.term===1?' year':' years');
-    if(count>0&&!noPlan){
-      var pct=RATES.maintenance_pct_per_year[v.plan];
-      var yr=Math.round(supply*pct/100)*100, mt=yr*v.term;
-      sub+=mt; indicative=true;
-      lines.push(line((v.plan==='priority'?'Priority':'Standard')+' maintenance',
-        v.term+(v.term===1?' year':' years')+', '+money.format(yr)+' a year, indicative',mt,true));
-    }
-    // A package holds while its machines, its work and a maintenance plan are
-    // all still on the quote. The saving is 10% off the work and the first
-    // year of maintenance; machines stay at list.
-    var pk=pagePkg&&Q.PACKAGES.filter(function(x){return x.id===pagePkg;})[0];
-    var holds=pk&&!noPlan&&Object.keys(pk.machines).every(function(m){return qty[m]>=pk.machines[m];})&&Q.PACKAGE_WORK.every(function(w){return svc[w];});
-    if(holds){
-      var firstYr=Math.round(supply*RATES.maintenance_pct_per_year[v.plan]/100)*100;
-      var save=Math.round((workSum+firstYr)*Q.PACKAGE_OFF/100)*100;
-      if(pk.extra){ lines.push({label:pk.extra.name,sub:pk.extra.sub,value:null,note:pk.extra.note,ind:true,img:pk.img}); indicative=true; }
-      sub-=save;
-      lines.push(line('Package saving',pk.name+', 10% off the work',-save,true,pk.img));
-    }
-    if(count>0){
-      if(v.site==='port'){lines.push(line('Delivery','Within 100 km of a port, included',0));}
-      else{sub+=RATES.delivery_inland; lines.push(line('Delivery','Beyond 100 km of a port, indicative',RATES.delivery_inland,true)); indicative=true;}
-    }
+    // the proposal is this quote as a document, at its own address
+    var prop=el('q-proposal'); if(prop) prop.href=prop.getAttribute('data-base')+Q.toQuery(state());
 
     var tb=el('q-lines'); tb.innerHTML='';
     if(!lines.length){ tb.innerHTML='<tr class="empty"><th colspan="2">Pick a machine to start the quote</th></tr>'; }
@@ -2217,7 +2498,7 @@ window.WonderQuote = (function(){
       tb.appendChild(tr);
     });
 
-    var gst=Math.round(sub*GST), inc=sub+gst;
+    var gst=c.gst, inc=c.inc;
     el('q-sub').textContent=money.format(sub); el('q-gst').textContent=money.format(gst); el('q-inc').textContent=money.format(inc);
     var shown=v.gst==='inc'?inc:sub;
     el('q-total').innerHTML=(indicative?'<small>about</small>':'')+money.format(shown);
@@ -2232,7 +2513,7 @@ window.WonderQuote = (function(){
   }
   form.addEventListener('input',render);
   form.addEventListener('change',render);
-  el('q-print').addEventListener('click',function(e){e.preventDefault();window.print();});
+  var propEl=el('q-proposal'); if(propEl) propEl.setAttribute('data-base',propEl.getAttribute('href'));
   // A product or landing page pre-picks its lines: quote/?pick=bpro,prnt.
   var pick=(location.search.match(/[?&]pick=([^&]*)/)||[])[1];
   var pkgQ=(location.search.match(/[?&]pkg=([a-z]+)/)||[])[1];
