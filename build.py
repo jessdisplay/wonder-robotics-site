@@ -59,16 +59,43 @@ ICONS = ('<link rel="icon" href="{{root}}favicon-32.png" sizes="32x32">\n'
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">\n'
 
 BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
-<header class="bar">
+<header class="bar" id="bar">
   <div class="wrap grid">
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
       <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}events/">The club</a>
     </nav>
-    <div class="cta"><a class="btn" href="{{root}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Tell us what to build</span><i aria-hidden="true">+</i></button></div>
   </div>
 </header>
+  <div class="drop" id="wantpanel">
+    <div class="drop-clip">
+      <div class="wrap drop-in">
+        <div class="drop-say">
+          <span class="label">[ Design, build and fit out yours ]</span>
+          <h2>What do you want built?</h2>
+          <p>Pick as many as you like. Machines, the room they go in, the brand on the cup.</p>
+        </div>
+        <div class="drop-pick">
+          <div class="choices" role="group" aria-label="What to build" id="want-picks">
+            <input type="checkbox" id="w-coffee" value="bpro"><label for="w-coffee">Robot coffee machine</label>
+            <input type="checkbox" id="w-cocktail" value="bar"><label for="w-cocktail">Robot cocktail machine</label>
+            <input type="checkbox" id="w-icecream" value="ice"><label for="w-icecream">Robot ice cream machine</label>
+            <input type="checkbox" id="w-kitchen" value="fry"><label for="w-kitchen">Robot kitchen fit-out</label>
+            <input type="checkbox" id="w-fitout" value="eng"><label for="w-fitout">Venue design and fit-out</label>
+            <input type="checkbox" id="w-brand" value="brand"><label for="w-brand">Branding</label>
+            <input type="checkbox" id="w-soft" value="soft"><label for="w-soft">Software</label>
+          </div>
+          <div class="drop-go">
+            <a class="btn" id="want-go" href="{{root}}quote/"><span>Build the quote</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="want-mail" href="{{root}}#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 '''
 
 EOI = '''<section class="eoi" id="eoi">

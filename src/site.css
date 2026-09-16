@@ -28,14 +28,62 @@
   .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
 
   /* bar */
-  .bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
-  .bar .grid{align-items:center;min-height:62px}
+  /* At rest the bar is one cream field with the page, no rule cutting across
+     the first screen. Leave the top and it sets: it tightens, the mark comes
+     down a size, the ground blurs and the rule arrives. Not transparent over
+     the hero, which is the obvious move and the wrong one here, because the
+     hero is its own warm gradient and a cream bar above it is a seam. */
+  /* An explicit height, not a min-height: the panel hangs off top:100% and a
+     percentage against an auto height is a circular measure Chrome resolved
+     at 194px, which pushed the whole page down when the panel opened. */
+  .bar{position:sticky;top:0;z-index:20;height:64px;background:var(--paper);border-bottom:1px solid transparent;
+       transition:background .34s ease,border-color .34s ease,height .34s cubic-bezier(.16,.84,.24,1)}
+  .bar.set{height:52px}
+  .bar.set{background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:var(--rule)}
+  .bar.open{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom-color:var(--rule)}
+  .bar .grid{align-items:center;height:100%}
   .bar .mark{grid-column:1/3;display:flex;align-items:center}
+  .bar .mark canvas{transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1),opacity .3s ease}
+  .bar.set .mark canvas{transform:scale(.88)}
+  .bar .mark.handing canvas{opacity:0}
   .bar .clock{grid-column:3/5;white-space:nowrap}
   .bar nav{grid-column:5/11;display:flex;gap:clamp(12px,1.6vw,26px);white-space:nowrap;justify-content:flex-end;padding-right:var(--gap)}
-  .bar nav a{text-decoration:none}
+  /* A rule that wipes in from the left. Mono caps at 11px have nowhere to go
+     on hover but colour, and colour alone is not an answer. */
+  .bar nav a{text-decoration:none;position:relative;padding-bottom:4px}
+  .bar nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);
+                    transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
   .bar nav a:hover{color:var(--ink)}
+  .bar nav a:hover::after{transform:none}
+  .bar nav a[aria-current]{color:var(--ink)}
+  .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
   .bar .cta{grid-column:11/13;justify-self:end}
+  .btn.want i{transition:transform .34s cubic-bezier(.16,.84,.24,1),background .15s}
+  .bar.open .btn.want i{transform:rotate(45deg)}
+
+  /* The panel. grid-template-rows 0fr to 1fr so it opens to its own height
+     with no JS measuring it, and visibility takes it out of the tab order
+     while it is shut. */
+  .drop{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--rule);
+        display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;
+        box-shadow:0 24px 44px -30px color-mix(in srgb,var(--ink) 55%,transparent);
+        transition:grid-template-rows .44s cubic-bezier(.16,.84,.24,1),opacity .26s ease,visibility .44s}
+  .bar.open .drop{grid-template-rows:1fr;opacity:1;visibility:visible}
+  .drop-clip{overflow:hidden;min-height:0}
+  .drop-in{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(20px,3.4vw,56px);
+           align-items:start;padding-top:clamp(22px,2.8vw,38px);padding-bottom:clamp(22px,2.8vw,38px)}
+  .drop-say h2{margin:8px 0 0;font-weight:400;font-size:clamp(24px,2.3vw,34px);line-height:1.04;letter-spacing:-.03em}
+  .drop-say p{margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--graphite);max-width:34ch}
+  .drop .choices input{width:1px;height:1px;left:0}
+  .drop-go{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  @media (max-width:900px){
+    .drop-in{grid-template-columns:1fr;gap:18px}
+    .drop-say p{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .drop{transition:opacity .01s,visibility .01s}
+    .bar nav a::after{transition:none}
+  }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -150,8 +198,15 @@
   .pick.on .pick-f .price{color:var(--signal)}
   /* Add-ons: the same idea, one line each, the price always visible so the
      total never moves for a reason you cannot see. */
-  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px;display:grid;gap:5px;color:var(--ink);transition:border-color .18s,background .18s}
+  /* same column rhythm and gutter as .picker, so the two rows read as one grid */
+  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
+  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:0;overflow:hidden;display:flex;flex-direction:column;color:var(--ink);transition:border-color .18s,background .18s}
+  /* 16:9 here against the machines' 4:3, so a machine still reads as the purchase and
+     these read as what goes around it */
+  .addon .ph{display:block;aspect-ratio:16/9;background:var(--rule);overflow:hidden}
+  .addon .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
+  .addon:hover .ph img{transform:scale(1.03)}
+  .addon-b{display:grid;gap:5px;padding:12px 14px;flex:1}
   .addon:hover{border-color:var(--graphite)}
   .addon.on{border-color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 1px var(--ink)}
   .addon b{font-weight:400;font-size:16px;letter-spacing:-.015em;line-height:1.15}
@@ -374,7 +429,9 @@
   .studio .half img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r)}
   @media (max-width:980px){.studio .half{grid-column:1/13}}
   /* loader: the mark on cream, first visit per session, under a second */
-  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
+  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s,background .55s ease}
+  /* the ground goes first so the mark looks like it is flying over the page */
+  .loader.hand{background:transparent}
   .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease;max-width:calc(100vw - var(--m) * 2);height:auto}
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}

@@ -44,14 +44,62 @@
   .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
 
   /* bar */
-  .bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
-  .bar .grid{align-items:center;min-height:62px}
+  /* At rest the bar is one cream field with the page, no rule cutting across
+     the first screen. Leave the top and it sets: it tightens, the mark comes
+     down a size, the ground blurs and the rule arrives. Not transparent over
+     the hero, which is the obvious move and the wrong one here, because the
+     hero is its own warm gradient and a cream bar above it is a seam. */
+  /* An explicit height, not a min-height: the panel hangs off top:100% and a
+     percentage against an auto height is a circular measure Chrome resolved
+     at 194px, which pushed the whole page down when the panel opened. */
+  .bar{position:sticky;top:0;z-index:20;height:64px;background:var(--paper);border-bottom:1px solid transparent;
+       transition:background .34s ease,border-color .34s ease,height .34s cubic-bezier(.16,.84,.24,1)}
+  .bar.set{height:52px}
+  .bar.set{background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:var(--rule)}
+  .bar.open{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom-color:var(--rule)}
+  .bar .grid{align-items:center;height:100%}
   .bar .mark{grid-column:1/3;display:flex;align-items:center}
+  .bar .mark canvas{transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1),opacity .3s ease}
+  .bar.set .mark canvas{transform:scale(.88)}
+  .bar .mark.handing canvas{opacity:0}
   .bar .clock{grid-column:3/5;white-space:nowrap}
   .bar nav{grid-column:5/11;display:flex;gap:clamp(12px,1.6vw,26px);white-space:nowrap;justify-content:flex-end;padding-right:var(--gap)}
-  .bar nav a{text-decoration:none}
+  /* A rule that wipes in from the left. Mono caps at 11px have nowhere to go
+     on hover but colour, and colour alone is not an answer. */
+  .bar nav a{text-decoration:none;position:relative;padding-bottom:4px}
+  .bar nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);
+                    transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
   .bar nav a:hover{color:var(--ink)}
+  .bar nav a:hover::after{transform:none}
+  .bar nav a[aria-current]{color:var(--ink)}
+  .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
   .bar .cta{grid-column:11/13;justify-self:end}
+  .btn.want i{transition:transform .34s cubic-bezier(.16,.84,.24,1),background .15s}
+  .bar.open .btn.want i{transform:rotate(45deg)}
+
+  /* The panel. grid-template-rows 0fr to 1fr so it opens to its own height
+     with no JS measuring it, and visibility takes it out of the tab order
+     while it is shut. */
+  .drop{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--rule);
+        display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;
+        box-shadow:0 24px 44px -30px color-mix(in srgb,var(--ink) 55%,transparent);
+        transition:grid-template-rows .44s cubic-bezier(.16,.84,.24,1),opacity .26s ease,visibility .44s}
+  .bar.open .drop{grid-template-rows:1fr;opacity:1;visibility:visible}
+  .drop-clip{overflow:hidden;min-height:0}
+  .drop-in{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(20px,3.4vw,56px);
+           align-items:start;padding-top:clamp(22px,2.8vw,38px);padding-bottom:clamp(22px,2.8vw,38px)}
+  .drop-say h2{margin:8px 0 0;font-weight:400;font-size:clamp(24px,2.3vw,34px);line-height:1.04;letter-spacing:-.03em}
+  .drop-say p{margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--graphite);max-width:34ch}
+  .drop .choices input{width:1px;height:1px;left:0}
+  .drop-go{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  @media (max-width:900px){
+    .drop-in{grid-template-columns:1fr;gap:18px}
+    .drop-say p{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .drop{transition:opacity .01s,visibility .01s}
+    .bar nav a::after{transition:none}
+  }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -166,8 +214,15 @@
   .pick.on .pick-f .price{color:var(--signal)}
   /* Add-ons: the same idea, one line each, the price always visible so the
      total never moves for a reason you cannot see. */
-  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px;display:grid;gap:5px;color:var(--ink);transition:border-color .18s,background .18s}
+  /* same column rhythm and gutter as .picker, so the two rows read as one grid */
+  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
+  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:0;overflow:hidden;display:flex;flex-direction:column;color:var(--ink);transition:border-color .18s,background .18s}
+  /* 16:9 here against the machines' 4:3, so a machine still reads as the purchase and
+     these read as what goes around it */
+  .addon .ph{display:block;aspect-ratio:16/9;background:var(--rule);overflow:hidden}
+  .addon .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
+  .addon:hover .ph img{transform:scale(1.03)}
+  .addon-b{display:grid;gap:5px;padding:12px 14px;flex:1}
   .addon:hover{border-color:var(--graphite)}
   .addon.on{border-color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 1px var(--ink)}
   .addon b{font-weight:400;font-size:16px;letter-spacing:-.015em;line-height:1.15}
@@ -390,7 +445,9 @@
   .studio .half img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r)}
   @media (max-width:980px){.studio .half{grid-column:1/13}}
   /* loader: the mark on cream, first visit per session, under a second */
-  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
+  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s,background .55s ease}
+  /* the ground goes first so the mark looks like it is flying over the page */
+  .loader.hand{background:transparent}
   .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease;max-width:calc(100vw - var(--m) * 2);height:auto}
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
@@ -894,16 +951,43 @@
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
-<header class="bar">
+<header class="bar" id="bar">
   <div class="wrap grid">
     <a class="mark" href="../../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
       <a href="../../#disciplines">What we do</a><a href="../../work/valley/">The building</a><a href="../../machines/">Machines</a><a href="../../#work">Case studies</a><a href="../../#quote">Pricing</a><a href="../../events/">The club</a>
     </nav>
-    <div class="cta"><a class="btn" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Tell us what to build</span><i aria-hidden="true">+</i></button></div>
   </div>
 </header>
+  <div class="drop" id="wantpanel">
+    <div class="drop-clip">
+      <div class="wrap drop-in">
+        <div class="drop-say">
+          <span class="label">[ Design, build and fit out yours ]</span>
+          <h2>What do you want built?</h2>
+          <p>Pick as many as you like. Machines, the room they go in, the brand on the cup.</p>
+        </div>
+        <div class="drop-pick">
+          <div class="choices" role="group" aria-label="What to build" id="want-picks">
+            <input type="checkbox" id="w-coffee" value="bpro"><label for="w-coffee">Robot coffee machine</label>
+            <input type="checkbox" id="w-cocktail" value="bar"><label for="w-cocktail">Robot cocktail machine</label>
+            <input type="checkbox" id="w-icecream" value="ice"><label for="w-icecream">Robot ice cream machine</label>
+            <input type="checkbox" id="w-kitchen" value="fry"><label for="w-kitchen">Robot kitchen fit-out</label>
+            <input type="checkbox" id="w-fitout" value="eng"><label for="w-fitout">Venue design and fit-out</label>
+            <input type="checkbox" id="w-brand" value="brand"><label for="w-brand">Branding</label>
+            <input type="checkbox" id="w-soft" value="soft"><label for="w-soft">Software</label>
+          </div>
+          <div class="drop-go">
+            <a class="btn" id="want-go" href="../../quote/"><span>Build the quote</span><i aria-hidden="true">+</i></a>
+            <a class="btn ghost" id="want-mail" href="../../#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <main id="top" class="product case">
   <section class="phero">
@@ -1314,26 +1398,107 @@ window.WonderSneak = (function () {
   }
   return { OUT: OUT, park: park, run: run, hide: hide, at: at };
 })();
+/* The loader does not fade out, it walks to its post. The robot sneaks home
+   on the full screen mark, then the whole lockup flies into the header and
+   becomes the header mark, so the load is one continuous idea instead of a
+   curtain and then a logo. On a second page this session there is no curtain,
+   so the header mark plays the sneak on its own. */
 (function(){
-  var L=document.getElementById('loader'); if(!L) return;
-  var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
+  var L=document.getElementById('loader');
+  var head=document.querySelector('.bar .mark canvas');
+  var holder=head&&head.parentNode;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(seen||reduce){L.remove();return;}
+  var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
+
+  function sneakHead(dur){
+    if(!head||!window.WonderSneak||reduce) return;
+    if(!WonderSneak.park(head)) return;
+    setTimeout(function(){ WonderSneak.run(head,dur||950); },90);
+  }
+
+  if(!L){ return; }
+  if(reduce){ L.remove(); return; }
+  if(seen){ L.remove(); sneakHead(900); return; }
+
   var lifted=false, started=false;
   var lift=function(){ if(lifted) return; lifted=true;
+    if(holder) holder.classList.remove('handing');
     L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
-  // The loader plays the same sneak as the footer, faster, and leaves the
-  // moment the robot is home. Nobody waits on a logo.
+
+  // Measure both marks, then move the loader's canvas onto the header's box.
+  // Same aspect and same sub, so one scale carries it.
+  var hand=function(cv){
+    if(!head){ setTimeout(lift,200); return; }
+    var a=cv.getBoundingClientRect(), b=head.getBoundingClientRect();
+    if(!(a.width>2&&b.width>2)){ setTimeout(lift,200); return; }
+    if(holder) holder.classList.add('handing');
+    cv.style.transformOrigin='0 0';
+    cv.style.transition='transform .8s cubic-bezier(.16,.84,.24,1)';
+    cv.style.transform='translate('+(b.left-a.left)+'px,'+(b.top-a.top)+'px) scale('+(b.width/a.width)+')';
+    L.classList.add('hand');
+    setTimeout(lift,760);
+  };
+
   var start=function(){ if(started) return; started=true;
     if(window.WonderMark){WonderMark.paintAll();}
     var cv=L.querySelector('canvas[data-wonder-mark]');
     var ran=cv&&window.WonderSneak&&WonderSneak.park(cv);
     L.classList.add('in');
-    if(ran) WonderSneak.run(cv,1150,function(){setTimeout(lift,260);});
+    if(ran) WonderSneak.run(cv,1050,function(){setTimeout(function(){hand(cv);},160);});
     else setTimeout(lift,900);
   };
   if(document.fonts&&document.fonts.load){ document.fonts.load('700 84px UnboundedW').then(start,start); setTimeout(start,700); } else { setTimeout(start,200); }
-  setTimeout(lift,2600); // never trap anyone behind it
+  setTimeout(lift,3200); // never trap anyone behind it
+})();
+
+/* The bar: it sets when you leave the top, it says which page you are on, and
+   its button drops the panel that asks the only question we want asked. */
+(function(){
+  var bar=document.getElementById('bar'); if(!bar) return;
+
+  var set=false;
+  function onScroll(){
+    var want=(window.pageYOffset||document.documentElement.scrollTop)>18;
+    if(want!==set){ set=want; bar.classList.toggle('set',want); }
+  }
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+
+  // Where am I. Match on the deepest path a link points at, so /machines/
+  // lights up on every machine page but the home anchors never do.
+  var here=location.pathname.replace(/index\.html$/,'');
+  var best=null, bestLen=0;
+  bar.querySelectorAll('nav a').forEach(function(a){
+    var u=new URL(a.getAttribute('href'),location.href);
+    if(u.hash&&u.pathname.replace(/index\.html$/,'')===here) return;
+    var p=u.pathname.replace(/index\.html$/,'');
+    if(p!=='/'&&here.indexOf(p)===0&&p.length>bestLen){ best=a; bestLen=p.length; }
+  });
+  if(best) best.setAttribute('aria-current','page');
+
+  var btn=document.getElementById('want'), panel=document.getElementById('wantpanel');
+  if(!btn||!panel) return;
+  function open(on){ bar.classList.toggle('open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
+  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('open')); });
+  document.addEventListener('click',function(e){ if(bar.classList.contains('open')&&!bar.contains(e.target)) open(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('open')){ open(false); btn.focus(); } });
+
+  // The picks ride to the quote builder on the same ?pick= the Buy buttons use.
+  var picks=document.getElementById('want-picks'), go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
+  if(!picks||!go) return;
+  var goBase=go.getAttribute('href');
+  var mailBase=mail?mail.getAttribute('href'):null;
+  function sync(){
+    var ids=[], names=[];
+    picks.querySelectorAll('input:checked').forEach(function(i){
+      ids.push(i.value);
+      var l=picks.querySelector('label[for="'+i.id+'"]');
+      if(l) names.push(l.textContent.trim());
+    });
+    go.href=ids.length?goBase+'?pick='+ids.join(','):goBase;
+    go.querySelector('span').textContent=ids.length?'Build the quote, '+ids.length+' picked':'Build the quote';
+    if(mail&&mailBase) mail.href=names.length?mailBase+'?want='+encodeURIComponent(names.join(', ')):mailBase;
+  }
+  picks.addEventListener('change',sync); sync();
 })();
 (function(){
   var clock=document.getElementById('clock');
@@ -1372,10 +1537,14 @@ window.WonderSneak = (function () {
   // on their own, so these are indicative round numbers, not list: they say so
   // on the sheet and are confirmed on scope.
   var PARTS=[
-    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800},
-    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200},
-    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900},
-    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400}
+    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800,
+     img:'../../img/coffee/bar-06-service-front.jpg', alt:'The bar with its doors open, the ice maker and services inside'},
+    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200,
+     img:'../../img/machines/coffee-robot-d2.jpg', alt:'Milk poured into a cup, the pattern forming on the crema'},
+    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900,
+     img:'../../img/machines/coffee-hero.jpg', alt:'A dual arm at the machine with the milk jug in hand'},
+    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400,
+     img:'../../img/machines/coffee-robot-d3.jpg', alt:'The machine head, grinder and syrup lines'}
   ];
 
   // The work around the machine, calculated from what you picked: a percentage
@@ -1383,10 +1552,14 @@ window.WonderSneak = (function () {
   // fryer and one for a $100,000 bar are not the same job. Indicative until we
   // have seen the room. Change the numbers here and the whole site follows.
   var SERVICES=[
-    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000},
-    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000},
-    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000},
-    {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true}
+    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000,
+     img:'../../img/process/03-fitout.jpg', alt:'The line going in: bare stainless benches, extraction hood, a fitter at work'},
+    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000,
+     img:'../../img/coffee/brand-01-family.jpg', alt:'Cups and bags carrying the mark, the whole family together'},
+    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000,
+     img:'../../img/lrd/menu.jpg', alt:'The ordering screen with the menu on it'},
+    {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
+     img:'../../img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
   ];
   var RATES={
     maintenance_pct_per_year:{standard:0.07, priority:0.11},
@@ -1422,7 +1595,8 @@ window.WonderSneak = (function () {
   function chip(o,group){
     var d=document.createElement('button'); d.type='button'; d.className='addon'; d.id='ad-'+o.id;
     d.setAttribute('data-group',group); d.setAttribute('data-id',o.id); d.setAttribute('aria-pressed','false');
-    d.innerHTML='<b>'+o.name+'</b><small>'+o.sub+'</small><span class="p" id="adp-'+o.id+'"></span>';
+    d.innerHTML=(o.img?'<span class="ph"><img src="'+o.img+'" alt="'+o.alt+'" loading="lazy"></span>':'')+
+      '<span class="addon-b"><b>'+o.name+'</b><small>'+o.sub+'</small><span class="p" id="adp-'+o.id+'"></span></span>';
     box.appendChild(d);
   }
   PARTS.forEach(function(p){ parts[p.id]=false; chip(p,'part'); });
@@ -1462,8 +1636,8 @@ window.WonderSneak = (function () {
     SERVICES.forEach(function(s){
       var on=svc[s.id], amt=count?Math.max(s.min,Math.round(supply*s.pct/100)*100):0;
       el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
-      el('adp-'+s.id).textContent=count?money.format(amt):(Math.round(s.pct*100)+'% of supply');
-      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', '+Math.round(s.pct*100)+'% of supply, indicative',amt,true)); }
+      el('adp-'+s.id).textContent=count?money.format(amt):'Priced on your machines';
+      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true)); }
     });
 
     var noPlan=v.plan==='none';

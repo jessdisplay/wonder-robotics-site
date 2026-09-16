@@ -51,26 +51,107 @@ window.WonderSneak = (function () {
   }
   return { OUT: OUT, park: park, run: run, hide: hide, at: at };
 })();
+/* The loader does not fade out, it walks to its post. The robot sneaks home
+   on the full screen mark, then the whole lockup flies into the header and
+   becomes the header mark, so the load is one continuous idea instead of a
+   curtain and then a logo. On a second page this session there is no curtain,
+   so the header mark plays the sneak on its own. */
 (function(){
-  var L=document.getElementById('loader'); if(!L) return;
-  var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
+  var L=document.getElementById('loader');
+  var head=document.querySelector('.bar .mark canvas');
+  var holder=head&&head.parentNode;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(seen||reduce){L.remove();return;}
+  var seen=false; try{seen=sessionStorage.getItem('wr-loader')==='1';}catch(e){}
+
+  function sneakHead(dur){
+    if(!head||!window.WonderSneak||reduce) return;
+    if(!WonderSneak.park(head)) return;
+    setTimeout(function(){ WonderSneak.run(head,dur||950); },90);
+  }
+
+  if(!L){ return; }
+  if(reduce){ L.remove(); return; }
+  if(seen){ L.remove(); sneakHead(900); return; }
+
   var lifted=false, started=false;
   var lift=function(){ if(lifted) return; lifted=true;
+    if(holder) holder.classList.remove('handing');
     L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
-  // The loader plays the same sneak as the footer, faster, and leaves the
-  // moment the robot is home. Nobody waits on a logo.
+
+  // Measure both marks, then move the loader's canvas onto the header's box.
+  // Same aspect and same sub, so one scale carries it.
+  var hand=function(cv){
+    if(!head){ setTimeout(lift,200); return; }
+    var a=cv.getBoundingClientRect(), b=head.getBoundingClientRect();
+    if(!(a.width>2&&b.width>2)){ setTimeout(lift,200); return; }
+    if(holder) holder.classList.add('handing');
+    cv.style.transformOrigin='0 0';
+    cv.style.transition='transform .8s cubic-bezier(.16,.84,.24,1)';
+    cv.style.transform='translate('+(b.left-a.left)+'px,'+(b.top-a.top)+'px) scale('+(b.width/a.width)+')';
+    L.classList.add('hand');
+    setTimeout(lift,760);
+  };
+
   var start=function(){ if(started) return; started=true;
     if(window.WonderMark){WonderMark.paintAll();}
     var cv=L.querySelector('canvas[data-wonder-mark]');
     var ran=cv&&window.WonderSneak&&WonderSneak.park(cv);
     L.classList.add('in');
-    if(ran) WonderSneak.run(cv,1150,function(){setTimeout(lift,260);});
+    if(ran) WonderSneak.run(cv,1050,function(){setTimeout(function(){hand(cv);},160);});
     else setTimeout(lift,900);
   };
   if(document.fonts&&document.fonts.load){ document.fonts.load('700 84px UnboundedW').then(start,start); setTimeout(start,700); } else { setTimeout(start,200); }
-  setTimeout(lift,2600); // never trap anyone behind it
+  setTimeout(lift,3200); // never trap anyone behind it
+})();
+
+/* The bar: it sets when you leave the top, it says which page you are on, and
+   its button drops the panel that asks the only question we want asked. */
+(function(){
+  var bar=document.getElementById('bar'); if(!bar) return;
+
+  var set=false;
+  function onScroll(){
+    var want=(window.pageYOffset||document.documentElement.scrollTop)>18;
+    if(want!==set){ set=want; bar.classList.toggle('set',want); }
+  }
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+
+  // Where am I. Match on the deepest path a link points at, so /machines/
+  // lights up on every machine page but the home anchors never do.
+  var here=location.pathname.replace(/index\.html$/,'');
+  var best=null, bestLen=0;
+  bar.querySelectorAll('nav a').forEach(function(a){
+    var u=new URL(a.getAttribute('href'),location.href);
+    if(u.hash&&u.pathname.replace(/index\.html$/,'')===here) return;
+    var p=u.pathname.replace(/index\.html$/,'');
+    if(p!=='/'&&here.indexOf(p)===0&&p.length>bestLen){ best=a; bestLen=p.length; }
+  });
+  if(best) best.setAttribute('aria-current','page');
+
+  var btn=document.getElementById('want'), panel=document.getElementById('wantpanel');
+  if(!btn||!panel) return;
+  function open(on){ bar.classList.toggle('open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
+  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('open')); });
+  document.addEventListener('click',function(e){ if(bar.classList.contains('open')&&!bar.contains(e.target)) open(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('open')){ open(false); btn.focus(); } });
+
+  // The picks ride to the quote builder on the same ?pick= the Buy buttons use.
+  var picks=document.getElementById('want-picks'), go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
+  if(!picks||!go) return;
+  var goBase=go.getAttribute('href');
+  var mailBase=mail?mail.getAttribute('href'):null;
+  function sync(){
+    var ids=[], names=[];
+    picks.querySelectorAll('input:checked').forEach(function(i){
+      ids.push(i.value);
+      var l=picks.querySelector('label[for="'+i.id+'"]');
+      if(l) names.push(l.textContent.trim());
+    });
+    go.href=ids.length?goBase+'?pick='+ids.join(','):goBase;
+    go.querySelector('span').textContent=ids.length?'Build the quote, '+ids.length+' picked':'Build the quote';
+    if(mail&&mailBase) mail.href=names.length?mailBase+'?want='+encodeURIComponent(names.join(', ')):mailBase;
+  }
+  picks.addEventListener('change',sync); sync();
 })();
 (function(){
   var clock=document.getElementById('clock');
@@ -109,10 +190,14 @@ window.WonderSneak = (function () {
   // on their own, so these are indicative round numbers, not list: they say so
   // on the sheet and are confirmed on scope.
   var PARTS=[
-    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800},
-    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200},
-    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900},
-    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400}
+    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800,
+     img:'{{root}}img/coffee/bar-06-service-front.jpg', alt:'The bar with its doors open, the ice maker and services inside'},
+    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200,
+     img:'{{root}}img/machines/coffee-robot-d2.jpg', alt:'Milk poured into a cup, the pattern forming on the crema'},
+    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900,
+     img:'{{root}}img/machines/coffee-hero.jpg', alt:'A dual arm at the machine with the milk jug in hand'},
+    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400,
+     img:'{{root}}img/machines/coffee-robot-d3.jpg', alt:'The machine head, grinder and syrup lines'}
   ];
 
   // The work around the machine, calculated from what you picked: a percentage
@@ -120,10 +205,14 @@ window.WonderSneak = (function () {
   // fryer and one for a $100,000 bar are not the same job. Indicative until we
   // have seen the room. Change the numbers here and the whole site follows.
   var SERVICES=[
-    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000},
-    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000},
-    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000},
-    {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true}
+    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000,
+     img:'{{root}}img/process/03-fitout.jpg', alt:'The line going in: bare stainless benches, extraction hood, a fitter at work'},
+    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000,
+     img:'{{root}}img/coffee/brand-01-family.jpg', alt:'Cups and bags carrying the mark, the whole family together'},
+    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000,
+     img:'{{root}}img/lrd/menu.jpg', alt:'The ordering screen with the menu on it'},
+    {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
+     img:'{{root}}img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
   ];
   var RATES={
     maintenance_pct_per_year:{standard:0.07, priority:0.11},
@@ -159,7 +248,8 @@ window.WonderSneak = (function () {
   function chip(o,group){
     var d=document.createElement('button'); d.type='button'; d.className='addon'; d.id='ad-'+o.id;
     d.setAttribute('data-group',group); d.setAttribute('data-id',o.id); d.setAttribute('aria-pressed','false');
-    d.innerHTML='<b>'+o.name+'</b><small>'+o.sub+'</small><span class="p" id="adp-'+o.id+'"></span>';
+    d.innerHTML=(o.img?'<span class="ph"><img src="'+o.img+'" alt="'+o.alt+'" loading="lazy"></span>':'')+
+      '<span class="addon-b"><b>'+o.name+'</b><small>'+o.sub+'</small><span class="p" id="adp-'+o.id+'"></span></span>';
     box.appendChild(d);
   }
   PARTS.forEach(function(p){ parts[p.id]=false; chip(p,'part'); });
@@ -199,8 +289,8 @@ window.WonderSneak = (function () {
     SERVICES.forEach(function(s){
       var on=svc[s.id], amt=count?Math.max(s.min,Math.round(supply*s.pct/100)*100):0;
       el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
-      el('adp-'+s.id).textContent=count?money.format(amt):(Math.round(s.pct*100)+'% of supply');
-      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', '+Math.round(s.pct*100)+'% of supply, indicative',amt,true)); }
+      el('adp-'+s.id).textContent=count?money.format(amt):'Priced on your machines';
+      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true)); }
     });
 
     var noPlan=v.plan==='none';
