@@ -41,8 +41,12 @@ if (wants3d && hasWebGL()) start(); else canvas.remove();
 // Cut lines, as fractions of his height, measured off the mesh's width
 // profile (the neck is the narrowest slice between helmet and torso; the
 // boot tops sit under the hands, so boots also need the width guard).
-const NECK = 0.47, BOOT_TOP = 0.125, BOOT_HALF_W = 0.19, ANTENNA_FROM = 0.88;
-const VISOR_BAND = [0.50, 0.85], VISOR_LUM = 0.25;
+// v2 mesh (16 Sep, front + back refs): narrowest slice is 0.52, so the
+// cut sits there; 0.47 sliced the collar and it turned with the head. The
+// visor bake is darker than v1's (most triangles under 0.4), and the rim
+// starts at 0.5, so the threshold sits between them.
+const NECK = 0.52, BOOT_TOP = 0.125, BOOT_HALF_W = 0.19, ANTENNA_FROM = 0.88;
+const VISOR_BAND = [0.54, 0.85], VISOR_LUM = 0.45;
 
 function start() {
   hero.classList.add('is-3d');
