@@ -413,6 +413,33 @@
     .sheet{width:210mm;height:297mm;aspect-ratio:auto;border-radius:0;box-shadow:none;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .sheet:last-child{break-after:auto;page-break-after:auto}
   }
+  /* Terms of sale: a document to be read, one measure, numbered sections,
+     the parts about using the machines properly given a rule of their own. */
+  .legal .wrap{max-width:860px;margin-inline:auto;padding-top:clamp(40px,6vw,90px);padding-bottom:clamp(60px,8vw,120px)}
+  .lg-head h1{margin:10px 0 0;font-weight:500;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em}
+  .lg-draft{margin:22px 0 0;padding:14px 16px;border:1px solid var(--signal);border-radius:var(--rb);color:var(--ink);font-size:15px;line-height:1.45}
+  .lg-draft b{color:var(--signal);font-weight:500}
+  .lg-intro{margin:22px 0 0;font-size:clamp(19px,1.7vw,24px);line-height:1.35;letter-spacing:-.01em}
+  .lg-toc ol{list-style:none;margin:28px 0 0;padding:14px 0 0;border-top:2px solid var(--ink);columns:3 200px;column-gap:24px;counter-reset:toc}
+  .lg-toc li{counter-increment:toc;break-inside:avoid;padding:5px 0;font-size:14.5px}
+  .lg-toc li::before{content:counter(toc,decimal-leading-zero);font-family:var(--mono);font-size:11px;color:var(--graphite);margin-right:10px}
+  .lg-toc a{color:inherit;text-decoration:none}
+  .lg-toc a:hover{text-decoration:underline;text-underline-offset:4px}
+  .lg-sec{margin-top:clamp(40px,5vw,64px);padding-top:18px;border-top:1px solid var(--rule);scroll-margin-top:80px}
+  .lg-sec.lg-key{border-top:2px solid var(--ink)}
+  .lg-sec h2{margin:0 0 14px;font-weight:500;font-size:clamp(26px,2.6vw,38px);line-height:1.05;letter-spacing:-.03em;display:flex;gap:16px;align-items:baseline}
+  .lg-sec h2 span{font-family:var(--mono);font-size:13px;font-weight:400;color:var(--graphite);letter-spacing:0}
+  .lg-sec p,.lg-sec li{font-size:16.5px;line-height:1.6}
+  .lg-sec p{margin:0 0 12px}
+  .lg-sec ul{margin:0 0 14px;padding-left:22px}
+  .lg-sec li{margin-bottom:6px}
+  .lg-lead{font-size:19px !important;line-height:1.45 !important}
+  .lg-acl{margin:14px 0 !important;padding:14px 16px;background:color-mix(in srgb,var(--ink) 5%,var(--paper));border-left:3px solid var(--ink);font-size:15.5px !important}
+  .legal mark{background:color-mix(in srgb,var(--signal) 14%,transparent);color:var(--signal);padding:1px 6px;border-radius:4px;font-size:.82em;font-family:var(--mono);letter-spacing:.02em;white-space:nowrap}
+  .lg-contact{margin-top:22px !important;font-family:var(--mono);font-size:13px !important;color:var(--graphite)}
+  .lg-contact a{color:inherit}
+  .pc-terms a{color:inherit;text-underline-offset:3px}
+  @media print{ .legal mark{background:none;border:1px solid currentColor} }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 

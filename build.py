@@ -57,6 +57,8 @@ PAGES = {
                           "desc": "A twenty foot shipping container fitted as a robot kitchen in our Brisbane yard: an arm on a rail over fryers and noodle baths, a serving hatch, extraction, and projector glass on three faces that carries the brand. Sold whole, brand to opening day."},
     "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics",
                  "desc": "A Wonder Robotics proposal: the machines, the brand, the fit-out and the first year, priced as one job. Save it as a PDF or share the link."},
+    "terms": {"out": "terms/index.html", "root": "../", "title": "Terms of sale, Wonder Robotics",
+              "desc": "Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance."},
     "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
              "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
@@ -211,6 +213,7 @@ FOOTER = '''<footer>
         <a href="{{root}}quote/">Pricing and rates</a>
         <a href="{{root}}machines/ai-agents/">AI agents</a>
         <a href="{{root}}machines/software/">Software</a>
+        <a href="{{root}}terms/">Terms of sale</a>
       </div>
       <div>
         <span class="label">Come in</span>
