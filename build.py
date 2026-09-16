@@ -389,12 +389,12 @@ def catalogue_body():
       </div>
       <div class="cases">
         <a href="{{{{root}}}}robot-coffee-machines/">
-          <div class="ph"><img src="{{{{root}}}}img/machines/coffee-robot-stage-poster.jpg" alt="The dual-arm barista bar with a purple Wonder Bean cup" loading="lazy"></div>
+          <div class="ph"><img src="{{{{root}}}}img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
           <h3><span>Robot coffee machines</span><span class="label">From $39,000</span></h3>
           <p>A barista in two square metres, seventy seconds a drink, in your brand.</p>
         </a>
         <a href="{{{{root}}}}robot-kitchen-fitouts/">
-          <div class="ph"><img src="{{{{root}}}}img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace in service" loading="lazy"></div>
+          <div class="ph"><img src="{{{{root}}}}img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless: ingredient store, rail cobot, three fryers, two funnels, six noodle baths" loading="lazy" width="2048" height="1360"></div>
           <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot from $42,000</span></h3>
           <p>A line that fries, boils and plates the whole menu. Ours is open six days.</p>
         </a>

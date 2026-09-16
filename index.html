@@ -652,7 +652,11 @@
      the right of the grid and the plate is never covered by it. */
   /* Full screen (Jesse, 15 Sep: "i want the full width header"), not 92vh
      with a band of paper under it. */
-  .pop.light{background:var(--paper);color:var(--ink);min-height:100vh;align-items:center}
+  /* The section paints the plate's own edge colours, sampled in nine bands
+     down the left and right edges of hero-bot.jpg, so the plate can sit in
+     the box (contain) and run out on wide windows without a visible edge.
+     That is what "squared" was: the plate against flat paper. */
+  .pop.light{background:linear-gradient(to bottom,#C4B9AE 0%,#CAC0B6 12%,#CEC4BA 25%,#D0C6BD 38%,#D2C8BF 50%,#D6CCC3 62%,#DDD3CA 75%,#E7DFD8 88%,#E6DFD8 100%);color:var(--ink);min-height:100vh;align-items:center}
   /* Full height means the type is centred on the screen, not parked at the
      bottom with a void over it (Jesse: "the header is off center"). The
      robot is framed to the same centre in hero.js. */
@@ -665,14 +669,14 @@
   .pop.light.is-3d{background:radial-gradient(70% 42% at 50% 100%,#EEE9E4 0%,rgba(238,233,228,0) 100%),radial-gradient(120% 92% at 50% 6%,#F7F2EE 0%,#ECE6DF 36%,#DBD1C7 72%,#C8BDB2 100%)}
   .pop.light.is-3d .bg{visibility:hidden;animation:none}
   .pop.light.is-live .stage{opacity:1;transform:none}
-  /* Full-bleed, bottom-anchored. contain was tried (Jesse, 15 Sep: "his
-     display is for a full screen") and rejected the same day ("it should not
-     be squared like this"): on anything wider than 16:9 it pillarboxes into
-     a photo-in-a-box. A flat plate cannot both fill every window shape and
-     never crop, so cover wins and the crop comes off the empty top, never
-     the boots. Zero crop on every shape needs a scene with no edge (WebGL),
-     not a cleverer object-position. */
-  .pop.light .bg{object-fit:cover;object-position:50% 100%}
+  /* Never cropped (Jesse, 16 Sep: "the wonder bot is cut off"): the plate
+     is contained and sits at the left on its ground line; the section's
+     gradient above carries the empty side on wide windows. Left, not
+     centred, so he stays clear of the type in columns 5 to 13. */
+  .pop.light .bg{object-fit:contain;object-position:0% 100%;-webkit-mask-image:linear-gradient(to right,#000 78%,transparent 100%);mask-image:linear-gradient(to right,#000 78%,transparent 100%)}
+  /* The right 22% of the plate fades into the section gradient, so where the
+     plate ends on a wide window there is no tone step; on 16:9 the fade lands
+     on the same colours and is invisible. The robot sits in the left 40%. */
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
@@ -718,7 +722,7 @@
     .pop.light .wrap > *{grid-column:1/13}
     /* No room to stand the type beside the robot, so the plate becomes a band
        above it. Cropped to the robot, not to a fraction of the frame. */
-    .pop.light{display:block;min-height:0}
+    .pop.light{display:block;min-height:0;background:var(--paper)}
     .pop.light .bg{position:static;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;object-position:18% 62%}
     .pop.light .wrap{padding-top:clamp(26px,6vw,44px)}
   }
@@ -871,12 +875,12 @@
       </div>
       <div class="cases">
         <a href="robot-coffee-machines/">
-          <div class="ph"><img src="img/machines/coffee-robot-stage-poster.jpg" alt="The dual-arm barista bar with a purple Wonder Bean cup" loading="lazy"></div>
+          <div class="ph"><img src="img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
           <h3><span>Robot coffee machines</span><span class="label">From $39,000</span></h3>
           <p>A barista in two square metres, seventy seconds a drink, in your brand.</p>
         </a>
         <a href="robot-kitchen-fitouts/">
-          <div class="ph"><img src="img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace in service" loading="lazy"></div>
+          <div class="ph"><img src="img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless: ingredient store, rail cobot, three fryers, two funnels, six noodle baths" loading="lazy" width="2048" height="1360"></div>
           <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot from $42,000</span></h3>
           <p>A line that fries, boils and plates the whole menu. Ours is open six days.</p>
         </a>
