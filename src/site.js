@@ -51,6 +51,71 @@ window.WonderSneak = (function () {
   }
   return { OUT: OUT, park: park, run: run, hide: hide, at: at };
 })();
+/* The price list, once. The quote page and the quote drop in the bar both
+   read it, so a price changed here changes everywhere. */
+window.WonderQuote = (function(){
+  // Supply: the 2026 Moton Australia price list, list prices in AUD ex GST.
+  // Every picture is our own: a studio render of that machine, or our
+  // photograph of it running downstairs. No maker collages.
+  var MACHINES=[
+    {id:'bpro', name:'Coffee barista',   model:'B Pro, bar type',          kit:'Dual arm, Eversys, BTB Z02 ice, Yingmei cup printer', price:100000, img:'{{root}}img/offer/coffee-bar-studio.jpg'},
+    {id:'bstd', name:'Coffee barista',   model:'B Standard, bar type',     kit:'Dual arm, Dr.Coffee F3, ice, cup printer', price:67000,  img:'{{root}}img/machines/coffee-robot-light.jpg'},
+    {id:'eff',  name:'Coffee robot',     model:'Smart EFF, vending kiosk', kit:'Dual arm, Dr.Coffee F200, ice, 3 syrups, milk frother, printer', price:74000, img:'{{root}}img/machines/coffee-robot-d1.jpg'},
+    {id:'bar',  name:'Robot bartender',  model:'T Standard',               kit:'Dobot arm, BTB Z02 ice, 3 syrup channels', price:39000, img:'{{root}}img/offer/robot-bar-studio.jpg'},
+    {id:'ice',  name:'Ice cream robot',  model:'I Pro',                    kit:'Pasteurising machine, 3 syrups, 2 toppings', price:41000, img:'{{root}}img/tile-kiosk.jpg'},
+    {id:'fry',  name:'Deep frying robot',model:'F Standard',               kit:'Dobot arm, 6 frying stoves', price:42000, img:'{{root}}img/tile-arm.jpg'},
+    {id:'noo',  name:'Noodle robot',     model:'N Standard',               kit:'Dobot arm, 6 noodle stoves', price:52000, img:'{{root}}img/valley-baths.jpg'}
+  ];
+
+  // Hardware add-ons. The Moton list prices these inside the formats and never
+  // on their own, so these are indicative round numbers, not list: they say so
+  // on the sheet and are confirmed on scope.
+  var PARTS=[
+    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800,
+     img:'{{root}}img/coffee/bar-06-service-front.jpg', alt:'The bar with its doors open, the ice maker and services inside'},
+    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200,
+     img:'{{root}}img/machines/coffee-robot-d2.jpg', alt:'Milk poured into a cup, the pattern forming on the crema'},
+    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900,
+     img:'{{root}}img/machines/coffee-hero.jpg', alt:'A dual arm at the machine with the milk jug in hand'},
+    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400,
+     img:'{{root}}img/machines/coffee-robot-d3.jpg', alt:'The machine head, grinder and syrup lines'}
+  ];
+
+  // The work around the machine, calculated from what you picked: a percentage
+  // of the machine subtotal with a floor, because a fit-out for one $42,000
+  // fryer and one for a $100,000 bar are not the same job. Indicative until we
+  // have seen the room. Change the numbers here and the whole site follows.
+  var SERVICES=[
+    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000,
+     img:'{{root}}img/process/03-fitout.jpg', alt:'The line going in: bare stainless benches, extraction hood, a fitter at work'},
+    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000,
+     img:'{{root}}img/coffee/brand-01-family.jpg', alt:'Cups and bags carrying the mark, the whole family together'},
+    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000,
+     img:'{{root}}img/lrd/menu.jpg', alt:'The ordering screen with the menu on it'},
+    {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
+     img:'{{root}}img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
+  ];
+  var RATES={
+    maintenance_pct_per_year:{standard:0.07, priority:0.11},
+    delivery_inland:2400
+  };
+  var GST=0.10;
+  // A service is a share of the machine supply with a floor, rounded to $100.
+  function serviceAmount(s,supply){ return Math.max(s.min,Math.round(supply*s.pct/100)*100); }
+  // ?pick=bpro:2,prnt,eng  ->  {qty:{bpro:2}, parts:{prnt:true}, svc:{eng:true}}
+  function parsePick(str){
+    var out={qty:{},parts:{},svc:{}}; if(!str) return out;
+    decodeURIComponent(str).split(',').forEach(function(tok){
+      var kv=tok.split(':'), id=kv[0], n=Math.max(1,Math.min(20,parseInt(kv[1],10)||1));
+      if(MACHINES.some(function(m){return m.id===id;})) out.qty[id]=n;
+      else if(PARTS.some(function(p){return p.id===id;})) out.parts[id]=true;
+      else if(SERVICES.some(function(x){return x.id===id;})) out.svc[id]=true;
+    });
+    return out;
+  }
+  return {MACHINES:MACHINES,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+          money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
+})();
 /* The loader does not fade out, it walks to its post. The robot sneaks home
    on the full screen mark, then the whole lockup flies into the header and
    becomes the header mark, so the load is one continuous idea instead of a
@@ -117,47 +182,127 @@ window.WonderSneak = (function () {
   onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
 
   // Where am I. Match on the deepest path a link points at, so /machines/
-  // lights up on every machine page but the home anchors never do.
-  var here=location.pathname.replace(/index\.html$/,'');
+  // lights up on every machine page. Section anchors never light, and neither
+  // does the site root: on GitHub Pages the root is /wonder-robotics-site/,
+  // not /, and every page starts with it.
+  var clean=function(x){return x.replace(/index\.html$/,'');};
+  var markLink=bar.querySelector('.mark');
+  var root=clean(new URL(markLink?markLink.getAttribute('href'):'/',location.href).pathname);
+  var here=clean(location.pathname);
   var best=null, bestLen=0;
   bar.querySelectorAll('nav a').forEach(function(a){
-    var u=new URL(a.getAttribute('href'),location.href);
-    if(u.hash&&u.pathname.replace(/index\.html$/,'')===here) return;
-    var p=u.pathname.replace(/index\.html$/,'');
-    if(p!=='/'&&here.indexOf(p)===0&&p.length>bestLen){ best=a; bestLen=p.length; }
+    var u=new URL(a.getAttribute('href'),location.href), p=clean(u.pathname);
+    if(u.hash||p===root) return;
+    if(here.indexOf(p)===0&&p.length>bestLen){ best=a; bestLen=p.length; }
   });
   if(best) best.setAttribute('aria-current','page');
 
-  var btn=document.getElementById('want'), panel=document.getElementById('wantpanel');
+  var btn=document.getElementById('want'), panel=document.getElementById('wantpanel'), scrim=document.getElementById('wantscrim');
   if(!btn||!panel) return;
-  function open(on){ bar.classList.toggle('bar-open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
-  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('bar-open')); });
-  // The panel is the bar's sibling, not its child, so an outside click has to
-  // ask both. Asking only the bar closed the panel the moment you picked a pill.
+  function isOpen(){ return bar.classList.contains('bar-open'); }
+  function open(on){
+    bar.classList.toggle('bar-open',on); btn.setAttribute('aria-expanded',on?'true':'false');
+    if(on){ drawOnce(); }
+  }
+  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!isOpen()); });
+  if(scrim) scrim.addEventListener('click',function(){ open(false); });
+  // The panel is the bar's sibling, not its child, so an outside click asks both.
   document.addEventListener('click',function(e){
-    if(!bar.classList.contains('bar-open')) return;
-    if(bar.contains(e.target)||panel.contains(e.target)) return;
+    if(!isOpen()||bar.contains(e.target)||panel.contains(e.target)) return;
     open(false);
   });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('bar-open')){ open(false); btn.focus(); } });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ open(false); btn.focus(); } });
 
-  // The picks ride to the quote builder on the same ?pick= the Buy buttons use.
-  var picks=document.getElementById('want-picks'), go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
-  if(!picks||!go) return;
+  // The quote drop: the same list the quote page reads, as a compact builder.
+  // Cards and chips are drawn the first time it opens, so nobody pays for
+  // seven card images on a page they never open the drop on.
+  var Q=window.WonderQuote; if(!Q) return;
+  var rail=document.getElementById('dq-machines'), chips=document.getElementById('dq-addons');
+  var totalEl=document.getElementById('dq-total'), noteEl=document.getElementById('dq-note');
+  var go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
+  if(!rail||!chips||!go) return;
   var goBase=go.getAttribute('href');
-  var mailBase=mail?mail.getAttribute('href'):null;
-  function sync(){
-    var ids=[], names=[];
-    picks.querySelectorAll('input:checked').forEach(function(i){
-      ids.push(i.value);
-      var l=picks.querySelector('label[for="'+i.id+'"]');
-      if(l) names.push(l.textContent.trim());
-    });
-    go.href=ids.length?goBase+'?pick='+ids.join(','):goBase;
-    go.querySelector('span').textContent=ids.length?'Build the quote, '+ids.length+' picked':'Build the quote';
-    if(mail&&mailBase) mail.href=names.length?mailBase+'?want='+encodeURIComponent(names.join(', ')):mailBase;
+  var qty={}, parts={}, svc={}, drawn=false;
+  Q.MACHINES.forEach(function(m){ qty[m.id]=0; });
+  Q.PARTS.forEach(function(x){ parts[x.id]=false; });
+  Q.SERVICES.forEach(function(x){ svc[x.id]=!!x.on; });
+
+  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function drawOnce(){
+    if(drawn) return; drawn=true;
+    rail.innerHTML=Q.MACHINES.map(function(m){
+      return '<div class="dq-card" id="dq-'+m.id+'">'+
+        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
+        '<div class="dq-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3>'+
+        '<div class="dq-card-f"><span class="price">'+Q.money.format(m.price)+'</span>'+
+        '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+esc(m.model)+'">&minus;</button>'+
+        '<output id="dqn-'+m.id+'">0</output>'+
+        '<button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+esc(m.model)+'">+</button></span></div></div></div>';
+    }).join('');
+    var list=Q.PARTS.map(function(x){return {o:x,g:'part'};}).concat(Q.SERVICES.map(function(x){return {o:x,g:'svc'};}));
+    chips.innerHTML=list.map(function(it){
+      return '<button type="button" class="dq-chip" data-g="'+it.g+'" data-id="'+it.o.id+'" aria-pressed="false">'+
+        esc(it.o.name)+'<span class="p" id="dqp-'+it.o.id+'"></span></button>';
+    }).join('');
+    render();
   }
-  picks.addEventListener('change',sync); sync();
+  rail.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-id]'); if(!b) return;
+    var id=b.getAttribute('data-id');
+    qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10)));
+    render();
+  });
+  chips.addEventListener('click',function(e){
+    var b=e.target.closest('.dq-chip'); if(!b) return;
+    var id=b.getAttribute('data-id');
+    if(b.getAttribute('data-g')==='part') parts[id]=!parts[id]; else svc[id]=!svc[id];
+    render();
+  });
+
+  function render(){
+    var count=0, supply=0, total=0, picked=[];
+    Q.MACHINES.forEach(function(m){
+      var n=qty[m.id]; count+=n; supply+=n*m.price;
+      var card=document.getElementById('dq-'+m.id); if(card) card.classList.toggle('on',n>0);
+      var out=document.getElementById('dqn-'+m.id); if(out) out.textContent=n;
+      if(n>0) picked.push(n>1?m.id+':'+n:m.id);
+    });
+    total=supply;
+    Q.PARTS.forEach(function(x){
+      var p=document.getElementById('dqp-'+x.id); if(p) p.textContent=Q.money.format(x.price);
+      if(parts[x.id]){ total+=x.price; picked.push(x.id); }
+    });
+    Q.SERVICES.forEach(function(x){
+      var amt=count?Q.serviceAmount(x,supply):0;
+      var p=document.getElementById('dqp-'+x.id); if(p) p.textContent=count?Q.money.format(amt):'on your machines';
+      if(svc[x.id]){ picked.push(x.id); if(count) total+=amt; }
+    });
+    chips.querySelectorAll('.dq-chip').forEach(function(b){
+      var id=b.getAttribute('data-id'), on=b.getAttribute('data-g')==='part'?parts[id]:svc[id];
+      b.setAttribute('aria-pressed',on?'true':'false');
+    });
+    var extra=total>supply;
+    if(!count){ totalEl.textContent=Q.money.format(total); noteEl.textContent='Pick a machine to start'; }
+    else{
+      totalEl.innerHTML=(extra?'<small>about</small>':'')+Q.money.format(total);
+      noteEl.textContent=count+(count===1?' machine':' machines')+', ex GST';
+    }
+    // only what someone chose rides along; install is on by default on the page too
+    var chosen=picked.filter(function(id){ return id!=='inst'; });
+    go.href=chosen.length?goBase+'?pick='+chosen.join(','):goBase;
+  }
+
+  // "Have us call you" ticks the matching boxes in the band above the footer,
+  // which is on every page, then takes you there.
+  var TO_BAND={bpro:'eoi-coffee',bstd:'eoi-coffee',eff:'eoi-coffee',bar:'eoi-cocktail',ice:'eoi-icecream',
+               fry:'eoi-kitchen',noo:'eoi-kitchen',eng:'eoi-fitout',brand:'eoi-brand',soft:'eoi-software'};
+  if(mail) mail.addEventListener('click',function(){
+    Object.keys(TO_BAND).forEach(function(id){
+      var on=(qty[id]>0)||parts[id]||(svc[id]&&id!=='inst');
+      var box=document.getElementById(TO_BAND[id]); if(on&&box) box.checked=true;
+    });
+    open(false);
+  });
 })();
 (function(){
   var clock=document.getElementById('clock');
@@ -179,52 +324,7 @@ window.WonderSneak = (function () {
   }
   tick(); setInterval(tick,15000);
 
-  // Supply: the 2026 Moton Australia price list, list prices in AUD ex GST.
-  // Every picture is our own: a studio render of that machine, or our
-  // photograph of it running downstairs. No maker collages.
-  var MACHINES=[
-    {id:'bpro', name:'Coffee barista',   model:'B Pro, bar type',          kit:'Dual arm, Eversys, BTB Z02 ice, Yingmei cup printer', price:100000, img:'{{root}}img/offer/coffee-bar-studio.jpg'},
-    {id:'bstd', name:'Coffee barista',   model:'B Standard, bar type',     kit:'Dual arm, Dr.Coffee F3, ice, cup printer', price:67000,  img:'{{root}}img/machines/coffee-robot-light.jpg'},
-    {id:'eff',  name:'Coffee robot',     model:'Smart EFF, vending kiosk', kit:'Dual arm, Dr.Coffee F200, ice, 3 syrups, milk frother, printer', price:74000, img:'{{root}}img/machines/coffee-robot-d1.jpg'},
-    {id:'bar',  name:'Robot bartender',  model:'T Standard',               kit:'Dobot arm, BTB Z02 ice, 3 syrup channels', price:39000, img:'{{root}}img/offer/robot-bar-studio.jpg'},
-    {id:'ice',  name:'Ice cream robot',  model:'I Pro',                    kit:'Pasteurising machine, 3 syrups, 2 toppings', price:41000, img:'{{root}}img/tile-kiosk.jpg'},
-    {id:'fry',  name:'Deep frying robot',model:'F Standard',               kit:'Dobot arm, 6 frying stoves', price:42000, img:'{{root}}img/tile-arm.jpg'},
-    {id:'noo',  name:'Noodle robot',     model:'N Standard',               kit:'Dobot arm, 6 noodle stoves', price:52000, img:'{{root}}img/valley-baths.jpg'}
-  ];
-
-  // Hardware add-ons. The Moton list prices these inside the formats and never
-  // on their own, so these are indicative round numbers, not list: they say so
-  // on the sheet and are confirmed on scope.
-  var PARTS=[
-    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800,
-     img:'{{root}}img/coffee/bar-06-service-front.jpg', alt:'The bar with its doors open, the ice maker and services inside'},
-    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200,
-     img:'{{root}}img/machines/coffee-robot-d2.jpg', alt:'Milk poured into a cup, the pattern forming on the crema'},
-    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900,
-     img:'{{root}}img/machines/coffee-hero.jpg', alt:'A dual arm at the machine with the milk jug in hand'},
-    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400,
-     img:'{{root}}img/machines/coffee-robot-d3.jpg', alt:'The machine head, grinder and syrup lines'}
-  ];
-
-  // The work around the machine, calculated from what you picked: a percentage
-  // of the machine subtotal with a floor, because a fit-out for one $42,000
-  // fryer and one for a $100,000 bar are not the same job. Indicative until we
-  // have seen the room. Change the numbers here and the whole site follows.
-  var SERVICES=[
-    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000,
-     img:'{{root}}img/process/03-fitout.jpg', alt:'The line going in: bare stainless benches, extraction hood, a fitter at work'},
-    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000,
-     img:'{{root}}img/coffee/brand-01-family.jpg', alt:'Cups and bags carrying the mark, the whole family together'},
-    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000,
-     img:'{{root}}img/lrd/menu.jpg', alt:'The ordering screen with the menu on it'},
-    {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
-     img:'{{root}}img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
-  ];
-  var RATES={
-    maintenance_pct_per_year:{standard:0.07, priority:0.11},
-    delivery_inland:2400
-  };
-  var GST=0.10;
+  var Q=window.WonderQuote, MACHINES=Q.MACHINES, PARTS=Q.PARTS, SERVICES=Q.SERVICES, RATES=Q.RATES, GST=Q.GST;
 
   var form=document.getElementById('quote-form');
   if(!form){return;}
@@ -293,7 +393,7 @@ window.WonderSneak = (function () {
       if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true)); }
     });
     SERVICES.forEach(function(s){
-      var on=svc[s.id], amt=count?Math.max(s.min,Math.round(supply*s.pct/100)*100):0;
+      var on=svc[s.id], amt=count?Q.serviceAmount(s,supply):0;
       el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
       el('adp-'+s.id).textContent=count?money.format(amt):'Priced on your machines';
       if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', indicative',amt,true)); }
@@ -341,7 +441,10 @@ window.WonderSneak = (function () {
   el('q-print').addEventListener('click',function(e){e.preventDefault();window.print();});
   // A product or landing page pre-picks its lines: quote/?pick=bpro,prnt.
   var pick=(location.search.match(/[?&]pick=([^&]*)/)||[])[1];
-  if(pick){ pick.split(',').forEach(function(id){ if(id in qty) qty[id]=1; else if(id in parts) parts[id]=true; else if(id in svc) svc[id]=true; }); }
+  if(pick){ var pk=Q.parsePick(pick);
+    Object.keys(pk.qty).forEach(function(id){qty[id]=pk.qty[id];});
+    Object.keys(pk.parts).forEach(function(id){parts[id]=true;});
+    Object.keys(pk.svc).forEach(function(id){svc[id]=true;}); }
   else{ qty.fry=1; qty.noo=1; }
   render();
 })();

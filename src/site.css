@@ -60,36 +60,86 @@
   .bar nav a[aria-current]{color:var(--ink)}
   .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
   .bar .cta{grid-column:11/13;justify-self:end}
-  .btn.want i{transition:transform .34s cubic-bezier(.16,.84,.24,1),background .15s}
-  .bar.bar-open .btn.want i{transform:rotate(45deg)}
+  /* the glyph turns, not the box, so the hover fill stays a square */
+  .btn.want i b{font-weight:400;display:inline-block;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
+  .bar.bar-open .btn.want i b{transform:rotate(45deg)}
 
-  /* The panel is the bar's sibling, fixed under it, not a child of it. Inside
-     the bar it was an abspos box on top:100% of a sticky parent, and Chrome
-     resolved that percentage against a height the panel itself was feeding,
-     so opening it pushed the page down 130px. A sibling has no such loop, and
-     it also sits outside the bar's backdrop-filter, which would otherwise be
-     the containing block for anything fixed.
-     grid-template-rows 0fr to 1fr so it opens to its own height with nothing
-     measuring it in JS, and visibility keeps it out of the tab order shut. */
+  /* The quote drop. It slides down over the page from under the bar, and the
+     page behind it dims, so it reads as a layer you pulled down rather than a
+     section you scrolled to.
+     It is the bar's sibling, fixed, not its child: inside the bar it hung off
+     top:100% of a sticky parent and Chrome resolved that against a height the
+     panel was feeding, which pushed the page down on open. A sibling also sits
+     outside the bar's backdrop-filter, which would otherwise contain it. */
   .drop{position:fixed;left:0;right:0;top:64px;z-index:19;background:var(--paper);border-bottom:1px solid var(--rule);
-        display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;
-        box-shadow:0 24px 44px -30px color-mix(in srgb,var(--ink) 55%,transparent);
-        transition:grid-template-rows .44s cubic-bezier(.16,.84,.24,1),opacity .26s ease,visibility .44s,top .34s cubic-bezier(.16,.84,.24,1)}
+        display:grid;grid-template-rows:0fr;visibility:hidden;
+        box-shadow:0 30px 60px -34px color-mix(in srgb,var(--ink) 60%,transparent);
+        transition:grid-template-rows .5s cubic-bezier(.16,.84,.24,1),visibility .5s,top .34s cubic-bezier(.16,.84,.24,1)}
   .bar.bar-set + .drop{top:52px}
-  .bar.bar-open + .drop{grid-template-rows:1fr;opacity:1;visibility:visible}
+  .bar.bar-open + .drop{grid-template-rows:1fr;visibility:visible}
   .drop-clip{overflow:hidden;min-height:0}
-  .drop-in{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(20px,3.4vw,56px);
-           align-items:start;padding-top:clamp(22px,2.8vw,38px);padding-bottom:clamp(22px,2.8vw,38px)}
-  .drop-say h2{margin:8px 0 0;font-weight:400;font-size:clamp(24px,2.3vw,34px);line-height:1.04;letter-spacing:-.03em}
-  .drop-say p{margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--graphite);max-width:34ch}
-  .drop .choices input{width:1px;height:1px;left:0}
-  .drop-go{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-  @media (max-width:900px){
-    .drop-in{grid-template-columns:1fr;gap:18px}
-    .drop-say p{display:none}
+  /* taller than the window on a laptop, so the drop scrolls inside itself and
+     the page under it stays where you left it */
+  .drop-in{max-height:calc(100dvh - 64px);overflow-y:auto;overscroll-behavior:contain;
+           transform:translateY(-14px);opacity:0;transition:transform .5s cubic-bezier(.16,.84,.24,1),opacity .3s ease}
+  .bar.bar-set + .drop .drop-in{max-height:calc(100dvh - 52px)}
+  .bar.bar-open + .drop .drop-in{transform:none;opacity:1;transition-delay:.06s}
+  .drop-in > .wrap{padding-top:clamp(20px,2.4vw,34px);padding-bottom:clamp(18px,2vw,28px)}
+  .drop-scrim{position:fixed;inset:0;z-index:18;background:color-mix(in srgb,var(--ink) 34%,transparent);
+              opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s}
+  .bar.bar-open ~ .drop-scrim{opacity:1;visibility:visible}
+
+  .dq-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(16px,1.8vw,24px)}
+  .dq-say h2{margin:8px 0 0;font-weight:400;font-size:clamp(24px,2.3vw,36px);line-height:1.02;letter-spacing:-.03em}
+  .dq-total{text-align:right}
+  .dq-num{font-size:clamp(28px,2.8vw,44px);letter-spacing:-.035em;line-height:1;color:var(--signal);font-variant-numeric:tabular-nums}
+  .dq-num small{font-size:.42em;color:var(--graphite);letter-spacing:0;margin-right:.35em;vertical-align:.35em}
+  .dq-total .label{margin-top:6px;display:block}
+
+  /* machines: one row of picture cards, the rail scrolls sideways when the
+     window is narrower than seven of them */
+  .dq-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(176px,1fr);gap:10px;
+           overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:12px}
+  .dq-card{scroll-snap-align:start;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;
+           display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s}
+  .dq-card:hover{border-color:var(--graphite)}
+  .dq-card.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .dq-card .ph{aspect-ratio:4/3;overflow:hidden;background:var(--rule)}
+  .dq-card .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .dq-card-b{padding:10px 11px 10px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .dq-card h3{margin:0;font-weight:400;font-size:15px;line-height:1.15;letter-spacing:-.015em}
+  .dq-card h3 small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
+  .dq-card-f{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto}
+  .dq-card .price{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+  .dq-card.on .price{color:var(--signal)}
+  .dq-card .qty{grid-template-columns:26px 26px 26px}
+  .dq-card .qty button{height:26px;font-size:15px}
+  .dq-card .qty output{line-height:26px;font-size:12px}
+
+  /* add-ons: small toggles with the price always showing */
+  .dq-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .dq-chip{font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink);background:transparent;border:1px solid var(--rule);
+           border-radius:999px;padding:7px 12px 7px 14px;display:inline-flex;align-items:center;gap:10px;transition:border-color .15s,background .15s,color .15s}
+  .dq-chip:hover{border-color:var(--ink)}
+  .dq-chip .p{font-family:var(--mono);font-size:11.5px;color:var(--graphite);font-variant-numeric:tabular-nums}
+  .dq-chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .dq-chip[aria-pressed="true"] .p{color:color-mix(in srgb,var(--paper) 70%,transparent)}
+  .dq-chip:focus-visible,.dq-card button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+
+  .dq-foot{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;
+           margin-top:clamp(16px,1.8vw,22px);padding-top:clamp(14px,1.4vw,18px);border-top:1px solid var(--rule)}
+  .dq-fine{margin:0;font-size:12.5px;line-height:1.45;color:var(--graphite);max-width:52ch}
+  .dq-go{display:flex;gap:10px;flex-wrap:wrap}
+  @media (max-width:700px){
+    .dq-head{align-items:flex-start;flex-direction:column;gap:10px}
+    .dq-total{text-align:left}
+    .dq-rail{grid-auto-columns:minmax(58%,1fr)}
+    .dq-go{width:100%}
+    .dq-go .btn{flex:1;justify-content:space-between}
   }
   @media (prefers-reduced-motion:reduce){
-    .drop{transition:opacity .01s,visibility .01s}
+    .drop,.drop-in,.drop-scrim{transition:opacity .01s,visibility .01s}
+    .drop-in{transform:none}
     .bar nav a::after{transition:none}
   }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}

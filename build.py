@@ -66,36 +66,37 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <nav class="label" aria-label="Sections">
       <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}events/">The club</a>
     </nav>
-    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Tell us what to build</span><i aria-hidden="true">+</i></button></div>
+    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
 </header>
-  <div class="drop" id="wantpanel">
+  <div class="drop" id="wantpanel" role="region" aria-label="Build a quote">
     <div class="drop-clip">
-      <div class="wrap drop-in">
-        <div class="drop-say">
-          <span class="label">[ Design, build and fit out yours ]</span>
-          <h2>What do you want built?</h2>
-          <p>Pick as many as you like. Machines, the room they go in, the brand on the cup.</p>
-        </div>
-        <div class="drop-pick">
-          <div class="choices" role="group" aria-label="What to build" id="want-picks">
-            <input type="checkbox" id="w-coffee" value="bpro"><label for="w-coffee">Robot coffee machine</label>
-            <input type="checkbox" id="w-cocktail" value="bar"><label for="w-cocktail">Robot cocktail machine</label>
-            <input type="checkbox" id="w-icecream" value="ice"><label for="w-icecream">Robot ice cream machine</label>
-            <input type="checkbox" id="w-kitchen" value="fry"><label for="w-kitchen">Robot kitchen fit-out</label>
-            <input type="checkbox" id="w-fitout" value="eng"><label for="w-fitout">Venue design and fit-out</label>
-            <input type="checkbox" id="w-brand" value="brand"><label for="w-brand">Branding</label>
-            <input type="checkbox" id="w-soft" value="soft"><label for="w-soft">Software</label>
+      <div class="drop-in">
+        <div class="wrap">
+          <div class="dq-head">
+            <div class="dq-say">
+              <span class="label">[ Build your quote ]</span>
+              <h2>Pick what you want built.</h2>
+            </div>
+            <div class="dq-total" aria-live="polite">
+              <div class="dq-num" id="dq-total">$0</div>
+              <div class="label" id="dq-note">Pick a machine to start</div>
+            </div>
           </div>
-          <div class="drop-go">
-            <a class="btn" id="want-go" href="{{root}}quote/"><span>Build the quote</span><i aria-hidden="true">+</i></a>
-            <a class="btn ghost" id="want-mail" href="{{root}}#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
+          <div class="dq-rail" id="dq-machines" role="group" aria-label="Machines"></div>
+          <div class="dq-chips" id="dq-addons" role="group" aria-label="Add to it"></div>
+          <div class="dq-foot">
+            <p class="dq-fine">Machines at list. Add-ons indicative, confirmed on scope. Maintenance and delivery on the full quote.</p>
+            <div class="dq-go">
+              <a class="btn ghost" id="want-mail" href="#eoi"><span>Have us call you</span><i aria-hidden="true">+</i></a>
+              <a class="btn" id="want-go" href="{{root}}quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
+  <div class="drop-scrim" id="wantscrim" aria-hidden="true"></div>
 '''
 
 EOI = '''<section class="eoi" id="eoi">
