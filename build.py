@@ -13,8 +13,11 @@ without the document wrapper); valley -> work/valley/index.html;
 lrd -> work/little-red-dumplings/index.html. The catalogue (machines/ and
 machines/<slug>/) is rendered from src/machines.py, one page per line.
 """
+import functools
 import hashlib
 import json
+import shutil
+import subprocess
 import sys
 from html import escape
 from pathlib import Path
@@ -243,6 +246,273 @@ def robots_json():
     return json.dumps(rows, ensure_ascii=False).replace("</", "<\\/")
 
 
+# ---- Prices, written into the pages at build time.
+# The price list and its maths live once, in the WonderQuote module in
+# src/site.js, because the quote sheet needs them in the browser. The build
+# runs that same module in node and writes the numbers into the HTML, so a
+# product page carries its price before any script runs (search, ad review,
+# link previews) and can never disagree with the quote.
+@functools.lru_cache(maxsize=None)
+def quote_data():
+    if not shutil.which("node"):
+        sys.exit("build needs node to price the packages (the price list is JavaScript)")
+    src = (SRC / "site.js").read_text().replace("/*{{robots}}*/[]", robots_json())
+    start = src.index("window.WonderQuote = (function(){")
+    end = src.index("\n})();", start) + len("\n})();")
+    script = ("globalThis.window={};" + src[start:end] +
+              ";const Q=window.WonderQuote;process.stdout.write(JSON.stringify({"
+              "packages:Q.PACKAGES.map(p=>Object.assign({},p,{quote:Q.packageQuote(p)})),"
+              "machines:Q.MACHINES,services:Q.SERVICES,off:Q.PACKAGE_OFF}))")
+    out = subprocess.run(["node", "-e", script], capture_output=True, text=True)
+    if out.returncode != 0:
+        sys.exit("pricing the packages failed:\n" + out.stderr)
+    return json.loads(out.stdout)
+
+
+def money(n):
+    return ("−" if n < 0 else "") + f"${abs(n):,}"
+
+
+def package(pid):
+    for p in quote_data()["packages"]:
+        if p["id"] == pid:
+            return p
+    sys.exit(f"no package {pid}")
+
+
+def pk_from():
+    whole = [p["quote"]["total"] for p in quote_data()["packages"] if not p["quote"]["extra"]]
+    return "From " + money(min(whole))
+
+
+def pk_price(pid):
+    q = package(pid)["quote"]
+    return "From " + money(q["total"]) + (" plus the build" if q["extra"] else "")
+
+
+def pk_rows(p):
+    q = p["quote"]
+    kits = {m["id"]: m["kit"] for m in quote_data()["machines"]}
+    rows = []
+    for line in q["lines"]:
+        what = kits.get(line["id"], "") if line["kind"] == "machine" else line["sub"]
+        rows.append((line["img"], line["name"], line["sub"] if line["kind"] == "machine" else "Indicative", what, money(line["amount"]), False))
+    if q["extra"]:
+        e = q["extra"]
+        rows.append((p["img"], e["name"], "Priced on scope", e["sub"], e["note"], True))
+    return rows
+
+
+def pk_blocks(ids=None):
+    """The packages side by side on the packages page: picture, lines, price."""
+    pks = [p for p in quote_data()["packages"] if not ids or p["id"] in ids]
+    out = []
+    for i, p in enumerate(pks, 1):
+        q = p["quote"]
+        rows = "".join(
+            f'<li><span class="t"><img src="{img}" alt="" loading="lazy"></span><span class="n">{escape(name)}<small>{escape(small)}</small></span>'
+            f'<span class="v{" ask" if ask else ""}">{escape(val)}</span></li>' for img, name, small, _, val, ask in pk_rows(p))
+        label = f"({i:02d})" if len(pks) > 1 else "[ The package ]"
+        page_link = f'<a class="link" href="{p["url"]}">The {escape(p["name"].replace("The ", ""))} page</a>' if p.get("url") else ""
+        out.append(
+            f'<article class="pk" id="pk-{p["id"]}"><figure class="pk-ph"><a href="{p.get("url") or "#"}"><img src="{p["img"]}" alt="{escape(p["alt"])}" loading="lazy"></a></figure>'
+            f'<div class="pk-b"><span class="label">{label}</span><h2>{escape(p["name"])}</h2><p class="pk-line">{escape(p["line"])}</p>'
+            f'<ul class="pk-rows">{rows}</ul><div class="pk-sum">'
+            f'<div class="pk-was"><span>Bought separately</span><s>{money(q["separate"])}</s></div>'
+            f'<div class="pk-save"><span>Package, 10% off the work</span><b>Save {money(q["save"])}</b></div>'
+            f'<div class="pk-total"><span class="pk-num">{money(q["total"])}</span><span class="label">{"Ex GST, plus the container build" if q["extra"] else "Ex GST, delivered within 100 km of a port"}</span></div></div>'
+            f'<div class="pk-go"><a class="btn" href="{{{{root}}}}quote/?pkg={p["id"]}" data-quote data-pkg="{p["id"]}"><span>Build this package</span><i aria-hidden="true">+</i></a>{page_link}</div>'
+            f'</div></article>')
+    return '<div class="pk-list">' + "".join(out) + "</div>"
+
+
+def pk_number(pid, line):
+    """The price, set as large as the page allows, and the ask beside it."""
+    p = package(pid); q = p["quote"]
+    extra = '<span class="pn-extra">plus the container build, priced on scope</span>' if q["extra"] else ""
+    return (f'<section class="pnum"><div class="wrap">'
+            f'<span class="label">[ The whole job, one price ]</span>'
+            f'<div class="pn-fig">{money(q["total"])}</div>{extra}'
+            f'<div class="pn-row"><p>{escape(line)}</p>'
+            f'<dl class="pn-sum"><dt>Bought separately</dt><dd><s>{money(q["separate"])}</s></dd><dt>You save</dt><dd class="save">{money(q["save"])}</dd><dt>Ex GST</dt><dd>Delivered within 100 km of a port</dd></dl></div>'
+            f'<div class="actions"><a class="btn" href="{{{{root}}}}quote/?pkg={pid}" data-quote data-pkg="{pid}"><span>Build this package</span><i aria-hidden="true">+</i></a>'
+            f'<a class="btn ghost" href="{{{{root}}}}quote/?pkg={pid}"><span>See the full quote</span><i aria-hidden="true">+</i></a>'
+            f'<a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div>'
+            f'</div></section>')
+
+
+def pk_table(pid):
+    """Everything in the package as an architectural table: numbered rows, the
+    picture, what it is, the money, then the three sums."""
+    p = package(pid); q = p["quote"]; rows = pk_rows(p)
+    body = "".join(
+        f'<tr><td class="i">{i:02d}</td><td class="t"><img src="{img}" alt="" loading="lazy"></td>'
+        f'<td class="n">{escape(name)}<small>{escape(small)}</small></td><td class="d">{escape(what)}</td>'
+        f'<td class="v{" ask" if ask else ""}">{escape(val)}</td></tr>' for i, (img, name, small, what, val, ask) in enumerate(rows, 1))
+    words = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"]
+    head = f"{words[len(rows)] if len(rows) < len(words) else len(rows)} lines. One price."
+    return (f'<section class="ptab"><div class="wrap"><div class="ptab-h"><span class="label">[ Everything in it ]</span><h2>{head}</h2></div>'
+            f'<div class="ptab-scroll"><table class="ptab-t"><tbody>{body}</tbody><tfoot>'
+            f'<tr class="was"><td colspan="4">Bought separately</td><td class="v"><s>{money(q["separate"])}</s></td></tr>'
+            f'<tr class="save"><td colspan="4">Package, {int(quote_data()["off"] * 100)}% off the work</td><td class="v">{money(-q["save"])}</td></tr>'
+            f'<tr class="tot"><td colspan="4">The package, ex GST{", plus the container build" if q["extra"] else ""}</td><td class="v">{money(q["total"])}</td></tr>'
+            f'</tfoot></table></div></div></section>')
+
+
+# The package product pages: one template, the words and pictures per
+# package here, the prices from the price module. Each is a page an ad can
+# land on: one product, one price, one ask.
+def fig_html(src, alt, caption, credit):
+    return (f'      <figure>\n        <img src="{{{{root}}}}{src}" alt="{escape(alt)}" loading="lazy">\n'
+            f'        <figcaption class="label"><span>{escape(caption)}</span><span>{escape(credit)}</span></figcaption>\n      </figure>\n')
+
+
+def pair_html(a, b):
+    return '      <div class="pair">\n' + fig_html(*a).replace("      <figure>", "        <figure>") + fig_html(*b).replace("      <figure>", "        <figure>") + "      </div>\n"
+
+
+PACKAGE_PAGES = {
+    "bar": {
+        "slug": "robot-coffee-bar-package", "next": ("robot-cafe-package/", "The robot café", "img/coffee/venue-01-bar-in-room.jpg", "A branded robot coffee bar in a venue"),
+        "title": "Robot coffee bar package, Brisbane. Wonder Robotics",
+        "pills": ["Robot coffee bar package", "Brand to opening day", "About two months"],
+        "h1": "The robot coffee bar.",
+        "img": "img/offer/coffee-bar-studio.jpg", "alt": "The dual-arm B Pro robot coffee bar on its counter",
+        "caption": "The B Pro bar on its counter", "credit": "Studio render from our photograph",
+        "offer": "A barista bar in your brand, fitted into the venue you have, running from day one.",
+        "sub": "The dual-arm B Pro, the counter it sits in, your brand on the arms and the cup, a website, the ordering, install, training and the first year of care.",
+        "number": "The B Pro bar, your brand across it, the website, fit-out, programming, install and a year of maintenance. Machines at list, the work 10% less.",
+        "facts": [("About 70 seconds", "A drink, 8 and 12 oz, hot and iced"), ("About two square metres", "The bar and the counter it sits in"),
+                  ("Your mark on the cup", "Yingmei printer on the crema and the foam"), ("Eversys", "The espresso machine, with the BTB Z02 ice maker"),
+                  ("About two months", "From order, delivered within 100 km of a port"), ("One year warranty", "On the machine, with a year of maintenance in the package")],
+        "story": [("h2", "Your brand on it"), ("p", "The mark on the cup, the colours on the arms, the counter in your timber. Wonder Bean is ours: Sol by day, Luna by night, the same two marks on everything."),
+                  ("pair", ("img/coffee/bar-02-front.jpg", "Two robot arms in brand colours on a slatted timber bar", "Branding on the machine", "Concept"),
+                           ("img/coffee/wonder-bean-cups.jpg", "Coffee cups carrying the Wonder Bean marks", "The cups", "Brand, designed here")),
+                  ("h2", "The website"), ("p", "Designed and built in the same brand, with the menu and ordering on it. This site is one of ours."),
+                  ("fig", ("img/offer/website.jpg", "A page of a website designed and built by Wonder", "A site we designed and built", "Our work"))],
+    },
+    "cafe": {
+        "slug": "robot-cafe-package", "next": ("robot-container-kitchens/", "Robot container kitchens", "img/container/jungle.jpg", "A container kitchen at a night market"),
+        "title": "Robot café package, Brisbane. Wonder Robotics",
+        "pills": ["Robot café package", "Coffee and soft serve", "About two months"],
+        "h1": "The robot café.",
+        "img": "img/coffee/venue-01-bar-in-room.jpg", "alt": "A robot coffee bar in its own brand, in a venue by the street door",
+        "caption": "The Wonder Bean bar in the room, by the street door", "credit": "Concept, from the capture",
+        "offer": "Coffee and soft serve, the counter, the room and one brand across all of it.",
+        "sub": "The B Pro barista bar and the I Pro ice cream robot, the brand, the website, the fit-out, the ordering, install, training and the first year of care.",
+        "number": "Two machines, the brand across both and the room, the website, fit-out, programming, install and a year of maintenance. Machines at list, the work 10% less.",
+        "facts": [("About 70 seconds", "A coffee, hot and iced"), ("Soft serve", "I Pro pasteurising machine, three syrups, two toppings"),
+                  ("An arm hands it over", "The kiosk arm serves the cone"), ("One brand", "Across the machines, the counter, the cups and the room"),
+                  ("About two months", "From order, delivered within 100 km of a port"), ("One year warranty", "On the machines, with a year of maintenance in the package")],
+        "story": [("h2", "The room"), ("p", "The bar by the street door, the kiosk beside it, the brand on the wall, the bags and the stools. Drawn from the room it goes in."),
+                  ("pair", ("img/coffee/venue-02-entry.jpg", "The café seen from the street door", "From the door", "Concept, from the capture"),
+                           ("img/coffee/brand-01-family.jpg", "The Wonder Bean pack family in amber and night purple", "Sol and Luna, the pack family", "Brand, designed here")),
+                  ("h2", "The soft serve"), ("p", "The I Pro on our own floor: a pasteurising machine and an arm that hands the cone over."),
+                  ("fig", ("img/tile-kiosk.jpg", "The soft serve machine with a robot arm holding a cone", "The dessert kiosk, 365 St Pauls Terrace", "Photographed in our building"))],
+    },
+}
+
+NUMBER_LINES = {"box": "The robot line, the container fitted in our yard, the skin and the brand, the website, programming, install and a year of maintenance. Machines at list, the work 10% less."}
+
+
+def package_page(pid):
+    d = PACKAGE_PAGES[pid]
+    body = (SRC / "pages" / "_package.html").read_text()
+    story = ""
+    for kind, *v in d["story"]:
+        if kind == "h2":
+            story += f"      <h2>{escape(v[0])}</h2>\n"
+        elif kind == "p":
+            story += f'      <div class="txt"><p>{escape(v[0])}</p></div>\n'
+        elif kind == "fig":
+            story += fig_html(*v[0])
+        elif kind == "pair":
+            story += pair_html(v[0], v[1])
+    story = story.replace("<h2>", '<h2 class="plain">', 1)
+    fills = {
+        "{{pk_pills}}": "".join(f'<span class="pill">{escape(x)}</span>' for x in d["pills"]),
+        "{{pk_price}}": pk_price(pid), "{{pk_h1}}": escape(d["h1"]),
+        "{{pk_img}}": "{{root}}" + d["img"], "{{pk_alt}}": escape(d["alt"]),
+        "{{pk_caption}}": escape(d["caption"]), "{{pk_credit}}": escape(d["credit"]),
+        "{{pk_offer}}": escape(d["offer"]), "{{pk_sub}}": escape(d["sub"]),
+        "{{pknum}}": pk_number(pid, d["number"]), "{{pktable}}": pk_table(pid),
+        "{{pk_facts}}": "".join(f"<li><b>{escape(a)}</b><p>{escape(b)}</p></li>" for a, b in d["facts"]),
+        "{{pk_story}}": story,
+    }
+    for k, v in fills.items():
+        body = body.replace(k, v)
+    return body
+
+
+def fill_prices(body):
+    body = body.replace("{{pkfrom}}", pk_from())
+    body = body.replace("{{packages}}", pk_blocks())
+    for pid in [p["id"] for p in quote_data()["packages"]]:
+        if "{{pknum:" + pid + "}}" in body:
+            body = body.replace("{{pknum:" + pid + "}}", pk_number(pid, NUMBER_LINES[pid]))
+        body = body.replace("{{pkprice:" + pid + "}}", pk_price(pid))
+        body = body.replace("{{pktable:" + pid + "}}", pk_table(pid))
+    return body
+
+
+# Where the site is served. Link previews, the canonical address and the
+# product data need absolute URLs; change this one line when the site moves
+# to its own domain.
+SITE = "https://jessdisplay.github.io/wonder-robotics-site/"
+
+# What each product page offers, for search and ads to read. Machine pages
+# offer their machines at list; a package page offers the package. The
+# container page has no complete price yet, so it offers nothing.
+PRODUCT_OFFERS = {
+    "coffee-landing": ("Robot coffee machines", ["bpro", "bstd", "eff"], "img/offer/coffee-bar-studio.jpg"),
+    "cocktail-landing": ("Robot cocktail machine, T Standard", ["bar"], "img/offer/robot-bar-studio.jpg"),
+    "icecream-landing": ("Robot ice cream machine, I Pro", ["ice"], "img/tile-kiosk.jpg"),
+    "kitchen-landing": ("Robot kitchen line", ["fry", "noo"], "img/offer/kitchen-line-studio.jpg"),
+}
+OG_IMAGES = {"packages-landing": "img/coffee/venue-01-bar-in-room.jpg", "container-landing": "img/container/jungle.jpg",
+             "home": "img/hero-bot-wide.jpg", "valley": "img/hero-kitchen.jpg", "lrd": "img/lrd/room.jpg",
+             "container": "img/container/arm.jpg", "fallsense": "img/fallsense/unit.jpg"}
+
+
+def attr(t):
+    return escape(t, quote=True)
+
+
+def product_ld(name, desc, url, image, prices):
+    org = {"@type": "Organization", "name": "Wonder Robotics", "url": SITE, "telephone": "+61 1800 983 404",
+           "address": {"@type": "PostalAddress", "streetAddress": "365 St Pauls Terrace", "addressLocality": "Fortitude Valley",
+                       "addressRegion": "QLD", "postalCode": "4006", "addressCountry": "AU"}}
+    tax = {"@type": "PriceSpecification", "priceCurrency": "AUD", "valueAddedTaxIncluded": False}
+    if len(prices) == 1:
+        offers = {"@type": "Offer", "price": prices[0], "priceCurrency": "AUD", "priceSpecification": dict(tax, price=prices[0]),
+                  "availability": "https://schema.org/PreOrder", "url": url, "seller": org}
+    else:
+        offers = {"@type": "AggregateOffer", "lowPrice": min(prices), "highPrice": max(prices), "offerCount": len(prices),
+                  "priceCurrency": "AUD", "availability": "https://schema.org/PreOrder", "url": url, "seller": org}
+    ld = {"@context": "https://schema.org", "@type": "Product", "name": name, "description": desc, "image": [image],
+          "brand": {"@type": "Brand", "name": "Wonder Robotics"}, "offers": offers}
+    return '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False).replace("</", "<\\/") + "</script>\n"
+
+
+def head_tags(cfg, name):
+    url = SITE + cfg["out"].removesuffix("index.html")
+    img = cfg.get("og") or OG_IMAGES.get(name) or (PRODUCT_OFFERS[name][2] if name in PRODUCT_OFFERS else "img/hero-bot-wide.jpg")
+    title = cfg["title"]; desc = cfg["desc"]
+    tags = (f'<link rel="canonical" href="{url}">\n'
+            f'<meta property="og:type" content="{"product" if cfg.get("ld") or name in PRODUCT_OFFERS else "website"}">\n'
+            f'<meta property="og:site_name" content="Wonder Robotics">\n'
+            f'<meta property="og:title" content="{attr(title)}">\n<meta property="og:description" content="{attr(desc)}">\n'
+            f'<meta property="og:url" content="{url}">\n<meta property="og:image" content="{SITE + img}">\n'
+            f'<meta property="og:locale" content="en_AU">\n<meta name="twitter:card" content="summary_large_image">\n')
+    if name in PRODUCT_OFFERS:
+        pname, ids, _ = PRODUCT_OFFERS[name]
+        prices = [m["price"] for m in quote_data()["machines"] if m["id"] in ids]
+        tags += product_ld(pname, desc, url, SITE + img, prices)
+    if cfg.get("ld"):
+        tags += cfg["ld"](url, SITE + img)
+    return tags
+
+
 def render(body, cfg, name=None):
     css = (SRC / "site.css").read_text()
     js = (SRC / "site.js").read_text()
@@ -255,7 +525,8 @@ def render(body, cfg, name=None):
     js = js.replace("/*{{robots}}*/[]", robots_json())
     inner = (
         f'<title>{cfg["title"]}</title>\n'
-        f'<meta name="description" content="{cfg["desc"]}">\n'
+        f'<meta name="description" content="{attr(cfg["desc"])}">\n'
+        + head_tags(cfg, name)
         + ICONS
         + FONTS
         + "<style>\n" + css + "</style>\n\n"
@@ -317,6 +588,7 @@ HOME_MACHINES = ["unitree-g1", "unitree-go2", "ubtech-cadebot", "ubtech-cruzr-y1
 
 def page(name, cfg):
     body = (SRC / "pages" / f"{name}.html").read_text()
+    body = fill_prices(body)
     if "{{next}}" in body:
         body = body.replace("{{next}}", next_block(name))
     if "{{quote}}" in body:
@@ -602,4 +874,12 @@ def catalogue():
 
 for name, cfg in PAGES.items():
     page(name, cfg)
+for pid, d in PACKAGE_PAGES.items():
+    NEXT["pkg-" + pid] = d["next"]
+    q = package(pid)["quote"]
+    desc = f'{d["h1"].rstrip(".")} package: {d["sub"]} {money(q["total"])} ex GST, {money(q["save"])} less than buying it separately. Designed, built and supported from Brisbane.'
+    render(package_page(pid).replace("{{next}}", next_block("pkg-" + pid)),
+           {"out": d["slug"] + "/index.html", "root": "../", "title": d["title"], "desc": desc, "og": d["img"],
+            "ld": (lambda url, img, d=d, q=q, desc=desc: product_ld(d["h1"].rstrip(".") + " package", desc, url, img, [q["total"]]))},
+           "pkg-" + pid)
 catalogue()

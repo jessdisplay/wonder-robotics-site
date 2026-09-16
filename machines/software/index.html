@@ -6,6 +6,15 @@
 <meta name="robots" content="noindex">
 <title>Software, Wonder Robotics</title>
 <meta name="description" content="The ordering, payment, stock and dispatch every robot here talks to, and the dashboard the manager watches on a phone. React, Node, Python, Postgres.">
+<link rel="canonical" href="https://jessdisplay.github.io/wonder-robotics-site/machines/software/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Wonder Robotics">
+<meta property="og:title" content="Software, Wonder Robotics">
+<meta property="og:description" content="The ordering, payment, stock and dispatch every robot here talks to, and the dashboard the manager watches on a phone. React, Node, Python, Postgres.">
+<meta property="og:url" content="https://jessdisplay.github.io/wonder-robotics-site/machines/software/">
+<meta property="og:image" content="https://jessdisplay.github.io/wonder-robotics-site/img/hero-bot-wide.jpg">
+<meta property="og:locale" content="en_AU">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon-32.png" sizes="32x32">
 <link rel="icon" href="../../favicon-16.png" sizes="16x16">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
@@ -267,11 +276,64 @@
   .pk-num{font-size:clamp(44px,4.4vw,72px);letter-spacing:-.045em;line-height:1;color:var(--signal);font-variant-numeric:tabular-nums}
   .pk-go{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:clamp(18px,2vw,26px)}
   .pk-go .link{margin-left:6px}
-  .pk-nojs{font-size:16px}
   @media (max-width:900px){
     .pk,.pk:nth-child(even){grid-template-columns:1fr}
     .pk:nth-child(even) .pk-ph{order:0}
     .pk-ph{position:static}
+  }
+  /* A package product page. The price is the architecture: set as large as
+     the grid allows, then everything in the package as a numbered table,
+     then the three sums. Grotesk for the words, mono for the money. */
+  .pnum .wrap{padding-top:clamp(56px,7vw,120px)}
+  .pnum > .wrap > .label{text-transform:none;letter-spacing:.02em;font-size:14px}
+  .pn-fig{font-size:clamp(76px,20vw,380px);line-height:.84;letter-spacing:-.065em;margin:clamp(14px,2vw,28px) 0 0 -.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pn-extra{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:12px}
+  .pn-row{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap);margin-top:clamp(22px,3vw,40px);padding-top:clamp(16px,1.8vw,24px);border-top:2px solid var(--ink)}
+  .pn-row p{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.3;letter-spacing:-.015em;max-width:36ch}
+  .pn-sum{margin:0;display:grid;grid-template-columns:auto 1fr;border-top:1px solid var(--rule);align-self:start}
+  .pn-sum dt,.pn-sum dd{margin:0;padding:9px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+  .pn-sum dt{color:var(--graphite);padding-right:18px}
+  .pn-sum dd{text-align:right;font-variant-numeric:tabular-nums}
+  .pn-sum dd.save{color:var(--signal)}
+  .pnum .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(22px,2.6vw,34px)}
+
+  .ptab .wrap{padding-top:clamp(64px,8vw,130px)}
+  .ptab-h{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gap);align-items:end;margin-bottom:clamp(18px,2vw,28px)}
+  .ptab-h .label{text-transform:none;letter-spacing:.02em;font-size:14px;align-self:start}
+  .ptab-h h2{margin:0;font-weight:500;font-size:clamp(40px,5.4vw,96px);line-height:.92;letter-spacing:-.05em}
+  .ptab-t{width:100%;border-collapse:collapse;border-top:2px solid var(--ink)}
+  .ptab-t td{padding:14px var(--gap) 14px 0;border-bottom:1px solid var(--rule);vertical-align:middle}
+  .ptab-t td:last-child{padding-right:0}
+  .ptab-t .i{width:48px;font-family:var(--mono);font-size:12px;color:var(--graphite)}
+  .ptab-t td.t{width:clamp(64px,6vw,96px)}
+  .ptab-t .t img{width:clamp(64px,6vw,96px);aspect-ratio:1;object-fit:cover;border-radius:calc(var(--rb) - 1px);display:block;background:var(--rule)}
+  .ptab-t .n{width:26%;font-size:clamp(20px,1.9vw,30px);line-height:1.05;letter-spacing:-.025em}
+  .ptab-t .n small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:6px}
+  .ptab-t .d{font-size:15px;line-height:1.45;color:var(--graphite)}
+  .ptab-t .v{text-align:right;white-space:nowrap;font-family:var(--mono);font-size:clamp(15px,1.3vw,20px);font-variant-numeric:tabular-nums}
+  .ptab-t .v.ask{color:var(--graphite)}
+  .ptab-t tfoot td{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;padding-top:12px;padding-bottom:12px}
+  .ptab-t tfoot .was td{color:var(--graphite)}
+  .ptab-t tfoot .save td{color:var(--signal)}
+  .ptab-t tfoot .tot td{border-top:2px solid var(--ink);border-bottom:0;color:var(--ink);padding-top:18px}
+  .ptab-t tfoot .tot .v{font-family:var(--display);font-size:clamp(34px,4vw,68px);letter-spacing:-.045em;line-height:1;text-transform:none}
+  .pk-ph a{display:block}
+  @media (max-width:760px){
+    .pn-fig{white-space:normal}
+    .pn-row,.ptab-h{grid-template-columns:1fr}
+    /* a table cannot lose columns on a phone without its sums losing their
+       place, so on a phone every row becomes its own small grid */
+    .ptab-t,.ptab-t tbody,.ptab-t tfoot{display:block;width:100%}
+    .ptab-t tr{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;border-bottom:1px solid var(--rule)}
+    .ptab-t td{border:0;padding:10px 0}
+    .ptab-t .i,.ptab-t .d{display:none}
+    .ptab-t .n{width:auto;font-size:18px}
+    .ptab-t td.t,.ptab-t .t img{width:56px}
+    .ptab-t tfoot tr{grid-template-columns:minmax(0,1fr) auto}
+    .ptab-t tfoot td{font-size:11px}
+    .ptab-t tfoot .tot{border-top:2px solid var(--ink);border-bottom:0}
+    .ptab-t tfoot .tot td{border-top:0}
+    .ptab-t tfoot .tot .v{font-size:34px}
   }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
@@ -1631,9 +1693,11 @@ window.WonderQuote = (function(){
   var PACKAGE_WORK=['brand','web','wrap','eng','soft','inst'];
   var PACKAGES=[
     {id:'bar', name:'The robot coffee bar', line:'A barista bar in your brand, fitted into the venue you have.',
-     machines:{bpro:1}, img:'../../img/offer/coffee-bar-studio.jpg', alt:'The dual-arm B Pro coffee bar on its counter'},
+     machines:{bpro:1}, img:'../../img/offer/coffee-bar-studio.jpg', alt:'The dual-arm B Pro coffee bar on its counter',
+     url:'../../robot-coffee-bar-package/'},
     {id:'cafe', name:'The robot café', line:'Coffee and soft serve, the counter, the room and the brand across all of it.',
-     machines:{bpro:1,ice:1}, img:'../../img/coffee/venue-01-bar-in-room.jpg', alt:'A branded robot coffee bar in a venue, by the street door'},
+     machines:{bpro:1,ice:1}, img:'../../img/coffee/venue-01-bar-in-room.jpg', alt:'A branded robot coffee bar in a venue, by the street door',
+     url:'../../robot-cafe-package/'},
     {id:'box', name:'The robot container kitchen', line:'A twenty foot container, an arm cooking behind glass, a skin that carries the brand.',
      machines:{fry:1,noo:1}, img:'../../img/container/day.jpg', alt:'A branded shipping container kitchen at a market by day',
      extra:{name:'The container build', sub:'Twenty foot high-cube: cut, frame, line, hatch, extraction, the skin', note:'Priced on scope'},
@@ -1674,53 +1738,6 @@ window.WonderQuote = (function(){
   return {MACHINES:MACHINES,ROBOTS:ROBOTS,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
-/* Package blocks on a page, drawn from the same price list as the quote:
-   <div data-packages> for all of them, data-only="box" for one. A pill with
-   data-pkg-from shows the lowest package price, data-pkg-price="id" one. */
-(function(){
-  var Q=window.WonderQuote; if(!Q||!Q.PACKAGES) return;
-  var money=Q.money;
-  var esc=function(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
-  var quotes={}; Q.PACKAGES.forEach(function(p){ quotes[p.id]=Q.packageQuote(p); });
-  var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
-
-  [].forEach.call(document.querySelectorAll('[data-pkg-from]'),function(el){
-    // only a package whose price is the whole price can set the "from"
-    var low=Q.PACKAGES.filter(function(p){return !quotes[p.id].extra;}).map(function(p){return quotes[p.id].total;}).sort(function(a,b){return a-b;})[0];
-    el.textContent='From '+money.format(low);
-  });
-  [].forEach.call(document.querySelectorAll('[data-pkg-price]'),function(el){
-    var q=quotes[el.getAttribute('data-pkg-price')]; if(!q) return;
-    el.textContent='From '+money.format(q.total)+(q.extra?' plus the build':'');
-  });
-
-  [].forEach.call(document.querySelectorAll('[data-packages]'),function(host){
-    var only=(host.getAttribute('data-only')||'').split(',').filter(Boolean);
-    var list=Q.PACKAGES.filter(function(p){ return !only.length||only.indexOf(p.id)>=0; });
-    host.innerHTML=list.map(function(p,i){
-      var q=quotes[p.id];
-      var rows=q.lines.map(function(l){
-        return '<li><span class="t"><img src="'+l.img+'" alt="" loading="lazy"></span><span class="n">'+esc(l.name)+'<small>'+esc(l.kind==='machine'?l.sub:'Indicative')+'</small></span><span class="v">'+money.format(l.amount)+'</span></li>';
-      }).join('')+(q.extra?'<li><span class="t"><img src="'+p.img+'" alt="" loading="lazy"></span><span class="n">'+esc(q.extra.name)+'<small>'+esc(q.extra.sub)+'</small></span><span class="v ask">'+esc(q.extra.note)+'</span></li>':'');
-      return '<article class="pk" id="pk-'+p.id+'">'+
-        '<figure class="pk-ph"><img src="'+p.img+'" alt="'+esc(p.alt)+'" loading="lazy"></figure>'+
-        '<div class="pk-b">'+
-          (list.length>1?'<span class="label">('+('0'+(i+1)).slice(-2)+')</span>':'<span class="label">[ The package ]</span>')+
-          '<h2>'+esc(p.name)+'</h2><p class="pk-line">'+esc(p.line)+'</p>'+
-          '<ul class="pk-rows">'+rows+'</ul>'+
-          '<div class="pk-sum">'+
-            '<div class="pk-was"><span>Bought separately</span><s>'+money.format(q.separate)+'</s></div>'+
-            '<div class="pk-save"><span>Package, 10% off the work</span><b>Save '+money.format(q.save)+'</b></div>'+
-            '<div class="pk-total"><span class="pk-num">'+money.format(q.total)+'</span><span class="label">'+(q.extra?'Ex GST, plus the container build':'Ex GST, delivered within 100 km of a port')+'</span></div>'+
-          '</div>'+
-          '<div class="pk-go"><a class="btn" href="'+root+'quote/?pkg='+p.id+'" data-quote data-pkg="'+p.id+'"><span>Build this package</span><i aria-hidden="true">+</i></a>'+
-          '<a class="btn ghost" href="'+root+'quote/?pkg='+p.id+'"><span>See the full quote</span><i aria-hidden="true">+</i></a>'+
-          (p.url&&location.pathname.indexOf('robot-container-kitchens')<0?'<a class="link" href="'+p.url+'">The container</a>':'')+'</div>'+
-        '</div></article>';
-    }).join('');
-  });
-})();
-
 /* The loader does not fade out, it walks to its post. The robot sneaks home
    on the full screen mark, then the whole lockup flies into the header and
    becomes the header mark, so the load is one continuous idea instead of a

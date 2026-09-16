@@ -119,9 +119,11 @@ window.WonderQuote = (function(){
   var PACKAGE_WORK=['brand','web','wrap','eng','soft','inst'];
   var PACKAGES=[
     {id:'bar', name:'The robot coffee bar', line:'A barista bar in your brand, fitted into the venue you have.',
-     machines:{bpro:1}, img:'{{root}}img/offer/coffee-bar-studio.jpg', alt:'The dual-arm B Pro coffee bar on its counter'},
+     machines:{bpro:1}, img:'{{root}}img/offer/coffee-bar-studio.jpg', alt:'The dual-arm B Pro coffee bar on its counter',
+     url:'{{root}}robot-coffee-bar-package/'},
     {id:'cafe', name:'The robot café', line:'Coffee and soft serve, the counter, the room and the brand across all of it.',
-     machines:{bpro:1,ice:1}, img:'{{root}}img/coffee/venue-01-bar-in-room.jpg', alt:'A branded robot coffee bar in a venue, by the street door'},
+     machines:{bpro:1,ice:1}, img:'{{root}}img/coffee/venue-01-bar-in-room.jpg', alt:'A branded robot coffee bar in a venue, by the street door',
+     url:'{{root}}robot-cafe-package/'},
     {id:'box', name:'The robot container kitchen', line:'A twenty foot container, an arm cooking behind glass, a skin that carries the brand.',
      machines:{fry:1,noo:1}, img:'{{root}}img/container/day.jpg', alt:'A branded shipping container kitchen at a market by day',
      extra:{name:'The container build', sub:'Twenty foot high-cube: cut, frame, line, hatch, extraction, the skin', note:'Priced on scope'},
@@ -162,53 +164,6 @@ window.WonderQuote = (function(){
   return {MACHINES:MACHINES,ROBOTS:ROBOTS,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
-/* Package blocks on a page, drawn from the same price list as the quote:
-   <div data-packages> for all of them, data-only="box" for one. A pill with
-   data-pkg-from shows the lowest package price, data-pkg-price="id" one. */
-(function(){
-  var Q=window.WonderQuote; if(!Q||!Q.PACKAGES) return;
-  var money=Q.money;
-  var esc=function(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
-  var quotes={}; Q.PACKAGES.forEach(function(p){ quotes[p.id]=Q.packageQuote(p); });
-  var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
-
-  [].forEach.call(document.querySelectorAll('[data-pkg-from]'),function(el){
-    // only a package whose price is the whole price can set the "from"
-    var low=Q.PACKAGES.filter(function(p){return !quotes[p.id].extra;}).map(function(p){return quotes[p.id].total;}).sort(function(a,b){return a-b;})[0];
-    el.textContent='From '+money.format(low);
-  });
-  [].forEach.call(document.querySelectorAll('[data-pkg-price]'),function(el){
-    var q=quotes[el.getAttribute('data-pkg-price')]; if(!q) return;
-    el.textContent='From '+money.format(q.total)+(q.extra?' plus the build':'');
-  });
-
-  [].forEach.call(document.querySelectorAll('[data-packages]'),function(host){
-    var only=(host.getAttribute('data-only')||'').split(',').filter(Boolean);
-    var list=Q.PACKAGES.filter(function(p){ return !only.length||only.indexOf(p.id)>=0; });
-    host.innerHTML=list.map(function(p,i){
-      var q=quotes[p.id];
-      var rows=q.lines.map(function(l){
-        return '<li><span class="t"><img src="'+l.img+'" alt="" loading="lazy"></span><span class="n">'+esc(l.name)+'<small>'+esc(l.kind==='machine'?l.sub:'Indicative')+'</small></span><span class="v">'+money.format(l.amount)+'</span></li>';
-      }).join('')+(q.extra?'<li><span class="t"><img src="'+p.img+'" alt="" loading="lazy"></span><span class="n">'+esc(q.extra.name)+'<small>'+esc(q.extra.sub)+'</small></span><span class="v ask">'+esc(q.extra.note)+'</span></li>':'');
-      return '<article class="pk" id="pk-'+p.id+'">'+
-        '<figure class="pk-ph"><img src="'+p.img+'" alt="'+esc(p.alt)+'" loading="lazy"></figure>'+
-        '<div class="pk-b">'+
-          (list.length>1?'<span class="label">('+('0'+(i+1)).slice(-2)+')</span>':'<span class="label">[ The package ]</span>')+
-          '<h2>'+esc(p.name)+'</h2><p class="pk-line">'+esc(p.line)+'</p>'+
-          '<ul class="pk-rows">'+rows+'</ul>'+
-          '<div class="pk-sum">'+
-            '<div class="pk-was"><span>Bought separately</span><s>'+money.format(q.separate)+'</s></div>'+
-            '<div class="pk-save"><span>Package, 10% off the work</span><b>Save '+money.format(q.save)+'</b></div>'+
-            '<div class="pk-total"><span class="pk-num">'+money.format(q.total)+'</span><span class="label">'+(q.extra?'Ex GST, plus the container build':'Ex GST, delivered within 100 km of a port')+'</span></div>'+
-          '</div>'+
-          '<div class="pk-go"><a class="btn" href="'+root+'quote/?pkg='+p.id+'" data-quote data-pkg="'+p.id+'"><span>Build this package</span><i aria-hidden="true">+</i></a>'+
-          '<a class="btn ghost" href="'+root+'quote/?pkg='+p.id+'"><span>See the full quote</span><i aria-hidden="true">+</i></a>'+
-          (p.url&&location.pathname.indexOf('robot-container-kitchens')<0?'<a class="link" href="'+p.url+'">The container</a>':'')+'</div>'+
-        '</div></article>';
-    }).join('');
-  });
-})();
-
 /* The loader does not fade out, it walks to its post. The robot sneaks home
    on the full screen mark, then the whole lockup flies into the header and
    becomes the header mark, so the load is one continuous idea instead of a

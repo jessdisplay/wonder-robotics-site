@@ -1,7 +1,7 @@
 <main id="top" class="product case">
   <section class="phero">
     <div class="wrap">
-      <div class="pills"><span class="pill">Robot café packages</span><span class="pill">Brand to opening day</span><span class="pill">About two months</span><span class="pill price" data-pkg-from>Priced whole</span></div>
+      <div class="pills"><span class="pill">Robot café packages</span><span class="pill">Brand to opening day</span><span class="pill">About two months</span><span class="pill price">{{pkfrom}}</span></div>
       <h1>Robot cafés, sold whole.</h1>
       <figure class="stage photo"><img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" alt="A robot coffee bar in its own brand, in a venue by the street door" loading="eager" width="2048" height="1529"><figcaption class="label"><span>The Wonder Bean bar: machine, counter, room and brand</span><span>Concept, from the capture</span></figcaption></figure>
     </div>
@@ -18,8 +18,7 @@
 
   <section class="pk-wrap">
     <div class="wrap">
-      <div class="pk-list" data-packages></div>
-      <noscript><p class="pk-nojs">The package prices are worked out on the page. <a class="link" href="{{root}}quote/?pkg=cafe">Open the quote</a> to see them.</p></noscript>
+      {{packages}}
     </div>
   </section>
 

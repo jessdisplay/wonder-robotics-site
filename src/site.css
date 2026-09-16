@@ -251,11 +251,64 @@
   .pk-num{font-size:clamp(44px,4.4vw,72px);letter-spacing:-.045em;line-height:1;color:var(--signal);font-variant-numeric:tabular-nums}
   .pk-go{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:clamp(18px,2vw,26px)}
   .pk-go .link{margin-left:6px}
-  .pk-nojs{font-size:16px}
   @media (max-width:900px){
     .pk,.pk:nth-child(even){grid-template-columns:1fr}
     .pk:nth-child(even) .pk-ph{order:0}
     .pk-ph{position:static}
+  }
+  /* A package product page. The price is the architecture: set as large as
+     the grid allows, then everything in the package as a numbered table,
+     then the three sums. Grotesk for the words, mono for the money. */
+  .pnum .wrap{padding-top:clamp(56px,7vw,120px)}
+  .pnum > .wrap > .label{text-transform:none;letter-spacing:.02em;font-size:14px}
+  .pn-fig{font-size:clamp(76px,20vw,380px);line-height:.84;letter-spacing:-.065em;margin:clamp(14px,2vw,28px) 0 0 -.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pn-extra{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:12px}
+  .pn-row{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap);margin-top:clamp(22px,3vw,40px);padding-top:clamp(16px,1.8vw,24px);border-top:2px solid var(--ink)}
+  .pn-row p{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.3;letter-spacing:-.015em;max-width:36ch}
+  .pn-sum{margin:0;display:grid;grid-template-columns:auto 1fr;border-top:1px solid var(--rule);align-self:start}
+  .pn-sum dt,.pn-sum dd{margin:0;padding:9px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+  .pn-sum dt{color:var(--graphite);padding-right:18px}
+  .pn-sum dd{text-align:right;font-variant-numeric:tabular-nums}
+  .pn-sum dd.save{color:var(--signal)}
+  .pnum .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(22px,2.6vw,34px)}
+
+  .ptab .wrap{padding-top:clamp(64px,8vw,130px)}
+  .ptab-h{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gap);align-items:end;margin-bottom:clamp(18px,2vw,28px)}
+  .ptab-h .label{text-transform:none;letter-spacing:.02em;font-size:14px;align-self:start}
+  .ptab-h h2{margin:0;font-weight:500;font-size:clamp(40px,5.4vw,96px);line-height:.92;letter-spacing:-.05em}
+  .ptab-t{width:100%;border-collapse:collapse;border-top:2px solid var(--ink)}
+  .ptab-t td{padding:14px var(--gap) 14px 0;border-bottom:1px solid var(--rule);vertical-align:middle}
+  .ptab-t td:last-child{padding-right:0}
+  .ptab-t .i{width:48px;font-family:var(--mono);font-size:12px;color:var(--graphite)}
+  .ptab-t td.t{width:clamp(64px,6vw,96px)}
+  .ptab-t .t img{width:clamp(64px,6vw,96px);aspect-ratio:1;object-fit:cover;border-radius:calc(var(--rb) - 1px);display:block;background:var(--rule)}
+  .ptab-t .n{width:26%;font-size:clamp(20px,1.9vw,30px);line-height:1.05;letter-spacing:-.025em}
+  .ptab-t .n small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:6px}
+  .ptab-t .d{font-size:15px;line-height:1.45;color:var(--graphite)}
+  .ptab-t .v{text-align:right;white-space:nowrap;font-family:var(--mono);font-size:clamp(15px,1.3vw,20px);font-variant-numeric:tabular-nums}
+  .ptab-t .v.ask{color:var(--graphite)}
+  .ptab-t tfoot td{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;padding-top:12px;padding-bottom:12px}
+  .ptab-t tfoot .was td{color:var(--graphite)}
+  .ptab-t tfoot .save td{color:var(--signal)}
+  .ptab-t tfoot .tot td{border-top:2px solid var(--ink);border-bottom:0;color:var(--ink);padding-top:18px}
+  .ptab-t tfoot .tot .v{font-family:var(--display);font-size:clamp(34px,4vw,68px);letter-spacing:-.045em;line-height:1;text-transform:none}
+  .pk-ph a{display:block}
+  @media (max-width:760px){
+    .pn-fig{white-space:normal}
+    .pn-row,.ptab-h{grid-template-columns:1fr}
+    /* a table cannot lose columns on a phone without its sums losing their
+       place, so on a phone every row becomes its own small grid */
+    .ptab-t,.ptab-t tbody,.ptab-t tfoot{display:block;width:100%}
+    .ptab-t tr{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;border-bottom:1px solid var(--rule)}
+    .ptab-t td{border:0;padding:10px 0}
+    .ptab-t .i,.ptab-t .d{display:none}
+    .ptab-t .n{width:auto;font-size:18px}
+    .ptab-t td.t,.ptab-t .t img{width:56px}
+    .ptab-t tfoot tr{grid-template-columns:minmax(0,1fr) auto}
+    .ptab-t tfoot td{font-size:11px}
+    .ptab-t tfoot .tot{border-top:2px solid var(--ink);border-bottom:0}
+    .ptab-t tfoot .tot td{border-top:0}
+    .ptab-t tfoot .tot .v{font-size:34px}
   }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
