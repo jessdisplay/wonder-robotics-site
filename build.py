@@ -290,42 +290,6 @@ def pk_price(pid):
     return "From " + money(q["total"]) + (" plus the build" if q["extra"] else "")
 
 
-def pk_rows(p):
-    q = p["quote"]
-    kits = {m["id"]: m["kit"] for m in quote_data()["machines"]}
-    rows = []
-    for line in q["lines"]:
-        what = kits.get(line["id"], "") if line["kind"] == "machine" else line["sub"]
-        rows.append((line["img"], line["name"], line["sub"] if line["kind"] == "machine" else "Indicative", what, money(line["amount"]), False))
-    if q["extra"]:
-        e = q["extra"]
-        rows.append((p["img"], e["name"], "Priced on scope", e["sub"], e["note"], True))
-    return rows
-
-
-def pk_blocks(ids=None):
-    """The packages side by side on the packages page: picture, lines, price."""
-    pks = [p for p in quote_data()["packages"] if not ids or p["id"] in ids]
-    out = []
-    for i, p in enumerate(pks, 1):
-        q = p["quote"]
-        rows = "".join(
-            f'<li><span class="t"><img src="{img}" alt="" loading="lazy"></span><span class="n">{escape(name)}<small>{escape(small)}</small></span>'
-            f'<span class="v{" ask" if ask else ""}">{escape(val)}</span></li>' for img, name, small, _, val, ask in pk_rows(p))
-        label = f"({i:02d})" if len(pks) > 1 else "[ The package ]"
-        page_link = f'<a class="link" href="{p["url"]}">The {escape(p["name"].replace("The ", ""))} page</a>' if p.get("url") else ""
-        out.append(
-            f'<article class="pk" id="pk-{p["id"]}"><figure class="pk-ph"><a href="{p.get("url") or "#"}"><img src="{p["img"]}" alt="{escape(p["alt"])}" loading="lazy"></a></figure>'
-            f'<div class="pk-b"><span class="label">{label}</span><h2>{escape(p["name"])}</h2><p class="pk-line">{escape(p["line"])}</p>'
-            f'<ul class="pk-rows">{rows}</ul><div class="pk-sum">'
-            f'<div class="pk-was"><span>Bought separately</span><s>{money(q["separate"])}</s></div>'
-            f'<div class="pk-save"><span>Package, 10% off the work</span><b>Save {money(q["save"])}</b></div>'
-            f'<div class="pk-total"><span class="pk-num">{money(q["total"])}</span><span class="label">{"Ex GST, plus the container build" if q["extra"] else "Ex GST, delivered within 100 km of a port"}</span></div></div>'
-            f'<div class="pk-go"><a class="btn" href="{{{{root}}}}quote/?pkg={p["id"]}" data-quote data-pkg="{p["id"]}"><span>Build this package</span><i aria-hidden="true">+</i></a>{page_link}</div>'
-            f'</div></article>')
-    return '<div class="pk-list">' + "".join(out) + "</div>"
-
-
 def pk_number(pid, line):
     """The price, set as large as the page allows, and the ask beside it."""
     p = package(pid); q = p["quote"]
@@ -339,24 +303,6 @@ def pk_number(pid, line):
             f'<a class="btn ghost" href="{{{{root}}}}quote/?pkg={pid}"><span>See the full quote</span><i aria-hidden="true">+</i></a>'
             f'<a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div>'
             f'</div></section>')
-
-
-def pk_table(pid):
-    """Everything in the package as an architectural table: numbered rows, the
-    picture, what it is, the money, then the three sums."""
-    p = package(pid); q = p["quote"]; rows = pk_rows(p)
-    body = "".join(
-        f'<tr><td class="i">{i:02d}</td><td class="t"><img src="{img}" alt="" loading="lazy"></td>'
-        f'<td class="n">{escape(name)}<small>{escape(small)}</small></td><td class="d">{escape(what)}</td>'
-        f'<td class="v{" ask" if ask else ""}">{escape(val)}</td></tr>' for i, (img, name, small, what, val, ask) in enumerate(rows, 1))
-    words = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"]
-    head = f"{words[len(rows)] if len(rows) < len(words) else len(rows)} lines. One price."
-    return (f'<section class="ptab"><div class="wrap"><div class="ptab-h"><span class="label">[ Everything in it ]</span><h2>{head}</h2></div>'
-            f'<div class="ptab-scroll"><table class="ptab-t"><tbody>{body}</tbody><tfoot>'
-            f'<tr class="was"><td colspan="4">Bought separately</td><td class="v"><s>{money(q["separate"])}</s></td></tr>'
-            f'<tr class="save"><td colspan="4">Package, {int(quote_data()["off"] * 100)}% off the work</td><td class="v">{money(-q["save"])}</td></tr>'
-            f'<tr class="tot"><td colspan="4">The package, ex GST{", plus the container build" if q["extra"] else ""}</td><td class="v">{money(q["total"])}</td></tr>'
-            f'</tfoot></table></div></div></section>')
 
 
 # The package product pages: one template, the words and pictures per
@@ -382,9 +328,6 @@ PACKAGE_PAGES = {
         "offer": "A barista bar in your brand, fitted into the venue you have, running from day one.",
         "sub": "The dual-arm B Pro, the counter it sits in, your brand on the arms and the cup, a website, the ordering, install, training and the first year of care.",
         "number": "The B Pro bar, your brand across it, the website, fit-out, programming, install and a year of maintenance. Machines at list, the work 10% less.",
-        "facts": [("About 70 seconds", "A drink, 8 and 12 oz, hot and iced"), ("About two square metres", "The bar and the counter it sits in"),
-                  ("Your mark on the cup", "Yingmei printer on the crema and the foam"), ("Eversys", "The espresso machine, with the BTB Z02 ice maker"),
-                  ("About two months", "From order, delivered within 100 km of a port"), ("One year warranty", "On the machine, with a year of maintenance in the package")],
         "story": [("h2", "Your brand on it"), ("p", "The mark on the cup, the colours on the arms, the counter in your timber. Wonder Bean is ours: Sol by day, Luna by night, the same two marks on everything."),
                   ("pair", ("img/coffee/bar-02-front.jpg", "Two robot arms in brand colours on a slatted timber bar", "Branding on the machine", "Concept"),
                            ("img/coffee/wonder-bean-cups.jpg", "Coffee cups carrying the Wonder Bean marks", "The cups", "Brand, designed here")),
@@ -401,9 +344,6 @@ PACKAGE_PAGES = {
         "offer": "Coffee and soft serve, the counter, the room and one brand across all of it.",
         "sub": "The B Pro barista bar and the I Pro ice cream robot, the brand, the website, the fit-out, the ordering, install, training and the first year of care.",
         "number": "Two machines, the brand across both and the room, the website, fit-out, programming, install and a year of maintenance. Machines at list, the work 10% less.",
-        "facts": [("About 70 seconds", "A coffee, hot and iced"), ("Soft serve", "I Pro pasteurising machine, three syrups, two toppings"),
-                  ("An arm hands it over", "The kiosk arm serves the cone"), ("One brand", "Across the machines, the counter, the cups and the room"),
-                  ("About two months", "From order, delivered within 100 km of a port"), ("One year warranty", "On the machines, with a year of maintenance in the package")],
         "story": [("h2", "The room"), ("p", "The bar by the street door, the kiosk beside it, the brand on the wall, the bags and the stools. Drawn from the room it goes in."),
                   ("pair", ("img/coffee/venue-02-entry.jpg", "The café seen from the street door", "From the door", "Concept, from the capture"),
                            ("img/coffee/brand-01-family.jpg", "The Wonder Bean pack family in amber and night purple", "Sol and Luna, the pack family", "Brand, designed here")),
@@ -435,8 +375,7 @@ def package_page(pid):
         "{{pk_img}}": "{{root}}" + d["img"], "{{pk_alt}}": escape(d["alt"]),
         "{{pk_caption}}": escape(d["caption"]), "{{pk_credit}}": escape(d["credit"]),
         "{{pk_offer}}": escape(d["offer"]), "{{pk_sub}}": escape(d["sub"]),
-        "{{pknum}}": pk_number(pid, d["number"]), "{{pktable}}": pk_table(pid),
-        "{{pk_facts}}": "".join(f"<li><b>{escape(a)}</b><p>{escape(b)}</p></li>" for a, b in d["facts"]),
+        "{{pknum}}": pk_number(pid, d["number"]), "{{pktable}}": pk_spreads(pid),
         "{{pk_story}}": story,
     }
     for k, v in fills.items():
@@ -444,14 +383,121 @@ def package_page(pid):
     return body
 
 
+# What each line of a package actually is. The price comes from the price
+# module; the words here say what you get for it, in the site's own terms,
+# and which stage of the job it belongs to. Every fact is one the site
+# already states on a product page or in the quote terms.
+INCLUSIONS = {
+    "bpro": {"stage": "Supply", "lead": "Two arms at an Eversys machine: one pulls the shot, one steams and pours. About seventy seconds a drink.",
+             "gets": ["Dual-arm barista, bar type", "Eversys espresso machine", "BTB Z02 ice maker", "Yingmei cup printer", "8 and 12 oz, hot and iced", "One year warranty"],
+             "facts": [("Footprint", "About two square metres"), ("Lead time", "About two months from order"), ("Delivered", "Within 100 km of a port")]},
+    "ice": {"stage": "Supply", "lead": "A pasteurising soft-serve machine and a kiosk arm that hands the cone over. Ours runs the dessert kiosk downstairs.",
+            "gets": ["I Pro ice cream robot", "Pasteurising machine", "Three syrups", "Two toppings", "Kiosk arm", "One year warranty"],
+            "facts": [("On our floor", "365 St Pauls Terrace"), ("Lead time", "About two months from order"), ("Delivered", "Within 100 km of a port")]},
+    "fry": {"stage": "Supply", "lead": "A Dobot arm working six frying stoves: basket in, timed, lifted, drained, plated.",
+            "gets": ["F Standard deep frying robot", "Dobot arm", "Six frying stoves", "One year warranty"],
+            "facts": [("On our floor", "365 St Pauls Terrace"), ("Lead time", "About two months from order"), ("Delivered", "Within 100 km of a port")]},
+    "noo": {"stage": "Supply", "lead": "A Dobot arm over six noodle stoves, cooking to the order, bowl after bowl.",
+            "gets": ["N Standard noodle robot", "Dobot arm", "Six noodle stoves", "One year warranty"],
+            "facts": [("On our floor", "365 St Pauls Terrace"), ("Lead time", "About two months from order"), ("Delivered", "Within 100 km of a port")]},
+    "brand": {"stage": "Design", "lead": "A brand, not a sticker. The mark and everything it goes on, drawn as one system across the machine and the room.",
+              "gets": ["The mark and its lockups", "Colours and type", "Cups, bags and sacks", "The menu", "Signage", "Uniforms"],
+              "facts": [("Worked example", "Wonder Bean, Sol and Luna"), ("Designed", "In Fortitude Valley")]},
+    "web": {"stage": "Design", "lead": "The website in the same brand, with the menu on it and ordering one tap away.",
+            "gets": ["Designed in the brand", "Built and launched", "The menu", "Ordering", "Your venue, hours and directions"],
+            "facts": [("Example", "This site is one of ours"), ("Designed", "In Fortitude Valley")]},
+    "wrap": {"stage": "Build", "lead": "Your colours on the arms and the body, your mark on the screen and the cup. The machine is the first thing in the brand people see.",
+             "gets": ["Colours on the arms", "The body finished in the brand", "Your mark on the screen", "Your mark on the cup"],
+             "facts": [("Worked example", "The Wonder Bean bar"), ("Finished", "Before it leaves us")]},
+    "eng": {"stage": "Build", "lead": "The counter or cell the machine lives in, drawn to your floor plan and built by our trades or yours, to our drawings.",
+            "gets": ["Drawings to your floor plan", "The counter or cell", "Guarding", "Services: power, water, drainage", "Extraction", "Joinery, stone, the skin, the screen"],
+            "facts": [("Where", "The venue you have, or a new one"), ("Drawn", "To your floor plan")]},
+    "soft": {"stage": "Commission", "lead": "The ordering, payment and screen every machine talks to, and the dashboard that tells you the numbers.",
+             "gets": ["Ordering", "Payment", "The menu on the screen", "The dashboard", "The numbers"],
+             "facts": [("Runs", "On the machines and the counter"), ("Built", "In Fortitude Valley")]},
+    "inst": {"stage": "Commission", "lead": "We survey the site, place and connect the machines, program the menu, run it and train your people.",
+             "gets": ["Site survey", "Placement and services", "Menu programmed", "First run", "Staff training"],
+             "facts": [("Signed off", "After the first hundred served"), ("On site", "Our team")]},
+    "care": {"stage": "Run", "lead": "The first year looked after: spares, monitoring and updates, and a number that answers when something stops.",
+             "gets": ["Spares", "Monitoring", "Software updates", "A number that answers"],
+             "facts": [("Plan", "Standard, the first year"), ("After that", "Priced by the year")]},
+}
+# Where a picture needs anchoring in a wide frame, measured from the source.
+INC_POS = {"img/lrd/menu.jpg": "50% 18%", "img/tile-kiosk.jpg": "50% 10%", "img/hero-kitchen.jpg": "50% 60%"}
+INC_IMG = {"care": "img/hero-kitchen.jpg"}   # the maintenance line shows our own line running, not install again
+
+
+def pk_spreads(pid):
+    """Each line of a package as its own spread: the name set large with its
+    stage and price, a large picture, what it is, and what you get."""
+    p = package(pid); q = p["quote"]
+    out = []
+    lines = list(q["lines"])
+    for i, line in enumerate(lines, 1):
+        inc = INCLUSIONS[line["id"]]
+        img = INC_IMG.get(line["id"]) or line["img"].replace("{{root}}", "")
+        pos = INC_POS.get(img, "50% 50%")
+        machine = line["kind"] == "machine"
+        name = line["name"] + (f', {line["sub"]}' if machine else "")
+        price_note = "List, ex GST" if machine else "Indicative, ex GST"
+        gets = "".join(f"<li>{escape(g)}</li>" for g in inc["gets"])
+        facts = "".join(f"<dt>{escape(a)}</dt><dd>{escape(b)}</dd>" for a, b in inc["facts"])
+        out.append(
+            f'<article class="inc{" flip" if i % 2 == 0 else ""}">'
+            f'<div class="inc-h"><span class="inc-i">({i:02d})</span><span class="inc-stage">{escape(inc["stage"])}</span>'
+            f'<h3>{escape(name)}</h3><div class="inc-price">{money(line["amount"])}<small>{price_note}</small></div></div>'
+            f'<figure class="inc-ph"><img src="{{{{root}}}}{img}" alt="" loading="lazy" style="object-position:{pos}"></figure>'
+            f'<div class="inc-b"><p class="inc-lead">{escape(inc["lead"])}</p>'
+            f'<div class="inc-cols"><div><span class="label">What you get</span><ul class="inc-gets">{gets}</ul></div>'
+            f'<dl class="inc-facts">{facts}</dl></div></div>'
+            f'</article>')
+    if q["extra"]:
+        e = q["extra"]
+        out.append(
+            f'<article class="inc{" flip" if (len(lines) + 1) % 2 == 0 else ""}">'
+            f'<div class="inc-h"><span class="inc-i">({len(lines) + 1:02d})</span><span class="inc-stage">Build</span>'
+            f'<h3>{escape(e["name"])}</h3><div class="inc-price ask">{escape(e["note"])}<small>Until we have seen the site</small></div></div>'
+            f'<figure class="inc-ph"><img src="{p["img"]}" alt="" loading="lazy"></figure>'
+            f'<div class="inc-b"><p class="inc-lead">{escape(e["sub"])}.</p></div></article>')
+    count = len(out)
+    words = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"]
+    head = f"{words[count] if count < len(words) else count} parts. One price."
+    return (f'<section class="incs"><div class="wrap">'
+            f'<div class="incs-h"><span class="label">[ Everything in it ]</span><h2>{head}</h2></div>'
+            + "".join(out) +
+            f'<div class="inc-sum"><dl>'
+            f'<dt>Bought separately</dt><dd><s>{money(q["separate"])}</s></dd>'
+            f'<dt>Package, {int(quote_data()["off"] * 100)}% off the work</dt><dd class="save">{money(-q["save"])}</dd></dl>'
+            f'<div class="inc-total"><span class="label">The package, ex GST{", plus the container build" if q["extra"] else ""}</span><span class="inc-fig">{money(q["total"])}</span></div>'
+            f'<div class="actions"><a class="btn" href="{{{{root}}}}quote/?pkg={pid}" data-quote data-pkg="{pid}"><span>Build this package</span><i aria-hidden="true">+</i></a>'
+            f'<a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div>'
+            f'</div></div></section>')
+
+
+def pk_tiles():
+    """The packages index: each package as a large tile that leads to its page."""
+    out = []
+    for i, p in enumerate(quote_data()["packages"], 1):
+        q = p["quote"]
+        n = len(q["lines"]) + (1 if q["extra"] else 0)
+        out.append(
+            f'<a class="pkt" href="{p.get("url") or "#"}">'
+            f'<figure class="pkt-ph"><img src="{p["img"]}" alt="{escape(p["alt"])}" loading="lazy"></figure>'
+            f'<div class="pkt-b"><span class="inc-i">({i:02d})</span><h2>{escape(p["name"])}</h2><p>{escape(p["line"])}</p>'
+            f'<div class="pkt-price"><span class="pkt-fig">{money(q["total"])}</span>'
+            f'<span class="label">{"Plus the container build. " if q["extra"] else ""}{n} parts, save {money(q["save"])}</span></div>'
+            f'<span class="pkt-go">See the package</span></div></a>')
+    return '<div class="pkts">' + "".join(out) + "</div>"
+
+
 def fill_prices(body):
     body = body.replace("{{pkfrom}}", pk_from())
-    body = body.replace("{{packages}}", pk_blocks())
+    body = body.replace("{{packages}}", pk_tiles())
     for pid in [p["id"] for p in quote_data()["packages"]]:
         if "{{pknum:" + pid + "}}" in body:
             body = body.replace("{{pknum:" + pid + "}}", pk_number(pid, NUMBER_LINES[pid]))
         body = body.replace("{{pkprice:" + pid + "}}", pk_price(pid))
-        body = body.replace("{{pktable:" + pid + "}}", pk_table(pid))
+        body = body.replace("{{pktable:" + pid + "}}", pk_spreads(pid))
     return body
 
 

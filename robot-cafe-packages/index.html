@@ -249,38 +249,6 @@
     .qs-lines li{animation:none}
     .bar nav a::after{transition:none}
   }
-  /* Package blocks: the picture on one side, on the other everything in the
-     package as a picture and a price, then what it costs bought separately,
-     the saving, and the package price set large. */
-  .pk-wrap .wrap{padding-top:clamp(56px,7vw,110px)}
-  .pk-list{display:grid;gap:clamp(56px,7vw,110px)}
-  .pk{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(20px,3vw,56px);align-items:start}
-  .pk:nth-child(even){grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
-  .pk:nth-child(even) .pk-ph{order:2}
-  .pk-ph{margin:0;position:sticky;top:76px}
-  .pk-ph img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
-  .pk-b h2{margin:10px 0 0;font-weight:500;font-size:clamp(34px,3.6vw,60px);line-height:.98;letter-spacing:-.04em}
-  .pk-line{margin:14px 0 0;font-size:16px;line-height:1.45;color:var(--graphite);max-width:40ch}
-  .pk-rows{list-style:none;margin:clamp(20px,2vw,28px) 0 0;padding:0;border-top:2px solid var(--ink)}
-  .pk-rows li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule)}
-  .pk-rows .t{width:44px;height:44px;border-radius:calc(var(--rb) - 2px);overflow:hidden;background:var(--rule)}
-  .pk-rows .t img{width:100%;height:100%;object-fit:cover;display:block}
-  .pk-rows .n{font-size:14.5px;line-height:1.2}
-  .pk-rows .n small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
-  .pk-rows .v{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
-  .pk-rows .v.ask{color:var(--graphite)}
-  .pk-sum{margin-top:18px;display:grid;gap:8px}
-  .pk-was,.pk-save{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--graphite)}
-  .pk-save b{font-weight:400;color:var(--signal)}
-  .pk-total{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:10px;border-top:2px solid var(--ink)}
-  .pk-num{font-size:clamp(44px,4.4vw,72px);letter-spacing:-.045em;line-height:1;color:var(--signal);font-variant-numeric:tabular-nums}
-  .pk-go{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:clamp(18px,2vw,26px)}
-  .pk-go .link{margin-left:6px}
-  @media (max-width:900px){
-    .pk,.pk:nth-child(even){grid-template-columns:1fr}
-    .pk:nth-child(even) .pk-ph{order:0}
-    .pk-ph{position:static}
-  }
   /* A package product page. The price is the architecture: set as large as
      the grid allows, then everything in the package as a numbered table,
      then the three sums. Grotesk for the words, mono for the money. */
@@ -297,43 +265,76 @@
   .pn-sum dd.save{color:var(--signal)}
   .pnum .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(22px,2.6vw,34px)}
 
-  .ptab .wrap{padding-top:clamp(64px,8vw,130px)}
-  .ptab-h{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gap);align-items:end;margin-bottom:clamp(18px,2vw,28px)}
-  .ptab-h .label{text-transform:none;letter-spacing:.02em;font-size:14px;align-self:start}
-  .ptab-h h2{margin:0;font-weight:500;font-size:clamp(40px,5.4vw,96px);line-height:.92;letter-spacing:-.05em}
-  .ptab-t{width:100%;border-collapse:collapse;border-top:2px solid var(--ink)}
-  .ptab-t td{padding:14px var(--gap) 14px 0;border-bottom:1px solid var(--rule);vertical-align:middle}
-  .ptab-t td:last-child{padding-right:0}
-  .ptab-t .i{width:48px;font-family:var(--mono);font-size:12px;color:var(--graphite)}
-  .ptab-t td.t{width:clamp(64px,6vw,96px)}
-  .ptab-t .t img{width:clamp(64px,6vw,96px);aspect-ratio:1;object-fit:cover;border-radius:calc(var(--rb) - 1px);display:block;background:var(--rule)}
-  .ptab-t .n{width:26%;font-size:clamp(20px,1.9vw,30px);line-height:1.05;letter-spacing:-.025em}
-  .ptab-t .n small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:6px}
-  .ptab-t .d{font-size:15px;line-height:1.45;color:var(--graphite)}
-  .ptab-t .v{text-align:right;white-space:nowrap;font-family:var(--mono);font-size:clamp(15px,1.3vw,20px);font-variant-numeric:tabular-nums}
-  .ptab-t .v.ask{color:var(--graphite)}
-  .ptab-t tfoot td{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;padding-top:12px;padding-bottom:12px}
-  .ptab-t tfoot .was td{color:var(--graphite)}
-  .ptab-t tfoot .save td{color:var(--signal)}
-  .ptab-t tfoot .tot td{border-top:2px solid var(--ink);border-bottom:0;color:var(--ink);padding-top:18px}
-  .ptab-t tfoot .tot .v{font-family:var(--display);font-size:clamp(34px,4vw,68px);letter-spacing:-.045em;line-height:1;text-transform:none}
-  .pk-ph a{display:block}
   @media (max-width:760px){
     .pn-fig{white-space:normal}
-    .pn-row,.ptab-h{grid-template-columns:1fr}
-    /* a table cannot lose columns on a phone without its sums losing their
-       place, so on a phone every row becomes its own small grid */
-    .ptab-t,.ptab-t tbody,.ptab-t tfoot{display:block;width:100%}
-    .ptab-t tr{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;border-bottom:1px solid var(--rule)}
-    .ptab-t td{border:0;padding:10px 0}
-    .ptab-t .i,.ptab-t .d{display:none}
-    .ptab-t .n{width:auto;font-size:18px}
-    .ptab-t td.t,.ptab-t .t img{width:56px}
-    .ptab-t tfoot tr{grid-template-columns:minmax(0,1fr) auto}
-    .ptab-t tfoot td{font-size:11px}
-    .ptab-t tfoot .tot{border-top:2px solid var(--ink);border-bottom:0}
-    .ptab-t tfoot .tot td{border-top:0}
-    .ptab-t tfoot .tot .v{font-size:34px}
+    .pn-row{grid-template-columns:1fr}
+  }
+  /* A package, part by part. Each part is a spread on the twelve-column
+     grid: the name set large with its stage and its price, a large picture,
+     then what it is and what you get. Sides alternate so the page walks. */
+  .incs .wrap{padding-top:clamp(72px,9vw,150px)}
+  .incs-h{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gap);align-items:end;padding-bottom:clamp(20px,2.4vw,34px);border-bottom:2px solid var(--ink)}
+  .incs-h .label{text-transform:none;letter-spacing:.02em;font-size:14px;align-self:start}
+  .incs-h h2{margin:0;font-weight:500;font-size:clamp(44px,6vw,110px);line-height:.9;letter-spacing:-.05em}
+  .inc{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:clamp(20px,2.4vw,36px);
+       padding:clamp(48px,6vw,110px) 0;border-bottom:1px solid var(--rule)}
+  .inc-h{grid-column:1/6;grid-row:1/3;align-self:start;position:sticky;top:clamp(76px,8vw,110px)}
+  .inc-ph{grid-column:6/13;grid-row:1;margin:0}
+  .inc-b{grid-column:6/13;grid-row:2}
+  .inc.flip .inc-h{grid-column:8/13}
+  .inc.flip .inc-ph,.inc.flip .inc-b{grid-column:1/8}
+  .inc-i{font-family:var(--mono);font-size:13px;color:var(--graphite)}
+  .inc-stage{margin-left:12px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);border-radius:999px;padding:4px 10px;vertical-align:1px}
+  .inc-h h3{margin:clamp(14px,1.6vw,22px) 0 0;font-weight:500;font-size:clamp(36px,4.4vw,80px);line-height:.94;letter-spacing:-.045em}
+  .inc-price{margin-top:clamp(16px,2vw,28px);padding-top:14px;border-top:2px solid var(--ink);font-family:var(--mono);font-size:clamp(26px,2.4vw,42px);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+  .inc-price.ask{color:var(--graphite)}
+  .inc-price small{display:block;margin-top:10px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
+  .inc-ph img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
+  .inc-lead{margin:0;font-size:clamp(20px,1.9vw,30px);line-height:1.22;letter-spacing:-.02em;max-width:30ch}
+  .inc-cols{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap);margin-top:clamp(20px,2.4vw,34px)}
+  .inc-cols .label{display:block;margin-bottom:10px}
+  .inc-gets{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+  .inc-gets li{padding:10px 0;border-bottom:1px solid var(--rule);font-size:16px;line-height:1.3}
+  .inc-facts{margin:28px 0 0;display:grid;grid-template-columns:1fr;border-top:1px solid var(--ink)}
+  .inc-facts dt{margin:0;padding-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
+  .inc-facts dd{margin:0;padding:4px 0 10px;border-bottom:1px solid var(--rule);font-size:16px;line-height:1.3}
+  .inc-sum{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--gap);padding-top:clamp(48px,6vw,100px);align-items:end}
+  .inc-sum dl{margin:0;display:grid;grid-template-columns:1fr auto;border-top:1px solid var(--ink);align-self:start}
+  .inc-sum dt,.inc-sum dd{margin:0;padding:12px 0;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase}
+  .inc-sum dt{color:var(--graphite)}
+  .inc-sum dd{text-align:right;font-variant-numeric:tabular-nums}
+  .inc-sum dd.save{color:var(--signal)}
+  .inc-total{text-align:right}
+  .inc-fig{display:block;font-size:clamp(64px,10vw,190px);line-height:.86;letter-spacing:-.06em;font-variant-numeric:tabular-nums;margin-top:10px}
+  .inc-sum .actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+
+  /* the packages index: each package a large tile */
+  .pkts{display:grid;gap:clamp(56px,7vw,120px)}
+  .pkt{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-items:end;text-decoration:none;color:inherit}
+  .pkt-ph{grid-column:1/9;margin:0;overflow:hidden;border-radius:var(--r)}
+  .pkt-ph img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+  .pkt:hover .pkt-ph img{transform:scale(1.03)}
+  .pkt-b{grid-column:9/13;display:grid;gap:14px;align-content:end}
+  .pkt:nth-child(even) .pkt-ph{grid-column:5/13;grid-row:1}
+  .pkt:nth-child(even) .pkt-b{grid-column:1/5;grid-row:1}
+  .pkt h2{margin:0;font-weight:500;font-size:clamp(36px,4.2vw,76px);line-height:.92;letter-spacing:-.045em}
+  .pkt p{margin:0;font-size:17px;line-height:1.4;color:var(--graphite)}
+  .pkt-price{padding-top:14px;border-top:2px solid var(--ink);display:grid;gap:8px}
+  .pkt-fig{font-size:clamp(44px,4.6vw,84px);line-height:.9;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+  .pkt-go{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:underline;text-underline-offset:5px}
+  .pkt:hover .pkt-go{color:var(--signal)}
+
+  @media (max-width:900px){
+    .incs-h,.inc-sum{grid-template-columns:1fr}
+    .inc,.inc.flip{grid-template-columns:1fr}
+    .inc-h,.inc.flip .inc-h{grid-column:1;grid-row:auto;position:static}
+    .inc-ph,.inc-b,.inc.flip .inc-ph,.inc.flip .inc-b{grid-column:1;grid-row:auto}
+    .inc-cols{grid-template-columns:1fr}
+    .inc-facts{margin-top:0}
+    .inc-total{text-align:left}
+    .inc-sum .actions{justify-content:flex-start}
+    .pkt,.pkt:nth-child(even){grid-template-columns:1fr;row-gap:18px}
+    .pkt-ph,.pkt-b,.pkt:nth-child(even) .pkt-ph,.pkt:nth-child(even) .pkt-b{grid-column:1;grid-row:auto}
   }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
@@ -1281,7 +1282,7 @@
 
   <section class="pk-wrap">
     <div class="wrap">
-      <div class="pk-list"><article class="pk" id="pk-bar"><figure class="pk-ph"><a href="../robot-coffee-bar-package/"><img src="../img/offer/coffee-bar-studio.jpg" alt="The dual-arm B Pro coffee bar on its counter" loading="lazy"></a></figure><div class="pk-b"><span class="label">(01)</span><h2>The robot coffee bar</h2><p class="pk-line">A barista bar in your brand, fitted into the venue you have.</p><ul class="pk-rows"><li><span class="t"><img src="../img/offer/coffee-bar-studio.jpg" alt="" loading="lazy"></span><span class="n">Coffee barista<small>B Pro, bar type</small></span><span class="v">$100,000</span></li><li><span class="t"><img src="../img/coffee/brand-01-family.jpg" alt="" loading="lazy"></span><span class="n">Branding<small>Indicative</small></span><span class="v">$6,000</span></li><li><span class="t"><img src="../img/offer/website.jpg" alt="" loading="lazy"></span><span class="n">Website<small>Indicative</small></span><span class="v">$6,500</span></li><li><span class="t"><img src="../img/coffee/bar-02-front.jpg" alt="" loading="lazy"></span><span class="n">Branding on the machine<small>Indicative</small></span><span class="v">$3,000</span></li><li><span class="t"><img src="../img/process/03-fitout.jpg" alt="" loading="lazy"></span><span class="n">Engineering and fit-out<small>Indicative</small></span><span class="v">$22,000</span></li><li><span class="t"><img src="../img/lrd/menu.jpg" alt="" loading="lazy"></span><span class="n">Software<small>Indicative</small></span><span class="v">$10,000</span></li><li><span class="t"><img src="../img/process/04-commission.jpg" alt="" loading="lazy"></span><span class="n">Install and handover<small>Indicative</small></span><span class="v">$8,000</span></li><li><span class="t"><img src="../img/process/04-commission.jpg" alt="" loading="lazy"></span><span class="n">A year of maintenance<small>Indicative</small></span><span class="v">$7,000</span></li></ul><div class="pk-sum"><div class="pk-was"><span>Bought separately</span><s>$162,500</s></div><div class="pk-save"><span>Package, 10% off the work</span><b>Save $6,300</b></div><div class="pk-total"><span class="pk-num">$156,200</span><span class="label">Ex GST, delivered within 100 km of a port</span></div></div><div class="pk-go"><a class="btn" href="../quote/?pkg=bar" data-quote data-pkg="bar"><span>Build this package</span><i aria-hidden="true">+</i></a><a class="link" href="../robot-coffee-bar-package/">The robot coffee bar page</a></div></div></article><article class="pk" id="pk-cafe"><figure class="pk-ph"><a href="../robot-cafe-package/"><img src="../img/coffee/venue-01-bar-in-room.jpg" alt="A branded robot coffee bar in a venue, by the street door" loading="lazy"></a></figure><div class="pk-b"><span class="label">(02)</span><h2>The robot café</h2><p class="pk-line">Coffee and soft serve, the counter, the room and the brand across all of it.</p><ul class="pk-rows"><li><span class="t"><img src="../img/offer/coffee-bar-studio.jpg" alt="" loading="lazy"></span><span class="n">Coffee barista<small>B Pro, bar type</small></span><span class="v">$100,000</span></li><li><span class="t"><img src="../img/tile-kiosk.jpg" alt="" loading="lazy"></span><span class="n">Ice cream robot<small>I Pro</small></span><span class="v">$41,000</span></li><li><span class="t"><img src="../img/coffee/brand-01-family.jpg" alt="" loading="lazy"></span><span class="n">Branding<small>Indicative</small></span><span class="v">$8,500</span></li><li><span class="t"><img src="../img/offer/website.jpg" alt="" loading="lazy"></span><span class="n">Website<small>Indicative</small></span><span class="v">$6,500</span></li><li><span class="t"><img src="../img/coffee/bar-02-front.jpg" alt="" loading="lazy"></span><span class="n">Branding on the machine<small>Indicative</small></span><span class="v">$4,200</span></li><li><span class="t"><img src="../img/process/03-fitout.jpg" alt="" loading="lazy"></span><span class="n">Engineering and fit-out<small>Indicative</small></span><span class="v">$31,000</span></li><li><span class="t"><img src="../img/lrd/menu.jpg" alt="" loading="lazy"></span><span class="n">Software<small>Indicative</small></span><span class="v">$14,100</span></li><li><span class="t"><img src="../img/process/04-commission.jpg" alt="" loading="lazy"></span><span class="n">Install and handover<small>Indicative</small></span><span class="v">$11,300</span></li><li><span class="t"><img src="../img/process/04-commission.jpg" alt="" loading="lazy"></span><span class="n">A year of maintenance<small>Indicative</small></span><span class="v">$9,900</span></li></ul><div class="pk-sum"><div class="pk-was"><span>Bought separately</span><s>$226,500</s></div><div class="pk-save"><span>Package, 10% off the work</span><b>Save $8,600</b></div><div class="pk-total"><span class="pk-num">$217,900</span><span class="label">Ex GST, delivered within 100 km of a port</span></div></div><div class="pk-go"><a class="btn" href="../quote/?pkg=cafe" data-quote data-pkg="cafe"><span>Build this package</span><i aria-hidden="true">+</i></a><a class="link" href="../robot-cafe-package/">The robot café page</a></div></div></article><article class="pk" id="pk-box"><figure class="pk-ph"><a href="../robot-container-kitchens/"><img src="../img/container/day.jpg" alt="A branded shipping container kitchen at a market by day" loading="lazy"></a></figure><div class="pk-b"><span class="label">(03)</span><h2>The robot container kitchen</h2><p class="pk-line">A twenty foot container, an arm cooking behind glass, a skin that carries the brand.</p><ul class="pk-rows"><li><span class="t"><img src="../img/tile-arm.jpg" alt="" loading="lazy"></span><span class="n">Deep frying robot<small>F Standard</small></span><span class="v">$42,000</span></li><li><span class="t"><img src="../img/valley-baths.jpg" alt="" loading="lazy"></span><span class="n">Noodle robot<small>N Standard</small></span><span class="v">$52,000</span></li><li><span class="t"><img src="../img/coffee/brand-01-family.jpg" alt="" loading="lazy"></span><span class="n">Branding<small>Indicative</small></span><span class="v">$6,000</span></li><li><span class="t"><img src="../img/offer/website.jpg" alt="" loading="lazy"></span><span class="n">Website<small>Indicative</small></span><span class="v">$6,500</span></li><li><span class="t"><img src="../img/coffee/bar-02-front.jpg" alt="" loading="lazy"></span><span class="n">Branding on the machine<small>Indicative</small></span><span class="v">$2,800</span></li><li><span class="t"><img src="../img/process/03-fitout.jpg" alt="" loading="lazy"></span><span class="n">Engineering and fit-out<small>Indicative</small></span><span class="v">$20,700</span></li><li><span class="t"><img src="../img/lrd/menu.jpg" alt="" loading="lazy"></span><span class="n">Software<small>Indicative</small></span><span class="v">$9,400</span></li><li><span class="t"><img src="../img/process/04-commission.jpg" alt="" loading="lazy"></span><span class="n">Install and handover<small>Indicative</small></span><span class="v">$7,500</span></li><li><span class="t"><img src="../img/process/04-commission.jpg" alt="" loading="lazy"></span><span class="n">A year of maintenance<small>Indicative</small></span><span class="v">$6,600</span></li><li><span class="t"><img src="../img/container/day.jpg" alt="" loading="lazy"></span><span class="n">The container build<small>Priced on scope</small></span><span class="v ask">Priced on scope</span></li></ul><div class="pk-sum"><div class="pk-was"><span>Bought separately</span><s>$153,500</s></div><div class="pk-save"><span>Package, 10% off the work</span><b>Save $6,000</b></div><div class="pk-total"><span class="pk-num">$147,500</span><span class="label">Ex GST, plus the container build</span></div></div><div class="pk-go"><a class="btn" href="../quote/?pkg=box" data-quote data-pkg="box"><span>Build this package</span><i aria-hidden="true">+</i></a><a class="link" href="../robot-container-kitchens/">The robot container kitchen page</a></div></div></article></div>
+      <div class="pkts"><a class="pkt" href="../robot-coffee-bar-package/"><figure class="pkt-ph"><img src="../img/offer/coffee-bar-studio.jpg" alt="The dual-arm B Pro coffee bar on its counter" loading="lazy"></figure><div class="pkt-b"><span class="inc-i">(01)</span><h2>The robot coffee bar</h2><p>A barista bar in your brand, fitted into the venue you have.</p><div class="pkt-price"><span class="pkt-fig">$156,200</span><span class="label">8 parts, save $6,300</span></div><span class="pkt-go">See the package</span></div></a><a class="pkt" href="../robot-cafe-package/"><figure class="pkt-ph"><img src="../img/coffee/venue-01-bar-in-room.jpg" alt="A branded robot coffee bar in a venue, by the street door" loading="lazy"></figure><div class="pkt-b"><span class="inc-i">(02)</span><h2>The robot café</h2><p>Coffee and soft serve, the counter, the room and the brand across all of it.</p><div class="pkt-price"><span class="pkt-fig">$217,900</span><span class="label">9 parts, save $8,600</span></div><span class="pkt-go">See the package</span></div></a><a class="pkt" href="../robot-container-kitchens/"><figure class="pkt-ph"><img src="../img/container/day.jpg" alt="A branded shipping container kitchen at a market by day" loading="lazy"></figure><div class="pkt-b"><span class="inc-i">(03)</span><h2>The robot container kitchen</h2><p>A twenty foot container, an arm cooking behind glass, a skin that carries the brand.</p><div class="pkt-price"><span class="pkt-fig">$147,500</span><span class="label">Plus the container build. 10 parts, save $6,000</span></div><span class="pkt-go">See the package</span></div></a></div>
     </div>
   </section>
 
