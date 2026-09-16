@@ -556,6 +556,21 @@
   }
   @media (max-width:420px){ .cf-models,.cf-parts{grid-template-columns:1fr} }
   @media (prefers-reduced-motion:reduce){ .qs-conf{animation:none} }
+  /* The quote page: the product page architecture, with the options a quote
+     needs set as quiet segmented choices under the price. */
+  .qv-opts{display:flex;flex-wrap:wrap;gap:18px 34px;margin-top:clamp(22px,2.6vw,34px);padding-top:18px;border-top:1px solid var(--rule)}
+  .qv-opts .label{display:block;margin-bottom:8px;color:var(--graphite)}
+  .qv-segs{display:flex;flex-wrap:wrap;gap:6px}
+  .qv-seg{font:inherit;font-size:14.5px;cursor:pointer;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:999px;padding:7px 14px;transition:border-color .15s,background .15s,color .15s}
+  .qv-seg[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  @media (hover:hover){ .qv-seg:hover{border-color:var(--ink)} .qv-seg[aria-pressed="true"]:hover{background:var(--signal);border-color:var(--signal)} }
+  .qv-seg:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .pnum .actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
+  .qv-empty .wrap{padding-top:clamp(60px,9vw,150px);padding-bottom:clamp(60px,9vw,150px);max-width:900px}
+  .qv-empty h1{margin:12px 0 0;font-weight:500;font-size:clamp(52px,8vw,130px);line-height:.9;letter-spacing:-.05em}
+  .qv-empty p{margin:20px 0 0;font-size:clamp(19px,1.7vw,24px);line-height:1.35;max-width:34ch}
+  .qv-empty .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  .quote-go{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(18px,2vw,28px)}
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -630,8 +645,6 @@
   .facts dd{font-size:15px;line-height:1.4}
 
   /* quote */
-  .quote{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:34px;align-items:start}
-  .qin{grid-column:1/8;display:grid;gap:34px;min-width:0}
   .field{display:grid;gap:12px;border:0;margin:0;padding:0;min-width:0;align-content:start}
   .field legend,.field > .label{padding:0;margin-bottom:8px}
   .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
@@ -642,83 +655,12 @@
   .choices label:hover{border-color:var(--ink)}
   .choices input:checked + label{background:var(--ink);border-color:var(--ink);color:var(--paper)}
   .choices input:focus-visible + label{outline:2px solid var(--signal);outline-offset:2px}
-  .range-row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
-  .range-row output{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;min-width:8ch;text-align:right}
-  .range-row.off{opacity:.35}
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;background:transparent;margin:0}
-  input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--ink)}
-  input[type=range]::-moz-range-track{height:1px;background:var(--ink)}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-7.5px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
-  input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
-  input[type=range]:disabled{opacity:.3}
 
-  /* The picker: machines you can see, like a menu. A card per line, its own
-     picture, the price, a stepper. Picked cards take the ink border. */
-  .picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
-  .pick{border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s}
-  .pick:hover{border-color:var(--graphite)}
-  .pick.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-  .pick .ph{aspect-ratio:4/3;background:var(--rule);overflow:hidden}
-  /* the robots are full-length portrait renders, so they get their own rows
-     at 4:5 under their own heading rather than a 4:3 crop at the knees */
-  .picker .pick-sub{grid-column:1/-1;margin-top:10px;padding-top:14px;border-top:1px solid var(--rule)}
-  .pick.robot .ph{aspect-ratio:4/5}
-  .pick .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
-  .pick:hover .ph img{transform:scale(1.03)}
-  .pick-b{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
-  .pick-b h3{margin:0;font-weight:400;font-size:19px;letter-spacing:-.02em;line-height:1.1}
-  .pick-b h3 small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
-  .pick-b p{margin:0;font-size:13px;line-height:1.45;color:var(--graphite);flex:1}
-  .pick-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
-  .pick-f .price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
-  .pick.on .pick-f .price{color:var(--signal)}
-  /* Add-ons: the same idea, one line each, the price always visible so the
-     total never moves for a reason you cannot see. */
-  /* same column rhythm and gutter as .picker, so the two rows read as one grid */
-  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
-  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:0;overflow:hidden;display:flex;flex-direction:column;color:var(--ink);transition:border-color .18s,background .18s}
-  /* 16:9 here against the machines' 4:3, so a machine still reads as the purchase and
-     these read as what goes around it */
-  .addon .ph{display:block;aspect-ratio:16/9;background:var(--rule);overflow:hidden}
-  .addon .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
-  .addon:hover .ph img{transform:scale(1.03)}
-  .addon-b{display:grid;gap:5px;padding:12px 14px;flex:1}
-  .addon:hover{border-color:var(--graphite)}
-  .addon.on{border-color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 1px var(--ink)}
-  .addon b{font-weight:400;font-size:16px;letter-spacing:-.015em;line-height:1.15}
-  .addon small{font-size:12.5px;line-height:1.4;color:var(--graphite)}
-  .addon .p{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--graphite)}
-  .addon.on .p{color:var(--signal)}
   .qty{display:inline-grid;grid-template-columns:30px 34px 30px;border:1px solid var(--ink);border-radius:var(--rb);overflow:hidden}
   .qty button{height:30px;background:none;border:0;font:inherit;font-size:17px;line-height:1;cursor:pointer;color:var(--ink)}
   .qty button:hover{background:var(--signal);color:var(--paper)}
   .qty output{font-family:var(--mono);font-size:13px;line-height:30px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
 
-  .qsheet{grid-column:8/13;border:1px solid var(--ink);background:#FBFAF3;border-radius:var(--r);overflow:hidden;position:sticky;top:84px}
-  .qsheet .top{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink)}
-  .qsheet .big{padding:22px 16px 18px;border-bottom:1px solid var(--rule)}
-  .qsheet .big .num{font-size:clamp(44px,5.2vw,84px);line-height:.9;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--signal);word-break:break-word}
-  .qsheet .big .num small{font-size:.38em;letter-spacing:-.01em;margin-right:.25em;color:var(--graphite)}
-  .qsheet .big .unit{margin-top:10px}
-  .lines{width:100%;border-collapse:collapse}
-  .lines th,.lines td{text-align:left;vertical-align:top;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.4}
-  .lines th{font-weight:400}
-  .lines td{text-align:right;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .lines th small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
-  /* the quote is something you can see: a picture of every machine, robot and
-     piece of work on it, the same thumbnails the quote sheet in the bar uses */
-  .lines tr.pic th .lr{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center}
-  .lines tr.pic td{vertical-align:middle}
-  .lines th .t{width:48px;height:48px;border-radius:calc(var(--rb) - 2px);overflow:hidden;background:var(--rule)}
-  .lines th .t img{width:100%;height:100%;object-fit:cover;display:block}
-  @media print{.lines th .t{width:36px;height:36px}.lines tr.pic th .lr{grid-template-columns:36px minmax(0,1fr)}}
-  .lines .scope td{color:var(--graphite)}
-  .lines .empty th{color:var(--graphite);font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
-  .lines.sums{border-top:1px solid var(--ink)}
-  .lines.sums th{font-family:var(--mono)}
-  .lines.sums .tot th,.lines.sums .tot td{border-bottom:0;color:var(--ink);font-weight:500}
-  .qsheet .terms{padding:12px 16px;border-top:1px solid var(--rule);line-height:1.6}
-  .qsheet .foot{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:14px 16px;flex-wrap:wrap;border-top:1px solid var(--rule)}
 
 
   /* machines */
@@ -764,8 +706,6 @@
     .hero .tail h1{grid-column:1/13}
     .hero .pitch{grid-column:1/13;padding-top:26px}
     .proof{grid-template-columns:1fr 1fr}
-    .qin,.qsheet{grid-column:1/13}
-    .qsheet{position:static}
     .visit .details{grid-template-columns:1fr 1fr}
     .head .label{grid-column:1/13;margin-bottom:12px}
     .head h2,.head p{grid-column:1/13}
@@ -2053,6 +1993,20 @@ window.WonderQuote = (function(){
     return {lines:lines,count:count,asks:asks,supply:supply,sub:sub,gst:gst,inc:sub+gst,indicative:indicative,pkg:held?pk:null,save:save,plan:plan,term:term,site:site};
   }
 
+  // A quote's name in words: "Two coffee baristas and an ice cream robot".
+  // Machines are common nouns; showroom robots keep their proper names.
+  function titleOf(lines){
+    var nums=['','one','two','three','four','five','six','seven','eight','nine','ten'];
+    var bits=lines.filter(function(l){return l.kind==='machine'||l.kind==='robot';}).map(function(l){
+      if(l.kind==='robot') return (l.n>1?(nums[l.n]||l.n)+' ':'a ')+l.name+(l.n>1?'s':'');
+      var noun=l.name.charAt(0).toLowerCase()+l.name.slice(1);
+      if(l.n>1) return (nums[l.n]||l.n)+' '+noun+'s';
+      return (/^[aeiou]/.test(noun)?'an ':'a ')+noun;
+    });
+    var t=bits.length<2?(bits[0]||''):bits.slice(0,-1).join(', ')+' and '+bits[bits.length-1];
+    return t.charAt(0).toUpperCase()+t.slice(1);
+  }
+
   // A quote as a URL and back, so a quote can be a link: the full quote page,
   // the proposal, an email. Unknown ids are ignored, numbers are clamped.
   function stateFromQuery(search){
@@ -2095,7 +2049,7 @@ window.WonderQuote = (function(){
     });
     return out;
   }
-  return {MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The product menu. Hover Machines (with a moment's intent, so the mouse
@@ -2138,6 +2092,101 @@ window.WonderQuote = (function(){
   var btn=document.getElementById('want'); if(btn) btn.addEventListener('click',function(){ set(false); });
 })();
 
+/* The quote page: a quote shown the way a product page shows a product.
+   The name over the picture, the price set large with its sums, then every
+   part as its own spread. Built in the sheet; this is where it lands. The
+   state is the address, so the page is a link, and the proposal is one
+   click from it. */
+(function(){
+  var host=document.getElementById('qv'); var Q=window.WonderQuote;
+  if(!host||!Q) return;
+  var money=Q.money;
+  var esc=function(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
+  var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
+  var st=Q.stateFromQuery(location.search);
+  var long=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'long',year:'numeric'});
+  function val(l){ return l.value===null?(l.note||'On request'):l.value===0?'Included':money.format(l.value); }
+  function pos(img){ var k=Object.keys(Q.IMG_POS).filter(function(x){return img&&img.indexOf(x)>=0;})[0]; return k?Q.IMG_POS[k]:'50% 50%'; }
+  function famImg(mid){ var f=(Q.FAMILIES||[]).filter(function(x){return x.models.indexOf(mid)>=0;})[0]; return f&&f.models.length>1&&f.models[0]===mid?f.img:null; }
+
+  function draw(){
+    var c=Q.compute(st);
+    var picked=c.lines.filter(function(l){ return l.kind==='machine'||l.kind==='robot'; });
+    if(!picked.length){
+      host.innerHTML='<section class="qv-empty"><div class="wrap"><span class="label">[ Your quote ]</span><h1>Nothing on it yet.</h1>'+
+        '<p>Pick a robot, then everything around it. It prices as you go, and lands here.</p>'+
+        '<div class="actions"><a class="btn" href="'+root+'quote/" data-quote><span>Build a quote</span><i aria-hidden="true">+</i></a>'+
+        '<a class="btn ghost" href="'+root+'robot-cafe-packages/"><span>Start from a package</span><i aria-hidden="true">+</i></a></div></div></section>';
+      return;
+    }
+    var now=new Date(), until=new Date(now.getTime()+30*864e5);
+    var ref='WR-Q'+String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+('0'+now.getDate()).slice(-2)+'-'+(c.count+c.asks);
+    var title=c.pkg?c.pkg.name:Q.titleOf(c.lines);
+    var hero=c.pkg?c.pkg.img:(famImg(picked[0].id)||picked[0].img);
+    var q=Q.toQuery(st);
+    var del=c.lines.filter(function(l){return l.kind==='delivery';})[0];
+    var work=c.sub-c.supply+c.save-(del&&del.value?del.value:0);
+    var parts=c.lines.filter(function(l){ return l.kind!=='delivery'&&l.kind!=='save'; });
+
+    var sums='<dt>Machines at list</dt><dd>'+money.format(c.supply)+'</dd><dt>The work and care</dt><dd>'+money.format(work)+'</dd>';
+    if(c.pkg) sums+='<dt>'+esc(c.pkg.name)+', 10% off the work</dt><dd class="save">'+money.format(-c.save)+'</dd>';
+    if(del) sums+='<dt>Delivery</dt><dd>'+val(del)+'</dd>';
+    sums+='<dt>GST 10%</dt><dd>'+money.format(c.gst)+'</dd><dt>Total inc GST</dt><dd>'+money.format(c.inc)+'</dd>';
+    var body=['Quote '+ref+': '+title].concat(c.lines.map(function(l){ return l.label+': '+val(l); }))
+      .concat(['Total ex GST: '+money.format(c.sub),'Total inc GST: '+money.format(c.inc),'',location.origin+location.pathname+q]).join('\n');
+
+    var opt=function(name,value,label,on){ return '<button type="button" class="qv-seg" data-opt="'+name+'" data-val="'+value+'" aria-pressed="'+(on?'true':'false')+'">'+label+'</button>'; };
+    var options='<div class="qv-opts">'+
+      '<div><span class="label">Maintenance</span><div class="qv-segs">'+opt('plan','standard','Standard',c.plan==='standard')+opt('plan','priority','Priority',c.plan==='priority')+opt('plan','none','None',c.plan==='none')+'</div></div>'+
+      (c.plan!=='none'?'<div><span class="label">For</span><div class="qv-segs">'+[1,2,3,4,5].map(function(t){return opt('term',t,t+(t===1?' year':' years'),c.term===t);}).join('')+'</div></div>':'')+
+      '<div><span class="label">Delivery</span><div class="qv-segs">'+opt('site','port','Within 100 km of a port',c.site==='port')+opt('site','far','Further',c.site==='far')+'</div></div></div>';
+
+    var spreads=parts.map(function(l,i){
+      var d=Q.DETAILS[l.id]||null, img=(l.id==='care'?(Q.DETAIL_IMG.care||l.img):l.img);
+      if(l.id==='care'&&d) d={stage:d.stage,gets:d.gets,lead:'Looked after: spares, monitoring and updates, and a number that answers when something stops.',facts:[['Plan',(c.plan==='priority'?'Priority':'Standard')+', '+c.term+(c.term===1?' year':' years')],['After that','Priced by the year']]};
+      var stage=d?d.stage:(l.kind==='extra'?'Build':'Supply');
+      var lead=d?d.lead:(l.kind==='robot'?(l.status+'. '+l.model+', priced to order.'):l.sub);
+      var name=(l.n>1?l.n+' × ':'')+(l.kind==='machine'?l.name+', '+l.model:l.label);
+      var note=l.kind==='machine'?'List, ex GST':l.value===null?'Priced to order':'Indicative, ex GST';
+      var gets=d?'<div><span class="label">What you get</span><ul class="inc-gets">'+d.gets.map(function(g){return '<li>'+esc(g)+'</li>';}).join('')+'</ul></div>':'';
+      var facts=d?'<dl class="inc-facts">'+d.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>';}).join('')+'</dl>':'';
+      return '<article class="inc'+(i%2?' flip':'')+'"><div class="inc-h"><span class="inc-i">('+('0'+(i+1)).slice(-2)+')</span><span class="inc-stage">'+esc(stage)+'</span>'+
+        '<h3>'+esc(name)+'</h3><div class="inc-price'+(l.value===null?' ask':'')+'">'+val(l)+'<small>'+note+'</small></div></div>'+
+        '<figure class="inc-ph"><img src="'+img+'" alt="" loading="lazy" style="object-position:'+pos(img)+'"></figure>'+
+        '<div class="inc-b"><p class="inc-lead">'+esc(lead)+'</p>'+((gets||facts)?'<div class="inc-cols">'+gets+facts+'</div>':'')+'</div></article>';
+    }).join('');
+
+    host.innerHTML=
+      '<section class="phero"><div class="wrap"><div class="pills"><span class="pill">Quote '+ref+'</span><span class="pill">Valid until '+long.format(until)+'</span><span class="pill">About two months</span><span class="pill price">'+(c.indicative?'About ':'')+money.format(c.sub)+' ex GST</span></div>'+
+        '<h1>'+esc(title)+'.</h1><figure class="stage photo"><img src="'+hero+'" alt="" loading="eager" style="object-position:'+pos(hero)+'"><figcaption class="label"><span>'+esc(title)+'</span><span>Your quote</span></figcaption></figure></div></section>'+
+      '<section class="pnum"><div class="wrap"><span class="label">[ The whole job, one price ]</span>'+
+        '<div class="pn-fig">'+money.format(c.sub)+'</div>'+(c.pkg&&c.pkg.extra?'<span class="pn-extra">plus '+esc(c.pkg.extra.name.toLowerCase())+', priced on scope</span>':'')+
+        '<div class="pn-row"><p>'+(c.pkg?esc(c.pkg.line)+' Bought as one job, the work costs 10% less.':'Machines at list. The work around them is indicative until we have seen the site.')+(c.asks?' Robots are priced to order.':'')+'</p><dl class="pn-sum">'+sums+'</dl></div>'+
+        options+
+        '<div class="actions"><a class="btn" href="'+root+'quote/proposal/'+q+'"><span>The proposal, PDF</span><i aria-hidden="true">+</i></a>'+
+        '<button type="button" class="btn ghost" id="qv-change"><span>Change it</span><i aria-hidden="true">+</i></button>'+
+        '<a class="btn ghost" href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body)+'"><span>Send it to us</span><i aria-hidden="true">+</i></a></div>'+
+      '</div></section>'+
+      '<section class="incs"><div class="wrap"><div class="incs-h"><span class="label">[ Everything in it ]</span><h2>'+parts.length+(parts.length===1?' part':' parts')+'. One price.</h2></div>'+spreads+'</div></section>'+
+      '<section class="rail last"><div class="wrap"><span class="label">[ Terms ]</span><div><ol class="hl three">'+
+        '<li><b>Machines at list</b><p>2026 Moton Australia list, ex GST</p></li><li><b>The rest indicative</b><p>Confirmed once we have seen the site</p></li>'+
+        '<li><b>Valid 30 days</b><p>Until '+long.format(until)+'</p></li><li><b>One year warranty</b><p>On the machines</p></li>'+
+        '<li><b>About two months</b><p>From order, duty unpaid within 100 km of a port</p></li><li><b>Terms of sale</b><p><a class="link" href="'+root+'terms/">Read them</a></p></li></ol></div></div></section>';
+
+    document.title=title+', quote '+ref+', Wonder Robotics';
+    var ch=document.getElementById('qv-change');
+    if(ch) ch.addEventListener('click',function(){ if(window.WonderQuoteSheet) WonderQuoteSheet.load(st); });
+  }
+  host.addEventListener('click',function(e){
+    var b=e.target.closest('.qv-seg'); if(!b) return;
+    var k=b.getAttribute('data-opt'), v=b.getAttribute('data-val');
+    if(k==='term') st.term=parseInt(v,10); else st[k]=v;
+    try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(err){}
+    draw();
+  });
+  draw();
+})();
+
 /* The proposal: a quote drawn as a document. Same state, same maths as the
    quote page, read from the address, so a proposal is a link you can send
    and a PDF you can save. A4 sheets on screen and on paper. */
@@ -2154,7 +2203,6 @@ window.WonderQuote = (function(){
   function pos(img){ var k=Object.keys(Q.IMG_POS).filter(function(x){return img&&img.indexOf(x)>=0;})[0]; return k?Q.IMG_POS[k]:'50% 50%'; }
   function pic(src,cls){ return src?'<img class="'+(cls||'')+'" src="'+src+'" alt="" loading="eager" style="object-position:'+pos(src)+'">':''; }
   function val(l){ return l.value===null?(l.note||'On request'):l.value===0?'Included':money.format(l.value); }
-  function joinNames(xs){ return xs.length<2?(xs[0]||''):xs.slice(0,-1).join(', ')+' and '+xs[xs.length-1]; }
 
   function draw(){
     var c=Q.compute(st);
@@ -2166,7 +2214,7 @@ window.WonderQuote = (function(){
     }
     var now=new Date(), until=new Date(now.getTime()+30*864e5);
     var ref='WR-P'+String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+('0'+now.getDate()).slice(-2)+'-'+(c.count+c.asks);
-    var title=c.pkg?c.pkg.name:joinNames(picked.map(function(l){ return (l.n>1?l.n+' × ':'')+l.name; }));
+    var title=c.pkg?c.pkg.name:Q.titleOf(c.lines);
     var hero=c.pkg?c.pkg.img:picked[0].img;
     var parts=c.lines.filter(function(l){ return l.kind!=='delivery'&&l.kind!=='save'; });
     var sheets=[];
@@ -2353,6 +2401,8 @@ window.WonderQuote = (function(){
 
   // One state for the sheet. Machines and robots count, add-ons toggle.
   var qty={}, parts={}, svc={}, pkg=null, drawn=false, lastFocus=null, openFam=null;
+  // choices the sheet does not show but must not lose when a quote page is changed in it
+  var carry={plan:'standard',term:1,site:'port'};
   Q.MACHINES.concat(Q.ROBOTS).forEach(function(m){ qty[m.id]=0; });
   Q.PARTS.forEach(function(x){ parts[x.id]=false; });
   Q.SERVICES.forEach(function(x){ svc[x.id]=!!x.on; });
@@ -2564,7 +2614,18 @@ window.WonderQuote = (function(){
     var ok=Object.keys(pk.machines).every(function(m){return qty[m]>=pk.machines[m];})&&Q.PACKAGE_WORK.every(function(w){return svc[w];});
     return ok?pk:null;
   }
-  window.WonderQuoteSheet={ open:function(id){ draw(); if(id) choosePackage(id); render(); setOpen(true); } };
+  window.WonderQuoteSheet={
+    open:function(id){ draw(); if(id) choosePackage(id); render(); setOpen(true); },
+    // open the sheet holding a whole quote, so a quote page can be changed
+    load:function(st){
+      draw();
+      Q.MACHINES.concat(Q.ROBOTS).forEach(function(m){ qty[m.id]=(st.qty&&st.qty[m.id])||0; });
+      Q.PARTS.forEach(function(x){ parts[x.id]=!!(st.parts&&st.parts[x.id]); });
+      Q.SERVICES.forEach(function(x){ svc[x.id]=!!(st.svc&&st.svc[x.id]); });
+      pkg=st.pkg||null; openFam=null; carry={plan:st.plan||'standard',term:st.term||1,site:st.site||'port'};
+      drawConf(); render(); setOpen(true);
+    }
+  };
   $('qs-peek').addEventListener('click',function(){
     var tray=$('qs-tray'), o=!tray.classList.contains('open');
     tray.classList.toggle('open',o); this.setAttribute('aria-expanded',o?'true':'false');
@@ -2662,6 +2723,7 @@ window.WonderQuote = (function(){
     var pkgParam=pick.filter(function(x){return x.indexOf('pkg=')===0;})[0];
     var plain=pick.filter(function(x){return x.indexOf('pkg=')!==0;});
     var qs=[]; if(plain.length) qs.push('pick='+plain.join(',')); if(pkgParam) qs.push(pkgParam);
+    if(carry.plan!=='standard') qs.push('plan='+carry.plan); if(carry.term!==1) qs.push('term='+carry.term); if(carry.site==='far') qs.push('site=far');
     var go=$('want-go'); go.href=go.getAttribute('data-base')+(qs.length?'?'+qs.join('&'):'');
     var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+(qs.length?'?'+qs.join('&'):'');
   }
@@ -2713,144 +2775,6 @@ window.WonderQuote = (function(){
   tick(); setInterval(tick,15000);
 })();
 
-/* The quote page builder. Its own scope: it once shared one with the bar
-   clock, and two different names in it collided (parts, then state). */
-(function(){
-
-  var Q=window.WonderQuote, MACHINES=Q.MACHINES, PARTS=Q.PARTS, SERVICES=Q.SERVICES, RATES=Q.RATES, GST=Q.GST;
-
-  var form=document.getElementById('quote-form');
-  if(!form){return;}
-  var el=function(id){return document.getElementById(id);};
-  var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
-  var qty={}, parts={}, svc={}, pagePkg=null;
-
-  // 1. the machines, as cards you can see
-  var picker=el('cat');
-  MACHINES.forEach(function(m){
-    qty[m.id]=0;
-    var c=document.createElement('div'); c.className='pick'; c.id='pick-'+m.id;
-    c.innerHTML='<div class="ph"><img src="'+m.img+'" alt="'+m.name+', '+m.model+'" loading="lazy"></div>'+
-      '<div class="pick-b"><h3>'+m.name+'<small>'+m.model+'</small></h3><p>'+m.kit+'</p>'+
-      '<div class="pick-f"><span class="price">'+money.format(m.price)+'</span>'+
-      '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+m.name+'">+</button></span></div></div>';
-    picker.appendChild(c);
-  });
-  // the showroom robots, priced on request, in the same grid
-  var ROBOTS=Q.ROBOTS||[];
-  if(ROBOTS.length){ var hd=document.createElement('div'); hd.className='pick-sub label'; hd.textContent='Showroom robots, priced to order'; picker.appendChild(hd); }
-  ROBOTS.forEach(function(r){
-    qty[r.id]=0;
-    var c=document.createElement('div'); c.className='pick robot'; c.id='pick-'+r.id;
-    c.innerHTML='<div class="ph"><img src="'+r.img+'" alt="'+r.name+'" loading="lazy"></div>'+
-      '<div class="pick-b"><h3>'+r.name+'<small>'+r.kind+'</small></h3><p>'+r.status+'. Priced to order.</p>'+
-      '<div class="pick-f"><span class="price">On request</span>'+
-      '<span class="qty"><button type="button" data-id="'+r.id+'" data-d="-1" aria-label="Fewer '+r.name+'">&minus;</button><output id="qty-'+r.id+'">0</output><button type="button" data-id="'+r.id+'" data-d="1" aria-label="Add '+r.name+'">+</button></span></div></div>';
-    picker.appendChild(c);
-  });
-  picker.addEventListener('click',function(e){
-    var b=e.target.closest('button[data-id]'); if(!b) return;
-    var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10)));
-    render();
-  });
-
-  // 2. add-ons: hardware first, then the work around it
-  var box=el('addons');
-  function chip(o,group){
-    var d=document.createElement('button'); d.type='button'; d.className='addon'; d.id='ad-'+o.id;
-    d.setAttribute('data-group',group); d.setAttribute('data-id',o.id); d.setAttribute('aria-pressed','false');
-    d.innerHTML=(o.img?'<span class="ph"><img src="'+o.img+'" alt="'+o.alt+'" loading="lazy"></span>':'')+
-      '<span class="addon-b"><b>'+o.name+'</b><small>'+o.sub+'</small><span class="p" id="adp-'+o.id+'"></span></span>';
-    box.appendChild(d);
-  }
-  PARTS.forEach(function(p){ parts[p.id]=false; chip(p,'part'); });
-  SERVICES.forEach(function(s){ svc[s.id]=!!s.on; chip(s,'svc'); });
-  box.addEventListener('click',function(e){
-    var b=e.target.closest('.addon'); if(!b) return;
-    var id=b.getAttribute('data-id'), g=b.getAttribute('data-group');
-    if(g==='part') parts[id]=!parts[id]; else svc[id]=!svc[id];
-    render();
-  });
-
-  function read(){
-    return {
-      plan:form.querySelector('input[name=plan]:checked').value,
-      term:parseInt(el('term').value,10)||1,
-      site:form.querySelector('input[name=site]:checked').value,
-      gst:form.querySelector('input[name=gst]:checked').value
-    };
-  }
-  function line(label,sub,value,ind,img){ return {label:label,sub:sub,value:value,ind:ind,img:img}; }
-
-  function state(){
-    var v=read();
-    return {qty:qty,parts:parts,svc:svc,pkg:pagePkg,plan:v.plan,term:v.term,site:v.site};
-  }
-  function render(){
-    var v=read(), c=Q.compute(state());
-    var lines=c.lines.map(function(l){ return {label:l.label,sub:l.sub,value:l.value,note:l.note,ind:l.ind,img:l.img}; });
-    var sub=c.sub, count=c.count, indicative=c.indicative;
-    // the cards
-    MACHINES.concat(ROBOTS).forEach(function(m){
-      var n=qty[m.id]; el('qty-'+m.id).textContent=n; el('pick-'+m.id).classList.toggle('on',n>0);
-    });
-    PARTS.forEach(function(p){
-      var on=parts[p.id]; el('ad-'+p.id).classList.toggle('on',on); el('ad-'+p.id).setAttribute('aria-pressed',on?'true':'false');
-      el('adp-'+p.id).textContent=money.format(p.price);
-    });
-    SERVICES.forEach(function(s){
-      var on=svc[s.id], amt=c.count?Q.serviceAmount(s,c.supply):0;
-      el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
-      el('adp-'+s.id).textContent=c.count?money.format(amt):'Priced on your machines';
-    });
-    var noPlan=v.plan==='none';
-    el('term').disabled=noPlan; el('term-row').classList.toggle('off',noPlan);
-    el('term-out').textContent=v.term+(v.term===1?' year':' years');
-    // the proposal is this quote as a document, at its own address
-    var prop=el('q-proposal'); if(prop) prop.href=prop.getAttribute('data-base')+Q.toQuery(state());
-
-    var tb=el('q-lines'); tb.innerHTML='';
-    if(!lines.length){ tb.innerHTML='<tr class="empty"><th colspan="2">Pick a machine to start the quote</th></tr>'; }
-    lines.forEach(function(l){
-      var tr=document.createElement('tr');
-      if(l.ind) tr.className='scope';
-      if(l.img) tr.className+=(tr.className?' ':'')+'pic';
-      tr.innerHTML='<th><span class="lr">'+(l.img?'<span class="t"><img src="'+l.img+'" alt=""></span>':'')+'<span>'+l.label+'<small>'+l.sub+'</small></span></span></th><td>'+(l.value===null?(l.note||'On request'):l.value===0?'Included':money.format(l.value))+'</td>';
-      tb.appendChild(tr);
-    });
-
-    var gst=c.gst, inc=c.inc;
-    el('q-sub').textContent=money.format(sub); el('q-gst').textContent=money.format(gst); el('q-inc').textContent=money.format(inc);
-    var shown=v.gst==='inc'?inc:sub;
-    el('q-total').innerHTML=(indicative?'<small>about</small>':'')+money.format(shown);
-    el('q-total-note').textContent=(v.gst==='inc'?'Total, inc GST':'Total, ex GST')+(indicative?'. Machines at list, the rest indicative':'');
-
-    var d=new Date(), ref='WR-Q'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'-'+count;
-    el('q-ref').textContent=ref;
-    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value===null?(l.note||'on request').toLowerCase():l.value===0?'included':money.format(l.value));}))
-      .concat(['Subtotal ex GST: '+money.format(sub),'GST: '+money.format(gst),'Total inc GST: '+money.format(inc),'',
-               'Machines at 2026 Moton list. Everything else indicative, confirmed on scope.','','Site:','Contact:']).join('\n');
-    el('q-send').href='mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body);
-  }
-  form.addEventListener('input',render);
-  form.addEventListener('change',render);
-  var propEl=el('q-proposal'); if(propEl) propEl.setAttribute('data-base',propEl.getAttribute('href'));
-  // A product or landing page pre-picks its lines: quote/?pick=bpro,prnt.
-  var pick=(location.search.match(/[?&]pick=([^&]*)/)||[])[1];
-  var pkgQ=(location.search.match(/[?&]pkg=([a-z]+)/)||[])[1];
-  var pkgDef=pkgQ&&Q.PACKAGES.filter(function(x){return x.id===pkgQ;})[0];
-  if(pkgDef){
-    pagePkg=pkgDef.id;
-    Object.keys(pkgDef.machines).forEach(function(m){ qty[m]=Math.max(qty[m],pkgDef.machines[m]); });
-    Q.PACKAGE_WORK.forEach(function(w){ svc[w]=true; });
-  }
-  if(pick){ var pk=Q.parsePick(pick);
-    Object.keys(pk.qty).forEach(function(id){qty[id]=pk.qty[id];});
-    Object.keys(pk.parts).forEach(function(id){parts[id]=true;});
-    Object.keys(pk.svc).forEach(function(id){svc[id]=true;}); }
-  else if(!pkgDef){ qty.fry=1; qty.noo=1; }
-  render();
-})();
 
 (function(){
   // honour reduced motion for the hero: pause and show the still

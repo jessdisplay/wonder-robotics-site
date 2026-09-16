@@ -679,8 +679,6 @@ def page(name, cfg):
     body = fill_prices(body)
     if "{{next}}" in body:
         body = body.replace("{{next}}", next_block(name))
-    if "{{quote}}" in body:
-        body = body.replace("{{quote}}", (SRC / "_quote-form.html").read_text())
     if "{{machines}}" in body:
         body = body.replace("{{machines}}", '<ul class="catalogue">' + "".join(
             card(BY_SLUG[slug]) for slug in HOME_MACHINES) + "</ul>")

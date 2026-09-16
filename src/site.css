@@ -531,6 +531,21 @@
   }
   @media (max-width:420px){ .cf-models,.cf-parts{grid-template-columns:1fr} }
   @media (prefers-reduced-motion:reduce){ .qs-conf{animation:none} }
+  /* The quote page: the product page architecture, with the options a quote
+     needs set as quiet segmented choices under the price. */
+  .qv-opts{display:flex;flex-wrap:wrap;gap:18px 34px;margin-top:clamp(22px,2.6vw,34px);padding-top:18px;border-top:1px solid var(--rule)}
+  .qv-opts .label{display:block;margin-bottom:8px;color:var(--graphite)}
+  .qv-segs{display:flex;flex-wrap:wrap;gap:6px}
+  .qv-seg{font:inherit;font-size:14.5px;cursor:pointer;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:999px;padding:7px 14px;transition:border-color .15s,background .15s,color .15s}
+  .qv-seg[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  @media (hover:hover){ .qv-seg:hover{border-color:var(--ink)} .qv-seg[aria-pressed="true"]:hover{background:var(--signal);border-color:var(--signal)} }
+  .qv-seg:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .pnum .actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
+  .qv-empty .wrap{padding-top:clamp(60px,9vw,150px);padding-bottom:clamp(60px,9vw,150px);max-width:900px}
+  .qv-empty h1{margin:12px 0 0;font-weight:500;font-size:clamp(52px,8vw,130px);line-height:.9;letter-spacing:-.05em}
+  .qv-empty p{margin:20px 0 0;font-size:clamp(19px,1.7vw,24px);line-height:1.35;max-width:34ch}
+  .qv-empty .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  .quote-go{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(18px,2vw,28px)}
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -605,8 +620,6 @@
   .facts dd{font-size:15px;line-height:1.4}
 
   /* quote */
-  .quote{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:34px;align-items:start}
-  .qin{grid-column:1/8;display:grid;gap:34px;min-width:0}
   .field{display:grid;gap:12px;border:0;margin:0;padding:0;min-width:0;align-content:start}
   .field legend,.field > .label{padding:0;margin-bottom:8px}
   .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
@@ -617,83 +630,12 @@
   .choices label:hover{border-color:var(--ink)}
   .choices input:checked + label{background:var(--ink);border-color:var(--ink);color:var(--paper)}
   .choices input:focus-visible + label{outline:2px solid var(--signal);outline-offset:2px}
-  .range-row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
-  .range-row output{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;min-width:8ch;text-align:right}
-  .range-row.off{opacity:.35}
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;background:transparent;margin:0}
-  input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--ink)}
-  input[type=range]::-moz-range-track{height:1px;background:var(--ink)}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-7.5px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
-  input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
-  input[type=range]:disabled{opacity:.3}
 
-  /* The picker: machines you can see, like a menu. A card per line, its own
-     picture, the price, a stepper. Picked cards take the ink border. */
-  .picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
-  .pick{border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s}
-  .pick:hover{border-color:var(--graphite)}
-  .pick.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-  .pick .ph{aspect-ratio:4/3;background:var(--rule);overflow:hidden}
-  /* the robots are full-length portrait renders, so they get their own rows
-     at 4:5 under their own heading rather than a 4:3 crop at the knees */
-  .picker .pick-sub{grid-column:1/-1;margin-top:10px;padding-top:14px;border-top:1px solid var(--rule)}
-  .pick.robot .ph{aspect-ratio:4/5}
-  .pick .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
-  .pick:hover .ph img{transform:scale(1.03)}
-  .pick-b{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
-  .pick-b h3{margin:0;font-weight:400;font-size:19px;letter-spacing:-.02em;line-height:1.1}
-  .pick-b h3 small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
-  .pick-b p{margin:0;font-size:13px;line-height:1.45;color:var(--graphite);flex:1}
-  .pick-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
-  .pick-f .price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
-  .pick.on .pick-f .price{color:var(--signal)}
-  /* Add-ons: the same idea, one line each, the price always visible so the
-     total never moves for a reason you cannot see. */
-  /* same column rhythm and gutter as .picker, so the two rows read as one grid */
-  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
-  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:0;overflow:hidden;display:flex;flex-direction:column;color:var(--ink);transition:border-color .18s,background .18s}
-  /* 16:9 here against the machines' 4:3, so a machine still reads as the purchase and
-     these read as what goes around it */
-  .addon .ph{display:block;aspect-ratio:16/9;background:var(--rule);overflow:hidden}
-  .addon .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
-  .addon:hover .ph img{transform:scale(1.03)}
-  .addon-b{display:grid;gap:5px;padding:12px 14px;flex:1}
-  .addon:hover{border-color:var(--graphite)}
-  .addon.on{border-color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 1px var(--ink)}
-  .addon b{font-weight:400;font-size:16px;letter-spacing:-.015em;line-height:1.15}
-  .addon small{font-size:12.5px;line-height:1.4;color:var(--graphite)}
-  .addon .p{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--graphite)}
-  .addon.on .p{color:var(--signal)}
   .qty{display:inline-grid;grid-template-columns:30px 34px 30px;border:1px solid var(--ink);border-radius:var(--rb);overflow:hidden}
   .qty button{height:30px;background:none;border:0;font:inherit;font-size:17px;line-height:1;cursor:pointer;color:var(--ink)}
   .qty button:hover{background:var(--signal);color:var(--paper)}
   .qty output{font-family:var(--mono);font-size:13px;line-height:30px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
 
-  .qsheet{grid-column:8/13;border:1px solid var(--ink);background:#FBFAF3;border-radius:var(--r);overflow:hidden;position:sticky;top:84px}
-  .qsheet .top{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink)}
-  .qsheet .big{padding:22px 16px 18px;border-bottom:1px solid var(--rule)}
-  .qsheet .big .num{font-size:clamp(44px,5.2vw,84px);line-height:.9;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--signal);word-break:break-word}
-  .qsheet .big .num small{font-size:.38em;letter-spacing:-.01em;margin-right:.25em;color:var(--graphite)}
-  .qsheet .big .unit{margin-top:10px}
-  .lines{width:100%;border-collapse:collapse}
-  .lines th,.lines td{text-align:left;vertical-align:top;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.4}
-  .lines th{font-weight:400}
-  .lines td{text-align:right;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .lines th small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--graphite);margin-top:3px}
-  /* the quote is something you can see: a picture of every machine, robot and
-     piece of work on it, the same thumbnails the quote sheet in the bar uses */
-  .lines tr.pic th .lr{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center}
-  .lines tr.pic td{vertical-align:middle}
-  .lines th .t{width:48px;height:48px;border-radius:calc(var(--rb) - 2px);overflow:hidden;background:var(--rule)}
-  .lines th .t img{width:100%;height:100%;object-fit:cover;display:block}
-  @media print{.lines th .t{width:36px;height:36px}.lines tr.pic th .lr{grid-template-columns:36px minmax(0,1fr)}}
-  .lines .scope td{color:var(--graphite)}
-  .lines .empty th{color:var(--graphite);font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
-  .lines.sums{border-top:1px solid var(--ink)}
-  .lines.sums th{font-family:var(--mono)}
-  .lines.sums .tot th,.lines.sums .tot td{border-bottom:0;color:var(--ink);font-weight:500}
-  .qsheet .terms{padding:12px 16px;border-top:1px solid var(--rule);line-height:1.6}
-  .qsheet .foot{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:14px 16px;flex-wrap:wrap;border-top:1px solid var(--rule)}
 
 
   /* machines */
@@ -739,8 +681,6 @@
     .hero .tail h1{grid-column:1/13}
     .hero .pitch{grid-column:1/13;padding-top:26px}
     .proof{grid-template-columns:1fr 1fr}
-    .qin,.qsheet{grid-column:1/13}
-    .qsheet{position:static}
     .visit .details{grid-template-columns:1fr 1fr}
     .head .label{grid-column:1/13;margin-bottom:12px}
     .head h2,.head p{grid-column:1/13}
