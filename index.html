@@ -380,7 +380,7 @@
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}}
+  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}.stage.film .hero-video{display:block}}
 
   /* the warm home: one idea per screen */
   .line{margin:0;font-weight:400;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
@@ -481,6 +481,9 @@
      machine on black, so no mask and no tuck under the title. */
   .stage.photo{margin:clamp(28px,4vw,56px) 0 0}
   .stage.photo img{width:100%;max-width:none;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r);-webkit-mask-image:none;mask-image:none}
+  /* A moving stage is cut 16:9, not 21:9: the barista bar's screens sit at
+     the top of the frame and the drip tray at the bottom, and 21:9 loses both. */
+  .stage.photo.film video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r);background:var(--rule)}
   .stage.photo figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);color:color-mix(in srgb,var(--cream) 60%,#0A0A0C);text-align:left}
   .stage.photo figcaption span:last-child{color:var(--signal)}
   .case .phero h1{font-size:clamp(48px,9vw,160px)}
@@ -920,16 +923,16 @@
     <div class="wrap">
       <div class="grid head">
         <span class="label">How we work</span>
-        <h2>Planning, design, supply, implementation, maintenance.</h2>
-        <p>Five stages, one team. Stop after any of them. Drawn here for the container, start to finish.</p>
+        <h2>Plan, design, build, fit out, open.</h2>
+        <p>The Eat Street container, in the order it happens. Stop after any stage.</p>
       </div>
       <div class="rail-wrap">
         <div class="rail-scroll" id="process-rail" tabindex="0" role="region" aria-label="The five stages, scroll for more">
-          <figure class="shot"><img src="img/process/01-planning.jpg" alt="Site plan drawn in ink: the container's footprint dashed onto a paved laneway, hatch and stools, customer flow arrows, power and water points, a north arrow" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>01</b> Planning</span><p>What the job is, what it costs, what it saves.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/02-design.jpg" alt="General arrangement drawing of the container: side elevation with the hatch and awning open, cutaway showing the arm on its rail, cooking line, extraction through the roof, counter and stools" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>02</b> Design</span><p>Drawn against your floor plan. Piloted on ours.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/03-supply.jpg" alt="Ink drawing of the closed container sliding off a tilt-tray truck, and the fitout crated on pallets beneath it: the arm, the fryers, the pot, the stools, the LED panels" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>03</b> Supply</span><p>Any maker's machine, or ours. Freight on the quote.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/04-implementation.jpg" alt="Ink drawing of the container on site during fitout: a gantry hoist lowering the arm onto its ceiling rail, one person on a ladder guiding it, one at a laptop, the fryer wheeled in, a wall panel offered up" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>04</b> Implementation</span><p>Fabricate, program, install, commission, train.</p></figcaption></figure>
-          <figure class="shot"><img src="img/process/05-maintenance.jpg" alt="Exploded ink drawing of the robot arm with its rail trolley, drive belt, gearbox, control box, wrist and gripper called out as spares; the container small in one corner with its service hatch open, a service dial in the other" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>05</b> Maintenance</span><p>Spares, monitoring, updates. A number that answers.</p></figcaption></figure>
+          <figure class="shot"><img src="img/process/01-planning.jpg" alt="Site plan drawn in ink: the container's footprint dashed onto a paved laneway, hatch and stools, customer flow arrows, power and water points, a north arrow" loading="lazy" width="2048" height="1365"><figcaption><span class="label"><b>01</b> Plan &middot; Drawing</span><p>The footprint on the laneway. Power, water, where the queue stands.</p></figcaption></figure>
+          <figure class="shot"><img src="img/container/ga.jpg" alt="General arrangement drawing of the container: side elevation with the hatch and awning open, cutaway showing the arm on its rail, cooking line, extraction through the roof, counter and stools" loading="lazy" width="2400" height="1340"><figcaption><span class="label"><b>02</b> Design &middot; Drawing</span><p>The general arrangement it gets built from. Hatch, rail, line, extraction.</p></figcaption></figure>
+          <figure class="shot"><img src="img/container/construction.jpg" alt="The container on stands in the fabrication yard, one side cut open and reframed in steel, a fabricator grinding the opening" loading="lazy" width="2400" height="1340"><figcaption><span class="label"><b>03</b> Build &middot; Concept</span><p>A twenty foot box, one side cut out and reframed in steel, in our yard.</p></figcaption></figure>
+          <figure class="shot"><img src="img/container/fitout.jpg" alt="Inside the lined container during fitout, the arm bolted to its rail and still in film, a technician at the controller with a laptop" loading="lazy" width="2400" height="1340"><figcaption><span class="label"><b>04</b> Fit out &middot; Concept</span><p>Lined, stainless in, the arm on its rail, the first program running off a laptop.</p></figcaption></figure>
+          <figure class="shot"><img src="img/container/day.jpg" alt="The container by day: the projector glass reads as glass, with soft purple and gold crescent shapes drifting across the panels in full sun, the arm at work behind the window" loading="lazy" width="2400" height="1340"><figcaption><span class="label"><b>05</b> Open &middot; Concept</span><p>Eat Street Northshore. Glass skin live, arm on the line, a queue at the hatch.</p></figcaption></figure>
         </div>
         <div class="rail-nav">
           <button class="rail-btn" type="button" data-rail="process-rail" data-dir="-1" aria-label="Scroll left">&larr;</button>
@@ -1124,7 +1127,7 @@
      is right: the 15 Sep Hunyuan build carries a second right arm. Restore
      the two script tags below once a mesh has been approved on a test link.
 <script type="importmap">{"imports":{"three":"./vendor/three/three.module.min.js","three/addons/":"./vendor/three/"}}</script>
-<script type="module" src="hero.js?v=97b26cc5"></script>
+<script type="module" src="hero.js?v=5bf02b03"></script>
 -->
 
 <footer>
@@ -1497,12 +1500,7 @@ window.WonderSneak = (function () {
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  // Text joins the same reveal as images (Jesse, 15 Sep: 'subtle animations across
-  // the site'): section heads, case-study stage headings and the shared product/
-  // case-study detail band all rise on scroll now, not just photographs. Still one
-  // observer, still one CSS system (.wr-lift), so reduced-motion and the trigger
-  // logic below apply to everything identically.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li, .grid.head, .story h2, .rail .wrap > .label, .rail .wrap > div > h2, .pdetail .label, .pdetail h2.line, .pdetail .sub'));
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');
