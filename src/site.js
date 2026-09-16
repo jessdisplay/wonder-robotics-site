@@ -779,6 +779,7 @@ window.WonderQuote = (function(){
         tag:'<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'});
     }).join('');
     $('qp-work').innerHTML=Q.SERVICES.map(function(x){ return card(x,{kind:'svc',label:x.name,title:x.name,text:x.sub}); }).join('');
+    wzEnter();
     render();
   }
   $('qs-pick').addEventListener('click',function(e){
@@ -833,7 +834,7 @@ window.WonderQuote = (function(){
     return ok?pk:null;
   }
   window.WonderQuoteSheet={
-    open:function(id){ draw(); if(id) choosePackage(id); render(); setOpen(true); },
+    open:function(id){ draw(); if(id){ choosePackage(id); wzEnter(); } render(); setOpen(true); },
     // open the sheet holding a whole quote, so a quote page can be changed
     load:function(st){
       draw();
@@ -841,13 +842,189 @@ window.WonderQuote = (function(){
       Q.PARTS.forEach(function(x){ parts[x.id]=!!(st.parts&&st.parts[x.id]); });
       Q.SERVICES.forEach(function(x){ svc[x.id]=!!(st.svc&&st.svc[x.id]); });
       pkg=st.pkg||null; openFam=null; carry={plan:st.plan||'standard',term:st.term||1,site:st.site||'port'};
-      drawConf(); render(); setOpen(true);
+      drawConf(); wzEnter(); render(); setOpen(true);
     }
   };
   $('qs-peek').addEventListener('click',function(){
     var tray=$('qs-tray'), o=!tray.classList.contains('open');
     tray.classList.toggle('open',o); this.setAttribute('aria-expanded',o?'true':'false');
   });
+
+  // ---- the guided quote. A buyer is asked what they are opening, what it
+  // serves, how busy it gets and where it goes; we recommend the machines
+  // and say why; then we offer what makes it theirs, each with its reason.
+  // Every claim here is one the site already makes: about seventy seconds a
+  // drink, so one bar makes about fifty in its busiest hour.
+  var wz={step:0, type:null, serve:[], busy:null, where:null, applied:false};
+  var TYPES=[
+    {id:'cafe',    t:'A café',                     s:'Coffee at the counter',            serve:['coffee']},
+    {id:'bar',     t:'A bar',                      s:'Cocktails poured by an arm',       serve:['cocktails']},
+    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',           serve:['softserve']},
+    {id:'kitchen', t:'A kitchen or takeaway',      s:'Fried food and noodles',           serve:['fried','noodles']},
+    {id:'kiosk',   t:'A kiosk that runs itself',   s:'Order on the screen, served by the arms', serve:['coffee']}
+  ];
+  var SERVES=[{id:'coffee',t:'Coffee'},{id:'cocktails',t:'Cocktails'},{id:'softserve',t:'Soft serve'},{id:'fried',t:'Fried food'},{id:'noodles',t:'Noodles'}];
+  var BUSY=[{id:'low',t:'A steady few',s:'Up to about 40 drinks in the busiest hour'},{id:'mid',t:'A queue',s:'About 50 in the busiest hour, one bar at full pace'},{id:'high',t:'A long queue',s:'More than 50 in the busiest hour'}];
+  var WHERE=[{id:'have',t:'The venue I have',s:'Fitted into the room you run now'},{id:'new',t:'A new venue',s:'Drawn in with the fit-out'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready'}];
+  var WHY={
+    bpro:'An Eversys, the commercial machine for a steady queue, and two arms at about seventy seconds a drink.',
+    bstd:'The same two arms and seventy seconds a drink on a Dr.Coffee F3, for a steady few rather than a queue.',
+    eff:'A vending kiosk: the order goes in on the screen and the arms make and hand it over.',
+    bar:'An arm under a rack of your bottles, pouring the same measure every time.',
+    ice:'Pasteurised soft serve, and an arm that hands the cone over.',
+    fry:'Six fryers worked by one arm: basket in, timed, lifted, drained.',
+    noo:'Six noodle stoves, cooked to the order.'
+  };
+  function wzSteps(){
+    var st=['type','serve'];
+    if(wz.serve.indexOf('coffee')>=0&&wz.type!=='kiosk') st.push('busy');
+    st.push('where','result');
+    return st;
+  }
+  function recommend(){
+    var m={};
+    if(wz.serve.indexOf('coffee')>=0){
+      if(wz.type==='kiosk') m.eff=1;
+      else if(wz.busy==='low') m.bstd=1;
+      else if(wz.busy==='high') m.bpro=2;
+      else m.bpro=1;
+    }
+    if(wz.serve.indexOf('cocktails')>=0) m.bar=1;
+    if(wz.serve.indexOf('softserve')>=0) m.ice=1;
+    if(wz.serve.indexOf('fried')>=0) m.fry=1;
+    if(wz.serve.indexOf('noodles')>=0) m.noo=1;
+    return m;
+  }
+  function applyRecommendation(){
+    Q.MACHINES.forEach(function(x){ qty[x.id]=0; });
+    Q.PARTS.forEach(function(x){ parts[x.id]=false; });
+    Q.SERVICES.forEach(function(x){ svc[x.id]=false; });
+    var m=recommend(); Object.keys(m).forEach(function(id){ qty[id]=m[id]; });
+    ['eng','soft','inst'].forEach(function(id){ svc[id]=true; });   // what it takes to open
+    pkg=null; wz.applied=true;
+  }
+  function choice(kind,o,on,multi){
+    return '<button type="button" class="wz-opt'+(multi?' multi':'')+'" data-wz="'+kind+'" data-val="'+o.id+'" aria-pressed="'+(on?'true':'false')+'">'+
+      '<b>'+esc(o.t)+'</b>'+(o.s?'<small>'+esc(o.s)+'</small>':'')+'<span class="mk" aria-hidden="true"></span></button>';
+  }
+  function wzDraw(){
+    var host=$('wz'); if(!host) return;
+    var steps=wzSteps(), name=steps[Math.min(wz.step,steps.length-1)], n=steps.length-1;
+    // no "of N": how many questions there are depends on the answers
+    var prog=name==='result'?'':'<div class="wz-prog"><span class="label">Question '+(wz.step+1)+'</span><span class="bar"><i style="width:'+Math.round((wz.step+1)/(n+1)*100)+'%"></i></span></div>';
+    var back=wz.step>0?'<button type="button" class="wz-back" data-wz="back">Back</button>':'';
+    var browse='<button type="button" class="wz-browse" data-wz="browse">Or browse every machine</button>';
+    var html='';
+    if(name==='type'){
+      html=prog+'<h3 class="wz-q">What are you opening?</h3><div class="wz-opts">'+TYPES.map(function(o){return choice('type',o,wz.type===o.id);}).join('')+'</div>'+
+        '<div class="wz-foot">'+browse+'</div>';
+    }else if(name==='serve'){
+      html=prog+'<h3 class="wz-q">What will it serve?</h3><p class="wz-hint">Pick as many as you like.</p><div class="wz-opts">'+SERVES.map(function(o){return choice('serve',o,wz.serve.indexOf(o.id)>=0,true);}).join('')+'</div>'+
+        '<div class="wz-foot">'+back+'<button type="button" class="btn" data-wz="next"'+(wz.serve.length?'':' disabled')+'><span>Next</span><i aria-hidden="true">+</i></button></div>';
+    }else if(name==='busy'){
+      html=prog+'<h3 class="wz-q">How busy is the busiest hour?</h3><p class="wz-hint">One bar makes a drink in about seventy seconds, about fifty an hour.</p><div class="wz-opts">'+BUSY.map(function(o){return choice('busy',o,wz.busy===o.id);}).join('')+'</div>'+
+        '<div class="wz-foot">'+back+'</div>';
+    }else if(name==='where'){
+      html=prog+'<h3 class="wz-q">Where will it go?</h3><div class="wz-opts">'+WHERE.map(function(o){return choice('where',o,wz.where===o.id);}).join('')+'</div>'+
+        '<div class="wz-foot">'+back+'</div>';
+    }else{
+      html=resultHtml();
+    }
+    host.innerHTML=html;
+    $('qs-browse').hidden=true;
+    $('qs-pick').scrollTop=0;
+  }
+  function offer(id,kind,title,why,price,on){
+    var img=kind==='part'?pById(id).img:(Q.SERVICES.filter(function(x){return x.id===id;})[0]||{}).img;
+    return '<button type="button" class="wz-offer" data-kind="'+kind+'" data-id="'+id+'" aria-pressed="'+(on?'true':'false')+'">'+
+      '<span class="t"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
+      '<span class="p" data-price="'+id+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
+  }
+  function resultHtml(){
+    var supply=0, count=0; Q.MACHINES.forEach(function(m){ supply+=(qty[m.id]||0)*m.price; count+=qty[m.id]||0; });
+    var amt=function(id){ var x=Q.SERVICES.filter(function(s){return s.id===id;})[0]; return count?money.format(Q.serviceAmount(x,supply)):'Priced on your machines'; };
+    var recs=Q.MACHINES.filter(function(m){return qty[m.id]>0;}).map(function(m){
+      var f=famOf(m.id), others=f.models.filter(function(id){return id!==m.id;});
+      var swap=others.length?'<span class="wz-swap">Or '+others.map(function(id){ var o=mById(id); return '<button type="button" data-kind="model" data-fam="'+f.id+'" data-id="'+id+'">'+esc(o.model)+', '+money.format(o.price)+'</button>'; }).join(' or ')+'</span>':'';
+      return '<div class="wz-rec"><span class="t"><img src="'+(f.models.length>1&&f.models[0]===m.id?f.img:m.img)+'" alt="" loading="lazy"></span>'+
+        '<div class="m"><span class="label">'+esc(m.model)+'</span><h4>'+(qty[m.id]>1?qty[m.id]+' × ':'')+esc(m.name)+'</h4><p>'+esc(WHY[m.id]||m.kit)+'</p>'+swap+'</div>'+
+        '<div class="r"><span class="p">'+money.format(m.price*qty[m.id])+'</span>'+stepper(m.id,m.model)+'</div></div>';
+    }).join('');
+    var fams=Q.FAMILIES.filter(function(f){return famCount(f)>0;});
+    var accIds=[]; fams.forEach(function(f){ f.parts.forEach(function(id){ if(accIds.indexOf(id)<0) accIds.push(id); }); });
+    var ACC_WHY={prnt:'Your mark in chocolate on every crema and foam. The cup people photograph.',icem:'A second ice maker, so iced drinks keep up on a hot day.',milk:'Oat or soy on its own line, without slowing the queue.',syr:'Three more flavours on the menu.'};
+    var accs=accIds.map(function(id){ var x=pById(id); return offer(id,'part',x.name,ACC_WHY[id]||x.sub,money.format(x.price),parts[id]); }).join('');
+    var make=offer('brand','svc','Branding','A name and a look people remember: the mark, cups, bags, menu and signage.',amt('brand'),svc.brand)+
+             offer('wrap','svc','Branding on the machine','Your colours on the arms and the body. The machine is the first thing in the brand people see.',amt('wrap'),svc.wrap)+
+             offer('web','svc','Website','Your menu and ordering online, in the same brand.',amt('web'),svc.web);
+    var open=offer('eng','svc','Engineering and fit-out',(wz.where==='have'?'Fitted into the venue you run now: ':wz.where==='new'?'Drawn in with your new venue: ':'')+'the counter, guarding, services and extraction.',amt('eng'),svc.eng)+
+             offer('soft','svc','Software','Ordering, payment, the screen and the dashboard.',amt('soft'),svc.soft)+
+             offer('inst','svc','Install and handover','We place it, program the menu, run it and train your people.',amt('inst'),svc.inst);
+    // the package this quote is one step from, if any
+    var near=Q.PACKAGES.filter(function(p){
+      var keys=Object.keys(p.machines), mine=Q.MACHINES.filter(function(m){return qty[m.id]>0;}).map(function(m){return m.id;});
+      return keys.length===mine.length&&keys.every(function(k){return qty[k]>=p.machines[k];});
+    })[0];
+    var banner='';
+    if(near&&!packageHolds()){
+      var pq=Q.packageQuote(near);
+      banner='<div class="wz-pkg"><div><span class="label">Take the whole job</span><h4>Make it '+esc(near.name.toLowerCase())+' and save '+money.format(pq.save)+'.</h4>'+
+        '<p>Add the branding, the website, branding on the machine and a year of maintenance, and the work around it costs 10% less.</p></div>'+
+        '<button type="button" class="btn" data-kind="pkg" data-id="'+near.id+'"><span>Make it the package</span><i aria-hidden="true">+</i></button></div>';
+    }else if(packageHolds()){
+      var hp=packageHolds(), hq=Q.packageQuote(hp);
+      banner='<div class="wz-pkg on"><div><span class="label">The whole job</span><h4>This is '+esc(hp.name.toLowerCase())+'. You save '+money.format(hq.save)+'.</h4><p>A year of maintenance is in it.</p></div></div>';
+    }
+    var boxNote=wz.where==='box'?'<p class="wz-note">A container build is priced once we have your site and menu. It is on the quote as priced on scope.</p>':'';
+    return '<div class="wz-result"><span class="label">[ Here is what we would build ]</span><h3 class="wz-q">'+esc(Q.titleOf(Q.compute({qty:qty,parts:parts,svc:svc}).lines)||'Your quote')+'.</h3>'+
+      '<div class="wz-recs">'+recs+'</div>'+banner+boxNote+
+      '<div class="wz-group"><span class="label">What it takes to open</span><div class="wz-offers">'+open+'</div></div>'+
+      '<div class="wz-group"><span class="label">Make it yours</span><div class="wz-offers">'+make+'</div></div>'+
+      (accs?'<div class="wz-group"><span class="label">Worth adding</span><div class="wz-offers">'+accs+'</div></div>':'')+
+      '<div class="wz-foot"><button type="button" class="wz-back" data-wz="restart">Start again</button><button type="button" class="wz-browse" data-wz="browse">Browse every machine</button></div></div>';
+  }
+  function wzResultRefresh(){ var host=$('wz'); if(!host||host.hidden||wzSteps()[wz.step]!=='result') return; var y=$('qs-pick').scrollTop; host.innerHTML=resultHtml(); $('qs-pick').scrollTop=y; }
+  // Clicks in the guided quote stop here. The result redraws itself on every
+  // choice, which detaches the button that was clicked, so the browse area's
+  // own handler further up could no longer tell where the click came from and
+  // handled it a second time (the package went on and straight back off).
+  $('wz').addEventListener('click',function(e){ e.stopPropagation(); });
+  $('wz').addEventListener('click',function(e){
+    var b=e.target.closest('[data-wz]'); if(!b) return;
+    var k=b.getAttribute('data-wz'), v=b.getAttribute('data-val'), steps=wzSteps();
+    if(k==='type'){ wz.type=v; wz.serve=(TYPES.filter(function(t){return t.id===v;})[0]||{serve:[]}).serve.slice(); wz.step=1; }
+    else if(k==='serve'){ var i=wz.serve.indexOf(v); if(i>=0) wz.serve.splice(i,1); else wz.serve.push(v); b.setAttribute('aria-pressed',i>=0?'false':'true');
+      var nx=$('wz').querySelector('[data-wz="next"]'); if(nx) nx.disabled=!wz.serve.length; return; }
+    else if(k==='next'){ wz.step++; }
+    else if(k==='busy'){ wz.busy=v; wz.step++; }
+    else if(k==='where'){ wz.where=v; wz.step++; }
+    else if(k==='back'){ wz.step=Math.max(0,wz.step-1); }
+    else if(k==='restart'){ wz={step:0,type:null,serve:[],busy:null,where:null,applied:false}; Q.MACHINES.concat(Q.ROBOTS).forEach(function(x){qty[x.id]=0;}); Q.PARTS.forEach(function(x){parts[x.id]=false;}); Q.SERVICES.forEach(function(x){svc[x.id]=!!x.on;}); pkg=null; }
+    else if(k==='browse'){ $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-pick').scrollTop=0; render(); return; }
+    if(wzSteps()[wz.step]==='result'){ applyRecommendation(); }
+    wzDraw(); render();
+  });
+  // choices inside the result use the same kinds as the browse view
+  $('wz').addEventListener('click',function(e){
+    if(e.target.closest('[data-wz]')) return;
+    var step=e.target.closest('button[data-d]');
+    if(step){ var sid=step.getAttribute('data-id'); qty[sid]=Math.max(0,Math.min(20,qty[sid]+parseInt(step.getAttribute('data-d'),10))); dropUnusedParts(); render(); wzResultRefresh(); return; }
+    var ctl=e.target.closest('[data-kind]'); if(!ctl) return;
+    var id=ctl.getAttribute('data-id'), k=ctl.getAttribute('data-kind');
+    if(k==='part') parts[id]=!parts[id];
+    else if(k==='svc') svc[id]=!svc[id];
+    else if(k==='model'){ var fam=Q.FAMILIES.filter(function(x){return x.id===ctl.getAttribute('data-fam');})[0]; var n=Math.max(1,famCount(fam)); fam.models.forEach(function(m){qty[m]=0;}); qty[id]=n; dropUnusedParts(); }
+    else if(k==='pkg'){ choosePackage(id); }
+    render(); wzResultRefresh();
+  });
+  $('qs-guided').addEventListener('click',function(){ $('qs-browse').hidden=true; $('wz').hidden=false; wzEnter(); render(); });
+  function wzEnter(){
+    // a sheet opened holding a quote goes straight to the recommendation view of it
+    var any=Q.MACHINES.concat(Q.ROBOTS).some(function(m){return qty[m.id]>0;});
+    $('wz').hidden=false; $('qs-browse').hidden=true;
+    if(any){ wz.step=wzSteps().indexOf('result'); if(wz.step<0) wz.step=0; wz.applied=true; }
+    wzDraw();
+  }
 
   // ---- the tray and the total
   function render(){

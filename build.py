@@ -126,12 +126,15 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
       <div class="qs-top">
         <div class="qs-say">
           <span class="label">[ Build your quote ]</span>
-          <h2 id="qs-title">Pick what you want built.</h2>
+          <h2 id="qs-title">A few questions, then a price.</h2>
         </div>
         <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
       </div>
       <div class="qs-body">
         <div class="qs-pick" id="qs-pick">
+          <div class="wz" id="wz" aria-live="polite"></div>
+          <div class="qs-browse" id="qs-browse" hidden>
+            <div class="qs-browse-top"><button type="button" class="wz-browse" id="qs-guided">Answer a few questions instead</button></div>
           <section class="qs-sec" id="qsec-pkg">
             <h3 class="qs-sec-h"><button type="button" aria-expanded="false" aria-controls="qp-pkg"><span class="t">Or start from a package</span><span class="c" id="qc-n-pkg"></span><span class="chev" aria-hidden="true"></span></button></h3>
             <div class="qs-grid pkgs" id="qp-pkg" hidden></div>
@@ -149,6 +152,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
             <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-robots"><span class="t"><em>3</em>Add showroom robots</span><span class="c" id="qc-n-robots"></span><span class="chev" aria-hidden="true"></span></button></h3>
             <div class="qs-grid robots" id="qp-robots"></div>
           </section>
+          </div>
         </div>
         <aside class="qs-tray" id="qs-tray" aria-label="Your quote">
           <button type="button" class="qs-peek" id="qs-peek" aria-expanded="false" aria-controls="qs-lines">
