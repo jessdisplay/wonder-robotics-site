@@ -367,17 +367,33 @@ window.WonderSneak = (function () {
 /* The ask form. mailto: with enctype text/plain works in most mail apps but
    not all, so we compose the message ourselves and open it. */
 (function () {
-  var f = document.querySelector('form.ask');
-  if (!f) return;
-  f.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
-    var machine = f.dataset.product || v('machine');
-    var lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
-    if (v('company')) lines.push('Company: ' + v('company'));
-    if (v('where')) lines.push('Where: ' + v('where'));
-    if (v('job')) lines.push('', 'What it should do:', v('job'));
-    window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent('Quote: ' + machine) + '&body=' + encodeURIComponent(lines.join('\n'));
+  [].forEach.call(document.querySelectorAll('form.ask'), function (f) {
+    var eoi = f.hasAttribute('data-eoi');
+    // The site-wide band pre-ticks the product of the page it sits on.
+    if (eoi) {
+      var path = location.pathname;
+      var key = /robot-coffee/.test(path) ? 'coffee' : /robot-cocktail/.test(path) ? 'cocktail' : /robot-ice-cream/.test(path) ? 'icecream' : /robot-kitchen|kitchen-robot/.test(path) ? 'kitchen' : /coffee-robot/.test(path) ? 'coffee' : null;
+      if (key && f.elements[key]) f.elements[key].checked = true;
+    }
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
+      var lines, subject;
+      if (eoi) {
+        var picks = [].filter.call(f.querySelectorAll('input[type=checkbox]'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+        var venue = (f.querySelector('input[name=venue]:checked') || {}).value || '';
+        subject = 'Design, build and fit out: ' + (picks.length ? picks.join(', ') : 'a venue');
+        lines = ['Interested in: ' + (picks.length ? picks.join(', ') : 'not sure yet'), 'Venue: ' + venue, 'Name: ' + v('name'), 'Email: ' + v('email')];
+      } else {
+        var machine = f.dataset.product || v('machine');
+        subject = 'Quote: ' + machine;
+        lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
+      }
+      if (v('company')) lines.push('Company: ' + v('company'));
+      if (v('where')) lines.push('Where: ' + v('where'));
+      if (v('job')) lines.push('', 'The job:', v('job'));
+      window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+    });
   });
 })();
 

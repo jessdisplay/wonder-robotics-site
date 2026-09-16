@@ -725,6 +725,30 @@
     .pop .sub{margin-top:16px}
     .pop .actions{margin-top:20px}
   }
+  /* The one CTA, above the footer on every page: night band, the product
+     picker as pills, the form. Product pages link to it with #eoi and
+     pre-tick their own product from the URL hash or a data-product. */
+  .eoi{background:var(--night);color:var(--cream);padding-block:clamp(72px,9vw,140px);border-top:1px solid var(--ink)}
+  .eoi .wrap{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,72px);align-items:start;max-width:1500px;margin-inline:auto}
+  .eoi-head .label{color:var(--signal)}
+  .eoi-head h2{margin:18px 0 0;font-weight:400;font-size:clamp(34px,4.2vw,68px);letter-spacing:-.035em;line-height:1;text-wrap:balance}
+  .eoi-head p{margin:20px 0 0;color:color-mix(in srgb,var(--cream) 66%,var(--night));max-width:40ch;font-size:16px;line-height:1.5}
+  .eoi-head p a{color:var(--cream)}
+  .eoi-form{margin-top:0;max-width:none}
+  .eoi-form .label,.eoi-form legend{color:color-mix(in srgb,var(--cream) 62%,var(--night))}
+  .eoi-form input,.eoi-form textarea{color:var(--cream);border-bottom-color:color-mix(in srgb,var(--cream) 40%,transparent)}
+  .eoi-form input:focus,.eoi-form textarea:focus{border-bottom-color:var(--signal)}
+  .eoi-form ::placeholder{color:color-mix(in srgb,var(--cream) 40%,var(--night))}
+  .eoi-form .choices label{color:var(--cream);border-color:color-mix(in srgb,var(--cream) 30%,transparent)}
+  .eoi-form .choices label:hover{border-color:var(--cream)}
+  .eoi-form .choices input:checked + label{background:var(--cream);color:var(--night);border-color:var(--cream)}
+  /* .ask input is width:100%; on the hidden pill inputs that becomes a
+     viewport-wide absolutely positioned box hanging off the right edge. */
+  .eoi-form .choices input{width:1px;height:1px;left:0}
+  .eoi-form .btn.ghost{color:var(--cream);border-color:color-mix(in srgb,var(--cream) 45%,transparent)}
+  .eoi-form .btn.ghost:hover{background:var(--cream);color:var(--night)}
+  .eoi-form .hint{color:color-mix(in srgb,var(--cream) 55%,var(--night))}
+  @media (max-width:900px){ .eoi .wrap{grid-template-columns:1fr} }
   @media (max-width:600px){
     .mrow .catalogue{grid-template-columns:1fr}
     footer .cols{grid-template-columns:1fr}
@@ -870,7 +894,7 @@
       <span class="label">[ The offer ]</span>
       <h2 class="line">A barista in two square metres, seventy seconds a drink, in your brand.</h2>
       <p class="sub">Dual-arm bar, vending kiosk or robot bartender. Your colours on the machine, your mark on the cup. Ours pours at 365 St Pauls Terrace.</p>
-      <div class="actions"><a class="btn cream" href="../quote/?pick=bpro"><span>Buy the B Pro, $100,000</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#ask"><span>Price one for your counter</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+      <div class="actions"><a class="btn cream" href="../quote/?pick=bpro"><span>Buy the B Pro, $100,000</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#eoi"><span>Price one for your counter</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 
@@ -895,17 +919,6 @@
         <h2>The machine is a third of it. The counter, the room and the brand are the rest.</h2>
         <ol class="hl three"><li><b>Design</b><p>The bar, the kiosk or the counter it sits in. Drawn to your floor plan, new build or the venue you have.</p></li><li><b>Build and fit out</b><p>Joinery, stone, services, the skin, the signage, the screen. Our trades or yours, to our drawings.</p></li><li><b>Brand</b><p>The mark, the colours, the cups, the bags, the menu, the uniforms. One system across the machine and the room.</p></li><li><b>Engineering</b><p>The cell around the machine: guarding, services, extraction, the counter it lives in, the program it runs.</p></li><li><b>Software</b><p>Ordering, payment, the menu on the screen, the dashboard, the numbers.</p></li><li><b>Keep it running</b><p>Spares, monitoring, updates, a number that answers. Priced by the year on the quote.</p></li></ol>
       </div>
-    </div>
-  </section>
-
-  <section class="story">
-    <div class="wrap">
-      <h2 class="plain">In a brand</h2>
-      <div class="txt"><p>The dual-arm bar on a Sol counter, amber with the full moon, against a Luna wall. Same machines, same arms; the counter and the wall carry the brand.</p></div>
-      <figure>
-        <img src="../img/offer/coffee-wonderbean.jpg" alt="The dual-arm barista bar on an amber counter with a cream full moon, a night-purple wall with a crescent behind, Sol and Luna cups on the counter" loading="lazy" width="1360" height="2048">
-        <figcaption class="label"><span>The barista bar in Sol and Luna</span><span>Concept, the same machine in a brand</span></figcaption>
-      </figure>
     </div>
   </section>
 
@@ -945,8 +958,8 @@
         <p>The same bar at night. The T Standard robot bartender, a Dobot arm under a rack of your bottles, an ice maker, three syrup channels. Ours pours at 365 St Pauls Terrace six days a week. From $39,000, on its own page.</p>
       </div>
       <figure>
-        <img src="../img/offer/cocktail-wonderbean.jpg" alt="The robot bar at 365 St Pauls Terrace reskinned in Wonder Bean Luna: night-purple counter with an amber lit lip and a cream crescent, six purple crescent cups lined up, the cobot pouring" loading="lazy" width="2048" height="1360">
-        <figcaption class="label"><span>The robot bar in Luna</span><span>Concept, the same machine in a brand</span></figcaption>
+        <img src="../img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360">
+        <figcaption class="label"><span>The robot bar</span><span>Studio render from our photograph</span></figcaption>
       </figure>
       <div class="txt"><p><a class="link" href="../robot-cocktail-machines/">Robot cocktail machines</a> &middot; <a class="link" href="../quote/?pick=bar">Buy the T Standard, $39,000</a></p></div>
       <h2>The Wonder Bean bar</h2>
@@ -997,32 +1010,6 @@
     </div>
   </section>
 
-  <section class="rail ask-rail" id="ask">
-    <div class="wrap">
-      <span class="label">[ Price one ]</span>
-      <div>
-        <h2>Tell us the counter. We come back with a price.</h2>
-        <form class="ask" data-product="Robot coffee machine" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain">
-          <input type="hidden" name="machine" value="Robot coffee machine">
-          <div class="row">
-            <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
-            <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
-          </div>
-          <div class="row">
-            <label><span class="label">Business</span><input type="text" name="company" autocomplete="organization"></label>
-            <label><span class="label">Where</span><input type="text" name="where" placeholder="Suburb or city"></label>
-          </div>
-          <label><span class="label">The counter</span><textarea name="job" rows="4" placeholder="Cups a day, the space you have, the brand it wears. Two lines is plenty."></textarea></label>
-          <div class="actions">
-            <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
-            <a class="btn ghost" href="../quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
-          </div>
-          <p class="hint">Opens in your mail app with your answers filled in. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
-        </form>
-      </div>
-    </div>
-  </section>
-
   <section class="next">
     <div class="wrap">
       <a href="../robot-kitchen-fitouts/">
@@ -1033,6 +1020,51 @@
   </section>
 </main>
 
+<section class="eoi" id="eoi">
+  <div class="wrap">
+    <div class="eoi-head">
+      <span class="label">[ Design, build and fit out yours ]</span>
+      <h2>Tell us what you want built. We come back with a plan and a price.</h2>
+      <p>Pick what you're interested in. A line about the venue is plenty. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
+    </div>
+    <form class="ask eoi-form" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain" data-eoi>
+      <fieldset class="field">
+        <legend class="label">I'm interested in</legend>
+        <div class="choices" role="group" aria-label="Products">
+          <input type="checkbox" name="coffee" id="eoi-coffee" value="Robot coffee machine"><label for="eoi-coffee">Robot coffee machine</label>
+          <input type="checkbox" name="cocktail" id="eoi-cocktail" value="Robot cocktail machine"><label for="eoi-cocktail">Robot cocktail machine</label>
+          <input type="checkbox" name="icecream" id="eoi-icecream" value="Robot ice cream machine"><label for="eoi-icecream">Robot ice cream machine</label>
+          <input type="checkbox" name="kitchen" id="eoi-kitchen" value="Robot kitchen fit-out"><label for="eoi-kitchen">Robot kitchen fit-out</label>
+          <input type="checkbox" name="fitout" id="eoi-fitout" value="Venue design, build and fit-out"><label for="eoi-fitout">Venue design and fit-out</label>
+          <input type="checkbox" name="brand" id="eoi-brand" value="Branding"><label for="eoi-brand">Branding</label>
+          <input type="checkbox" name="software" id="eoi-software" value="Software"><label for="eoi-software">Software</label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend class="label">The venue</legend>
+        <div class="choices" role="radiogroup" aria-label="Venue">
+          <input type="radio" name="venue" id="eoi-new" value="New venue" checked><label for="eoi-new">New venue</label>
+          <input type="radio" name="venue" id="eoi-existing" value="Existing venue"><label for="eoi-existing">The venue I have</label>
+        </div>
+      </fieldset>
+      <div class="row">
+        <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+        <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+      </div>
+      <div class="row">
+        <label><span class="label">Business</span><input type="text" name="company" autocomplete="organization"></label>
+        <label><span class="label">Where</span><input type="text" name="where" placeholder="Suburb or city"></label>
+      </div>
+      <label><span class="label">The job</span><textarea name="job" rows="3" placeholder="The room, the menu, the numbers a day. Two lines is plenty."></textarea></label>
+      <div class="actions">
+        <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
+        <a class="btn ghost" href="../quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
+        <a class="btn ghost" href="../price-guide.pdf"><span>Price guide, PDF</span><i aria-hidden="true">+</i></a>
+      </div>
+      <p class="hint">Opens in your mail app with your picks filled in. We reply within a working day.</p>
+    </form>
+  </div>
+</section>
 <footer>
   <div class="wrap">
     <nav class="cols" aria-label="Footer">
@@ -1561,17 +1593,33 @@ window.WonderSneak = (function () {
 /* The ask form. mailto: with enctype text/plain works in most mail apps but
    not all, so we compose the message ourselves and open it. */
 (function () {
-  var f = document.querySelector('form.ask');
-  if (!f) return;
-  f.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
-    var machine = f.dataset.product || v('machine');
-    var lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
-    if (v('company')) lines.push('Company: ' + v('company'));
-    if (v('where')) lines.push('Where: ' + v('where'));
-    if (v('job')) lines.push('', 'What it should do:', v('job'));
-    window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent('Quote: ' + machine) + '&body=' + encodeURIComponent(lines.join('\n'));
+  [].forEach.call(document.querySelectorAll('form.ask'), function (f) {
+    var eoi = f.hasAttribute('data-eoi');
+    // The site-wide band pre-ticks the product of the page it sits on.
+    if (eoi) {
+      var path = location.pathname;
+      var key = /robot-coffee/.test(path) ? 'coffee' : /robot-cocktail/.test(path) ? 'cocktail' : /robot-ice-cream/.test(path) ? 'icecream' : /robot-kitchen|kitchen-robot/.test(path) ? 'kitchen' : /coffee-robot/.test(path) ? 'coffee' : null;
+      if (key && f.elements[key]) f.elements[key].checked = true;
+    }
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
+      var lines, subject;
+      if (eoi) {
+        var picks = [].filter.call(f.querySelectorAll('input[type=checkbox]'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+        var venue = (f.querySelector('input[name=venue]:checked') || {}).value || '';
+        subject = 'Design, build and fit out: ' + (picks.length ? picks.join(', ') : 'a venue');
+        lines = ['Interested in: ' + (picks.length ? picks.join(', ') : 'not sure yet'), 'Venue: ' + venue, 'Name: ' + v('name'), 'Email: ' + v('email')];
+      } else {
+        var machine = f.dataset.product || v('machine');
+        subject = 'Quote: ' + machine;
+        lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
+      }
+      if (v('company')) lines.push('Company: ' + v('company'));
+      if (v('where')) lines.push('Where: ' + v('where'));
+      if (v('job')) lines.push('', 'The job:', v('job'));
+      window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+    });
   });
 })();
 

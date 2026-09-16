@@ -71,6 +71,53 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
 </header>
 '''
 
+EOI = '''<section class="eoi" id="eoi">
+  <div class="wrap">
+    <div class="eoi-head">
+      <span class="label">[ Design, build and fit out yours ]</span>
+      <h2>Tell us what you want built. We come back with a plan and a price.</h2>
+      <p>Pick what you're interested in. A line about the venue is plenty. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
+    </div>
+    <form class="ask eoi-form" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain" data-eoi>
+      <fieldset class="field">
+        <legend class="label">I'm interested in</legend>
+        <div class="choices" role="group" aria-label="Products">
+          <input type="checkbox" name="coffee" id="eoi-coffee" value="Robot coffee machine"><label for="eoi-coffee">Robot coffee machine</label>
+          <input type="checkbox" name="cocktail" id="eoi-cocktail" value="Robot cocktail machine"><label for="eoi-cocktail">Robot cocktail machine</label>
+          <input type="checkbox" name="icecream" id="eoi-icecream" value="Robot ice cream machine"><label for="eoi-icecream">Robot ice cream machine</label>
+          <input type="checkbox" name="kitchen" id="eoi-kitchen" value="Robot kitchen fit-out"><label for="eoi-kitchen">Robot kitchen fit-out</label>
+          <input type="checkbox" name="fitout" id="eoi-fitout" value="Venue design, build and fit-out"><label for="eoi-fitout">Venue design and fit-out</label>
+          <input type="checkbox" name="brand" id="eoi-brand" value="Branding"><label for="eoi-brand">Branding</label>
+          <input type="checkbox" name="software" id="eoi-software" value="Software"><label for="eoi-software">Software</label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend class="label">The venue</legend>
+        <div class="choices" role="radiogroup" aria-label="Venue">
+          <input type="radio" name="venue" id="eoi-new" value="New venue" checked><label for="eoi-new">New venue</label>
+          <input type="radio" name="venue" id="eoi-existing" value="Existing venue"><label for="eoi-existing">The venue I have</label>
+        </div>
+      </fieldset>
+      <div class="row">
+        <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+        <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+      </div>
+      <div class="row">
+        <label><span class="label">Business</span><input type="text" name="company" autocomplete="organization"></label>
+        <label><span class="label">Where</span><input type="text" name="where" placeholder="Suburb or city"></label>
+      </div>
+      <label><span class="label">The job</span><textarea name="job" rows="3" placeholder="The room, the menu, the numbers a day. Two lines is plenty."></textarea></label>
+      <div class="actions">
+        <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
+        <a class="btn ghost" href="{{root}}quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
+        <a class="btn ghost" href="{{root}}price-guide.pdf"><span>Price guide, PDF</span><i aria-hidden="true">+</i></a>
+      </div>
+      <p class="hint">Opens in your mail app with your picks filled in. We reply within a working day.</p>
+    </form>
+  </div>
+</section>
+'''
+
 FOOTER = '''<footer>
   <div class="wrap">
     <nav class="cols" aria-label="Footer">
@@ -132,7 +179,7 @@ def render(body, cfg, name=None):
         + ICONS
         + FONTS
         + "<style>\n" + css + "</style>\n\n"
-        + BAR + "\n" + body + "\n" + FOOTER
+        + BAR + "\n" + body + "\n" + EOI + FOOTER
         + "\n<script>\n" + mark + "</script>\n<script>\n" + js + "</script>\n"
     ).replace("{{root}}", root)
     doc = (

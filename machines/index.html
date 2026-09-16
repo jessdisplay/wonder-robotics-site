@@ -725,6 +725,30 @@
     .pop .sub{margin-top:16px}
     .pop .actions{margin-top:20px}
   }
+  /* The one CTA, above the footer on every page: night band, the product
+     picker as pills, the form. Product pages link to it with #eoi and
+     pre-tick their own product from the URL hash or a data-product. */
+  .eoi{background:var(--night);color:var(--cream);padding-block:clamp(72px,9vw,140px);border-top:1px solid var(--ink)}
+  .eoi .wrap{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,72px);align-items:start;max-width:1500px;margin-inline:auto}
+  .eoi-head .label{color:var(--signal)}
+  .eoi-head h2{margin:18px 0 0;font-weight:400;font-size:clamp(34px,4.2vw,68px);letter-spacing:-.035em;line-height:1;text-wrap:balance}
+  .eoi-head p{margin:20px 0 0;color:color-mix(in srgb,var(--cream) 66%,var(--night));max-width:40ch;font-size:16px;line-height:1.5}
+  .eoi-head p a{color:var(--cream)}
+  .eoi-form{margin-top:0;max-width:none}
+  .eoi-form .label,.eoi-form legend{color:color-mix(in srgb,var(--cream) 62%,var(--night))}
+  .eoi-form input,.eoi-form textarea{color:var(--cream);border-bottom-color:color-mix(in srgb,var(--cream) 40%,transparent)}
+  .eoi-form input:focus,.eoi-form textarea:focus{border-bottom-color:var(--signal)}
+  .eoi-form ::placeholder{color:color-mix(in srgb,var(--cream) 40%,var(--night))}
+  .eoi-form .choices label{color:var(--cream);border-color:color-mix(in srgb,var(--cream) 30%,transparent)}
+  .eoi-form .choices label:hover{border-color:var(--cream)}
+  .eoi-form .choices input:checked + label{background:var(--cream);color:var(--night);border-color:var(--cream)}
+  /* .ask input is width:100%; on the hidden pill inputs that becomes a
+     viewport-wide absolutely positioned box hanging off the right edge. */
+  .eoi-form .choices input{width:1px;height:1px;left:0}
+  .eoi-form .btn.ghost{color:var(--cream);border-color:color-mix(in srgb,var(--cream) 45%,transparent)}
+  .eoi-form .btn.ghost:hover{background:var(--cream);color:var(--night)}
+  .eoi-form .hint{color:color-mix(in srgb,var(--cream) 55%,var(--night))}
+  @media (max-width:900px){ .eoi .wrap{grid-template-columns:1fr} }
   @media (max-width:600px){
     .mrow .catalogue{grid-template-columns:1fr}
     footer .cols{grid-template-columns:1fr}
@@ -917,6 +941,51 @@
   </section>
 </main>
 
+<section class="eoi" id="eoi">
+  <div class="wrap">
+    <div class="eoi-head">
+      <span class="label">[ Design, build and fit out yours ]</span>
+      <h2>Tell us what you want built. We come back with a plan and a price.</h2>
+      <p>Pick what you're interested in. A line about the venue is plenty. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
+    </div>
+    <form class="ask eoi-form" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain" data-eoi>
+      <fieldset class="field">
+        <legend class="label">I'm interested in</legend>
+        <div class="choices" role="group" aria-label="Products">
+          <input type="checkbox" name="coffee" id="eoi-coffee" value="Robot coffee machine"><label for="eoi-coffee">Robot coffee machine</label>
+          <input type="checkbox" name="cocktail" id="eoi-cocktail" value="Robot cocktail machine"><label for="eoi-cocktail">Robot cocktail machine</label>
+          <input type="checkbox" name="icecream" id="eoi-icecream" value="Robot ice cream machine"><label for="eoi-icecream">Robot ice cream machine</label>
+          <input type="checkbox" name="kitchen" id="eoi-kitchen" value="Robot kitchen fit-out"><label for="eoi-kitchen">Robot kitchen fit-out</label>
+          <input type="checkbox" name="fitout" id="eoi-fitout" value="Venue design, build and fit-out"><label for="eoi-fitout">Venue design and fit-out</label>
+          <input type="checkbox" name="brand" id="eoi-brand" value="Branding"><label for="eoi-brand">Branding</label>
+          <input type="checkbox" name="software" id="eoi-software" value="Software"><label for="eoi-software">Software</label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend class="label">The venue</legend>
+        <div class="choices" role="radiogroup" aria-label="Venue">
+          <input type="radio" name="venue" id="eoi-new" value="New venue" checked><label for="eoi-new">New venue</label>
+          <input type="radio" name="venue" id="eoi-existing" value="Existing venue"><label for="eoi-existing">The venue I have</label>
+        </div>
+      </fieldset>
+      <div class="row">
+        <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+        <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+      </div>
+      <div class="row">
+        <label><span class="label">Business</span><input type="text" name="company" autocomplete="organization"></label>
+        <label><span class="label">Where</span><input type="text" name="where" placeholder="Suburb or city"></label>
+      </div>
+      <label><span class="label">The job</span><textarea name="job" rows="3" placeholder="The room, the menu, the numbers a day. Two lines is plenty."></textarea></label>
+      <div class="actions">
+        <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
+        <a class="btn ghost" href="../quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
+        <a class="btn ghost" href="../price-guide.pdf"><span>Price guide, PDF</span><i aria-hidden="true">+</i></a>
+      </div>
+      <p class="hint">Opens in your mail app with your picks filled in. We reply within a working day.</p>
+    </form>
+  </div>
+</section>
 <footer>
   <div class="wrap">
     <nav class="cols" aria-label="Footer">
@@ -1445,17 +1514,33 @@ window.WonderSneak = (function () {
 /* The ask form. mailto: with enctype text/plain works in most mail apps but
    not all, so we compose the message ourselves and open it. */
 (function () {
-  var f = document.querySelector('form.ask');
-  if (!f) return;
-  f.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
-    var machine = f.dataset.product || v('machine');
-    var lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
-    if (v('company')) lines.push('Company: ' + v('company'));
-    if (v('where')) lines.push('Where: ' + v('where'));
-    if (v('job')) lines.push('', 'What it should do:', v('job'));
-    window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent('Quote: ' + machine) + '&body=' + encodeURIComponent(lines.join('\n'));
+  [].forEach.call(document.querySelectorAll('form.ask'), function (f) {
+    var eoi = f.hasAttribute('data-eoi');
+    // The site-wide band pre-ticks the product of the page it sits on.
+    if (eoi) {
+      var path = location.pathname;
+      var key = /robot-coffee/.test(path) ? 'coffee' : /robot-cocktail/.test(path) ? 'cocktail' : /robot-ice-cream/.test(path) ? 'icecream' : /robot-kitchen|kitchen-robot/.test(path) ? 'kitchen' : /coffee-robot/.test(path) ? 'coffee' : null;
+      if (key && f.elements[key]) f.elements[key].checked = true;
+    }
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
+      var lines, subject;
+      if (eoi) {
+        var picks = [].filter.call(f.querySelectorAll('input[type=checkbox]'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+        var venue = (f.querySelector('input[name=venue]:checked') || {}).value || '';
+        subject = 'Design, build and fit out: ' + (picks.length ? picks.join(', ') : 'a venue');
+        lines = ['Interested in: ' + (picks.length ? picks.join(', ') : 'not sure yet'), 'Venue: ' + venue, 'Name: ' + v('name'), 'Email: ' + v('email')];
+      } else {
+        var machine = f.dataset.product || v('machine');
+        subject = 'Quote: ' + machine;
+        lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
+      }
+      if (v('company')) lines.push('Company: ' + v('company'));
+      if (v('where')) lines.push('Where: ' + v('where'));
+      if (v('job')) lines.push('', 'The job:', v('job'));
+      window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+    });
   });
 })();
 
