@@ -187,9 +187,7 @@ FOOTER = '''<footer>
       <div>
         <span class="label">Work</span>
         <a href="{{root}}#work">Case studies</a>
-        <a href="{{root}}work/valley/">365 St Pauls Terrace</a>
-        <a href="{{root}}work/little-red-dumplings/">Little Red Dumpling</a>
-        <a href="{{root}}#building">The building</a>
+{{footer_projects}}        <a href="{{root}}#building">The building</a>
       </div>
       <div>
         <span class="label">Sell and support</span>
@@ -253,6 +251,8 @@ def render(body, cfg, name=None):
         + "<style>\n" + css + "</style>\n\n"
         + BAR + "\n" + body + "\n" + EOI + FOOTER
         + "\n<script>\n" + mark + "</script>\n<script>\n" + js + "</script>\n"
+    ).replace("{{footer_projects}}", "".join(
+        f'        <a href="{{{{root}}}}{href}">{escape(title.split(", ")[0])}</a>\n' for _, href, title, _, _ in PROJECTS)
     ).replace("{{root}}", root)
     doc = (
         "<!doctype html>\n<html lang=\"en-AU\">\n<head>\n<meta charset=\"utf-8\">\n"
@@ -268,6 +268,28 @@ def render(body, cfg, name=None):
         print("wonder-robotics.html (artifact source) refreshed")
 
 
+# The projects, in the order the home page shows them. Each project page's
+# "Next" goes to the one after it and the last goes back to the first, so the
+# chain is a ring that reaches every project; the footer's Work column lists
+# them from the same list. Before this, two pages pointed at each other and
+# the container kitchen and Fall Sense could not be reached from either.
+PROJECTS = [
+    ("valley", "work/valley/", "365 St Pauls Terrace, Fortitude Valley", "img/hero-kitchen.jpg", "The kitchen line at 365 St Pauls Terrace"),
+    ("lrd", "work/little-red-dumplings/", "Little Red Dumpling, Gold Coast", "img/lrd/room.jpg", "Visualisation of the finished Little Red Dumpling cafe"),
+    ("container", "work/container-kitchen/", "The container kitchen, Eat Street Northshore", "img/container/arm.jpg", "The arm behind glass in the container kitchen"),
+    ("fallsense", "work/fall-sense/", "Fall Sense, Florence", "img/fallsense/unit.jpg", "The Fall Sense unit in the ceiling"),
+]
+
+
+def next_block(name):
+    keys = [p[0] for p in PROJECTS]
+    _, href, title, img, alt = PROJECTS[(keys.index(name) + 1) % len(PROJECTS)]
+    return (f'<section class="next">\n    <div class="wrap">\n      <a href="{{{{root}}}}{href}">\n'
+            f'        <div><span class="label">Next</span><h2>{escape(title)}</h2></div>\n'
+            f'        <div class="ph"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"></div>\n'
+            f'      </a>\n    </div>\n  </section>')
+
+
 # The home row is the breadth argument, so it spans the classes rather than
 # stacking the food lines: humanoid, quadruped, service, warehouse, custom, kitchen.
 HOME_MACHINES = ["unitree-g1", "unitree-go2", "ubtech-cadebot", "ubtech-cruzr-y1", "custom-automation", "kitchen-robot"]
@@ -275,6 +297,8 @@ HOME_MACHINES = ["unitree-g1", "unitree-go2", "ubtech-cadebot", "ubtech-cruzr-y1
 
 def page(name, cfg):
     body = (SRC / "pages" / f"{name}.html").read_text()
+    if "{{next}}" in body:
+        body = body.replace("{{next}}", next_block(name))
     if "{{quote}}" in body:
         body = body.replace("{{quote}}", (SRC / "_quote-form.html").read_text())
     if "{{machines}}" in body:
