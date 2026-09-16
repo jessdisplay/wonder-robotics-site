@@ -209,6 +209,9 @@ def thumb(m):
 
 def machine_body(m):
     pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in pills_of(m, price=True))
+    # A line on the Moton list gets a Buy button that opens the quote with it
+    # picked; a scoped line keeps the plain quote link.
+    buy = f'<a class="btn cream" href="{{{{root}}}}quote/?pick={m["buy"]}"><span>Buy it, {escape(m["price"].replace("From ", "from "))}</span><i aria-hidden="true">+</i></a>' if m.get("buy") else ""
     if m.get("video"):
         # A moving stage: same markup as the home kitchen loop (poster, muted
         # loop, the still inside as the no-video fallback). Captioned the way
@@ -259,7 +262,7 @@ def machine_body(m):
       <h2 class="line">{escape(m["line"])}</h2>
       <div class="pills">{pills}</div>
       <p class="sub">{escape(m["intro"])}</p>
-      <div class="actions"><a class="btn cream" href="{{{{root}}}}#quote"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="{{{{root}}}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+      <div class="actions">{buy}<a class="btn{' ghost' if m.get('buy') else ''} cream" href="{{{{root}}}}quote/{('?pick=' + m['buy']) if m.get('buy') else ''}"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="{{{{root}}}}#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 

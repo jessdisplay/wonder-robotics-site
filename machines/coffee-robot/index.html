@@ -857,7 +857,7 @@
       <h2 class="line">A barista or a bartender in about two square metres, seventy seconds a drink, and a show every time.</h2>
       <div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotic beverage station</span><span class="pill">On our floor</span><span class="pill">From $39,000</span></div>
       <p class="sub">Visible beverage preparation, app ordering, branded drinks and a compact station that fits reception, retail, exhibition and lounge spaces. Ours pours at the bar at 365 St Pauls Terrace. Formats run from a vending kiosk to a dual-arm barista bar and a robot bartender.</p>
-      <div class="actions"><a class="btn cream" href="../../#quote"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+      <div class="actions"><a class="btn cream" href="../../quote/?pick=bpro"><span>Buy it, from $39,000</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../quote/?pick=bpro"><span>Get a price quote</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 
@@ -1213,7 +1213,14 @@ window.WonderSneak = (function () {
     {id:'bar',  name:'Robot bartender',  model:'T Standard',                  kit:'Dobot arm, ice, 3 syrups', price:39000},
     {id:'ice',  name:'Ice cream robot',  model:'I Pro',                       kit:'Pasteurising machine, 3 syrups, 2 toppings', price:41000},
     {id:'noo',  name:'Noodle robot',     model:'N Standard',                  kit:'Dobot arm, 6 noodle stoves', price:52000},
-    {id:'fry',  name:'Deep frying robot',model:'F Standard',                  kit:'Dobot arm, 6 frying stoves', price:42000}
+    {id:'fry',  name:'Deep frying robot',model:'F Standard',                  kit:'Dobot arm, 6 frying stoves', price:42000},
+    // Add-ons. The Moton list prices these inside the formats, never on their
+    // own, so they are quoted, not guessed: a null price reads "On quote" and
+    // they never count as machines for install or maintenance.
+    {id:'icem', name:'Ice maker',        model:'BTB Z02, add-on',             kit:'Supplied on every coffee format. Add a second, or one to a line that has none', price:null},
+    {id:'prnt', name:'Chocolate and caramel printer', model:'Yingmei, add-on', kit:'Supplied on B Pro, B Standard and Smart EFF. Add it to the bartender', price:null},
+    {id:'milk', name:'Extra milk line',  model:'Add-on',                      kit:'A second milk, oat or soy, on any barista format', price:null},
+    {id:'syr',  name:'Extra syrup channels', model:'Add-on',                  kit:'Beyond the three channels supplied', price:null}
   ];
   // Wonder's own rates. A null rate prints "on scope" and keeps the total honest.
   // Fill these from the rate card; nothing else needs to change.
@@ -1235,7 +1242,7 @@ window.WonderSneak = (function () {
     qty[m.id]=0;
     var tr=document.createElement('tr'); tr.id='row-'+m.id;
     tr.innerHTML='<td class="name">'+m.name+'<small>'+m.model+'</small></td><td class="kit">'+m.kit+'</td>'+
-      '<td class="price num">'+money.format(m.price)+'</td>'+
+      '<td class="price num">'+(m.price==null?'On quote':money.format(m.price))+'</td>'+
       '<td class="num"><span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="More '+m.name+'">+</button></span></td>';
     tbody.appendChild(tr);
   });
@@ -1262,7 +1269,10 @@ window.WonderSneak = (function () {
     MACHINES.forEach(function(m){
       var n=qty[m.id]; el('qty-'+m.id).textContent=n;
       el('row-'+m.id).classList.toggle('on',n>0);
-      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
+      if(n>0){
+        if(m.price==null){open.push(m.name.toLowerCase()); lines.push(line(m.name+', '+m.model, n+' \u00d7 on quote', null));}
+        else{count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
+      }
     });
     var noPlan=v.plan==='none';
     el('term').disabled=noPlan; el('term-row').classList.toggle('off',noPlan);
@@ -1310,7 +1320,11 @@ window.WonderSneak = (function () {
   form.addEventListener('input',render);
   form.addEventListener('change',render);
   el('q-print').addEventListener('click',function(e){e.preventDefault();window.print();});
-  qty.noo=1; qty.fry=1;
+  // A product or landing page pre-picks its lines: quote/?pick=bpro,prnt.
+  // No pick, and the sheet opens on the kitchen pair as before.
+  var pick=(location.search.match(/[?&]pick=([^&]*)/)||[])[1];
+  if(pick){ pick.split(',').forEach(function(id){ if(id in qty) qty[id]=1; }); }
+  else{ qty.noo=1; qty.fry=1; }
   render();
 })();
 
