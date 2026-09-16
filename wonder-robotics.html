@@ -650,13 +650,14 @@
      down the left and right edges of hero-bot.jpg, so the plate can sit in
      the box (contain) and run out on wide windows without a visible edge.
      That is what "squared" was: the plate against flat paper. */
-  .pop.light{background:linear-gradient(to bottom,#C4B9AE 0%,#CAC0B6 12%,#CEC4BA 25%,#D0C6BD 38%,#D2C8BF 50%,#D6CCC3 62%,#DDD3CA 75%,#E7DFD8 88%,#E6DFD8 100%);color:var(--ink);min-height:max(100vh,55.8vw);align-items:center}
-  /* Never cropped, never boxed (Jesse, 16 Sep): the hero is at least as tall
-     as the plate is at full width (2400/1340, so 55.8vw), so cover has
-     nothing to crop on a wide window; it is simply taller than a short
-     screen, with the type pinned to the top so it sits above the fold.
-     contain with a fade was tried first and still read as a soft edge. */
-  @media (min-aspect-ratio:16/9){ .pop.light{align-items:start} }
+  .pop.light{background:linear-gradient(to bottom,#C4B9AE 0%,#CAC0B6 12%,#CEC4BA 25%,#D0C6BD 38%,#D2C8BF 50%,#D6CCC3 62%,#DDD3CA 75%,#E7DFD8 88%,#E6DFD8 100%);color:var(--ink);min-height:100vh;align-items:center}
+  /* Never cropped, never boxed, whole robot above the fold on any desktop
+     (Jesse, 16 Sep). The plate served here is hero-bot-wide.jpg: the
+     original 2400 plate untouched at the left, extended to 4800 from its
+     own edge colours (per row, smoothed, matched grain; join step under 4
+     RGB). At 3.6:1 it is wider than any real window, so cover never crops
+     vertically; anchored left, so he keeps his place beside the type at
+     every width. A generated outpaint was rejected: it redrew him. */
   /* Full height means the type is centred on the screen, not parked at the
      bottom with a void over it (Jesse: "the header is off center"). The
      robot is framed to the same centre in hero.js. */
@@ -669,7 +670,7 @@
   .pop.light.is-3d{background:radial-gradient(70% 42% at 50% 100%,#EEE9E4 0%,rgba(238,233,228,0) 100%),radial-gradient(120% 92% at 50% 6%,#F7F2EE 0%,#ECE6DF 36%,#DBD1C7 72%,#C8BDB2 100%)}
   .pop.light.is-3d .bg{visibility:hidden;animation:none}
   .pop.light.is-live .stage{opacity:1;transform:none}
-  .pop.light .bg{object-fit:cover;object-position:50% 100%}
+  .pop.light .bg{object-fit:cover;object-position:0% 100%}
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
@@ -707,6 +708,16 @@
     .sector.flip .txt{order:0}
     .mrow .catalogue{grid-template-columns:1fr 1fr}
     footer .cols{grid-template-columns:1fr 1fr}
+  }
+  /* Short windows (a 620px-high browser on a wide monitor): the three-line
+     headline at full size pushes the hero past the viewport and the boots
+     under the fold. Smaller type and tighter padding keep the whole plate,
+     antenna to soles, on the first screen. */
+  @media (max-height:720px) and (min-width:601px){
+    .pop h1{font-size:clamp(40px,4.6vw,92px)}
+    .pop.light .wrap{padding-top:28px;padding-bottom:28px}
+    .pop .sub{margin-top:16px}
+    .pop .actions{margin-top:20px}
   }
   @media (max-width:600px){
     .mrow .catalogue{grid-template-columns:1fr}
@@ -841,12 +852,12 @@
 
 <main id="top">
   <section class="pop light hero-in">
-    <img class="bg" src="img/hero-bot.jpg" alt="" aria-hidden="true" fetchpriority="high" width="2400" height="1339">
+    <picture><source media="(max-width:600px)" srcset="img/hero-bot.jpg"><img class="bg" src="img/hero-bot-wide.jpg" alt="" aria-hidden="true" fetchpriority="high" width="4800" height="1340"></picture>
     <canvas class="stage" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Fortitude Valley, Brisbane</span>
-      <h1>We build robotic kitchens and baristas.</h1>
-      <p class="sub">A robot from another maker, a machine we build, or software that never moves. You bring the job.</p>
+      <h1>We build fully automated kitchens, bars and kiosks.</h1>
+      <p class="sub">Coffee, cocktails, ice cream, whole kitchens. Designed, branded, fitted out and kept running, from Fortitude Valley.</p>
       <div class="actions"><a class="btn" href="#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#quote"><span>Price a machine</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
