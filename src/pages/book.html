@@ -1,0 +1,47 @@
+<main id="top">
+  <section class="say" style="padding-bottom:0">
+    <div class="wrap">
+      <h1 class="line">Book the space.</h1>
+      <p class="sub">365 St Pauls Terrace, Fortitude Valley. A demo for your team, a night in the room, or the floor for a day. 100 standing, 50 seated. Hire from $1,200 for four hours.</p>
+    </div>
+  </section>
+
+  <section class="rail ask-rail" id="book">
+    <div class="wrap">
+      <span class="label">[ Book ]</span>
+      <div>
+        <h2>A date, a headcount and a line about the occasion is plenty.</h2>
+        <form class="ask" data-product="Space booking" action="mailto:info@wonderbytech.com?subject=Book%20the%20space" method="post" enctype="text/plain">
+          <input type="hidden" name="request" value="Book the space, 365 St Pauls Terrace">
+          <div class="row">
+            <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+            <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+          </div>
+          <div class="row">
+            <label><span class="label">Company</span><input type="text" name="company" autocomplete="organization"></label>
+            <label><span class="label">Phone</span><input type="tel" name="phone" autocomplete="tel"></label>
+          </div>
+          <div class="row">
+            <label><span class="label">Date</span><input type="date" name="date" required></label>
+            <label><span class="label">Headcount</span><input type="number" name="headcount" min="1" max="100" placeholder="Up to 100"></label>
+          </div>
+          <label><span class="label">What for</span><textarea name="occasion" rows="4" placeholder="A demo of the machines, a team dinner, a product launch, the floor for a shoot."></textarea></label>
+          <div class="actions">
+            <button class="btn" type="submit"><span>Send the booking</span><i aria-hidden="true">+</i></button>
+            <a class="btn ghost" href="tel:1800983404"><span>Or call 1800 983 404</span><i aria-hidden="true">+</i></a>
+          </div>
+          <p class="hint">Opens in your mail app with your answers filled in. We confirm by reply within a working day.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="next">
+    <div class="wrap">
+      <a href="{{root}}work/valley/">
+        <div><span class="label">The room</span><h2>365 St Pauls Terrace</h2></div>
+        <div class="ph"><img src="{{root}}img/warm-friends.jpg" alt="Friends at a table at 365 St Pauls Terrace" loading="lazy"></div>
+      </a>
+    </div>
+  </section>
+</main>

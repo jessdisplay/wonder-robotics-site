@@ -38,6 +38,13 @@ PAGES = {
               "desc": "Supply, installation and maintenance for robot kitchen equipment, priced from the 2026 Moton Australia list, with Wonder's own rates for install and support."},
     "events": {"out": "events/index.html", "root": "../", "title": "The Robotics and Hardware Club, Wonder Robotics",
                "desc": "The Robotics and Hardware Club: one night a month at 365 St Pauls Terrace for the people building robots and hardware in Queensland. Two talks, the machines running, the bench open."},
+    # The two landing pages are titled for the search, not the catalogue.
+    "coffee-landing": {"out": "robot-coffee-machines/index.html", "root": "../", "title": "Robot coffee machines, Brisbane. Wonder Robotics",
+                       "desc": "Robot coffee machines supplied, branded, installed and serviced from Brisbane: dual-arm barista bars from $67,000, vending kiosk $74,000, robot bartender $39,000. Seventy seconds a drink, about two square metres, your brand on the machine and the cup. Ours pours at 365 St Pauls Terrace."},
+    "kitchen-landing": {"out": "robot-kitchen-fitouts/index.html", "root": "../", "title": "Robot kitchen fit-outs, Brisbane. Wonder Robotics",
+                        "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying robot from $42,000, noodle robot from $52,000, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
+    "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
+             "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
 
 ICONS = ('<link rel="icon" href="{{root}}favicon-32.png" sizes="32x32">\n'
@@ -66,6 +73,8 @@ FOOTER = '''<footer>
       <div>
         <span class="label">Machines</span>
         <a href="{{root}}machines/">Every machine we sell</a>
+        <a href="{{root}}robot-kitchen-fitouts/">Robot kitchen fit-outs</a>
+        <a href="{{root}}robot-coffee-machines/">Robot coffee machines</a>
         <a href="{{root}}machines/kitchen-robot/">Robot kitchens</a>
         <a href="{{root}}machines/coffee-robot/">Coffee and bar robots</a>
         <a href="{{root}}machines/ubtech-cadebot/">Service robots</a>
@@ -89,6 +98,7 @@ FOOTER = '''<footer>
       <div>
         <span class="label">Come in</span>
         <a href="{{root}}#visit">Book a visit</a>
+        <a href="{{root}}book/">Book the space</a>
         <a href="{{root}}events/">The Robotics and Hardware Club</a>
         <a href="tel:1800983404">1800 983 404</a>
         <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
