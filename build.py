@@ -78,18 +78,26 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
           <span class="label">[ Build your quote ]</span>
           <h2 id="qs-title">Pick what you want built.</h2>
         </div>
-        <div class="qs-tabs" role="tablist" aria-label="What to add">
-          <button type="button" role="tab" id="qt-food" aria-controls="qp-food" aria-selected="true">Food and drink</button>
-          <button type="button" role="tab" id="qt-robots" aria-controls="qp-robots" aria-selected="false" tabindex="-1">Showroom robots</button>
-          <button type="button" role="tab" id="qt-addons" aria-controls="qp-addons" aria-selected="false" tabindex="-1">Add-ons and the work</button>
-        </div>
         <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
       </div>
       <div class="qs-body">
-        <div class="qs-pick">
-          <div class="qs-grid food" role="tabpanel" id="qp-food" aria-labelledby="qt-food"></div>
-          <div class="qs-grid robots" role="tabpanel" id="qp-robots" aria-labelledby="qt-robots" hidden></div>
-          <div class="qs-grid addons" role="tabpanel" id="qp-addons" aria-labelledby="qt-addons" hidden></div>
+        <div class="qs-pick" id="qs-pick">
+          <section class="qs-sec" id="qsec-food">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-food"><span class="t">Food and drink machines</span><span class="c" id="qc-n-food"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid food" id="qp-food"></div>
+          </section>
+          <section class="qs-sec" id="qsec-robots">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-robots"><span class="t">Showroom robots</span><span class="c" id="qc-n-robots"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid robots" id="qp-robots"></div>
+          </section>
+          <section class="qs-sec" id="qsec-parts">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-parts"><span class="t">Add-ons on the machine</span><span class="c" id="qc-n-parts"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid addons" id="qp-parts"></div>
+          </section>
+          <section class="qs-sec" id="qsec-work">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-work"><span class="t">The work around it</span><span class="c" id="qc-n-work"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid addons" id="qp-work"></div>
+          </section>
         </div>
         <aside class="qs-tray" id="qs-tray" aria-label="Your quote">
           <button type="button" class="qs-peek" id="qs-peek" aria-expanded="false" aria-controls="qs-lines">

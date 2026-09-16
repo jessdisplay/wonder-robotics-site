@@ -225,7 +225,7 @@ window.WonderQuote = (function(){
       document.documentElement.style.paddingRight=sw>0?sw+'px':'';
       document.documentElement.classList.add('qs-lock');
       sheet.classList.add('on'); btn.setAttribute('aria-expanded','true');
-      setTimeout(function(){ var t=sheet.querySelector('.qs-tabs [aria-selected="true"]'); if(t) t.focus({preventScroll:true}); },60);
+      setTimeout(function(){ var t=$('qs-close'); if(t) t.focus({preventScroll:true}); },60);
     }else{
       sheet.classList.remove('on'); btn.setAttribute('aria-expanded','false');
       document.documentElement.classList.remove('qs-lock'); document.documentElement.style.paddingRight='';
@@ -253,61 +253,61 @@ window.WonderQuote = (function(){
     e.preventDefault(); setOpen(true);
   });
 
-  // ---- tabs, with arrow keys as a tablist should have
-  var tabs=[].slice.call(sheet.querySelectorAll('.qs-tabs [role="tab"]'));
-  function selectTab(t){
-    tabs.forEach(function(x){
-      var on=x===t; x.setAttribute('aria-selected',on?'true':'false'); x.tabIndex=on?0:-1;
-      $(x.getAttribute('aria-controls')).hidden=!on;
-    });
-    sheet.querySelector('.qs-pick').scrollTop=0;
-  }
-  tabs.forEach(function(t,i){
-    t.addEventListener('click',function(){ selectTab(t); });
-    t.addEventListener('keydown',function(e){
-      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
-      e.preventDefault(); var n=tabs[(i+d+tabs.length)%tabs.length]; selectTab(n); n.focus();
+  // ---- the sections fold. All open to start: the list is the whole offer.
+  [].forEach.call(sheet.querySelectorAll('.qs-sec-h button'),function(h){
+    h.addEventListener('click',function(){
+      var open=h.getAttribute('aria-expanded')!=='true';
+      h.setAttribute('aria-expanded',open?'true':'false');
+      $(h.getAttribute('aria-controls')).hidden=!open;
+      // folding a section you had scrolled into would drop you mid-way
+      // through the next one, so bring its heading back to the top
+      var pick=$('qs-pick'), sec=h.closest('.qs-sec');
+      if(sec&&pick.scrollTop>sec.offsetTop) pick.scrollTop=sec.offsetTop;
     });
   });
 
   // ---- the cards, drawn the first time the sheet opens so no page pays for
   // two dozen images it never shows
   function stepper(id,label){
-    return '<span class="qty"><button type="button" data-id="'+id+'" data-d="-1" aria-label="Fewer '+esc(label)+'">&minus;</button>'+
-           '<output id="qn-'+id+'">0</output><button type="button" data-id="'+id+'" data-d="1" aria-label="Add '+esc(label)+'">+</button></span>';
+    return '<span class="qty"><button type="button" data-id="'+id+'" data-d="-1" aria-label="One fewer '+esc(label)+'">&minus;</button>'+
+           '<output id="qn-'+id+'">0</output><button type="button" data-id="'+id+'" data-d="1" aria-label="One more '+esc(label)+'">+</button></span>';
+  }
+  // Every card is one button laid over the whole card. Machines and robots
+  // go in at one and come out at zero; once in, a stepper sits above the
+  // button for a second or a third. Add-ons simply go in and out.
+  function card(o,opt){
+    var label=opt.label;
+    return '<article class="qs-card'+(opt.counted?' counted':'')+'" id="qc-'+o.id+'">'+
+      '<button type="button" class="qs-hit" data-id="'+o.id+'" data-kind="'+opt.kind+'" aria-pressed="false" aria-label="'+esc(label)+'"></button>'+
+      '<span class="n" id="qb-'+o.id+'" aria-hidden="true"></span>'+(opt.tag||'')+
+      '<div class="ph"><img src="'+o.img+'" alt="" loading="lazy" decoding="async"></div>'+
+      '<div class="qs-card-b"><h3>'+esc(opt.title)+(opt.small?'<small>'+esc(opt.small)+'</small>':'')+'</h3>'+(opt.text?'<p>'+esc(opt.text)+'</p>':'')+
+      '<div class="qs-card-f"><span class="price'+(opt.ask?' ask':'')+'" id="qpv-'+o.id+'">'+(opt.price||'')+'</span>'+
+      '<span class="add" aria-hidden="true">'+(opt.counted?'Add':'Add')+'</span>'+(opt.counted?stepper(o.id,label):'')+'</div></div></article>';
   }
   function draw(){
     if(drawn) return; drawn=true;
     $('qp-food').innerHTML=Q.MACHINES.map(function(m){
-      return '<article class="qs-card" id="qc-'+m.id+'"><span class="n" id="qb-'+m.id+'" aria-hidden="true"></span>'+
-        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="qs-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3><p>'+esc(m.kit)+'</p>'+
-        '<div class="qs-card-f"><span class="price">'+money.format(m.price)+'</span>'+stepper(m.id,m.model)+'</div></div></article>';
+      return card(m,{kind:'unit',counted:true,label:m.name+', '+m.model,title:m.name,small:m.model,text:m.kit,price:money.format(m.price)});
     }).join('');
     $('qp-robots').innerHTML=Q.ROBOTS.map(function(r){
       var floor=/floor/i.test(r.status);
-      return '<article class="qs-card" id="qc-'+r.id+'"><span class="n" id="qb-'+r.id+'" aria-hidden="true"></span>'+
-        '<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'+
-        '<div class="ph"><img src="'+r.img+'" alt="'+esc(r.name)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="qs-card-b"><h3>'+esc(r.name)+'<small>'+esc(r.kind)+'</small></h3>'+
-        '<div class="qs-card-f"><span class="price ask">On request</span>'+stepper(r.id,r.name)+'</div></div></article>';
+      return card(r,{kind:'unit',counted:true,label:r.name,title:r.name,small:r.kind,price:'On request',ask:true,
+        tag:'<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'});
     }).join('');
-    function addon(o,g){
-      return '<article class="qs-card" id="qc-'+o.id+'">'+
-        '<div class="ph"><img src="'+o.img+'" alt="'+esc(o.alt||o.name)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="qs-card-b"><h3>'+esc(o.name)+'</h3><p>'+esc(o.sub)+'</p>'+
-        '<div class="qs-card-f"><span class="price" id="qpv-'+o.id+'"></span>'+
-        '<button type="button" class="qs-toggle" data-g="'+g+'" data-id="'+o.id+'" aria-pressed="false">Add</button></div></div></article>';
-    }
-    $('qp-addons').innerHTML='<div class="qs-sub label">On the machine</div>'+Q.PARTS.map(function(x){return addon(x,'part');}).join('')+
-      '<div class="qs-sub label">The work around it</div>'+Q.SERVICES.map(function(x){return addon(x,'svc');}).join('');
+    $('qp-parts').innerHTML=Q.PARTS.map(function(x){ return card(x,{kind:'part',label:x.name,title:x.name,text:x.sub}); }).join('');
+    $('qp-work').innerHTML=Q.SERVICES.map(function(x){ return card(x,{kind:'svc',label:x.name,title:x.name,text:x.sub}); }).join('');
     render();
   }
-  sheet.querySelector('.qs-pick').addEventListener('click',function(e){
-    var b=e.target.closest('button[data-d]');
-    if(b){ var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10))); render(); return; }
-    var t=e.target.closest('.qs-toggle');
-    if(t){ var tid=t.getAttribute('data-id'); if(t.getAttribute('data-g')==='part') parts[tid]=!parts[tid]; else svc[tid]=!svc[tid]; render(); }
+  $('qs-pick').addEventListener('click',function(e){
+    var step=e.target.closest('button[data-d]');
+    if(step){ var sid=step.getAttribute('data-id'); qty[sid]=Math.max(0,Math.min(20,qty[sid]+parseInt(step.getAttribute('data-d'),10))); render(); return; }
+    var hit=e.target.closest('.qs-hit'); if(!hit) return;
+    var id=hit.getAttribute('data-id'), k=hit.getAttribute('data-kind');
+    if(k==='unit') qty[id]=qty[id]>0?0:1;
+    else if(k==='part') parts[id]=!parts[id];
+    else svc[id]=!svc[id];
+    render();
   });
   $('qs-peek').addEventListener('click',function(){
     var tray=$('qs-tray'), o=!tray.classList.contains('open');
@@ -317,7 +317,7 @@ window.WonderQuote = (function(){
   // ---- the tray and the total
   function render(){
     var count=0, supply=0, total=0, asks=0, lines=[], pick=[], faces=[];
-    var tabCount={food:0,robots:0,addons:0};
+    var tabCount={food:0,robots:0,parts:0,work:0};
     Q.MACHINES.forEach(function(m){
       var n=qty[m.id]; mark(m.id,n);
       if(!n) return;
@@ -335,7 +335,7 @@ window.WonderQuote = (function(){
       var pv=$('qpv-'+x.id); if(pv) pv.textContent=money.format(x.price);
       toggle(x.id,parts[x.id]);
       if(!parts[x.id]) return;
-      total+=x.price; tabCount.addons++; pick.push(x.id);
+      total+=x.price; tabCount.parts++; pick.push(x.id);
       lines.push({img:x.img,name:x.name,sub:'Add-on, indicative',v:money.format(x.price)});
     });
     Q.SERVICES.forEach(function(x){
@@ -343,16 +343,14 @@ window.WonderQuote = (function(){
       var pv=$('qpv-'+x.id); if(pv){ pv.textContent=count?money.format(amt):'Priced on your machines'; pv.classList.toggle('ask',!count); }
       toggle(x.id,svc[x.id]);
       if(!svc[x.id]) return;
-      if(x.id!=='inst'){ tabCount.addons++; pick.push(x.id); }
+      tabCount.work++; if(x.id!=='inst') pick.push(x.id);
       if(!count&&!asks) return;
       if(count) total+=amt;
       lines.push({img:x.img,name:x.name,sub:count?Math.round(x.pct*100)+'% of the machines, indicative':'Priced with the robots',v:count?money.format(amt):'On request',ask:!count});
     });
 
-    tabs.forEach(function(t){
-      var k=t.id.replace('qt-',''), n=tabCount[k], b=t.querySelector('b');
-      if(n&&!b){ b=document.createElement('b'); t.appendChild(b); }
-      if(b){ if(n) b.textContent=n; else b.remove(); }
+    Object.keys(tabCount).forEach(function(k){
+      var c=$('qc-n-'+k); if(c) c.textContent=tabCount[k]?tabCount[k]+' added':'';
     });
 
     var ul=$('qs-lines');
@@ -377,13 +375,17 @@ window.WonderQuote = (function(){
     var go=$('want-go'); go.href=go.getAttribute('data-base')+(pick.length?'?pick='+pick.join(','):'');
   }
   function mark(id,n){
-    var c=$('qc-'+id); if(c) c.classList.toggle('on',n>0);
+    var c=$('qc-'+id); if(!c) return;
+    c.classList.toggle('on',n>0);
     var o=$('qn-'+id); if(o) o.textContent=n;
     var b=$('qb-'+id); if(b) b.textContent=n;
+    var h=c.querySelector('.qs-hit'); if(h) h.setAttribute('aria-pressed',n>0?'true':'false');
   }
   function toggle(id,on){
-    var c=$('qc-'+id); if(c) c.classList.toggle('on',!!on);
-    var t=c&&c.querySelector('.qs-toggle'); if(t){ t.setAttribute('aria-pressed',on?'true':'false'); t.textContent=on?'Added':'Add'; }
+    var c=$('qc-'+id); if(!c) return;
+    c.classList.toggle('on',!!on);
+    var h=c.querySelector('.qs-hit'); if(h) h.setAttribute('aria-pressed',on?'true':'false');
+    var a=c.querySelector('.add'); if(a) a.textContent=on?'Added':'Add';
   }
   var goEl=$('want-go'); goEl.setAttribute('data-base',goEl.getAttribute('href'));
 

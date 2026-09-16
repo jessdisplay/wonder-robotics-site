@@ -96,49 +96,69 @@
   .qs.on .qs-sheet{transform:none}
   html.qs-lock,html.qs-lock body{overflow:hidden}
 
-  .qs-top{display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:14px clamp(20px,3vw,48px);
+  .qs-top{display:grid;grid-template-columns:1fr auto;align-items:end;gap:14px clamp(20px,3vw,48px);
           padding:clamp(18px,2.2vw,30px) var(--m) 0;border-bottom:1px solid var(--rule)}
   .qs-say h2{margin:6px 0 clamp(14px,1.6vw,20px);font-weight:400;font-size:clamp(26px,2.6vw,42px);line-height:1;letter-spacing:-.035em}
-  .qs-tabs{display:flex;gap:clamp(14px,2vw,30px);align-self:end;overflow-x:auto;scrollbar-width:none}
-  .qs-tabs::-webkit-scrollbar{display:none}
-  .qs-tabs button{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
-                  background:none;border:0;padding:0 0 14px;color:var(--graphite);cursor:pointer;position:relative}
-  .qs-tabs button::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
-  .qs-tabs button:hover{color:var(--ink)}
-  .qs-tabs button[aria-selected="true"]{color:var(--ink)}
-  .qs-tabs button[aria-selected="true"]::after{transform:none}
-  .qs-tabs button b{font-weight:400;color:var(--signal);margin-left:6px}
   .qs-close{align-self:start;width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;
             font-size:24px;line-height:1;display:grid;place-items:center;transition:background .15s,color .15s}
   .qs-close span{display:block;transform:rotate(45deg)}
   .qs-close:hover{background:var(--ink);color:var(--paper)}
-  .qs-tabs button:focus-visible,.qs-close:focus-visible,.qs-card button:focus-visible,.qs-peek:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+  .qs-sec-h button:focus-visible,.qs-hit:focus-visible,.qs-close:focus-visible,.qs-card button:focus-visible,.qs-peek:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
 
   .qs-body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,26vw,400px)}
-  .qs-pick{overflow-y:auto;overscroll-behavior:contain;padding:clamp(16px,1.8vw,26px) var(--m) clamp(28px,3vw,44px)}
+  .qs-pick{position:relative;overflow-y:auto;overscroll-behavior:contain;padding:0 var(--m) clamp(28px,3vw,44px)}
+
+  /* One list, everything in it, under thick headings that fold. The heading
+     sticks while you are in its section, so a long scroll never loses where
+     you are, and folding a section you are done with shortens the walk. */
+  .qs-sec{padding-bottom:clamp(18px,2vw,30px)}
+  .qs-sec-h{margin:0;position:sticky;top:0;z-index:3;background:var(--paper)}
+  .qs-sec-h button{width:100%;display:flex;align-items:center;gap:14px;font:inherit;color:var(--ink);background:none;border:0;cursor:pointer;text-align:left;
+                   padding:clamp(16px,1.8vw,24px) 0 clamp(12px,1.4vw,18px);border-bottom:2px solid var(--ink)}
+  .qs-sec-h .t{font-size:clamp(28px,2.9vw,48px);line-height:1;letter-spacing:-.04em;font-weight:500}
+  .qs-sec-h .c{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--signal);align-self:flex-end;padding-bottom:.35em}
+  .qs-sec-h .chev{margin-left:auto;width:34px;height:34px;border:1px solid var(--ink);border-radius:50%;position:relative;flex:none;transition:background .15s}
+  .qs-sec-h .chev::before{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+                         transform:translate(-50%,-70%) rotate(45deg);transition:transform .34s cubic-bezier(.16,.84,.24,1)}
+  .qs-sec-h button[aria-expanded="false"] .chev::before{transform:translate(-50%,-30%) rotate(-135deg)}
+  .qs-sec-h button:hover .chev{background:var(--ink);color:var(--paper)}
+  .qs-sec .qs-grid{padding-top:clamp(14px,1.4vw,20px)}
+  .qs-sec .qs-grid[hidden]{display:none}
   .qs-grid{display:grid;gap:clamp(10px,1vw,16px)}
-  .qs-grid[hidden]{display:none}
   .qs-grid.food{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
   .qs-grid.robots{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
   .qs-grid.addons{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
-  .qs-grid .qs-sub{grid-column:1/-1;margin:clamp(10px,1.2vw,18px) 0 -2px}
-  .qs-grid .qs-sub:first-child{margin-top:0}
 
   .qs-card{position:relative;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;display:flex;flex-direction:column;
            transition:border-color .18s,box-shadow .18s,transform .3s cubic-bezier(.16,.84,.24,1)}
-  .qs-card:hover{border-color:var(--graphite)}
-  .qs-card.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .qs-card{cursor:pointer}
+  @media (hover:hover){.qs-card:hover{border-color:var(--ink)}}
+  .qs-card.on{border-color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+  /* the whole card is the button: a transparent control stretched over it,
+     with the quantity stepper lifted above it once the card is added */
+  .qs-hit{position:absolute;inset:0;z-index:1;width:100%;background:transparent;border:0;padding:0;cursor:pointer;border-radius:inherit}
+  .qs-card .qty{position:relative;z-index:2}
+  .qs-card .add{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;
+                border:1px solid var(--ink);border-radius:999px;padding:6px 11px 6px 10px;transition:background .15s,color .15s}
+  .qs-card .add::before{content:"+";font-size:14px;line-height:1}
+  @media (hover:hover){.qs-card:hover .add{background:var(--ink);color:var(--paper)}}
+  .qs-card.on .add{background:var(--ink);color:var(--paper)}
+  .qs-card.on .add::before{content:"\2713";font-size:12px}
+  .qs-card .qty{display:none}
+  .qs-card.on .qty{display:inline-grid}
+  .qs-card.on.counted .add{display:none}
   .qs-card .ph{aspect-ratio:4/3;overflow:hidden;background:var(--rule)}
   .qs-grid.robots .qs-card .ph{aspect-ratio:4/5}
   .qs-card .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.16,.84,.24,1)}
-  .qs-card:hover .ph img{transform:scale(1.035)}
-  .qs-card .tag{position:absolute;left:10px;top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  @media (hover:hover){.qs-card:hover .ph img{transform:scale(1.035)}}
+  .qs-card .tag{position:absolute;z-index:2;pointer-events:none;left:10px;top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
                 background:color-mix(in srgb,var(--paper) 92%,transparent);border-radius:999px;padding:5px 9px 5px 8px;display:inline-flex;align-items:center;gap:6px}
   .qs-card .tag i{width:6px;height:6px;border-radius:50%;background:var(--graphite)}
   .qs-card .tag.floor i{background:var(--live)}
-  .qs-card .n{position:absolute;right:10px;top:10px;min-width:26px;height:26px;padding:0 7px;border-radius:999px;background:var(--signal);color:var(--paper);
+  .qs-card .n{position:absolute;z-index:2;pointer-events:none;right:10px;top:10px;min-width:26px;height:26px;padding:0 7px;border-radius:999px;background:var(--signal);color:var(--paper);
               font-family:var(--mono);font-size:12px;display:grid;place-items:center;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
   .qs-card.on .n{transform:none}
+  .qs-card .n:empty::before{content:"\2713";font-size:12px}
   .qs-card-b{padding:12px 13px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
   .qs-card h3{margin:0;font-weight:400;font-size:17px;line-height:1.12;letter-spacing:-.02em}
   .qs-card h3 small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
@@ -147,10 +167,6 @@
   .qs-card .price{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
   .qs-card .price.ask{color:var(--graphite)}
   .qs-card.on .price{color:var(--signal)}
-  .qs-toggle{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;
-             border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:var(--rb);padding:7px 11px;transition:background .15s,color .15s}
-  .qs-toggle:hover{background:var(--ink);color:var(--paper)}
-  .qs-card.on .qs-toggle{background:var(--ink);color:var(--paper)}
 
   /* the tray: what you picked, as pictures, with the money beside each */
   .qs-tray{border-left:1px solid var(--rule);background:#FBFAF3;display:flex;flex-direction:column;min-height:0;
@@ -176,9 +192,6 @@
   .qs-go .btn{justify-content:space-between}
 
   @media (max-width:980px){
-    .qs-top{grid-template-columns:1fr auto}
-    .qs-tabs{grid-column:1/-1;grid-row:2}
-    .qs-say h2{margin-bottom:6px}
     .qs-body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
     .qs-sheet{height:100dvh;border-radius:0}
     /* on a phone the tray is a bar along the bottom of the sheet: the faces of
@@ -202,6 +215,11 @@
     .qs-grid.robots{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
     .qs-grid.robots .qs-card-f{flex-direction:column;align-items:flex-start;gap:8px}
     .qs-grid.robots .qs-card h3{font-size:15px}
+    .qs-sec-h button{flex-wrap:wrap;column-gap:10px;row-gap:2px;padding:12px 0 10px}
+    .qs-sec-h .t{font-size:24px;flex:1 1 auto;min-width:0}
+    .qs-sec-h .chev{order:2;width:30px;height:30px;margin-left:0}
+    .qs-sec-h .c{order:3;flex-basis:100%;padding-bottom:0;font-size:10.5px}
+    .qs-sec-h .c:empty{display:none}
   }
   @media (max-width:420px){
     .qs-grid.food,.qs-grid.addons{grid-template-columns:1fr}
@@ -1092,18 +1110,26 @@
           <span class="label">[ Build your quote ]</span>
           <h2 id="qs-title">Pick what you want built.</h2>
         </div>
-        <div class="qs-tabs" role="tablist" aria-label="What to add">
-          <button type="button" role="tab" id="qt-food" aria-controls="qp-food" aria-selected="true">Food and drink</button>
-          <button type="button" role="tab" id="qt-robots" aria-controls="qp-robots" aria-selected="false" tabindex="-1">Showroom robots</button>
-          <button type="button" role="tab" id="qt-addons" aria-controls="qp-addons" aria-selected="false" tabindex="-1">Add-ons and the work</button>
-        </div>
         <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
       </div>
       <div class="qs-body">
-        <div class="qs-pick">
-          <div class="qs-grid food" role="tabpanel" id="qp-food" aria-labelledby="qt-food"></div>
-          <div class="qs-grid robots" role="tabpanel" id="qp-robots" aria-labelledby="qt-robots" hidden></div>
-          <div class="qs-grid addons" role="tabpanel" id="qp-addons" aria-labelledby="qt-addons" hidden></div>
+        <div class="qs-pick" id="qs-pick">
+          <section class="qs-sec" id="qsec-food">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-food"><span class="t">Food and drink machines</span><span class="c" id="qc-n-food"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid food" id="qp-food"></div>
+          </section>
+          <section class="qs-sec" id="qsec-robots">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-robots"><span class="t">Showroom robots</span><span class="c" id="qc-n-robots"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid robots" id="qp-robots"></div>
+          </section>
+          <section class="qs-sec" id="qsec-parts">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-parts"><span class="t">Add-ons on the machine</span><span class="c" id="qc-n-parts"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid addons" id="qp-parts"></div>
+          </section>
+          <section class="qs-sec" id="qsec-work">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-work"><span class="t">The work around it</span><span class="c" id="qc-n-work"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid addons" id="qp-work"></div>
+          </section>
         </div>
         <aside class="qs-tray" id="qs-tray" aria-label="Your quote">
           <button type="button" class="qs-peek" id="qs-peek" aria-expanded="false" aria-controls="qs-lines">
@@ -1697,7 +1723,7 @@ window.WonderQuote = (function(){
       document.documentElement.style.paddingRight=sw>0?sw+'px':'';
       document.documentElement.classList.add('qs-lock');
       sheet.classList.add('on'); btn.setAttribute('aria-expanded','true');
-      setTimeout(function(){ var t=sheet.querySelector('.qs-tabs [aria-selected="true"]'); if(t) t.focus({preventScroll:true}); },60);
+      setTimeout(function(){ var t=$('qs-close'); if(t) t.focus({preventScroll:true}); },60);
     }else{
       sheet.classList.remove('on'); btn.setAttribute('aria-expanded','false');
       document.documentElement.classList.remove('qs-lock'); document.documentElement.style.paddingRight='';
@@ -1725,61 +1751,61 @@ window.WonderQuote = (function(){
     e.preventDefault(); setOpen(true);
   });
 
-  // ---- tabs, with arrow keys as a tablist should have
-  var tabs=[].slice.call(sheet.querySelectorAll('.qs-tabs [role="tab"]'));
-  function selectTab(t){
-    tabs.forEach(function(x){
-      var on=x===t; x.setAttribute('aria-selected',on?'true':'false'); x.tabIndex=on?0:-1;
-      $(x.getAttribute('aria-controls')).hidden=!on;
-    });
-    sheet.querySelector('.qs-pick').scrollTop=0;
-  }
-  tabs.forEach(function(t,i){
-    t.addEventListener('click',function(){ selectTab(t); });
-    t.addEventListener('keydown',function(e){
-      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
-      e.preventDefault(); var n=tabs[(i+d+tabs.length)%tabs.length]; selectTab(n); n.focus();
+  // ---- the sections fold. All open to start: the list is the whole offer.
+  [].forEach.call(sheet.querySelectorAll('.qs-sec-h button'),function(h){
+    h.addEventListener('click',function(){
+      var open=h.getAttribute('aria-expanded')!=='true';
+      h.setAttribute('aria-expanded',open?'true':'false');
+      $(h.getAttribute('aria-controls')).hidden=!open;
+      // folding a section you had scrolled into would drop you mid-way
+      // through the next one, so bring its heading back to the top
+      var pick=$('qs-pick'), sec=h.closest('.qs-sec');
+      if(sec&&pick.scrollTop>sec.offsetTop) pick.scrollTop=sec.offsetTop;
     });
   });
 
   // ---- the cards, drawn the first time the sheet opens so no page pays for
   // two dozen images it never shows
   function stepper(id,label){
-    return '<span class="qty"><button type="button" data-id="'+id+'" data-d="-1" aria-label="Fewer '+esc(label)+'">&minus;</button>'+
-           '<output id="qn-'+id+'">0</output><button type="button" data-id="'+id+'" data-d="1" aria-label="Add '+esc(label)+'">+</button></span>';
+    return '<span class="qty"><button type="button" data-id="'+id+'" data-d="-1" aria-label="One fewer '+esc(label)+'">&minus;</button>'+
+           '<output id="qn-'+id+'">0</output><button type="button" data-id="'+id+'" data-d="1" aria-label="One more '+esc(label)+'">+</button></span>';
+  }
+  // Every card is one button laid over the whole card. Machines and robots
+  // go in at one and come out at zero; once in, a stepper sits above the
+  // button for a second or a third. Add-ons simply go in and out.
+  function card(o,opt){
+    var label=opt.label;
+    return '<article class="qs-card'+(opt.counted?' counted':'')+'" id="qc-'+o.id+'">'+
+      '<button type="button" class="qs-hit" data-id="'+o.id+'" data-kind="'+opt.kind+'" aria-pressed="false" aria-label="'+esc(label)+'"></button>'+
+      '<span class="n" id="qb-'+o.id+'" aria-hidden="true"></span>'+(opt.tag||'')+
+      '<div class="ph"><img src="'+o.img+'" alt="" loading="lazy" decoding="async"></div>'+
+      '<div class="qs-card-b"><h3>'+esc(opt.title)+(opt.small?'<small>'+esc(opt.small)+'</small>':'')+'</h3>'+(opt.text?'<p>'+esc(opt.text)+'</p>':'')+
+      '<div class="qs-card-f"><span class="price'+(opt.ask?' ask':'')+'" id="qpv-'+o.id+'">'+(opt.price||'')+'</span>'+
+      '<span class="add" aria-hidden="true">'+(opt.counted?'Add':'Add')+'</span>'+(opt.counted?stepper(o.id,label):'')+'</div></div></article>';
   }
   function draw(){
     if(drawn) return; drawn=true;
     $('qp-food').innerHTML=Q.MACHINES.map(function(m){
-      return '<article class="qs-card" id="qc-'+m.id+'"><span class="n" id="qb-'+m.id+'" aria-hidden="true"></span>'+
-        '<div class="ph"><img src="'+m.img+'" alt="'+esc(m.name+', '+m.model)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="qs-card-b"><h3>'+esc(m.name)+'<small>'+esc(m.model)+'</small></h3><p>'+esc(m.kit)+'</p>'+
-        '<div class="qs-card-f"><span class="price">'+money.format(m.price)+'</span>'+stepper(m.id,m.model)+'</div></div></article>';
+      return card(m,{kind:'unit',counted:true,label:m.name+', '+m.model,title:m.name,small:m.model,text:m.kit,price:money.format(m.price)});
     }).join('');
     $('qp-robots').innerHTML=Q.ROBOTS.map(function(r){
       var floor=/floor/i.test(r.status);
-      return '<article class="qs-card" id="qc-'+r.id+'"><span class="n" id="qb-'+r.id+'" aria-hidden="true"></span>'+
-        '<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'+
-        '<div class="ph"><img src="'+r.img+'" alt="'+esc(r.name)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="qs-card-b"><h3>'+esc(r.name)+'<small>'+esc(r.kind)+'</small></h3>'+
-        '<div class="qs-card-f"><span class="price ask">On request</span>'+stepper(r.id,r.name)+'</div></div></article>';
+      return card(r,{kind:'unit',counted:true,label:r.name,title:r.name,small:r.kind,price:'On request',ask:true,
+        tag:'<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'});
     }).join('');
-    function addon(o,g){
-      return '<article class="qs-card" id="qc-'+o.id+'">'+
-        '<div class="ph"><img src="'+o.img+'" alt="'+esc(o.alt||o.name)+'" loading="lazy" decoding="async"></div>'+
-        '<div class="qs-card-b"><h3>'+esc(o.name)+'</h3><p>'+esc(o.sub)+'</p>'+
-        '<div class="qs-card-f"><span class="price" id="qpv-'+o.id+'"></span>'+
-        '<button type="button" class="qs-toggle" data-g="'+g+'" data-id="'+o.id+'" aria-pressed="false">Add</button></div></div></article>';
-    }
-    $('qp-addons').innerHTML='<div class="qs-sub label">On the machine</div>'+Q.PARTS.map(function(x){return addon(x,'part');}).join('')+
-      '<div class="qs-sub label">The work around it</div>'+Q.SERVICES.map(function(x){return addon(x,'svc');}).join('');
+    $('qp-parts').innerHTML=Q.PARTS.map(function(x){ return card(x,{kind:'part',label:x.name,title:x.name,text:x.sub}); }).join('');
+    $('qp-work').innerHTML=Q.SERVICES.map(function(x){ return card(x,{kind:'svc',label:x.name,title:x.name,text:x.sub}); }).join('');
     render();
   }
-  sheet.querySelector('.qs-pick').addEventListener('click',function(e){
-    var b=e.target.closest('button[data-d]');
-    if(b){ var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10))); render(); return; }
-    var t=e.target.closest('.qs-toggle');
-    if(t){ var tid=t.getAttribute('data-id'); if(t.getAttribute('data-g')==='part') parts[tid]=!parts[tid]; else svc[tid]=!svc[tid]; render(); }
+  $('qs-pick').addEventListener('click',function(e){
+    var step=e.target.closest('button[data-d]');
+    if(step){ var sid=step.getAttribute('data-id'); qty[sid]=Math.max(0,Math.min(20,qty[sid]+parseInt(step.getAttribute('data-d'),10))); render(); return; }
+    var hit=e.target.closest('.qs-hit'); if(!hit) return;
+    var id=hit.getAttribute('data-id'), k=hit.getAttribute('data-kind');
+    if(k==='unit') qty[id]=qty[id]>0?0:1;
+    else if(k==='part') parts[id]=!parts[id];
+    else svc[id]=!svc[id];
+    render();
   });
   $('qs-peek').addEventListener('click',function(){
     var tray=$('qs-tray'), o=!tray.classList.contains('open');
@@ -1789,7 +1815,7 @@ window.WonderQuote = (function(){
   // ---- the tray and the total
   function render(){
     var count=0, supply=0, total=0, asks=0, lines=[], pick=[], faces=[];
-    var tabCount={food:0,robots:0,addons:0};
+    var tabCount={food:0,robots:0,parts:0,work:0};
     Q.MACHINES.forEach(function(m){
       var n=qty[m.id]; mark(m.id,n);
       if(!n) return;
@@ -1807,7 +1833,7 @@ window.WonderQuote = (function(){
       var pv=$('qpv-'+x.id); if(pv) pv.textContent=money.format(x.price);
       toggle(x.id,parts[x.id]);
       if(!parts[x.id]) return;
-      total+=x.price; tabCount.addons++; pick.push(x.id);
+      total+=x.price; tabCount.parts++; pick.push(x.id);
       lines.push({img:x.img,name:x.name,sub:'Add-on, indicative',v:money.format(x.price)});
     });
     Q.SERVICES.forEach(function(x){
@@ -1815,16 +1841,14 @@ window.WonderQuote = (function(){
       var pv=$('qpv-'+x.id); if(pv){ pv.textContent=count?money.format(amt):'Priced on your machines'; pv.classList.toggle('ask',!count); }
       toggle(x.id,svc[x.id]);
       if(!svc[x.id]) return;
-      if(x.id!=='inst'){ tabCount.addons++; pick.push(x.id); }
+      tabCount.work++; if(x.id!=='inst') pick.push(x.id);
       if(!count&&!asks) return;
       if(count) total+=amt;
       lines.push({img:x.img,name:x.name,sub:count?Math.round(x.pct*100)+'% of the machines, indicative':'Priced with the robots',v:count?money.format(amt):'On request',ask:!count});
     });
 
-    tabs.forEach(function(t){
-      var k=t.id.replace('qt-',''), n=tabCount[k], b=t.querySelector('b');
-      if(n&&!b){ b=document.createElement('b'); t.appendChild(b); }
-      if(b){ if(n) b.textContent=n; else b.remove(); }
+    Object.keys(tabCount).forEach(function(k){
+      var c=$('qc-n-'+k); if(c) c.textContent=tabCount[k]?tabCount[k]+' added':'';
     });
 
     var ul=$('qs-lines');
@@ -1849,13 +1873,17 @@ window.WonderQuote = (function(){
     var go=$('want-go'); go.href=go.getAttribute('data-base')+(pick.length?'?pick='+pick.join(','):'');
   }
   function mark(id,n){
-    var c=$('qc-'+id); if(c) c.classList.toggle('on',n>0);
+    var c=$('qc-'+id); if(!c) return;
+    c.classList.toggle('on',n>0);
     var o=$('qn-'+id); if(o) o.textContent=n;
     var b=$('qb-'+id); if(b) b.textContent=n;
+    var h=c.querySelector('.qs-hit'); if(h) h.setAttribute('aria-pressed',n>0?'true':'false');
   }
   function toggle(id,on){
-    var c=$('qc-'+id); if(c) c.classList.toggle('on',!!on);
-    var t=c&&c.querySelector('.qs-toggle'); if(t){ t.setAttribute('aria-pressed',on?'true':'false'); t.textContent=on?'Added':'Add'; }
+    var c=$('qc-'+id); if(!c) return;
+    c.classList.toggle('on',!!on);
+    var h=c.querySelector('.qs-hit'); if(h) h.setAttribute('aria-pressed',on?'true':'false');
+    var a=c.querySelector('.add'); if(a) a.textContent=on?'Added':'Add';
   }
   var goEl=$('want-go'); goEl.setAttribute('data-base',goEl.getAttribute('href'));
 
