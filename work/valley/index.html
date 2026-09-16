@@ -148,21 +148,36 @@
   input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
   input[type=range]:disabled{opacity:.3}
 
-  .cat-wrap{overflow-x:auto}
-  .cat{width:100%;border-collapse:collapse;min-width:520px}
-  .cat th,.cat td{text-align:left;vertical-align:middle;padding:12px var(--gap) 12px 0;border-bottom:1px solid var(--rule)}
-  .cat thead th{padding-top:0;padding-bottom:10px}
-  .cat th.num,.cat td.num{text-align:right;padding-right:0}
-  .cat td.name{font-size:clamp(18px,1.5vw,24px);letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
-  .cat td.name small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
-  .cat td.kit{font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--graphite);max-width:30ch}
-  .cat td.price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .cat tr.on td{color:var(--ink)}
-  .cat tr.on td.price{color:var(--signal)}
-  .qty{display:inline-grid;grid-template-columns:32px 36px 32px;border:1px solid var(--ink);border-radius:var(--rb);overflow:hidden;margin-left:auto}
-  .qty button{height:32px;background:none;border:0;font:inherit;font-size:18px;line-height:1;cursor:pointer;color:var(--ink)}
+  /* The picker: machines you can see, like a menu. A card per line, its own
+     picture, the price, a stepper. Picked cards take the ink border. */
+  .picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
+  .pick{border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s}
+  .pick:hover{border-color:var(--graphite)}
+  .pick.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .pick .ph{aspect-ratio:4/3;background:var(--rule);overflow:hidden}
+  .pick .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
+  .pick:hover .ph img{transform:scale(1.03)}
+  .pick-b{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .pick-b h3{margin:0;font-weight:400;font-size:19px;letter-spacing:-.02em;line-height:1.1}
+  .pick-b h3 small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
+  .pick-b p{margin:0;font-size:13px;line-height:1.45;color:var(--graphite);flex:1}
+  .pick-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
+  .pick-f .price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+  .pick.on .pick-f .price{color:var(--signal)}
+  /* Add-ons: the same idea, one line each, the price always visible so the
+     total never moves for a reason you cannot see. */
+  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px;display:grid;gap:5px;color:var(--ink);transition:border-color .18s,background .18s}
+  .addon:hover{border-color:var(--graphite)}
+  .addon.on{border-color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 1px var(--ink)}
+  .addon b{font-weight:400;font-size:16px;letter-spacing:-.015em;line-height:1.15}
+  .addon small{font-size:12.5px;line-height:1.4;color:var(--graphite)}
+  .addon .p{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--graphite)}
+  .addon.on .p{color:var(--signal)}
+  .qty{display:inline-grid;grid-template-columns:30px 34px 30px;border:1px solid var(--ink);border-radius:var(--rb);overflow:hidden}
+  .qty button{height:30px;background:none;border:0;font:inherit;font-size:17px;line-height:1;cursor:pointer;color:var(--ink)}
   .qty button:hover{background:var(--signal);color:var(--paper)}
-  .qty output{font-family:var(--mono);font-size:14px;line-height:32px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
+  .qty output{font-family:var(--mono);font-size:13px;line-height:30px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
 
   .qsheet{grid-column:8/13;border:1px solid var(--ink);background:#FBFAF3;border-radius:var(--r);overflow:hidden;position:sticky;top:84px}
   .qsheet .top{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink)}
@@ -866,6 +881,16 @@
 
   .made.stagger span{opacity:0;transform:translate3d(0,10px,0);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.1,1)}
   .made.stagger.is-in span{opacity:1;transform:none}
+
+  /* Subject anchors, measured from the source not guessed.
+     Three photographs are portrait and almost every box on the site is
+     landscape, so a centred crop takes the woman's head off the ice cream
+     kiosk, slices the bottle wall in half, and cuts the crescent sign above
+     the fryer. Anchor each one to its subject wherever it appears. The
+     doubled attribute lifts these over the container rules that set 50% 50%. */
+  img[src][src$="warm-kiosk.jpg"]{object-position:50% 10%}
+  img[src][src$="tile-coffee.jpg"]{object-position:50% 25%}
+  img[src][src$="tile-arm.jpg"]{object-position:50% 12%}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -1288,31 +1313,41 @@ window.WonderSneak = (function () {
   tick(); setInterval(tick,15000);
 
   // Supply: the 2026 Moton Australia price list, list prices in AUD ex GST.
+  // Every picture is our own: a studio render of that machine, or our
+  // photograph of it running downstairs. No maker collages.
   var MACHINES=[
-    {id:'eff',  name:'Coffee robot',     model:'Smart EFF, vending kiosk',    kit:'Dual arm, Dr.Coffee F200, ice, 3 syrups, milk frother, cup printing', price:74000},
-    {id:'bpro', name:'Coffee barista',   model:'B Pro, bar type',             kit:'Dual arm, Eversys, ice, cup printing', price:100000},
-    {id:'bstd', name:'Coffee barista',   model:'B Standard, bar type',        kit:'Dual arm, Dr.Coffee F3, ice, cup printing', price:67000},
-    {id:'bar',  name:'Robot bartender',  model:'T Standard',                  kit:'Dobot arm, ice, 3 syrups', price:39000},
-    {id:'ice',  name:'Ice cream robot',  model:'I Pro',                       kit:'Pasteurising machine, 3 syrups, 2 toppings', price:41000},
-    {id:'noo',  name:'Noodle robot',     model:'N Standard',                  kit:'Dobot arm, 6 noodle stoves', price:52000},
-    {id:'fry',  name:'Deep frying robot',model:'F Standard',                  kit:'Dobot arm, 6 frying stoves', price:42000},
-    // Add-ons. The Moton list prices these inside the formats, never on their
-    // own, so they are quoted, not guessed: a null price reads "On quote" and
-    // they never count as machines for install or maintenance.
-    {id:'icem', name:'Ice maker',        model:'BTB Z02, add-on',             kit:'Supplied on every coffee format. Add a second, or one to a line that has none', price:null},
-    {id:'prnt', name:'Chocolate and caramel printer', model:'Yingmei, add-on', kit:'Supplied on B Pro, B Standard and Smart EFF. Add it to the bartender', price:null},
-    {id:'milk', name:'Extra milk line',  model:'Add-on',                      kit:'A second milk, oat or soy, on any barista format', price:null},
-    {id:'syr',  name:'Extra syrup channels', model:'Add-on',                  kit:'Beyond the three channels supplied', price:null},
-    {id:'brand',name:'Branding',          model:'Wonder, scoped',              kit:'Mark, colours, cups, bags, menu, signage. One system across the machine and the room', price:null},
-    {id:'eng',  name:'Engineering and fit-out', model:'Wonder, scoped',        kit:'Counter, cell, guarding, services, extraction, the drawings, the build', price:null},
-    {id:'soft', name:'Software',          model:'Wonder, scoped',              kit:'Ordering, payment, the screen, the dashboard', price:null}
+    {id:'bpro', name:'Coffee barista',   model:'B Pro, bar type',          kit:'Dual arm, Eversys, BTB Z02 ice, Yingmei cup printer', price:100000, img:'../../img/offer/coffee-bar-studio.jpg'},
+    {id:'bstd', name:'Coffee barista',   model:'B Standard, bar type',     kit:'Dual arm, Dr.Coffee F3, ice, cup printer', price:67000,  img:'../../img/machines/coffee-robot-light.jpg'},
+    {id:'eff',  name:'Coffee robot',     model:'Smart EFF, vending kiosk', kit:'Dual arm, Dr.Coffee F200, ice, 3 syrups, milk frother, printer', price:74000, img:'../../img/machines/coffee-robot-d1.jpg'},
+    {id:'bar',  name:'Robot bartender',  model:'T Standard',               kit:'Dobot arm, BTB Z02 ice, 3 syrup channels', price:39000, img:'../../img/offer/robot-bar-studio.jpg'},
+    {id:'ice',  name:'Ice cream robot',  model:'I Pro',                    kit:'Pasteurising machine, 3 syrups, 2 toppings', price:41000, img:'../../img/tile-kiosk.jpg'},
+    {id:'fry',  name:'Deep frying robot',model:'F Standard',               kit:'Dobot arm, 6 frying stoves', price:42000, img:'../../img/tile-arm.jpg'},
+    {id:'noo',  name:'Noodle robot',     model:'N Standard',               kit:'Dobot arm, 6 noodle stoves', price:52000, img:'../../img/valley-baths.jpg'}
   ];
-  // Wonder's own rates. A null rate prints "on scope" and keeps the total honest.
-  // Fill these from the rate card; nothing else needs to change.
+
+  // Hardware add-ons. The Moton list prices these inside the formats and never
+  // on their own, so these are indicative round numbers, not list: they say so
+  // on the sheet and are confirmed on scope.
+  var PARTS=[
+    {id:'icem', name:'Ice maker',                     sub:'BTB Z02. A second, or one on a line with none', price:3800},
+    {id:'prnt', name:'Chocolate and caramel printer',  sub:'Yingmei. Your mark on the crema or the foam',   price:5200},
+    {id:'milk', name:'Extra milk line',                sub:'A second milk, oat or soy',                     price:1900},
+    {id:'syr',  name:'Extra syrup channels',           sub:'Three more, beyond the three supplied',         price:1400}
+  ];
+
+  // The work around the machine, calculated from what you picked: a percentage
+  // of the machine subtotal with a floor, because a fit-out for one $42,000
+  // fryer and one for a $100,000 bar are not the same job. Indicative until we
+  // have seen the room. Change the numbers here and the whole site follows.
+  var SERVICES=[
+    {id:'eng',   name:'Engineering and fit-out', sub:'Counter, cell, guarding, services, extraction, drawings, the build', pct:0.22, min:12000},
+    {id:'brand', name:'Branding',                sub:'Mark, colours, cups, bags, menu, signage',                           pct:0.06, min:6000},
+    {id:'soft',  name:'Software',                sub:'Ordering, payment, the screen, the dashboard',                       pct:0.10, min:8000},
+    {id:'inst',  name:'Install and commission',  sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true}
+  ];
   var RATES={
-    install_per_machine:null,          // AUD ex GST, per machine, install and commission
-    maintenance_per_machine_year:{standard:null, priority:null},
-    delivery_inland:null               // AUD ex GST, flat, beyond 100 km of a port
+    maintenance_pct_per_year:{standard:0.07, priority:0.11},
+    delivery_inland:2400
   };
   var GST=0.10;
 
@@ -1320,96 +1355,118 @@ window.WonderSneak = (function () {
   if(!form){return;}
   var el=function(id){return document.getElementById(id);};
   var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
-  var qty={};
+  var qty={}, parts={}, svc={};
 
-  var tbody=el('cat').querySelector('tbody');
+  // 1. the machines, as cards you can see
+  var picker=el('cat');
   MACHINES.forEach(function(m){
     qty[m.id]=0;
-    var tr=document.createElement('tr'); tr.id='row-'+m.id;
-    tr.innerHTML='<td class="name">'+m.name+'<small>'+m.model+'</small></td><td class="kit">'+m.kit+'</td>'+
-      '<td class="price num">'+(m.price==null?'On quote':money.format(m.price))+'</td>'+
-      '<td class="num"><span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="More '+m.name+'">+</button></span></td>';
-    tbody.appendChild(tr);
+    var c=document.createElement('div'); c.className='pick'; c.id='pick-'+m.id;
+    c.innerHTML='<div class="ph"><img src="'+m.img+'" alt="'+m.name+', '+m.model+'" loading="lazy"></div>'+
+      '<div class="pick-b"><h3>'+m.name+'<small>'+m.model+'</small></h3><p>'+m.kit+'</p>'+
+      '<div class="pick-f"><span class="price">'+money.format(m.price)+'</span>'+
+      '<span class="qty"><button type="button" data-id="'+m.id+'" data-d="-1" aria-label="Fewer '+m.name+'">&minus;</button><output id="qty-'+m.id+'">0</output><button type="button" data-id="'+m.id+'" data-d="1" aria-label="Add '+m.name+'">+</button></span></div></div>';
+    picker.appendChild(c);
   });
-  tbody.addEventListener('click',function(e){
+  picker.addEventListener('click',function(e){
     var b=e.target.closest('button[data-id]'); if(!b) return;
     var id=b.getAttribute('data-id'); qty[id]=Math.max(0,Math.min(20,qty[id]+parseInt(b.getAttribute('data-d'),10)));
     render();
   });
 
+  // 2. add-ons: hardware first, then the work around it
+  var box=el('addons');
+  function chip(o,group){
+    var d=document.createElement('button'); d.type='button'; d.className='addon'; d.id='ad-'+o.id;
+    d.setAttribute('data-group',group); d.setAttribute('data-id',o.id); d.setAttribute('aria-pressed','false');
+    d.innerHTML='<b>'+o.name+'</b><small>'+o.sub+'</small><span class="p" id="adp-'+o.id+'"></span>';
+    box.appendChild(d);
+  }
+  PARTS.forEach(function(p){ parts[p.id]=false; chip(p,'part'); });
+  SERVICES.forEach(function(s){ svc[s.id]=!!s.on; chip(s,'svc'); });
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('.addon'); if(!b) return;
+    var id=b.getAttribute('data-id'), g=b.getAttribute('data-group');
+    if(g==='part') parts[id]=!parts[id]; else svc[id]=!svc[id];
+    render();
+  });
+
   function read(){
     return {
-      install:form.querySelector('input[name=install]:checked').value,
       plan:form.querySelector('input[name=plan]:checked').value,
       term:parseInt(el('term').value,10)||1,
       site:form.querySelector('input[name=site]:checked').value,
       gst:form.querySelector('input[name=gst]:checked').value
     };
   }
-  function line(label,sub,value){ return {label:label,sub:sub,value:value}; }
+  function line(label,sub,value,ind){ return {label:label,sub:sub,value:value,ind:ind}; }
 
   function render(){
     var v=read();
-    var count=0, supply=0, lines=[], open=[];
+    var count=0, supply=0, lines=[], indicative=false;
     MACHINES.forEach(function(m){
       var n=qty[m.id]; el('qty-'+m.id).textContent=n;
-      el('row-'+m.id).classList.toggle('on',n>0);
-      if(n>0){
-        if(m.price==null){open.push(m.name.toLowerCase()); lines.push(line(m.name+', '+m.model, n+' \u00d7 on quote', null));}
-        else{count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
-      }
+      el('pick-'+m.id).classList.toggle('on',n>0);
+      if(n>0){count+=n; supply+=n*m.price; lines.push(line(m.name+', '+m.model, n+' \u00d7 '+money.format(m.price)+', supply', n*m.price));}
     });
+
+    var sub=supply;
+    PARTS.forEach(function(p){
+      var on=parts[p.id]; el('ad-'+p.id).classList.toggle('on',on); el('ad-'+p.id).setAttribute('aria-pressed',on?'true':'false');
+      el('adp-'+p.id).textContent=money.format(p.price);
+      if(on){ sub+=p.price; indicative=true; lines.push(line(p.name,p.sub+', indicative',p.price,true)); }
+    });
+    SERVICES.forEach(function(s){
+      var on=svc[s.id], amt=count?Math.max(s.min,Math.round(supply*s.pct/100)*100):0;
+      el('ad-'+s.id).classList.toggle('on',on); el('ad-'+s.id).setAttribute('aria-pressed',on?'true':'false');
+      el('adp-'+s.id).textContent=count?money.format(amt):(Math.round(s.pct*100)+'% of supply');
+      if(on&&count){ sub+=amt; indicative=true; lines.push(line(s.name,s.sub+', '+Math.round(s.pct*100)+'% of supply, indicative',amt,true)); }
+    });
+
     var noPlan=v.plan==='none';
     el('term').disabled=noPlan; el('term-row').classList.toggle('off',noPlan);
     el('term-out').textContent=v.term+(v.term===1?' year':' years');
-
-    var sub=supply;
-    if(count>0&&v.install==='full'){
-      var r=RATES.install_per_machine;
-      if(r==null){open.push('installation'); lines.push(line('Installation and commissioning',count+(count===1?' machine':' machines')+', by Wonder',null));}
-      else{sub+=r*count; lines.push(line('Installation and commissioning',count+' \u00d7 '+money.format(r),r*count));}
-    }
     if(count>0&&!noPlan){
-      var mr=RATES.maintenance_per_machine_year[v.plan];
-      var label=(v.plan==='priority'?'Priority':'Standard')+' maintenance';
-      var sub2=count+(count===1?' machine':' machines')+', '+v.term+(v.term===1?' year':' years');
-      if(mr==null){open.push('maintenance'); lines.push(line(label,sub2,null));}
-      else{var mt=mr*count*v.term; sub+=mt; lines.push(line(label,sub2+', '+money.format(mr)+' a machine a year',mt));}
+      var pct=RATES.maintenance_pct_per_year[v.plan];
+      var yr=Math.round(supply*pct/100)*100, mt=yr*v.term;
+      sub+=mt; indicative=true;
+      lines.push(line((v.plan==='priority'?'Priority':'Standard')+' maintenance',
+        v.term+(v.term===1?' year':' years')+', '+money.format(yr)+' a year, indicative',mt,true));
     }
     if(count>0){
       if(v.site==='port'){lines.push(line('Delivery','Within 100 km of a port, included',0));}
-      else{var dr=RATES.delivery_inland; if(dr==null){open.push('delivery'); lines.push(line('Delivery','Beyond 100 km of a port',null));} else{sub+=dr; lines.push(line('Delivery','Beyond 100 km of a port',dr));}}
+      else{sub+=RATES.delivery_inland; lines.push(line('Delivery','Beyond 100 km of a port, indicative',RATES.delivery_inland,true)); indicative=true;}
     }
 
     var tb=el('q-lines'); tb.innerHTML='';
-    if(!lines.length){ tb.innerHTML='<tr class="empty"><th colspan="2">Add a machine to start the quote</th></tr>'; }
+    if(!lines.length){ tb.innerHTML='<tr class="empty"><th colspan="2">Pick a machine to start the quote</th></tr>'; }
     lines.forEach(function(l){
       var tr=document.createElement('tr');
-      if(l.value==null) tr.className='scope';
-      tr.innerHTML='<th>'+l.label+'<small>'+l.sub+'</small></th><td>'+(l.value==null?'On scope':(l.value===0?'Included':money.format(l.value)))+'</td>';
+      if(l.ind) tr.className='scope';
+      tr.innerHTML='<th>'+l.label+'<small>'+l.sub+'</small></th><td>'+(l.value===0?'Included':money.format(l.value))+'</td>';
       tb.appendChild(tr);
     });
 
     var gst=Math.round(sub*GST), inc=sub+gst;
     el('q-sub').textContent=money.format(sub); el('q-gst').textContent=money.format(gst); el('q-inc').textContent=money.format(inc);
     var shown=v.gst==='inc'?inc:sub;
-    el('q-total').innerHTML=(open.length?'<small>from</small>':'')+money.format(shown);
-    el('q-total-note').textContent=(v.gst==='inc'?'Total, inc GST':'Total, ex GST')+(open.length?', plus '+open.join(', ')+' on scope':'');
+    el('q-total').innerHTML=(indicative?'<small>about</small>':'')+money.format(shown);
+    el('q-total-note').textContent=(v.gst==='inc'?'Total, inc GST':'Total, ex GST')+(indicative?'. Machines at list, the rest indicative':'');
 
     var d=new Date(), ref='WR-Q'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'-'+count;
     el('q-ref').textContent=ref;
-    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value==null?'on scope':(l.value===0?'included':money.format(l.value)));}))
-      .concat(['Subtotal ex GST: '+money.format(sub),'GST: '+money.format(gst),'Total inc GST: '+money.format(inc),'','Site:','Contact:']).join('\n');
+    var body=['Quote '+ref].concat(lines.map(function(l){return l.label+' ('+l.sub+'): '+(l.value===0?'included':money.format(l.value));}))
+      .concat(['Subtotal ex GST: '+money.format(sub),'GST: '+money.format(gst),'Total inc GST: '+money.format(inc),'',
+               'Machines at 2026 Moton list. Everything else indicative, confirmed on scope.','','Site:','Contact:']).join('\n');
     el('q-send').href='mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body);
   }
   form.addEventListener('input',render);
   form.addEventListener('change',render);
   el('q-print').addEventListener('click',function(e){e.preventDefault();window.print();});
   // A product or landing page pre-picks its lines: quote/?pick=bpro,prnt.
-  // No pick, and the sheet opens on the kitchen pair as before.
   var pick=(location.search.match(/[?&]pick=([^&]*)/)||[])[1];
-  if(pick){ pick.split(',').forEach(function(id){ if(id in qty) qty[id]=1; }); }
-  else{ qty.noo=1; qty.fry=1; }
+  if(pick){ pick.split(',').forEach(function(id){ if(id in qty) qty[id]=1; else if(id in parts) parts[id]=true; else if(id in svc) svc[id]=true; }); }
+  else{ qty.fry=1; qty.noo=1; }
   render();
 })();
 

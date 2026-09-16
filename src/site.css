@@ -132,21 +132,36 @@
   input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--paper);border:1px solid var(--ink);border-radius:0}
   input[type=range]:disabled{opacity:.3}
 
-  .cat-wrap{overflow-x:auto}
-  .cat{width:100%;border-collapse:collapse;min-width:520px}
-  .cat th,.cat td{text-align:left;vertical-align:middle;padding:12px var(--gap) 12px 0;border-bottom:1px solid var(--rule)}
-  .cat thead th{padding-top:0;padding-bottom:10px}
-  .cat th.num,.cat td.num{text-align:right;padding-right:0}
-  .cat td.name{font-size:clamp(18px,1.5vw,24px);letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
-  .cat td.name small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
-  .cat td.kit{font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--graphite);max-width:30ch}
-  .cat td.price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .cat tr.on td{color:var(--ink)}
-  .cat tr.on td.price{color:var(--signal)}
-  .qty{display:inline-grid;grid-template-columns:32px 36px 32px;border:1px solid var(--ink);border-radius:var(--rb);overflow:hidden;margin-left:auto}
-  .qty button{height:32px;background:none;border:0;font:inherit;font-size:18px;line-height:1;cursor:pointer;color:var(--ink)}
+  /* The picker: machines you can see, like a menu. A card per line, its own
+     picture, the price, a stepper. Picked cards take the ink border. */
+  .picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--gap)}
+  .pick{border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;background:#FBFAF3;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s}
+  .pick:hover{border-color:var(--graphite)}
+  .pick.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .pick .ph{aspect-ratio:4/3;background:var(--rule);overflow:hidden}
+  .pick .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.24,1)}
+  .pick:hover .ph img{transform:scale(1.03)}
+  .pick-b{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .pick-b h3{margin:0;font-weight:400;font-size:19px;letter-spacing:-.02em;line-height:1.1}
+  .pick-b h3 small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);margin-top:4px}
+  .pick-b p{margin:0;font-size:13px;line-height:1.45;color:var(--graphite);flex:1}
+  .pick-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
+  .pick-f .price{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+  .pick.on .pick-f .price{color:var(--signal)}
+  /* Add-ons: the same idea, one line each, the price always visible so the
+     total never moves for a reason you cannot see. */
+  .addons{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .addon{text-align:left;font:inherit;cursor:pointer;background:transparent;border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px;display:grid;gap:5px;color:var(--ink);transition:border-color .18s,background .18s}
+  .addon:hover{border-color:var(--graphite)}
+  .addon.on{border-color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 1px var(--ink)}
+  .addon b{font-weight:400;font-size:16px;letter-spacing:-.015em;line-height:1.15}
+  .addon small{font-size:12.5px;line-height:1.4;color:var(--graphite)}
+  .addon .p{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--graphite)}
+  .addon.on .p{color:var(--signal)}
+  .qty{display:inline-grid;grid-template-columns:30px 34px 30px;border:1px solid var(--ink);border-radius:var(--rb);overflow:hidden}
+  .qty button{height:30px;background:none;border:0;font:inherit;font-size:17px;line-height:1;cursor:pointer;color:var(--ink)}
   .qty button:hover{background:var(--signal);color:var(--paper)}
-  .qty output{font-family:var(--mono);font-size:14px;line-height:32px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
+  .qty output{font-family:var(--mono);font-size:13px;line-height:30px;text-align:center;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-variant-numeric:tabular-nums}
 
   .qsheet{grid-column:8/13;border:1px solid var(--ink);background:#FBFAF3;border-radius:var(--r);overflow:hidden;position:sticky;top:84px}
   .qsheet .top{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ink)}
@@ -850,3 +865,13 @@
 
   .made.stagger span{opacity:0;transform:translate3d(0,10px,0);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.1,1)}
   .made.stagger.is-in span{opacity:1;transform:none}
+
+  /* Subject anchors, measured from the source not guessed.
+     Three photographs are portrait and almost every box on the site is
+     landscape, so a centred crop takes the woman's head off the ice cream
+     kiosk, slices the bottle wall in half, and cuts the crescent sign above
+     the fryer. Anchor each one to its subject wherever it appears. The
+     doubled attribute lifts these over the container rules that set 50% 50%. */
+  img[src][src$="warm-kiosk.jpg"]{object-position:50% 10%}
+  img[src][src$="tile-coffee.jpg"]{object-position:50% 25%}
+  img[src][src$="tile-arm.jpg"]{object-position:50% 12%}

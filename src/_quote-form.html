@@ -1,33 +1,23 @@
       <form class="quote" id="quote-form" onsubmit="return false">
         <div class="qin">
           <fieldset class="field">
-            <legend class="label">Supply</legend>
-            <div class="cat-wrap">
-              <table class="cat" id="cat">
-                <thead><tr><th class="label">Machine</th><th class="label">Built on</th><th class="label num">List price</th><th class="label num">Qty</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <legend class="label">1 &middot; Pick the machines</legend>
+            <div class="picker" id="cat"></div>
           </fieldset>
-          <div class="pair">
-            <fieldset class="field">
-              <legend class="label">Installation</legend>
-              <div class="choices" role="radiogroup">
-                <input type="radio" name="install" id="i-full" value="full" checked><label for="i-full">Install and commission</label>
-                <input type="radio" name="install" id="i-none" value="none"><label for="i-none">Supply only</label>
-              </div>
-              <p class="hint">Site survey, placement, services, first run and handover, by the team that set up our own floor.</p>
-            </fieldset>
-            <fieldset class="field">
-              <legend class="label">Maintenance</legend>
-              <div class="choices" role="radiogroup">
-                <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
-                <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
-                <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
-              </div>
-              <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
-            </fieldset>
-          </div>
+          <fieldset class="field">
+            <legend class="label">2 &middot; Add to it</legend>
+            <div class="addons" id="addons"></div>
+            <p class="hint">Add-ons are indicative, calculated from the machines you picked and confirmed on scope.</p>
+          </fieldset>
+          <fieldset class="field">
+            <legend class="label">3 &middot; Keep it running</legend>
+            <div class="choices" role="radiogroup">
+              <input type="radio" name="plan" id="p-standard" value="standard" checked><label for="p-standard">Standard</label>
+              <input type="radio" name="plan" id="p-priority" value="priority"><label for="p-priority">Priority</label>
+              <input type="radio" name="plan" id="p-none" value="none"><label for="p-none">None</label>
+            </div>
+            <div class="range-row" id="term-row"><input type="range" id="term" min="1" max="5" value="1"><output id="term-out" for="term">1 year</output></div>
+          </fieldset>
           <div class="pair">
             <fieldset class="field">
               <legend class="label">Delivery</legend>
@@ -35,7 +25,6 @@
                 <input type="radio" name="site" id="d-port" value="port" checked><label for="d-port">Within 100 km of a port</label>
                 <input type="radio" name="site" id="d-far" value="far"><label for="d-far">Further inland</label>
               </div>
-              <p class="hint">Prices are delivered duty unpaid to a site within 100 km of an Australian port.</p>
             </fieldset>
             <fieldset class="field">
               <legend class="label">GST</legend>
@@ -61,7 +50,7 @@
               <tr class="tot"><th class="label">Total inc GST</th><td id="q-inc">$0</td></tr>
             </tbody>
           </table>
-          <div class="terms label">Valid 30 days &middot; manufacturer warranty one year &middot; delivery about two months from order &middot; delivered duty unpaid</div>
+          <div class="terms label">Machines at 2026 Moton list &middot; services indicative, confirmed on scope &middot; valid 30 days &middot; warranty one year &middot; about two months from order &middot; delivered duty unpaid</div>
           <div class="foot">
             <a class="btn ghost" id="q-print" href="#quote"><span>Print</span><i aria-hidden="true">+</i></a>
             <a class="btn" id="q-send" href="mailto:info@wonderbytech.com"><span>Send this quote</span><i aria-hidden="true">+</i></a>
