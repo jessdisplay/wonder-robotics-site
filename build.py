@@ -380,6 +380,28 @@ def catalogue_body():
     </div>
   </section>
 
+  <section class="builds" id="offer">
+    <div class="wrap">
+      <div class="grid head">
+        <span class="label">Start here</span>
+        <h2>Robot coffee machines. Robot kitchen fit-outs.</h2>
+        <p>The two lines we design, brand, fit out and run. Both priced on the page.</p>
+      </div>
+      <div class="cases">
+        <a href="{{{{root}}}}robot-coffee-machines/">
+          <div class="ph"><img src="{{{{root}}}}img/machines/coffee-robot-stage-poster.jpg" alt="The dual-arm barista bar with a purple Wonder Bean cup" loading="lazy"></div>
+          <h3><span>Robot coffee machines</span><span class="label">From $39,000</span></h3>
+          <p>A barista in two square metres, seventy seconds a drink, in your brand.</p>
+        </a>
+        <a href="{{{{root}}}}robot-kitchen-fitouts/">
+          <div class="ph"><img src="{{{{root}}}}img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace in service" loading="lazy"></div>
+          <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot from $42,000</span></h3>
+          <p>A line that fries, boils and plates the whole menu. Ours is open six days.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section class="story">
     <div class="wrap">
       <ul class="catalogue">{items}</ul>
