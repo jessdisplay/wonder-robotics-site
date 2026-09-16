@@ -49,18 +49,20 @@
      down a size, the ground blurs and the rule arrives. Not transparent over
      the hero, which is the obvious move and the wrong one here, because the
      hero is its own warm gradient and a cream bar above it is a seam. */
-  /* An explicit height, not a min-height: the panel hangs off top:100% and a
+  /* State classes are prefixed. A bare .open on the bar picked up the site's
+     own .open section utility and its 130px padding-top, which collapsed the
+     bar row to nothing and dropped the whole row into the panel.
+     An explicit height, not a min-height: the panel hangs off top:100% and a
      percentage against an auto height is a circular measure Chrome resolved
      at 194px, which pushed the whole page down when the panel opened. */
   .bar{position:sticky;top:0;z-index:20;height:64px;background:var(--paper);border-bottom:1px solid transparent;
        transition:background .34s ease,border-color .34s ease,height .34s cubic-bezier(.16,.84,.24,1)}
-  .bar.set{height:52px}
-  .bar.set{background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:var(--rule)}
-  .bar.open{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom-color:var(--rule)}
+  .bar.bar-set{height:52px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:var(--rule)}
+  .bar.bar-open{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom-color:var(--rule)}
   .bar .grid{align-items:center;height:100%}
   .bar .mark{grid-column:1/3;display:flex;align-items:center}
   .bar .mark canvas{transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1),opacity .3s ease}
-  .bar.set .mark canvas{transform:scale(.88)}
+  .bar.bar-set .mark canvas{transform:scale(.88)}
   .bar .mark.handing canvas{opacity:0}
   .bar .clock{grid-column:3/5;white-space:nowrap}
   .bar nav{grid-column:5/11;display:flex;gap:clamp(12px,1.6vw,26px);white-space:nowrap;justify-content:flex-end;padding-right:var(--gap)}
@@ -75,16 +77,22 @@
   .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
   .bar .cta{grid-column:11/13;justify-self:end}
   .btn.want i{transition:transform .34s cubic-bezier(.16,.84,.24,1),background .15s}
-  .bar.open .btn.want i{transform:rotate(45deg)}
+  .bar.bar-open .btn.want i{transform:rotate(45deg)}
 
-  /* The panel. grid-template-rows 0fr to 1fr so it opens to its own height
-     with no JS measuring it, and visibility takes it out of the tab order
-     while it is shut. */
-  .drop{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--rule);
+  /* The panel is the bar's sibling, fixed under it, not a child of it. Inside
+     the bar it was an abspos box on top:100% of a sticky parent, and Chrome
+     resolved that percentage against a height the panel itself was feeding,
+     so opening it pushed the page down 130px. A sibling has no such loop, and
+     it also sits outside the bar's backdrop-filter, which would otherwise be
+     the containing block for anything fixed.
+     grid-template-rows 0fr to 1fr so it opens to its own height with nothing
+     measuring it in JS, and visibility keeps it out of the tab order shut. */
+  .drop{position:fixed;left:0;right:0;top:64px;z-index:19;background:var(--paper);border-bottom:1px solid var(--rule);
         display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;
         box-shadow:0 24px 44px -30px color-mix(in srgb,var(--ink) 55%,transparent);
-        transition:grid-template-rows .44s cubic-bezier(.16,.84,.24,1),opacity .26s ease,visibility .44s}
-  .bar.open .drop{grid-template-rows:1fr;opacity:1;visibility:visible}
+        transition:grid-template-rows .44s cubic-bezier(.16,.84,.24,1),opacity .26s ease,visibility .44s,top .34s cubic-bezier(.16,.84,.24,1)}
+  .bar.bar-set + .drop{top:52px}
+  .bar.bar-open + .drop{grid-template-rows:1fr;opacity:1;visibility:visible}
   .drop-clip{overflow:hidden;min-height:0}
   .drop-in{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(20px,3.4vw,56px);
            align-items:start;padding-top:clamp(22px,2.8vw,38px);padding-bottom:clamp(22px,2.8vw,38px)}
@@ -1425,7 +1433,7 @@ window.WonderSneak = (function () {
   var set=false;
   function onScroll(){
     var want=(window.pageYOffset||document.documentElement.scrollTop)>18;
-    if(want!==set){ set=want; bar.classList.toggle('set',want); }
+    if(want!==set){ set=want; bar.classList.toggle('bar-set',want); }
   }
   onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
 
@@ -1443,10 +1451,16 @@ window.WonderSneak = (function () {
 
   var btn=document.getElementById('want'), panel=document.getElementById('wantpanel');
   if(!btn||!panel) return;
-  function open(on){ bar.classList.toggle('open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
-  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('open')); });
-  document.addEventListener('click',function(e){ if(bar.classList.contains('open')&&!bar.contains(e.target)) open(false); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('open')){ open(false); btn.focus(); } });
+  function open(on){ bar.classList.toggle('bar-open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
+  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('bar-open')); });
+  // The panel is the bar's sibling, not its child, so an outside click has to
+  // ask both. Asking only the bar closed the panel the moment you picked a pill.
+  document.addEventListener('click',function(e){
+    if(!bar.classList.contains('bar-open')) return;
+    if(bar.contains(e.target)||panel.contains(e.target)) return;
+    open(false);
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('bar-open')){ open(false); btn.focus(); } });
 
   // The picks ride to the quote builder on the same ?pick= the Buy buttons use.
   var picks=document.getElementById('want-picks'), go=document.getElementById('want-go'), mail=document.getElementById('want-mail');

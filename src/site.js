@@ -112,7 +112,7 @@ window.WonderSneak = (function () {
   var set=false;
   function onScroll(){
     var want=(window.pageYOffset||document.documentElement.scrollTop)>18;
-    if(want!==set){ set=want; bar.classList.toggle('set',want); }
+    if(want!==set){ set=want; bar.classList.toggle('bar-set',want); }
   }
   onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
 
@@ -130,10 +130,16 @@ window.WonderSneak = (function () {
 
   var btn=document.getElementById('want'), panel=document.getElementById('wantpanel');
   if(!btn||!panel) return;
-  function open(on){ bar.classList.toggle('open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
-  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('open')); });
-  document.addEventListener('click',function(e){ if(bar.classList.contains('open')&&!bar.contains(e.target)) open(false); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('open')){ open(false); btn.focus(); } });
+  function open(on){ bar.classList.toggle('bar-open',on); btn.setAttribute('aria-expanded',on?'true':'false'); }
+  btn.addEventListener('click',function(e){ e.stopPropagation(); open(!bar.classList.contains('bar-open')); });
+  // The panel is the bar's sibling, not its child, so an outside click has to
+  // ask both. Asking only the bar closed the panel the moment you picked a pill.
+  document.addEventListener('click',function(e){
+    if(!bar.classList.contains('bar-open')) return;
+    if(bar.contains(e.target)||panel.contains(e.target)) return;
+    open(false);
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&bar.classList.contains('bar-open')){ open(false); btn.focus(); } });
 
   // The picks ride to the quote builder on the same ?pick= the Buy buttons use.
   var picks=document.getElementById('want-picks'), go=document.getElementById('want-go'), mail=document.getElementById('want-mail');
