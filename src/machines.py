@@ -9,7 +9,7 @@ MACHINES = [
         "kind": "Humanoid robot", "status": "On our floor",
         "line": "A compact humanoid for research, development and the kind of demo people remember.",
         "intro": "We supply the G1 EDU configuration: the secondary-development version with Jetson Orin compute, the higher-DOF build and Dex3-1 dexterous hands. It's the one to quote when the project depends on hands and software, not just walking. One lives on our floor, so you can see it before you buy it.",
-        "hero": "machines/g1-hero.jpg", "hero_real": False, "gallery": ["machines/g1-specs.jpg"],
+        "hero": "machines/unitree-g1-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Precision manipulation", "Dex3-1 three-fingered hands, optional tactile sensing, force-position hybrid control. The configuration for grasping and interaction work."),
             ("Autonomous navigation", "Depth camera and 3D LiDAR in a 1.27 m body, which makes it easy to evaluate in labs, showrooms and spaces built for people."),
@@ -31,7 +31,7 @@ MACHINES = [
         "kind": "Quadruped robot", "status": "Sourced to order",
         "line": "A robot dog for inspection, patrol and the ground wheels can't cover.",
         "intro": "We supply the whole GO2 range: Air, Pro, X and EDU. EDU is the one for ROS 2, SDK-level integration and the optional high-compute module; Air and Pro suit lighter operational and demonstration use, X the harder field work.",
-        "hero": "machines/go2-hero.jpg", "hero_real": False, "gallery": ["machines/go2-gallery.jpg"],
+        "hero": "machines/unitree-go2-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("All-terrain locomotion", "12 DOF, up to about 5 m/s, climbs about 40°, stairs and uneven ground. The reason it's relevant for inspection routes and patrol trials."),
             ("Sensing and autonomy", "Unitree 4D LiDAR L2, 360° × 96° recognition, obstacle avoidance and autonomous navigation in structured and semi-structured spaces."),
@@ -53,7 +53,7 @@ MACHINES = [
         "kind": "Service robot", "status": "On our floor",
         "line": "The reception robot. Greets, guides, plays your content and comes back to charge.",
         "intro": "Cruzr isn't a research platform; it's a front-of-house service robot for structured indoor spaces where a robot greets people, guides them on a route, shows content and does the repeatable part of reception without a hand on the controls. Ours works the door at 365 St Pauls Terrace.",
-        "hero": "machines/cruzr-hero.jpg", "hero_real": False, "gallery": ["machines/cruzr-gallery.jpg"],
+        "hero": "machines/ubtech-cruzr-1s-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Reception and guest interaction", "Voice, touchscreen, multilingual greeting and routine questions in lobbies, clinics, counters and foyers."),
             ("Guided tours and wayfinding", "U-SLAM navigation, waypoint tours and route guidance for museums, showrooms, exhibitions and visitor facilities."),
@@ -75,7 +75,7 @@ MACHINES = [
         "kind": "Delivery robot", "status": "On our floor",
         "line": "The tray robot. Three trays, 40 kg, a 21.5-inch screen, and it finds its own way to the table.",
         "intro": "CadeBot is a delivery and service robot for repeatable indoor routes: open trays for food, retail items and supplies, a big display for promotion or status, and autonomous navigation through aisles full of people. Two of them carry plates across our floor every service.",
-        "hero": "machines/cadebot-hero.jpg", "hero_real": False, "gallery": ["machines/cadebot-overview.jpg"],
+        "hero": "machines/ubtech-cadebot-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Commercial delivery", "Open tray design, 40 kg payload across three trays, built for quick loading and repeatable movement through commercial spaces."),
             ("Display and guest communication", "21.5\" advertising display, 10.1\" touch interface and voice prompts: promotions, guidance, status or venue content."),
@@ -97,7 +97,7 @@ MACHINES = [
         "kind": "Material handling robot", "status": "Sourced to order",
         "line": "A mobile dual-arm robot for the warehouse jobs between manual labour and fixed automation.",
         "intro": "Cruzr Y1 is for material handling, loading and unloading, depalletising and sorting in factories and logistics. Mobile navigation, two 7-DOF arms and a vertical lift, so one platform covers transport, loading and sorting instead of a cell for each.",
-        "hero": "machines/y1-hero.jpg", "hero_real": False, "gallery": ["machines/y1-gallery.jpg"],
+        "hero": "machines/ubtech-cruzr-y1-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Dual-arm handling", "Two 7-DOF arms, 750 mm reach, force control. Coordinated reach and controlled grasping for bins, cartons and pick-and-place."),
             ("Lift range", "Vertical lift with an 850 mm range and a 0 to 1800 mm working height, plus a waist tray, so one robot covers floor pickup to machine-side loading."),
@@ -119,7 +119,7 @@ MACHINES = [
         "kind": "Educational humanoid", "status": "Sourced to order",
         "line": "A real jointed humanoid for classrooms and labs, with Python, Scratch and ROS underneath.",
         "intro": "Yanshee is for education and research teams that need more than a toy but less than a full commercial humanoid: 17 servos, an 8 MP camera, Raspberry Pi compute and open access for Python, Scratch, Linux and ROS-based work.",
-        "hero": "machines/yanshee-hero.jpg", "hero_real": False, "gallery": ["machines/yanshee-gallery.jpg"],
+        "hero": "machines/ubtech-yanshee-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Humanoid motion", "17 DOF for head, arms and legs: walks, poses, dances and runs repeatable motion sequences for teaching kinematics and behaviour design."),
             ("Vision and interaction", "8 MP camera, microphones, speakers, IMU and environmental sensors for vision tasks and human-robot interaction exercises."),
@@ -141,7 +141,7 @@ MACHINES = [
         "kind": "STEM robotics kit", "status": "Sourced to order",
         "line": "One kit, seven robots. Edge AI, Python and ROS 2 for the programs that outgrow block coding.",
         "intro": "UGOT is a reconfigurable robotics kit: learners rebuild the same platform into rover, quadruped, balance and manipulator forms, then program sensing, motion and AI behaviour on top. More useful for iterative learning than a single-purpose classroom bot.",
-        "hero": "machines/ugot-hero.jpg", "hero_real": False, "gallery": ["machines/ugot-banner.jpg"],
+        "hero": "machines/ubtech-ugot-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Tool-free modular rebuilds", "Seven robot forms, snap-fit assembly, under ten minutes to reconfigure. The lesson stays on design and iteration, not teardown."),
             ("Embedded AI and sensing", "1 TOPS NPU, 720p camera, ToF and IMU, so recognition, autonomy and path logic run on the robot itself."),
@@ -163,7 +163,7 @@ MACHINES = [
         "kind": "STEM education kit", "status": "Sourced to order",
         "line": "The kit a class can build, code and reuse in one session.",
         "intro": "uKit is the foundation robotics kit: snap-together parts, servo modules and visual coding for primary and lower-secondary programs. It sits before Yanshee and UGOT in a staged robotics pathway.",
-        "hero": "machines/ukit-hero.jpg", "hero_real": False, "gallery": ["machines/ukit-banner.jpg"],
+        "hero": "machines/ubtech-ukit-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Modular building", "Snap-together parts and servo modules, repeatable classroom assembly. Structure and function, mechanism logic, sequencing."),
             ("Entry-level coding", "Visual programming and guided logic blocks: control flow, actions, timing and event-based behaviour."),
@@ -229,7 +229,7 @@ MACHINES = [
         "kind": "Robotics engineering", "status": "Scoped first",
         "line": "A pallet, a fry basket, a bar dispenser. Drawn against your floor plan, built in the workshop here, run on our floor before it ships.",
         "intro": "Arm, tooling and mounting; the cell and its safety; the control logic that ties the sequence together. Three decisions, made around your equipment, layout and output target, in our workshop first.",
-        "hero": "machines/custom-hero.jpg", "hero_real": False, "gallery": [],
+        "hero": "machines/custom-automation-light.jpg", "hero_real": False, "gallery": [],
         "features": [
             ("Arm, tooling and mounting", "Reach, payload, orientation, working area and end-effector chosen for the handling task."),
             ("Cell design and safety", "Pickup points, drop positions, staging, guarding and operator interaction arranged around the line."),
