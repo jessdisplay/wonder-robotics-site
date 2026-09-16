@@ -465,6 +465,41 @@
   .lg-contact a{color:inherit}
   .pc-terms a{color:inherit;text-underline-offset:3px}
   @media print{ .legal mark{background:none;border:1px solid currentColor} }
+  /* The product menu, after Apple's: hover Machines and a full-width panel
+     drops under the bar, one column of big links, two of small ones, the
+     page softly blurred behind. It is the bar's sibling, fixed under it, the
+     same way the old drop was, so it never moves the page. Desktop only: under
+     980px the nav itself is not shown. */
+  .mega{position:fixed;left:0;right:0;top:64px;z-index:19;background:var(--paper);border-bottom:1px solid var(--rule);
+        display:grid;grid-template-rows:0fr;visibility:hidden;
+        transition:grid-template-rows .42s cubic-bezier(.16,.84,.24,1),visibility .42s,top .34s cubic-bezier(.16,.84,.24,1)}
+  .bar.bar-set + .mega{top:52px}
+  .mega.on{grid-template-rows:1fr;visibility:visible}
+  .mega-clip{overflow:hidden;min-height:0}
+  .mega-in{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);padding-top:clamp(26px,3vw,44px);padding-bottom:clamp(34px,4vw,60px)}
+  .mega-col{grid-column:span 2}
+  .mega-col.big{grid-column:1/5}
+  .mega-col .label{display:block;margin-bottom:14px;color:var(--graphite)}
+  .mega ul{list-style:none;margin:0;padding:0}
+  .mega li{opacity:0;transform:translateY(-6px);transition:opacity .28s ease,transform .38s cubic-bezier(.16,.84,.24,1)}
+  .mega.on li{opacity:1;transform:none}
+  .mega.on li:nth-child(2){transition-delay:.03s}.mega.on li:nth-child(3){transition-delay:.06s}.mega.on li:nth-child(4){transition-delay:.09s}
+  .mega.on li:nth-child(5){transition-delay:.12s}.mega.on li:nth-child(6){transition-delay:.15s}.mega.on li:nth-child(7){transition-delay:.18s}
+  .mega a{color:var(--ink);text-decoration:none}
+  .mega-col.big li a{display:inline-block;padding:3px 0;font-weight:500;font-size:clamp(24px,2.1vw,34px);line-height:1.12;letter-spacing:-.03em}
+  .mega-col:not(.big) li a{display:inline-block;padding:5px 0;font-size:14.5px;font-weight:500;letter-spacing:-.005em}
+  .mega a:hover{color:var(--signal)}
+  .mega a:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+  .mega-col:nth-of-type(2){grid-column:5/7}
+  .mega-col:nth-of-type(3){grid-column:7/9}
+  .mega-scrim{position:fixed;inset:0;z-index:18;pointer-events:none;opacity:0;
+              background:color-mix(in srgb,var(--paper) 35%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+              transition:opacity .3s ease}
+  .mega-scrim.on{opacity:1;pointer-events:auto}
+  .bar nav a[aria-expanded="true"]{color:var(--ink)}
+  .bar nav a[aria-expanded="true"]::after{transform:none}
+  @media (max-width:980px){ .mega,.mega-scrim{display:none} }
+  @media (prefers-reduced-motion:reduce){ .mega,.mega li,.mega-scrim{transition:none} }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -658,6 +693,12 @@
   @media (max-width:1300px){
     .bar .clock{display:none}
     .bar nav{grid-column:3/11}
+  }
+  /* Below 1200 the quote button needs a third column, or it slides over the
+     last link in the nav (measured: it did at every width under about 1060). */
+  @media (max-width:1200px) and (min-width:981px){
+    .bar nav{grid-column:3/10;gap:clamp(10px,1.2vw,16px);padding-right:0}
+    .bar .cta{grid-column:10/13}
   }
   @media (max-width:980px){
     .bar nav{display:none}
@@ -1326,11 +1367,50 @@
     <a class="mark" href="../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="../#disciplines">What we do</a><a href="../work/valley/">The building</a><a href="../machines/">Machines</a><a href="../#work">Case studies</a><a href="../robot-cafe-packages/">Packages</a><a href="../events/">The club</a>
+      <a href="../#disciplines">What we do</a><a href="../work/valley/">The building</a><a href="../machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="../#work">Case studies</a><a href="../robot-cafe-packages/">Packages</a><a href="../events/">The club</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
 </header>
+  <div class="mega" id="mega" role="region" aria-label="Machines">
+    <div class="mega-clip">
+      <div class="wrap mega-in">
+        <div class="mega-col big">
+          <span class="label">Machines</span>
+          <ul>
+            <li><a href="../robot-coffee-machines/">Robot coffee machines</a></li>
+            <li><a href="../robot-cocktail-machines/">Robot cocktail machines</a></li>
+            <li><a href="../robot-ice-cream-machines/">Robot ice cream machines</a></li>
+            <li><a href="../robot-kitchen-fitouts/">Robot kitchens</a></li>
+            <li><a href="../robot-container-kitchens/">Container kitchens</a></li>
+            <li><a href="../robot-cafe-packages/">Robot café packages</a></li>
+            <li><a href="../machines/">Every machine and robot</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <span class="label">Built around them</span>
+          <ul>
+            <li><a href="../machines/custom-automation/">Custom automation</a></li>
+            <li><a href="../machines/software/">Software</a></li>
+            <li><a href="../machines/ai-agents/">AI agents</a></li>
+            <li><a href="../machines/ubtech-cadebot/">Service robots</a></li>
+            <li><a href="../machines/unitree-g1/">Humanoids and quadrupeds</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <span class="label">Ways in</span>
+          <ul>
+            <li><a href="../quote/" data-quote>Build a quote</a></li>
+            <li><a href="../price-guide.pdf">Price guide, PDF</a></li>
+            <li><a href="../#visit">Come and see it</a></li>
+            <li><a href="../book/">Book the space</a></li>
+            <li><a href="../terms/">Terms of sale</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mega-scrim" id="mega-scrim" aria-hidden="true"></div>
   <div class="qs" id="wantpanel" role="dialog" aria-modal="true" aria-labelledby="qs-title">
     <div class="qs-scrim" id="wantscrim"></div>
     <div class="qs-sheet">
@@ -1905,6 +1985,46 @@ window.WonderQuote = (function(){
   return {MACHINES:MACHINES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
+/* The product menu. Hover Machines (with a moment's intent, so the mouse
+   passing over it does not flash a panel), or press the down arrow on it.
+   It closes when the pointer leaves both the word and the panel, on Escape,
+   on the blurred page, when focus leaves it, or when a link in it is used.
+   On a touch screen the first tap opens it and a second follows the link. */
+(function(){
+  var bar=document.getElementById('bar'), trig=document.getElementById('nav-machines');
+  var mega=document.getElementById('mega'), scrim=document.getElementById('mega-scrim');
+  if(!bar||!trig||!mega) return;
+  var canHover=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var openT=null, closeT=null;
+  function isOpen(){ return mega.classList.contains('on'); }
+  function set(on){
+    clearTimeout(openT); clearTimeout(closeT);
+    if(on===isOpen()) return;
+    mega.classList.toggle('on',on); bar.classList.toggle('bar-open',on);
+    if(scrim) scrim.classList.toggle('on',on);
+    trig.setAttribute('aria-expanded',on?'true':'false');
+  }
+  function later(on,ms){ clearTimeout(openT); clearTimeout(closeT); if(on) openT=setTimeout(function(){set(true);},ms); else closeT=setTimeout(function(){set(false);},ms); }
+  if(canHover){
+    trig.addEventListener('mouseenter',function(){ later(true,isOpen()?0:110); });
+    trig.addEventListener('mouseleave',function(){ later(false,200); });
+    mega.addEventListener('mouseenter',function(){ clearTimeout(closeT); });
+    mega.addEventListener('mouseleave',function(){ later(false,200); });
+    // moving to another word in the bar closes it at once
+    [].forEach.call(bar.querySelectorAll('nav a'),function(a){ if(a!==trig) a.addEventListener('mouseenter',function(){ set(false); }); });
+  }
+  trig.addEventListener('click',function(e){ if(!canHover&&!isOpen()){ e.preventDefault(); set(true); } });
+  trig.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){ e.preventDefault(); set(true); var first=mega.querySelector('a'); if(first) setTimeout(function(){ first.focus(); },60); }
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ var inside=mega.contains(document.activeElement); set(false); if(inside) trig.focus(); } });
+  mega.addEventListener('focusout',function(e){ var to=e.relatedTarget; if(to&&!mega.contains(to)&&to!==trig) set(false); });
+  if(scrim) scrim.addEventListener('click',function(){ set(false); });
+  mega.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
+  // the quote sheet opening from anywhere puts the menu away
+  var btn=document.getElementById('want'); if(btn) btn.addEventListener('click',function(){ set(false); });
+})();
+
 /* The proposal: a quote drawn as a document. Same state, same maths as the
    quote page, read from the address, so a proposal is a link you can send
    and a PDF you can save. A4 sheets on screen and on paper. */

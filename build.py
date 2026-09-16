@@ -76,11 +76,50 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
 </header>
+  <div class="mega" id="mega" role="region" aria-label="Machines">
+    <div class="mega-clip">
+      <div class="wrap mega-in">
+        <div class="mega-col big">
+          <span class="label">Machines</span>
+          <ul>
+            <li><a href="{{root}}robot-coffee-machines/">Robot coffee machines</a></li>
+            <li><a href="{{root}}robot-cocktail-machines/">Robot cocktail machines</a></li>
+            <li><a href="{{root}}robot-ice-cream-machines/">Robot ice cream machines</a></li>
+            <li><a href="{{root}}robot-kitchen-fitouts/">Robot kitchens</a></li>
+            <li><a href="{{root}}robot-container-kitchens/">Container kitchens</a></li>
+            <li><a href="{{root}}robot-cafe-packages/">Robot café packages</a></li>
+            <li><a href="{{root}}machines/">Every machine and robot</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <span class="label">Built around them</span>
+          <ul>
+            <li><a href="{{root}}machines/custom-automation/">Custom automation</a></li>
+            <li><a href="{{root}}machines/software/">Software</a></li>
+            <li><a href="{{root}}machines/ai-agents/">AI agents</a></li>
+            <li><a href="{{root}}machines/ubtech-cadebot/">Service robots</a></li>
+            <li><a href="{{root}}machines/unitree-g1/">Humanoids and quadrupeds</a></li>
+          </ul>
+        </div>
+        <div class="mega-col">
+          <span class="label">Ways in</span>
+          <ul>
+            <li><a href="{{root}}quote/" data-quote>Build a quote</a></li>
+            <li><a href="{{root}}price-guide.pdf">Price guide, PDF</a></li>
+            <li><a href="{{root}}#visit">Come and see it</a></li>
+            <li><a href="{{root}}book/">Book the space</a></li>
+            <li><a href="{{root}}terms/">Terms of sale</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mega-scrim" id="mega-scrim" aria-hidden="true"></div>
   <div class="qs" id="wantpanel" role="dialog" aria-modal="true" aria-labelledby="qs-title">
     <div class="qs-scrim" id="wantscrim"></div>
     <div class="qs-sheet">

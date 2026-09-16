@@ -247,6 +247,46 @@ window.WonderQuote = (function(){
   return {MACHINES:MACHINES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
+/* The product menu. Hover Machines (with a moment's intent, so the mouse
+   passing over it does not flash a panel), or press the down arrow on it.
+   It closes when the pointer leaves both the word and the panel, on Escape,
+   on the blurred page, when focus leaves it, or when a link in it is used.
+   On a touch screen the first tap opens it and a second follows the link. */
+(function(){
+  var bar=document.getElementById('bar'), trig=document.getElementById('nav-machines');
+  var mega=document.getElementById('mega'), scrim=document.getElementById('mega-scrim');
+  if(!bar||!trig||!mega) return;
+  var canHover=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var openT=null, closeT=null;
+  function isOpen(){ return mega.classList.contains('on'); }
+  function set(on){
+    clearTimeout(openT); clearTimeout(closeT);
+    if(on===isOpen()) return;
+    mega.classList.toggle('on',on); bar.classList.toggle('bar-open',on);
+    if(scrim) scrim.classList.toggle('on',on);
+    trig.setAttribute('aria-expanded',on?'true':'false');
+  }
+  function later(on,ms){ clearTimeout(openT); clearTimeout(closeT); if(on) openT=setTimeout(function(){set(true);},ms); else closeT=setTimeout(function(){set(false);},ms); }
+  if(canHover){
+    trig.addEventListener('mouseenter',function(){ later(true,isOpen()?0:110); });
+    trig.addEventListener('mouseleave',function(){ later(false,200); });
+    mega.addEventListener('mouseenter',function(){ clearTimeout(closeT); });
+    mega.addEventListener('mouseleave',function(){ later(false,200); });
+    // moving to another word in the bar closes it at once
+    [].forEach.call(bar.querySelectorAll('nav a'),function(a){ if(a!==trig) a.addEventListener('mouseenter',function(){ set(false); }); });
+  }
+  trig.addEventListener('click',function(e){ if(!canHover&&!isOpen()){ e.preventDefault(); set(true); } });
+  trig.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){ e.preventDefault(); set(true); var first=mega.querySelector('a'); if(first) setTimeout(function(){ first.focus(); },60); }
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ var inside=mega.contains(document.activeElement); set(false); if(inside) trig.focus(); } });
+  mega.addEventListener('focusout',function(e){ var to=e.relatedTarget; if(to&&!mega.contains(to)&&to!==trig) set(false); });
+  if(scrim) scrim.addEventListener('click',function(){ set(false); });
+  mega.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
+  // the quote sheet opening from anywhere puts the menu away
+  var btn=document.getElementById('want'); if(btn) btn.addEventListener('click',function(){ set(false); });
+})();
+
 /* The proposal: a quote drawn as a document. Same state, same maths as the
    quote page, read from the address, so a proposal is a link you can send
    and a PDF you can save. A4 sheets on screen and on paper. */
