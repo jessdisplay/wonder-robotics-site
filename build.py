@@ -199,7 +199,15 @@ def thumb(m):
 
 def machine_body(m):
     pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in pills_of(m, price=True))
-    stage = f'<div class="stage"><img src="{{{{root}}}}img/{m["stage"]}" alt="{escape(m["name"])}" width="2048" height="2048"></div>' if m.get("stage") else ""
+    if m.get("video"):
+        # A moving stage: same markup as the home kitchen loop (poster, muted
+        # loop, the still inside as the no-video fallback). Captioned the way
+        # the container page captions its generated plates.
+        stage = (f'<figure class="stage photo film"><video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}img/{m["video_poster"]}" aria-label="{escape(m["name"])}">'
+                 f'<source src="{{{{root}}}}img/{m["video"]}" type="video/mp4"><img src="{{{{root}}}}img/{m["video_poster"]}" alt="{escape(m["name"])}"></video>'
+                 f'<figcaption class="label"><span>{escape(m["video_caption"])}</span><span>Concept visualisation</span></figcaption></figure>')
+    else:
+        stage = f'<div class="stage"><img src="{{{{root}}}}img/{m["stage"]}" alt="{escape(m["name"])}" width="2048" height="2048"></div>' if m.get("stage") else ""
     shot = m.get("light") or m["hero"]
     shot_html = fig(shot, m["name"], m["name"], False, "shot") if shot else ""
     hl = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["highlights"])

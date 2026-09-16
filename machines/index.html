@@ -380,7 +380,7 @@
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}}
+  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}.stage.film .hero-video{display:block}}
 
   /* the warm home: one idea per screen */
   .line{margin:0;font-weight:400;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
@@ -481,6 +481,9 @@
      machine on black, so no mask and no tuck under the title. */
   .stage.photo{margin:clamp(28px,4vw,56px) 0 0}
   .stage.photo img{width:100%;max-width:none;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r);-webkit-mask-image:none;mask-image:none}
+  /* A moving stage is cut 16:9, not 21:9: the barista bar's screens sit at
+     the top of the frame and the drip tray at the bottom, and 21:9 loses both. */
+  .stage.photo.film video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r);background:var(--rule)}
   .stage.photo figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap);color:color-mix(in srgb,var(--cream) 60%,#0A0A0C);text-align:left}
   .stage.photo figcaption span:last-child{color:var(--signal)}
   .case .phero h1{font-size:clamp(48px,9vw,160px)}
@@ -1238,12 +1241,7 @@ window.WonderSneak = (function () {
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  // Text joins the same reveal as images (Jesse, 15 Sep: 'subtle animations across
-  // the site'): section heads, case-study stage headings and the shared product/
-  // case-study detail band all rise on scroll now, not just photographs. Still one
-  // observer, still one CSS system (.wr-lift), so reduced-motion and the trigger
-  // logic below apply to everything identically.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li, .grid.head, .story h2, .rail .wrap > .label, .rail .wrap > div > h2, .pdetail .label, .pdetail h2.line, .pdetail .sub'));
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');
