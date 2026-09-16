@@ -43,6 +43,10 @@ PAGES = {
                        "desc": "Robot coffee machines supplied, branded, installed and serviced from Brisbane: dual-arm barista bars from $67,000, vending kiosk $74,000, robot bartender $39,000. Seventy seconds a drink, about two square metres, your brand on the machine and the cup. Ours pours at 365 St Pauls Terrace."},
     "kitchen-landing": {"out": "robot-kitchen-fitouts/index.html", "root": "../", "title": "Robot kitchen fit-outs, Brisbane. Wonder Robotics",
                         "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying robot from $42,000, noodle robot from $52,000, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
+    "cocktail-landing": {"out": "robot-cocktail-machines/index.html", "root": "../", "title": "Robot cocktail machines, Brisbane. Wonder Robotics",
+                         "desc": "Robot cocktail machines supplied, branded, installed and serviced from Brisbane: the T Standard robot bartender, Dobot arm, ice maker, three syrups, $39,000 list. Ours pours at 365 St Pauls Terrace six days a week."},
+    "icecream-landing": {"out": "robot-ice-cream-machines/index.html", "root": "../", "title": "Robot ice cream machines, Brisbane. Wonder Robotics",
+                         "desc": "Robot ice cream machines supplied, branded, installed and serviced from Brisbane: the I Pro, a pasteurising soft-serve machine with three syrups, two toppings and a kiosk arm, $41,000 list. Ours is the dessert kiosk at 365 St Pauls Terrace."},
     "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
              "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
@@ -75,6 +79,8 @@ FOOTER = '''<footer>
         <a href="{{root}}machines/">Every machine we sell</a>
         <a href="{{root}}robot-kitchen-fitouts/">Robot kitchen fit-outs</a>
         <a href="{{root}}robot-coffee-machines/">Robot coffee machines</a>
+        <a href="{{root}}robot-cocktail-machines/">Robot cocktail machines</a>
+        <a href="{{root}}robot-ice-cream-machines/">Robot ice cream machines</a>
         <a href="{{root}}machines/kitchen-robot/">Robot kitchens</a>
         <a href="{{root}}machines/coffee-robot/">Coffee and bar robots</a>
         <a href="{{root}}machines/ubtech-cadebot/">Service robots</a>
@@ -384,14 +390,24 @@ def catalogue_body():
     <div class="wrap">
       <div class="grid head">
         <span class="label">Start here</span>
-        <h2>Robot coffee machines. Robot kitchen fit-outs.</h2>
-        <p>The two lines we design, brand, fit out and run. Both priced on the page.</p>
+        <h2>Coffee, cocktails, ice cream, kitchens.</h2>
+        <p>The four lines we design, brand, fit out and run. All priced on the page.</p>
       </div>
       <div class="cases">
         <a href="{{{{root}}}}robot-coffee-machines/">
-          <div class="ph"><img src="{{{{root}}}}img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot coffee machines</span><span class="label">From $39,000</span></h3>
+          <div class="ph"><img src="{{{{root}}}}img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless: two silver arms, the Eversys machine, the Jolin milk unit, the dispenser tower, the purple crescent cups" loading="lazy" width="2048" height="1360"></div>
+          <h3><span>Robot coffee machines</span><span class="label">From $67,000</span></h3>
           <p>A barista in two square metres, seventy seconds a drink, in your brand.</p>
+        </a>
+        <a href="{{{{root}}}}robot-cocktail-machines/">
+          <div class="ph"><img src="{{{{root}}}}img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
+          <h3><span>Robot cocktail machines</span><span class="label">From $39,000</span></h3>
+          <p>The same measure every time, under a rack of your bottles.</p>
+        </a>
+        <a href="{{{{root}}}}robot-ice-cream-machines/">
+          <div class="ph"><img src="{{{{root}}}}img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" width="1400" height="1737"></div>
+          <h3><span>Robot ice cream machines</span><span class="label">From $41,000</span></h3>
+          <p>Pasteurised soft serve, an arm that hands it over, a queue that watches.</p>
         </a>
         <a href="{{{{root}}}}robot-kitchen-fitouts/">
           <div class="ph"><img src="{{{{root}}}}img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless: ingredient store, rail cobot, three fryers, two funnels, six noodle baths" loading="lazy" width="2048" height="1360"></div>
