@@ -48,6 +48,10 @@ PAGES = {
                          "desc": "Robot cocktail machines supplied, branded, installed and serviced from Brisbane: the T Standard robot bartender, Dobot arm, ice maker, three syrups, $39,000 list. Ours pours at 365 St Pauls Terrace six days a week."},
     "icecream-landing": {"out": "robot-ice-cream-machines/index.html", "root": "../", "title": "Robot ice cream machines, Brisbane. Wonder Robotics",
                          "desc": "Robot ice cream machines supplied, branded, installed and serviced from Brisbane: the I Pro, a pasteurising soft-serve machine with three syrups, two toppings and a kiosk arm, $41,000 list. Ours is the dessert kiosk at 365 St Pauls Terrace."},
+    "packages-landing": {"out": "robot-cafe-packages/index.html", "root": "../", "title": "Robot café packages, Brisbane. Wonder Robotics",
+                         "desc": "A robot café bought whole: brand design, website, branding on the machine, the robot coffee bar, fit-out, programming, install and a year of maintenance, from one team at one price, with 10% off the work. Robot coffee bar, robot café and robot container kitchen packages, from Brisbane."},
+    "container-landing": {"out": "robot-container-kitchens/index.html", "root": "../", "title": "Robot container kitchens, Brisbane. Wonder Robotics",
+                          "desc": "A twenty foot shipping container fitted as a robot kitchen in our Brisbane yard: an arm on a rail over fryers and noodle baths, a serving hatch, extraction, and projector glass on three faces that carries the brand. Sold whole, brand to opening day."},
     "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
              "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
@@ -65,7 +69,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}#quote">Pricing</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}events/">The club</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
@@ -82,6 +86,10 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
       </div>
       <div class="qs-body">
         <div class="qs-pick" id="qs-pick">
+          <section class="qs-sec" id="qsec-pkg">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-pkg"><span class="t">Packages, the whole job</span><span class="c" id="qc-n-pkg"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid pkgs" id="qp-pkg"></div>
+          </section>
           <section class="qs-sec" id="qsec-food">
             <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-food"><span class="t">Food and drink machines</span><span class="c" id="qc-n-food"></span><span class="chev" aria-hidden="true"></span></button></h3>
             <div class="qs-grid food" id="qp-food"></div>
@@ -178,6 +186,8 @@ FOOTER = '''<footer>
         <a href="{{root}}robot-coffee-machines/">Robot coffee machines</a>
         <a href="{{root}}robot-cocktail-machines/">Robot cocktail machines</a>
         <a href="{{root}}robot-ice-cream-machines/">Robot ice cream machines</a>
+        <a href="{{root}}robot-cafe-packages/">Robot café packages</a>
+        <a href="{{root}}robot-container-kitchens/">Robot container kitchens</a>
         <a href="{{root}}machines/kitchen-robot/">Robot kitchens</a>
         <a href="{{root}}machines/coffee-robot/">Coffee and bar robots</a>
         <a href="{{root}}machines/ubtech-cadebot/">Service robots</a>
@@ -281,9 +291,19 @@ PROJECTS = [
 ]
 
 
+# Pages outside the project ring say where they lead on to.
+NEXT = {
+    "packages-landing": ("robot-container-kitchens/", "Robot container kitchens", "img/container/jungle.jpg", "A container kitchen at a night market, its glass skin live"),
+    "container-landing": ("robot-cafe-packages/", "Robot café packages", "img/coffee/venue-01-bar-in-room.jpg", "A branded robot coffee bar in a venue"),
+}
+
+
 def next_block(name):
     keys = [p[0] for p in PROJECTS]
-    _, href, title, img, alt = PROJECTS[(keys.index(name) + 1) % len(PROJECTS)]
+    if name in NEXT:
+        href, title, img, alt = NEXT[name]
+    else:
+        _, href, title, img, alt = PROJECTS[(keys.index(name) + 1) % len(PROJECTS)]
     return (f'<section class="next">\n    <div class="wrap">\n      <a href="{{{{root}}}}{href}">\n'
             f'        <div><span class="label">Next</span><h2>{escape(title)}</h2></div>\n'
             f'        <div class="ph"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"></div>\n'
