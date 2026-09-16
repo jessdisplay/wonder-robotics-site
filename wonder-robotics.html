@@ -650,7 +650,13 @@
      down the left and right edges of hero-bot.jpg, so the plate can sit in
      the box (contain) and run out on wide windows without a visible edge.
      That is what "squared" was: the plate against flat paper. */
-  .pop.light{background:linear-gradient(to bottom,#C4B9AE 0%,#CAC0B6 12%,#CEC4BA 25%,#D0C6BD 38%,#D2C8BF 50%,#D6CCC3 62%,#DDD3CA 75%,#E7DFD8 88%,#E6DFD8 100%);color:var(--ink);min-height:100vh;align-items:center}
+  .pop.light{background:linear-gradient(to bottom,#C4B9AE 0%,#CAC0B6 12%,#CEC4BA 25%,#D0C6BD 38%,#D2C8BF 50%,#D6CCC3 62%,#DDD3CA 75%,#E7DFD8 88%,#E6DFD8 100%);color:var(--ink);min-height:max(100vh,55.8vw);align-items:center}
+  /* Never cropped, never boxed (Jesse, 16 Sep): the hero is at least as tall
+     as the plate is at full width (2400/1340, so 55.8vw), so cover has
+     nothing to crop on a wide window; it is simply taller than a short
+     screen, with the type pinned to the top so it sits above the fold.
+     contain with a fade was tried first and still read as a soft edge. */
+  @media (min-aspect-ratio:16/9){ .pop.light{align-items:start} }
   /* Full height means the type is centred on the screen, not parked at the
      bottom with a void over it (Jesse: "the header is off center"). The
      robot is framed to the same centre in hero.js. */
@@ -663,14 +669,7 @@
   .pop.light.is-3d{background:radial-gradient(70% 42% at 50% 100%,#EEE9E4 0%,rgba(238,233,228,0) 100%),radial-gradient(120% 92% at 50% 6%,#F7F2EE 0%,#ECE6DF 36%,#DBD1C7 72%,#C8BDB2 100%)}
   .pop.light.is-3d .bg{visibility:hidden;animation:none}
   .pop.light.is-live .stage{opacity:1;transform:none}
-  /* Never cropped (Jesse, 16 Sep: "the wonder bot is cut off"): the plate
-     is contained and sits at the left on its ground line; the section's
-     gradient above carries the empty side on wide windows. Left, not
-     centred, so he stays clear of the type in columns 5 to 13. */
-  .pop.light .bg{object-fit:contain;object-position:0% 100%;-webkit-mask-image:linear-gradient(to right,#000 78%,transparent 100%);mask-image:linear-gradient(to right,#000 78%,transparent 100%)}
-  /* The right 22% of the plate fades into the section gradient, so where the
-     plate ends on a wide window there is no tone step; on 16:9 the fade lands
-     on the same colours and is invisible. The robot sits in the left 40%. */
+  .pop.light .bg{object-fit:cover;object-position:50% 100%}
   .pop.light .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-content:end}
   .pop.light .wrap > *{grid-column:5/13}
   .pop.light .eyebrow{color:var(--signal)}
