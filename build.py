@@ -133,24 +133,21 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
       <div class="qs-body">
         <div class="qs-pick" id="qs-pick">
           <section class="qs-sec" id="qsec-pkg">
-            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-pkg"><span class="t">Packages, the whole job</span><span class="c" id="qc-n-pkg"></span><span class="chev" aria-hidden="true"></span></button></h3>
-            <div class="qs-grid pkgs" id="qp-pkg"></div>
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="false" aria-controls="qp-pkg"><span class="t">Or start from a package</span><span class="c" id="qc-n-pkg"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid pkgs" id="qp-pkg" hidden></div>
           </section>
           <section class="qs-sec" id="qsec-food">
-            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-food"><span class="t">Food and drink machines</span><span class="c" id="qc-n-food"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-food"><span class="t"><em>1</em>Choose your machines</span><span class="c" id="qc-n-food"></span><span class="chev" aria-hidden="true"></span></button></h3>
             <div class="qs-grid food" id="qp-food"></div>
           </section>
-          <section class="qs-sec" id="qsec-robots">
-            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-robots"><span class="t">Showroom robots</span><span class="c" id="qc-n-robots"></span><span class="chev" aria-hidden="true"></span></button></h3>
-            <div class="qs-grid robots" id="qp-robots"></div>
-          </section>
-          <section class="qs-sec" id="qsec-parts">
-            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-parts"><span class="t">Add-ons on the machine</span><span class="c" id="qc-n-parts"></span><span class="chev" aria-hidden="true"></span></button></h3>
-            <div class="qs-grid addons" id="qp-parts"></div>
-          </section>
           <section class="qs-sec" id="qsec-work">
-            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-work"><span class="t">The work around it</span><span class="c" id="qc-n-work"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-work"><span class="t"><em>2</em>The work around it</span><span class="c" id="qc-n-work"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <p class="qs-worknote" id="qs-work-lock">Add a machine first. The work is priced from what you choose.</p>
             <div class="qs-grid addons" id="qp-work"></div>
+          </section>
+          <section class="qs-sec" id="qsec-robots">
+            <h3 class="qs-sec-h"><button type="button" aria-expanded="true" aria-controls="qp-robots"><span class="t"><em>3</em>Add showroom robots</span><span class="c" id="qc-n-robots"></span><span class="chev" aria-hidden="true"></span></button></h3>
+            <div class="qs-grid robots" id="qp-robots"></div>
           </section>
         </div>
         <aside class="qs-tray" id="qs-tray" aria-label="Your quote">

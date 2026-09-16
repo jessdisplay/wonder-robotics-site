@@ -99,6 +99,15 @@ window.WonderQuote = (function(){
     {id:'inst',  name:'Install and handover',    sub:'Site survey, placement, services, first run, staff training',        pct:0.08, min:3500, on:true,
      img:'{{root}}img/process/04-commission.jpg', alt:'Technicians on the finished line for the first run and the training'}
   ];
+  // How a buyer thinks about the machines: one robot, then which model of it,
+  // then the accessories that fit that robot and no other.
+  var FAMILIES=[
+    {id:'coffee',   name:'Coffee robot',      line:'A barista in about two square metres, seventy seconds a drink.', models:['bpro','bstd','eff'], parts:['icem','prnt','milk','syr'], img:'{{root}}img/offer/coffee-bar-studio.jpg'},
+    {id:'cocktail', name:'Robot bartender',   line:'An arm under a rack of your bottles, the same measure every time.', models:['bar'], parts:['icem','syr'], img:'{{root}}img/offer/robot-bar-studio.jpg'},
+    {id:'icecream', name:'Ice cream robot',   line:'Pasteurised soft serve, and an arm that hands the cone over.', models:['ice'], parts:['syr'], img:'{{root}}img/tile-kiosk.jpg'},
+    {id:'fryer',    name:'Deep frying robot', line:'Six fryers: basket in, timed, lifted, drained, plated.', models:['fry'], parts:[], img:'{{root}}img/tile-arm.jpg'},
+    {id:'noodle',   name:'Noodle robot',      line:'Six noodle stoves, cooked to the order, bowl after bowl.', models:['noo'], parts:[], img:'{{root}}img/valley-baths.jpg'}
+  ];
   // The showroom robots, written in from the catalogue at build time. There is
   // no list price for any of them, so they sit on a quote as a line priced on
   // request and never move the total.
@@ -244,7 +253,7 @@ window.WonderQuote = (function(){
     });
     return out;
   }
-  return {MACHINES:MACHINES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The product menu. Hover Machines (with a moment's intent, so the mouse
@@ -501,7 +510,7 @@ window.WonderQuote = (function(){
   var money=Q.money;
 
   // One state for the sheet. Machines and robots count, add-ons toggle.
-  var qty={}, parts={}, svc={}, pkg=null, drawn=false, lastFocus=null;
+  var qty={}, parts={}, svc={}, pkg=null, drawn=false, lastFocus=null, openFam=null;
   Q.MACHINES.concat(Q.ROBOTS).forEach(function(m){ qty[m.id]=0; });
   Q.PARTS.forEach(function(x){ parts[x.id]=false; });
   Q.SERVICES.forEach(function(x){ svc[x.id]=!!x.on; });
@@ -590,26 +599,101 @@ window.WonderQuote = (function(){
       '<div class="qs-card-f"><span class="price"><s>'+money.format(q.separate)+'</s> '+money.format(q.total)+(q.extra?'<small>plus the container</small>':'')+
       '<small class="save">Save '+money.format(q.save)+'</small></span><span class="add" aria-hidden="true">Add</span></div></div></article>';
   }
+  function mById(id){ return Q.MACHINES.filter(function(m){return m.id===id;})[0]; }
+  function pById(id){ return Q.PARTS.filter(function(p){return p.id===id;})[0]; }
+  function famOf(mid){ return Q.FAMILIES.filter(function(f){return f.models.indexOf(mid)>=0;})[0]; }
+  function famCount(f){ return f.models.reduce(function(a,id){return a+(qty[id]||0);},0); }
+  function famCard(f){
+    var prices=f.models.map(function(id){return mById(id).price;}), low=Math.min.apply(null,prices);
+    var from=(f.models.length>1?'From ':'')+money.format(low);
+    var small=f.models.length>1?f.models.length+' models':mById(f.models[0]).model;
+    return '<article class="qs-card fam" id="qf-'+f.id+'">'+
+      '<button type="button" class="qs-hit" data-id="'+f.id+'" data-kind="fam" aria-expanded="false" aria-controls="qs-conf" aria-label="'+esc(f.name)+'"></button>'+
+      '<span class="n" id="qfb-'+f.id+'" aria-hidden="true"></span>'+
+      '<div class="ph"><img src="'+f.img+'" alt="" loading="lazy" decoding="async"></div>'+
+      '<div class="qs-card-b"><h3>'+esc(f.name)+'<small>'+esc(small)+'</small></h3><p>'+esc(f.line)+'</p>'+
+      '<div class="qs-card-f"><span class="price">'+from+'</span><span class="add" aria-hidden="true">Add</span></div></div></article>';
+  }
+  // The drop-down under a robot once it is on the quote: which model, how
+  // many, and only the accessories that fit it. It opens in the row the
+  // robot's card is in, so it reads as that robot's panel.
+  function drawConf(){
+    var old=$('qs-conf'); if(old) old.parentNode.removeChild(old);
+    var f=Q.FAMILIES.filter(function(x){return x.id===openFam;})[0]; if(!f) return;
+    var cardEl=$('qf-'+f.id); if(!cardEl) return;
+    var models=f.models.length>1?'<div class="cf-block"><span class="label">Which '+esc(f.name.toLowerCase())+'</span><div class="cf-models">'+f.models.map(function(id){
+        var m=mById(id);
+        return '<button type="button" class="cf-model" id="qm-'+id+'" data-kind="model" data-fam="'+f.id+'" data-id="'+id+'" aria-pressed="false">'+
+          '<span class="t"><img src="'+m.img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(m.model)+'</b><small>'+esc(m.kit)+'</small></span><span class="p">'+money.format(m.price)+'</span></button>';
+      }).join('')+'</div></div>':'';
+    var counts='<div class="cf-block"><span class="label">How many</span><div class="cf-counts">'+f.models.map(function(id){
+        var m=mById(id); return '<div class="cf-count" id="qcc-'+id+'"><span>'+esc(m.model)+'</span>'+stepper(id,m.model)+'</div>';
+      }).join('')+'</div></div>';
+    var acc=f.parts.length?'<div class="cf-block"><span class="label">Accessories for it</span><div class="cf-parts">'+f.parts.map(function(id){
+        var x=pById(id);
+        return '<button type="button" class="cf-part" id="qx-'+id+'" data-kind="part" data-id="'+id+'" aria-pressed="false">'+
+          '<span class="t"><img src="'+x.img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(x.name)+'</b><small>'+esc(x.sub)+'</small></span><span class="p">'+money.format(x.price)+'</span><span class="tick" aria-hidden="true"></span></button>';
+      }).join('')+'</div></div>':'<div class="cf-block"><span class="label">Accessories for it</span><p class="cf-none">It comes complete. Nothing to add to this one.</p></div>';
+    var panel=document.createElement('div');
+    panel.className='qs-conf'; panel.id='qs-conf';
+    panel.innerHTML='<div class="cf-head"><h4>Your '+esc(f.name.toLowerCase())+'</h4><button type="button" class="cf-remove" data-kind="famrm" data-id="'+f.id+'">Remove it</button></div>'+
+      models+counts+acc+
+      '<div class="cf-foot"><button type="button" class="btn" data-kind="next"><span>Next: the work around it</span><i aria-hidden="true">+</i></button>'+
+      '<button type="button" class="btn ghost" data-kind="famclose"><span>Add another machine</span><i aria-hidden="true">+</i></button></div>';
+    // after the last card in the same row
+    var grid=cardEl.parentNode, cards=[].slice.call(grid.querySelectorAll('.qs-card.fam')), top=cardEl.offsetTop, last=cardEl;
+    cards.forEach(function(c){ if(c.offsetTop===top) last=c; });
+    grid.insertBefore(panel,last.nextSibling);
+  }
+  function setFamily(fid,open){
+    openFam=open?fid:null;
+    [].forEach.call(document.querySelectorAll('.qs-card.fam .qs-hit'),function(h){ h.setAttribute('aria-expanded',h.getAttribute('data-id')===openFam?'true':'false'); });
+    drawConf();
+  }
+  function dropUnusedParts(){
+    // accessories only make sense while a robot they fit is on the quote
+    Q.PARTS.forEach(function(x){
+      if(!parts[x.id]) return;
+      var fits=Q.FAMILIES.some(function(f){ return f.parts.indexOf(x.id)>=0&&famCount(f)>0; });
+      if(!fits) parts[x.id]=false;
+    });
+  }
+  window.addEventListener('resize',function(){ if(openFam) drawConf(), render(); });
   function draw(){
     if(drawn) return; drawn=true;
     $('qp-pkg').innerHTML=Q.PACKAGES.map(pkgCard).join('');
-    $('qp-food').innerHTML=Q.MACHINES.map(function(m){
-      return card(m,{kind:'unit',counted:true,label:m.name+', '+m.model,title:m.name,small:m.model,text:m.kit,price:money.format(m.price)});
-    }).join('');
+    $('qp-food').innerHTML=Q.FAMILIES.map(famCard).join('');
     $('qp-robots').innerHTML=Q.ROBOTS.map(function(r){
       var floor=/floor/i.test(r.status);
       return card(r,{kind:'unit',counted:true,label:r.name,title:r.name,small:r.kind,price:'On request',ask:true,
         tag:'<span class="tag'+(floor?' floor':'')+'"><i></i>'+esc(r.status)+'</span>'});
     }).join('');
-    $('qp-parts').innerHTML=Q.PARTS.map(function(x){ return card(x,{kind:'part',label:x.name,title:x.name,text:x.sub}); }).join('');
     $('qp-work').innerHTML=Q.SERVICES.map(function(x){ return card(x,{kind:'svc',label:x.name,title:x.name,text:x.sub}); }).join('');
     render();
   }
   $('qs-pick').addEventListener('click',function(e){
     var step=e.target.closest('button[data-d]');
-    if(step){ var sid=step.getAttribute('data-id'); qty[sid]=Math.max(0,Math.min(20,qty[sid]+parseInt(step.getAttribute('data-d'),10))); render(); return; }
-    var hit=e.target.closest('.qs-hit'); if(!hit) return;
-    var id=hit.getAttribute('data-id'), k=hit.getAttribute('data-kind');
+    if(step){ var sid=step.getAttribute('data-id'); qty[sid]=Math.max(0,Math.min(20,qty[sid]+parseInt(step.getAttribute('data-d'),10))); dropUnusedParts(); render(); return; }
+    var ctl=e.target.closest('[data-kind]'); if(!ctl) return;
+    var id=ctl.getAttribute('data-id'), k=ctl.getAttribute('data-kind');
+    if(k==='fam'){
+      var f=Q.FAMILIES.filter(function(x){return x.id===id;})[0];
+      if(!famCount(f)){ qty[f.models[0]]=1; setFamily(id,true); }
+      else setFamily(id,openFam!==id);
+      render(); return;
+    }
+    if(k==='model'){
+      var fam=Q.FAMILIES.filter(function(x){return x.id===ctl.getAttribute('data-fam');})[0];
+      var n=Math.max(1,famCount(fam)); fam.models.forEach(function(m){ qty[m]=0; }); qty[id]=n;
+      render(); return;
+    }
+    if(k==='famrm'){ Q.FAMILIES.filter(function(x){return x.id===id;})[0].models.forEach(function(m){ qty[m]=0; }); dropUnusedParts(); setFamily(null,false); render(); return; }
+    if(k==='famclose'){ setFamily(null,false); render(); return; }
+    if(k==='next'){
+      setFamily(null,false); render();
+      var sec=$('qsec-work'), pick=$('qs-pick'); if(sec&&pick) pick.scrollTo({top:sec.offsetTop,behavior:'smooth'});
+      return;
+    }
     if(k==='pkg'){ choosePackage(pkg===id?null:id); render(); return; }
     if(k==='unit') qty[id]=qty[id]>0?0:1;
     else if(k==='part') parts[id]=!parts[id];
@@ -647,7 +731,7 @@ window.WonderQuote = (function(){
   // ---- the tray and the total
   function render(){
     var count=0, supply=0, total=0, asks=0, lines=[], pick=[], faces=[];
-    var tabCount={food:0,robots:0,parts:0,work:0};
+    var tabCount={food:0,robots:0,work:0};
     Q.MACHINES.forEach(function(m){
       var n=qty[m.id]; mark(m.id,n);
       if(!n) return;
@@ -665,7 +749,7 @@ window.WonderQuote = (function(){
       var pv=$('qpv-'+x.id); if(pv) pv.textContent=money.format(x.price);
       toggle(x.id,parts[x.id]);
       if(!parts[x.id]) return;
-      total+=x.price; tabCount.parts++; pick.push(x.id);
+      total+=x.price; pick.push(x.id);
       lines.push({img:x.img,name:x.name,sub:'Add-on, indicative',v:money.format(x.price)});
     });
     Q.SERVICES.forEach(function(x){
@@ -682,6 +766,19 @@ window.WonderQuote = (function(){
     Object.keys(tabCount).forEach(function(k){
       var c=$('qc-n-'+k); if(c) c.textContent=tabCount[k]?tabCount[k]+' added':'';
     });
+    Q.FAMILIES.forEach(function(f){
+      var n=famCount(f), c=$('qf-'+f.id); if(!c) return;
+      c.classList.toggle('on',n>0); c.classList.toggle('open',openFam===f.id);
+      var b=$('qfb-'+f.id); if(b) b.textContent=n||'';
+      var a=c.querySelector('.add'); if(a) a.textContent=n?(openFam===f.id?'Done':'Change'):'Add';
+      f.models.forEach(function(id){
+        var mb=$('qm-'+id); if(mb) mb.setAttribute('aria-pressed',qty[id]>0?'true':'false');
+        var cc=$('qcc-'+id); if(cc) cc.hidden=!(qty[id]>0)&&!(f.models.length===1);
+      });
+    });
+    Q.PARTS.forEach(function(x){ var pb=$('qx-'+x.id); if(pb) pb.setAttribute('aria-pressed',parts[x.id]?'true':'false'); });
+    var lock=$('qs-work-lock'); if(lock) lock.hidden=count>0||asks>0;
+    var ws=$('qsec-work'); if(ws) ws.classList.toggle('locked',!(count>0||asks>0));
 
     var held=packageHolds(), save=0; if(pkg&&!held) pkg=null;
     Q.PACKAGES.forEach(function(p){
@@ -727,9 +824,9 @@ window.WonderQuote = (function(){
     var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+(qs.length?'?'+qs.join('&'):'');
   }
   function mark(id,n){
+    var o=$('qn-'+id); if(o) o.textContent=n;
     var c=$('qc-'+id); if(!c) return;
     c.classList.toggle('on',n>0);
-    var o=$('qn-'+id); if(o) o.textContent=n;
     var b=$('qb-'+id); if(b) b.textContent=n;
     var h=c.querySelector('.qs-hit'); if(h) h.setAttribute('aria-pressed',n>0?'true':'false');
   }
