@@ -1056,17 +1056,17 @@ window.WonderQuote = (function(){
   // never promised here: it is measured on their menu at commissioning.
   var wz={step:0, type:null, serve:[], tier:null, front:null, where:null, applied:false};
   var TYPES=[
-    {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee']},
-    {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails']},
-    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve']},
-    {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles']},
-    {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee']},
-    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[]}
+    {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee'],   img:'{{root}}img/offer/coffee-bar-studio.jpg'},
+    {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails'], img:'{{root}}img/offer/robot-bar-studio.jpg'},
+    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'{{root}}img/warm-kiosk.jpg', pos:'50% 10%'},
+    {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles'], img:'{{root}}img/offer/kitchen-line-studio.jpg'},
+    {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee'], img:'{{root}}img/machines/coffee-robot-d1.jpg'},
+    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'{{root}}img/machines/ubtech-cadebot-light.jpg', pos:'50% 30%'}
   ];
-  var SERVES=[{id:'coffee',t:'Coffee'},{id:'cocktails',t:'Cocktails'},{id:'softserve',t:'Soft serve'},{id:'fried',t:'Fried food'},{id:'noodles',t:'Noodles'}];
-  var TIERS=[{id:'premium',t:'The premium machine',s:'B Pro: an Eversys, for premium cafés, hotels and branded venues'},{id:'value',t:'A lower entry cost',s:'B Standard: the same two arms on a Dr.Coffee F3'}];
-  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen'},{id:'both',t:'Both',s:'One of each'}];
-  var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run'},{id:'new',t:'A new venue',s:'We design the space and build it'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready'}];
+  var SERVES=[{id:'coffee',t:'Coffee',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'{{root}}img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'{{root}}img/tile-kiosk.jpg',pos:'50% 25%'},{id:'fried',t:'Fried food',img:'{{root}}img/tile-arm.jpg',pos:'50% 12%'},{id:'noodles',t:'Noodles',img:'{{root}}img/valley-baths.jpg'}];
+  var TIERS=[{id:'premium',t:'The premium machine',s:'B Pro: an Eversys, for premium cafés, hotels and branded venues',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'value',t:'A lower entry cost',s:'B Standard: the same two arms on a Dr.Coffee F3',img:'{{root}}img/machines/coffee-robot-light.jpg'}];
+  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',pos:'50% 30%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'{{root}}img/machines/ubtech-cruzr-1s-stage.jpg'}];
+  var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'{{root}}img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'{{root}}img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'{{root}}img/container/day.jpg',video:'{{root}}img/container/day.mp4'}];
   var WHY={
     bpro:'Two arms at an Eversys, the premium machine: one pulls the shot, one steams and pours.',
     bstd:'The same two arms on a Dr.Coffee F3, at a lower entry cost than the B Pro.',
@@ -1110,9 +1110,12 @@ window.WonderQuote = (function(){
     if(wz.where==='box'&&qty.fry&&qty.noo) pkg='box';
     wz.applied=true;
   }
+  // Every answer is a picture of the thing: the plate the site already
+  // uses for it, and the container's clip where there is one.
   function choice(kind,o,on,multi){
-    return '<button type="button" class="wz-opt'+(multi?' multi':'')+'" data-wz="'+kind+'" data-val="'+o.id+'" aria-pressed="'+(on?'true':'false')+'">'+
-      '<b>'+esc(o.t)+'</b>'+(o.s?'<small>'+esc(o.s)+'</small>':'')+'<span class="mk" aria-hidden="true"></span></button>';
+    var ph=o.img?'<span class="ph">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos?' style="object-position:'+o.pos+'"':'')+'>')+'</span>':'';
+    return '<button type="button" class="wz-opt'+(multi?' multi':'')+(ph?' pic':'')+'" data-wz="'+kind+'" data-val="'+o.id+'" aria-pressed="'+(on?'true':'false')+'">'+ph+
+      '<span class="wz-opt-t"><b>'+esc(o.t)+'</b>'+(o.s?'<small>'+esc(o.s)+'</small>':'')+'</span><span class="mk" aria-hidden="true"></span></button>';
   }
   function wzDraw(){
     var host=$('wz'); if(!host) return;
@@ -1121,13 +1124,14 @@ window.WonderQuote = (function(){
     var prog=name==='result'?'':'<div class="wz-prog"><span class="label">Question '+(wz.step+1)+'</span><span class="bar"><i style="width:'+Math.round((wz.step+1)/(n+1)*100)+'%"></i></span></div>';
     var back=wz.step>0?'<button type="button" class="wz-back" data-wz="back">Back</button>':'';
     var browse='<button type="button" class="wz-browse" data-wz="browse">Or browse every machine</button>';
-    var ask=function(q,hint,list,kind,cur){ return prog+'<h3 class="wz-q">'+q+'</h3>'+(hint?'<p class="wz-hint">'+hint+'</p>':'')+'<div class="wz-opts">'+list.map(function(o){return choice(kind,o,cur===o.id);}).join('')+'</div><div class="wz-foot">'+back+'</div>'; };
+    var opts=function(list,kind,cur,multi){ return '<div class="wz-opts" style="--n:'+list.length+'">'+list.map(function(o){return choice(kind,o,multi?cur.indexOf(o.id)>=0:cur===o.id,multi);}).join('')+'</div>'; };
+    var ask=function(q,hint,list,kind,cur){ return prog+'<h3 class="wz-q">'+q+'</h3>'+(hint?'<p class="wz-hint">'+hint+'</p>':'')+opts(list,kind,cur)+'<div class="wz-foot">'+back+'</div>'; };
     var html='';
     if(name==='type'){
-      html=prog+'<h3 class="wz-q">What are you opening?</h3><div class="wz-opts">'+TYPES.map(function(o){return choice('type',o,wz.type===o.id);}).join('')+'</div>'+
+      html=prog+'<h3 class="wz-q">What are you opening?</h3>'+opts(TYPES,'type',wz.type)+
         '<div class="wz-foot">'+browse+'</div>';
     }else if(name==='serve'){
-      html=prog+'<h3 class="wz-q">What will it serve?</h3><p class="wz-hint">Pick as many as you like.</p><div class="wz-opts">'+SERVES.map(function(o){return choice('serve',o,wz.serve.indexOf(o.id)>=0,true);}).join('')+'</div>'+
+      html=prog+'<h3 class="wz-q">What will it serve?</h3><p class="wz-hint">Pick as many as you like.</p>'+opts(SERVES,'serve',wz.serve,true)+
         '<div class="wz-foot">'+back+'<button type="button" class="btn" data-wz="next"'+(wz.serve.length?'':' disabled')+'><span>Next</span><i aria-hidden="true">+</i></button></div>';
     }else if(name==='tier'){
       html=ask('Which coffee robot suits you?','Both have two arms, and both are tested on your menu before we hand over.',TIERS,'tier',wz.tier);

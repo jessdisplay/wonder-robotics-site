@@ -560,6 +560,15 @@
   .wz-q{margin:0;font-weight:500;font-size:clamp(34px,3.8vw,64px);line-height:.95;letter-spacing:-.045em;max-width:18ch}
   .wz-hint{margin:12px 0 0;font-size:16px;color:var(--graphite)}
   .wz-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:clamp(20px,2.4vw,34px)}
+  /* picture answers fill the sheet: as many columns as answers up to
+     three, so two answers are two big plates and six are two rows */
+  .wz-opts:has(.pic){grid-template-columns:repeat(min(var(--n,3),3),minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
+  .wz-opt.pic{padding:0;overflow:hidden;display:flex;flex-direction:column}
+  .wz-opt.pic .ph{display:block;aspect-ratio:16/10;background:#E9E6D8;overflow:hidden}
+  .wz-opt.pic .ph img,.wz-opt.pic .ph video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,.84,.24,1)}
+  .wz-opt.pic .wz-opt-t{display:grid;gap:4px;padding:14px 56px 16px 16px}
+  .wz-opt.pic .mk{top:auto;bottom:16px}
+  .wz-opt.pic[aria-pressed="true"] .ph img,.wz-opt.pic[aria-pressed="true"] .ph video{transform:scale(1.03)}
   .wz-opt{position:relative;font:inherit;text-align:left;cursor:pointer;color:var(--ink);background:#FBFAF3;border:1px solid var(--rule);border-radius:var(--r);
           padding:18px 52px 18px 18px;display:grid;gap:6px;transition:border-color .15s,box-shadow .15s,transform .2s}
   .wz-opt b{font-weight:500;font-size:clamp(20px,1.7vw,26px);letter-spacing:-.025em;line-height:1.05}
@@ -615,6 +624,7 @@
   .wz-opt:focus-visible,.wz-offer:focus-visible,.wz-back:focus-visible,.wz-browse:focus-visible,.wz-swap button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
   @media (hover:hover){
     .wz-opt:hover,.wz-offer:hover{border-color:var(--ink)}
+    .wz-opt.pic:hover .ph img,.wz-opt.pic:hover .ph video{transform:scale(1.03)}
     .wz-opt[aria-pressed="true"]:hover{box-shadow:inset 0 0 0 2px var(--signal);border-color:var(--signal)}
     .wz-offer:hover .tick{background:var(--ink);color:var(--paper)}
     .wz-offer[aria-pressed="true"]:hover{border-color:var(--signal);box-shadow:inset 0 0 0 1px var(--signal)}
@@ -623,7 +633,8 @@
   @media (max-width:560px){
     .wz-rec{grid-template-columns:88px minmax(0,1fr)}
     .wz-rec .r{grid-column:1/-1;grid-auto-flow:column;justify-content:space-between;align-items:center}
-    .wz-offers,.wz-opts{grid-template-columns:1fr}
+    .wz-offers,.wz-opts,.wz-opts:has(.pic){grid-template-columns:1fr}
+    .wz-opt.pic .ph{aspect-ratio:16/8}
   }
   /* the package creator's checklist: what is on the quote reads bright, what
      would finish it reads faint, so the gap is visible at a glance */
@@ -884,6 +895,7 @@
   .story{padding-top:clamp(56px,7vw,110px)}
   .story figure{margin:0 0 clamp(40px,5vw,80px)}
   .story figure img{width:100%;height:auto}
+  .story figure.film video{width:100%;height:auto;display:block;border-radius:var(--r);background:var(--rule)}
   /* The opening plate runs to the edges. Negative margin rather than 100vw so a
      real scrollbar cannot push the page sideways. */
   .story figure.bleed{margin-inline:calc(var(--m) * -1)}
@@ -966,7 +978,7 @@
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
   @media (prefers-reduced-motion:reduce){.loader{display:none}}
-  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}.stage.film .hero-video{display:block}}
+  @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}.stage.film .hero-video,figure.film .hero-video{display:block}}
 
   /* the warm home: one idea per screen */
   .line{margin:0;font-weight:400;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
