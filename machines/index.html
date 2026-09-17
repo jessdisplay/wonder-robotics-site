@@ -646,6 +646,20 @@
     .wz-rec .r{grid-column:1/-1;grid-auto-flow:column;justify-content:space-between;align-items:center}
     .wz-offers,.wz-opts{grid-template-columns:1fr}
   }
+  /* the package creator's checklist: what is on the quote reads bright, what
+     would finish it reads faint, so the gap is visible at a glance */
+  .wz-pkg.make{background:var(--night)}
+  .wz-pieces{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+  .wz-pieces li{font-size:12.5px;padding:5px 10px 5px 8px;border-radius:999px;border:1px dashed color-mix(in srgb,var(--cream) 40%,transparent);color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .wz-pieces li::before{content:"+";margin-right:6px}
+  .wz-pieces li.on{border-style:solid;border-color:var(--cream);color:var(--cream)}
+  .wz-pieces li.on::before{content:"\2713"}
+  .pk-own{margin-top:clamp(56px,7vw,110px);padding:clamp(28px,3.4vw,52px);border-radius:var(--r);background:var(--night);color:var(--cream);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap);align-items:end}
+  .pk-own .label{color:color-mix(in srgb,var(--cream) 65%,transparent)}
+  .pk-own h2{margin:10px 0 0;font-weight:500;font-size:clamp(34px,4vw,70px);line-height:.92;letter-spacing:-.045em}
+  .pk-own p{margin:14px 0 0;font-size:17px;line-height:1.45;color:color-mix(in srgb,var(--cream) 80%,transparent);max-width:44ch}
+  .pk-own .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+  @media (max-width:900px){ .pk-own{grid-template-columns:1fr} .pk-own .actions{justify-content:flex-start} }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -1977,6 +1991,24 @@ window.WonderQuote = (function(){
   var DETAIL_IMG={care:'../img/hero-kitchen.jpg'};
   var IMG_POS={'img/lrd/menu.jpg':'50% 18%','img/tile-kiosk.jpg':'50% 10%','img/hero-kitchen.jpg':'50% 60%','img/offer/website.jpg':'0% 40%'};
 
+  // What makes a package: any machines, plus the whole job around them
+  // (brand, website, branding on the machine, fit-out, software, install)
+  // and a year of care. The ready-made packages are starting points that name
+  // themselves when the machines are exactly theirs; the container kitchen
+  // only when it was chosen, since it carries a build of its own. Anything
+  // else with the whole job is the buyer's own package, and saves the same.
+  function packageFor(qty,svc,pkgId){
+    var mine=MACHINES.filter(function(m){return (qty[m.id]||0)>0;});
+    if(!mine.length||!PACKAGE_WORK.every(function(w){return svc[w];})) return null;
+    var covers=function(p){ return Object.keys(p.machines).every(function(k){return (qty[k]||0)>=p.machines[k];}); };
+    var chosen=pkgId&&PACKAGES.filter(function(p){return p.id===pkgId;})[0];
+    if(chosen&&covers(chosen)) return chosen;
+    var exact=PACKAGES.filter(function(p){ return !p.extra&&covers(p)&&mine.every(function(m){return !!p.machines[m.id];}); })[0];
+    if(exact) return exact;
+    return {id:'own',own:true,name:'Your package',line:'The machines and the whole job around them, from one team.',img:mine[0].img,
+            machines:mine.reduce(function(o,m){o[m.id]=qty[m.id];return o;},{})};
+  }
+
   // The whole quote from a state, as numbers and lines, with no page in it.
   // The quote page draws it, the proposal draws it, the build reads it.
   // state: {qty:{id:n}, parts:{id:bool}, svc:{id:bool}, pkg:id|null,
@@ -2004,8 +2036,8 @@ window.WonderQuote = (function(){
       sub+=yr*term; indicative=true;
       lines.push({id:'care',kind:'care',label:(plan==='priority'?'Priority':'Standard')+' maintenance',name:(plan==='priority'?'Priority':'Standard')+' maintenance',
         sub:term+(term===1?' year':' years')+', '+money.format(yr)+' a year, indicative',value:yr*term,ind:true,img:DETAIL_IMG.care}); }
-    var pk=st.pkg&&PACKAGES.filter(function(x){return x.id===st.pkg;})[0];
-    var held=pk&&!noPlan&&Object.keys(pk.machines).every(function(m){return (qty[m]||0)>=pk.machines[m];})&&PACKAGE_WORK.every(function(w){return svc[w];});
+    var pk=noPlan?null:packageFor(qty,svc,st.pkg);
+    var held=!!pk;
     var save=0;
     if(held){
       save=Math.round((workSum+yr)*PACKAGE_OFF/100)*100;
@@ -2077,7 +2109,7 @@ window.WonderQuote = (function(){
     });
     return out;
   }
-  return {titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {packageFor:packageFor,titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The product menu. Hover Machines (with a moment's intent, so the mouse
@@ -2149,7 +2181,7 @@ window.WonderQuote = (function(){
     }
     var now=new Date(), until=new Date(now.getTime()+30*864e5);
     var ref='WR-Q'+String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+('0'+now.getDate()).slice(-2)+'-'+(c.count+c.asks);
-    var title=c.pkg?c.pkg.name:Q.titleOf(c.lines);
+    var title=c.pkg&&!c.pkg.own?c.pkg.name:Q.titleOf(c.lines);
     var hero=c.pkg?c.pkg.img:(famImg(picked[0].id)||picked[0].img);
     var q=Q.toQuery(st);
     var del=c.lines.filter(function(l){return l.kind==='delivery';})[0];
@@ -2242,7 +2274,7 @@ window.WonderQuote = (function(){
     }
     var now=new Date(), until=new Date(now.getTime()+30*864e5);
     var ref='WR-P'+String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+('0'+now.getDate()).slice(-2)+'-'+(c.count+c.asks);
-    var title=c.pkg?c.pkg.name:Q.titleOf(c.lines);
+    var title=c.pkg&&!c.pkg.own?c.pkg.name:Q.titleOf(c.lines);
     var hero=c.pkg?c.pkg.img:picked[0].img;
     var parts=c.lines.filter(function(l){ return l.kind!=='delivery'&&l.kind!=='save'; });
     var sheets=[];
@@ -2638,11 +2670,7 @@ window.WonderQuote = (function(){
     Q.PACKAGE_WORK.forEach(function(w){ svc[w]=true; });
     pkg=id;
   }
-  function packageHolds(){
-    var pk=pkgById(pkg); if(!pk) return null;
-    var ok=Object.keys(pk.machines).every(function(m){return qty[m]>=pk.machines[m];})&&Q.PACKAGE_WORK.every(function(w){return svc[w];});
-    return ok?pk:null;
-  }
+  function packageHolds(){ return Q.packageFor(qty,svc,pkg); }
   window.WonderQuoteSheet={
     open:function(id){ draw(); if(id){ choosePackage(id); wzEnter(); } render(); setOpen(true); },
     // open the sheet holding a whole quote, so a quote page can be changed
@@ -2770,20 +2798,22 @@ window.WonderQuote = (function(){
     var open=offer('eng','svc','Engineering and fit-out',(wz.where==='have'?'Fitted into the venue you run now: ':wz.where==='new'?'Drawn in with your new venue: ':'')+'the counter, guarding, services and extraction.',amt('eng'),svc.eng)+
              offer('soft','svc','Software','Ordering, payment, the screen and the dashboard.',amt('soft'),svc.soft)+
              offer('inst','svc','Install and handover','We place it, program the menu, run it and train your people.',amt('inst'),svc.inst);
-    // the package this quote is one step from, if any
-    var near=Q.PACKAGES.filter(function(p){
-      var keys=Object.keys(p.machines), mine=Q.MACHINES.filter(function(m){return qty[m.id]>0;}).map(function(m){return m.id;});
-      return keys.length===mine.length&&keys.every(function(k){return qty[k]>=p.machines[k];});
-    })[0];
-    var banner='';
-    if(near&&!packageHolds()){
-      var pq=Q.packageQuote(near);
-      banner='<div class="wz-pkg"><div><span class="label">Take the whole job</span><h4>Make it '+esc(near.name.toLowerCase())+' and save '+money.format(pq.save)+'.</h4>'+
-        '<p>Add the branding, the website, branding on the machine and a year of maintenance, and the work around it costs 10% less.</p></div>'+
-        '<button type="button" class="btn" data-kind="pkg" data-id="'+near.id+'"><span>Make it the package</span><i aria-hidden="true">+</i></button></div>';
-    }else if(packageHolds()){
-      var hp=packageHolds(), hq=Q.packageQuote(hp);
-      banner='<div class="wz-pkg on"><div><span class="label">The whole job</span><h4>This is '+esc(hp.name.toLowerCase())+'. You save '+money.format(hq.save)+'.</h4><p>A year of maintenance is in it.</p></div></div>';
+    // The package creator. Whatever machines were chosen, show what makes
+    // it a package, which of those pieces are on, and what finishing it saves.
+    var banner='', heldP=packageHolds();
+    if(count>0&&heldP){
+      var hc=Q.compute({qty:qty,parts:parts,svc:svc,pkg:pkg});
+      banner='<div class="wz-pkg on"><div><span class="label">'+(heldP.own?'Your package':'The whole job')+'</span><h4>'+(heldP.own?'This is your package.':'This is '+esc(heldP.name.toLowerCase())+'.')+' You save '+money.format(hc.save)+'.</h4>'+
+        '<p>The whole job around the machines, a year of maintenance included, and the work costs 10% less.</p></div></div>';
+    }else if(count>0){
+      var trySvc={}; Q.SERVICES.forEach(function(x){ trySvc[x.id]=svc[x.id]; }); Q.PACKAGE_WORK.forEach(function(w){ trySvc[w]=true; });
+      var tryPkg=(wz.where==='box'&&qty.fry>0&&qty.noo>0)?'box':pkg;
+      var tc=Q.compute({qty:qty,parts:parts,svc:trySvc,pkg:tryPkg});
+      var pieces=Q.PACKAGE_WORK.map(function(w){ var x=Q.SERVICES.filter(function(s){return s.id===w;})[0]; return '<li class="'+(svc[w]?'on':'')+'">'+esc(x.name)+'</li>'; }).join('')+'<li class="on">A year of maintenance</li>';
+      var missing=Q.PACKAGE_WORK.filter(function(w){return !svc[w];}).length;
+      banner='<div class="wz-pkg make"><div><span class="label">Make it a package</span><h4>Add '+(missing===1?'one more piece':missing+' more pieces')+' and save '+money.format(tc.save)+'.</h4>'+
+        '<p>Any machines become a package when we do the whole job around them. The work costs 10% less.</p><ul class="wz-pieces">'+pieces+'</ul></div>'+
+        '<button type="button" class="btn" data-kind="makepkg" data-id="'+(tryPkg||'')+'"><span>Make it my package</span><i aria-hidden="true">+</i></button></div>';
     }
     var boxNote=wz.where==='box'?'<p class="wz-note">A container build is priced once we have your site and menu. It is on the quote as priced on scope.</p>':'';
     return '<div class="wz-result"><span class="label">[ Here is what we would build ]</span><h3 class="wz-q">'+esc(Q.titleOf(Q.compute({qty:qty,parts:parts,svc:svc}).lines)||'Your quote')+'.</h3>'+
@@ -2825,6 +2855,7 @@ window.WonderQuote = (function(){
     else if(k==='svc') svc[id]=!svc[id];
     else if(k==='model'){ var fam=Q.FAMILIES.filter(function(x){return x.id===ctl.getAttribute('data-fam');})[0]; var n=Math.max(1,famCount(fam)); fam.models.forEach(function(m){qty[m]=0;}); qty[id]=n; dropUnusedParts(); }
     else if(k==='pkg'){ choosePackage(id); }
+    else if(k==='makepkg'){ Q.PACKAGE_WORK.forEach(function(w){ svc[w]=true; }); if(id) pkg=id; }
     render(); wzResultRefresh();
   });
   $('qs-guided').addEventListener('click',function(){ $('qs-browse').hidden=true; $('wz').hidden=false; wzEnter(); render(); });
@@ -2904,7 +2935,7 @@ window.WonderQuote = (function(){
       lines.push({img:'../img/process/04-commission.jpg',name:'A year of maintenance',sub:'Standard plan, indicative',v:money.format(care)});
       if(held.extra) lines.push({img:held.img,name:held.extra.name,sub:held.extra.sub,v:held.extra.note,ask:true});
       lines.push({img:held.img,name:'Package saving',sub:held.name+', 10% off the work',v:'\u2212'+money.format(save),save:true});
-      pick.push('pkg='+held.id);
+      if(!held.own) pick.push('pkg='+held.id);
     }
     var ul=$('qs-lines');
     ul.innerHTML=lines.length?lines.map(function(l){
@@ -2920,7 +2951,7 @@ window.WonderQuote = (function(){
       var bits=[];
       if(count) bits.push(count+(count===1?' machine':' machines'));
       if(asks) bits.push(asks+(asks===1?' robot on request':' robots on request'));
-      noteEl.textContent=held?(held.name+', you save '+money.format(save)+'. Ex GST'):bits.join(', ')+'. Ex GST';
+      noteEl.textContent=held?((held.own?'Your package':held.name)+', you save '+money.format(save)+'. Ex GST'):bits.join(', ')+'. Ex GST';
     }
     $('qs-thumbs').innerHTML=faces.slice(0,5).map(function(src){return '<img src="'+src+'" alt="">';}).join('');
     $('qs-peek-t').textContent=things?('See the '+lines.length+(lines.length===1?' line':' lines')):'Your quote';
