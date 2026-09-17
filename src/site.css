@@ -635,6 +635,46 @@
   .pk-own p{margin:14px 0 0;font-size:17px;line-height:1.45;color:color-mix(in srgb,var(--cream) 80%,transparent);max-width:44ch}
   .pk-own .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
   @media (max-width:900px){ .pk-own{grid-template-columns:1fr} .pk-own .actions{justify-content:flex-start} }
+  /* not .sub: the site already styles .sub as subtitle text */
+  /* Ways to pay: three columns, the same weight each, so a monthly figure
+     reads as a real choice and not small print under the price. */
+  .pays .wrap{padding-top:clamp(56px,7vw,110px)}
+  .pays-h{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gap);align-items:end;padding-bottom:clamp(16px,2vw,26px);border-bottom:2px solid var(--ink)}
+  .pays-h .label{text-transform:none;letter-spacing:.02em;font-size:14px;align-self:start}
+  .pays-h h2{margin:0;font-weight:500;font-size:clamp(34px,4.4vw,80px);line-height:.92;letter-spacing:-.045em}
+  .pays-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin-top:clamp(18px,2vw,28px)}
+  .pay{border:1px solid var(--rule);border-radius:var(--r);padding:clamp(16px,1.8vw,26px);background:#FBFAF3;display:grid;gap:10px;align-content:start}
+  .pay.monthly{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .pay .label{color:var(--graphite)}
+  .pay-fig{font-size:clamp(34px,3.4vw,58px);line-height:.95;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+  .pay-fig small{font-size:.3em;letter-spacing:0;color:var(--graphite);margin:0 .35em;vertical-align:.4em}
+  .pay-fig small:first-child{margin-left:0}
+  .pay p{margin:0;font-size:15px;line-height:1.45;color:var(--graphite)}
+  /* a range is twice as long as a price, so it sets a step smaller and its
+     unit drops to its own line rather than wrapping wherever it lands */
+  .pay.fin .pay-fig{font-size:clamp(28px,2.7vw,48px);white-space:nowrap}
+  .pay.fin .pay-fig small:last-child{display:block;margin:6px 0 0}
+  .pc-pay .pay.fin .pay-fig{font-size:3.3cqw}
+  .pc-pay .pay.fin .pay-fig small:last-child{margin-top:.5cqw}
+  .pay .pay-terms{font-size:12px;line-height:1.45;padding-top:8px;border-top:1px solid var(--rule)}
+  .pc-pay .pay .pay-terms{font-size:1.1cqw;border-top-color:color-mix(in srgb,var(--cream) 20%,transparent);padding-top:.8cqw}
+  .pays-fine{margin:14px 0 0;font-size:12.5px;line-height:1.45;color:var(--graphite)}
+  .pn-pay{margin-top:clamp(22px,2.6vw,34px);padding-top:18px;border-top:1px solid var(--rule)}
+  .pn-pay > .label{display:block;margin-bottom:4px;color:var(--graphite)}
+  .qs-pay{margin-top:6px;font-size:12.5px;line-height:1.35;color:var(--ink)}
+  .qs-pay:empty{display:none}
+  /* in the proposal, sized to the sheet */
+  .pc-pay{margin-top:4.5cqw}
+  .pc-pay .pays-grid{grid-template-columns:repeat(3,1fr);gap:2cqw;margin-top:1.4cqw}
+  .pc-pay .pay{background:transparent;border-color:color-mix(in srgb,var(--cream) 30%,transparent);border-radius:.8cqw;padding:2cqw;gap:1cqw}
+  .pc-pay .pay.monthly{border-color:var(--cream);box-shadow:none}
+  .pc-pay .pay .label{color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .pc-pay .pay-fig{font-size:4.2cqw;color:var(--cream)}
+  .pc-pay .pay-fig small{color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .pc-pay .pay p{font-size:1.4cqw;color:color-mix(in srgb,var(--cream) 78%,transparent)}
+  .pc-pay .pays-fine{font-size:1.2cqw;margin-top:1.2cqw;color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .pc-pay + .pc-row{margin-top:4cqw}
+  @media (max-width:900px){ .pays-h{grid-template-columns:1fr} .pays-grid{grid-template-columns:1fr} }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 

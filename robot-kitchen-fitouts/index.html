@@ -661,6 +661,46 @@
   .pk-own p{margin:14px 0 0;font-size:17px;line-height:1.45;color:color-mix(in srgb,var(--cream) 80%,transparent);max-width:44ch}
   .pk-own .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
   @media (max-width:900px){ .pk-own{grid-template-columns:1fr} .pk-own .actions{justify-content:flex-start} }
+  /* not .sub: the site already styles .sub as subtitle text */
+  /* Ways to pay: three columns, the same weight each, so a monthly figure
+     reads as a real choice and not small print under the price. */
+  .pays .wrap{padding-top:clamp(56px,7vw,110px)}
+  .pays-h{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gap);align-items:end;padding-bottom:clamp(16px,2vw,26px);border-bottom:2px solid var(--ink)}
+  .pays-h .label{text-transform:none;letter-spacing:.02em;font-size:14px;align-self:start}
+  .pays-h h2{margin:0;font-weight:500;font-size:clamp(34px,4.4vw,80px);line-height:.92;letter-spacing:-.045em}
+  .pays-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin-top:clamp(18px,2vw,28px)}
+  .pay{border:1px solid var(--rule);border-radius:var(--r);padding:clamp(16px,1.8vw,26px);background:#FBFAF3;display:grid;gap:10px;align-content:start}
+  .pay.monthly{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .pay .label{color:var(--graphite)}
+  .pay-fig{font-size:clamp(34px,3.4vw,58px);line-height:.95;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+  .pay-fig small{font-size:.3em;letter-spacing:0;color:var(--graphite);margin:0 .35em;vertical-align:.4em}
+  .pay-fig small:first-child{margin-left:0}
+  .pay p{margin:0;font-size:15px;line-height:1.45;color:var(--graphite)}
+  /* a range is twice as long as a price, so it sets a step smaller and its
+     unit drops to its own line rather than wrapping wherever it lands */
+  .pay.fin .pay-fig{font-size:clamp(28px,2.7vw,48px);white-space:nowrap}
+  .pay.fin .pay-fig small:last-child{display:block;margin:6px 0 0}
+  .pc-pay .pay.fin .pay-fig{font-size:3.3cqw}
+  .pc-pay .pay.fin .pay-fig small:last-child{margin-top:.5cqw}
+  .pay .pay-terms{font-size:12px;line-height:1.45;padding-top:8px;border-top:1px solid var(--rule)}
+  .pc-pay .pay .pay-terms{font-size:1.1cqw;border-top-color:color-mix(in srgb,var(--cream) 20%,transparent);padding-top:.8cqw}
+  .pays-fine{margin:14px 0 0;font-size:12.5px;line-height:1.45;color:var(--graphite)}
+  .pn-pay{margin-top:clamp(22px,2.6vw,34px);padding-top:18px;border-top:1px solid var(--rule)}
+  .pn-pay > .label{display:block;margin-bottom:4px;color:var(--graphite)}
+  .qs-pay{margin-top:6px;font-size:12.5px;line-height:1.35;color:var(--ink)}
+  .qs-pay:empty{display:none}
+  /* in the proposal, sized to the sheet */
+  .pc-pay{margin-top:4.5cqw}
+  .pc-pay .pays-grid{grid-template-columns:repeat(3,1fr);gap:2cqw;margin-top:1.4cqw}
+  .pc-pay .pay{background:transparent;border-color:color-mix(in srgb,var(--cream) 30%,transparent);border-radius:.8cqw;padding:2cqw;gap:1cqw}
+  .pc-pay .pay.monthly{border-color:var(--cream);box-shadow:none}
+  .pc-pay .pay .label{color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .pc-pay .pay-fig{font-size:4.2cqw;color:var(--cream)}
+  .pc-pay .pay-fig small{color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .pc-pay .pay p{font-size:1.4cqw;color:color-mix(in srgb,var(--cream) 78%,transparent)}
+  .pc-pay .pays-fine{font-size:1.2cqw;margin-top:1.2cqw;color:color-mix(in srgb,var(--cream) 60%,transparent)}
+  .pc-pay + .pc-row{margin-top:4cqw}
+  @media (max-width:900px){ .pays-h{grid-template-columns:1fr} .pays-grid{grid-template-columns:1fr} }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -1503,7 +1543,7 @@
       <div class="qs-top">
         <div class="qs-say">
           <span class="label">[ Build your quote ]</span>
-          <h2 id="qs-title">A few questions, then a price.</h2>
+          <h2 id="qs-title">Build your space.</h2>
         </div>
         <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
       </div>
@@ -1541,6 +1581,7 @@
           <div class="qs-sum" aria-live="polite">
             <div class="qs-num" id="dq-total">$0</div>
             <div class="label" id="dq-note">Pick a machine to start</div>
+            <div class="qs-pay" id="dq-pay"></div>
           </div>
           <p class="qs-fine">Machines at list. The rest indicative, confirmed on scope. Robots are priced to order. Maintenance and delivery on the full quote.</p>
           <div class="qs-go">
@@ -1993,6 +2034,54 @@ window.WonderQuote = (function(){
   // Website and branding on the machine are indicative set prices until
   // confirmed. The container build has no price yet and says so.
   var PACKAGE_OFF=0.10;
+
+  // Ways to pay. Outright is the quote. A subscription is one monthly price
+  // for a minimum term with the machines kept running: the outright price
+  // spread over the term at our subscription rate, plus maintenance by the
+  // month. DRAFT: the subscription is Wonder's own offer, and Jesse and Gino
+  // set its term and rate before it is offered.
+  // Finance we organise with a lender. Research, 17 Sep 2026: small business
+  // equipment loans run from about the RBA average plus the equipment loading
+  // (9%) to the top of fintech ranges for imported kit (15%), usually over three
+  // to five years, and a chattel mortgage funds the price including GST. ASIC's
+  // advertising guide (RG 234) wants the downside shown with the upside, so it
+  // is a range, monthly first, and the assumptions sit beside the figure.
+  var PAY={
+    subscription:{months:48, rate:0.15, careRate:0.07},
+    finance:{low:0.09, high:0.15, months:60}
+  };
+  function monthly(principal,annual,months){
+    var r=annual/12; if(!r) return principal/months;
+    return principal*r/(1-Math.pow(1+r,-months));
+  }
+  function payHtml(c,opts){
+    var w=waysToPay(c); if(!w) return '';
+    var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
+    var f=w.finance, pc=function(x){ return Math.round(x*1000)/10+'%'; };
+    return '<div class="pays-grid">'+
+      '<article class="pay"><span class="label">Outright</span><div class="pay-fig">'+money.format(w.outright)+'</div>'+
+        '<p>Ex GST, paid in stages: on order, before the machines ship, and on commissioning.'+(c.pkg&&c.pkg.extra?' Plus '+c.pkg.extra.name.toLowerCase()+', priced on scope.':'')+'</p></article>'+
+      '<article class="pay monthly"><span class="label">Subscription</span><div class="pay-fig">'+money.format(w.subscription.monthly)+'<small>a month</small></div>'+
+        '<p>For '+w.subscription.months+' months. Maintenance and updates included, and no big outlay to open.</p></article>'+
+      '<article class="pay fin"><span class="label">Finance, organised by us</span><div class="pay-fig">'+money.format(f.low)+'<small>to</small>'+money.format(f.high)+'<small>a month</small></div>'+
+        '<p>About '+money.format(f.weekLow)+' to '+money.format(f.weekHigh)+' a week over '+f.months+' months. We organise it with a lender.</p>'+
+        '<p class="pay-terms">Illustration only, not an offer of finance. Based on '+money.format(f.principal)+' including GST, '+pc(f.rateLow)+' to '+pc(f.rateHigh)+' a year, '+f.months+' months, no deposit or balloon, fees excluded. Your rate, term and approval depend on the lender. Wonder Robotics is not a lender or broker.</p>'+
+        (opts&&opts.ask?'<a class="link" href="'+opts.ask+'">Ask us to organise it</a>':'')+'</article>'+
+      '</div><p class="pays-fine">Outright and subscription are ex GST. A subscription is subject to application.</p>';
+  }
+  function waysToPay(c){
+    if(!c||!c.count) return null;
+    var careYear=Math.round(c.supply*PAY.subscription.careRate/100)*100;
+    // the subscription covers maintenance itself, so a year of it already in
+    // the outright price is not financed twice
+    var careInOutright=c.lines.filter(function(l){return l.kind==='care';}).reduce(function(a,l){return a+(l.value||0);},0);
+    var base=Math.max(0,c.sub-careInOutright);
+    var subMonth=Math.round((monthly(base,PAY.subscription.rate,PAY.subscription.months)+careYear/12)/10)*10;
+    var m=PAY.finance.months, lo=monthly(c.inc,PAY.finance.low,m), hi=monthly(c.inc,PAY.finance.high,m);
+    var fin={months:m, principal:c.inc, low:Math.round(lo/10)*10, high:Math.round(hi/10)*10,
+             weekLow:Math.round(lo*12/52/5)*5, weekHigh:Math.round(hi*12/52/5)*5, rateLow:PAY.finance.low, rateHigh:PAY.finance.high};
+    return {outright:c.sub, subscription:{monthly:subMonth, months:PAY.subscription.months}, finance:fin};
+  }
   var PACKAGE_WORK=['brand','web','wrap','eng','soft','inst'];
   var PACKAGES=[
     {id:'bar', name:'The robot coffee bar', line:'A barista bar in your brand, fitted into the venue you have.',
@@ -2153,7 +2242,7 @@ window.WonderQuote = (function(){
     });
     return out;
   }
-  return {packageFor:packageFor,titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {PAY:PAY,waysToPay:waysToPay,payHtml:payHtml,packageFor:packageFor,titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The product menu. Hover Machines (with a moment's intent, so the mouse
@@ -2271,6 +2360,7 @@ window.WonderQuote = (function(){
         '<button type="button" class="btn ghost" id="qv-change"><span>Change it</span><i aria-hidden="true">+</i></button>'+
         '<a class="btn ghost" href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body)+'"><span>Send it to us</span><i aria-hidden="true">+</i></a></div>'+
       '</div></section>'+
+      '<section class="pays"><div class="wrap"><div class="pays-h"><span class="label">[ Ways to pay ]</span><h2>Outright, by the month, or financed.</h2></div>'+Q.payHtml(c,{ask:'#eoi'})+'</div></section>'+
       '<section class="incs"><div class="wrap"><div class="incs-h"><span class="label">[ Everything in it ]</span><h2>'+parts.length+(parts.length===1?' part':' parts')+'. One price.</h2></div>'+spreads+'</div></section>'+
       '<section class="rail last"><div class="wrap"><span class="label">[ Terms ]</span><div><ol class="hl three">'+
         '<li><b>Machines at list</b><p>2026 Moton Australia list, ex GST</p></li><li><b>The rest indicative</b><p>Confirmed once we have seen the site</p></li>'+
@@ -2376,6 +2466,7 @@ window.WonderQuote = (function(){
     var stages=[['Plan','The site, the power, the queue, the menu.'],['Design','The brand, the counter, the website, the drawings.'],['Build','Machines ordered, fit-out made, the skin finished.'],['Commission','Menu programmed, staff trained, the first hundred served.'],['Open','About two months from order. Then we keep it running.']];
     sheets.push('<section class="sheet pp-close"><div class="sh-in">'+
       '<span class="label">[ How it goes ]</span><ol class="pc-stages">'+stages.map(function(x,j){return '<li><span class="i">0'+(j+1)+'</span><b>'+x[0]+'</b><p>'+x[1]+'</p></li>';}).join('')+'</ol>'+
+      '<div class="pc-pay"><span class="label">Ways to pay</span>'+Q.payHtml(c)+'</div>'+
       '<div class="pc-row"><div><span class="label">Terms</span><ul class="pc-terms"><li>Machines at the 2026 Moton Australia list, ex GST</li><li>Everything else indicative, confirmed once we have seen the site</li>'+
       '<li>Valid 30 days, until '+long.format(until)+'</li><li>One year warranty on the machines</li><li>About two months from order</li><li>Delivered duty unpaid within 100 km of an Australian port</li><li>Sold on the <a href="'+root+'terms/">Wonder Robotics terms of sale</a></li>'+(c.asks?'<li>Robots priced to order on their own quote</li>':'')+(c.pkg&&c.pkg.extra?'<li>'+esc(c.pkg.extra.name)+' priced on scope</li>':'')+'</ul></div>'+
       '<div><span class="label">Talk to us</span><p class="pc-contact"><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
@@ -2813,6 +2904,9 @@ window.WonderQuote = (function(){
       html=resultHtml();
     }
     host.innerHTML=html;
+    // the sheet is named for what they told us they are building
+    var BUILD={cafe:'Build your café.',bar:'Build your bar.',dessert:'Build your dessert bar.',kitchen:'Build your kitchen.',kiosk:'Build your kiosk.'};
+    var tt=$('qs-title'); if(tt) tt.textContent=BUILD[wz.type]||'Build your space.';
     $('qs-browse').hidden=true;
     $('qs-pick').scrollTop=0;
   }
@@ -2989,6 +3083,11 @@ window.WonderQuote = (function(){
 
     var things=count+asks;
     var totalEl=$('dq-total'), noteEl=$('dq-note');
+    var payEl=$('dq-pay');
+    if(payEl){
+      var wc=count?Q.compute({qty:qty,parts:parts,svc:svc,pkg:pkg}):null, ww=wc?Q.waysToPay(wc):null;
+      payEl.textContent=ww?'or '+money.format(ww.subscription.monthly)+' a month on subscription, or finance organised by us':'';
+    }
     if(!things){ totalEl.textContent=money.format(0); noteEl.textContent='Pick a machine to start'; }
     else{
       totalEl.innerHTML=(total!==supply||asks?'<small>about</small>':'')+money.format(total);

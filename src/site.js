@@ -125,6 +125,54 @@ window.WonderQuote = (function(){
   // Website and branding on the machine are indicative set prices until
   // confirmed. The container build has no price yet and says so.
   var PACKAGE_OFF=0.10;
+
+  // Ways to pay. Outright is the quote. A subscription is one monthly price
+  // for a minimum term with the machines kept running: the outright price
+  // spread over the term at our subscription rate, plus maintenance by the
+  // month. DRAFT: the subscription is Wonder's own offer, and Jesse and Gino
+  // set its term and rate before it is offered.
+  // Finance we organise with a lender. Research, 17 Sep 2026: small business
+  // equipment loans run from about the RBA average plus the equipment loading
+  // (9%) to the top of fintech ranges for imported kit (15%), usually over three
+  // to five years, and a chattel mortgage funds the price including GST. ASIC's
+  // advertising guide (RG 234) wants the downside shown with the upside, so it
+  // is a range, monthly first, and the assumptions sit beside the figure.
+  var PAY={
+    subscription:{months:48, rate:0.15, careRate:0.07},
+    finance:{low:0.09, high:0.15, months:60}
+  };
+  function monthly(principal,annual,months){
+    var r=annual/12; if(!r) return principal/months;
+    return principal*r/(1-Math.pow(1+r,-months));
+  }
+  function payHtml(c,opts){
+    var w=waysToPay(c); if(!w) return '';
+    var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
+    var f=w.finance, pc=function(x){ return Math.round(x*1000)/10+'%'; };
+    return '<div class="pays-grid">'+
+      '<article class="pay"><span class="label">Outright</span><div class="pay-fig">'+money.format(w.outright)+'</div>'+
+        '<p>Ex GST, paid in stages: on order, before the machines ship, and on commissioning.'+(c.pkg&&c.pkg.extra?' Plus '+c.pkg.extra.name.toLowerCase()+', priced on scope.':'')+'</p></article>'+
+      '<article class="pay monthly"><span class="label">Subscription</span><div class="pay-fig">'+money.format(w.subscription.monthly)+'<small>a month</small></div>'+
+        '<p>For '+w.subscription.months+' months. Maintenance and updates included, and no big outlay to open.</p></article>'+
+      '<article class="pay fin"><span class="label">Finance, organised by us</span><div class="pay-fig">'+money.format(f.low)+'<small>to</small>'+money.format(f.high)+'<small>a month</small></div>'+
+        '<p>About '+money.format(f.weekLow)+' to '+money.format(f.weekHigh)+' a week over '+f.months+' months. We organise it with a lender.</p>'+
+        '<p class="pay-terms">Illustration only, not an offer of finance. Based on '+money.format(f.principal)+' including GST, '+pc(f.rateLow)+' to '+pc(f.rateHigh)+' a year, '+f.months+' months, no deposit or balloon, fees excluded. Your rate, term and approval depend on the lender. Wonder Robotics is not a lender or broker.</p>'+
+        (opts&&opts.ask?'<a class="link" href="'+opts.ask+'">Ask us to organise it</a>':'')+'</article>'+
+      '</div><p class="pays-fine">Outright and subscription are ex GST. A subscription is subject to application.</p>';
+  }
+  function waysToPay(c){
+    if(!c||!c.count) return null;
+    var careYear=Math.round(c.supply*PAY.subscription.careRate/100)*100;
+    // the subscription covers maintenance itself, so a year of it already in
+    // the outright price is not financed twice
+    var careInOutright=c.lines.filter(function(l){return l.kind==='care';}).reduce(function(a,l){return a+(l.value||0);},0);
+    var base=Math.max(0,c.sub-careInOutright);
+    var subMonth=Math.round((monthly(base,PAY.subscription.rate,PAY.subscription.months)+careYear/12)/10)*10;
+    var m=PAY.finance.months, lo=monthly(c.inc,PAY.finance.low,m), hi=monthly(c.inc,PAY.finance.high,m);
+    var fin={months:m, principal:c.inc, low:Math.round(lo/10)*10, high:Math.round(hi/10)*10,
+             weekLow:Math.round(lo*12/52/5)*5, weekHigh:Math.round(hi*12/52/5)*5, rateLow:PAY.finance.low, rateHigh:PAY.finance.high};
+    return {outright:c.sub, subscription:{monthly:subMonth, months:PAY.subscription.months}, finance:fin};
+  }
   var PACKAGE_WORK=['brand','web','wrap','eng','soft','inst'];
   var PACKAGES=[
     {id:'bar', name:'The robot coffee bar', line:'A barista bar in your brand, fitted into the venue you have.',
@@ -285,7 +333,7 @@ window.WonderQuote = (function(){
     });
     return out;
   }
-  return {packageFor:packageFor,titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
+  return {PAY:PAY,waysToPay:waysToPay,payHtml:payHtml,packageFor:packageFor,titleOf:titleOf,MACHINES:MACHINES,FAMILIES:FAMILIES,ROBOTS:ROBOTS,DETAILS:DETAILS,DETAIL_IMG:DETAIL_IMG,IMG_POS:IMG_POS,compute:compute,stateFromQuery:stateFromQuery,toQuery:toQuery,PACKAGES:PACKAGES,PACKAGE_OFF:PACKAGE_OFF,PACKAGE_WORK:PACKAGE_WORK,packageQuote:packageQuote,PARTS:PARTS,SERVICES:SERVICES,RATES:RATES,GST:GST,serviceAmount:serviceAmount,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
 /* The product menu. Hover Machines (with a moment's intent, so the mouse
@@ -403,6 +451,7 @@ window.WonderQuote = (function(){
         '<button type="button" class="btn ghost" id="qv-change"><span>Change it</span><i aria-hidden="true">+</i></button>'+
         '<a class="btn ghost" href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body)+'"><span>Send it to us</span><i aria-hidden="true">+</i></a></div>'+
       '</div></section>'+
+      '<section class="pays"><div class="wrap"><div class="pays-h"><span class="label">[ Ways to pay ]</span><h2>Outright, by the month, or financed.</h2></div>'+Q.payHtml(c,{ask:'#eoi'})+'</div></section>'+
       '<section class="incs"><div class="wrap"><div class="incs-h"><span class="label">[ Everything in it ]</span><h2>'+parts.length+(parts.length===1?' part':' parts')+'. One price.</h2></div>'+spreads+'</div></section>'+
       '<section class="rail last"><div class="wrap"><span class="label">[ Terms ]</span><div><ol class="hl three">'+
         '<li><b>Machines at list</b><p>2026 Moton Australia list, ex GST</p></li><li><b>The rest indicative</b><p>Confirmed once we have seen the site</p></li>'+
@@ -508,6 +557,7 @@ window.WonderQuote = (function(){
     var stages=[['Plan','The site, the power, the queue, the menu.'],['Design','The brand, the counter, the website, the drawings.'],['Build','Machines ordered, fit-out made, the skin finished.'],['Commission','Menu programmed, staff trained, the first hundred served.'],['Open','About two months from order. Then we keep it running.']];
     sheets.push('<section class="sheet pp-close"><div class="sh-in">'+
       '<span class="label">[ How it goes ]</span><ol class="pc-stages">'+stages.map(function(x,j){return '<li><span class="i">0'+(j+1)+'</span><b>'+x[0]+'</b><p>'+x[1]+'</p></li>';}).join('')+'</ol>'+
+      '<div class="pc-pay"><span class="label">Ways to pay</span>'+Q.payHtml(c)+'</div>'+
       '<div class="pc-row"><div><span class="label">Terms</span><ul class="pc-terms"><li>Machines at the 2026 Moton Australia list, ex GST</li><li>Everything else indicative, confirmed once we have seen the site</li>'+
       '<li>Valid 30 days, until '+long.format(until)+'</li><li>One year warranty on the machines</li><li>About two months from order</li><li>Delivered duty unpaid within 100 km of an Australian port</li><li>Sold on the <a href="'+root+'terms/">Wonder Robotics terms of sale</a></li>'+(c.asks?'<li>Robots priced to order on their own quote</li>':'')+(c.pkg&&c.pkg.extra?'<li>'+esc(c.pkg.extra.name)+' priced on scope</li>':'')+'</ul></div>'+
       '<div><span class="label">Talk to us</span><p class="pc-contact"><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
@@ -945,6 +995,9 @@ window.WonderQuote = (function(){
       html=resultHtml();
     }
     host.innerHTML=html;
+    // the sheet is named for what they told us they are building
+    var BUILD={cafe:'Build your café.',bar:'Build your bar.',dessert:'Build your dessert bar.',kitchen:'Build your kitchen.',kiosk:'Build your kiosk.'};
+    var tt=$('qs-title'); if(tt) tt.textContent=BUILD[wz.type]||'Build your space.';
     $('qs-browse').hidden=true;
     $('qs-pick').scrollTop=0;
   }
@@ -1121,6 +1174,11 @@ window.WonderQuote = (function(){
 
     var things=count+asks;
     var totalEl=$('dq-total'), noteEl=$('dq-note');
+    var payEl=$('dq-pay');
+    if(payEl){
+      var wc=count?Q.compute({qty:qty,parts:parts,svc:svc,pkg:pkg}):null, ww=wc?Q.waysToPay(wc):null;
+      payEl.textContent=ww?'or '+money.format(ww.subscription.monthly)+' a month on subscription, or finance organised by us':'';
+    }
     if(!things){ totalEl.textContent=money.format(0); noteEl.textContent='Pick a machine to start'; }
     else{
       totalEl.innerHTML=(total!==supply||asks?'<small>about</small>':'')+money.format(total);

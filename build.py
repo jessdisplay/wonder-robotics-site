@@ -126,7 +126,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
       <div class="qs-top">
         <div class="qs-say">
           <span class="label">[ Build your quote ]</span>
-          <h2 id="qs-title">A few questions, then a price.</h2>
+          <h2 id="qs-title">Build your space.</h2>
         </div>
         <button type="button" class="qs-close" id="qs-close" aria-label="Close the quote"><span aria-hidden="true">+</span></button>
       </div>
@@ -164,6 +164,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
           <div class="qs-sum" aria-live="polite">
             <div class="qs-num" id="dq-total">$0</div>
             <div class="label" id="dq-note">Pick a machine to start</div>
+            <div class="qs-pay" id="dq-pay"></div>
           </div>
           <p class="qs-fine">Machines at list. The rest indicative, confirmed on scope. Robots are priced to order. Maintenance and delivery on the full quote.</p>
           <div class="qs-go">
@@ -307,7 +308,7 @@ def quote_data():
     end = src.index("\n})();", start) + len("\n})();")
     script = ("globalThis.window={};" + src[start:end] +
               ";const Q=window.WonderQuote;process.stdout.write(JSON.stringify({"
-              "packages:Q.PACKAGES.map(p=>Object.assign({},p,{quote:Q.packageQuote(p)})),"
+              "packages:Q.PACKAGES.map(p=>Object.assign({},p,{quote:Q.packageQuote(p),pay:Q.payHtml(Q.compute(Q.stateFromQuery('?pkg='+p.id)))})),"
               "machines:Q.MACHINES,services:Q.SERVICES,off:Q.PACKAGE_OFF}))")
     out = subprocess.run(["node", "-e", script], capture_output=True, text=True)
     if out.returncode != 0:
@@ -345,6 +346,7 @@ def pk_number(pid, line):
             f'<div class="pn-fig">{money(q["total"])}</div>{extra}'
             f'<div class="pn-row"><p>{escape(line)}</p>'
             f'<dl class="pn-sum"><dt>Bought separately</dt><dd><s>{money(q["separate"])}</s></dd><dt>You save</dt><dd class="save">{money(q["save"])}</dd><dt>Ex GST</dt><dd>Delivered within 100 km of a port</dd></dl></div>'
+            f'<div class="pn-pay"><span class="label">Ways to pay</span>{p["pay"]}</div>'
             f'<div class="actions"><a class="btn" href="{{{{root}}}}quote/?pkg={pid}" data-quote data-pkg="{pid}"><span>Build this package</span><i aria-hidden="true">+</i></a>'
             f'<a class="btn ghost" href="{{{{root}}}}quote/proposal/?pkg={pid}"><span>The proposal, PDF</span><i aria-hidden="true">+</i></a>'
             f'<a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div>'
