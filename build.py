@@ -397,7 +397,7 @@ PACKAGE_PAGES = {
                   ("pair", ("img/coffee/bar-02-front.jpg", "Two robot arms in brand colours on a slatted timber bar", "Branding on the machine", "Concept"),
                            ("img/coffee/wonder-bean-cups.jpg", "Coffee cups carrying the Wonder Bean marks", "The cups", "Brand, designed here")),
                   ("h2", "The website"), ("p", "Designed and built in the same brand, with the menu and ordering on it. This site is one of ours."),
-                  ("fig", ("img/offer/website.jpg", "A page of a website designed and built by Wonder", "A site we designed and built", "Our work"))],
+                  ("fig", ("img/offer/website.jpg", "The Wonder Robotics website on a laptop screen and a phone", "A site we designed and built", "Our work"))],
     },
     "cafe": {
         "slug": "robot-cafe-package", "next": ("robot-container-kitchens/", "Robot container kitchens", "img/container/jungle.jpg", "A container kitchen at a night market"),
