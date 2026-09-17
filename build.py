@@ -16,6 +16,7 @@ machines/<slug>/) is rendered from src/machines.py, one page per line.
 import functools
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -39,24 +40,24 @@ PAGES = {
     "fallsense": {"out": "work/fall-sense/index.html", "root": "../../", "title": "Fall Sense, Wonder Robotics",
                   "desc": "Florence Fall Sense: a ceiling-mounted edge AI unit for residential aged care that reports the event, never the footage. Brand, enclosure, electronics, firmware and software, all built in Fortitude Valley."},
     "quote": {"out": "quote/index.html", "root": "../", "title": "Get a quote, Wonder Robotics",
-              "desc": "Supply, installation and maintenance for robot kitchen equipment, priced from the 2026 Moton Australia list, with Wonder's own rates for install and support."},
+              "desc": "Price a robot café, bar or kitchen: the equipment installed, the design and build around it, and a 24 month service, as one monthly budget."},
     "events": {"out": "events/index.html", "root": "../", "title": "The Robotics and Hardware Club, Wonder Robotics",
                "desc": "The Robotics and Hardware Club: one night a month at 365 St Pauls Terrace for the people building robots and hardware in Queensland. Two talks, the machines running, the bench open."},
     # The two landing pages are titled for the search, not the catalogue.
     "coffee-landing": {"out": "robot-coffee-machines/index.html", "root": "../", "title": "Robot coffee machines, Brisbane. Wonder Robotics",
-                       "desc": "Robot coffee machines supplied, branded, installed and serviced from Brisbane: dual-arm barista bars from $67,000, vending kiosk $74,000, robot bartender $39,000. Seventy seconds a drink, about two square metres, your brand on the machine and the cup. Ours pours at 365 St Pauls Terrace."},
+                       "desc": "Robot coffee machines supplied, branded, installed and serviced from Brisbane: dual-arm barista bars and a vending format from {{monthly:bstd}} a month over 24 months with install, training, maintenance and support. About two square metres, your brand on the machine and the cup. Ours pours at 365 St Pauls Terrace."},
     "kitchen-landing": {"out": "robot-kitchen-fitouts/index.html", "root": "../", "title": "Robot kitchen fit-outs, Brisbane. Wonder Robotics",
-                        "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying robot from $42,000, noodle robot from $52,000, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
+                        "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying and noodle robots from {{monthly:fry}} a month over 24 months with the service, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
     "cocktail-landing": {"out": "robot-cocktail-machines/index.html", "root": "../", "title": "Robot cocktail machines, Brisbane. Wonder Robotics",
-                         "desc": "Robot cocktail machines supplied, branded, installed and serviced from Brisbane: the T Standard robot bartender, Dobot arm, ice maker, three syrups, $39,000 list. Ours pours at 365 St Pauls Terrace six days a week."},
+                         "desc": "Robot cocktail machines supplied, branded, installed and serviced from Brisbane: the T Standard robot bartender, Dobot arm, ice maker, three syrups, {{monthly:bar}} a month over 24 months with the service. Ours pours at 365 St Pauls Terrace six days a week."},
     "icecream-landing": {"out": "robot-ice-cream-machines/index.html", "root": "../", "title": "Robot ice cream machines, Brisbane. Wonder Robotics",
-                         "desc": "Robot ice cream machines supplied, branded, installed and serviced from Brisbane: the I Pro, a pasteurising soft-serve machine with three syrups, two toppings and a kiosk arm, $41,000 list. Ours is the dessert kiosk at 365 St Pauls Terrace."},
+                         "desc": "Robot ice cream machines supplied, branded, installed and serviced from Brisbane: the I Pro, a pasteurising soft-serve machine with three syrups, two toppings and a kiosk arm, {{monthly:ice}} a month over 24 months with the service. Ours is the dessert kiosk at 365 St Pauls Terrace."},
     "packages-landing": {"out": "robot-cafe-packages/index.html", "root": "../", "title": "Robot café packages, Brisbane. Wonder Robotics",
-                         "desc": "A robot café bought whole: brand design, website, branding on the machine, the robot coffee bar, fit-out, programming, install and a year of maintenance, from one team at one price, with 10% off the work. Robot coffee bar, robot café and robot container kitchen packages, from Brisbane."},
+                         "desc": "A robot café bought whole: the room, the brand, the website, the robot coffee bar installed, the counter, and 24 months of install, training, maintenance and support, as one monthly budget. Robot coffee bar, robot café and robot container kitchen packages, from Brisbane."},
     "container-landing": {"out": "robot-container-kitchens/index.html", "root": "../", "title": "Robot container kitchens, Brisbane. Wonder Robotics",
                           "desc": "A twenty foot shipping container fitted as a robot kitchen in our Brisbane yard: an arm on a rail over fryers and noodle baths, a serving hatch, extraction, and projector glass on three faces that carries the brand. Sold whole, brand to opening day."},
     "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics",
-                 "desc": "A Wonder Robotics proposal: the machines, the brand, the fit-out and the first year, priced as one job. Save it as a PDF or share the link."},
+                 "desc": "A Wonder Robotics proposal: the equipment installed, the design and build, and the 24 month service, as one monthly budget. Save it as a PDF or share the link."},
     "terms": {"out": "terms/index.html", "root": "../", "title": "Terms of sale, Wonder Robotics",
               "desc": "Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance."},
     "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
@@ -322,7 +323,11 @@ def quote_data():
               "packages:Q.PACKAGES.map(p=>{const c=Q.packageQuote(p);return Object.assign({},p,{quote:c,"
               "parts:Q.parts(c).parts.map(l=>Object.assign({},l,{detail:Q.detailFor(l,c),text:Q.valueText(l),note:Q.valueNote(l)})),"
               "pay:Q.payHtml(c,{ask:'#eoi'}),sums:Q.sumsHtml(c),summary:Q.summaryLine(c)})}),"
-              "machines:Q.MACHINES,imgpos:Q.IMG_POS,term:Q.TERM}))")
+              "machines:Q.MACHINES,imgpos:Q.IMG_POS,term:Q.TERM,service:Q.SERVICE,"
+              "options:Object.fromEntries(Q.OPTIONS.map(o=>[o.id,o.price])),"
+              "after:Object.assign({},Q.AFTER,Object.fromEntries(Q.ROBOTS.filter(r=>r.price).map(r=>[r.id,r.after]))),"
+              "monthly:Object.fromEntries(Q.MACHINES.map(m=>[m.id,Q.compute({qty:{[m.id]:1}}).monthly])),"
+              "robots:Q.ROBOTS.filter(r=>r.price).map(r=>({id:r.id,price:r.price,alone:r.alone,monthly:Q.compute({qty:{[r.id]:1}}).monthly}))}))")
     out = subprocess.run(["node", "-e", script], capture_output=True, text=True)
     if out.returncode != 0:
         sys.exit("pricing the packages failed:\n" + out.stderr)
@@ -494,7 +499,42 @@ def pk_tiles():
     return '<div class="pkts">' + "".join(out) + "</div>"
 
 
+# Prices in page copy are tokens, so a price changed in the engine changes
+# every sentence that quotes it:
+#   {{installed:bpro}}  {{installedfrom:bpro,bstd,eff}}  {{monthly:bpro}}
+#   {{monthly:fry+noo}} (the two together, one service)  {{opt:identity}}
+#   {{service:first}}  {{service:extra}}  {{service:robot}}
+#   {{after:first}}  {{after:extra}}  {{after:hourly}}  {{after:ubtech-cadebot}}
+PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|monthly|opt|service|after):([a-z0-9,+\-]+)\}\}")
+
+
+def price_token(m):
+    kind, arg = m.group(1), m.group(2)
+    d = quote_data()
+    price = {x["id"]: x["price"] for x in d["machines"]}
+    price.update({r["id"]: r["price"] for r in d["robots"]})
+    try:
+        if kind == "installed":
+            return money(price[arg])
+        if kind == "installedfrom":
+            return money(min(price[i] for i in arg.split(",")))
+        if kind == "opt":
+            return money(d["options"][arg])
+        if kind == "service":
+            return money(d["service"][arg])
+        if kind == "after":
+            return money(d["after"][arg])
+        ids = arg.split("+")
+        if len(ids) == 1:
+            return money(d["monthly"].get(arg) or next(r["monthly"] for r in d["robots"] if r["id"] == arg))
+        count = len(ids)
+        return money(round(sum(price[i] for i in ids) / d["term"] + d["service"]["first"] + d["service"]["extra"] * (count - 1)))
+    except (KeyError, StopIteration):
+        sys.exit(f"unknown price token {m.group(0)}")
+
+
 def fill_prices(body):
+    body = PRICE_TOKEN.sub(price_token, body)
     body = body.replace("{{pkfrom}}", pk_from())
     body = body.replace("{{packages}}", pk_tiles())
     for pid in [p["id"] for p in quote_data()["packages"]]:
@@ -564,6 +604,8 @@ def head_tags(cfg, name):
 
 
 def render(body, cfg, name=None):
+    body = fill_prices(body)
+    cfg = dict(cfg, desc=PRICE_TOKEN.sub(price_token, cfg["desc"]))
     css = (SRC / "site.css").read_text()
     js = (SRC / "site.js").read_text()
     mark = (SRC / "mark.js").read_text()
@@ -638,7 +680,6 @@ HOME_MACHINES = ["unitree-g1", "unitree-go2", "ubtech-cadebot", "ubtech-cruzr-y1
 
 def page(name, cfg):
     body = (SRC / "pages" / f"{name}.html").read_text()
-    body = fill_prices(body)
     if "{{next}}" in body:
         body = body.replace("{{next}}", next_block(name))
     if "{{machines}}" in body:
@@ -879,22 +920,22 @@ def catalogue_body():
       <div class="cases">
         <a href="{{{{root}}}}robot-coffee-machines/">
           <div class="ph"><img src="{{{{root}}}}img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless: two silver arms, the Eversys machine, the Jolin milk unit, the dispenser tower, the purple crescent cups" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot coffee machines</span><span class="label">From $67,000</span></h3>
-          <p>A barista in two square metres, seventy seconds a drink, in your brand.</p>
+          <h3><span>Robot coffee machines</span><span class="label">From {{{{monthly:bstd}}}} a month</span></h3>
+          <p>A barista in two square metres, in your brand.</p>
         </a>
         <a href="{{{{root}}}}robot-cocktail-machines/">
           <div class="ph"><img src="{{{{root}}}}img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot cocktail machines</span><span class="label">From $39,000</span></h3>
+          <h3><span>Robot cocktail machines</span><span class="label">{{{{monthly:bar}}}} a month</span></h3>
           <p>The same measure every time, under a rack of your bottles.</p>
         </a>
         <a href="{{{{root}}}}robot-ice-cream-machines/">
           <div class="ph"><img src="{{{{root}}}}img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" width="1400" height="1737"></div>
-          <h3><span>Robot ice cream machines</span><span class="label">From $41,000</span></h3>
+          <h3><span>Robot ice cream machines</span><span class="label">{{{{monthly:ice}}}} a month</span></h3>
           <p>Pasteurised soft serve, an arm that hands it over, a queue that watches.</p>
         </a>
         <a href="{{{{root}}}}robot-kitchen-fitouts/">
           <div class="ph"><img src="{{{{root}}}}img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless: ingredient store, rail cobot, three fryers, two funnels, six noodle baths" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot from $42,000</span></h3>
+          <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot, {{{{monthly:fry}}}} a month</span></h3>
           <p>A line that fries, boils and plates the whole menu. Ours is open six days.</p>
         </a>
       </div>
@@ -931,3 +972,46 @@ for pid, d in PACKAGE_PAGES.items():
             "ld": (lambda url, img, d=d, q=q, desc=desc: product_ld(d["h1"].rstrip(".") + " package", desc, url, img, [q["total"]]))},
            "pkg-" + pid)
 catalogue()
+
+
+# The price guide PDF, from src/price-guide.html with the same price tokens.
+# It needs Chrome, so it only runs when asked: python3 build.py --price-guide
+def price_guide():
+    import base64
+    import os
+    import signal
+    import tempfile
+    import time
+    chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    if not Path(chrome).exists():
+        sys.exit("the price guide needs Google Chrome to print")
+    font = "data:font/woff2;base64," + base64.b64encode((HERE / "fonts" / "UnboundedW.woff2").read_bytes()).decode()
+    html = fill_prices((SRC / "price-guide.html").read_text()).replace("{{font}}", font)
+    if "{{" in html:
+        sys.exit("price guide has an unfilled token")
+    with tempfile.TemporaryDirectory() as tmp:
+        src = Path(tmp) / "price-guide.html"
+        src.write_text(html)
+        out = Path(tmp) / "price-guide.pdf"
+        # Chrome writes the PDF and then, on some runs, never exits, so wait
+        # for a finished file rather than for the process
+        proc = subprocess.Popen([chrome, "--headless=new", "--no-pdf-header-footer", "--virtual-time-budget=6000",
+                                 f"--user-data-dir={tmp}/profile", f"--print-to-pdf={out}", src.as_uri()],
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+        size, deadline = -1, time.time() + 60
+        while time.time() < deadline:
+            time.sleep(1)
+            now = out.stat().st_size if out.exists() else -1
+            if now > 0 and now == size and out.read_bytes().rstrip().endswith(b"%%EOF"):
+                break
+            size = now
+        os.killpg(proc.pid, signal.SIGKILL); proc.wait()   # its helpers too
+        if not (out.exists() and out.read_bytes().rstrip().endswith(b"%%EOF")):
+            sys.exit("Chrome did not print the price guide")
+        shutil.copyfile(out, HERE / "price-guide.pdf")
+    print(f"price-guide.pdf: {(HERE / 'price-guide.pdf').stat().st_size} bytes")
+
+
+if "--price-guide" in sys.argv:
+    price_guide()
+

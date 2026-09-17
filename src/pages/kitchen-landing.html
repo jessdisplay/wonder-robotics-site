@@ -1,7 +1,7 @@
 <main id="top" class="product case">
   <section class="phero">
     <div class="wrap">
-      <div class="pills"><span class="pill">Robot kitchens</span><span class="pill">Designed and built in Brisbane</span><span class="pill">One running downstairs</span><span class="pill price">Frying robot from $42,000</span></div>
+      <div class="pills"><span class="pill">Robot kitchens</span><span class="pill">Designed and built in Brisbane</span><span class="pill">One running downstairs</span><span class="pill price">Frying robot, {{monthly:fry}} a month</span></div>
       <h1>Robot kitchen fit-outs.</h1>
       <figure class="stage photo film"><video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="{{root}}img/hero-kitchen.jpg" aria-label="The kitchen line at 365 St Pauls Terrace, the cobot lifting a fryer basket"><source src="{{root}}img/hero-kitchen.mp4" type="video/mp4"><img src="{{root}}img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace in service, seen along its length: ingredient store, rail cobot, fryers, noodle baths, the pass"></video><figcaption class="label"><span>The line at 365 St Pauls Terrace, the cobot at the fryers</span><span>Animated from our photograph</span></figcaption></figure>
     </div>
@@ -10,16 +10,16 @@
   <section class="pdetail">
     <div class="wrap">
       <span class="label">[ The offer ]</span>
-      <h2 class="line">A line that fries, boils and plates the whole menu. Nobody at the pass.</h2>
+      <h2 class="line">A line that fries, boils and plates the whole menu, in front of the people eating it.</h2>
       <p class="sub">Idea, concept art, the drawings, your colours, the fit-out, the first service. Ours has been open six days a week at 365 St Pauls Terrace. Eat from it before you buy one.</p>
-      <div class="actions"><a class="btn cream" href="{{root}}quote/?pick=fry,noo"><span>Buy the line, from $94,000</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#eoi"><span>Scope a kitchen</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="{{root}}#visit"><span>Come and eat from ours</span><i aria-hidden="true">+</i></a></div>
+      <div class="actions"><a class="btn cream" href="{{root}}quote/?pick=fry,noo"><span>The line, {{monthly:fry+noo}} a month</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#eoi"><span>Scope a kitchen</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="{{root}}#visit"><span>Come and eat from ours</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 
   <section class="rail">
     <div class="wrap">
       <span class="label">[ The line ]</span>
-      <ol class="hl three"><li><b>$42,000</b><p>Deep frying robot. F Standard, Dobot arm, six frying stoves. <a class="link" href="{{root}}quote/?pick=fry">Buy</a></p></li><li><b>$52,000</b><p>Noodle robot. N Standard, Dobot arm, six noodle stoves. <a class="link" href="{{root}}quote/?pick=noo">Buy</a></p></li><li><b>$41,000</b><p>Ice cream robot. I Pro, pasteuriser, three syrups, two toppings. <a class="link" href="{{root}}quote/?pick=ice">Buy</a></p></li><li><b>Rail cobot</b><p>One arm on a linear rail serves the whole line: store, fryers, baths, pass</p></li><li><b>Six days</b><p>Our own line has run the full menu since opening</p></li><li><b>List, ex GST</b><p>Delivered within 100 km of an Australian port. Install, programming, training and maintenance on the same quote</p></li></ol>
+      <ol class="hl three"><li><b>{{installed:fry}}</b><p>Deep frying robot, installed. F Standard, Dobot arm, six frying stoves. {{monthly:fry}} a month with the service. <a class="link" href="{{root}}quote/?pick=fry">Buy</a></p></li><li><b>{{installed:noo}}</b><p>Noodle robot, installed. N Standard, Dobot arm, six noodle stoves. The two together, {{monthly:fry+noo}} a month. <a class="link" href="{{root}}quote/?pick=noo">Buy</a></p></li><li><b>{{installed:ice}}</b><p>Ice cream robot, installed. I Pro, pasteuriser, three syrups, two toppings. <a class="link" href="{{root}}quote/?pick=ice">Buy</a></p></li><li><b>Rail cobot</b><p>One arm on a linear rail serves the whole line: store, fryers, baths, pass</p></li><li><b>Six days</b><p>Our own line has run the full menu since opening</p></li><li><b>{{service:first}} a month</b><p>The service for 24 months: install, training, maintenance and support. Each machine after the first, {{service:extra}}</p></li></ol>
     </div>
   </section>
 
@@ -34,8 +34,8 @@
     <div class="wrap">
       <span class="label">[ The whole job ]</span>
       <div>
-        <h2>The line is a third of it. The counter, the room and the brand are the rest.</h2>
-        <ol class="hl three"><li><b>Design</b><p>The kitchen, the pass, the dining room that watches it. Drawn to your floor plan, new build or the venue you have.</p></li><li><b>Build and fit out</b><p>Joinery, stone, services, the skin, the signage, the screen. Our trades or yours, to our drawings.</p></li><li><b>Brand</b><p>The mark, the colours, the cups, the bags, the menu, the uniforms. One system across the machine and the room.</p></li><li><b>Engineering</b><p>The cell around the machine: guarding, services, extraction, the counter it lives in, the program it runs.</p></li><li><b>Software</b><p>Ordering, payment, the menu on the screen, the dashboard, the numbers.</p></li><li><b>Keep it running</b><p>Spares, monitoring, updates, a number that answers. Priced by the year on the quote.</p></li></ol>
+        <h2>The line is where it starts. The room, the brand and the service are the rest.</h2>
+        <ol class="hl three"><li><b>Space design, {{opt:space}}</b><p>The kitchen, the pass, the dining room that watches it. Drawn to your floor plan, new build or the venue you have.</p></li><li><b>Counter and services, {{opt:fitout}}</b><p>The counter or cell, power, water and drainage. Our trades or yours, to our drawings.</p></li><li><b>Brand identity, {{opt:identity}}</b><p>The mark, the colours, the cups, the bags, the menu, the uniforms. One system across the machine and the room.</p></li><li><b>Extraction, {{opt:extract}}</b><p>The hood and ducting over the fryers and the noodle stoves.</p></li><li><b>Branding on the machine, {{opt:wrap}}</b><p>Your colours on the arms and the body, fitted before it leaves us.</p></li><li><b>The service, {{service:first}} a month</b><p>Install, training, maintenance and support for 24 months. Each machine after the first adds {{service:extra}}.</p></li></ol>
         <div class="pk-go"><a class="btn" href="{{root}}robot-container-kitchens/"><span>Buy it whole: the container kitchen package</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="{{root}}quote/?pkg=box" data-quote data-pkg="box"><span>Build the package</span><i aria-hidden="true">+</i></a></div>
       </div>
     </div>

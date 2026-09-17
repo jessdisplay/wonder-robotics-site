@@ -8,6 +8,7 @@
 <style>
   @page{size:A4;margin:0}
   :root{--paper:#F3F1E4;--ink:#131316;--night:#20103A;--cream:#F3F1E4;--graphite:#5C5A63;--rule:#D9D5C7;--signal:#5B2BFF;--mono:"Geist Mono",ui-monospace,Menlo,monospace}
+  @font-face{font-family:'UnboundedW';src:url({{font}}) format('woff2');font-weight:100 900}
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Host Grotesk",system-ui,sans-serif;font-weight:300;font-size:9.6pt;line-height:1.38;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .page{width:210mm;height:297mm;padding:13mm 15mm 11mm;position:relative;page-break-after:always;display:flex;flex-direction:column}
@@ -16,14 +17,18 @@
   .top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--ink);padding-bottom:5mm}
   .top img{height:9mm;width:auto;display:block}
   .top .label{text-align:right;line-height:1.6}
-  h1{font-weight:400;font-size:26pt;letter-spacing:-.035em;line-height:.98;margin:9mm 0 3mm;max-width:16ch}
+  h1{font-weight:400;font-size:24pt;letter-spacing:-.035em;line-height:.98;margin:7mm 0 2.5mm;max-width:24ch}
   .lede{font-size:10.5pt;color:var(--graphite);max-width:64ch;margin:0 0 5mm}
   h2{font-weight:400;font-size:13pt;letter-spacing:-.02em;margin:5mm 0 2mm}
   table{width:100%;border-collapse:collapse}
   th{text-align:left;font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);font-weight:500;padding:0 0 2mm;border-bottom:1px solid var(--ink)}
-  td{padding:1.6mm 0;border-bottom:1px solid var(--rule);vertical-align:top}
-  td.num,th.num{text-align:right;font-family:var(--mono);font-size:10pt;white-space:nowrap}
-  td small{display:inline;color:var(--graphite);font-size:8.5pt;margin-left:.5em}
+  td{padding:1.2mm 3mm 1.2mm 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{padding-right:3mm}
+  td:first-child{width:36%}
+  td.num,th.num{text-align:right;font-family:var(--mono);font-size:10pt;white-space:nowrap;padding-right:0;padding-left:4mm;width:1%}
+  th.num{font-size:7.5pt}
+  td small{display:inline;color:var(--graphite);font-size:8.5pt;margin-left:.5em;white-space:nowrap}
+  .inc{margin:2.5mm 0 0;color:var(--graphite);font-size:9pt}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:4mm 8mm}
   .box{border-top:1px solid var(--ink);padding-top:3mm}
   .box b{font-weight:500;display:block;margin-bottom:1mm}
@@ -47,37 +52,37 @@
     <div class="label">Price guide<br>September 2026<br>365 St Pauls Terrace, Fortitude Valley</div>
   </div>
   <h1>Robot coffee, cocktails, ice cream and kitchens. Priced.</h1>
-  <p class="lede">The machines we supply, install and keep running, at list. Everything here is on our floor or on order. Every line comes with us attached: scope, program, install, train, maintain.</p>
+  <p class="lede">Every machine installed, with 24 months of install, training, maintenance and support, as one monthly budget.</p>
 
-  <h2>The machines</h2>
+  <h2>The equipment</h2>
   <table>
-    <thead><tr><th>Line</th><th>Built on</th><th class="num">List, AUD ex GST</th></tr></thead>
+    <thead><tr><th>Line</th><th>Built on</th><th class="num">Installed</th><th class="num">A month*</th></tr></thead>
     <tbody>
-      <tr><td>Coffee barista, dual arm bar<small>B Pro</small></td><td>Two arms, Eversys, BTB Z02 ice maker, Yingmei cup printer. White or black</td><td class="num">$100,000</td></tr>
-      <tr><td>Coffee barista, dual arm bar<small>B Standard</small></td><td>Two arms, Dr.Coffee F3, ice maker, cup printer. White or black</td><td class="num">$67,000</td></tr>
-      <tr><td>Coffee robot, vending kiosk<small>Smart EFF</small></td><td>Two arms, Dr.Coffee F200, BTB Z06 ice, three syrups, milk frother, cup printer. Orange or black</td><td class="num">$74,000</td></tr>
-      <tr><td>Robot bartender<small>T Standard</small></td><td>Dobot arm, BTB Z02 ice maker, three syrup channels, the rack</td><td class="num">$39,000</td></tr>
-      <tr><td>Ice cream robot<small>I Pro</small></td><td>NE1212 pasteurising machine, three syrups, two toppings, the kiosk arm</td><td class="num">$41,000</td></tr>
-      <tr><td>Noodle robot<small>N Standard</small></td><td>Dobot arm, six noodle stoves</td><td class="num">$52,000</td></tr>
-      <tr><td>Deep frying robot<small>F Standard</small></td><td>Dobot arm, six frying stoves</td><td class="num">$42,000</td></tr>
+      <tr><td>Coffee barista, dual arm bar<small>B Pro</small></td><td>Two arms, Eversys, ice maker, cup printer</td><td class="num">{{installed:bpro}}</td><td class="num">{{monthly:bpro}}</td></tr>
+      <tr><td>Coffee barista, dual arm bar<small>B Standard</small></td><td>Two arms, Dr.Coffee F3, ice maker, cup printer</td><td class="num">{{installed:bstd}}</td><td class="num">{{monthly:bstd}}</td></tr>
+      <tr><td>Coffee robot, vending format<small>Smart EFF</small></td><td>Two arms, Dr.Coffee F200, ice, three syrups, frother</td><td class="num">{{installed:eff}}</td><td class="num">{{monthly:eff}}</td></tr>
+      <tr><td>Robot bartender<small>T Standard</small></td><td>Dobot arm, ice maker, three syrups, the rack</td><td class="num">{{installed:bar}}</td><td class="num">{{monthly:bar}}</td></tr>
+      <tr><td>Ice cream robot<small>I Pro</small></td><td>Pasteuriser, three syrups, two toppings, kiosk arm</td><td class="num">{{installed:ice}}</td><td class="num">{{monthly:ice}}</td></tr>
+      <tr><td>Noodle robot<small>N Standard</small></td><td>Dobot arm, six noodle stoves</td><td class="num">{{installed:noo}}</td><td class="num">{{monthly:noo}}</td></tr>
+      <tr><td>Deep frying robot<small>F Standard</small></td><td>Dobot arm, six frying stoves</td><td class="num">{{installed:fry}}</td><td class="num">{{monthly:fry}}</td></tr>
+      <tr><td>Delivery robot<small>UBTECH CadeBot</small></td><td>Three trays, mapped to your floor</td><td class="num">{{installed:ubtech-cadebot}}</td><td class="num">{{monthly:ubtech-cadebot}}</td></tr>
+      <tr><td>Reception robot<small>UBTECH Cruzr 1S</small></td><td>Greets, answers and guides guests</td><td class="num">{{installed:ubtech-cruzr-1s}}</td><td class="num">{{monthly:ubtech-cruzr-1s}}</td></tr>
     </tbody>
   </table>
 
-  <h2>Add-ons</h2>
+  <h2>The service, 24 months</h2>
   <table>
-    <thead><tr><th>Add-on</th><th>What it is</th><th class="num">Price</th></tr></thead>
+    <thead><tr><th>For</th><th></th><th class="num">A month</th></tr></thead>
     <tbody>
-      <tr><td>Ice maker<small>BTB Z02</small></td><td>Supplied on every coffee format. A second, or one on a line that has none</td><td class="num">On quote</td></tr>
-      <tr><td>Chocolate and caramel printer<small>Yingmei</small></td><td>Your mark on the crema or the foam. On B Pro, B Standard and the kiosk already</td><td class="num">On quote</td></tr>
-      <tr><td>Extra milk line, extra syrup channels</td><td>A second milk, oat or soy; channels beyond the three supplied</td><td class="num">On quote</td></tr>
-      <tr><td>Branding</td><td>Mark, colours, cups, bags, menu, signage. One system across the machine and the room</td><td class="num">Scoped</td></tr>
-      <tr><td>Engineering and fit-out</td><td>Counter, cell, guarding, services, extraction, the drawings, the build</td><td class="num">Scoped</td></tr>
-      <tr><td>Software</td><td>Ordering, payment, the screen, the dashboard</td><td class="num">Scoped</td></tr>
+      <tr><td>The first kitchen machine</td><td>Carries the venue: the design, the ordering, the platform</td><td class="num">{{service:first}}</td></tr>
+      <tr><td>Each machine after it</td><td>Shares the platform, so it adds half</td><td class="num">{{service:extra}}</td></tr>
+      <tr><td>Each delivery or reception robot</td><td>In a kitchen package</td><td class="num">{{service:robot}}</td></tr>
     </tbody>
   </table>
+  <p class="inc">Included: the robots and ordering screen in your brand; install and one payment system; commissioning and two training sessions; monitoring, updates, quarterly checks, six-monthly servicing and covered repairs; support 8am to 6pm weekdays, Brisbane time.</p>
 
   <div class="terms">
-    <div><b>Terms.</b> List prices from the 2026 Moton Australia list, AUD, ex GST. Delivered duty unpaid to a site within 100 km of an Australian port; further inland on quote. Manufacturer warranty one year. Delivery about two months from order. Valid 30 days from the date above.</div>
+    <div><b>*A month.</b> One machine or robot on its own: installed price over 24 months plus its service, before GST and finance charges. Installed within 100 km of an Australian port, about two months from order. Valid 30 days.</div>
     <div><b>Quotes.</b> Build one yourself at <a href="https://jessdisplay.github.io/wonder-robotics-site/quote/">wonderrobotics / quote</a>, or send the job to Gino: <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>, <a href="tel:1800983404">1800 983 404</a>. Wonder Robotics, 365 St Pauls Terrace, Fortitude Valley QLD 4006.</div>
   </div>
   <div class="foot"><span>Wonder Robotics</span><span>Price guide, September 2026</span><span>1 of 2</span></div>
@@ -88,29 +93,38 @@
     <canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics" style="height:9mm;width:auto"></canvas>
     <div class="label">Price guide<br>September 2026<br>The whole job</div>
   </div>
-  <h1>The machine is a third of it.</h1>
-  <p class="lede">The counter, the room and the brand are the rest. In a new venue or the one you have, we take the job from the idea to the first service, and stop after any stage you like.</p>
+  <h1>The machine is where it starts.</h1>
+  <p class="lede">The room, the brand and the counter are the rest, in a new venue or the one you have, priced once.</p>
 
-  <div class="two">
-    <div class="box"><b>Design</b><p>The bar, the kiosk, the kitchen or the counter it sits in. Drawn to your floor plan: plan, general arrangement, the concept art, the colours.</p></div>
-    <div class="box"><b>Build and fit out</b><p>Joinery, stone, services, the skin, the signage, the screen. Our trades or yours, to our drawings.</p></div>
-    <div class="box"><b>Brand</b><p>The mark, the colours, the cups, the bags, the menu, the uniforms. One system across the machine and the room.</p></div>
-    <div class="box"><b>Engineering</b><p>The cell around the machine: guarding, services, extraction, the counter it lives in, the program it runs.</p></div>
-    <div class="box"><b>Software</b><p>Ordering, payment, the menu on the screen, the dashboard, the numbers.</p></div>
-    <div class="box"><b>Keep it running</b><p>Spares, monitoring, updates, a number that answers. Standard or priority, priced by the year on the quote.</p></div>
-  </div>
-
-  <h2>How it goes</h2>
+  <h2>Design and build</h2>
   <table>
-    <thead><tr><th>Stage</th><th>What happens</th><th class="num">Stop here?</th></tr></thead>
+    <thead><tr><th>Work</th><th>What it is</th><th class="num">Once</th></tr></thead>
     <tbody>
-      <tr><td>01 Plan</td><td>The site, the power, the water, where the queue stands. What it costs, what it saves</td><td class="num">Yes</td></tr>
-      <tr><td>02 Design</td><td>The general arrangement it gets built from, the colours, the counter, the mark it wears</td><td class="num">Yes</td></tr>
-      <tr><td>03 Fit out</td><td>Services in, joinery and stone, the machine placed, the skin on</td><td class="num">Yes</td></tr>
-      <tr><td>04 Commission</td><td>Menu programmed, staff trained, the first hundred cups, drinks, cones or plates</td><td class="num">Yes</td></tr>
-      <tr><td>05 Open</td><td>Spares, monitoring, updates, a number that answers</td><td class="num">Ongoing</td></tr>
+      <tr><td>Space design</td><td>Layout, finishes, lighting, joinery, renders, drawings to build from</td><td class="num">{{opt:space}}</td></tr>
+      <tr><td>Brand identity</td><td>The mark, colours, cups, bags, menu, signage, uniforms</td><td class="num">{{opt:identity}}</td></tr>
+      <tr><td>Website</td><td>Designed and built in the brand, with the menu and ordering</td><td class="num">{{opt:web}}</td></tr>
+      <tr><td>Branding on the machine</td><td>Your colours on the arms and the body, for each machine</td><td class="num">{{opt:wrap}}</td></tr>
+      <tr><td>Counter and services</td><td>The counter or cell, power, water, drainage. From</td><td class="num">{{opt:fitout}}</td></tr>
+      <tr><td>Extraction</td><td>The hood and ducting over frying and noodle stoves</td><td class="num">{{opt:extract}}</td></tr>
     </tbody>
   </table>
+
+  <h2>Add to the service</h2>
+  <table>
+    <thead><tr><th>Option</th><th>What it is</th><th class="num">Price</th></tr></thead>
+    <tbody>
+      <tr><td>Extended-hours support</td><td>Remote support on the hours you trade</td><td class="num">{{opt:ext}} a month</td></tr>
+      <tr><td>Another POS or payment system</td><td>Connected as well as the one included</td><td class="num">{{opt:pos}}</td></tr>
+      <tr><td>An extra design round</td><td>A third round of revisions</td><td class="num">{{opt:round}}</td></tr>
+      <tr><td>An extra training session</td><td>Up to two hours, for a new shift or a new team</td><td class="num">{{opt:train}}</td></tr>
+    </tbody>
+  </table>
+
+  <h2>After 24 months</h2>
+  <div class="two">
+    <div class="box"><b>Keep the managed service</b><p>{{after:first}} a month for a kitchen and {{after:extra}} for each further device. Cloud access, updates, remote support and a preventative visit a year.</p></div>
+    <div class="box"><b>Run it yourself</b><p>We hand over the configuration and the data. Call us when you need us, {{after:hourly}} an hour, two hours minimum.</p></div>
+  </div>
 
   <div class="band">
     <span class="label">Come and see it</span>
@@ -119,8 +133,8 @@
   </div>
 
   <div class="terms">
+    <div><b>Terms.</b> Ex GST. Design and build indicative until we have seen the site. A 12 month supplier warranty on the machines, and our repair cover for the full 24 month service. Accessories, spares and showroom robots quoted. <a href="https://jessdisplay.github.io/wonder-robotics-site/terms/">Terms of sale</a>.</div>
     <div><b>Wonder Robotics.</b> 365 St Pauls Terrace, Fortitude Valley QLD 4006. <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>. 1800 983 404. Floor hours 9 to 7, Monday to Friday, 10 to 5 Saturday.</div>
-    <div><b>Online.</b> Robot coffee machines, cocktail machines, ice cream machines and kitchen fit-outs, each with its Buy and its quote, at <a href="https://jessdisplay.github.io/wonder-robotics-site/">jessdisplay.github.io/wonder-robotics-site</a>.</div>
   </div>
   <div class="foot"><span>Wonder Robotics</span><span>Price guide, September 2026</span><span>2 of 2</span></div>
 </section>
