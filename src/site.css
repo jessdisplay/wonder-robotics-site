@@ -60,6 +60,9 @@
   .bar nav a[aria-current]{color:var(--ink)}
   .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
   .bar .cta{grid-column:11/13;justify-self:end}
+  .btn.want em{font-style:normal;margin-left:10px;padding-left:10px;border-left:1px solid color-mix(in srgb,currentColor 35%,transparent);opacity:.8;font-variant-numeric:tabular-nums}
+  /* the amount only where the bar has the room for it */
+  @media (max-width:1899px){ .btn.want em{display:none} }
   /* the glyph turns, not the box, so the hover fill stays a square */
   .btn.want i b{font-weight:400;display:inline-block;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
 
@@ -321,6 +324,11 @@
   .pp-for{display:grid;gap:6px;flex:1 1 240px}
   .pp-for input{font:inherit;font-size:17px;padding:9px 12px;border:1px solid var(--ink);border-radius:var(--rb);background:var(--paper);color:var(--ink);width:100%}
   .pp-for input:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .pp-people{flex:1 1 100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px}
+  .pp-people .pp-for{flex:none}
+  .pp-note{grid-column:1/-1;margin:0;font-size:12.5px;color:var(--graphite)}
+  .pp-tools .pp-for input{font-size:15px;padding:7px 10px}
+  @media (max-width:700px){ .pp-people{grid-template-columns:1fr} .pp-tools{position:static} }
   .pp-actions{display:flex;flex-wrap:wrap;gap:8px}
   .pp-actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
   .pp{display:grid;gap:clamp(20px,3vw,36px);justify-items:center}
@@ -341,6 +349,9 @@
   .cv-meta{margin:4cqw 0 0;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.4cqw;border-top:1px solid color-mix(in srgb,var(--cream) 30%,transparent);padding-top:2cqw}
   .cv-meta dt{font-family:var(--mono);font-size:1.2cqw;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--cream) 60%,transparent)}
   .cv-meta dd{margin:.8cqw 0 0;font-size:1.9cqw;line-height:1.2}
+  .cv-meta.cv-people{grid-template-columns:1.5fr 3fr;margin-top:2.4cqw}
+  .cv-meta [hidden]{display:none}
+  .pc-am{font-size:.7em;opacity:.8}
   .cv-meta .blank{display:block;height:2.4cqw;border-bottom:1px solid color-mix(in srgb,var(--cream) 55%,transparent)}
 
   .ps-fig{font-size:17cqw;line-height:.84;letter-spacing:-.065em;margin:3cqw 0 0 -.05em;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -566,6 +577,11 @@
   .wz-opt.pic{padding:0;overflow:hidden;display:flex;flex-direction:column}
   .wz-opt.pic .ph{display:block;aspect-ratio:16/10;background:#E9E6D8;overflow:hidden}
   .wz-opt.pic .ph img,.wz-opt.pic .ph video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,.84,.24,1)}
+  .wz-opt.pic .ph.fit{position:relative;isolation:isolate}
+  .wz-opt.pic .ph.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(28px);transform:scale(1.15)}
+  .wz-opt.pic .ph.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%);mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%)}
+  .wz-opt.pic .ph.fit.duo{display:flex}
+  .wz-opt.pic .ph.fit.duo img{width:50%;-webkit-mask-image:linear-gradient(90deg,transparent 4%,#000 28%,#000 72%,transparent 96%);mask-image:linear-gradient(90deg,transparent 4%,#000 28%,#000 72%,transparent 96%)}
   .wz-opt.pic .wz-opt-t{display:grid;gap:4px;padding:14px 56px 16px 16px}
   .wz-opt.pic .mk{top:auto;bottom:16px}
   .wz-opt.pic[aria-pressed="true"] .ph img,.wz-opt.pic[aria-pressed="true"] .ph video{transform:scale(1.03)}
@@ -579,6 +595,12 @@
   .wz-opt[aria-pressed="true"] .mk{background:var(--ink)}
   .wz-opt[aria-pressed="true"] .mk::after{content:"\2713";color:var(--paper);font-size:13px;display:grid;place-items:center;height:100%}
   .wz-foot{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin-top:clamp(20px,2.4vw,32px)}
+  /* Back and Next never scroll out of reach: on a question they ride the
+     bottom edge of the sheet, over the tiles */
+  .wz:has(> .wz-foot){padding-bottom:0}
+  .qs-pick:has(.wz > .wz-foot){padding-bottom:0}
+  .wz > .wz-foot{position:sticky;bottom:0;z-index:3;margin:clamp(14px,1.6vw,22px) calc(-1*var(--m)) 0;padding:14px var(--m);
+                 background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule)}
   .wz-foot button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
   .wz-foot button.btn[disabled]{opacity:.35;cursor:not-allowed}
   .wz-back,.wz-browse{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:0;padding:6px 0;color:var(--graphite);cursor:pointer;text-decoration:underline;text-underline-offset:5px}
@@ -621,6 +643,25 @@
   .wz-offer[aria-pressed="true"] .p{color:var(--signal)}
   .wz-offer[aria-pressed="true"] .tick{background:var(--ink);color:var(--paper)}
   .wz-offer[aria-pressed="true"] .tick::before{content:"\2713"}
+  @media (min-width:701px){
+    .wz-rec{grid-template-columns:minmax(220px,34%) minmax(0,1fr) auto;padding:clamp(14px,1.4vw,22px);gap:clamp(18px,2.2vw,36px);align-items:center}
+    .wz-rec .t{aspect-ratio:16/10}
+    .wz-rec h4{font-size:clamp(28px,2.8vw,48px)}
+    .wz-rec p{font-size:clamp(15px,1.15vw,18px)}
+    .wz-rec .p{font-size:clamp(18px,1.5vw,24px)}
+    .wz-offers{grid-template-columns:repeat(auto-fill,minmax(clamp(230px,19vw,340px),1fr));gap:clamp(10px,1.2vw,18px)}
+    .wz-offer{display:flex;flex-direction:column;padding:0;overflow:hidden;border-radius:var(--r)}
+    .wz-offer .t{width:100%;height:auto;aspect-ratio:16/10;border-radius:0;position:relative;isolation:isolate}
+    .wz-offer .t img{transition:transform .6s cubic-bezier(.16,.84,.24,1)}
+    .wz-offer .t.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(24px);transform:scale(1.15)}
+    .wz-offer .t.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%);mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%)}
+    .wz-offer .m{padding:14px 16px 0;flex:1}
+    .wz-offer b{font-size:clamp(17px,1.35vw,21px);letter-spacing:-.02em}
+    .wz-offer small{font-size:13.5px;margin-top:6px}
+    .wz-offer .p{padding:10px 16px 16px;margin:0;font-size:14px}
+    .wz-offer .tick{right:12px;top:12px;width:30px;height:30px;background:var(--paper);font-size:15px}
+  }
+  @media (hover:hover) and (min-width:701px){ .wz-offer:hover .t img{transform:scale(1.03)} }
   .wz-opt:focus-visible,.wz-offer:focus-visible,.wz-back:focus-visible,.wz-browse:focus-visible,.wz-swap button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
   @media (hover:hover){
     .wz-opt:hover,.wz-offer:hover{border-color:var(--ink)}

@@ -2,6 +2,13 @@
   <div class="pp-tools">
     <div class="pp-tools-in">
       <label class="pp-for"><span class="label">Prepared for</span><input id="pp-for" type="text" maxlength="80" autocomplete="organization" placeholder="Business or venue name"></label>
+      <label class="pp-for"><span class="label">Account manager</span><input id="pp-by" type="text" maxlength="60" autocomplete="off" placeholder="Who looks after them at Wonder"></label>
+      <div class="pp-people">
+        <label class="pp-for"><span class="label">Contact</span><input id="pp-name" type="text" maxlength="80" autocomplete="name" placeholder="Their name"></label>
+        <label class="pp-for"><span class="label">Email</span><input id="pp-email" type="email" maxlength="120" autocomplete="email" placeholder="Their email"></label>
+        <label class="pp-for"><span class="label">Phone</span><input id="pp-phone" type="tel" maxlength="40" autocomplete="tel" placeholder="Their phone"></label>
+        <p class="pp-note">Contact details stay on this device and print on the PDF. They are not in the link.</p>
+      </div>
       <div class="pp-actions">
         <a class="btn ghost" id="pp-edit" href="{{root}}quote/"><span>Change the quote</span><i aria-hidden="true">+</i></a>
         <button type="button" class="btn ghost" id="pp-copy"><span>Copy the link</span><i aria-hidden="true">+</i></button>

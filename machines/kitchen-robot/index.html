@@ -85,6 +85,9 @@
   .bar nav a[aria-current]{color:var(--ink)}
   .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
   .bar .cta{grid-column:11/13;justify-self:end}
+  .btn.want em{font-style:normal;margin-left:10px;padding-left:10px;border-left:1px solid color-mix(in srgb,currentColor 35%,transparent);opacity:.8;font-variant-numeric:tabular-nums}
+  /* the amount only where the bar has the room for it */
+  @media (max-width:1899px){ .btn.want em{display:none} }
   /* the glyph turns, not the box, so the hover fill stays a square */
   .btn.want i b{font-weight:400;display:inline-block;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
 
@@ -346,6 +349,11 @@
   .pp-for{display:grid;gap:6px;flex:1 1 240px}
   .pp-for input{font:inherit;font-size:17px;padding:9px 12px;border:1px solid var(--ink);border-radius:var(--rb);background:var(--paper);color:var(--ink);width:100%}
   .pp-for input:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .pp-people{flex:1 1 100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px}
+  .pp-people .pp-for{flex:none}
+  .pp-note{grid-column:1/-1;margin:0;font-size:12.5px;color:var(--graphite)}
+  .pp-tools .pp-for input{font-size:15px;padding:7px 10px}
+  @media (max-width:700px){ .pp-people{grid-template-columns:1fr} .pp-tools{position:static} }
   .pp-actions{display:flex;flex-wrap:wrap;gap:8px}
   .pp-actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
   .pp{display:grid;gap:clamp(20px,3vw,36px);justify-items:center}
@@ -366,6 +374,9 @@
   .cv-meta{margin:4cqw 0 0;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.4cqw;border-top:1px solid color-mix(in srgb,var(--cream) 30%,transparent);padding-top:2cqw}
   .cv-meta dt{font-family:var(--mono);font-size:1.2cqw;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--cream) 60%,transparent)}
   .cv-meta dd{margin:.8cqw 0 0;font-size:1.9cqw;line-height:1.2}
+  .cv-meta.cv-people{grid-template-columns:1.5fr 3fr;margin-top:2.4cqw}
+  .cv-meta [hidden]{display:none}
+  .pc-am{font-size:.7em;opacity:.8}
   .cv-meta .blank{display:block;height:2.4cqw;border-bottom:1px solid color-mix(in srgb,var(--cream) 55%,transparent)}
 
   .ps-fig{font-size:17cqw;line-height:.84;letter-spacing:-.065em;margin:3cqw 0 0 -.05em;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -591,6 +602,11 @@
   .wz-opt.pic{padding:0;overflow:hidden;display:flex;flex-direction:column}
   .wz-opt.pic .ph{display:block;aspect-ratio:16/10;background:#E9E6D8;overflow:hidden}
   .wz-opt.pic .ph img,.wz-opt.pic .ph video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,.84,.24,1)}
+  .wz-opt.pic .ph.fit{position:relative;isolation:isolate}
+  .wz-opt.pic .ph.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(28px);transform:scale(1.15)}
+  .wz-opt.pic .ph.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%);mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%)}
+  .wz-opt.pic .ph.fit.duo{display:flex}
+  .wz-opt.pic .ph.fit.duo img{width:50%;-webkit-mask-image:linear-gradient(90deg,transparent 4%,#000 28%,#000 72%,transparent 96%);mask-image:linear-gradient(90deg,transparent 4%,#000 28%,#000 72%,transparent 96%)}
   .wz-opt.pic .wz-opt-t{display:grid;gap:4px;padding:14px 56px 16px 16px}
   .wz-opt.pic .mk{top:auto;bottom:16px}
   .wz-opt.pic[aria-pressed="true"] .ph img,.wz-opt.pic[aria-pressed="true"] .ph video{transform:scale(1.03)}
@@ -604,6 +620,12 @@
   .wz-opt[aria-pressed="true"] .mk{background:var(--ink)}
   .wz-opt[aria-pressed="true"] .mk::after{content:"\2713";color:var(--paper);font-size:13px;display:grid;place-items:center;height:100%}
   .wz-foot{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin-top:clamp(20px,2.4vw,32px)}
+  /* Back and Next never scroll out of reach: on a question they ride the
+     bottom edge of the sheet, over the tiles */
+  .wz:has(> .wz-foot){padding-bottom:0}
+  .qs-pick:has(.wz > .wz-foot){padding-bottom:0}
+  .wz > .wz-foot{position:sticky;bottom:0;z-index:3;margin:clamp(14px,1.6vw,22px) calc(-1*var(--m)) 0;padding:14px var(--m);
+                 background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule)}
   .wz-foot button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
   .wz-foot button.btn[disabled]{opacity:.35;cursor:not-allowed}
   .wz-back,.wz-browse{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:0;padding:6px 0;color:var(--graphite);cursor:pointer;text-decoration:underline;text-underline-offset:5px}
@@ -646,6 +668,25 @@
   .wz-offer[aria-pressed="true"] .p{color:var(--signal)}
   .wz-offer[aria-pressed="true"] .tick{background:var(--ink);color:var(--paper)}
   .wz-offer[aria-pressed="true"] .tick::before{content:"\2713"}
+  @media (min-width:701px){
+    .wz-rec{grid-template-columns:minmax(220px,34%) minmax(0,1fr) auto;padding:clamp(14px,1.4vw,22px);gap:clamp(18px,2.2vw,36px);align-items:center}
+    .wz-rec .t{aspect-ratio:16/10}
+    .wz-rec h4{font-size:clamp(28px,2.8vw,48px)}
+    .wz-rec p{font-size:clamp(15px,1.15vw,18px)}
+    .wz-rec .p{font-size:clamp(18px,1.5vw,24px)}
+    .wz-offers{grid-template-columns:repeat(auto-fill,minmax(clamp(230px,19vw,340px),1fr));gap:clamp(10px,1.2vw,18px)}
+    .wz-offer{display:flex;flex-direction:column;padding:0;overflow:hidden;border-radius:var(--r)}
+    .wz-offer .t{width:100%;height:auto;aspect-ratio:16/10;border-radius:0;position:relative;isolation:isolate}
+    .wz-offer .t img{transition:transform .6s cubic-bezier(.16,.84,.24,1)}
+    .wz-offer .t.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(24px);transform:scale(1.15)}
+    .wz-offer .t.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%);mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%)}
+    .wz-offer .m{padding:14px 16px 0;flex:1}
+    .wz-offer b{font-size:clamp(17px,1.35vw,21px);letter-spacing:-.02em}
+    .wz-offer small{font-size:13.5px;margin-top:6px}
+    .wz-offer .p{padding:10px 16px 16px;margin:0;font-size:14px}
+    .wz-offer .tick{right:12px;top:12px;width:30px;height:30px;background:var(--paper);font-size:15px}
+  }
+  @media (hover:hover) and (min-width:701px){ .wz-offer:hover .t img{transform:scale(1.03)} }
   .wz-opt:focus-visible,.wz-offer:focus-visible,.wz-back:focus-visible,.wz-browse:focus-visible,.wz-swap button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
   @media (hover:hover){
     .wz-opt:hover,.wz-offer:hover{border-color:var(--ink)}
@@ -2329,7 +2370,7 @@ window.WonderQuote = (function(){
   var ALIAS={eng:'fitout',brand:'identity'};
   function stateFromQuery(search){
     var get=function(k){ var m=(search||'').match(new RegExp('[?&]'+k+'=([^&]*)')); return m?decodeURIComponent(m[1]):''; };
-    var st={qty:{},parts:{},opts:{},pkg:null,site:'local',who:get('for').slice(0,80)};
+    var st={qty:{},parts:{},opts:{},pkg:null,site:'local',who:get('for').slice(0,80),by:get('by').slice(0,60)};
     var pk=PACKAGES.filter(function(x){return x.id===get('pkg');})[0];
     // a package link fills in the package; once there is a pick, the pick is
     // the quote and the package only names it, so a removed line stays removed
@@ -2350,6 +2391,7 @@ window.WonderQuote = (function(){
     if(st.pkg) q.push('pkg='+st.pkg);
     if(st.site==='far') q.push('site=far');
     if(st.who) q.push('for='+encodeURIComponent(st.who));
+    if(st.by) q.push('by='+encodeURIComponent(st.by));
     return q.length?'?'+q.join('&'):'';
   }
 
@@ -2429,7 +2471,23 @@ window.WonderQuote = (function(){
     if(c.pkg&&c.pkg.extra) t.push([c.pkg.extra.name,'Priced on scope',c.pkg.extra.name+' priced on scope']);
     return t;
   }
-  return {parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
+  // ---- the saved quote. A quote lives past the page it was built on: the
+  // sheet saves it as it changes, every page restores it, and the quote page
+  // and the proposal take it over when they are opened on a link. Contact
+  // details are kept here too, on this device only: they print on the
+  // proposal but never ride in a link. Storage can be missing or full
+  // (private windows), so every call may fail quietly and the quote still
+  // works for the page it is on.
+  var STORE='wr-quote', KEEP=30*864e5;
+  function load(){
+    try{ var o=JSON.parse(localStorage.getItem(STORE)||'null'); if(!o||!o.t||Date.now()-o.t>KEEP) return null; return o; }catch(e){ return null; }
+  }
+  function save(patch){
+    try{ var o=load()||{}; Object.keys(patch).forEach(function(k){ o[k]=patch[k]; }); o.t=Date.now(); localStorage.setItem(STORE,JSON.stringify(o)); }catch(e){}
+    try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){}
+  }
+  function forget(){ try{ localStorage.removeItem(STORE); }catch(e){} try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){} }
+  return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
           optionAmount:optionAmount,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
           SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
           compute:compute,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
@@ -2488,6 +2546,11 @@ window.WonderQuote = (function(){
   var esc=function(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
   var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
   var st=Q.stateFromQuery(location.search);
+  (function(){
+    var linked=Object.keys(st.qty).length>0, kept=Q.load();
+    if(!linked&&kept&&kept.q){ var who=st.who; st=Q.stateFromQuery(kept.q); st.who=who||st.who; try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){} }
+    else if(linked) Q.save({q:Q.toQuery({qty:st.qty,parts:st.parts,opts:st.opts,pkg:st.pkg,site:st.site})});
+  })();
   var long=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'long',year:'numeric'});
   function pos(img){ var k=Object.keys(Q.IMG_POS).filter(function(x){return img&&img.indexOf(x)>=0;})[0]; return k?Q.IMG_POS[k]:'50% 50%'; }
   function famImg(mid){ var f=(Q.FAMILIES||[]).filter(function(x){return x.models.indexOf(mid)>=0;})[0]; return f&&f.models.length>1&&f.models[0]===mid?f.img:null; }
@@ -2547,6 +2610,7 @@ window.WonderQuote = (function(){
     var b=e.target.closest('.qv-seg'); if(!b) return;
     st[b.getAttribute('data-opt')]=b.getAttribute('data-val');
     try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(err){}
+    Q.save({q:Q.toQuery({qty:st.qty,parts:st.parts,opts:st.opts,pkg:st.pkg,site:st.site})});
     draw();
   });
   draw();
@@ -2562,6 +2626,11 @@ window.WonderQuote = (function(){
   var esc=function(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
   var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
   var st=Q.stateFromQuery(location.search);
+  (function(){
+    var linked=Object.keys(st.qty).length>0, kept=Q.load();
+    if(!linked&&kept&&kept.q){ var who=st.who; st=Q.stateFromQuery(kept.q); st.who=who||st.who; try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){} }
+    else if(linked) Q.save({q:Q.toQuery({qty:st.qty,parts:st.parts,opts:st.opts,pkg:st.pkg,site:st.site})});
+  })();
   var forInput=document.getElementById('pp-for');
   var long=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'long',year:'numeric'});
 
@@ -2586,7 +2655,8 @@ window.WonderQuote = (function(){
       '<div class="cv-band"><div class="cv-top"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas><span class="cv-kind">Proposal</span></div>'+
       '<h1>'+esc(title)+'</h1>'+
       '<dl class="cv-meta"><div><dt>Prepared for</dt><dd class="cv-for">'+(st.who?esc(st.who):'<span class="blank"></span>')+'</dd></div>'+
-      '<div><dt>Reference</dt><dd>'+ref+'</dd></div><div><dt>Date</dt><dd>'+long.format(now)+'</dd></div><div><dt>Valid until</dt><dd>'+long.format(until)+'</dd></div></dl></div></section>');
+      '<div><dt>Reference</dt><dd>'+ref+'</dd></div><div><dt>Date</dt><dd>'+long.format(now)+'</dd></div><div><dt>Valid until</dt><dd>'+long.format(until)+'</dd></div></dl>'+
+      '<dl class="cv-meta cv-people" hidden><div><dt>Contact</dt><dd class="cv-contact"></dd></div><div><dt>Your account manager</dt><dd class="cv-am"></dd></div></dl></div></section>');
 
     // 2. the monthly budget
     var grid=P.parts.map(function(l,i){
@@ -2623,7 +2693,7 @@ window.WonderQuote = (function(){
     sheets.push('<section class="sheet pp-close"><div class="sh-in">'+
       '<div class="pc-row"><div><span class="label">Terms</span><ul class="pc-terms">'+Q.termsList(c,long.format(until)).map(function(t){ return '<li>'+esc(t[2]||t[0]+', '+t[1].charAt(0).toLowerCase()+t[1].slice(1))+'</li>'; }).join('')+
       '<li>Sold on the <a href="'+root+'terms/">Wonder Robotics terms of sale</a></li></ul></div>'+
-      '<div><span class="label">Talk to us</span><p class="pc-contact"><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
+      '<div><span class="label">Talk to us</span><p class="pc-contact"><span class="pc-am"></span><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
       '<div class="pc-yes"><span class="label">Accepted</span><div class="lines"><div><span></span><em>Name</em></div><div><span></span><em>Signature</em></div><div><span></span><em>Date</em></div></div></div>'+
       '</div>'+foot(ref)+'</section>');
 
@@ -2633,17 +2703,41 @@ window.WonderQuote = (function(){
     if(window.WonderMark) WonderMark.paintAll();
     document.title='Proposal '+ref+(st.who?', '+st.who:'')+', Wonder Robotics';
     var edit=document.getElementById('pp-edit'); if(edit) edit.href=root+'quote/'+Q.toQuery(st);
+    paintPeople();
+  }
+  // The people on it. The client's contact details are kept on this device
+  // and print on the proposal; they are never written into the link.
+  var people=(Q.load()||{}).contact||{};
+  // one client's details never land on another client's proposal
+  if(people.for&&st.who&&people.for!==st.who){ people={}; Q.save({contact:people}); }
+  if(!st.by) st.by=((Q.load()||{}).am||'').slice(0,60);
+  function paintPeople(){
+    var set=function(sel,html){ [].forEach.call(host.querySelectorAll(sel),function(n){ n.innerHTML=html; }); };
+    set('.cv-for',st.who?esc(st.who):'<span class="blank"></span>');
+    var lines=[people.name,people.email,people.phone].filter(Boolean).map(esc);
+    set('.cv-contact',lines.join('<br>'));
+    set('.cv-am',st.by?esc(st.by)+'<br>1800 983 404':'');
+    set('.pc-am',st.by?esc(st.by)+', your account manager<br>':'');
+    var box=host.querySelector('.cv-people'); if(box) box.hidden=!(lines.length||st.by);
+    [].forEach.call(host.querySelectorAll('.cv-people > div'),function(d,i){ d.hidden=i===0?!lines.length:!st.by; });
   }
   function foot(ref){ return '<div class="sh-foot"><span>Wonder Robotics</span><span>'+ref+'</span><span class="pg"></span></div>'; }
 
-  if(forInput){
-    forInput.value=st.who||'';
-    forInput.addEventListener('input',function(){
-      st.who=forInput.value.slice(0,80);
-      var dd=host.querySelector('.cv-for'); if(dd) dd.innerHTML=st.who?esc(st.who):'<span class="blank"></span>';
-      try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){}
+  var FIELDS=[['pp-for','who',80],['pp-by','by',60],['pp-name','name',80],['pp-email','email',120],['pp-phone','phone',40]];
+  FIELDS.forEach(function(f){
+    var el=document.getElementById(f[0]); if(!el) return;
+    var mine=f[1]==='who'||f[1]==='by';
+    el.value=(mine?st[f[1]]:people[f[1]])||'';
+    el.addEventListener('input',function(){
+      var v=el.value.slice(0,f[2]);
+      if(mine){ st[f[1]]=v; try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){} if(f[1]==='by') Q.save({am:v}); }
+      else{ people[f[1]]=v; }
+      people.for=st.who||''; Q.save({contact:people});
+      paintPeople();
+      var edit=document.getElementById('pp-edit'); if(edit) edit.href=root+'quote/'+Q.toQuery(st);
+      document.title='Proposal'+(st.who?', '+st.who:'')+', Wonder Robotics';
     });
-  }
+  });
   var copy=document.getElementById('pp-copy');
   if(copy) copy.addEventListener('click',function(){
     var span=copy.querySelector('span'), done=function(t){ span.textContent=t; setTimeout(function(){span.textContent='Copy the link';},1800); };
@@ -2760,6 +2854,15 @@ window.WonderQuote = (function(){
   }
   clearAll();
   function state(){ return {qty:qty,parts:parts,opts:opts,pkg:pkg,site:carry.site}; }
+  // pick the quote back up where it was left, on whatever page this is
+  var saved=Q.load();
+  if(saved&&saved.q){
+    var was=Q.stateFromQuery(saved.q);
+    Object.keys(was.qty).forEach(function(id){ if(id in qty) qty[id]=was.qty[id]; });
+    Object.keys(was.parts).forEach(function(id){ if(id in parts) parts[id]=true; });
+    Object.keys(was.opts).forEach(function(id){ if(id in opts) opts[id]=true; });
+    pkg=was.pkg; carry.site=was.site;
+  }
 
   // ---- open and close. It is a modal: focus goes in, the page stops
   // scrolling underneath, Escape and the scrim put it back, focus returns.
@@ -2975,6 +3078,14 @@ window.WonderQuote = (function(){
     (pk.opts||[]).forEach(function(o){ opts[o]=true; });
     pkg=id;
   }
+  function paintBar(){
+    var c=Q.compute(state()), sp=btn.querySelector('span'); if(!sp) return;
+    var has=c.count+c.robots+c.asks>0;
+    sp.innerHTML=has?'Your quote'+(c.monthly?'<em>'+money.format(c.monthly)+' a month</em>':''):'Build a quote';
+    btn.classList.toggle('has',has);
+    btn.setAttribute('aria-label',has?'Your quote'+(c.monthly?', '+money.format(c.monthly)+' a month':'')+'. Open it':'Build a quote');
+  }
+  paintBar();
   window.WonderQuoteSheet={
     open:function(id){ draw(); if(id){ choosePackage(id); wzEnter(); } render(); setOpen(true); },
     // open the sheet holding a whole quote, so a quote page can be changed
@@ -2997,16 +3108,17 @@ window.WonderQuote = (function(){
   // why; then we offer what makes it theirs, each with its reason. Output is
   // never promised here: it is measured on their menu at commissioning.
   var wz={step:0, type:null, serve:[], front:null, where:null, applied:false};
+  if(saved&&saved.wz){ ['type','front','where'].forEach(function(k){ if(typeof saved.wz[k]==='string') wz[k]=saved.wz[k]; }); if(Array.isArray(saved.wz.serve)) wz.serve=saved.wz.serve.slice(0,8); }
   var TYPES=[
     {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee'],   img:'../../img/offer/coffee-bar-studio.jpg'},
     {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails'], img:'../../img/offer/robot-bar-studio.jpg'},
-    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'../../img/warm-kiosk.jpg', pos:'50% 10%'},
+    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'../../img/warm-kiosk.jpg',fit:true},
     {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles'], img:'../../img/offer/kitchen-line-studio.jpg'},
     {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee'], img:'../../img/machines/coffee-robot-d1.jpg'},
-    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'../../img/machines/ubtech-cadebot-light.jpg', pos:'50% 30%'}
+    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'../../img/machines/ubtech-cadebot-light.jpg',fit:true}
   ];
-  var SERVES=[{id:'coffee',t:'Coffee',img:'../../img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'../../img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'../../img/tile-kiosk.jpg',pos:'50% 25%'},{id:'fried',t:'Fried food',img:'../../img/tile-arm.jpg',pos:'50% 12%'},{id:'noodles',t:'Noodles',img:'../../img/valley-baths.jpg'}];
-  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'../../img/machines/ubtech-cadebot-light.jpg',pos:'50% 30%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'../../img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'../../img/machines/ubtech-cruzr-1s-stage.jpg'}];
+  var SERVES=[{id:'coffee',t:'Coffee',img:'../../img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'../../img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'../../img/tile-kiosk.jpg',fit:true},{id:'fried',t:'Fried food',img:'../../img/tile-arm.jpg',fit:true},{id:'noodles',t:'Noodles',img:'../../img/valley-baths.jpg'}];
+  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'../../img/machines/ubtech-cadebot-light.jpg',fit:true},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'../../img/machines/ubtech-cruzr-1s-light.jpg',fit:true},{id:'both',t:'Both',s:'One of each',img:'../../img/machines/ubtech-cadebot-light.jpg',img2:'../../img/machines/ubtech-cruzr-1s-light.jpg',fit:true}];
   var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'../../img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'../../img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'../../img/container/day.jpg',video:'../../img/container/day.mp4'}];
   var WHY={
     bpro:'Two arms at an Eversys, the premium machine: one pulls the shot, one steams and pours.',
@@ -3053,7 +3165,9 @@ window.WonderQuote = (function(){
   // Every answer is a picture of the thing: the plate the site already
   // uses for it, and the container's clip where there is one.
   function choice(kind,o,on,multi){
-    var ph=o.img?'<span class="ph">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos?' style="object-position:'+o.pos+'"':'')+'>')+'</span>':'';
+    // a portrait plate is shown whole, its own backdrop carried out to the
+    // edges of the frame behind it, so no robot loses its base to a crop
+    var ph=o.img?'<span class="ph'+(o.fit?' fit'+(o.img2?' duo':'')+'" style="--bg:url('+o.img+')':'')+'">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos&&!o.fit?' style="object-position:'+o.pos+'"':'')+'>'+(o.img2?'<img src="'+o.img2+'" alt="" loading="lazy" decoding="async">':''))+'</span>':'';
     return '<button type="button" class="wz-opt'+(multi?' multi':'')+(ph?' pic':'')+'" data-wz="'+kind+'" data-val="'+o.id+'" aria-pressed="'+(on?'true':'false')+'">'+ph+
       '<span class="wz-opt-t"><b>'+esc(o.t)+'</b>'+(o.s?'<small>'+esc(o.s)+'</small>':'')+'</span><span class="mk" aria-hidden="true"></span></button>';
   }
@@ -3094,7 +3208,7 @@ window.WonderQuote = (function(){
   function offer(id,kind,title,why,price,on){
     var img=kind==='part'?pById(id).img:kind==='unit'?rById(id).img:oById(id).img;
     return '<button type="button" class="wz-offer" data-kind="'+kind+'" data-id="'+id+'" aria-pressed="'+(on?'true':'false')+'">'+
-      '<span class="t"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
+      '<span class="t'+(kind==='unit'?' fit" style="--bg:url('+img+')':'')+'"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
       '<span class="p'+(/\$/.test(price)?'':' ask')+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
   }
   function resultHtml(){
@@ -3120,7 +3234,7 @@ window.WonderQuote = (function(){
       identity:'A name and a look people remember: the mark, cups, bags, menu and signage.',
       web:'Your menu and ordering online, in the same brand.',
       wrap:'Your colours on the arms and the body. The machine is the first thing in the brand people see.',
-      fitout:(wz.where==='have'?'Fitted into the room you run: ':'')+'the counter, power, water and drainage, to our drawings.',
+      fitout:wz.where==='have'?'Fitted into the room you run: the counter, power, water and drainage, to our drawings.':'The counter, power, water and drainage, built to our drawings.',
       extract:'The hood and ducting a frying or noodle line needs.',
       ext:'Remote support on the evenings and weekends you trade.',
       pos:'A second POS or payment system connected, beyond the one included.',
@@ -3157,7 +3271,7 @@ window.WonderQuote = (function(){
     else if(k==='next'){ wz.step++; }
     else if(k==='front'||k==='where'){ wz[k]=v; wz.step++; }
     else if(k==='back'){ wz.step=Math.max(0,wz.step-1); }
-    else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); }
+    else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); Q.forget(); }
     else if(k==='browse'){ $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-pick').scrollTop=0; render(); return; }
     if(wzSteps()[wz.step]==='result'){ applyRecommendation(); }
     wzDraw(); render();
@@ -3254,6 +3368,9 @@ window.WonderQuote = (function(){
 
     var q=Q.toQuery({qty:qty,parts:parts,opts:opts,pkg:held?held.id:null,site:carry.site});
     var go=$('want-go'); go.href=go.getAttribute('data-base')+q;
+    // the cart: what is on the quote now is what any page opens on next
+    if(open||c.asks) Q.save({q:q,wz:{type:wz.type,serve:wz.serve,front:wz.front,where:wz.where}}); else if((Q.load()||{}).q) Q.save({q:'',wz:null});
+    paintBar();
     var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+q;
   }
   function mark(id,n){

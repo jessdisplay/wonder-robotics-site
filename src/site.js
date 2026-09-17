@@ -387,7 +387,7 @@ window.WonderQuote = (function(){
   var ALIAS={eng:'fitout',brand:'identity'};
   function stateFromQuery(search){
     var get=function(k){ var m=(search||'').match(new RegExp('[?&]'+k+'=([^&]*)')); return m?decodeURIComponent(m[1]):''; };
-    var st={qty:{},parts:{},opts:{},pkg:null,site:'local',who:get('for').slice(0,80)};
+    var st={qty:{},parts:{},opts:{},pkg:null,site:'local',who:get('for').slice(0,80),by:get('by').slice(0,60)};
     var pk=PACKAGES.filter(function(x){return x.id===get('pkg');})[0];
     // a package link fills in the package; once there is a pick, the pick is
     // the quote and the package only names it, so a removed line stays removed
@@ -408,6 +408,7 @@ window.WonderQuote = (function(){
     if(st.pkg) q.push('pkg='+st.pkg);
     if(st.site==='far') q.push('site=far');
     if(st.who) q.push('for='+encodeURIComponent(st.who));
+    if(st.by) q.push('by='+encodeURIComponent(st.by));
     return q.length?'?'+q.join('&'):'';
   }
 
@@ -487,7 +488,23 @@ window.WonderQuote = (function(){
     if(c.pkg&&c.pkg.extra) t.push([c.pkg.extra.name,'Priced on scope',c.pkg.extra.name+' priced on scope']);
     return t;
   }
-  return {parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
+  // ---- the saved quote. A quote lives past the page it was built on: the
+  // sheet saves it as it changes, every page restores it, and the quote page
+  // and the proposal take it over when they are opened on a link. Contact
+  // details are kept here too, on this device only: they print on the
+  // proposal but never ride in a link. Storage can be missing or full
+  // (private windows), so every call may fail quietly and the quote still
+  // works for the page it is on.
+  var STORE='wr-quote', KEEP=30*864e5;
+  function load(){
+    try{ var o=JSON.parse(localStorage.getItem(STORE)||'null'); if(!o||!o.t||Date.now()-o.t>KEEP) return null; return o; }catch(e){ return null; }
+  }
+  function save(patch){
+    try{ var o=load()||{}; Object.keys(patch).forEach(function(k){ o[k]=patch[k]; }); o.t=Date.now(); localStorage.setItem(STORE,JSON.stringify(o)); }catch(e){}
+    try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){}
+  }
+  function forget(){ try{ localStorage.removeItem(STORE); }catch(e){} try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){} }
+  return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
           optionAmount:optionAmount,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
           SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
           compute:compute,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
@@ -546,6 +563,11 @@ window.WonderQuote = (function(){
   var esc=function(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
   var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
   var st=Q.stateFromQuery(location.search);
+  (function(){
+    var linked=Object.keys(st.qty).length>0, kept=Q.load();
+    if(!linked&&kept&&kept.q){ var who=st.who; st=Q.stateFromQuery(kept.q); st.who=who||st.who; try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){} }
+    else if(linked) Q.save({q:Q.toQuery({qty:st.qty,parts:st.parts,opts:st.opts,pkg:st.pkg,site:st.site})});
+  })();
   var long=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'long',year:'numeric'});
   function pos(img){ var k=Object.keys(Q.IMG_POS).filter(function(x){return img&&img.indexOf(x)>=0;})[0]; return k?Q.IMG_POS[k]:'50% 50%'; }
   function famImg(mid){ var f=(Q.FAMILIES||[]).filter(function(x){return x.models.indexOf(mid)>=0;})[0]; return f&&f.models.length>1&&f.models[0]===mid?f.img:null; }
@@ -605,6 +627,7 @@ window.WonderQuote = (function(){
     var b=e.target.closest('.qv-seg'); if(!b) return;
     st[b.getAttribute('data-opt')]=b.getAttribute('data-val');
     try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(err){}
+    Q.save({q:Q.toQuery({qty:st.qty,parts:st.parts,opts:st.opts,pkg:st.pkg,site:st.site})});
     draw();
   });
   draw();
@@ -620,6 +643,11 @@ window.WonderQuote = (function(){
   var esc=function(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
   var root=(function(){ var a=document.querySelector('.bar .mark'); return a?a.getAttribute('href'):''; })();
   var st=Q.stateFromQuery(location.search);
+  (function(){
+    var linked=Object.keys(st.qty).length>0, kept=Q.load();
+    if(!linked&&kept&&kept.q){ var who=st.who; st=Q.stateFromQuery(kept.q); st.who=who||st.who; try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){} }
+    else if(linked) Q.save({q:Q.toQuery({qty:st.qty,parts:st.parts,opts:st.opts,pkg:st.pkg,site:st.site})});
+  })();
   var forInput=document.getElementById('pp-for');
   var long=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'long',year:'numeric'});
 
@@ -644,7 +672,8 @@ window.WonderQuote = (function(){
       '<div class="cv-band"><div class="cv-top"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas><span class="cv-kind">Proposal</span></div>'+
       '<h1>'+esc(title)+'</h1>'+
       '<dl class="cv-meta"><div><dt>Prepared for</dt><dd class="cv-for">'+(st.who?esc(st.who):'<span class="blank"></span>')+'</dd></div>'+
-      '<div><dt>Reference</dt><dd>'+ref+'</dd></div><div><dt>Date</dt><dd>'+long.format(now)+'</dd></div><div><dt>Valid until</dt><dd>'+long.format(until)+'</dd></div></dl></div></section>');
+      '<div><dt>Reference</dt><dd>'+ref+'</dd></div><div><dt>Date</dt><dd>'+long.format(now)+'</dd></div><div><dt>Valid until</dt><dd>'+long.format(until)+'</dd></div></dl>'+
+      '<dl class="cv-meta cv-people" hidden><div><dt>Contact</dt><dd class="cv-contact"></dd></div><div><dt>Your account manager</dt><dd class="cv-am"></dd></div></dl></div></section>');
 
     // 2. the monthly budget
     var grid=P.parts.map(function(l,i){
@@ -681,7 +710,7 @@ window.WonderQuote = (function(){
     sheets.push('<section class="sheet pp-close"><div class="sh-in">'+
       '<div class="pc-row"><div><span class="label">Terms</span><ul class="pc-terms">'+Q.termsList(c,long.format(until)).map(function(t){ return '<li>'+esc(t[2]||t[0]+', '+t[1].charAt(0).toLowerCase()+t[1].slice(1))+'</li>'; }).join('')+
       '<li>Sold on the <a href="'+root+'terms/">Wonder Robotics terms of sale</a></li></ul></div>'+
-      '<div><span class="label">Talk to us</span><p class="pc-contact"><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
+      '<div><span class="label">Talk to us</span><p class="pc-contact"><span class="pc-am"></span><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Proposal '+ref)+'">info@wonderbytech.com</a><br>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div></div>'+
       '<div class="pc-yes"><span class="label">Accepted</span><div class="lines"><div><span></span><em>Name</em></div><div><span></span><em>Signature</em></div><div><span></span><em>Date</em></div></div></div>'+
       '</div>'+foot(ref)+'</section>');
 
@@ -691,17 +720,41 @@ window.WonderQuote = (function(){
     if(window.WonderMark) WonderMark.paintAll();
     document.title='Proposal '+ref+(st.who?', '+st.who:'')+', Wonder Robotics';
     var edit=document.getElementById('pp-edit'); if(edit) edit.href=root+'quote/'+Q.toQuery(st);
+    paintPeople();
+  }
+  // The people on it. The client's contact details are kept on this device
+  // and print on the proposal; they are never written into the link.
+  var people=(Q.load()||{}).contact||{};
+  // one client's details never land on another client's proposal
+  if(people.for&&st.who&&people.for!==st.who){ people={}; Q.save({contact:people}); }
+  if(!st.by) st.by=((Q.load()||{}).am||'').slice(0,60);
+  function paintPeople(){
+    var set=function(sel,html){ [].forEach.call(host.querySelectorAll(sel),function(n){ n.innerHTML=html; }); };
+    set('.cv-for',st.who?esc(st.who):'<span class="blank"></span>');
+    var lines=[people.name,people.email,people.phone].filter(Boolean).map(esc);
+    set('.cv-contact',lines.join('<br>'));
+    set('.cv-am',st.by?esc(st.by)+'<br>1800 983 404':'');
+    set('.pc-am',st.by?esc(st.by)+', your account manager<br>':'');
+    var box=host.querySelector('.cv-people'); if(box) box.hidden=!(lines.length||st.by);
+    [].forEach.call(host.querySelectorAll('.cv-people > div'),function(d,i){ d.hidden=i===0?!lines.length:!st.by; });
   }
   function foot(ref){ return '<div class="sh-foot"><span>Wonder Robotics</span><span>'+ref+'</span><span class="pg"></span></div>'; }
 
-  if(forInput){
-    forInput.value=st.who||'';
-    forInput.addEventListener('input',function(){
-      st.who=forInput.value.slice(0,80);
-      var dd=host.querySelector('.cv-for'); if(dd) dd.innerHTML=st.who?esc(st.who):'<span class="blank"></span>';
-      try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){}
+  var FIELDS=[['pp-for','who',80],['pp-by','by',60],['pp-name','name',80],['pp-email','email',120],['pp-phone','phone',40]];
+  FIELDS.forEach(function(f){
+    var el=document.getElementById(f[0]); if(!el) return;
+    var mine=f[1]==='who'||f[1]==='by';
+    el.value=(mine?st[f[1]]:people[f[1]])||'';
+    el.addEventListener('input',function(){
+      var v=el.value.slice(0,f[2]);
+      if(mine){ st[f[1]]=v; try{ history.replaceState(null,'',location.pathname+Q.toQuery(st)); }catch(e){} if(f[1]==='by') Q.save({am:v}); }
+      else{ people[f[1]]=v; }
+      people.for=st.who||''; Q.save({contact:people});
+      paintPeople();
+      var edit=document.getElementById('pp-edit'); if(edit) edit.href=root+'quote/'+Q.toQuery(st);
+      document.title='Proposal'+(st.who?', '+st.who:'')+', Wonder Robotics';
     });
-  }
+  });
   var copy=document.getElementById('pp-copy');
   if(copy) copy.addEventListener('click',function(){
     var span=copy.querySelector('span'), done=function(t){ span.textContent=t; setTimeout(function(){span.textContent='Copy the link';},1800); };
@@ -818,6 +871,15 @@ window.WonderQuote = (function(){
   }
   clearAll();
   function state(){ return {qty:qty,parts:parts,opts:opts,pkg:pkg,site:carry.site}; }
+  // pick the quote back up where it was left, on whatever page this is
+  var saved=Q.load();
+  if(saved&&saved.q){
+    var was=Q.stateFromQuery(saved.q);
+    Object.keys(was.qty).forEach(function(id){ if(id in qty) qty[id]=was.qty[id]; });
+    Object.keys(was.parts).forEach(function(id){ if(id in parts) parts[id]=true; });
+    Object.keys(was.opts).forEach(function(id){ if(id in opts) opts[id]=true; });
+    pkg=was.pkg; carry.site=was.site;
+  }
 
   // ---- open and close. It is a modal: focus goes in, the page stops
   // scrolling underneath, Escape and the scrim put it back, focus returns.
@@ -1033,6 +1095,14 @@ window.WonderQuote = (function(){
     (pk.opts||[]).forEach(function(o){ opts[o]=true; });
     pkg=id;
   }
+  function paintBar(){
+    var c=Q.compute(state()), sp=btn.querySelector('span'); if(!sp) return;
+    var has=c.count+c.robots+c.asks>0;
+    sp.innerHTML=has?'Your quote'+(c.monthly?'<em>'+money.format(c.monthly)+' a month</em>':''):'Build a quote';
+    btn.classList.toggle('has',has);
+    btn.setAttribute('aria-label',has?'Your quote'+(c.monthly?', '+money.format(c.monthly)+' a month':'')+'. Open it':'Build a quote');
+  }
+  paintBar();
   window.WonderQuoteSheet={
     open:function(id){ draw(); if(id){ choosePackage(id); wzEnter(); } render(); setOpen(true); },
     // open the sheet holding a whole quote, so a quote page can be changed
@@ -1055,16 +1125,17 @@ window.WonderQuote = (function(){
   // why; then we offer what makes it theirs, each with its reason. Output is
   // never promised here: it is measured on their menu at commissioning.
   var wz={step:0, type:null, serve:[], front:null, where:null, applied:false};
+  if(saved&&saved.wz){ ['type','front','where'].forEach(function(k){ if(typeof saved.wz[k]==='string') wz[k]=saved.wz[k]; }); if(Array.isArray(saved.wz.serve)) wz.serve=saved.wz.serve.slice(0,8); }
   var TYPES=[
     {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee'],   img:'{{root}}img/offer/coffee-bar-studio.jpg'},
     {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails'], img:'{{root}}img/offer/robot-bar-studio.jpg'},
-    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'{{root}}img/warm-kiosk.jpg', pos:'50% 10%'},
+    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'{{root}}img/warm-kiosk.jpg',fit:true},
     {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles'], img:'{{root}}img/offer/kitchen-line-studio.jpg'},
     {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee'], img:'{{root}}img/machines/coffee-robot-d1.jpg'},
-    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'{{root}}img/machines/ubtech-cadebot-light.jpg', pos:'50% 30%'}
+    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'{{root}}img/machines/ubtech-cadebot-light.jpg',fit:true}
   ];
-  var SERVES=[{id:'coffee',t:'Coffee',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'{{root}}img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'{{root}}img/tile-kiosk.jpg',pos:'50% 25%'},{id:'fried',t:'Fried food',img:'{{root}}img/tile-arm.jpg',pos:'50% 12%'},{id:'noodles',t:'Noodles',img:'{{root}}img/valley-baths.jpg'}];
-  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',pos:'50% 30%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'{{root}}img/machines/ubtech-cruzr-1s-stage.jpg'}];
+  var SERVES=[{id:'coffee',t:'Coffee',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'{{root}}img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'{{root}}img/tile-kiosk.jpg',fit:true},{id:'fried',t:'Fried food',img:'{{root}}img/tile-arm.jpg',fit:true},{id:'noodles',t:'Noodles',img:'{{root}}img/valley-baths.jpg'}];
+  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',fit:true},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg',fit:true},{id:'both',t:'Both',s:'One of each',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',img2:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg',fit:true}];
   var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'{{root}}img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'{{root}}img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'{{root}}img/container/day.jpg',video:'{{root}}img/container/day.mp4'}];
   var WHY={
     bpro:'Two arms at an Eversys, the premium machine: one pulls the shot, one steams and pours.',
@@ -1111,7 +1182,9 @@ window.WonderQuote = (function(){
   // Every answer is a picture of the thing: the plate the site already
   // uses for it, and the container's clip where there is one.
   function choice(kind,o,on,multi){
-    var ph=o.img?'<span class="ph">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos?' style="object-position:'+o.pos+'"':'')+'>')+'</span>':'';
+    // a portrait plate is shown whole, its own backdrop carried out to the
+    // edges of the frame behind it, so no robot loses its base to a crop
+    var ph=o.img?'<span class="ph'+(o.fit?' fit'+(o.img2?' duo':'')+'" style="--bg:url('+o.img+')':'')+'">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos&&!o.fit?' style="object-position:'+o.pos+'"':'')+'>'+(o.img2?'<img src="'+o.img2+'" alt="" loading="lazy" decoding="async">':''))+'</span>':'';
     return '<button type="button" class="wz-opt'+(multi?' multi':'')+(ph?' pic':'')+'" data-wz="'+kind+'" data-val="'+o.id+'" aria-pressed="'+(on?'true':'false')+'">'+ph+
       '<span class="wz-opt-t"><b>'+esc(o.t)+'</b>'+(o.s?'<small>'+esc(o.s)+'</small>':'')+'</span><span class="mk" aria-hidden="true"></span></button>';
   }
@@ -1152,7 +1225,7 @@ window.WonderQuote = (function(){
   function offer(id,kind,title,why,price,on){
     var img=kind==='part'?pById(id).img:kind==='unit'?rById(id).img:oById(id).img;
     return '<button type="button" class="wz-offer" data-kind="'+kind+'" data-id="'+id+'" aria-pressed="'+(on?'true':'false')+'">'+
-      '<span class="t"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
+      '<span class="t'+(kind==='unit'?' fit" style="--bg:url('+img+')':'')+'"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
       '<span class="p'+(/\$/.test(price)?'':' ask')+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
   }
   function resultHtml(){
@@ -1178,7 +1251,7 @@ window.WonderQuote = (function(){
       identity:'A name and a look people remember: the mark, cups, bags, menu and signage.',
       web:'Your menu and ordering online, in the same brand.',
       wrap:'Your colours on the arms and the body. The machine is the first thing in the brand people see.',
-      fitout:(wz.where==='have'?'Fitted into the room you run: ':'')+'the counter, power, water and drainage, to our drawings.',
+      fitout:wz.where==='have'?'Fitted into the room you run: the counter, power, water and drainage, to our drawings.':'The counter, power, water and drainage, built to our drawings.',
       extract:'The hood and ducting a frying or noodle line needs.',
       ext:'Remote support on the evenings and weekends you trade.',
       pos:'A second POS or payment system connected, beyond the one included.',
@@ -1215,7 +1288,7 @@ window.WonderQuote = (function(){
     else if(k==='next'){ wz.step++; }
     else if(k==='front'||k==='where'){ wz[k]=v; wz.step++; }
     else if(k==='back'){ wz.step=Math.max(0,wz.step-1); }
-    else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); }
+    else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); Q.forget(); }
     else if(k==='browse'){ $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-pick').scrollTop=0; render(); return; }
     if(wzSteps()[wz.step]==='result'){ applyRecommendation(); }
     wzDraw(); render();
@@ -1312,6 +1385,9 @@ window.WonderQuote = (function(){
 
     var q=Q.toQuery({qty:qty,parts:parts,opts:opts,pkg:held?held.id:null,site:carry.site});
     var go=$('want-go'); go.href=go.getAttribute('data-base')+q;
+    // the cart: what is on the quote now is what any page opens on next
+    if(open||c.asks) Q.save({q:q,wz:{type:wz.type,serve:wz.serve,front:wz.front,where:wz.where}}); else if((Q.load()||{}).q) Q.save({q:'',wz:null});
+    paintBar();
     var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+q;
   }
   function mark(id,n){
