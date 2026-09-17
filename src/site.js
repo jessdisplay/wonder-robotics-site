@@ -1051,10 +1051,10 @@ window.WonderQuote = (function(){
   });
 
   // ---- the guided quote. A buyer is asked what they are opening, what it
-  // serves, which machine suits them and where it goes; we recommend and say
+  // serves and where it goes; we recommend and say
   // why; then we offer what makes it theirs, each with its reason. Output is
   // never promised here: it is measured on their menu at commissioning.
-  var wz={step:0, type:null, serve:[], tier:null, front:null, where:null, applied:false};
+  var wz={step:0, type:null, serve:[], front:null, where:null, applied:false};
   var TYPES=[
     {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee'],   img:'{{root}}img/offer/coffee-bar-studio.jpg'},
     {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails'], img:'{{root}}img/offer/robot-bar-studio.jpg'},
@@ -1064,7 +1064,6 @@ window.WonderQuote = (function(){
     {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'{{root}}img/machines/ubtech-cadebot-light.jpg', pos:'50% 30%'}
   ];
   var SERVES=[{id:'coffee',t:'Coffee',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'{{root}}img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'{{root}}img/tile-kiosk.jpg',pos:'50% 25%'},{id:'fried',t:'Fried food',img:'{{root}}img/tile-arm.jpg',pos:'50% 12%'},{id:'noodles',t:'Noodles',img:'{{root}}img/valley-baths.jpg'}];
-  var TIERS=[{id:'premium',t:'The premium machine',s:'B Pro: an Eversys, for premium cafés, hotels and branded venues',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'value',t:'A lower entry cost',s:'B Standard: the same two arms on a Dr.Coffee F3',img:'{{root}}img/machines/coffee-robot-light.jpg'}];
   var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',pos:'50% 30%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'{{root}}img/machines/ubtech-cruzr-1s-stage.jpg'}];
   var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'{{root}}img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'{{root}}img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'{{root}}img/container/day.jpg',video:'{{root}}img/container/day.mp4'}];
   var WHY={
@@ -1081,7 +1080,6 @@ window.WonderQuote = (function(){
   function wzSteps(){
     if(wz.type==='front') return ['type','front','result'];
     var st=['type','serve'];
-    if(wz.serve.indexOf('coffee')>=0&&wz.type!=='kiosk') st.push('tier');
     st.push('where','result');
     return st;
   }
@@ -1092,7 +1090,7 @@ window.WonderQuote = (function(){
       if(wz.front!=='carry') m['ubtech-cruzr-1s']=1;
       return m;
     }
-    if(wz.serve.indexOf('coffee')>=0) m[wz.type==='kiosk'?'eff':wz.tier==='value'?'bstd':'bpro']=1;
+    if(wz.serve.indexOf('coffee')>=0) m[wz.type==='kiosk'?'eff':'bpro']=1;
     if(wz.serve.indexOf('cocktails')>=0) m.bar=1;
     if(wz.serve.indexOf('softserve')>=0) m.ice=1;
     if(wz.serve.indexOf('fried')>=0) m.fry=1;
@@ -1133,8 +1131,6 @@ window.WonderQuote = (function(){
     }else if(name==='serve'){
       html=prog+'<h3 class="wz-q">What will it serve?</h3><p class="wz-hint">Pick as many as you like.</p>'+opts(SERVES,'serve',wz.serve,true)+
         '<div class="wz-foot">'+back+'<button type="button" class="btn" data-wz="next"'+(wz.serve.length?'':' disabled')+'><span>Next</span><i aria-hidden="true">+</i></button></div>';
-    }else if(name==='tier'){
-      html=ask('Which coffee robot suits you?','Both have two arms, and both are tested on your menu before we hand over.',TIERS,'tier',wz.tier);
     }else if(name==='front'){
       html=ask('What should it do?','',FRONTS,'front',wz.front);
     }else if(name==='where'){
@@ -1217,9 +1213,9 @@ window.WonderQuote = (function(){
     else if(k==='serve'){ var i=wz.serve.indexOf(v); if(i>=0) wz.serve.splice(i,1); else wz.serve.push(v); b.setAttribute('aria-pressed',i>=0?'false':'true');
       var nx=$('wz').querySelector('[data-wz="next"]'); if(nx) nx.disabled=!wz.serve.length; return; }
     else if(k==='next'){ wz.step++; }
-    else if(k==='tier'||k==='front'||k==='where'){ wz[k]=v; wz.step++; }
+    else if(k==='front'||k==='where'){ wz[k]=v; wz.step++; }
     else if(k==='back'){ wz.step=Math.max(0,wz.step-1); }
-    else if(k==='restart'){ wz={step:0,type:null,serve:[],tier:null,front:null,where:null,applied:false}; clearAll(); }
+    else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); }
     else if(k==='browse'){ $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-pick').scrollTop=0; render(); return; }
     if(wzSteps()[wz.step]==='result'){ applyRecommendation(); }
     wzDraw(); render();
