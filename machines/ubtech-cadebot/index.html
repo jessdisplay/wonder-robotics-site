@@ -3114,7 +3114,7 @@ window.WonderQuote = (function(){
   // why; then we offer what makes it theirs, each with its reason. Output is
   // never promised here: it is measured on their menu at commissioning.
   var wz={step:0, type:null, serve:[], front:null, where:null, applied:false};
-  if(saved&&saved.wz){ ['type','front','where'].forEach(function(k){ if(typeof saved.wz[k]==='string') wz[k]=saved.wz[k]; }); if(Array.isArray(saved.wz.serve)) wz.serve=saved.wz.serve.slice(0,8); }
+  if(saved&&saved.wz){ ['type','front','where'].forEach(function(k){ if(typeof saved.wz[k]==='string') wz[k]=saved.wz[k]; }); if(Array.isArray(saved.wz.serve)) wz.serve=saved.wz.serve.slice(0,8); wz.applied=saved.wz.applied!==false; }
   var TYPES=[
     {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee'],   img:'../../img/offer/coffee-bar-studio.jpg'},
     {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails'], img:'../../img/offer/robot-bar-studio.jpg'},
@@ -3146,6 +3146,7 @@ window.WonderQuote = (function(){
   function recommend(){
     var m={};
     if(wz.type==='front'){
+      if(!wz.front) return m;
       if(wz.front!=='greet') m['ubtech-cadebot']=1;
       if(wz.front!=='carry') m['ubtech-cruzr-1s']=1;
       return m;
@@ -3161,13 +3162,15 @@ window.WonderQuote = (function(){
   // counter and the machine in your colours; a new venue needs the room and
   // the brand designed as well; a container is built with its own kitchen.
   var OPEN_WITH={have:['wrap','fitout','extract'], new:['space','identity','web','wrap','fitout','extract'], box:['identity','web','wrap']};
-  function applyRecommendation(){
+  // Every answer lands on the quote as it is given, so the total moves with
+  // each click instead of sitting at $0 until the last question.
+  function applyAnswers(){
     clearAll();
     var m=recommend(); Object.keys(m).forEach(function(id){ qty[id]=m[id]; });
     (OPEN_WITH[wz.where]||[]).forEach(function(id){ opts[id]=true; });
     if(wz.where==='box'&&qty.fry&&qty.noo) pkg='box';
-    wz.applied=true;
   }
+  function applyRecommendation(){ applyAnswers(); wz.applied=true; }
   // Every answer is a picture of the thing: the plate the site already
   // uses for it, and the container's clip where there is one.
   function choice(kind,o,on,multi){
@@ -3275,13 +3278,14 @@ window.WonderQuote = (function(){
     var k=b.getAttribute('data-wz'), v=b.getAttribute('data-val');
     if(k==='type'){ wz.type=v; wz.serve=(TYPES.filter(function(t){return t.id===v;})[0]||{serve:[]}).serve.slice(); wz.step=1; }
     else if(k==='serve'){ var i=wz.serve.indexOf(v); if(i>=0) wz.serve.splice(i,1); else wz.serve.push(v); b.setAttribute('aria-pressed',i>=0?'false':'true');
-      var nx=$('wz').querySelector('[data-wz="next"]'); if(nx) nx.disabled=!wz.serve.length; return; }
+      var nx=$('wz').querySelector('[data-wz="next"]'); if(nx) nx.disabled=!wz.serve.length; applyAnswers(); render(); return; }
     else if(k==='next'){ wz.step++; }
     else if(k==='front'||k==='where'){ wz[k]=v; wz.step++; }
     else if(k==='back'){ wz.step=Math.max(0,wz.step-1); }
     else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); Q.forget(); }
     else if(k==='browse'){ $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-pick').scrollTop=0; render(); return; }
     if(wzSteps()[wz.step]==='result'){ applyRecommendation(); }
+    else if(k==='type'||k==='front'||k==='where'||k==='next'||k==='back'){ applyAnswers(); }
     wzDraw(); render();
   });
   // choices inside the result use the same kinds as the browse view
@@ -3303,7 +3307,8 @@ window.WonderQuote = (function(){
     // a sheet opened holding a quote goes straight to the recommendation view of it
     var any=Q.MACHINES.concat(Q.ROBOTS).some(function(m){return qty[m.id]>0;});
     $('wz').hidden=false; $('qs-browse').hidden=true;
-    if(any){ wz.step=wzSteps().indexOf('result'); if(wz.step<0) wz.step=0; wz.applied=true; }
+    // a quote the questions are still building stays on the questions
+    if(any&&(wz.applied||!wz.type)){ wz.step=wzSteps().indexOf('result'); if(wz.step<0) wz.step=0; wz.applied=true; }
     wzDraw();
   }
 
@@ -3368,7 +3373,7 @@ window.WonderQuote = (function(){
       if(payEl) payEl.textContent='';
     }else{
       totalEl.innerHTML=money.format(c.monthly)+'<small>a month</small>';
-      noteEl.textContent=money.format(c.upfront)+' upfront, then '+money.format(c.service)+' a month for '+c.term+' months. Ex GST';
+      noteEl.textContent=(wz.type&&!wz.applied&&!$('wz').hidden?'So far: ':'')+money.format(c.upfront)+' upfront, then '+money.format(c.service)+' a month for '+c.term+' months. Ex GST';
       if(payEl) payEl.textContent=count?nextLine():'';
     }
     $('qs-thumbs').innerHTML=faces.slice(0,5).map(function(src){return '<img src="'+src+'" alt="">';}).join('');
@@ -3377,7 +3382,7 @@ window.WonderQuote = (function(){
     var q=Q.toQuery({qty:qty,parts:parts,opts:opts,pkg:held?held.id:null,site:carry.site});
     var go=$('want-go'); go.href=go.getAttribute('data-base')+q;
     // the cart: what is on the quote now is what any page opens on next
-    if(open||c.asks) Q.save({q:q,wz:{type:wz.type,serve:wz.serve,front:wz.front,where:wz.where}}); else if((Q.load()||{}).q) Q.save({q:'',wz:null});
+    if(open||c.asks) Q.save({q:q,wz:{type:wz.type,serve:wz.serve,front:wz.front,where:wz.where,applied:wz.applied}}); else if((Q.load()||{}).q) Q.save({q:'',wz:null});
     paintBar();
     var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+q;
   }
