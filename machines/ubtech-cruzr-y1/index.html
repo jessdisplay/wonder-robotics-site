@@ -867,35 +867,10 @@
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
 
   /* footer */
-  /* The footer ends on the stage both sites share (Jesse, 18 Sep: the robot and the rhino
-     belong here too, it is shared language): the v11 plate of WonderBot and the rhino at the
-     bar, dimmed to night and lit as it scrolls in, his visor lighting with it, the moon rising
-     at the corner, the lockup arriving after the light. The link columns sit above on plain
-     night. Plates and visor are the same files wonder.fish uses; never redrawn. */
-  footer{background:var(--night);color:var(--cream);padding-top:clamp(40px,6vw,90px);padding-bottom:0;--lit:0;--logo:0}
-  footer .stage{position:relative;isolation:isolate;overflow:hidden;min-height:clamp(440px,54vw,880px);margin-top:clamp(24px,3.5vw,52px)}
-  footer .stage::before{content:"";position:absolute;inset:0;z-index:0;
-    background:radial-gradient(50% 62% at 50% 96%,rgba(232,168,76,.16),transparent 66%),url(../../img/footer-bar-v11.jpg) center bottom/cover;
-    filter:brightness(calc(.74 + .40 * var(--lit))) contrast(calc(.98 + .08 * var(--lit))) saturate(calc(.80 + .28 * var(--lit)));
-    transform:scale(calc(1.05 - .05 * var(--lit)));transition:filter .2s linear,transform .3s linear}
-  footer .stage::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:linear-gradient(180deg,rgba(32,16,58,.92) 0%,rgba(32,16,58,.34) 14%,transparent 32%,transparent 70%,rgba(32,16,58,.22) 100%),
-      linear-gradient(90deg,rgba(32,16,58,.85) 0%,rgba(32,16,58,0) 9%,rgba(32,16,58,0) 91%,rgba(32,16,58,.85) 100%),
-      linear-gradient(180deg,transparent 76%,rgba(32,16,58,.35) 90%,rgba(32,16,58,.9) 100%)}
-  footer .visor{position:absolute;inset:0;z-index:2;pointer-events:none;background:none,url(../../img/footer-visor-v11.png) center bottom/cover no-repeat;
-    mix-blend-mode:screen;opacity:var(--lit);transition:opacity .5s ease}
-  @media (min-width:900px){ footer .stage::before,footer .visor{background-size:auto,auto 125%;background-position:center,center 100%} }
-  footer .moon{position:absolute;right:clamp(1.5rem,9vw,9rem);top:clamp(1rem,4vw,2.6rem);z-index:2;width:clamp(40px,6vw,78px);
-    transform:translateY(calc(70px - 70px * var(--lit)));opacity:var(--lit);filter:drop-shadow(0 0 calc(30px * var(--lit)) rgba(169,143,224,.85));transition:transform .3s linear,opacity .25s linear}
-  footer .lockup{position:absolute;left:0;right:0;top:clamp(1.4rem,5vw,3rem);z-index:3;display:flex;justify-content:center;pointer-events:none;
-    opacity:var(--logo);transform:translateY(calc(14px - 14px * var(--logo)));transition:opacity .45s ease,transform .45s ease}
-  footer .lockup::before{content:"";position:absolute;z-index:-1;left:50%;top:50%;width:min(164%,1560px);height:300%;transform:translate(-50%,-50%);
-    background:radial-gradient(52% 50% at 50% 50%,rgba(26,12,48,.94) 0%,rgba(26,12,48,.86) 30%,rgba(26,12,48,.52) 56%,rgba(26,12,48,.18) 76%,transparent 88%)}
-  @media (prefers-reduced-motion:reduce){ footer .visor,footer .moon,footer .lockup{transition:none} }
+  footer{background:var(--night);color:var(--cream);padding-top:clamp(40px,6vw,90px);padding-bottom:22px}
   footer .label{color:color-mix(in srgb,var(--cream) 62%,var(--night))}
-  footer .made{position:absolute;left:0;right:0;bottom:6%;z-index:3;display:flex;justify-content:center;gap:0 .55em;flex-wrap:wrap;margin:0;padding:0 16px;letter-spacing:.3em;font-weight:200;pointer-events:none;
-    opacity:var(--logo);transition:opacity .45s ease;text-shadow:0 1px 14px rgba(26,12,48,.95),0 0 34px rgba(26,12,48,.8)}
-  footer .made span{color:#F2C98A}
+  footer .made{display:flex;justify-content:space-between;border-top:1px solid color-mix(in srgb,var(--cream) 22%,transparent);padding-top:14px}
+  footer .made span{color:var(--cream)}
 
   @media (max-width:1300px){
     .bar .clock{display:none}
@@ -936,7 +911,7 @@
     .steps td{border:0;padding:4px 0 !important;width:auto !important}
     .pair{grid-template-columns:1fr}
     .visit .details{grid-template-columns:1fr}
-    footer .made{letter-spacing:.18em;bottom:4%}
+    footer .made{flex-wrap:wrap;gap:6px 14px;justify-content:flex-start}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
@@ -945,7 +920,8 @@
   /* the drawn mark */
   @font-face{font-family:'UnboundedW';src:url(../../fonts/UnboundedW.woff2) format('woff2');font-weight:100 900;font-display:swap}
   .bar .mark canvas{display:block}
-  footer .lock{margin:0;width:min(560px,58vw);height:auto !important;filter:drop-shadow(0 2px 12px rgba(26,12,48,.95)) drop-shadow(0 0 48px rgba(26,12,48,.8))}
+  footer .lock{margin-bottom:clamp(32px,5vw,70px)}
+  footer canvas.lock{width:100%;height:auto}
 
   /* process */
   .steps .n{font-size:clamp(28px,3vw,48px);color:var(--ink);letter-spacing:-.03em;padding-top:22px}
@@ -1418,7 +1394,7 @@
   footer .cols a{color:var(--cream);text-decoration:none;font-size:15.5px;line-height:1.3;width:fit-content;border-bottom:1px solid transparent}
   footer .cols a:hover{border-bottom-color:var(--cream)}
   footer .cols .addr{color:color-mix(in srgb,var(--cream) 62%,var(--night));font-size:15.5px;line-height:1.4;margin-top:6px}
-  footer canvas.lock{display:block;height:auto;margin-inline:auto}
+  footer canvas.lock{display:block;width:100%;height:auto;margin-inline:auto}
   @media (max-width:900px){
     .sector .wrap{grid-template-columns:1fr}
     .sector.flip .txt{order:0}
@@ -1900,12 +1876,8 @@
         <span class="addr">365 St Pauls Terrace<br>Fortitude Valley QLD 4006</span>
       </div>
     </nav>
-  </div>
-  <div class="stage">
-    <div class="visor" aria-hidden="true"></div>
-    <svg class="moon" viewBox="0 0 40 40" aria-hidden="true"><defs><radialGradient id="fmg"><stop offset="0%" stop-color="#EBD9FF"/><stop offset="100%" stop-color="#A98FE0"/></radialGradient></defs><path d="M27 4a16 16 0 1 0 9 29A19 19 0 0 1 27 4Z" fill="url(#fmg)"/></svg>
-    <div class="lockup"><canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.58" data-w="560" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas></div>
-    <p class="made label"><span>Made</span> <span>in</span> <span>Fortitude</span> <span>Valley,</span> <span>with</span> <span>machines</span> <span>that</span> <span>work.</span></p>
+    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="2200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
+    <div class="made label"><span>Made</span><span>in</span><span>Fortitude</span><span>Valley,</span><span>with</span><span>machines</span><span>that</span><span>work.</span></div>
   </div>
 </footer>
 
@@ -3641,26 +3613,6 @@ window.WonderQuote = (function(){
       window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
     });
   });
-})();
-
-/* The footer stage lights as it comes into view: dark while it is below the fold, full
-   once its top has climbed a quarter of the way up, or once the page can scroll no further. */
-(function () {
-  var f = document.querySelector('footer'); if (!f) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { f.style.setProperty('--lit', '1'); f.style.setProperty('--logo', '1'); return; }
-  var raf = null;
-  function lit() {
-    raf = null;
-    var r = f.getBoundingClientRect(), vh = window.innerHeight;
-    var p = (vh - r.top) / (vh * 0.75);
-    if (r.bottom <= vh + 2 || document.documentElement.scrollHeight - (window.scrollY + vh) <= 2) p = 1;
-    p = Math.max(0, Math.min(1, p));
-    f.style.setProperty('--lit', p.toFixed(3));
-    // the moon lights the stage first; the lockup arrives after it
-    f.style.setProperty('--logo', Math.max(0, Math.min(1, (p - 0.55) / 0.35)).toFixed(3));
-  }
-  window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(lit); }, { passive: true });
-  window.addEventListener('resize', lit); lit();
 })();
 
 /* The footer line arrives a word at a time. */

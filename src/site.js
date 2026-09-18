@@ -1618,26 +1618,6 @@ window.WonderQuote = (function(){
   });
 })();
 
-/* The footer stage lights as it comes into view: dark while it is below the fold, full
-   once its top has climbed a quarter of the way up, or once the page can scroll no further. */
-(function () {
-  var f = document.querySelector('footer'); if (!f) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { f.style.setProperty('--lit', '1'); f.style.setProperty('--logo', '1'); return; }
-  var raf = null;
-  function lit() {
-    raf = null;
-    var r = f.getBoundingClientRect(), vh = window.innerHeight;
-    var p = (vh - r.top) / (vh * 0.75);
-    if (r.bottom <= vh + 2 || document.documentElement.scrollHeight - (window.scrollY + vh) <= 2) p = 1;
-    p = Math.max(0, Math.min(1, p));
-    f.style.setProperty('--lit', p.toFixed(3));
-    // the moon lights the stage first; the lockup arrives after it
-    f.style.setProperty('--logo', Math.max(0, Math.min(1, (p - 0.55) / 0.35)).toFixed(3));
-  }
-  window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(lit); }, { passive: true });
-  window.addEventListener('resize', lit); lit();
-})();
-
 /* The footer line arrives a word at a time. */
 (function () {
   var made = document.querySelector('footer .made');
