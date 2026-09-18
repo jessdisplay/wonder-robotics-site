@@ -1334,21 +1334,21 @@
   /* The home catalogue: one grid of large plates, two across. A plate drifts slowly while it
      is on screen and settles under the pointer; the two with a clip play it instead. */
   .cat-sec{padding-top:clamp(72px,10vw,160px)}
-  .cat-sec .wrap{max-width:1500px;margin-inline:auto}
-  .cat{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap);row-gap:clamp(40px,4.5vw,64px)}
-  .cat a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
-  .cat .ph{aspect-ratio:16/10;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
-  .cat .ph img,.cat .ph video{width:100%;height:100%;object-fit:cover;display:block}
-  .cat h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-  .cat h3 .label{white-space:nowrap;padding-top:4px}
-  .cat p{margin:0;color:var(--graphite);max-width:48ch}
+  /* the home catalogue wears the quote builder's card, full width, three across */
+  .cat{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
+  .cat li{display:flex}
+  .cat .wz-opt{width:100%;text-decoration:none}
+  .cat .wz-opt-t{padding-right:16px;flex:1;display:flex;flex-direction:column;gap:4px}
+  .cat h3{margin:0;font:inherit}
+  .cat .wz-opt-t .label{margin-top:auto;padding-top:10px;color:var(--ink)}
   .cat-sec .more{margin:clamp(36px,4vw,56px) 0 0}
   @keyframes cat-drift{from{transform:scale(1.03) translate3d(0.6%,0.4%,0)} to{transform:scale(1.09) translate3d(-1%,-0.8%,0)}}
   .wr-lift .cat .ph img{transform:scale(1.03);transition:transform 1.6s cubic-bezier(.16,.84,.24,1)}
   .wr-lift .cat .ph.is-in img{animation:cat-drift 18s ease-in-out infinite alternate}
   .wr-lift .cat li:nth-child(even) .ph.is-in img{animation-direction:alternate-reverse}
   @media (hover:hover){ .cat a:hover .ph img{animation-play-state:paused} }
-  @media (max-width:900px){ .cat{grid-template-columns:1fr} .cat h3{flex-direction:column;align-items:flex-start;gap:4px} }
+  @media (max-width:1100px){ .cat{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  @media (max-width:560px){ .cat{grid-template-columns:1fr} }
   @media (prefers-reduced-motion:reduce){ .wr-lift .cat .ph.is-in img{animation:none;transform:none} }
   .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
   .builds .cases h3 .label{white-space:nowrap}

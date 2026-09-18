@@ -700,8 +700,11 @@ def home_tile(href, img, alt, title, line, price, video=None, pos=None):
     pic = (f'<video autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
            f'<source src="{{{{root}}}}{video}" type="video/mp4"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"{style}></video>'
            if video else f'<img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy" decoding="async"{style}>')
-    return (f'<li><a href="{{{{root}}}}{href}"><div class="ph">{pic}</div>'
-            f'<h3><span>{escape(title)}</span><span class="label">{price}</span></h3><p>{escape(line)}</p></a></li>')
+    # the builder's own card (.wz-opt.pic), so the home catalogue and the quote
+    # are one component, not a lookalike
+    return (f'<li><a class="wz-opt pic" href="{{{{root}}}}{href}"><span class="ph">{pic}</span>'
+            f'<span class="wz-opt-t"><h3><b>{escape(title)}</b></h3><small>{escape(line)}</small>'
+            f'<span class="label">{price}</span></span></a></li>')
 
 
 def home_catalogue():
