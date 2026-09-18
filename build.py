@@ -697,12 +697,15 @@ HOME_LINES = [
 ]
 
 
-def home_tile(href, img, alt, title, line, price, video=None, pos=None):
-    style = f' style="object-position:{pos}"' if pos else ""
+def home_tile(href, img, alt, title, line, price, video=None, pos=None, fit=False):
+    # a portrait plate (the robot renders) is shown whole, its own backdrop blurred out to
+    # the edges of the 16:10 frame, so no robot loses its head to the crop
+    style = f' style="object-position:{pos}"' if pos and not fit else ""
     pic = (f'<video autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
            f'<source src="{{{{root}}}}{video}" type="video/mp4"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"{style}></video>'
            if video else f'<img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy" decoding="async"{style}>')
-    return (f'<li><a href="{{{{root}}}}{href}"><div class="ph">{pic}</div>'
+    ph = f'<div class="ph fit" style="--bg:url({{{{root}}}}{img})">' if fit else '<div class="ph">'
+    return (f'<li><a href="{{{{root}}}}{href}">{ph}{pic}</div>'
             f'<h3><span>{escape(title)}</span><span class="label">{price}</span></h3><p>{escape(line)}</p></a></li>')
 
 
@@ -710,7 +713,7 @@ def home_catalogue():
     tiles = [home_tile(*t) for t in HOME_LINES]
     for slug in HOME_MACHINES:
         m = BY_SLUG[slug]
-        tiles.append(home_tile(f"machines/{slug}/", "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"], None, m.get("thumb_pos")))
+        tiles.append(home_tile(f"machines/{slug}/", "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"], None, m.get("thumb_pos"), fit=True))
     return '<ul class="cat">' + "".join(tiles) + "</ul>"
 
 
