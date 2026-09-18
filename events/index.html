@@ -602,11 +602,8 @@
   .wz-opt.pic{padding:0;overflow:hidden;display:flex;flex-direction:column}
   .wz-opt.pic .ph{display:block;aspect-ratio:16/10;background:#E9E6D8;overflow:hidden}
   .wz-opt.pic .ph img,.wz-opt.pic .ph video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,.84,.24,1)}
-  .wz-opt.pic .ph.fit{position:relative;isolation:isolate}
-  .wz-opt.pic .ph.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(28px);transform:scale(1.15)}
-  .wz-opt.pic .ph.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%);mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%)}
-  .wz-opt.pic .ph.fit.duo{display:flex}
-  .wz-opt.pic .ph.fit.duo img{width:50%;-webkit-mask-image:linear-gradient(90deg,transparent 4%,#000 28%,#000 72%,transparent 96%);mask-image:linear-gradient(90deg,transparent 4%,#000 28%,#000 72%,transparent 96%)}
+  .wz-opt.pic .ph.duo{display:flex}
+  .wz-opt.pic .ph.duo img{width:50%}
   .wz-opt.pic .wz-opt-t{display:grid;gap:4px;padding:14px 56px 16px 16px}
   .wz-opt.pic .mk{top:auto;bottom:16px}
   .wz-opt.pic[aria-pressed="true"] .ph img,.wz-opt.pic[aria-pressed="true"] .ph video{transform:scale(1.03)}
@@ -676,10 +673,8 @@
     .wz-rec .p{font-size:clamp(18px,1.5vw,24px)}
     .wz-offers{grid-template-columns:repeat(auto-fill,minmax(clamp(230px,19vw,340px),1fr));gap:clamp(10px,1.2vw,18px)}
     .wz-offer{display:flex;flex-direction:column;padding:0;overflow:hidden;border-radius:var(--r)}
-    .wz-offer .t{width:100%;height:auto;aspect-ratio:16/10;border-radius:0;position:relative;isolation:isolate}
+    .wz-offer .t{width:100%;height:auto;aspect-ratio:16/10;border-radius:0}
     .wz-offer .t img{transition:transform .6s cubic-bezier(.16,.84,.24,1)}
-    .wz-offer .t.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(24px);transform:scale(1.15)}
-    .wz-offer .t.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%);mask-image:linear-gradient(90deg,transparent 22%,#000 38%,#000 62%,transparent 78%)}
     .wz-offer .m{padding:14px 16px 0;flex:1}
     .wz-offer b{font-size:clamp(17px,1.35vw,21px);letter-spacing:-.02em}
     .wz-offer small{font-size:13.5px;margin-top:6px}
@@ -1369,9 +1364,6 @@
   .cat a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
   .cat .ph{aspect-ratio:16/10;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
   .cat .ph img,.cat .ph video{width:100%;height:100%;object-fit:cover;display:block}
-  .cat .ph.fit{position:relative;isolation:isolate}
-  .cat .ph.fit::before{content:"";position:absolute;inset:-12%;z-index:-1;background:var(--bg) center/cover no-repeat;filter:blur(28px);transform:scale(1.15)}
-  .cat .ph.fit img{object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent 25%,#000 42%,#000 58%,transparent 75%);mask-image:linear-gradient(90deg,transparent 25%,#000 42%,#000 58%,transparent 75%)}
   .cat h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
   .cat h3 .label{white-space:nowrap;padding-top:4px}
   .cat p{margin:0;color:var(--graphite);max-width:48ch}
@@ -2134,7 +2126,7 @@ window.WonderQuote = (function(){
   // The showroom robots, written in from the catalogue at build time. The
   // two service robots sold in a package carry a price; the rest are priced
   // to order and never move the total.
-  var ROBOTS=[{"id": "unitree-g1", "name": "Unitree G1", "kind": "Humanoid robot", "status": "On our floor", "note": "Quoted to order", "img": "../img/machines/unitree-g1-light.jpg", "url": "../machines/unitree-g1/"}, {"id": "ubtech-cruzr-1s", "name": "UBTECH Cruzr 1S", "kind": "Service robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../img/machines/ubtech-cruzr-1s-light.jpg", "url": "../machines/ubtech-cruzr-1s/"}, {"id": "ubtech-cadebot", "name": "UBTECH CadeBot", "kind": "Delivery robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../img/machines/ubtech-cadebot-light.jpg", "url": "../machines/ubtech-cadebot/"}, {"id": "unitree-go2", "name": "Unitree GO2", "kind": "Quadruped robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/unitree-go2-light.jpg", "url": "../machines/unitree-go2/"}, {"id": "ubtech-cruzr-y1", "name": "UBTECH Cruzr Y1", "kind": "Material handling robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-cruzr-y1-light.jpg", "url": "../machines/ubtech-cruzr-y1/"}, {"id": "ubtech-yanshee", "name": "UBTECH Yanshee", "kind": "Educational humanoid", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-yanshee-light.jpg", "url": "../machines/ubtech-yanshee/"}, {"id": "ubtech-ugot", "name": "UBTECH UGOT", "kind": "STEM robotics kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-ugot-light.jpg", "url": "../machines/ubtech-ugot/"}, {"id": "ubtech-ukit", "name": "UBTECH uKit", "kind": "STEM education kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-ukit-light.jpg", "url": "../machines/ubtech-ukit/"}];
+  var ROBOTS=[{"id": "unitree-g1", "name": "Unitree G1", "kind": "Humanoid robot", "status": "On our floor", "note": "Quoted to order", "img": "../img/machines/unitree-g1-light.jpg", "pos": "50% 6%", "url": "../machines/unitree-g1/"}, {"id": "ubtech-cruzr-1s", "name": "UBTECH Cruzr 1S", "kind": "Service robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../img/machines/ubtech-cruzr-1s-light.jpg", "pos": "50% 14%", "url": "../machines/ubtech-cruzr-1s/"}, {"id": "ubtech-cadebot", "name": "UBTECH CadeBot", "kind": "Delivery robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../img/machines/ubtech-cadebot-light.jpg", "pos": "50% 18%", "url": "../machines/ubtech-cadebot/"}, {"id": "unitree-go2", "name": "Unitree GO2", "kind": "Quadruped robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/unitree-go2-light.jpg", "pos": null, "url": "../machines/unitree-go2/"}, {"id": "ubtech-cruzr-y1", "name": "UBTECH Cruzr Y1", "kind": "Material handling robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-cruzr-y1-light.jpg", "pos": "50% 14%", "url": "../machines/ubtech-cruzr-y1/"}, {"id": "ubtech-yanshee", "name": "UBTECH Yanshee", "kind": "Educational humanoid", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-yanshee-light.jpg", "pos": "50% 12%", "url": "../machines/ubtech-yanshee/"}, {"id": "ubtech-ugot", "name": "UBTECH UGOT", "kind": "STEM robotics kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-ugot-light.jpg", "pos": null, "url": "../machines/ubtech-ugot/"}, {"id": "ubtech-ukit", "name": "UBTECH uKit", "kind": "STEM education kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../img/machines/ubtech-ukit-light.jpg", "pos": null, "url": "../machines/ubtech-ukit/"}];
   var ROBOT_PRICES={
     'ubtech-cadebot': {price:5400,  alone:275, after:100, role:'Carries orders to the table'},
     'ubtech-cruzr-1s':{price:16200, alone:500, after:250, role:'Greets and guides guests'}
@@ -3102,13 +3094,13 @@ window.WonderQuote = (function(){
   var TYPES=[
     {id:'cafe',    t:'A café',                      s:'Coffee at the counter',                 serve:['coffee'],   img:'../img/offer/coffee-bar-studio.jpg'},
     {id:'bar',     t:'A bar',                       s:'Cocktails poured by an arm',            serve:['cocktails'], img:'../img/offer/robot-bar-studio.jpg'},
-    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'../img/warm-kiosk.jpg',fit:true},
+    {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'../img/warm-kiosk.jpg',pos:'50% 12%'},
     {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles'], img:'../img/offer/kitchen-line-studio.jpg'},
     {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee'], img:'../img/machines/coffee-robot-d1.jpg'},
-    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'../img/machines/ubtech-cadebot-light.jpg',fit:true}
+    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'../img/machines/ubtech-cadebot-light.jpg',pos:'50% 18%'}
   ];
-  var SERVES=[{id:'coffee',t:'Coffee',img:'../img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'../img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'../img/tile-kiosk.jpg',fit:true},{id:'fried',t:'Fried food',img:'../img/tile-arm.jpg',fit:true},{id:'noodles',t:'Noodles',img:'../img/valley-baths.jpg'}];
-  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'../img/machines/ubtech-cadebot-light.jpg',fit:true},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'../img/machines/ubtech-cruzr-1s-light.jpg',fit:true},{id:'both',t:'Both',s:'One of each',img:'../img/machines/ubtech-cadebot-light.jpg',img2:'../img/machines/ubtech-cruzr-1s-light.jpg',fit:true}];
+  var SERVES=[{id:'coffee',t:'Coffee',img:'../img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'../img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'../img/tile-kiosk.jpg',pos:'50% 40%'},{id:'fried',t:'Fried food',img:'../img/tile-arm.jpg',pos:'50% 45%'},{id:'noodles',t:'Noodles',img:'../img/valley-baths.jpg'}];
+  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'../img/machines/ubtech-cadebot-light.jpg',pos:'50% 18%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'../img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'../img/machines/ubtech-cadebot-light.jpg',img2:'../img/machines/ubtech-cruzr-1s-light.jpg'}];
   var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'../img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'../img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'../img/container/day.jpg',video:'../img/container/day.mp4'}];
   var WHY={
     bpro:'Two arms at an Eversys, the premium machine: one pulls the shot, one steams and pours.',
@@ -3155,9 +3147,10 @@ window.WonderQuote = (function(){
   // Every answer is a picture of the thing: the plate the site already
   // uses for it, and the container's clip where there is one.
   function choice(kind,o,on,multi){
-    // a portrait plate is shown whole, its own backdrop carried out to the
-    // edges of the frame behind it, so no robot loses its base to a crop
-    var ph=o.img?'<span class="ph'+(o.fit?' fit'+(o.img2?' duo':'')+'" style="--bg:url('+o.img+')':'')+'">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos&&!o.fit?' style="object-position:'+o.pos+'"':'')+'>'+(o.img2?'<img src="'+o.img2+'" alt="" loading="lazy" decoding="async">':''))+'</span>':'';
+    // every photo fills its frame edge to edge, anchored on its subject so a
+    // tall plate keeps its head; two robots side by side each take half the
+    // card, which is their own 4:5, so both stand whole
+    var ph=o.img?'<span class="ph'+(o.img2?' duo':'')+'">'+(o.video?'<video autoplay muted loop playsinline preload="metadata" poster="'+o.img+'"><source src="'+o.video+'" type="video/mp4"></video>':'<img src="'+o.img+'" alt="" loading="lazy" decoding="async"'+(o.pos?' style="object-position:'+o.pos+'"':'')+'>'+(o.img2?'<img src="'+o.img2+'" alt="" loading="lazy" decoding="async">':''))+'</span>':'';
     return '<button type="button" class="wz-opt'+(multi?' multi':'')+(ph?' pic':'')+'" data-wz="'+kind+'" data-val="'+o.id+'" aria-pressed="'+(on?'true':'false')+'">'+ph+
       '<span class="wz-opt-t"><b>'+esc(o.t)+'</b>'+(o.s?'<small>'+esc(o.s)+'</small>':'')+'</span><span class="mk" aria-hidden="true"></span></button>';
   }
@@ -3197,8 +3190,9 @@ window.WonderQuote = (function(){
   }
   function offer(id,kind,title,why,price,on){
     var img=kind==='part'?pById(id).img:kind==='unit'?rById(id).img:oById(id).img;
+    var pos=kind==='unit'?rById(id).pos:null;
     return '<button type="button" class="wz-offer" data-kind="'+kind+'" data-id="'+id+'" aria-pressed="'+(on?'true':'false')+'">'+
-      '<span class="t'+(kind==='unit'?' fit" style="--bg:url('+img+')':'')+'"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
+      '<span class="t"><img src="'+img+'" alt="" loading="lazy"'+(pos?' style="object-position:'+pos+'"':'')+'></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
       '<span class="p'+(/\$/.test(price)?'':' ask')+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
   }
   function resultHtml(){
