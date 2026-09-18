@@ -1242,6 +1242,12 @@
   .pop h1{margin:18px 0 0;font-weight:400;font-size:clamp(40px,6.6vw,120px);line-height:.96;letter-spacing:-.045em;text-wrap:balance}
   .pop .sub{margin:clamp(20px,2.6vw,34px) 0 0;max-width:58ch;color:color-mix(in srgb,var(--cream) 76%,transparent);font-size:clamp(16px,1.35vw,21px)}
   .pop .actions{display:flex;gap:10px;margin-top:clamp(26px,3vw,40px);flex-wrap:wrap}
+  /* the hero's two doors are the page's first decision: set a size up, and on a
+     phone the same width, one under the other */
+  .pop .actions .btn{font-size:clamp(12px,.8vw,15px)}
+  .pop .actions .btn span{padding:clamp(13px,1vw,18px) clamp(16px,1.4vw,26px)}
+  .pop .actions .btn i{width:clamp(42px,3.2vw,56px);font-size:clamp(15px,1.1vw,19px)}
+  @media (max-width:600px){ .pop .actions{display:grid;grid-template-columns:1fr} .pop .actions .btn span{flex:1} }
   /* Hero entrance: eyebrow, title, sub and actions rise in on load, staggered,
      the same curve the reveal-on-scroll elements use elsewhere on the site.
      Runs once on load, not on scroll, since the hero is above the fold. */
