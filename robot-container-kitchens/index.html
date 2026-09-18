@@ -1385,6 +1385,25 @@
   .sector .plate img,.sector .plate video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) + 6px);background:var(--rule)}
   .sector figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
   .builds{padding-top:clamp(72px,10vw,160px)}
+  /* The home catalogue: one grid of large plates, two across. A plate drifts slowly while it
+     is on screen and settles under the pointer; the two with a clip play it instead. */
+  .cat-sec{padding-top:clamp(72px,10vw,160px)}
+  .cat-sec .wrap{max-width:1500px;margin-inline:auto}
+  .cat{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap);row-gap:clamp(40px,4.5vw,64px)}
+  .cat a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
+  .cat .ph{aspect-ratio:16/10;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
+  .cat .ph img,.cat .ph video{width:100%;height:100%;object-fit:cover;display:block}
+  .cat h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .cat h3 .label{white-space:nowrap;padding-top:4px}
+  .cat p{margin:0;color:var(--graphite);max-width:48ch}
+  .cat-sec .more{margin:clamp(36px,4vw,56px) 0 0}
+  @keyframes cat-drift{from{transform:scale(1.03) translate3d(0.6%,0.4%,0)} to{transform:scale(1.09) translate3d(-1%,-0.8%,0)}}
+  .wr-lift .cat .ph img{transform:scale(1.03);transition:transform 1.6s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .cat .ph.is-in img{animation:cat-drift 18s ease-in-out infinite alternate}
+  .wr-lift .cat li:nth-child(even) .ph.is-in img{animation-direction:alternate-reverse}
+  @media (hover:hover){ .cat a:hover .ph img{animation-play-state:paused} }
+  @media (max-width:900px){ .cat{grid-template-columns:1fr} .cat h3{flex-direction:column;align-items:flex-start;gap:4px} }
+  @media (prefers-reduced-motion:reduce){ .wr-lift .cat .ph.is-in img{animation:none;transform:none} }
   .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
   .builds .cases h3 .label{white-space:nowrap}
   .mrow{padding-top:clamp(72px,10vw,160px)}
@@ -1540,8 +1559,8 @@
   /* Plates arrive: a short rise and a settle from a hair over scale, so the
      page feels loaded rather than dumped. Only under .wr-lift, so with no JS
      everything is simply there. */
-  .wr-lift .story figure:not(.diag),.wr-lift .cases .ph,.wr-lift .catalogue .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .related .ph,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
-  .wr-lift .story figure.is-in,.wr-lift .cases .ph.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .related .ph.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
+  .wr-lift .story figure:not(.diag),.wr-lift .cases .ph,.wr-lift .catalogue .ph,.wr-lift .cat .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .related .ph,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .story figure.is-in,.wr-lift .cases .ph.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .cat .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .related .ph.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
   /* The settle scales the image, so the figure clips it: the bleed plate is
      viewport-wide and 2.5% over that is a horizontal scrollbar. */
   .wr-lift .story figure{overflow:hidden}
@@ -3440,7 +3459,7 @@ window.WonderQuote = (function(){
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .cat .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');

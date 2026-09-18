@@ -1385,6 +1385,25 @@
   .sector .plate img,.sector .plate video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) + 6px);background:var(--rule)}
   .sector figcaption{padding-top:12px;display:flex;justify-content:space-between;gap:var(--gap)}
   .builds{padding-top:clamp(72px,10vw,160px)}
+  /* The home catalogue: one grid of large plates, two across. A plate drifts slowly while it
+     is on screen and settles under the pointer; the two with a clip play it instead. */
+  .cat-sec{padding-top:clamp(72px,10vw,160px)}
+  .cat-sec .wrap{max-width:1500px;margin-inline:auto}
+  .cat{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap);row-gap:clamp(40px,4.5vw,64px)}
+  .cat a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
+  .cat .ph{aspect-ratio:16/10;overflow:hidden;border-radius:var(--r);background:#EFEBDB}
+  .cat .ph img,.cat .ph video{width:100%;height:100%;object-fit:cover;display:block}
+  .cat h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .cat h3 .label{white-space:nowrap;padding-top:4px}
+  .cat p{margin:0;color:var(--graphite);max-width:48ch}
+  .cat-sec .more{margin:clamp(36px,4vw,56px) 0 0}
+  @keyframes cat-drift{from{transform:scale(1.03) translate3d(0.6%,0.4%,0)} to{transform:scale(1.09) translate3d(-1%,-0.8%,0)}}
+  .wr-lift .cat .ph img{transform:scale(1.03);transition:transform 1.6s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .cat .ph.is-in img{animation:cat-drift 18s ease-in-out infinite alternate}
+  .wr-lift .cat li:nth-child(even) .ph.is-in img{animation-direction:alternate-reverse}
+  @media (hover:hover){ .cat a:hover .ph img{animation-play-state:paused} }
+  @media (max-width:900px){ .cat{grid-template-columns:1fr} .cat h3{flex-direction:column;align-items:flex-start;gap:4px} }
+  @media (prefers-reduced-motion:reduce){ .wr-lift .cat .ph.is-in img{animation:none;transform:none} }
   .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
   .builds .cases h3 .label{white-space:nowrap}
   .mrow{padding-top:clamp(72px,10vw,160px)}
@@ -1540,8 +1559,8 @@
   /* Plates arrive: a short rise and a settle from a hair over scale, so the
      page feels loaded rather than dumped. Only under .wr-lift, so with no JS
      everything is simply there. */
-  .wr-lift .story figure:not(.diag),.wr-lift .cases .ph,.wr-lift .catalogue .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .related .ph,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
-  .wr-lift .story figure.is-in,.wr-lift .cases .ph.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .related .ph.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
+  .wr-lift .story figure:not(.diag),.wr-lift .cases .ph,.wr-lift .catalogue .ph,.wr-lift .cat .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .related .ph,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .story figure.is-in,.wr-lift .cases .ph.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .cat .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .related .ph.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
   /* The settle scales the image, so the figure clips it: the bleed plate is
      viewport-wide and 2.5% over that is a horizontal scrollbar. */
   .wr-lift .story figure{overflow:hidden}
@@ -1704,39 +1723,17 @@
     </div>
   </section>
 
-  <section class="builds" id="offer">
+  <section class="cat-sec" id="offer">
     <div class="wrap">
       <div class="grid head">
-        <span class="label">What people come for</span>
-        <h2>Coffee, cocktails, ice cream, kitchens.</h2>
-        <p>Idea, drawings, your colours, the fit-out, the first service. All four priced on the page, all four running downstairs.</p>
+        <span class="label">The catalogue</span>
+        <h2>Coffee, cocktails, ice cream, kitchens. And the robots that work the room.</h2>
+        <p>Every line priced on its page, installed and looked after on one monthly budget. Four of them run downstairs.</p>
       </div>
-      <div class="cases">
-        <a href="robot-coffee-machines/">
-          <div class="ph"><img src="img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless: two silver arms, the Eversys machine, the Jolin milk unit, the dispenser tower, the purple crescent cups" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot coffee machines</span><span class="label">From $4,568 a month</span></h3>
-          <p>A barista in two square metres, in your brand.</p>
-        </a>
-        <a href="robot-cocktail-machines/">
-          <div class="ph"><img src="img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot cocktail machines</span><span class="label">$3,495 a month</span></h3>
-          <p>The same measure every time, under a rack of your bottles.</p>
-        </a>
-        <a href="robot-ice-cream-machines/">
-          <div class="ph"><img src="img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" width="1400" height="1737"></div>
-          <h3><span>Robot ice cream machines</span><span class="label">$3,572 a month</span></h3>
-          <p>Pasteurised soft serve, an arm that hands it over, a queue that watches.</p>
-        </a>
-        <a href="robot-kitchen-fitouts/">
-          <div class="ph"><img src="img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless: ingredient store, rail cobot, three fryers, two funnels, six noodle baths" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot, $3,610 a month</span></h3>
-          <p>A line that fries, boils and plates the whole menu. Ours is open six days.</p>
-        </a>
-      </div>
+      <ul class="cat"><li><a href="robot-coffee-machines/"><div class="ph"><video autoplay muted loop playsinline preload="metadata" poster="img/offer/coffee-bar-studio.jpg" aria-label="The dual-arm barista bar on a studio seamless"><source src="img/machines/coffee-robot-stage.mp4" type="video/mp4"><img src="img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless" loading="lazy"></video></div><h3><span>Robot coffee machines</span><span class="label">From $4,568 a month</span></h3><p>A barista in two square metres, in your brand.</p></a></li><li><a href="robot-cocktail-machines/"><div class="ph"><img src="img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless" loading="lazy" decoding="async"></div><h3><span>Robot cocktail machines</span><span class="label">$3,495 a month</span></h3><p>The same measure every time, under a rack of your bottles.</p></a></li><li><a href="robot-ice-cream-machines/"><div class="ph"><img src="img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" decoding="async" style="object-position:50% 10%"></div><h3><span>Robot ice cream machines</span><span class="label">$3,572 a month</span></h3><p>Pasteurised soft serve, an arm that hands it over, a queue that watches.</p></a></li><li><a href="robot-kitchen-fitouts/"><div class="ph"><img src="img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless" loading="lazy" decoding="async"></div><h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot, $3,610 a month</span></h3><p>A line that fries, boils and plates the whole menu. Ours is open six days.</p></a></li><li><a href="robot-container-kitchens/"><div class="ph"><video autoplay muted loop playsinline preload="metadata" poster="img/container/day.jpg" aria-label="The container kitchen by day, its video panel skin running the brand"><source src="img/container/day.mp4" type="video/mp4"><img src="img/container/day.jpg" alt="The container kitchen by day, its video panel skin running the brand" loading="lazy"></video></div><h3><span>Robot container kitchens</span><span class="label">$6,603 a month, plus the build</span></h3><p>A twenty foot container, an arm cooking behind glass, a skin that carries the brand.</p></a></li><li><a href="machines/ubtech-cadebot/"><div class="ph"><img src="img/machines/ubtech-cadebot-light.jpg" alt="UBTECH CadeBot" loading="lazy" decoding="async" style="object-position:50% 46%"></div><h3><span>UBTECH CadeBot</span><span class="label">Quoted to your floor</span></h3><p>The tray robot. Three trays, 40 kg, a 21.5-inch screen, and it finds its own way to the table.</p></a></li><li><a href="machines/ubtech-cruzr-1s/"><div class="ph"><img src="img/machines/ubtech-cruzr-1s-light.jpg" alt="UBTECH Cruzr 1S" loading="lazy" decoding="async" style="object-position:50% 14%"></div><h3><span>UBTECH Cruzr 1S</span><span class="label">Quoted to your floor</span></h3><p>The reception robot. Greets, guides, plays your content and comes back to charge.</p></a></li><li><a href="machines/unitree-g1/"><div class="ph"><img src="img/machines/unitree-g1-light.jpg" alt="Unitree G1" loading="lazy" decoding="async" style="object-position:50% 6%"></div><h3><span>Unitree G1</span><span class="label">Quoted to order</span></h3><p>A compact humanoid for research, development and the kind of demo people remember.</p></a></li><li><a href="machines/unitree-go2/"><div class="ph"><img src="img/machines/unitree-go2-light.jpg" alt="Unitree GO2" loading="lazy" decoding="async"></div><h3><span>Unitree GO2</span><span class="label">Quoted to order</span></h3><p>A robot dog for inspection, patrol and the ground wheels can&#x27;t cover.</p></a></li><li><a href="machines/custom-automation/"><div class="ph"><img src="img/machines/custom-automation-light.jpg" alt="Custom automation" loading="lazy" decoding="async" style="object-position:50% 42%"></div><h3><span>Custom automation</span><span class="label">Scoped first</span></h3><p>A pallet, a fry basket, a bar dispenser. Drawn against your floor plan, built in the workshop here, run on our floor before it ships.</p></a></li></ul>
+      <p class="more"><a class="btn ghost" href="machines/"><span>The whole catalogue</span><i aria-hidden="true">+</i></a></p>
     </div>
   </section>
-
-
 
   <section class="disc" id="disciplines">
     <div class="wrap">
@@ -1780,18 +1777,7 @@
     </div>
   </section>
 
-  <section class="mrow" id="services">
-    <div class="wrap">
-      <div class="grid head">
-        <span class="label">The catalogue</span>
-        <h2>Machines we supply, program and service.</h2>
-        <p>Six lines we sell most. Install, programming, training and maintenance on the same quote.</p>
-      </div>
-      <ul class="catalogue"><li><a href="machines/unitree-g1/"><div class="ph"><img src="img/machines/unitree-g1-light.jpg" alt="Unitree G1" loading="lazy" style="object-position:50% 6%"></div><h3>Unitree G1</h3><p>A compact humanoid for research, development and the kind of demo people remember.</p><div class="pills"><span class="pill">Unitree</span><span class="pill">Humanoid robot</span><span class="pill">On our floor</span><span class="pill price">Quoted to order</span></div></a></li><li><a href="machines/unitree-go2/"><div class="ph"><img src="img/machines/unitree-go2-light.jpg" alt="Unitree GO2" loading="lazy"></div><h3>Unitree GO2</h3><p>A robot dog for inspection, patrol and the ground wheels can&#x27;t cover.</p><div class="pills"><span class="pill">Unitree</span><span class="pill">Quadruped robot</span><span class="pill">Sourced to order</span><span class="pill price">Quoted to order</span></div></a></li><li><a href="machines/ubtech-cadebot/"><div class="ph"><img src="img/machines/ubtech-cadebot-light.jpg" alt="UBTECH CadeBot" loading="lazy" style="object-position:50% 46%"></div><h3>UBTECH CadeBot</h3><p>The tray robot. Three trays, 40 kg, a 21.5-inch screen, and it finds its own way to the table.</p><div class="pills"><span class="pill">UBTECH</span><span class="pill">Delivery robot</span><span class="pill">On our floor</span><span class="pill price">Quoted to your floor</span></div></a></li><li><a href="machines/ubtech-cruzr-y1/"><div class="ph"><img src="img/machines/ubtech-cruzr-y1-light.jpg" alt="UBTECH Cruzr Y1" loading="lazy" style="object-position:50% 20%"></div><h3>UBTECH Cruzr Y1</h3><p>A mobile dual-arm robot for the warehouse jobs between manual labour and fixed automation.</p><div class="pills"><span class="pill">UBTECH</span><span class="pill">Material handling robot</span><span class="pill">Sourced to order</span><span class="pill price">Quoted to order</span></div></a></li><li><a href="machines/custom-automation/"><div class="ph"><img src="img/machines/custom-automation-light.jpg" alt="Custom automation" loading="lazy" style="object-position:50% 42%"></div><h3>Custom automation</h3><p>A pallet, a fry basket, a bar dispenser. Drawn against your floor plan, built in the workshop here, run on our floor before it ships.</p><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotics engineering</span><span class="pill">Scoped first</span></div></a></li><li><a href="machines/kitchen-robot/"><div class="ph"><img src="img/machines/kitchen-robot-light.jpg" alt="Robot kitchens" loading="lazy"></div><h3>Robot kitchens</h3><p>An arm on a rail, fryers, noodle baths, an ingredient store. The one downstairs cooks the whole menu six days a week.</p><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Kitchen automation</span><span class="pill">On our floor</span><span class="pill price">From $3,610 a month</span></div></a></li></ul>
-      <p class="more"><a class="btn ghost" href="machines/"><span>The whole catalogue</span><i aria-hidden="true">+</i></a></p>
-    </div>
-  </section>
-
+  <span id="services"></span>
 
   <section class="process" id="process">
     <div class="wrap">
@@ -3601,7 +3587,7 @@ window.WonderQuote = (function(){
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .cat .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');

@@ -679,16 +679,47 @@ def next_block(name):
 
 # The home row is the breadth argument, so it spans the classes rather than
 # stacking the food lines: humanoid, quadruped, service, warehouse, custom, kitchen.
-HOME_MACHINES = ["unitree-g1", "unitree-go2", "ubtech-cadebot", "ubtech-cruzr-y1", "custom-automation", "kitchen-robot"]
+HOME_MACHINES = ["ubtech-cadebot", "ubtech-cruzr-1s", "unitree-g1", "unitree-go2", "custom-automation"]
+# The home catalogue is one grid of large tiles (Jesse, 18 Sep: "combined, large size, a
+# subtle animation"): the four food lines and the container first, on their landing pages,
+# then the robots from the catalogue. A tile with a clip plays it; the rest drift slowly.
+HOME_LINES = [
+    ("robot-coffee-machines/", "img/offer/coffee-bar-studio.jpg", "The dual-arm barista bar on a studio seamless", "Robot coffee machines",
+     "A barista in two square metres, in your brand.", "From {{monthly:bstd}} a month", "img/machines/coffee-robot-stage.mp4", None),
+    ("robot-cocktail-machines/", "img/offer/robot-bar-studio.jpg", "The robot bar from 365 St Pauls Terrace on a studio seamless", "Robot cocktail machines",
+     "The same measure every time, under a rack of your bottles.", "{{monthly:bar}} a month", None, None),
+    ("robot-ice-cream-machines/", "img/warm-kiosk.jpg", "The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy", "Robot ice cream machines",
+     "Pasteurised soft serve, an arm that hands it over, a queue that watches.", "{{monthly:ice}} a month", None, "50% 10%"),
+    ("robot-kitchen-fitouts/", "img/offer/kitchen-line-studio.jpg", "The kitchen line from 365 St Pauls Terrace on a studio seamless", "Robot kitchen fit-outs",
+     "A line that fries, boils and plates the whole menu. Ours is open six days.", "Frying robot, {{monthly:fry}} a month", None, None),
+    ("robot-container-kitchens/", "img/container/day.jpg", "The container kitchen by day, its video panel skin running the brand", "Robot container kitchens",
+     "A twenty foot container, an arm cooking behind glass, a skin that carries the brand.", "{{monthly:fry+noo}} a month, plus the build", "img/container/day.mp4", None),
+]
+
+
+def home_tile(href, img, alt, title, line, price, video=None, pos=None):
+    style = f' style="object-position:{pos}"' if pos else ""
+    pic = (f'<video autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
+           f'<source src="{{{{root}}}}{video}" type="video/mp4"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"{style}></video>'
+           if video else f'<img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy" decoding="async"{style}>')
+    return (f'<li><a href="{{{{root}}}}{href}"><div class="ph">{pic}</div>'
+            f'<h3><span>{escape(title)}</span><span class="label">{price}</span></h3><p>{escape(line)}</p></a></li>')
+
+
+def home_catalogue():
+    tiles = [home_tile(*t) for t in HOME_LINES]
+    for slug in HOME_MACHINES:
+        m = BY_SLUG[slug]
+        tiles.append(home_tile(f"machines/{slug}/", "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"], None, m.get("thumb_pos")))
+    return '<ul class="cat">' + "".join(tiles) + "</ul>"
 
 
 def page(name, cfg):
     body = (SRC / "pages" / f"{name}.html").read_text()
     if "{{next}}" in body:
         body = body.replace("{{next}}", next_block(name))
-    if "{{machines}}" in body:
-        body = body.replace("{{machines}}", '<ul class="catalogue">' + "".join(
-            card(BY_SLUG[slug]) for slug in HOME_MACHINES) + "</ul>")
+    if "{{catalogue}}" in body:
+        body = body.replace("{{catalogue}}", home_catalogue())
     render(body, cfg, name)
 
 

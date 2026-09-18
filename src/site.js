@@ -1452,7 +1452,7 @@ window.WonderQuote = (function(){
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .cat .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');
