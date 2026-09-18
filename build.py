@@ -278,8 +278,12 @@ FOOTER = '''<footer>
         <span class="addr">365 St Pauls Terrace<br>Fortitude Valley QLD 4006</span>
       </div>
     </nav>
-    <canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.92" data-w="2200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
-    <div class="made label"><span>Made</span><span>in</span><span>Fortitude</span><span>Valley,</span><span>with</span><span>machines</span><span>that</span><span>work.</span></div>
+  </div>
+  <div class="stage">
+    <div class="visor" aria-hidden="true"></div>
+    <svg class="moon" viewBox="0 0 40 40" aria-hidden="true"><defs><radialGradient id="fmg"><stop offset="0%" stop-color="#EBD9FF"/><stop offset="100%" stop-color="#A98FE0"/></radialGradient></defs><path d="M27 4a16 16 0 1 0 9 29A19 19 0 0 1 27 4Z" fill="url(#fmg)"/></svg>
+    <div class="lockup"><canvas class="lock" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-fit="vw" data-vw="0.58" data-w="560" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas></div>
+    <p class="made label"><span>Made</span> <span>in</span> <span>Fortitude</span> <span>Valley,</span> <span>with</span> <span>machines</span> <span>that</span> <span>work.</span></p>
   </div>
 </footer>
 '''
