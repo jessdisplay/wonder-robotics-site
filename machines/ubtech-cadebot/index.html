@@ -923,23 +923,9 @@
   .steps .name small{display:block;margin-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
 
   /* work tiles */
-  .cases{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
-  .cases:has(> a:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
   /* four cases read as a square, not three plus an orphan */
-  .cases:has(> a:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}
   /* A build with nothing to show yet. It has to read as deliberate, not broken,
      and must never carry an invented picture of the thing. */
-  .cases a.soon .ph{background:var(--night);display:grid;place-items:center}
-  .cases a.soon .holding{display:grid;gap:10px;justify-items:center;text-align:center;padding:24px}
-  .cases a.soon .holding b{font-weight:400;font-size:clamp(28px,3vw,46px);letter-spacing:-.04em;color:var(--cream);line-height:1}
-  .cases a.soon .holding .label{color:color-mix(in srgb,var(--cream) 58%,var(--night))}
-  @media (max-width:900px){ .cases:has(> a:nth-child(3)){grid-template-columns:1fr} }
-  .cases a{display:grid;gap:14px;text-decoration:none;color:inherit}
-  .cases .ph{aspect-ratio:3/2;overflow:hidden;background:var(--rule);border-radius:var(--r)}
-  .cases .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
-  .cases a:hover .ph img{transform:scale(1.03)}
-  .cases h3{margin:0;font-weight:400;font-size:clamp(26px,2.6vw,44px);letter-spacing:-.03em;line-height:1.02;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-  .cases p{margin:0;color:var(--graphite);max-width:48ch}
   .chip.build{color:var(--signal);border-color:color-mix(in srgb,var(--signal) 45%,transparent)}
   .chip.concept{color:var(--graphite);border-color:var(--rule)}
 
@@ -998,7 +984,6 @@
   .next .ph img{width:100%;height:100%;object-fit:cover}
   .next h2{margin:12px 0 0;font-weight:400;font-size:clamp(34px,4.6vw,76px);letter-spacing:-.035em;line-height:.98}
   @media (max-width:980px){
-    .cases{grid-template-columns:1fr}
     .case-head .facts,.case-head .intro{grid-column:1/13}
     .story .pair{grid-template-columns:1fr}
     .story .duo{grid-template-columns:1fr}
@@ -1125,7 +1110,7 @@
   /* product page, after coffee-tech.com: night hero, detail, highlights, tiles, left-rail sections */
   .pill{display:inline-block;border:1px solid currentColor;border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
   .pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-  .catalogue .pills,.related .pills{justify-content:flex-start}
+  .catalogue .pills{justify-content:flex-start}
   .pill.price{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .phero,.pdetail{background:#0A0A0C;color:var(--cream)}
   .phero .wrap{padding-top:clamp(64px,9vw,140px);text-align:center}
@@ -1190,6 +1175,7 @@
      the track instead of pushing past it; the table still scrolls via its
      own .machines-wrap when it genuinely needs to. */
   .rail .wrap > *{min-width:0}
+  .rail .wrap > .cat{grid-column:1/-1;margin-top:clamp(8px,1.2vw,20px)}
   .rail > .wrap > .label{text-transform:none;letter-spacing:.02em;font-size:14px;color:var(--ink)}
   .rail h2{margin:0 0 clamp(24px,3vw,40px);font-weight:400;font-size:clamp(30px,3.6vw,60px);letter-spacing:-.03em;line-height:1;max-width:20ch}
   .rail figure{margin:0 0 var(--gap)}
@@ -1201,13 +1187,6 @@
   .fits li{border:1px solid var(--rule);border-radius:var(--r);padding:28px 26px 30px;display:grid;gap:14px;align-content:start}
   .fits b{font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
   .fits p{margin:0;font-size:15px;line-height:1.5;color:var(--graphite)}
-  .related{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
-  .related a{display:grid;gap:14px;text-decoration:none;color:inherit;align-content:start}
-  .related .ph{aspect-ratio:5/4;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
-  .related .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
-  .related a:hover .ph img{transform:scale(1.03)}
-  .related h3{margin:0;font-weight:400;font-size:clamp(22px,2vw,30px);letter-spacing:-.03em;line-height:1.05}
-  .related .pill{justify-self:start}
   .acc details{border-bottom:1px solid var(--rule)}
   .acc details:first-child{border-top:1px solid var(--ink)}
   .acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:var(--gap);padding:18px 0;font-size:clamp(18px,1.6vw,26px);letter-spacing:-.02em;line-height:1.2}
@@ -1276,7 +1255,7 @@
     .pfeatures .wrap,.rail .wrap{grid-template-columns:1fr}
   }
   @media (max-width:600px){
-    .catalogue,.tiles,.hl,.fits,.related,.specs{grid-template-columns:1fr}
+    .catalogue,.tiles,.hl,.fits,.specs{grid-template-columns:1fr}
   }
 
   /* home: the pop hero, the sector stories, the machine row, the footer columns */
@@ -1378,7 +1357,6 @@
   @media (prefers-reduced-motion:reduce){ .wr-lift .cat .ph.is-in img{animation:none;transform:none} }
   .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
   .builds.full .wrap{max-width:none}
-  .builds .cases h3 .label{white-space:nowrap}
   .mrow{padding-top:clamp(72px,10vw,160px)}
   .mrow .catalogue{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:0}
   .mrow .more{margin:clamp(32px,4vw,56px) 0 0;display:flex;justify-content:center}
@@ -1527,18 +1505,17 @@
   .venue-note{margin:clamp(24px,3vw,40px) 0 0;max-width:72ch;font-size:clamp(16px,1.2vw,19px);line-height:1.5;color:var(--graphite)}
   @media (prefers-reduced-motion:reduce){ .rail-scroll{scroll-behavior:auto} }
 
-  .cases .label{white-space:nowrap}
 
   /* Plates arrive: a short rise and a settle from a hair over scale, so the
      page feels loaded rather than dumped. Only under .wr-lift, so with no JS
      everything is simply there. */
-  .wr-lift .story figure:not(.diag),.wr-lift .cases .ph,.wr-lift .catalogue .ph,.wr-lift .cat .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .related .ph,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
-  .wr-lift .story figure.is-in,.wr-lift .cases .ph.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .cat .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .related .ph.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
+  .wr-lift .story figure:not(.diag),.wr-lift .catalogue .ph,.wr-lift .cat .ph,.wr-lift .venue .shot,.wr-lift .visit .peek a,.wr-lift .feature .card,.wr-lift .next .ph,.wr-lift .pdetail figure,.wr-lift .tiles li{opacity:0;transform:translate3d(0,18px,0);transition:opacity .7s ease,transform 1.1s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .story figure.is-in,.wr-lift .catalogue .ph.is-in,.wr-lift .cat .ph.is-in,.wr-lift .venue .shot.is-in,.wr-lift .visit .peek a.is-in,.wr-lift .feature .card.is-in,.wr-lift .next .ph.is-in,.wr-lift .pdetail figure.is-in,.wr-lift .tiles li.is-in{opacity:1;transform:none}
   /* The settle scales the image, so the figure clips it: the bleed plate is
      viewport-wide and 2.5% over that is a horizontal scrollbar. */
   .wr-lift .story figure{overflow:hidden}
-  .wr-lift .story figure img,.wr-lift .cases .ph img,.wr-lift .catalogue .ph img{transform:scale(1.025);transition:transform 1.6s cubic-bezier(.16,.84,.24,1)}
-  .wr-lift .story figure.is-in img,.wr-lift .cases .ph.is-in img,.wr-lift .catalogue .ph.is-in img{transform:none}
+  .wr-lift .story figure img,.wr-lift .catalogue .ph img{transform:scale(1.025);transition:transform 1.6s cubic-bezier(.16,.84,.24,1)}
+  .wr-lift .story figure.is-in img,.wr-lift .catalogue .ph.is-in img{transform:none}
   .wr-lift .layer.bottom{transform:translate3d(0,28px,0);opacity:0;transition:transform .85s cubic-bezier(.16,.84,.24,1),opacity .6s ease}
   .wr-lift .layer.bottom.is-in{transform:none;opacity:1}
   .wr-lift .layer.bottom .cell{transition:opacity .6s ease .18s;opacity:0}
@@ -1564,7 +1541,7 @@
     <a class="mark" href="../../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="../../#disciplines">What we do</a><a href="../../work/valley/">The building</a><a href="../../machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="../../#work">Case studies</a><a href="../../robot-cafe-packages/">Packages</a><a href="../../events/">The club</a>
+      <a href="../../#disciplines">What we do</a><a href="../../work/valley/">The building</a><a href="../../machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="../../#work">Case studies</a><a href="../../robot-cafe-packages/">Packages</a><a href="../../#building">Experience hub</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
@@ -1722,10 +1699,8 @@
   <section class="rail">
     <div class="wrap">
       <span class="label">[ Related ]</span>
-      <div>
-        <h2>Add these to complete the job</h2>
-        <div class="related"><a href="../../machines/ubtech-cruzr-1s/"><div class="ph"><img src="../../img/machines/ubtech-cruzr-1s-light.jpg" alt="UBTECH Cruzr 1S" loading="lazy" style="object-position:50% 14%"></div><h3>UBTECH Cruzr 1S</h3><div class="pills"><span class="pill">UBTECH</span><span class="pill">Service robot</span><span class="pill">On our floor</span></div></a><a href="../../machines/coffee-robot/"><div class="ph"><img src="../../img/machines/coffee-robot-light.jpg" alt="Coffee and bar robots" loading="lazy"></div><h3>Coffee and bar robots</h3><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Robotic beverage station</span><span class="pill">On our floor</span></div></a><a href="../../machines/kitchen-robot/"><div class="ph"><img src="../../img/machines/kitchen-robot-light.jpg" alt="Robot kitchens" loading="lazy"></div><h3>Robot kitchens</h3><div class="pills"><span class="pill">Wonder Robotics</span><span class="pill">Kitchen automation</span><span class="pill">On our floor</span></div></a><a href="../../machines/unitree-go2/"><div class="ph"><img src="../../img/machines/unitree-go2-light.jpg" alt="Unitree GO2" loading="lazy"></div><h3>Unitree GO2</h3><div class="pills"><span class="pill">Unitree</span><span class="pill">Quadruped robot</span><span class="pill">Sourced to order</span></div></a></div>
-      </div>
+      <h2>Add these to complete the job</h2>
+      <ul class="cat two"><li><a class="wz-opt pic" href="../../machines/ubtech-cruzr-1s/"><span class="ph"><img src="../../img/machines/ubtech-cruzr-1s-light.jpg" alt="UBTECH Cruzr 1S" loading="lazy" decoding="async" style="object-position:50% 14%"></span><span class="wz-opt-t"><h3><b>UBTECH Cruzr 1S</b></h3><small>The reception robot. Greets, guides, plays your content and comes back to charge.</small><span class="label">Quoted to your floor</span></span></a></li><li><a class="wz-opt pic" href="../../machines/coffee-robot/"><span class="ph"><img src="../../img/machines/coffee-robot-light.jpg" alt="Coffee and bar robots" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Coffee and bar robots</b></h3><small>A barista or a bartender in about two square metres, and a show every time.</small><span class="label">From $3,495 a month</span></span></a></li><li><a class="wz-opt pic" href="../../machines/kitchen-robot/"><span class="ph"><img src="../../img/machines/kitchen-robot-light.jpg" alt="Robot kitchens" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Robot kitchens</b></h3><small>An arm on a rail, fryers, noodle baths, an ingredient store. The one downstairs cooks the whole menu six days a week.</small><span class="label">From $3,610 a month</span></span></a></li><li><a class="wz-opt pic" href="../../machines/unitree-go2/"><span class="ph"><img src="../../img/machines/unitree-go2-light.jpg" alt="Unitree GO2" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Unitree GO2</b></h3><small>A robot dog for inspection, patrol and the ground wheels can&#x27;t cover.</small><span class="label">Quoted to order</span></span></a></li></ul>
     </div>
   </section>
 
@@ -3450,7 +3425,7 @@ window.WonderQuote = (function(){
   // The same observer now lifts every plate on the site as it arrives
   // (Jesse, 14 Sep 2026: "a subtle loader on the images to make it pop").
   // The process rail keeps its own ink wipe and is left out here.
-  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .cases .ph, .catalogue .ph, .cat .ph, .venue .shot, .visit .peek a, .feature .card, .related .ph, .next .ph, .pdetail figure, .tiles li'));
+  var els = [].slice.call(document.querySelectorAll('.layer.bottom, .story figure:not(.diag), .catalogue .ph, .cat .ph, .venue .shot, .visit .peek a, .feature .card, .next .ph, .pdetail figure, .tiles li'));
   if (!els.length || !('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.documentElement.classList.add('wr-lift');

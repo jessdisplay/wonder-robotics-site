@@ -77,7 +77,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}events/">The club</a>
+      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}#building">Experience hub</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
@@ -699,7 +699,8 @@ def home_tile(href, img, alt, title, line, price, video=None, pos=None):
     style = f' style="object-position:{pos}"' if pos else ""
     pic = (f'<video autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
            f'<source src="{{{{root}}}}{video}" type="video/mp4"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"{style}></video>'
-           if video else f'<img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy" decoding="async"{style}>')
+           if video else f'<img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy" decoding="async"{style}>'
+           if img else f'<span class="glyph">{escape(title)}</span>')  # no photo yet: the name holds the box
     # the builder's own card (.wz-opt.pic), so the home catalogue and the quote
     # are one component, not a lookalike
     return (f'<li><a class="wz-opt pic" href="{{{{root}}}}{href}"><span class="ph">{pic}</span>'
@@ -795,7 +796,13 @@ def machine_body(m):
         (f'<li style="background-image:url({{{{root}}}}img/{dets[i]})">' if i < len(dets) else "<li>")
         + f'<b>{escape(t)}</b><p>{escape(d)}</p></li>' for i, (t, d) in enumerate(m["features"]))
     fits = "".join(f'<li><b>{escape(t)}</b><p>{escape(d)}</p></li>' for t, d in m["fits"])
-    rel = "".join(f'<a href="{{{{root}}}}machines/{r}/"><div class="ph">{thumb(BY_SLUG[r])}</div><h3>{escape(BY_SLUG[r]["name"])}</h3><div class="pills">{pillrow(BY_SLUG[r])}</div></a>' for r in m["related"])
+    def shot_of(x):
+        src = x.get("light") or x["hero"]
+        return "img/" + src if src else None
+    rel = "".join(home_tile(f"machines/{r}/", shot_of(BY_SLUG[r]), BY_SLUG[r]["name"],
+                            BY_SLUG[r]["name"], BY_SLUG[r].get("line", ""), BY_SLUG[r]["price"], None, BY_SLUG[r].get("wide_pos"))
+                  for r in m["related"])
+    rel_cls = "cat" if len(m["related"]) == 3 else "cat two"
     specs = "".join(f'<div><b>{escape(k)}</b><span>{escape(v)}</span></div>' for k, v in m["specs"])
     compare = ""
     if m["compare"]:
@@ -858,10 +865,8 @@ def machine_body(m):
   <section class="rail">
     <div class="wrap">
       <span class="label">[ Related ]</span>
-      <div>
-        <h2>Add these to complete the job</h2>
-        <div class="related">{rel}</div>
-      </div>
+      <h2>Add these to complete the job</h2>
+      <ul class="{rel_cls}">{rel}</ul>
     </div>
   </section>
 
@@ -927,6 +932,8 @@ def catalogue_body():
              ("Prices", "List, ex GST, delivered within 100 km of an Australian port"),
              ("With every machine", "Installation, programming to your task, staff training, maintenance"),
              ("See them", "Most of the range is on our floor at 365 St Pauls Terrace")]
+    # the four lines are the home catalogue's own tiles, from the same list
+    lines = "".join(home_tile(*t) for t in HOME_LINES[:4])
     return f'''<main id="top">
   <section class="case-head">
     <div class="wrap">
@@ -946,35 +953,14 @@ def catalogue_body():
     </div>
   </section>
 
-  <section class="builds" id="offer">
+  <section class="builds full" id="offer">
     <div class="wrap">
       <div class="grid head">
         <span class="label">Start here</span>
         <h2>Coffee, cocktails, ice cream, kitchens.</h2>
         <p>The four lines we design, brand, fit out and run. All priced on the page.</p>
       </div>
-      <div class="cases">
-        <a href="{{{{root}}}}robot-coffee-machines/">
-          <div class="ph"><img src="{{{{root}}}}img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless: two silver arms, the Eversys machine, the Jolin milk unit, the dispenser tower, the purple crescent cups" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot coffee machines</span><span class="label">From {{{{monthly:bstd}}}} a month</span></h3>
-          <p>A barista in two square metres, in your brand.</p>
-        </a>
-        <a href="{{{{root}}}}robot-cocktail-machines/">
-          <div class="ph"><img src="{{{{root}}}}img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot cocktail machines</span><span class="label">{{{{monthly:bar}}}} a month</span></h3>
-          <p>The same measure every time, under a rack of your bottles.</p>
-        </a>
-        <a href="{{{{root}}}}robot-ice-cream-machines/">
-          <div class="ph"><img src="{{{{root}}}}img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" width="1400" height="1737"></div>
-          <h3><span>Robot ice cream machines</span><span class="label">{{{{monthly:ice}}}} a month</span></h3>
-          <p>Pasteurised soft serve, an arm that hands it over, a queue that watches.</p>
-        </a>
-        <a href="{{{{root}}}}robot-kitchen-fitouts/">
-          <div class="ph"><img src="{{{{root}}}}img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless: ingredient store, rail cobot, three fryers, two funnels, six noodle baths" loading="lazy" width="2048" height="1360"></div>
-          <h3><span>Robot kitchen fit-outs</span><span class="label">Frying robot, {{{{monthly:fry}}}} a month</span></h3>
-          <p>A line that fries, boils and plates the whole menu. Ours is open six days.</p>
-        </a>
-      </div>
+      <ul class="cat two">{lines}</ul>
     </div>
   </section>
 
