@@ -1372,10 +1372,12 @@
   .wr-lift .cat .ph.is-in img{animation:cat-drift 18s ease-in-out infinite alternate}
   .wr-lift .cat li:nth-child(even) .ph.is-in img{animation-direction:alternate-reverse}
   @media (hover:hover){ .cat a:hover .ph img{animation-play-state:paused} }
+  .cat.two{grid-template-columns:repeat(2,minmax(0,1fr))}
   @media (max-width:1100px){ .cat{grid-template-columns:repeat(2,minmax(0,1fr))} }
-  @media (max-width:560px){ .cat{grid-template-columns:1fr} }
+  @media (max-width:560px){ .cat,.cat.two{grid-template-columns:1fr} }
   @media (prefers-reduced-motion:reduce){ .wr-lift .cat .ph.is-in img{animation:none;transform:none} }
   .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
+  .builds.full .wrap{max-width:none}
   .builds .cases h3 .label{white-space:nowrap}
   .mrow{padding-top:clamp(72px,10vw,160px)}
   .mrow .catalogue{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:0}
@@ -1776,9 +1778,9 @@
   <section class="venue" id="building">
     <div class="wrap">
       <div class="grid head">
-        <span class="label">The building</span>
-        <h2>365 St Pauls Terrace, open six days.</h2>
-        <p>The kitchen cooks the menu. The bar pours. Pepper works the door.</p>
+        <span class="label">The showroom</span>
+        <h2>Our showroom and experience hub.</h2>
+        <p>365 St Pauls Terrace, open six days. Come and see the machines in action.</p>
       </div>
       <div class="rail-wrap">
         <div class="rail-scroll" id="venue-rail" tabindex="0" role="region" aria-label="Inside the building, scroll for more">
@@ -1799,35 +1801,19 @@
     </div>
   </section>
 
-  <section class="builds" id="work">
+  <section class="builds full" id="work">
     <div class="wrap">
       <div class="grid head">
         <span class="label">Case studies</span>
         <h2>Our own building, and three jobs on the bench.</h2>
         <p>Ours downstairs, open six days. Then the Gold Coast, Eat Street, and a care device with its own brand.</p>
       </div>
-      <div class="cases">
-        <a href="work/valley/">
-          <div class="ph"><img src="img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace, the arm on its rail over the fryers" loading="lazy"></div>
-          <h3><span>365 St Pauls Terrace</span><span class="label">Venue</span></h3>
-          <p>Scoped, built and run by us. Kitchen, bar, kiosk, floor.</p>
-        </a>
-        <a href="work/little-red-dumplings/">
-          <div class="ph"><img src="img/lrd/room.jpg" alt="Visualisation of the finished Little Red Dumpling cafe" loading="lazy"></div>
-          <h3><span>Little Red Dumpling</span><span class="label">Food</span></h3>
-          <p>A robot dumpling kitchen for a group with thirteen venues open.</p>
-        </a>
-        <a href="work/container-kitchen/">
-          <div class="ph"><img src="img/container/arm.jpg" alt="The container kitchen at Eat Street Northshore, the arm lit behind glass" loading="lazy"></div>
-          <h3><span>The container kitchen</span><span class="label">Food</span></h3>
-          <p>An arm behind glass, a projector-glass skin that changes its brand. Twenty feet long.</p>
-        </a>
-        <a href="work/fall-sense/">
-          <div class="ph"><img src="img/fallsense/room.jpg" alt="A care home bedroom with the Fall Sense unit on the ceiling" loading="lazy"></div>
-          <h3><span>Florence Fall Sense</span><span class="label">Care</span></h3>
-          <p>Reports the fall, never the footage. Brand, hardware, software, ours.</p>
-        </a>
-      </div>
+      <ul class="cat two">
+        <li><a class="wz-opt pic" href="work/valley/"><span class="ph"><img src="img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace, the arm on its rail over the fryers" loading="lazy"></span><span class="wz-opt-t"><h3><b>365 St Pauls Terrace</b></h3><small>Scoped, built and run by us. Kitchen, bar, kiosk, floor.</small><span class="label">Venue</span></span></a></li>
+        <li><a class="wz-opt pic" href="work/little-red-dumplings/"><span class="ph"><img src="img/lrd/room.jpg" alt="Visualisation of the finished Little Red Dumpling cafe" loading="lazy"></span><span class="wz-opt-t"><h3><b>Little Red Dumpling</b></h3><small>A robot dumpling kitchen for a group with thirteen venues open.</small><span class="label">Food</span></span></a></li>
+        <li><a class="wz-opt pic" href="work/container-kitchen/"><span class="ph"><img src="img/container/arm.jpg" alt="The container kitchen at Eat Street Northshore, the arm lit behind glass" loading="lazy"></span><span class="wz-opt-t"><h3><b>The container kitchen</b></h3><small>An arm behind glass, a projector-glass skin that changes its brand. Twenty feet long.</small><span class="label">Food</span></span></a></li>
+        <li><a class="wz-opt pic" href="work/fall-sense/"><span class="ph"><img src="img/fallsense/room.jpg" alt="A care home bedroom with the Fall Sense unit on the ceiling" loading="lazy"></span><span class="wz-opt-t"><h3><b>Florence Fall Sense</b></h3><small>Reports the fall, never the footage. Brand, hardware, software, ours.</small><span class="label">Care</span></span></a></li>
+      </ul>
     </div>
   </section>
 

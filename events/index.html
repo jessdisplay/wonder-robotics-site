@@ -1372,10 +1372,12 @@
   .wr-lift .cat .ph.is-in img{animation:cat-drift 18s ease-in-out infinite alternate}
   .wr-lift .cat li:nth-child(even) .ph.is-in img{animation-direction:alternate-reverse}
   @media (hover:hover){ .cat a:hover .ph img{animation-play-state:paused} }
+  .cat.two{grid-template-columns:repeat(2,minmax(0,1fr))}
   @media (max-width:1100px){ .cat{grid-template-columns:repeat(2,minmax(0,1fr))} }
-  @media (max-width:560px){ .cat{grid-template-columns:1fr} }
+  @media (max-width:560px){ .cat,.cat.two{grid-template-columns:1fr} }
   @media (prefers-reduced-motion:reduce){ .wr-lift .cat .ph.is-in img{animation:none;transform:none} }
   .builds .wrap,.mrow .wrap{max-width:1500px;margin-inline:auto}
+  .builds.full .wrap{max-width:none}
   .builds .cases h3 .label{white-space:nowrap}
   .mrow{padding-top:clamp(72px,10vw,160px)}
   .mrow .catalogue{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:0}
