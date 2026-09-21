@@ -1132,10 +1132,10 @@ window.WonderQuote = (function(){
     {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'{{root}}img/warm-kiosk.jpg',pos:'50% 12%'},
     {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles'], img:'{{root}}img/offer/kitchen-line-studio.jpg'},
     {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee'], img:'{{root}}img/machines/coffee-robot-d1.jpg'},
-    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'{{root}}img/machines/ubtech-cadebot-light.jpg',pos:'50% 18%'}
+    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'{{root}}img/machines/cut/ubtech-cadebot.webp'}
   ];
   var SERVES=[{id:'coffee',t:'Coffee',img:'{{root}}img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'{{root}}img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'{{root}}img/tile-kiosk.jpg',pos:'50% 40%'},{id:'fried',t:'Fried food',img:'{{root}}img/tile-arm.jpg',pos:'50% 45%'},{id:'noodles',t:'Noodles',img:'{{root}}img/valley-baths.jpg'}];
-  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',pos:'50% 18%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'{{root}}img/machines/ubtech-cadebot-light.jpg',img2:'{{root}}img/machines/ubtech-cruzr-1s-light.jpg'}];
+  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'{{root}}img/machines/cut/ubtech-cadebot.webp'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'{{root}}img/machines/cut/ubtech-cruzr-1s.webp'},{id:'both',t:'Both',s:'One of each',img:'{{root}}img/machines/cut/ubtech-cadebot.webp',img2:'{{root}}img/machines/cut/ubtech-cruzr-1s.webp'}];
   var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'{{root}}img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'{{root}}img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'{{root}}img/container/day.jpg',video:'{{root}}img/container/day.mp4'}];
   var WHY={
     bpro:'Two arms at an Eversys, the premium machine: one pulls the shot, one steams and pours.',
@@ -1228,9 +1228,8 @@ window.WonderQuote = (function(){
   }
   function offer(id,kind,title,why,price,on){
     var img=kind==='part'?pById(id).img:kind==='unit'?rById(id).img:oById(id).img;
-    var pos=kind==='unit'?rById(id).pos:null;
     return '<button type="button" class="wz-offer" data-kind="'+kind+'" data-id="'+id+'" aria-pressed="'+(on?'true':'false')+'">'+
-      '<span class="t"><img src="'+img+'" alt="" loading="lazy"'+(pos?' style="object-position:'+pos+'"':'')+'></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
+      '<span class="t"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
       '<span class="p'+(/\$/.test(price)?'':' ask')+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
   }
   function resultHtml(){

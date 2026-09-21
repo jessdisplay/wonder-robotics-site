@@ -77,7 +77,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="{{root}}#disciplines">What we do</a><a href="{{root}}work/valley/">The building</a><a href="{{root}}machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}#building">Experience hub</a>
+      <a href="{{root}}machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">What we do</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}#building">Experience hub</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
@@ -113,7 +113,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
             <li><a href="{{root}}quote/" data-quote>Build a quote</a></li>
             <li><a href="{{root}}price-guide.pdf">Price guide, PDF</a></li>
             <li><a href="{{root}}#visit">Come and see it</a></li>
-            <li><a href="{{root}}book/">Book the space</a></li>
+            <li><a href="https://wonder.fish/book/">Book the space</a></li>
             <li><a href="{{root}}terms/">Terms of sale</a></li>
           </ul>
         </div>
@@ -271,7 +271,7 @@ FOOTER = '''<footer>
       <div>
         <span class="label">Come in</span>
         <a href="{{root}}#visit">Book a visit</a>
-        <a href="{{root}}book/">Book the space</a>
+        <a href="https://wonder.fish/book/">Book the space</a>
         <a href="{{root}}events/">The Robotics and Hardware Club</a>
         <a href="tel:1800983404">1800 983 404</a>
         <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
@@ -300,7 +300,7 @@ def robots_json():
         if not (HERE / "img" / m["light"]).exists():
             sys.exit(f"quote robot {slug}: missing render img/{m['light']}")
         rows.append({"id": slug, "name": m["name"], "kind": m["kind"], "status": m["status"],
-                     "note": m["price"], "img": "{{root}}img/" + m["light"], "pos": m.get("wide_pos"),
+                     "note": m["price"], "img": "{{root}}img/" + m["light"],
                      "url": "{{root}}machines/" + slug + "/"})
     return json.dumps(rows, ensure_ascii=False).replace("</", "<\\/")
 
@@ -694,8 +694,8 @@ HOME_LINES = [
 
 
 def home_tile(href, img, alt, title, line, price, video=None, pos=None):
-    # every plate fills the 16:10 frame edge to edge; a portrait robot render keeps
-    # its head because pos is its wide_pos, measured per machine for wide frames
+    # every plate fills the 16:10 frame edge to edge; robot cutouts stand whole
+    # instead (the .../cut/ rule in site.css), so they never lose a head or a base
     style = f' style="object-position:{pos}"' if pos else ""
     pic = (f'<video autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
            f'<source src="{{{{root}}}}{video}" type="video/mp4"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"{style}></video>'
@@ -712,7 +712,7 @@ def home_catalogue():
     tiles = [home_tile(*t) for t in HOME_LINES]
     for slug in HOME_MACHINES:
         m = BY_SLUG[slug]
-        tiles.append(home_tile(f"machines/{slug}/", "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"], None, m.get("wide_pos")))
+        tiles.append(home_tile(f"machines/{slug}/", "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"]))
     return '<ul class="cat">' + "".join(tiles) + "</ul>"
 
 
@@ -767,10 +767,9 @@ def thumb(m):
     # the light render gives every tile the same ground, as coffee-tech's cards; the maker's image is the fallback
     src = m.get("light") or m["hero"]
     if src:
-        # The plates are portrait and the card is 5:4, so a centred crop takes the
-        # head off six of them. thumb_pos is measured per machine, not guessed.
-        pos = f' style="object-position:{m["thumb_pos"]}"' if m.get("thumb_pos") else ""
-        return f'<img src="{{{{root}}}}img/{src}" alt="{escape(m["name"])}" loading="lazy"{pos}>'
+        # robot plates are cutouts (img/machines/cut/), so the card shows the whole
+        # machine and needs no crop anchor; see the .../cut/ rule in site.css
+        return f'<img src="{{{{root}}}}img/{src}" alt="{escape(m["name"])}" loading="lazy">'
     return f'<span class="glyph">{escape(m["name"])}</span>'
 
 
@@ -800,7 +799,7 @@ def machine_body(m):
         src = x.get("light") or x["hero"]
         return "img/" + src if src else None
     rel = "".join(home_tile(f"machines/{r}/", shot_of(BY_SLUG[r]), BY_SLUG[r]["name"],
-                            BY_SLUG[r]["name"], BY_SLUG[r].get("line", ""), BY_SLUG[r]["price"], None, BY_SLUG[r].get("wide_pos"))
+                            BY_SLUG[r]["name"], BY_SLUG[r].get("line", ""), BY_SLUG[r]["price"])
                   for r in m["related"])
     rel_cls = "cat" if len(m["related"]) == 3 else "cat two"
     specs = "".join(f'<div><b>{escape(k)}</b><span>{escape(v)}</span></div>' for k, v in m["specs"])

@@ -830,7 +830,6 @@
 
   /* visit */
   .visit{padding-bottom:clamp(72px,10vw,150px)}
-  .visit h2{margin:0;font-weight:400;font-size:clamp(52px,9.4vw,176px);line-height:.9;letter-spacing:-.045em}
   .visit .row{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--gap);flex-wrap:wrap}
   .visit .details{margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--ink);padding-top:14px;row-gap:22px}
   .visit .details > div{display:grid;gap:6px;align-content:start}
@@ -871,7 +870,7 @@
     .hero .meta > *{grid-column:1/13 !important;justify-self:start !important;text-align:left !important}
     .hero .meta{row-gap:6px}
     h1 .row{flex-direction:column;align-items:flex-start;gap:0}
-    h1,.visit h2{font-size:15.5vw}
+    h1{font-size:15.5vw}
     .plate img{aspect-ratio:4/3}
     .plate figcaption > *{grid-column:1/13 !important;justify-self:start !important;text-align:left !important}
     .proof{grid-template-columns:1fr}
@@ -1041,12 +1040,12 @@
   .trio .card.room img{object-position:50% 50%}
   .people{padding-top:clamp(24px,3vw,40px)}
   .people .trio{margin-top:0}
-  .visit{padding:clamp(80px,12vw,180px) 0 clamp(72px,10vw,150px);text-align:center}
-  .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) auto 0;max-width:1100px;text-align:left}
+  .visit{padding:clamp(72px,10vw,160px) 0 clamp(72px,10vw,150px)}
+  .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) 0 0;text-align:left}
   /* Both doors, "Come and see it" and "Book a visit", land here. So the space is here. */
-  .visit .peek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);max-width:1100px;margin:clamp(36px,5vw,64px) auto 0}
+  .visit .peek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
   .visit .peek a{display:block;text-decoration:none;color:inherit}
-  .visit .peek img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
+  .visit .peek img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
   .visit .peek .label{display:block;text-align:left;padding-top:10px}
   @media (max-width:700px){ .visit .peek{grid-template-columns:1fr} }
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
@@ -1319,6 +1318,11 @@
   /* The home catalogue: one grid of large plates, two across. A plate drifts slowly while it
      is on screen and settles under the pointer; the two with a clip play it instead. */
   .cat-sec{padding-top:clamp(72px,10vw,160px)}
+  /* A robot cutout stands whole in any frame, never cropped: on the wall colour
+     of the studio it was rendered in, lit from the same top-left window, with a
+     soft floor shadow. One rule, so every card, tile and hero agrees. */
+  *:has(> img[src*="/machines/cut/"]){background:radial-gradient(120% 95% at 28% 18%,#F2ECE1 0%,#E7DFD0 58%,#DDD4C3 100%)!important}
+  img[src*="/machines/cut/"]{object-fit:contain!important;object-position:50% 100%!important;padding:7% 9% 5%;box-sizing:border-box;filter:drop-shadow(0 16px 14px rgba(70,52,30,.18))}
   /* the home catalogue wears the quote builder's card, full width, three across */
   .cat{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
   .cat li{display:flex}

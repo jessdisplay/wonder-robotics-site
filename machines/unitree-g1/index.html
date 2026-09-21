@@ -855,7 +855,6 @@
 
   /* visit */
   .visit{padding-bottom:clamp(72px,10vw,150px)}
-  .visit h2{margin:0;font-weight:400;font-size:clamp(52px,9.4vw,176px);line-height:.9;letter-spacing:-.045em}
   .visit .row{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--gap);flex-wrap:wrap}
   .visit .details{margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--ink);padding-top:14px;row-gap:22px}
   .visit .details > div{display:grid;gap:6px;align-content:start}
@@ -896,7 +895,7 @@
     .hero .meta > *{grid-column:1/13 !important;justify-self:start !important;text-align:left !important}
     .hero .meta{row-gap:6px}
     h1 .row{flex-direction:column;align-items:flex-start;gap:0}
-    h1,.visit h2{font-size:15.5vw}
+    h1{font-size:15.5vw}
     .plate img{aspect-ratio:4/3}
     .plate figcaption > *{grid-column:1/13 !important;justify-self:start !important;text-align:left !important}
     .proof{grid-template-columns:1fr}
@@ -1066,12 +1065,12 @@
   .trio .card.room img{object-position:50% 50%}
   .people{padding-top:clamp(24px,3vw,40px)}
   .people .trio{margin-top:0}
-  .visit{padding:clamp(80px,12vw,180px) 0 clamp(72px,10vw,150px);text-align:center}
-  .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) auto 0;max-width:1100px;text-align:left}
+  .visit{padding:clamp(72px,10vw,160px) 0 clamp(72px,10vw,150px)}
+  .visit .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);margin:clamp(36px,5vw,64px) 0 0;text-align:left}
   /* Both doors, "Come and see it" and "Book a visit", land here. So the space is here. */
-  .visit .peek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);max-width:1100px;margin:clamp(36px,5vw,64px) auto 0}
+  .visit .peek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
   .visit .peek a{display:block;text-decoration:none;color:inherit}
-  .visit .peek img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
+  .visit .peek img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r);display:block;background:var(--rule)}
   .visit .peek .label{display:block;text-align:left;padding-top:10px}
   @media (max-width:700px){ .visit .peek{grid-template-columns:1fr} }
   .visit .details p{margin:0;font-size:16px;line-height:1.45}
@@ -1344,6 +1343,11 @@
   /* The home catalogue: one grid of large plates, two across. A plate drifts slowly while it
      is on screen and settles under the pointer; the two with a clip play it instead. */
   .cat-sec{padding-top:clamp(72px,10vw,160px)}
+  /* A robot cutout stands whole in any frame, never cropped: on the wall colour
+     of the studio it was rendered in, lit from the same top-left window, with a
+     soft floor shadow. One rule, so every card, tile and hero agrees. */
+  *:has(> img[src*="/machines/cut/"]){background:radial-gradient(120% 95% at 28% 18%,#F2ECE1 0%,#E7DFD0 58%,#DDD4C3 100%)!important}
+  img[src*="/machines/cut/"]{object-fit:contain!important;object-position:50% 100%!important;padding:7% 9% 5%;box-sizing:border-box;filter:drop-shadow(0 16px 14px rgba(70,52,30,.18))}
   /* the home catalogue wears the quote builder's card, full width, three across */
   .cat{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
   .cat li{display:flex}
@@ -1547,7 +1551,7 @@
     <a class="mark" href="../../" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="../../#disciplines">What we do</a><a href="../../work/valley/">The building</a><a href="../../machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">Machines</a><a href="../../#work">Case studies</a><a href="../../robot-cafe-packages/">Packages</a><a href="../../#building">Experience hub</a>
+      <a href="../../machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">What we do</a><a href="../../#work">Case studies</a><a href="../../robot-cafe-packages/">Packages</a><a href="../../#building">Experience hub</a>
     </nav>
     <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
   </div>
@@ -1583,7 +1587,7 @@
             <li><a href="../../quote/" data-quote>Build a quote</a></li>
             <li><a href="../../price-guide.pdf">Price guide, PDF</a></li>
             <li><a href="../../#visit">Come and see it</a></li>
-            <li><a href="../../book/">Book the space</a></li>
+            <li><a href="https://wonder.fish/book/">Book the space</a></li>
             <li><a href="../../terms/">Terms of sale</a></li>
           </ul>
         </div>
@@ -1680,7 +1684,7 @@
 
   <section class="pfeatures">
     <div class="wrap">
-      <figure class="shot"><img src="../../img/machines/unitree-g1-light.jpg" alt="Unitree G1" loading="lazy"><figcaption class="label"><span>Unitree G1</span><span>Maker's image</span></figcaption></figure>
+      <figure class="shot"><img src="../../img/machines/cut/unitree-g1.webp" alt="Unitree G1" loading="lazy"><figcaption class="label"><span>Unitree G1</span><span>Maker's image</span></figcaption></figure>
 
       <ol class="hl"><li><b>1.27 m tall</b><p>Human scale, room scale</p></li><li><b>About 35 kg</b><p>With the battery in</p></li><li><b>Up to 43 DOF</b><p>23 on the standard build</p></li><li><b>Dex3-1 hands</b><p>Three fingers, optional tactile sensing</p></li><li><b>Jetson Orin</b><p>40 TOPS on board</p></li><li><b>3D LiDAR</b><p>Plus a depth camera</p></li><li><b>About 2 hours</b><p>9000 mAh quick-release battery</p></li><li><b>18-month warranty</b><p>Secondary development on EDU</p></li></ol>
     </div>
@@ -1706,7 +1710,7 @@
     <div class="wrap">
       <span class="label">[ Related ]</span>
       <h2>Add these to complete the job</h2>
-      <ul class="cat two"><li><a class="wz-opt pic" href="../../machines/unitree-go2/"><span class="ph"><img src="../../img/machines/unitree-go2-light.jpg" alt="Unitree GO2" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Unitree GO2</b></h3><small>A robot dog for inspection, patrol and the ground wheels can&#x27;t cover.</small><span class="label">Quoted to order</span></span></a></li><li><a class="wz-opt pic" href="../../machines/ubtech-cruzr-y1/"><span class="ph"><img src="../../img/machines/ubtech-cruzr-y1-light.jpg" alt="UBTECH Cruzr Y1" loading="lazy" decoding="async" style="object-position:50% 14%"></span><span class="wz-opt-t"><h3><b>UBTECH Cruzr Y1</b></h3><small>A mobile dual-arm robot for the warehouse jobs between manual labour and fixed automation.</small><span class="label">Quoted to order</span></span></a></li><li><a class="wz-opt pic" href="../../machines/ubtech-cruzr-1s/"><span class="ph"><img src="../../img/machines/ubtech-cruzr-1s-light.jpg" alt="UBTECH Cruzr 1S" loading="lazy" decoding="async" style="object-position:50% 14%"></span><span class="wz-opt-t"><h3><b>UBTECH Cruzr 1S</b></h3><small>The reception robot. Greets, guides, plays your content and comes back to charge.</small><span class="label">Quoted to your floor</span></span></a></li><li><a class="wz-opt pic" href="../../machines/ubtech-cadebot/"><span class="ph"><img src="../../img/machines/ubtech-cadebot-light.jpg" alt="UBTECH CadeBot" loading="lazy" decoding="async" style="object-position:50% 18%"></span><span class="wz-opt-t"><h3><b>UBTECH CadeBot</b></h3><small>The tray robot. Three trays, 40 kg, a 21.5-inch screen, and it finds its own way to the table.</small><span class="label">Quoted to your floor</span></span></a></li></ul>
+      <ul class="cat two"><li><a class="wz-opt pic" href="../../machines/unitree-go2/"><span class="ph"><img src="../../img/machines/cut/unitree-go2.webp" alt="Unitree GO2" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Unitree GO2</b></h3><small>A robot dog for inspection, patrol and the ground wheels can&#x27;t cover.</small><span class="label">Quoted to order</span></span></a></li><li><a class="wz-opt pic" href="../../machines/ubtech-cruzr-y1/"><span class="ph"><img src="../../img/machines/cut/ubtech-cruzr-y1.webp" alt="UBTECH Cruzr Y1" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>UBTECH Cruzr Y1</b></h3><small>A mobile dual-arm robot for the warehouse jobs between manual labour and fixed automation.</small><span class="label">Quoted to order</span></span></a></li><li><a class="wz-opt pic" href="../../machines/ubtech-cruzr-1s/"><span class="ph"><img src="../../img/machines/cut/ubtech-cruzr-1s.webp" alt="UBTECH Cruzr 1S" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>UBTECH Cruzr 1S</b></h3><small>The reception robot. Greets, guides, plays your content and comes back to charge.</small><span class="label">Quoted to your floor</span></span></a></li><li><a class="wz-opt pic" href="../../machines/ubtech-cadebot/"><span class="ph"><img src="../../img/machines/cut/ubtech-cadebot.webp" alt="UBTECH CadeBot" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>UBTECH CadeBot</b></h3><small>The tray robot. Three trays, 40 kg, a 21.5-inch screen, and it finds its own way to the table.</small><span class="label">Quoted to your floor</span></span></a></li></ul>
     </div>
   </section>
 
@@ -1844,7 +1848,7 @@
       <div>
         <span class="label">Come in</span>
         <a href="../../#visit">Book a visit</a>
-        <a href="../../book/">Book the space</a>
+        <a href="https://wonder.fish/book/">Book the space</a>
         <a href="../../events/">The Robotics and Hardware Club</a>
         <a href="tel:1800983404">1800 983 404</a>
         <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
@@ -2133,7 +2137,7 @@ window.WonderQuote = (function(){
   // The showroom robots, written in from the catalogue at build time. The
   // two service robots sold in a package carry a price; the rest are priced
   // to order and never move the total.
-  var ROBOTS=[{"id": "unitree-g1", "name": "Unitree G1", "kind": "Humanoid robot", "status": "On our floor", "note": "Quoted to order", "img": "../../img/machines/unitree-g1-light.jpg", "pos": "50% 6%", "url": "../../machines/unitree-g1/"}, {"id": "ubtech-cruzr-1s", "name": "UBTECH Cruzr 1S", "kind": "Service robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../../img/machines/ubtech-cruzr-1s-light.jpg", "pos": "50% 14%", "url": "../../machines/ubtech-cruzr-1s/"}, {"id": "ubtech-cadebot", "name": "UBTECH CadeBot", "kind": "Delivery robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../../img/machines/ubtech-cadebot-light.jpg", "pos": "50% 18%", "url": "../../machines/ubtech-cadebot/"}, {"id": "unitree-go2", "name": "Unitree GO2", "kind": "Quadruped robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/unitree-go2-light.jpg", "pos": null, "url": "../../machines/unitree-go2/"}, {"id": "ubtech-cruzr-y1", "name": "UBTECH Cruzr Y1", "kind": "Material handling robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-cruzr-y1-light.jpg", "pos": "50% 14%", "url": "../../machines/ubtech-cruzr-y1/"}, {"id": "ubtech-yanshee", "name": "UBTECH Yanshee", "kind": "Educational humanoid", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-yanshee-light.jpg", "pos": "50% 12%", "url": "../../machines/ubtech-yanshee/"}, {"id": "ubtech-ugot", "name": "UBTECH UGOT", "kind": "STEM robotics kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-ugot-light.jpg", "pos": null, "url": "../../machines/ubtech-ugot/"}, {"id": "ubtech-ukit", "name": "UBTECH uKit", "kind": "STEM education kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/ubtech-ukit-light.jpg", "pos": null, "url": "../../machines/ubtech-ukit/"}];
+  var ROBOTS=[{"id": "unitree-g1", "name": "Unitree G1", "kind": "Humanoid robot", "status": "On our floor", "note": "Quoted to order", "img": "../../img/machines/cut/unitree-g1.webp", "url": "../../machines/unitree-g1/"}, {"id": "ubtech-cruzr-1s", "name": "UBTECH Cruzr 1S", "kind": "Service robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../../img/machines/cut/ubtech-cruzr-1s.webp", "url": "../../machines/ubtech-cruzr-1s/"}, {"id": "ubtech-cadebot", "name": "UBTECH CadeBot", "kind": "Delivery robot", "status": "On our floor", "note": "Quoted to your floor", "img": "../../img/machines/cut/ubtech-cadebot.webp", "url": "../../machines/ubtech-cadebot/"}, {"id": "unitree-go2", "name": "Unitree GO2", "kind": "Quadruped robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/cut/unitree-go2.webp", "url": "../../machines/unitree-go2/"}, {"id": "ubtech-cruzr-y1", "name": "UBTECH Cruzr Y1", "kind": "Material handling robot", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/cut/ubtech-cruzr-y1.webp", "url": "../../machines/ubtech-cruzr-y1/"}, {"id": "ubtech-yanshee", "name": "UBTECH Yanshee", "kind": "Educational humanoid", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/cut/ubtech-yanshee.webp", "url": "../../machines/ubtech-yanshee/"}, {"id": "ubtech-ugot", "name": "UBTECH UGOT", "kind": "STEM robotics kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/cut/ubtech-ugot.webp", "url": "../../machines/ubtech-ugot/"}, {"id": "ubtech-ukit", "name": "UBTECH uKit", "kind": "STEM education kit", "status": "Sourced to order", "note": "Quoted to order", "img": "../../img/machines/cut/ubtech-ukit.webp", "url": "../../machines/ubtech-ukit/"}];
   var ROBOT_PRICES={
     'ubtech-cadebot': {price:5400,  alone:275, after:100, role:'Carries orders to the table'},
     'ubtech-cruzr-1s':{price:16200, alone:500, after:250, role:'Greets and guides guests'}
@@ -3104,10 +3108,10 @@ window.WonderQuote = (function(){
     {id:'dessert', t:'A dessert or ice cream spot', s:'Soft serve handed over',                serve:['softserve'], img:'../../img/warm-kiosk.jpg',pos:'50% 12%'},
     {id:'kitchen', t:'A kitchen or takeaway',       s:'Fried food and noodles',                serve:['fried','noodles'], img:'../../img/offer/kitchen-line-studio.jpg'},
     {id:'kiosk',   t:'A coffee kiosk',              s:'Ordered on a screen, in a vending format', serve:['coffee'], img:'../../img/machines/coffee-robot-d1.jpg'},
-    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'../../img/machines/ubtech-cadebot-light.jpg',pos:'50% 18%'}
+    {id:'front',   t:'Front of house',              s:'A robot to carry orders or greet guests', serve:[], img:'../../img/machines/cut/ubtech-cadebot.webp'}
   ];
   var SERVES=[{id:'coffee',t:'Coffee',img:'../../img/offer/coffee-bar-studio.jpg'},{id:'cocktails',t:'Cocktails',img:'../../img/offer/robot-bar-studio.jpg'},{id:'softserve',t:'Soft serve',img:'../../img/tile-kiosk.jpg',pos:'50% 40%'},{id:'fried',t:'Fried food',img:'../../img/tile-arm.jpg',pos:'50% 45%'},{id:'noodles',t:'Noodles',img:'../../img/valley-baths.jpg'}];
-  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'../../img/machines/ubtech-cadebot-light.jpg',pos:'50% 18%'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'../../img/machines/ubtech-cruzr-1s-light.jpg',pos:'50% 14%'},{id:'both',t:'Both',s:'One of each',img:'../../img/machines/ubtech-cadebot-light.jpg',img2:'../../img/machines/ubtech-cruzr-1s-light.jpg'}];
+  var FRONTS=[{id:'carry',t:'Carry orders to the table',s:'UBTECH CadeBot, three trays',img:'../../img/machines/cut/ubtech-cadebot.webp'},{id:'greet',t:'Greet and guide guests',s:'UBTECH Cruzr 1S, voice and a screen',img:'../../img/machines/cut/ubtech-cruzr-1s.webp'},{id:'both',t:'Both',s:'One of each',img:'../../img/machines/cut/ubtech-cadebot.webp',img2:'../../img/machines/cut/ubtech-cruzr-1s.webp'}];
   var WHERE=[{id:'have',t:'The venue I have',s:'We fit it into the room you run',img:'../../img/coffee/venue-01-bar-in-room.jpg'},{id:'new',t:'A new venue',s:'We design the space and build it',img:'../../img/coffee/bar-01-sketch.jpg',pos:'50% 40%'},{id:'box',t:'A container or pop-up',s:'Built in our yard, delivered ready',img:'../../img/container/day.jpg',video:'../../img/container/day.mp4'}];
   var WHY={
     bpro:'Two arms at an Eversys, the premium machine: one pulls the shot, one steams and pours.',
@@ -3200,9 +3204,8 @@ window.WonderQuote = (function(){
   }
   function offer(id,kind,title,why,price,on){
     var img=kind==='part'?pById(id).img:kind==='unit'?rById(id).img:oById(id).img;
-    var pos=kind==='unit'?rById(id).pos:null;
     return '<button type="button" class="wz-offer" data-kind="'+kind+'" data-id="'+id+'" aria-pressed="'+(on?'true':'false')+'">'+
-      '<span class="t"><img src="'+img+'" alt="" loading="lazy"'+(pos?' style="object-position:'+pos+'"':'')+'></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
+      '<span class="t"><img src="'+img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(title)+'</b><small>'+esc(why)+'</small></span>'+
       '<span class="p'+(/\$/.test(price)?'':' ask')+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
   }
   function resultHtml(){
