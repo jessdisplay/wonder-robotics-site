@@ -1227,6 +1227,10 @@
   .compare td:first-child{width:auto;font-size:clamp(18px,1.5vw,24px)}
   .compare td:nth-child(2),.compare td:nth-child(3){width:auto}
   .catalogue{list-style:none;padding:0;margin:0 0 clamp(64px,9vw,140px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);row-gap:clamp(36px,4vw,56px)}
+  .cat-group{scroll-margin-top:90px}
+  @media (min-width:901px){ .catalogue:has(> li:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))} }
+  .cat-group > h2{margin-bottom:10px}
+  .cat-group > p{margin:0 0 clamp(22px,2.6vw,36px);color:var(--graphite);max-width:60ch}
   .catalogue a{display:grid;gap:12px;text-decoration:none;color:inherit;align-content:start}
   .catalogue .ph{aspect-ratio:5/4;overflow:hidden;border-radius:var(--r);background:#EFEBDB;border:1px solid var(--rule)}
   .catalogue .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
@@ -1577,8 +1581,8 @@
             <li><a href="../machines/custom-automation/">Custom automation</a></li>
             <li><a href="../machines/software/">Software</a></li>
             <li><a href="../machines/ai-agents/">AI agents</a></li>
-            <li><a href="../machines/ubtech-cadebot/">Service robots</a></li>
-            <li><a href="../machines/unitree-g1/">Humanoids and quadrupeds</a></li>
+            <li><a href="../machines/#service-robots">Service robots</a></li>
+            <li><a href="../machines/#humanoids">Humanoids and quadrupeds</a></li>
           </ul>
         </div>
         <div class="mega-col">
@@ -1768,10 +1772,9 @@
         <a href="../robot-ice-cream-machines/">Robot ice cream machines</a>
         <a href="../robot-cafe-packages/">Robot café packages</a>
         <a href="../robot-container-kitchens/">Robot container kitchens</a>
-        <a href="../machines/kitchen-robot/">Robot kitchens</a>
-        <a href="../machines/coffee-robot/">Coffee and bar robots</a>
-        <a href="../machines/ubtech-cadebot/">Service robots</a>
-        <a href="../machines/unitree-g1/">Humanoids and quadrupeds</a>
+        <a href="../machines/#service-robots">Service robots</a>
+        <a href="../machines/#humanoids">Humanoids and quadrupeds</a>
+        <a href="../machines/#education">Education</a>
         <a href="../machines/custom-automation/">Custom automation</a>
       </div>
       <div>

@@ -103,8 +103,8 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
             <li><a href="{{root}}machines/custom-automation/">Custom automation</a></li>
             <li><a href="{{root}}machines/software/">Software</a></li>
             <li><a href="{{root}}machines/ai-agents/">AI agents</a></li>
-            <li><a href="{{root}}machines/ubtech-cadebot/">Service robots</a></li>
-            <li><a href="{{root}}machines/unitree-g1/">Humanoids and quadrupeds</a></li>
+            <li><a href="{{root}}machines/#service-robots">Service robots</a></li>
+            <li><a href="{{root}}machines/#humanoids">Humanoids and quadrupeds</a></li>
           </ul>
         </div>
         <div class="mega-col">
@@ -249,10 +249,9 @@ FOOTER = '''<footer>
         <a href="{{root}}robot-ice-cream-machines/">Robot ice cream machines</a>
         <a href="{{root}}robot-cafe-packages/">Robot café packages</a>
         <a href="{{root}}robot-container-kitchens/">Robot container kitchens</a>
-        <a href="{{root}}machines/kitchen-robot/">Robot kitchens</a>
-        <a href="{{root}}machines/coffee-robot/">Coffee and bar robots</a>
-        <a href="{{root}}machines/ubtech-cadebot/">Service robots</a>
-        <a href="{{root}}machines/unitree-g1/">Humanoids and quadrupeds</a>
+        <a href="{{root}}machines/#service-robots">Service robots</a>
+        <a href="{{root}}machines/#humanoids">Humanoids and quadrupeds</a>
+        <a href="{{root}}machines/#education">Education</a>
         <a href="{{root}}machines/custom-automation/">Custom automation</a>
       </div>
       <div>
@@ -301,7 +300,7 @@ def robots_json():
             sys.exit(f"quote robot {slug}: missing render img/{m['light']}")
         rows.append({"id": slug, "name": m["name"], "kind": m["kind"], "status": m["status"],
                      "note": m["price"], "img": "{{root}}img/" + m["light"],
-                     "url": "{{root}}machines/" + slug + "/"})
+                     "url": "{{root}}" + (m.get("page") or "machines/" + slug + "/")})
     return json.dumps(rows, ensure_ascii=False).replace("</", "<\\/")
 
 
@@ -712,7 +711,7 @@ def home_catalogue():
     tiles = [home_tile(*t) for t in HOME_LINES]
     for slug in HOME_MACHINES:
         m = BY_SLUG[slug]
-        tiles.append(home_tile(f"machines/{slug}/", "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"]))
+        tiles.append(home_tile(href_of(m), "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"]))
     return '<ul class="cat">' + "".join(tiles) + "</ul>"
 
 
@@ -743,8 +742,13 @@ def dl(pairs, cls):
     return f'<dl class="{cls}">' + "".join(f"<dt>{escape(k)}</dt><dd>{escape(v)}</dd>" for k, v in pairs) + "</dl>\n"
 
 
+def href_of(m):
+    # a line with its own landing page lives there and nowhere else
+    return m.get("page") or f'machines/{m["slug"]}/'
+
+
 def card(m):
-    return (f'<li><a href="{{{{root}}}}machines/{m["slug"]}/"><div class="ph">{thumb(m)}</div>'
+    return (f'<li><a href="{{{{root}}}}{href_of(m)}"><div class="ph">{thumb(m)}</div>'
             f'<h3>{escape(m["name"])}</h3><p>{escape(m["line"])}</p>'
             f'<div class="pills">{pillrow(m)}{price_pill(m)}</div></a></li>')
 
@@ -798,7 +802,7 @@ def machine_body(m):
     def shot_of(x):
         src = x.get("light") or x["hero"]
         return "img/" + src if src else None
-    rel = "".join(home_tile(f"machines/{r}/", shot_of(BY_SLUG[r]), BY_SLUG[r]["name"],
+    rel = "".join(home_tile(href_of(BY_SLUG[r]), shot_of(BY_SLUG[r]), BY_SLUG[r]["name"],
                             BY_SLUG[r]["name"], BY_SLUG[r].get("line", ""), BY_SLUG[r]["price"])
                   for r in m["related"])
     rel_cls = "cat" if len(m["related"]) == 3 else "cat two"
@@ -923,7 +927,14 @@ def machine_body(m):
 
 
 def catalogue_body():
-    items = "".join(card(m) for m in MACHINES)
+    groups = [("service", "service-robots", "Service robots", "On the floor: carrying, greeting, moving stock."),
+              ("humanoid", "humanoids", "Humanoids and quadrupeds", "For research, inspection and the demo people remember."),
+              ("education", "education", "Education", "A humanoid and two kits for the classroom."),
+              ("order", "built-to-order", "Built to order", "Scoped first, then priced: the cell, the software and the agents around the machines.")]
+    items = "".join(
+        f'<div class="cat-group" id="{gid}"><h2 class="plain">{escape(title)}</h2><p>{escape(sub)}</p>'
+        f'<ul class="catalogue">{"".join(card(m) for m in MACHINES if m.get("group") == g)}</ul></div>'
+        for g, gid, title, sub in groups)
     row = "".join(f'<img src="{{{{root}}}}img/partners/{k}" alt="{escape(v)}" loading="lazy">' for k, v in PARTNERS)
     # three copies: one row is narrower than a wide viewport, so two would gap
     logos = f'<div class="track"><div>{row}</div><div aria-hidden="true">{row}</div><div aria-hidden="true">{row}</div></div>'
@@ -965,8 +976,8 @@ def catalogue_body():
 
   <section class="story">
     <div class="wrap">
-      <ul class="catalogue">{items}</ul>
-      <h2>Who we have worked with</h2>
+      {items}
+      <h2 class="plain">Who we have worked with</h2>
       <div class="partners" aria-label="Who we have worked with">{logos}</div>
     </div>
   </section>
@@ -978,6 +989,15 @@ def catalogue():
     render(catalogue_body(), {"out": "machines/index.html", "root": "../", "title": "Machines, Wonder Robotics",
                               "desc": "Every machine Wonder Robotics sells: Unitree G1 and GO2, UBTECH Cruzr, CadeBot, Cruzr Y1, Yanshee, UGOT and uKit, coffee and kitchen robots, custom automation, AI agents and software. Supplied, installed and maintained from Brisbane."})
     for m in MACHINES:
+        if m.get("page"):
+            to = "../../" + m["page"]
+            out = HERE / "machines" / m["slug"] / "index.html"
+            out.write_text('<!doctype html>\n<html lang="en-AU"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+                           f'<title>{escape(m["name"])}, Wonder Robotics</title><link rel="canonical" href="{SITE + m["page"]}">'
+                           f'<meta http-equiv="refresh" content="0; url={to}"></head>'
+                           f'<body><p><a href="{to}">{escape(m["name"])} has moved here.</a></p></body></html>\n')
+            print(f"machines/{m['slug']}/index.html: forwards to {m['page']}")
+            continue
         render(machine_body(m), {"out": f"machines/{m['slug']}/index.html", "root": "../../",
                                  "title": f"{m['name']}, Wonder Robotics", "desc": escape(m["line"])})
 
