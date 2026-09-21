@@ -179,6 +179,8 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
             <div class="qs-pay" id="dq-pay"></div>
           </div>
           <p class="qs-fine">Equipment installed, with a 24 month service. Design and build indicative until we have seen the site. Accessories and showroom robots priced to order. Ex GST.</p>
+          <div class="qs-desk" id="qs-desk" hidden></div>
+          <button type="button" class="qs-desk-in" id="desk-in">Sales sign in</button>
           <div class="qs-go">
             <a class="btn" id="want-go" href="{{root}}quote/"><span>Open the full quote</span><i aria-hidden="true">+</i></a>
             <a class="btn ghost" id="want-proposal" href="{{root}}quote/proposal/"><span>See it as a proposal</span><i aria-hidden="true">+</i></a>

@@ -367,6 +367,54 @@ window.WonderQuote = (function(){
             next:sv.kitchen?SERVICE.extra:null};
   }
 
+  // ---- the sales desk. What a computed quote costs us, from a cost table that
+  // only ever arrives from the private Worker after a salesperson signs in; no
+  // cost is in this file. A missing cost is never a zero: the line says what is
+  // missing, and the full margin is only given when every cost is known.
+  // costs: {machines:{id:{cost}}, robots:{id:n}, install_per_machine, service_monthly:{first,extra,robot,robot_alone},
+  //         options:{id: n | {pct}}, target_margin_pct}
+  function desk(c,costs){
+    costs=costs||{}; var num=function(v){ return typeof v==='number'&&isFinite(v)&&v>=0; };
+    var rows=[], missing=[], miss=function(w){ if(missing.indexOf(w)<0) missing.push(w); };
+    var robotsAlone=c.count===0;
+    c.lines.forEach(function(l){
+      var sell=l.value===null||l.value===undefined?null:(l.per==='month'?l.value*c.term:l.value), cost=null, parts=[], why=[];
+      if(l.kind==='machine'||(l.kind==='robot'&&l.value!==null)){
+        var unit=l.kind==='machine'?((costs.machines||{})[l.id]||{}).cost:(costs.robots||{})[l.id];
+        if(num(unit)) parts.push(['Equipment',unit*l.n]); else why.push(l.name+' unit cost');
+        if(l.kind==='machine'){ if(num(costs.install_per_machine)) parts.push(['Install',costs.install_per_machine*l.n]); else why.push('install per machine'); }
+      }else if(l.kind==='service'){
+        var sm=costs.service_monthly||{}, m=null;
+        if(robotsAlone){ if(num(sm.robot_alone)) m=sm.robot_alone*c.robots; else why.push('service cost, robot on its own'); }
+        else{
+          var need=[['first','service cost, first machine',1],['extra','service cost, each extra machine',c.count-1],['robot','service cost, each robot',c.robots]], t=0, okAll=true;
+          need.forEach(function(x){ if(x[2]<=0) return; if(num(sm[x[0]])) t+=sm[x[0]]*x[2]; else{ okAll=false; why.push(x[1]); } });
+          if(okAll) m=t;
+        }
+        if(m!==null) parts.push(['Service, '+c.term+' months',m*c.term]);
+      }else if(l.kind==='option'){
+        var oc=(costs.options||{})[l.id];
+        if(num(oc)) parts.push(['Cost',l.per==='month'?oc*c.term:oc]);
+        else if(oc&&num(oc.pct)&&oc.pct<=1&&sell!==null) parts.push(['Cost, '+Math.round(oc.pct*100)+'% of sell',Math.round(sell*oc.pct)]);
+        else why.push(l.name+' cost');
+      }else return;                                   // included lines, delivery and scoped lines carry no sell to cost against
+      if(sell===null) return;
+      if(!why.length) cost=parts.reduce(function(a,x){return a+x[1];},0);
+      why.forEach(miss);
+      rows.push({id:l.id,kind:l.kind,name:l.name,sell:sell,cost:cost,known:parts,missing:why,margin:cost===null?null:sell-cost,pct:cost===null||!sell?null:(sell-cost)/sell});
+    });
+    var sum=function(f){ return rows.reduce(function(a,r){return a+f(r);},0); };
+    var sell=sum(function(r){return r.sell;}), complete=rows.length>0&&!missing.length;
+    // the one margin we can always stand behind: the equipment alone, against what Moton charges us
+    var eq=rows.filter(function(r){return r.kind==='machine';}), eqKnown=eq.length>0&&eq.every(function(r){return r.known.some(function(k){return k[0]==='Equipment';});});
+    var eqSell=eq.reduce(function(a,r){return a+r.sell;},0), eqCost=eqKnown?eq.reduce(function(a,r){return a+r.known.filter(function(k){return k[0]==='Equipment';})[0][1];},0):null;
+    var cost=complete?sum(function(r){return r.cost;}):null, target=num(costs.target_margin_pct)?costs.target_margin_pct/100:null;
+    var pct=complete&&sell?(sell-cost)/sell:null;
+    return {rows:rows,sell:sell,cost:cost,margin:complete?sell-cost:null,pct:pct,complete:complete,missing:missing,
+            equipment:eq.length?{sell:eqSell,cost:eqCost,margin:eqCost===null?null:eqSell-eqCost,pct:eqCost===null||!eqSell?null:(eqSell-eqCost)/eqSell}:null,
+            target:target,verdict:target===null?'no target set':pct===null?'margin unknown':pct>=target?'on target':'under target'};
+  }
+
   // A quote's name in words: "Two coffee baristas and an ice cream robot".
   // Machines are common nouns; showroom robots keep their proper names.
   function titleOf(lines){
@@ -507,7 +555,7 @@ window.WonderQuote = (function(){
   return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
           optionAmount:optionAmount,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
           SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
-          compute:compute,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
+          compute:compute,desk:desk,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
           stateFromQuery:stateFromQuery,toQuery:toQuery,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
 })();
@@ -1313,6 +1361,59 @@ window.WonderQuote = (function(){
     render(); wzResultRefresh();
   });
   $('qs-guided').addEventListener('click',function(){ $('qs-browse').hidden=true; $('wz').hidden=false; wzEnter(); render(); });
+  // ---- the sales desk. The costs never ship with the page: they come from the
+  // private Worker after a named sign-in, live in memory only, and the token
+  // that re-fetches them dies with the tab. Signed out, none of this draws.
+  var DESK_API=(location.hostname==='localhost'?'http://localhost:8788':'https://wonder.fish')+'/api/robotics-desk', DESK_TOK='wr-desk-token';
+  var deskCosts=null, deskUser=null;
+  function deskCall(body){
+    return fetch(DESK_API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)})
+      .then(function(r){ return r.json().catch(function(){ return {ok:false,error:'The desk gave no answer.'}; }); },
+            function(){ return {ok:false,error:'Could not reach the desk. Check the connection and try again.'}; });
+  }
+  function deskSet(j){ deskCosts=j.costs; deskUser=j.user; if(j.token){ try{ sessionStorage.setItem(DESK_TOK,j.token); }catch(e){} } $('desk-in').hidden=true; render(); }
+  function deskOut(){ deskCosts=null; deskUser=null; try{ sessionStorage.removeItem(DESK_TOK); }catch(e){} $('desk-in').hidden=false; render(); }
+  function drawDesk(c){
+    var el=$('qs-desk'); if(!el) return;
+    if(!deskCosts){ el.hidden=true; el.innerHTML=''; return; }
+    var d=Q.desk(c,deskCosts), pc=function(x){ return (x*100).toFixed(1)+'%'; }, h='<h4><span>Sales desk, '+esc(deskUser||'')+'</span><button type="button" id="desk-out">Sign out</button></h4>';
+    if(!d.rows.length){ el.innerHTML=h+'<p>Add a machine and its cost shows here.</p>'; el.hidden=false; return; }
+    h+='<dl>'+d.rows.map(function(r){
+      return '<dt>'+esc(r.name)+(r.kind==='service'?', '+c.term+' mo':'')+'</dt><dd>'+money.format(r.sell)+'</dd>'+
+        (r.cost!==null?'<dt>&nbsp; costs us</dt><dd>'+money.format(r.cost)+' <span class="'+(r.margin>=0?'good':'miss')+'">'+pc(r.pct)+'</span></dd>'
+                      :r.known.map(function(k){ return '<dt>&nbsp; '+esc(k[0].toLowerCase())+'</dt><dd>'+money.format(k[1])+'</dd>'; }).join('')+
+                       '<dd class="need">missing: '+esc(r.missing.join(', '))+'</dd>');
+    }).join('')+'</dl><dl class="sum">';
+    if(d.equipment) h+='<dt>Equipment margin, before install</dt><dd>'+(d.equipment.margin===null?'<span class="miss">unit cost missing</span>':money.format(d.equipment.margin)+' '+pc(d.equipment.pct))+'</dd>';
+    h+=d.complete?'<dt>Whole quote, over '+c.term+' months</dt><dd>'+money.format(d.sell)+'</dd><dt>Costs us</dt><dd>'+money.format(d.cost)+'</dd><dt>Margin</dt><dd class="'+(d.verdict==='under target'?'miss':'good')+'">'+money.format(d.margin)+' '+pc(d.pct)+'</dd>'
+                 :'<dt class="miss">Whole-quote margin</dt><dd class="miss">not shown</dd>';
+    h+='<dt>Target</dt><dd>'+(d.target===null?'<span class="miss">not set</span>':pc(d.target)+', '+esc(d.verdict))+'</dd></dl>';
+    if(!d.complete) h+='<p class="miss">Still needed: '+esc(d.missing.join('; '))+'.</p>';
+    el.innerHTML=h; el.hidden=false;
+  }
+  (function(){
+    var inBtn=$('desk-in'); if(!inBtn||!window.HTMLDialogElement) { if(inBtn) inBtn.hidden=true; return; }
+    var dlg=document.createElement('dialog'); dlg.className='desk-dlg';
+    dlg.innerHTML='<form method="dialog" id="desk-form"><h3>Sales desk</h3><p>For the Wonder Robotics team. Shows what this quote costs us.</p>'+
+      '<label>Name<input name="user" autocomplete="username" autocapitalize="none" required></label>'+
+      '<label>Password<input name="pass" type="password" autocomplete="current-password" required></label>'+
+      '<p class="err" role="alert"></p><div class="row"><button type="button" class="btn ghost" data-x><span>Cancel</span></button><button class="btn" type="submit"><span>Sign in</span></button></div></form>';
+    document.body.appendChild(dlg);
+    var form=dlg.querySelector('form'), err=dlg.querySelector('.err'), go=form.querySelector('[type=submit]');
+    inBtn.addEventListener('click',function(){ err.textContent=''; form.reset(); dlg.showModal(); });
+    dlg.querySelector('[data-x]').addEventListener('click',function(){ dlg.close(); });
+    form.addEventListener('submit',function(e){
+      e.preventDefault(); err.textContent=''; go.disabled=true;
+      deskCall({user:form.user.value,pass:form.pass.value}).then(function(j){
+        go.disabled=false; form.pass.value='';
+        if(j&&j.ok&&j.costs){ dlg.close(); deskSet(j); } else err.textContent=(j&&j.error)||'That did not work.';
+      });
+    });
+    $('qs-desk').addEventListener('click',function(e){ if(e.target.id==='desk-out') deskOut(); });
+    var tok=null; try{ tok=sessionStorage.getItem(DESK_TOK); }catch(e){}
+    if(tok) deskCall({token:tok}).then(function(j){ if(j&&j.ok&&j.costs) deskSet(j); else { try{ sessionStorage.removeItem(DESK_TOK); }catch(e){} } });
+  })();
+
   function wzEnter(){
     // a sheet opened holding a quote goes straight to the recommendation view of it
     var any=Q.MACHINES.concat(Q.ROBOTS).some(function(m){return qty[m.id]>0;});
@@ -1393,6 +1494,7 @@ window.WonderQuote = (function(){
     var go=$('want-go'); go.href=go.getAttribute('data-base')+q;
     // the cart: what is on the quote now is what any page opens on next
     if(open||c.asks) Q.save({q:q,wz:{type:wz.type,serve:wz.serve,front:wz.front,where:wz.where,applied:wz.applied}}); else if((Q.load()||{}).q) Q.save({q:'',wz:null});
+    drawDesk(c);
     paintBar();
     var prop=$('want-proposal'); if(prop) prop.href=go.getAttribute('data-base')+'proposal/'+q;
   }
