@@ -567,7 +567,9 @@ window.WonderQuote = (function(){
 (function(){
   var bar=document.getElementById('bar'), trig=document.getElementById('nav-machines');
   var mega=document.getElementById('mega'), scrim=document.getElementById('mega-scrim');
+  var menu=document.getElementById('menu');   // the phone button; shown only where the nav is not
   if(!bar||!trig||!mega) return;
+  function menuShown(){ return !!(menu&&menu.offsetParent); }
   var canHover=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var openT=null, closeT=null;
   function isOpen(){ return mega.classList.contains('on'); }
@@ -577,6 +579,9 @@ window.WonderQuote = (function(){
     mega.classList.toggle('on',on); bar.classList.toggle('bar-open',on);
     if(scrim) scrim.classList.toggle('on',on);
     trig.setAttribute('aria-expanded',on?'true':'false');
+    if(menu) menu.setAttribute('aria-expanded',on?'true':'false');
+    // the sheet fills the phone, so the page under it holds still
+    document.documentElement.classList.toggle('mega-lock',on&&menuShown());
   }
   function later(on,ms){ clearTimeout(openT); clearTimeout(closeT); if(on) openT=setTimeout(function(){set(true);},ms); else closeT=setTimeout(function(){set(false);},ms); }
   if(canHover){
@@ -591,8 +596,9 @@ window.WonderQuote = (function(){
   trig.addEventListener('keydown',function(e){
     if(e.key==='ArrowDown'){ e.preventDefault(); set(true); var first=mega.querySelector('a'); if(first) setTimeout(function(){ first.focus(); },60); }
   });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ var inside=mega.contains(document.activeElement); set(false); if(inside) trig.focus(); } });
-  mega.addEventListener('focusout',function(e){ var to=e.relatedTarget; if(to&&!mega.contains(to)&&to!==trig) set(false); });
+  if(menu) menu.addEventListener('click',function(){ set(!isOpen()); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ var inside=mega.contains(document.activeElement); set(false); if(inside) (menuShown()?menu:trig).focus(); } });
+  mega.addEventListener('focusout',function(e){ var to=e.relatedTarget; if(to&&!mega.contains(to)&&to!==trig&&to!==menu) set(false); });
   if(scrim) scrim.addEventListener('click',function(){ set(false); });
   mega.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
   // the quote sheet opening from anywhere puts the menu away

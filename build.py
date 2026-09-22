@@ -79,7 +79,7 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
     <nav class="label" aria-label="Sections">
       <a href="{{root}}machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">What we do</a><a href="{{root}}#work">Case studies</a><a href="{{root}}robot-cafe-packages/">Packages</a><a href="{{root}}#building">Experience hub</a>
     </nav>
-    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
+    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button><button type="button" class="btn ghost menu" id="menu" aria-expanded="false" aria-controls="mega" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
 </header>
   <div class="mega" id="mega" role="region" aria-label="Machines">

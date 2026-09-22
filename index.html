@@ -84,7 +84,19 @@
   .bar nav a:hover::after{transform:none}
   .bar nav a[aria-current]{color:var(--ink)}
   .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
-  .bar .cta{grid-column:11/13;justify-self:end}
+  .bar .cta{grid-column:11/13;justify-self:end;display:flex;align-items:center;gap:8px}
+  /* The menu button: the same square as every pill's glyph box, three rules
+     that fold to a cross when the panel is open. Only where the nav is not. */
+  .btn.menu{display:none;padding:0}
+  .btn.menu i{border-left:0;width:36px;height:36px}
+  .btn.menu i b{position:relative;display:block;width:14px;height:1px;background:currentColor;transition:background .2s ease}
+  .btn.menu i b::before,.btn.menu i b::after{content:"";position:absolute;left:0;width:14px;height:1px;background:currentColor;
+                                              transition:top .28s cubic-bezier(.16,.84,.24,1),transform .28s cubic-bezier(.16,.84,.24,1)}
+  .btn.menu i b::before{top:-5px}
+  .btn.menu i b::after{top:5px}
+  .btn.menu[aria-expanded="true"] i b{background:transparent}
+  .btn.menu[aria-expanded="true"] i b::before{top:0;transform:rotate(45deg)}
+  .btn.menu[aria-expanded="true"] i b::after{top:0;transform:rotate(-45deg)}
   .btn.want em{font-style:normal;margin-left:10px;padding-left:10px;border-left:1px solid color-mix(in srgb,currentColor 35%,transparent);opacity:.8;font-variant-numeric:tabular-nums}
   /* the amount only where the bar has the room for it */
   @media (max-width:1899px){ .btn.want em{display:none} }
@@ -528,7 +540,18 @@
   .mega-scrim.on{opacity:1;pointer-events:auto}
   .bar nav a[aria-expanded="true"]{color:var(--ink)}
   .bar nav a[aria-expanded="true"]::after{transform:none}
-  @media (max-width:980px){ .mega,.mega-scrim{display:none} }
+  @media (max-width:980px){
+    .btn.menu{display:inline-flex}
+    .mega-clip{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 64px)}
+    .bar.bar-set + .mega .mega-clip{max-height:calc(100dvh - 52px)}
+    .mega-in{display:block;padding-top:28px;padding-bottom:44px}
+    .mega-col{margin-bottom:30px}
+    .mega-col:last-child{margin-bottom:0}
+    .mega-col.big li a{font-size:clamp(26px,7vw,34px)}
+    .mega-col:not(.big) li a{font-size:16px;padding:7px 0}
+    /* html only: locking body too makes it the sticky bar's scroller and the bar leaves the screen */
+    html.mega-lock{overflow:hidden}
+  }
   @media (prefers-reduced-motion:reduce){ .mega,.mega li,.mega-scrim{transition:none} }
   /* The quote sheet as steps. Step numbers sit in the headings; the work is
      dimmed until there is a machine to price it from. */
@@ -911,6 +934,8 @@
   }
   @media (max-width:640px){
     .bar .mark{grid-column:1/8}
+    .bar .mark canvas{transform:scale(.85)}
+    .bar.bar-set .mark canvas{transform:scale(.76)}
     .bar .cta{grid-column:8/13}
     .bar .btn span{padding:9px 10px}
     .hero .meta > *{grid-column:1/13 !important;justify-self:start !important;text-align:left !important}
@@ -1578,7 +1603,7 @@
     <nav class="label" aria-label="Sections">
       <a href="machines/" id="nav-machines" aria-expanded="false" aria-controls="mega">What we do</a><a href="#work">Case studies</a><a href="robot-cafe-packages/">Packages</a><a href="#building">Experience hub</a>
     </nav>
-    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button></div>
+    <div class="cta"><button type="button" class="btn want" id="want" aria-expanded="false" aria-controls="wantpanel"><span>Build a quote</span><i aria-hidden="true"><b>+</b></i></button><button type="button" class="btn ghost menu" id="menu" aria-expanded="false" aria-controls="mega" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
 </header>
   <div class="mega" id="mega" role="region" aria-label="Machines">
@@ -2670,7 +2695,9 @@ window.WonderQuote = (function(){
 (function(){
   var bar=document.getElementById('bar'), trig=document.getElementById('nav-machines');
   var mega=document.getElementById('mega'), scrim=document.getElementById('mega-scrim');
+  var menu=document.getElementById('menu');   // the phone button; shown only where the nav is not
   if(!bar||!trig||!mega) return;
+  function menuShown(){ return !!(menu&&menu.offsetParent); }
   var canHover=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var openT=null, closeT=null;
   function isOpen(){ return mega.classList.contains('on'); }
@@ -2680,6 +2707,9 @@ window.WonderQuote = (function(){
     mega.classList.toggle('on',on); bar.classList.toggle('bar-open',on);
     if(scrim) scrim.classList.toggle('on',on);
     trig.setAttribute('aria-expanded',on?'true':'false');
+    if(menu) menu.setAttribute('aria-expanded',on?'true':'false');
+    // the sheet fills the phone, so the page under it holds still
+    document.documentElement.classList.toggle('mega-lock',on&&menuShown());
   }
   function later(on,ms){ clearTimeout(openT); clearTimeout(closeT); if(on) openT=setTimeout(function(){set(true);},ms); else closeT=setTimeout(function(){set(false);},ms); }
   if(canHover){
@@ -2694,8 +2724,9 @@ window.WonderQuote = (function(){
   trig.addEventListener('keydown',function(e){
     if(e.key==='ArrowDown'){ e.preventDefault(); set(true); var first=mega.querySelector('a'); if(first) setTimeout(function(){ first.focus(); },60); }
   });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ var inside=mega.contains(document.activeElement); set(false); if(inside) trig.focus(); } });
-  mega.addEventListener('focusout',function(e){ var to=e.relatedTarget; if(to&&!mega.contains(to)&&to!==trig) set(false); });
+  if(menu) menu.addEventListener('click',function(){ set(!isOpen()); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen()){ var inside=mega.contains(document.activeElement); set(false); if(inside) (menuShown()?menu:trig).focus(); } });
+  mega.addEventListener('focusout',function(e){ var to=e.relatedTarget; if(to&&!mega.contains(to)&&to!==trig&&to!==menu) set(false); });
   if(scrim) scrim.addEventListener('click',function(){ set(false); });
   mega.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
   // the quote sheet opening from anywhere puts the menu away
