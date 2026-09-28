@@ -29,7 +29,7 @@ sys.path.insert(0, str(SRC))
 from machines import MACHINES, PARTNERS  # noqa: E402
 
 PAGES = {
-    "home": {"out": "index.html", "root": "", "title": "Wonder Robotics",
+    "home": {"out": "index.html", "root": "", "title": "Wonder Robotics", "ld": lambda url, img: org_ld(url, img),
              "desc": "Where Australian business gets into robotics. We scope, design, brand, build and run robot kitchens and service robots, from one building in Fortitude Valley."},
     "valley": {"out": "work/valley/index.html", "root": "../../", "title": "365 St Pauls Terrace, Wonder Robotics",
                "desc": "Our own building in Fortitude Valley: a robot kitchen, a robot bar, a dessert kiosk and a service floor, all running."},
@@ -56,11 +56,14 @@ PAGES = {
                          "desc": "A robot café bought whole: the room, the brand, the website, the robot coffee bar installed, the counter, and 24 months of install, training, maintenance and support, as one monthly budget. Robot coffee bar, robot café and robot container kitchen packages, from Brisbane."},
     "container-landing": {"out": "robot-container-kitchens/index.html", "root": "../", "title": "Robot container kitchens, Brisbane. Wonder Robotics",
                           "desc": "A twenty foot shipping container fitted as a robot kitchen in our Brisbane yard: an arm on a rail over fryers and noodle baths, a serving hatch, extraction, and projector glass on three faces that carries the brand. Sold whole, brand to opening day."},
-    "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics",
+    # a proposal only draws from a quote in the visitor's browser, so there
+    # is nothing on it for search
+    "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics", "noindex": True,
                  "desc": "A Wonder Robotics proposal: the equipment installed, the design and build, and the 24 month service, as one monthly budget. Save it as a PDF or share the link."},
     "terms": {"out": "terms/index.html", "root": "../", "title": "Terms of sale, Wonder Robotics",
               "desc": "Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance."},
-    "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics",
+    # unlinked since the menu sends "Book the space" to wonder.fish/book/
+    "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics", "noindex": True,
              "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
 
@@ -546,10 +549,17 @@ def fill_prices(body):
     return body
 
 
-# Where the site is served. Link previews, the canonical address and the
-# product data need absolute URLs; change this one line when the site moves
-# to its own domain.
-SITE = "https://jessdisplay.github.io/wonder-robotics-site/"
+# Where the site is served. Link previews, the canonical address, the
+# sitemap and the product data need absolute URLs; CNAME is written from it.
+# www, because that is the address the old site had indexed.
+SITE = "https://www.wonderbytech.com/"
+
+# The business itself, for search: one record, used by the home page and as
+# the seller on every product.
+ORG = {"@type": "Organization", "name": "Wonder Robotics", "url": SITE, "telephone": "+61 1800 983 404",
+       "email": "info@wonderbytech.com", "logo": SITE + "icon-512.png",
+       "address": {"@type": "PostalAddress", "streetAddress": "365 St Pauls Terrace", "addressLocality": "Fortitude Valley",
+                   "addressRegion": "QLD", "postalCode": "4006", "addressCountry": "AU"}}
 
 # What each product page offers, for search and ads to read. Machine pages
 # offer their machines at list; a package page offers the package. The
@@ -570,9 +580,7 @@ def attr(t):
 
 
 def product_ld(name, desc, url, image, prices):
-    org = {"@type": "Organization", "name": "Wonder Robotics", "url": SITE, "telephone": "+61 1800 983 404",
-           "address": {"@type": "PostalAddress", "streetAddress": "365 St Pauls Terrace", "addressLocality": "Fortitude Valley",
-                       "addressRegion": "QLD", "postalCode": "4006", "addressCountry": "AU"}}
+    org = ORG
     tax = {"@type": "PriceSpecification", "priceCurrency": "AUD", "valueAddedTaxIncluded": False}
     if len(prices) == 1:
         offers = {"@type": "Offer", "price": prices[0], "priceCurrency": "AUD", "priceSpecification": dict(tax, price=prices[0]),
@@ -582,7 +590,15 @@ def product_ld(name, desc, url, image, prices):
                   "priceCurrency": "AUD", "availability": "https://schema.org/PreOrder", "url": url, "seller": org}
     ld = {"@context": "https://schema.org", "@type": "Product", "name": name, "description": desc, "image": [image],
           "brand": {"@type": "Brand", "name": "Wonder Robotics"}, "offers": offers}
+    return ld_tag(ld)
+
+
+def ld_tag(ld):
     return '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False).replace("</", "<\\/") + "</script>\n"
+
+
+def org_ld(url, img):
+    return ld_tag(dict({"@context": "https://schema.org"}, **ORG, image=img))
 
 
 def head_tags(cfg, name):
@@ -602,6 +618,9 @@ def head_tags(cfg, name):
     if cfg.get("ld"):
         tags += cfg["ld"](url, SITE + img)
     return tags
+
+
+LISTED = []   # every indexable page render() wrote, for the sitemap
 
 
 def render(body, cfg, name=None):
@@ -631,11 +650,13 @@ def render(body, cfg, name=None):
     doc = (
         "<!doctype html>\n<html lang=\"en-AU\">\n<head>\n<meta charset=\"utf-8\">\n"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n"
-        "<meta name=\"robots\" content=\"noindex\">\n" + inner + "\n</head>\n</html>\n"
+        + ('<meta name="robots" content="noindex">\n' if cfg.get("noindex") else "") + inner + "\n</head>\n</html>\n"
     )
     out = HERE / cfg["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc)
+    if not cfg.get("noindex"):
+        LISTED.append(cfg["out"].removesuffix("index.html"))
     print(f"{cfg['out']}: {out.stat().st_size} bytes")
     if name == "home":
         (HERE / "wonder-robotics.html").write_text(inner)
@@ -987,18 +1008,25 @@ def catalogue_body():
 '''
 
 
+def forward(path, to, name):
+    """A page that only sends the visitor on. GitHub Pages cannot redirect,
+    so it is a refresh, with the canonical pointing search at the new page."""
+    out = HERE / path / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    back = "../" * len(Path(path).parts)
+    out.write_text('<!doctype html>\n<html lang="en-AU"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+                   f'<title>{escape(name)}, Wonder Robotics</title><link rel="canonical" href="{SITE + to}">'
+                   f'<meta http-equiv="refresh" content="0; url={back + to}"></head>'
+                   f'<body><p><a href="{back + to}">{escape(name)} has moved here.</a></p></body></html>\n')
+    print(f"{path}/index.html: forwards to {to or '/'}")
+
+
 def catalogue():
     render(catalogue_body(), {"out": "machines/index.html", "root": "../", "title": "Machines, Wonder Robotics",
                               "desc": "Every machine Wonder Robotics sells: Unitree G1 and GO2, UBTECH Cruzr, CadeBot, Cruzr Y1, Yanshee, UGOT and uKit, coffee and kitchen robots, custom automation, AI agents and software. Supplied, installed and maintained from Brisbane."})
     for m in MACHINES:
         if m.get("page"):
-            to = "../../" + m["page"]
-            out = HERE / "machines" / m["slug"] / "index.html"
-            out.write_text('<!doctype html>\n<html lang="en-AU"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
-                           f'<title>{escape(m["name"])}, Wonder Robotics</title><link rel="canonical" href="{SITE + m["page"]}">'
-                           f'<meta http-equiv="refresh" content="0; url={to}"></head>'
-                           f'<body><p><a href="{to}">{escape(m["name"])} has moved here.</a></p></body></html>\n')
-            print(f"machines/{m['slug']}/index.html: forwards to {m['page']}")
+            forward(f"machines/{m['slug']}", m["page"], m["name"])
             continue
         render(machine_body(m), {"out": f"machines/{m['slug']}/index.html", "root": "../../",
                                  "title": f"{m['name']}, Wonder Robotics", "desc": escape(m["line"])})
@@ -1017,6 +1045,56 @@ for pid, d in PACKAGE_PAGES.items():
 catalogue()
 
 
+# The old wonderbytech.com addresses, from its sitemap (28 Sep 2026). Search
+# engines and old links keep sending people to them after the move, so each
+# one lands on the page that now does its job.
+OLD_SITE = {
+    "about-us": ("", "About us"),
+    "news": ("", "News"),
+    "news/ai-agents-around-robotics-deployments": ("machines/ai-agents/", "AI agents"),
+    "news/service-robots-public-venues": ("machines/", "Service robots"),
+    "news/unitree-g1-deployment-signals": ("machines/unitree-g1/", "Unitree G1"),
+    "robots": ("machines/", "Robots"),
+    "robots/unitree": ("machines/", "Unitree"),
+    "robots/ubtech": ("machines/", "UBTECH"),
+    "robots/unitree/g1": ("machines/unitree-g1/", "Unitree G1"),
+    "robots/unitree/go2": ("machines/unitree-go2/", "Unitree GO2"),
+    "robots/ubtech/cruzr": ("machines/ubtech-cruzr-1s/", "UBTECH Cruzr 1S"),
+    "robots/ubtech/cadebot": ("machines/ubtech-cadebot/", "UBTECH CadeBot"),
+    "robots/ubtech/yanshee": ("machines/ubtech-yanshee/", "UBTECH Yanshee"),
+    "robots/ubtech/ugot": ("machines/ubtech-ugot/", "UBTECH UGOT"),
+    "robots/ubtech/ukit": ("machines/ubtech-ukit/", "UBTECH uKit"),
+    "robots/ubtech/y1": ("machines/ubtech-cruzr-y1/", "UBTECH Cruzr Y1"),
+    "mechanical-arms": ("machines/", "Robotic solutions"),
+    "mechanical-arms/coffee": ("robot-coffee-machines/", "Robot coffee"),
+    "mechanical-arms/kitchen": ("robot-kitchen-fitouts/", "Robot kitchens"),
+    "mechanical-arms/customized": ("machines/custom-automation/", "Custom automation"),
+    "other-services": ("machines/", "Services"),
+    "other-services/ai-product-development": ("machines/ai-agents/", "AI product development"),
+    "other-services/software-delivery": ("machines/software/", "Software delivery"),
+}
+for old, (to, name) in OLD_SITE.items():
+    assert to == "" or (HERE / to / "index.html").exists(), f"{old} forwards to a page that does not exist: {to}"
+    forward(old, to, name)
+
+
+# Not found. Served from any depth, so its links are absolute from the root.
+render('''<main class="qv-empty" id="top"><div class="wrap"><span class="label">[ 404 ]</span><h1>Nothing here.</h1>
+<p>The page moved, or never was. The machines, the work and the quote are all one click away.</p>
+<div class="actions"><a class="btn" href="/"><span>Home</span><i aria-hidden="true">+</i></a>
+<a class="btn ghost" href="/machines/"><span>Every machine</span><i aria-hidden="true">+</i></a></div></div></main>
+''', {"out": "404.html", "root": "/", "title": "Not found, Wonder Robotics", "noindex": True,
+       "desc": "This page is not here. Wonder Robotics builds automated kitchens, bars and cafés in Fortitude Valley, Brisbane."})
+
+
+# What search needs to find the rest, and the address GitHub Pages serves.
+(HERE / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                                  + "".join(f"  <url><loc>{SITE + u}</loc></url>\n" for u in sorted(set(LISTED))) + "</urlset>\n")
+(HERE / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}sitemap.xml\n")
+(HERE / "CNAME").write_text(SITE.split("//")[1].rstrip("/") + "\n")
+print(f"sitemap.xml: {len(set(LISTED))} pages; robots.txt; CNAME")
+
+
 # The price guide PDF, from src/price-guide.html with the same price tokens.
 # It needs Chrome, so it only runs when asked: python3 build.py --price-guide
 def price_guide():
@@ -1029,7 +1107,7 @@ def price_guide():
     if not Path(chrome).exists():
         sys.exit("the price guide needs Google Chrome to print")
     font = "data:font/woff2;base64," + base64.b64encode((HERE / "fonts" / "UnboundedW.woff2").read_bytes()).decode()
-    html = fill_prices((SRC / "price-guide.html").read_text()).replace("{{font}}", font)
+    html = fill_prices((SRC / "price-guide.html").read_text()).replace("{{font}}", font).replace("{{site}}", SITE)
     if "{{" in html:
         sys.exit("price guide has an unfilled token")
     with tempfile.TemporaryDirectory() as tmp:

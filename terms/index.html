@@ -3,16 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
 <title>Terms of sale, Wonder Robotics</title>
 <meta name="description" content="Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance.">
-<link rel="canonical" href="https://jessdisplay.github.io/wonder-robotics-site/terms/">
+<link rel="canonical" href="https://www.wonderbytech.com/terms/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Wonder Robotics">
 <meta property="og:title" content="Terms of sale, Wonder Robotics">
 <meta property="og:description" content="Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance.">
-<meta property="og:url" content="https://jessdisplay.github.io/wonder-robotics-site/terms/">
-<meta property="og:image" content="https://jessdisplay.github.io/wonder-robotics-site/img/hero-bot-wide.jpg">
+<meta property="og:url" content="https://www.wonderbytech.com/terms/">
+<meta property="og:image" content="https://www.wonderbytech.com/img/hero-bot-wide.jpg">
 <meta property="og:locale" content="en_AU">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../favicon-32.png" sizes="32x32">
@@ -484,8 +483,6 @@
      the parts about using the machines properly given a rule of their own. */
   .legal .wrap{max-width:860px;margin-inline:auto;padding-top:clamp(40px,6vw,90px);padding-bottom:clamp(60px,8vw,120px)}
   .lg-head h1{margin:10px 0 0;font-weight:500;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em}
-  .lg-draft{margin:22px 0 0;padding:14px 16px;border:1px solid var(--signal);border-radius:var(--rb);color:var(--ink);font-size:15px;line-height:1.45}
-  .lg-draft b{color:var(--signal);font-weight:500}
   .lg-intro{margin:22px 0 0;font-size:clamp(19px,1.7vw,24px);line-height:1.35;letter-spacing:-.01em}
   .lg-toc ol{list-style:none;margin:28px 0 0;padding:14px 0 0;border-top:2px solid var(--ink);columns:3 200px;column-gap:24px;counter-reset:toc}
   .lg-toc li{counter-increment:toc;break-inside:avoid;padding:5px 0;font-size:14.5px}
@@ -502,11 +499,9 @@
   .lg-sec li{margin-bottom:6px}
   .lg-lead{font-size:19px !important;line-height:1.45 !important}
   .lg-acl{margin:14px 0 !important;padding:14px 16px;background:color-mix(in srgb,var(--ink) 5%,var(--paper));border-left:3px solid var(--ink);font-size:15.5px !important}
-  .legal mark{background:color-mix(in srgb,var(--signal) 14%,transparent);color:var(--signal);padding:1px 6px;border-radius:4px;font-size:.82em;font-family:var(--mono);letter-spacing:.02em;white-space:nowrap}
   .lg-contact{margin-top:22px !important;font-family:var(--mono);font-size:13px !important;color:var(--graphite)}
   .lg-contact a{color:inherit}
   .pc-terms a{color:inherit;text-underline-offset:3px}
-  @media print{ .legal mark{background:none;border:1px solid currentColor} }
   /* The product menu, after Apple's: hover Machines and a full-width panel
      drops under the bar, one column of big links, two of small ones, the
      page softly blurred behind. It is the bar's sibling, fixed under it, the
@@ -798,6 +793,10 @@
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
   .btn{display:inline-flex;align-items:stretch;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:var(--ink);color:var(--paper);white-space:nowrap;cursor:pointer;border-radius:var(--rb);overflow:hidden}
+  /* a label longer than a phone is wide wraps inside the button rather than
+     pushing the page sideways; anything that fits stays on one line */
+  .btn{max-width:100%}
+  .btn > span{min-width:0;white-space:normal}
   .btn span{padding:10px 14px;display:flex;align-items:center}
   .btn i{font-style:normal;display:flex;align-items:center;justify-content:center;width:38px;border-left:1px solid color-mix(in srgb,var(--paper) 28%,transparent);font-size:15px}
   .btn:hover i{background:var(--signal)}
@@ -1720,7 +1719,6 @@
     <header class="lg-head">
       <span class="label">[ Sales terms ]</span>
       <h1>Terms of sale.</h1>
-      <p class="lg-draft"><b>Draft for review, 17 September 2026.</b> Not yet in use. Numbers marked for confirmation are proposals, and these terms should be read by a lawyer before they bind a sale.</p>
       <p class="lg-intro">These terms cover every machine, robot, design, fit-out, software and service we supply, and the monthly service that comes with every order. They are written to be read. Where your proposal or a signed agreement says something different, that document wins for your job.</p>
       <nav class="lg-toc" aria-label="Contents"><ol>
         <li><a href="#t1">About these terms</a></li><li><a href="#t2">Quotes and prices</a></li><li><a href="#t3">Orders and payment</a></li>
@@ -1743,14 +1741,14 @@
     <section class="lg-sec" id="t2"><h2><span>02</span>Quotes and prices</h2>
       <p>2.1 Equipment is quoted installed: delivered within 100 km of an Australian port, positioned and commissioned. The service is quoted at the rates in section 19. Design and build work is indicative until we have seen your site, and becomes fixed when we confirm it in writing.</p>
       <p>2.2 A quote or proposal is valid for 30 days. Prices are in Australian dollars and exclude GST unless shown otherwise.</p>
-      <p>2.3 Machines are imported. If the supplier's price, freight, duty or the exchange rate moves by more than 5% before your order is accepted, we may revise the quote, and you may withdraw without cost. <mark>Confirm the 5% threshold.</mark></p>
+      <p>2.3 Machines are imported. If the supplier's price, freight, duty or the exchange rate moves by more than 5% before your order is accepted, we may revise the quote, and you may withdraw without cost.</p>
       <p>2.4 A package is priced by the same rules as any quote. If part of it is removed, the price changes by that part, and where the part is a machine or a robot, by its share of the service.</p>
       <p>2.5 We do not sell equipment on its own. Every order includes the service in section 19 for its minimum term, whether you pay for the equipment upfront or finance it.</p>
     </section>
 
     <section class="lg-sec" id="t3"><h2><span>03</span>Orders and payment</h2>
       <p>3.1 An order is accepted when we confirm it in writing and receive the deposit.</p>
-      <p>3.2 Unless your proposal says otherwise, you pay: <mark>Confirm the schedule.</mark></p>
+      <p>3.2 Unless your proposal says otherwise, you pay:</p>
       <ul><li>50% of the equipment price and 30% of the design and build work on acceptance, because machines are built to order and we pay the manufacturer on order;</li>
         <li>40% of the equipment price and 40% of the design and build work before the machines leave the factory;</li>
         <li>the balance on commissioning, within 7 days of invoice;</li>
@@ -1763,9 +1761,9 @@
     <section class="lg-sec" id="t4"><h2><span>04</span>Changes and cancellation</h2>
       <p>4.1 You can ask for a change at any time. We will tell you in writing what it does to the price and timing before we do it.</p>
       <p>4.2 You can cancel before we have placed the machine order with the manufacturer, and we refund your deposit less the cost of work already done.</p>
-      <p>4.3 Once machines are ordered they are made for you and cannot be returned. If you cancel after that point, you pay our actual costs incurred and committed (the manufacturer's non-refundable deposit, freight booked, work done, materials bought) plus an administration fee of 5% of the cancelled order, as a genuine estimate of our loss. We refund anything paid above that. <mark>Confirm the 5% fee.</mark></p>
+      <p>4.3 Once machines are ordered they are made for you and cannot be returned. If you cancel after that point, you pay our actual costs incurred and committed (the manufacturer's non-refundable deposit, freight booked, work done, materials bought) plus an administration fee of 5% of the cancelled order, as a genuine estimate of our loss. We refund anything paid above that.</p>
       <p>4.4 We can cancel an accepted order only if you do not pay an amount 30 days after it is due, or you become insolvent. We will give you 14 days written notice first, and the same cost rule in 4.3 applies.</p>
-      <p>4.5 If you end the service before its minimum term, other than because we have breached these terms, you pay the service fees for the rest of the term less the costs we save by not providing it, as a genuine estimate of our loss. <mark>Confirm the early exit rule.</mark></p>
+      <p>4.5 If you end the service before its minimum term, other than because we have breached these terms, you pay the service fees for the rest of the term less the costs we save by not providing it, as a genuine estimate of our loss.</p>
     </section>
 
     <section class="lg-sec" id="t5"><h2><span>05</span>Your site</h2>
@@ -1777,7 +1775,7 @@
     <section class="lg-sec" id="t6"><h2><span>06</span>Delivery, risk and storage</h2>
       <p>6.1 Machines are delivered duty unpaid within 100 km of an Australian port. Beyond that, delivery is quoted. Delivery times are estimates, about two months from order, and depend on the manufacturer and shipping.</p>
       <p>6.2 Risk in the goods passes to you when they are delivered to your site or, if you collect, when collected. Insure them from then.</p>
-      <p>6.3 If you ask us to delay delivery or the site is not ready, we will store the goods for 14 days at no charge. After that you pay reasonable storage and handling, and the goods are held at your risk. <mark>Confirm storage rate.</mark></p>
+      <p>6.3 If you ask us to delay delivery or the site is not ready, we will store the goods for 14 days at no charge. After that you pay reasonable storage and handling, and the goods are held at your risk.</p>
     </section>
 
     <section class="lg-sec" id="t7"><h2><span>07</span>Ownership until paid</h2>
@@ -1823,7 +1821,7 @@
 
     <section class="lg-sec" id="t12"><h2><span>12</span>Warranty and repair cover</h2>
       <p>12.1 We warrant the machines against defects in materials and workmanship for 12 months from commissioning. If a covered defect appears, we will repair the machine or, if repair is not practical, replace the faulty part, at no charge for parts or labour.</p>
-      <p>12.2 While the service in section 19 runs, we also repair faults that arise in normal use for its full 24 month term, at no extra charge for parts or labour. This is our service cover, not an extension of the manufacturer's warranty. On-site attendance in our local service zone is included; beyond it, travel is quoted. <mark>Define the local service zone.</mark></p>
+      <p>12.2 While the service in section 19 runs, we also repair faults that arise in normal use for its full 24 month term, at no extra charge for parts or labour. This is our service cover, not an extension of the manufacturer's warranty. On-site attendance in our local service zone, within 100 km of 365 St Pauls Terrace, is included; beyond it, travel is quoted.</p>
       <p>12.3 To claim, contact us on 1800 983 404 or info@wonderbytech.com, describe the fault, and give us reasonable access to the machine. You bear your own costs of making a claim. We aim to acknowledge a critical outage within four business hours and a routine enquiry within one business day, and, after diagnosing it remotely, to attend on site within two business days in our local service zone. These are targets, not guaranteed repair times.</p>
       <p>12.4 This warranty and cover are in addition to your rights under the Australian Consumer Law.</p>
       <p class="lg-acl">Our goods come with guarantees that cannot be excluded under the Australian Consumer Law. You are entitled to a replacement or refund for a major failure and compensation for any other reasonably foreseeable loss or damage. You are also entitled to have the goods repaired or replaced if the goods fail to be of acceptable quality and the failure does not amount to a major failure.</p>

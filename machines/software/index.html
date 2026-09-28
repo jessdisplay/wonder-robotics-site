@@ -3,16 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
 <title>Software, Wonder Robotics</title>
 <meta name="description" content="The ordering, payment, stock and dispatch every robot here talks to, and the dashboard the manager watches on a phone. React, Node, Python, Postgres.">
-<link rel="canonical" href="https://jessdisplay.github.io/wonder-robotics-site/machines/software/">
+<link rel="canonical" href="https://www.wonderbytech.com/machines/software/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Wonder Robotics">
 <meta property="og:title" content="Software, Wonder Robotics">
 <meta property="og:description" content="The ordering, payment, stock and dispatch every robot here talks to, and the dashboard the manager watches on a phone. React, Node, Python, Postgres.">
-<meta property="og:url" content="https://jessdisplay.github.io/wonder-robotics-site/machines/software/">
-<meta property="og:image" content="https://jessdisplay.github.io/wonder-robotics-site/img/hero-bot-wide.jpg">
+<meta property="og:url" content="https://www.wonderbytech.com/machines/software/">
+<meta property="og:image" content="https://www.wonderbytech.com/img/hero-bot-wide.jpg">
 <meta property="og:locale" content="en_AU">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon-32.png" sizes="32x32">
@@ -484,8 +483,6 @@
      the parts about using the machines properly given a rule of their own. */
   .legal .wrap{max-width:860px;margin-inline:auto;padding-top:clamp(40px,6vw,90px);padding-bottom:clamp(60px,8vw,120px)}
   .lg-head h1{margin:10px 0 0;font-weight:500;font-size:clamp(48px,7vw,110px);line-height:.9;letter-spacing:-.05em}
-  .lg-draft{margin:22px 0 0;padding:14px 16px;border:1px solid var(--signal);border-radius:var(--rb);color:var(--ink);font-size:15px;line-height:1.45}
-  .lg-draft b{color:var(--signal);font-weight:500}
   .lg-intro{margin:22px 0 0;font-size:clamp(19px,1.7vw,24px);line-height:1.35;letter-spacing:-.01em}
   .lg-toc ol{list-style:none;margin:28px 0 0;padding:14px 0 0;border-top:2px solid var(--ink);columns:3 200px;column-gap:24px;counter-reset:toc}
   .lg-toc li{counter-increment:toc;break-inside:avoid;padding:5px 0;font-size:14.5px}
@@ -502,11 +499,9 @@
   .lg-sec li{margin-bottom:6px}
   .lg-lead{font-size:19px !important;line-height:1.45 !important}
   .lg-acl{margin:14px 0 !important;padding:14px 16px;background:color-mix(in srgb,var(--ink) 5%,var(--paper));border-left:3px solid var(--ink);font-size:15.5px !important}
-  .legal mark{background:color-mix(in srgb,var(--signal) 14%,transparent);color:var(--signal);padding:1px 6px;border-radius:4px;font-size:.82em;font-family:var(--mono);letter-spacing:.02em;white-space:nowrap}
   .lg-contact{margin-top:22px !important;font-family:var(--mono);font-size:13px !important;color:var(--graphite)}
   .lg-contact a{color:inherit}
   .pc-terms a{color:inherit;text-underline-offset:3px}
-  @media print{ .legal mark{background:none;border:1px solid currentColor} }
   /* The product menu, after Apple's: hover Machines and a full-width panel
      drops under the bar, one column of big links, two of small ones, the
      page softly blurred behind. It is the bar's sibling, fixed under it, the
@@ -798,6 +793,10 @@
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
   .btn{display:inline-flex;align-items:stretch;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:var(--ink);color:var(--paper);white-space:nowrap;cursor:pointer;border-radius:var(--rb);overflow:hidden}
+  /* a label longer than a phone is wide wraps inside the button rather than
+     pushing the page sideways; anything that fits stays on one line */
+  .btn{max-width:100%}
+  .btn > span{min-width:0;white-space:normal}
   .btn span{padding:10px 14px;display:flex;align-items:center}
   .btn i{font-style:normal;display:flex;align-items:center;justify-content:center;width:38px;border-left:1px solid color-mix(in srgb,var(--paper) 28%,transparent);font-size:15px}
   .btn:hover i{background:var(--signal)}
