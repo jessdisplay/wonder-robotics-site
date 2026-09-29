@@ -172,11 +172,11 @@ window.WonderQuote = (function(){
   // Ways to pay. The monthly budget is the equipment spread over the term
   // plus the service, before GST and finance charges. Equipment can be paid
   // on order or financed through a partner lender; the service is billed by
-  // us and is not financed. The finance range (research, 17 Sep 2026: small
-  // business equipment loans from about 9% to the top of fintech ranges for
-  // imported kit, 15%) is an illustration over the same 24 months, with the
-  // downside shown beside the upside as ASIC's RG 234 asks.
-  var PAY={finance:{low:0.09, high:0.15, months:TERM}};
+  // us and is not financed. The finance range is our broker's (28 Sep 2026):
+  // 7.5% to 20% depending on the buyer's position, property and credit, over
+  // five or seven years. It is shown over five, the dearer month, with the
+  // downside beside the upside as ASIC's RG 234 asks.
+  var PAY={finance:{low:0.075, high:0.20, months:60}};
   function monthly(principal,annual,months){
     var r=annual/12; if(!r) return principal/months;
     return principal*r/(1-Math.pow(1+r,-months));
@@ -200,8 +200,8 @@ window.WonderQuote = (function(){
       '<article class="pay"><span class="label">Paid upfront</span><div class="pay-fig">'+money.format(w.upfront.amount)+'<small>once</small></div>'+
         '<p>Then '+money.format(w.upfront.service)+' a month for '+w.budget.term+' months. '+(work?'The equipment and the design and build':'The equipment')+' paid in stages, on order and on commissioning.</p></article>'+
       '<article class="pay fin"><span class="label">Equipment financed</span><div class="pay-fig">'+money.format(f.withLow)+'<small>to</small>'+money.format(f.withHigh)+'<small>a month</small></div>'+
-        '<p>The equipment through our finance partner, plus the service from us. We organise it.'+(f.once?' The design and build, '+money.format(f.once)+', is paid in stages.':'')+'</p>'+
-        '<p class="pay-terms">Illustration only, not an offer of finance. Equipment of '+money.format(f.principal)+' ex GST at '+pc(f.rateLow)+' to '+pc(f.rateHigh)+' a year over '+f.months+' months is '+money.format(f.low)+' to '+money.format(f.high)+' a month, no deposit or balloon, fees excluded. Approval, rate, deposit and GST timing are the lender\u2019s. The service is not financed. Wonder Byte is not a lender or broker.</p>'+
+        '<p>The equipment through our finance partner, plus the service from us for its first '+w.budget.term+' months. We organise it.'+(f.once?' The design and build, '+money.format(f.once)+', is paid in stages.':'')+'</p>'+
+        '<p class="pay-terms">Illustration only, not an offer of finance. Equipment of '+money.format(f.principal)+' ex GST at '+pc(f.rateLow)+' to '+pc(f.rateHigh)+' a year over '+f.months+' months is '+money.format(f.low)+' to '+money.format(f.high)+' a month, no deposit or balloon, fees excluded. Approval, rate, deposit and GST timing are the lender\u2019s. The service is not financed. We are not a lender or broker.</p>'+
         (opts&&opts.ask?'<a class="link" href="'+opts.ask+'">Ask us to organise it</a>':'')+'</article>'+
       '</div><p class="pays-fine">Ex GST. Every package has a '+w.budget.term+' month service term.</p>';
   }

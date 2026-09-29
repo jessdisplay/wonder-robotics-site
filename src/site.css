@@ -769,10 +769,12 @@
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
   .btn{display:inline-flex;align-items:stretch;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:var(--ink);color:var(--paper);white-space:nowrap;cursor:pointer;border-radius:var(--rb);overflow:hidden}
-  /* a label longer than a phone is wide wraps inside the button rather than
-     pushing the page sideways; anything that fits stays on one line */
-  .btn{max-width:100%}
-  .btn > span{min-width:0;white-space:normal}
+  /* a package row's long label ("Buy it whole: the container kitchen
+     package") wraps inside its button on a phone rather than pushing the page
+     sideways. Only here: a button elsewhere sits in a slot narrower than its
+     label and must keep its one line (the bar's Build a quote) */
+  .pk-go .btn{max-width:100%}
+  .pk-go .btn > span{min-width:0;white-space:normal}
   .btn span{padding:10px 14px;display:flex;align-items:center}
   .btn i{font-style:normal;display:flex;align-items:center;justify-content:center;width:38px;border-left:1px solid color-mix(in srgb,var(--paper) 28%,transparent);font-size:15px}
   .btn:hover i{background:var(--signal)}
@@ -1174,6 +1176,9 @@
   .hl li{border:1px solid var(--ink);border-radius:var(--r);padding:18px 18px 16px;display:grid;gap:8px;align-content:start}
   .hl b{font-weight:400;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.025em;line-height:1.05}
   .hl p{margin:0;font-size:13.5px;line-height:1.4;color:var(--graphite)}
+  /* a link closing a card's sentence takes its own line; inline, its top
+     margin stretched the line it shared */
+  .hl p .link{display:table;margin-top:12px}
   .marquee{overflow:hidden;white-space:nowrap;margin:clamp(56px,8vw,120px) 0 0;line-height:.85;font-size:clamp(90px,19vw,340px);letter-spacing:-.05em;color:var(--ink);opacity:.92}
   .marquee > div{display:flex;width:max-content;animation:crawl 40s linear infinite}
   .marquee span{padding-right:.35em}

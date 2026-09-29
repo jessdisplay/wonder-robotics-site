@@ -794,10 +794,12 @@
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
   .btn{display:inline-flex;align-items:stretch;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:var(--ink);color:var(--paper);white-space:nowrap;cursor:pointer;border-radius:var(--rb);overflow:hidden}
-  /* a label longer than a phone is wide wraps inside the button rather than
-     pushing the page sideways; anything that fits stays on one line */
-  .btn{max-width:100%}
-  .btn > span{min-width:0;white-space:normal}
+  /* a package row's long label ("Buy it whole: the container kitchen
+     package") wraps inside its button on a phone rather than pushing the page
+     sideways. Only here: a button elsewhere sits in a slot narrower than its
+     label and must keep its one line (the bar's Build a quote) */
+  .pk-go .btn{max-width:100%}
+  .pk-go .btn > span{min-width:0;white-space:normal}
   .btn span{padding:10px 14px;display:flex;align-items:center}
   .btn i{font-style:normal;display:flex;align-items:center;justify-content:center;width:38px;border-left:1px solid color-mix(in srgb,var(--paper) 28%,transparent);font-size:15px}
   .btn:hover i{background:var(--signal)}
@@ -1199,6 +1201,9 @@
   .hl li{border:1px solid var(--ink);border-radius:var(--r);padding:18px 18px 16px;display:grid;gap:8px;align-content:start}
   .hl b{font-weight:400;font-size:clamp(18px,1.5vw,24px);letter-spacing:-.025em;line-height:1.05}
   .hl p{margin:0;font-size:13.5px;line-height:1.4;color:var(--graphite)}
+  /* a link closing a card's sentence takes its own line; inline, its top
+     margin stretched the line it shared */
+  .hl p .link{display:table;margin-top:12px}
   .marquee{overflow:hidden;white-space:nowrap;margin:clamp(56px,8vw,120px) 0 0;line-height:.85;font-size:clamp(90px,19vw,340px);letter-spacing:-.05em;color:var(--ink);opacity:.92}
   .marquee > div{display:flex;width:max-content;animation:crawl 40s linear infinite}
   .marquee span{padding-right:.35em}
@@ -1718,8 +1723,8 @@
 <main id="top" class="product case">
   <section class="phero">
     <div class="wrap">
-      <div class="pills"><span class="pill">Coffee and bar robots</span><span class="pill">Supplied from Brisbane</span><span class="pill">About two months</span><span class="pill price">From $4,568 a month</span></div>
-      <h1>Robot coffee machines.</h1>
+      <div class="pills"><span class="pill">Robot coffee machines</span><span class="pill">Designed and serviced from Brisbane</span><span class="pill">About two months</span><span class="pill price">From $3,235 a month</span></div>
+      <h1>A barista in two square metres, in your brand.</h1>
       <figure class="stage photo film"><video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../img/machines/coffee-robot-stage-poster.jpg" aria-label="The dual-arm barista bar making a coffee"><source src="../img/machines/coffee-robot-stage.mp4" type="video/mp4"><img src="../img/machines/coffee-robot-stage-poster.jpg" alt="The dual-arm barista bar"></video><figcaption class="label"><span>Dual-arm barista bar, a purple cup off the stack</span><span>Concept visualisation</span></figcaption></figure>
     </div>
   </section>
@@ -1727,33 +1732,41 @@
   <section class="pdetail">
     <div class="wrap">
       <span class="label">[ The offer ]</span>
-      <h2 class="line">A barista in two square metres, in your brand.</h2>
-      <p class="sub">Dual-arm bar, vending kiosk or robot bartender. Your colours on the machine, your mark on the cup. Ours pours at 365 St Pauls Terrace.</p>
-      <div class="actions"><a class="btn cream" href="../quote/?pick=bpro"><span>The B Pro, $5,833 a month</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="#eoi"><span>Price one for your counter</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="../#visit"><span>Come and see it</span><i aria-hidden="true">+</i></a></div>
+      <h2 class="line">Real espresso, poured by two arms, in front of your customers.</h2>
+      <p class="sub">An Eversys or Dr.Coffee machine worked by two arms, your colours on them and your mark on the cup. One Brisbane team designs it, installs it and keeps it running.</p>
+      <div class="actions"><a class="btn cream" href="../quote/?pick=bstd"><span>Price yours</span><i aria-hidden="true">+</i></a><a class="btn ghost cream" href="mailto:info@wonderbytech.com?subject=Taste%20the%20coffee%20robot"><span>Taste it in the Valley</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 
   <section class="rail">
     <div class="wrap">
-      <span class="label">[ The formats ]</span>
-      <ol class="hl three"><li><b>$92,000</b><p>B Pro, installed. Dual arm, Eversys, BTB Z02 ice maker, Yingmei cup printer. $5,833 a month with the service. <a class="link" href="../quote/?pick=bpro">Buy</a></p></li><li><b>$61,640</b><p>B Standard, installed, a lower entry cost. Dual arm, Dr.Coffee F3, ice maker, cup printer. $4,568 a month with the service. <a class="link" href="../quote/?pick=bstd">Buy</a></p></li><li><b>$68,080</b><p>Smart EFF, installed. Dual arm in a vending format, Dr.Coffee F200, BTB Z06 ice, three syrups, milk frother, cup printer. $4,837 a month with the service. <a class="link" href="../quote/?pick=eff">Buy</a></p></li><li><b>$35,880</b><p>T Standard, installed. The robot bartender, on its own page. <a class="link" href="../robot-cocktail-machines/">Robot cocktail machines</a></p></li><li><b>$2,000 a month</b><p>The service for 24 months: install, training, maintenance and support. Each machine after the first, $1,000</p></li><li><b>About two months</b><p>From order, delivered within 100 km of an Australian port. Installed, ex GST</p></li></ol>
+      <span class="label">[ Three machines ]</span>
+      <ol class="hl three"><li><b>$61,640</b><p>B Standard, installed. Start here: two arms at a Dr.Coffee F3, ice maker, cup printer. Financed, $1,235 to $1,633 a month. <a class="link" href="../quote/?pick=bstd">Price it</a></p></li><li><b>$68,080</b><p>Smart EFF, installed. Ordered on its own screen: two arms inside the cabinet, Dr.Coffee F200, ice, three syrups, milk frother, cup printer. Financed, $1,364 to $1,804 a month. <a class="link" href="../quote/?pick=eff">Price it</a></p></li><li><b>$92,000</b><p>B Pro, installed. The showpiece: two arms at an Eversys, ice maker, cup printer. Financed, $1,843 to $2,437 a month. <a class="link" href="../quote/?pick=bpro">Price it</a></p></li><li><b>$2,000 a month</b><p>The service, for 24 months: install, training, monitoring, quarterly checks, six-monthly servicing and covered repairs.</p></li><li><b>7.5% to 20%</b><p>What finance costs depends on your business. Shown over five years; seven costs less a month. We put you in touch with our broker.</p></li><li><b>About two months</b><p>From order, delivered and installed within 100 km of an Australian port. Ex GST.</p></li></ol>
     </div>
   </section>
 
   <section class="rail">
     <div class="wrap">
-      <span class="label">[ Add-ons ]</span>
-      <ol class="hl three"><li><b>Ice maker</b><p>BTB Z02. Supplied on every format; add a second, or one to a line that has none. <a class="link" href="../quote/?pick=bpro,icem">Add to a quote</a></p></li><li><b>Chocolate and caramel printer</b><p>Yingmei. Your mark on the crema. On B Pro, B Standard and the kiosk already. <a class="link" href="../quote/?pick=bpro,prnt">Add to a quote</a></p></li><li><b>Extra milk and syrups</b><p>A second milk line, more syrup channels. <a class="link" href="../quote/?pick=bpro,milk,syr">Add to a quote</a></p></li><li><b>Brand identity, $8,500</b><p>Mark, colours, cups, bags, menu, signage. A system, not a sticker. <a class="link" href="../quote/?pick=bpro,identity">Add to a quote</a></p></li><li><b>Counter and services, $18,000</b><p>The counter or cell, power, water and drainage, to our drawings. <a class="link" href="../quote/?pick=bpro,fitout">Add to a quote</a></p></li><li><b>Space design, $14,500</b><p>The room drawn around the machine: layout, finishes, lighting, joinery. <a class="link" href="../quote/?pick=bpro,space">Add to a quote</a></p></li></ol>
-    </div>
-  </section>
-
-  <section class="rail">
-    <div class="wrap">
-      <span class="label">[ The whole job ]</span>
+      <span class="label">[ Make it yours ]</span>
       <div>
-        <h2>The machine is where it starts. The room, the brand and the service are the rest.</h2>
-        <ol class="hl three"><li><b>Space design, $14,500</b><p>The bar, the kiosk or the counter it sits in, and the room around it. Drawn to your floor plan, new build or the venue you have.</p></li><li><b>Counter and services, $18,000</b><p>The counter or cell, power, water and drainage. Our trades or yours, to our drawings.</p></li><li><b>Brand identity, $8,500</b><p>The mark, the colours, the cups, the bags, the menu, the uniforms. One system across the machine and the room.</p></li><li><b>Website, $6,500</b><p>Designed and built in the same brand, with the menu and ordering on it.</p></li><li><b>Branding on the machine, $1,800</b><p>Your colours on the arms and the body, fitted before it leaves us.</p></li><li><b>The service, $2,000 a month</b><p>Install, training, maintenance and support for 24 months. Each machine after the first adds $1,000.</p></li></ol>
-        <div class="pk-go"><a class="btn" href="../robot-cafe-packages/"><span>See the packages</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="../quote/?pkg=bar" data-quote data-pkg="bar"><span>Build the package</span><i aria-hidden="true">+</i></a></div>
+        <ol class="hl three"><li><b>Your mark on the crema</b><p>A chocolate and caramel printer comes on all three. <a class="link" href="../quote/?pick=bstd,prnt">Add to a quote</a></p></li><li><b>Oat, soy and more syrups</b><p>A second milk line and three more flavours. <a class="link" href="../quote/?pick=bstd,milk,syr">Add to a quote</a></p></li><li><b>Your colours on the machine, $1,800</b><p>The arms and the body, fitted before it leaves us. <a class="link" href="../quote/?pick=bstd,wrap">Add to a quote</a></p></li><li><b>Brand identity, $8,500</b><p>The mark, cups, bags, menu and signage. A system, not a sticker. <a class="link" href="../quote/?pick=bstd,identity">Add to a quote</a></p></li><li><b>Counter and services, $18,000</b><p>The counter, power, water and drainage, to our drawings. <a class="link" href="../quote/?pick=bstd,fitout">Add to a quote</a></p></li><li><b>Space design, $14,500</b><p>The room drawn around the machine: layout, finishes, lighting, joinery. <a class="link" href="../quote/?pick=bstd,space">Add to a quote</a></p></li></ol>
+        <div class="pk-go"><a class="btn" href="../robot-cafe-packages/"><span>See the café packages</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="../quote/?pkg=bar" data-quote data-pkg="bar"><span>Build the package</span><i aria-hidden="true">+</i></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="wrap">
+      <span class="label">[ Questions ]</span>
+      <div class="acc faq">
+        <details><summary>Is it real espresso?</summary><p>Yes. Ground to order on an Eversys or a Dr.Coffee: one arm pulls the shot, the other steams the milk and pours.</p></details>
+        <details><summary>What happens when it breaks?</summary><p>The service covers repairs, parts and labour for 24 months. We aim to answer a critical outage within four business hours and be on site within two business days, within 100 km of the Valley.</p></details>
+        <details><summary>Who looks after it day to day?</summary><p>Your team, trained by us at commissioning. We watch it remotely, check it every quarter and service it on site every six months.</p></details>
+        <details><summary>Oat milk, soy, syrups?</summary><p>Add a second milk line and it pours both. Three more syrup channels add three more flavours.</p></details>
+        <details><summary>How do people pay?</summary><p>One payment system is connected at install. A second is $2,000.</p></details>
+        <details><summary>What does it need on site?</summary><p>About two square metres, power, water and drainage. We draw it, and our trades or yours put it in.</p></details>
+        <details><summary>Can we finance it?</summary><p>Most buyers do, through our broker, at 7.5% to 20% over five or seven years depending on your business. The figures here are illustrations, not an offer of finance.</p></details>
+        <details><summary>Can I taste it first?</summary><p>Yes. Ours pours at 365 St Pauls Terrace, Fortitude Valley. Come and order one before you order one: <a class="link" href="mailto:info@wonderbytech.com?subject=Taste%20the%20coffee%20robot">book a tasting</a> or call <a class="link" href="tel:1800983404">1800 983 404</a>.</p></details>
       </div>
     </div>
   </section>
@@ -1762,8 +1775,7 @@
     <div class="wrap">
       <h2 class="plain">A worked example: Wonder Bean</h2>
       <div class="txt">
-        <p>Our own coffee brand, designed here for the entry of 365 St Pauls Terrace. Sol by day, Luna by night: amber with a full moon, night purple with a crescent. The same two marks on the arms, the cups, the bags, the sacks and the counter.</p>
-        <p>This is the job: the machine, the bar it sits in, the room it sits in, and the brand across all three.</p>
+        <p>Our own coffee brand, designed here for the entry of 365 St Pauls Terrace. Sol by day, Luna by night, on the arms, the cups, the bags and the counter.</p>
       </div>
       <figure>
         <img src="../img/coffee/venue-01-bar-in-room.jpg" alt="The Wonder Bean bar in the entry of 365 St Pauls Terrace: slatted timber counter along the wall, a Sol yellow arm and a Luna purple arm either side of the coffee machine, the crescent lit on the front, the screen and tap, Sol and Luna stools, cups, bags and cushions" loading="lazy" width="2048" height="1529">
@@ -1771,42 +1783,18 @@
       </figure>
       <div class="pair">
         <figure>
-          <img src="../img/coffee/venue-02-entry.jpg" alt="The entry vestibule from the door: the bar along the right wall, the Sol arm and the Luna arm, the crescent lit, cups and bags on the counter, cushions on the floor" loading="lazy">
-          <figcaption class="label"><span>From the door</span><span>Concept, from the capture</span></figcaption>
+          <img src="../img/coffee/wonder-bean-cups.jpg" alt="Two Wonder Bean takeaway cups: amber with a cream full moon and a purple lid, purple with a cream crescent and an amber lid" loading="lazy">
+          <figcaption class="label"><span>The cups</span><span>Brand, designed here</span></figcaption>
         </figure>
-        <figure>
-          <img src="../img/coffee/brand-01-family.jpg" alt="The Wonder Bean pack family: an amber sack and bag with the full moon, a purple sack and bag with the crescent, the two cups" loading="lazy">
-          <figcaption class="label"><span>Sol and Luna, the pack family</span><span>Brand, designed here</span></figcaption>
-        </figure>
-      </div>
-      <div class="pair">
         <figure>
           <img src="../img/coffee/brand-02-bags.jpg" alt="Two Wonder Bean coffee bags with tin ties: amber with the full moon, purple with the crescent" loading="lazy">
           <figcaption class="label"><span>The bags</span><span>Brand, designed here</span></figcaption>
         </figure>
-        <figure>
-          <img src="../img/coffee/wonder-bean-cups.jpg" alt="Two Wonder Bean takeaway cups: amber with a cream full moon and a purple lid, purple with a cream crescent and an amber lid" loading="lazy">
-          <figcaption class="label"><span>The cups</span><span>Brand, designed here</span></figcaption>
-        </figure>
       </div>
-      <h2>The cocktail machine</h2>
+      <h2>The bar it sits in</h2>
       <div class="txt">
-        <p>The same bar at night. The T Standard robot bartender, a Dobot arm under a rack of your bottles, an ice maker, three syrup channels. Ours pours at 365 St Pauls Terrace six days a week. $3,495 a month with the service, on its own page.</p>
+        <p>Two arms on a slatted timber counter, the screen and the tap out front, everything else behind the doors. The same counter in your timber, your colours, your mark.</p>
       </div>
-      <figure>
-        <img src="../img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless: the cream curved counter, the red-jointed cobot mid-pour, the rack of inverted bottles above" loading="lazy" width="2048" height="1360">
-        <figcaption class="label"><span>The robot bar</span><span>Studio render from our photograph</span></figcaption>
-      </figure>
-      <div class="txt"><p><a class="link" href="../robot-cocktail-machines/">Robot cocktail machines</a> &middot; <a class="link" href="../quote/?pick=bar">The T Standard, $3,495 a month</a></p></div>
-      <h2>The Wonder Bean bar</h2>
-      <div class="txt">
-        <p>Our own coffee bar, drawn for the studio. Two arms on a slatted timber counter, the screen and the tap out front, everything else behind the doors: water, filter, pump, the machine on a slide-out shelf, cups, beans, the controller.</p>
-        <p>The same counter in your timber, your colours, your mark.</p>
-      </div>
-      <figure>
-        <img src="../img/coffee/bar-01-sketch.jpg" alt="Marker sketch sheet of the Wonder Bean bar: the long slatted counter in elevation with two arms on top, a perspective with a yellow and a purple stool, and the carcass drawn open" loading="lazy" width="2048" height="1529">
-        <figcaption class="label"><span>The sketch sheet</span><span>Sketch</span></figcaption>
-      </figure>
       <figure>
         <img src="../img/coffee/bar-02-front.jpg" alt="The Wonder Bean bar from the front: slatted timber counter, a yellow arm and a purple arm either side of the coffee machine, a tablet and tap-to-pay set into the front, a glowing crescent, two stools, bean sacks" loading="lazy" width="2048" height="1143">
         <figcaption class="label"><span>Front elevation, doors closed</span><span>Concept</span></figcaption>
@@ -1817,40 +1805,22 @@
           <figcaption class="label"><span>Section</span><span>Concept</span></figcaption>
         </figure>
         <figure>
-          <img src="../img/coffee/bar-04-exploded.jpg" alt="Exploded view of the bar: arm and cup, stone top, controller and cables, curved timber panels, cup dispenser, espresso machine, drip tray, water kit, steel frame, tiled plinth" loading="lazy">
-          <figcaption class="label"><span>Exploded</span><span>Concept</span></figcaption>
-        </figure>
-      </div>
-      <div class="pair">
-        <figure>
           <img src="../img/coffee/bar-05-services.jpg" alt="The bar with its doors open: water tank, filter and pump on the left, bagged beans and stacked cups in the middle, the switchboard on the right, bean sacks on the floor" loading="lazy">
           <figcaption class="label"><span>Doors open, the services</span><span>Concept</span></figcaption>
         </figure>
-        <figure>
-          <img src="../img/coffee/bar-06-service-front.jpg" alt="Three-quarter view with the service side open: the machine on its slide-out shelf, the cup stack, the water kit and the controller" loading="lazy">
-          <figcaption class="label"><span>Service side</span><span>Concept</span></figcaption>
-        </figure>
       </div>
-      <h2>On our floor</h2>
-      <div class="txt">
-        <p>The bar at 365 St Pauls Terrace pours from a cobot under a rack of bottles. Come and order one before you order one.</p>
-      </div>
-      <figure>
-        <img src="../img/tile-coffee.jpg" alt="The bar cobot at 365 St Pauls Terrace pouring a drink under the rack of inverted bottles" loading="lazy" width="1400" height="1737">
-        <figcaption class="label"><span>The robot bar, 365 St Pauls Terrace</span><span>Photographed in our building</span></figcaption>
-      </figure>
       <h2>How it goes</h2>
       <div class="txt">
-        <p>Plan: the counter, the power, the queue. Design: the format, the colours, the cup. Fit out: services in, machine placed, skin on. Commission: menu programmed, staff trained, first hundred cups. Open. Stop after any stage.</p>
+        <p>Plan: the counter, the power, the queue. Design: the format, the colours, the cup. Fit out: services in, machine placed, skin on. Commission: menu programmed, staff trained, first hundred cups. Open.</p>
       </div>
     </div>
   </section>
 
   <section class="next">
     <div class="wrap">
-      <a href="../robot-kitchen-fitouts/">
-        <div><span class="label">Next</span><h2>Robot kitchen fit-outs</h2></div>
-        <div class="ph"><img src="../img/hero-kitchen.jpg" alt="The kitchen line at 365 St Pauls Terrace" loading="lazy"></div>
+      <a href="../robot-cafe-packages/">
+        <div><span class="label">Next</span><h2>Add the room: robot café packages</h2></div>
+        <div class="ph"><img src="../img/coffee/venue-02-entry.jpg" alt="The Wonder Bean bar from the entry door" loading="lazy"></div>
       </a>
     </div>
   </section>
@@ -2238,11 +2208,11 @@ window.WonderQuote = (function(){
   // Ways to pay. The monthly budget is the equipment spread over the term
   // plus the service, before GST and finance charges. Equipment can be paid
   // on order or financed through a partner lender; the service is billed by
-  // us and is not financed. The finance range (research, 17 Sep 2026: small
-  // business equipment loans from about 9% to the top of fintech ranges for
-  // imported kit, 15%) is an illustration over the same 24 months, with the
-  // downside shown beside the upside as ASIC's RG 234 asks.
-  var PAY={finance:{low:0.09, high:0.15, months:TERM}};
+  // us and is not financed. The finance range is our broker's (28 Sep 2026):
+  // 7.5% to 20% depending on the buyer's position, property and credit, over
+  // five or seven years. It is shown over five, the dearer month, with the
+  // downside beside the upside as ASIC's RG 234 asks.
+  var PAY={finance:{low:0.075, high:0.20, months:60}};
   function monthly(principal,annual,months){
     var r=annual/12; if(!r) return principal/months;
     return principal*r/(1-Math.pow(1+r,-months));
@@ -2266,8 +2236,8 @@ window.WonderQuote = (function(){
       '<article class="pay"><span class="label">Paid upfront</span><div class="pay-fig">'+money.format(w.upfront.amount)+'<small>once</small></div>'+
         '<p>Then '+money.format(w.upfront.service)+' a month for '+w.budget.term+' months. '+(work?'The equipment and the design and build':'The equipment')+' paid in stages, on order and on commissioning.</p></article>'+
       '<article class="pay fin"><span class="label">Equipment financed</span><div class="pay-fig">'+money.format(f.withLow)+'<small>to</small>'+money.format(f.withHigh)+'<small>a month</small></div>'+
-        '<p>The equipment through our finance partner, plus the service from us. We organise it.'+(f.once?' The design and build, '+money.format(f.once)+', is paid in stages.':'')+'</p>'+
-        '<p class="pay-terms">Illustration only, not an offer of finance. Equipment of '+money.format(f.principal)+' ex GST at '+pc(f.rateLow)+' to '+pc(f.rateHigh)+' a year over '+f.months+' months is '+money.format(f.low)+' to '+money.format(f.high)+' a month, no deposit or balloon, fees excluded. Approval, rate, deposit and GST timing are the lender\u2019s. The service is not financed. Wonder Byte is not a lender or broker.</p>'+
+        '<p>The equipment through our finance partner, plus the service from us for its first '+w.budget.term+' months. We organise it.'+(f.once?' The design and build, '+money.format(f.once)+', is paid in stages.':'')+'</p>'+
+        '<p class="pay-terms">Illustration only, not an offer of finance. Equipment of '+money.format(f.principal)+' ex GST at '+pc(f.rateLow)+' to '+pc(f.rateHigh)+' a year over '+f.months+' months is '+money.format(f.low)+' to '+money.format(f.high)+' a month, no deposit or balloon, fees excluded. Approval, rate, deposit and GST timing are the lender\u2019s. The service is not financed. We are not a lender or broker.</p>'+
         (opts&&opts.ask?'<a class="link" href="'+opts.ask+'">Ask us to organise it</a>':'')+'</article>'+
       '</div><p class="pays-fine">Ex GST. Every package has a '+w.budget.term+' month service term.</p>';
   }

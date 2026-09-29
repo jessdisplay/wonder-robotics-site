@@ -327,7 +327,7 @@ def quote_data():
               "packages:Q.PACKAGES.map(p=>{const c=Q.packageQuote(p);return Object.assign({},p,{quote:c,"
               "parts:Q.parts(c).parts.map(l=>Object.assign({},l,{detail:Q.detailFor(l,c),text:Q.valueText(l),note:Q.valueNote(l)})),"
               "pay:Q.payHtml(c,{ask:'#eoi'}),sums:Q.sumsHtml(c),summary:Q.summaryLine(c)})}),"
-              "machines:Q.MACHINES,imgpos:Q.IMG_POS,term:Q.TERM,service:Q.SERVICE,"
+              "machines:Q.MACHINES,imgpos:Q.IMG_POS,term:Q.TERM,service:Q.SERVICE,pay:Q.PAY.finance,"
               "options:Object.fromEntries(Q.OPTIONS.map(o=>[o.id,o.price])),"
               "after:Object.assign({},Q.AFTER,Object.fromEntries(Q.ROBOTS.filter(r=>r.price).map(r=>[r.id,r.after]))),"
               "monthly:Object.fromEntries(Q.MACHINES.map(m=>[m.id,Q.compute({qty:{[m.id]:1}}).monthly])),"
@@ -509,7 +509,15 @@ def pk_tiles():
 #   {{monthly:fry+noo}} (the two together, one service)  {{opt:identity}}
 #   {{service:first}}  {{service:extra}}  {{service:robot}}
 #   {{after:first}}  {{after:extra}}  {{after:hourly}}  {{after:ubtech-cadebot}}
-PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|monthly|opt|service|after):([a-z0-9,+\-]+)\}\}")
+#   {{finance:bstd}} (the machine financed at the broker's range: "$a to $b")
+#   {{financefrom:bstd}} (the cheapest month in the first 24: financed at the
+#   low rate plus the service)
+PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|monthly|opt|service|after|finance|financefrom):([a-z0-9,+\-]+)\}\}")
+
+
+def repayment(principal, annual, months):
+    r = annual / 12
+    return principal * r / (1 - (1 + r) ** -months)
 
 
 def price_token(m):
@@ -528,6 +536,12 @@ def price_token(m):
             return money(d["service"][arg])
         if kind == "after":
             return money(d["after"][arg])
+        if kind in ("finance", "financefrom"):
+            f = d["pay"]
+            lo, hi = (repayment(price[arg], f[k], f["months"]) for k in ("low", "high"))
+            if kind == "financefrom":
+                return money(round(lo) + d["service"]["first"])
+            return f"{money(round(lo))} to {money(round(hi))}"
         ids = arg.split("+")
         if len(ids) == 1:
             return money(d["monthly"].get(arg) or next(r["monthly"] for r in d["robots"] if r["id"] == arg))
