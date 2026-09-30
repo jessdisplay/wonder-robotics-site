@@ -60,6 +60,9 @@ PAGES = {
     # is nothing on it for search
     "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics", "noindex": True,
                  "desc": "A Wonder Robotics proposal: the equipment installed, the design and build, and the 24 month service, as one monthly budget. Save it as a PDF or share the link."},
+    # the sales deck for the coffee bar: shown on a call, never in search
+    "coffee-deck": {"out": "deck/coffee/index.html", "root": "../../", "title": "The coffee bar, sold whole. Wonder Robotics", "noindex": True,
+                    "desc": "The Wonder Robotics coffee bar deck: one price, what it costs a week, what it earns, year by year, and the choice after year two."},
     "terms": {"out": "terms/index.html", "root": "../", "title": "Terms of sale, Wonder Robotics",
               "desc": "Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance."},
     # unlinked since the menu sends "Book the space" to wonder.fish/book/
