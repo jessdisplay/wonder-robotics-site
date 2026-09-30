@@ -480,6 +480,97 @@
     .sheet{width:210mm;height:297mm;aspect-ratio:auto;border-radius:0;box-shadow:none;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .sheet:last-child{break-after:auto;page-break-after:auto}
   }
+  /* The coffee deck: the proposal's sheet cut 16:9, one sheet a screen,
+     arrow keys, full screen, and the same calculators as the page. The
+     cqw sizes are the A4 sheet's scaled to the wider frame. */
+  .deck{padding:0 0 clamp(40px,5vw,80px)}
+  body:has(main.deck) .eoi{display:none}
+  .deck-tools{position:sticky;top:64px;z-index:5;background:color-mix(in srgb,var(--ink) 9%,var(--paper));border-bottom:1px solid var(--rule)}
+  .bar.bar-set ~ .deck .deck-tools{top:52px}
+  .deck-tools-in{padding:12px var(--m);display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center}
+  .deck-pg{margin-left:auto;font-variant-numeric:tabular-nums}
+  .deck-actions{display:flex;flex-wrap:wrap;gap:8px}
+  .deck-actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
+  .deck-stack{display:grid;gap:clamp(20px,3vw,40px);padding:clamp(20px,3vw,40px) var(--m) 0;justify-items:center}
+  .sheet.wide{width:min(100%,calc((100vh - 200px) * 16 / 9));aspect-ratio:16/9;scroll-margin-top:130px}
+  .sheet.wide .sh-in{padding:3.6cqw 4cqw 4.6cqw;gap:1.6cqw}
+  .sheet.wide .label{font-size:.95cqw}
+  .sheet.wide .sh-foot{left:4cqw;right:4cqw;bottom:2cqw;font-size:.8cqw;padding-top:.8cqw}
+  .sheet.wide.pp-cover .cv-img{height:100%}
+  .sheet.wide .cv-band{height:auto;padding:3cqw 4cqw 3.2cqw;background:linear-gradient(to top,color-mix(in srgb,var(--night) 92%,transparent) 55%,transparent)}
+  .sheet.wide .cv-top canvas{width:14cqw !important;margin-left:-1.5cqw}
+  .sheet.wide .cv-kind{font-size:.9cqw;padding:.5cqw 1.2cqw}
+  .sheet.wide .pp-cover h1,.sheet.wide.pp-cover h1{margin:5cqw 0 0;font-size:5.6cqw;max-width:16ch}
+  .sheet.wide .cv-meta{grid-template-columns:repeat(4,1fr);gap:1.6cqw;margin-top:2.4cqw;padding-top:1.2cqw}
+  .sheet.wide .cv-meta dt{font-size:.75cqw}
+  .sheet.wide .cv-meta dd{font-size:1.5cqw;margin-top:.4cqw}
+  .dk-fig{font-size:7.6cqw;line-height:.86;letter-spacing:-.06em;margin:.6cqw 0 0 -.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dk-fig small{display:block;font-size:.17em;letter-spacing:0;color:var(--graphite);margin:.5em 0 0 .06em;white-space:normal;line-height:1.2}
+  .dk-h{margin:.6cqw 0 0;font-weight:500;font-size:3.6cqw;line-height:.95;letter-spacing:-.04em;max-width:22ch}
+  .dk-row{display:grid;grid-template-columns:1fr 1.25fr;gap:4cqw;margin-top:2cqw;align-items:start;flex:1;min-height:0}
+  .dk-lead{margin:1cqw 0 0;font-size:1.55cqw;line-height:1.3;letter-spacing:-.01em;max-width:34ch}
+  .dk-lead b{font-weight:500}
+  .dk-grid{list-style:none;margin:0;padding:0;display:grid;gap:1cqw}
+  .dk-grid.six{grid-template-columns:repeat(3,1fr)}
+  .dk-grid.three{grid-template-columns:repeat(3,1fr);margin-top:auto}
+  .dk-grid.two{grid-template-columns:1fr 1fr;margin-top:2cqw}
+  .dk-grid li{border:1px solid var(--ink);border-radius:.8cqw;padding:1.2cqw 1.3cqw 1.1cqw;display:grid;gap:.5cqw;align-content:start}
+  .dk-grid b{font-weight:400;font-size:1.5cqw;letter-spacing:-.025em;line-height:1.05}
+  .dk-grid p{margin:0;font-size:1cqw;line-height:1.35;color:var(--graphite)}
+  .dk-grid.big b{font-size:2.2cqw}
+  .dk-grid.big p{font-size:1.25cqw}
+  .sheet.wide .ask.dk-form{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1.4fr;gap:1.2cqw 2cqw;align-items:end;max-width:none;margin-top:1cqw;padding-bottom:1.4cqw;border-bottom:2px solid var(--ink)}
+  .sheet.wide .dk-form .field{gap:.4cqw}
+  .sheet.wide .dk-form .field legend{margin-bottom:.2cqw}
+  .dk-form .label{margin:0}
+  .dk-form label{display:grid;gap:.4cqw}
+  .dk-form output{color:var(--signal);margin-left:.5em;font-variant-numeric:tabular-nums}
+  .dk-form input[type=range]{accent-color:var(--signal);width:100%;height:1.6cqw;margin:0;padding:0;border:0;background:transparent}
+  .sheet.wide .ask input{font-size:1.25cqw;padding:.5cqw 0}
+  .sheet.wide .choices{gap:.4cqw}
+  .sheet.wide .choices label{font-size:1cqw;padding:.45cqw .9cqw}
+  .sheet.wide .ps-sums{margin-top:1.6cqw}
+  .sheet.wide .ps-sums dt,.sheet.wide .ps-sums dd{font-size:.95cqw;padding:.7cqw 0}
+  .sheet.wide .ps-sums .tot{font-size:1.2cqw}
+  .sheet.wide .calc-tbl{margin-top:0;font-size:.95cqw}
+  .sheet.wide .calc-tbl caption{font-size:.75cqw;padding-bottom:.6cqw}
+  .sheet.wide .calc-tbl th,.sheet.wide .calc-tbl td{padding:.75cqw .6cqw}
+  .sheet.wide .calc-tbl th{font-size:.75cqw}
+  .sheet.wide .calc-tbl.years{margin-top:2cqw}
+  .sheet.wide .calc-tbl.years th:first-child,.sheet.wide .calc-tbl.years td:first-child{text-align:left}
+  .sheet.wide .calc-tbl.years th:nth-child(2),.sheet.wide .calc-tbl.years td:nth-child(2){text-align:right}
+  .sheet.wide .calc-tbl.years tr.on td{background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .dk-bars{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;margin-top:2cqw}
+  .dk-stack{display:flex;height:4cqw;border-radius:.6cqw;overflow:hidden;margin-top:.8cqw;background:var(--rule)}
+  .dk-stack div{height:100%}
+  .dk-leg{list-style:none;margin:.9cqw 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.5cqw 1.4cqw;font-family:var(--mono);font-size:.85cqw;letter-spacing:.03em;text-transform:uppercase;color:var(--graphite)}
+  .dk-leg li{display:flex;align-items:center;gap:.5cqw}
+  .dk-leg i{width:.8cqw;height:.8cqw;border-radius:.2cqw}
+  .dk-leg b{font-weight:500;color:var(--ink)}
+  .c1{background:#CFC6B8}.c2{background:var(--ink)}.c3{background:#75706B}.c4{background:#A99F8E}.c5{background:var(--signal)}
+  .sheet.wide.pp-photo .cv-img.full{height:100%}
+  .sheet.wide .cv-band.short{color:var(--cream)}
+  .sheet.wide .cv-band.short .dk-row{grid-template-columns:1.4fr 1fr;align-items:end;margin:0}
+  .sheet.wide .cv-band.short .dk-h{color:var(--cream)}
+  .sheet.wide .cv-band.short .label{color:color-mix(in srgb,var(--cream) 70%,transparent)}
+  .sheet.wide .cv-meta.tight{grid-template-columns:1fr;gap:.9cqw;margin-top:0;border-top:0;padding-top:0}
+  .sheet.wide .cv-meta.tight dd{font-size:1.25cqw}
+  .sheet.wide .pc-stages{margin-top:2.4cqw;border-top-color:var(--ink);gap:2.4cqw}
+  .sheet.wide .pc-stages.four{grid-template-columns:repeat(4,1fr)}
+  .sheet.wide .pc-stages .i{font-size:.85cqw;color:var(--graphite)}
+  .sheet.wide .pc-stages b{font-size:2.4cqw;margin-top:.8cqw}
+  .sheet.wide .pc-stages p{font-size:1.1cqw;color:var(--graphite);margin-top:.8cqw}
+  .dk-fine{margin:1.6cqw 0 0;display:grid;grid-template-columns:8cqw 1fr;column-gap:2cqw;row-gap:0;border-top:1px solid color-mix(in srgb,var(--cream) 30%,transparent)}
+  .dk-fine dt,.dk-fine dd{margin:0;padding:.7cqw 0;border-bottom:1px solid color-mix(in srgb,var(--cream) 22%,transparent);font-size:1.05cqw;line-height:1.35}
+  .dk-fine dt{font-family:var(--mono);font-size:.8cqw;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--cream) 60%,transparent);padding-top:.9cqw}
+  .dk-fine dd{color:color-mix(in srgb,var(--cream) 85%,transparent)}
+  @media (max-width:900px){ .sheet.wide{width:100%} }
+  @media print{
+    body:has(main.deck) .bar,body:has(main.deck) .loader,body:has(main.deck) .qs,body:has(main.deck) footer,.deck-tools{display:none !important}
+    body:has(main.deck) .sheet.wide{width:297mm;height:167mm;aspect-ratio:auto;break-after:page;page-break-after:always;page:deck}
+    body:has(main.deck) .deck-stack{display:block;padding:0}
+    @page deck{size:A4 landscape;margin:0}
+  }
   /* Terms of sale: a document to be read, one measure, numbered sections,
      the parts about using the machines properly given a rule of their own. */
   .legal .wrap{max-width:860px;margin-inline:auto;padding-top:clamp(40px,6vw,90px);padding-bottom:clamp(60px,8vw,120px)}
@@ -790,6 +881,38 @@
   .pc-pay .pays-fine{font-size:1.2cqw;margin-top:1.2cqw;color:color-mix(in srgb,var(--cream) 60%,transparent)}
   .pc-pay + .pc-row{margin-top:4cqw}
   @media (max-width:900px){ .pays-h{grid-template-columns:1fr} .pays-grid{grid-template-columns:1fr} }
+
+  /* The coffee calculators: the quote form's fields, the ways-to-pay cards
+     for the answers, and one mono table of the rate against the term. */
+  .calc .sub{max-width:62ch;margin:0}
+  .calc .pays-grid{margin-top:clamp(26px,3vw,40px)}
+  .calc-form{margin-top:clamp(22px,2.6vw,34px);display:grid;gap:clamp(18px,2vw,28px)}
+  .calc-form .row > *{flex:1 1 220px}
+  .calc-form .field{align-self:end}
+  /* .ask .row label grows every label in a row, the choice pills too:
+     pills keep their own width */
+  .ask .row .choices label{flex:0 0 auto}
+  /* labels wrap to one or two lines at different widths; reserve two so the
+     inputs in a row share one line */
+  .calc-form .row > label{align-content:start}
+  .calc-form .row > label > .label:first-child{min-height:2.9em;display:flex;align-items:flex-end}
+  .calc-form output{color:var(--signal);margin-left:.6em;font-variant-numeric:tabular-nums}
+  .calc-form input[type=range]{accent-color:var(--signal);width:100%;height:28px;margin:6px 0 0;padding:0;border:0;background:transparent}
+  .calc-form input[type=number]{font-variant-numeric:tabular-nums}
+  .calc-form .hint{font-size:12.5px;color:var(--graphite);line-height:1.4}
+  .calc-story{margin:clamp(18px,2vw,26px) 0 0;font-size:clamp(18px,1.6vw,24px);line-height:1.35;letter-spacing:-.015em;max-width:60ch}
+  .calc-story b{font-weight:500}
+  .calc-big{margin:clamp(22px,2.6vw,34px) 0 0;font-size:clamp(22px,2.2vw,36px);line-height:1.2;letter-spacing:-.025em;max-width:30ch}
+  .calc .actions{display:flex;margin-top:clamp(26px,3vw,40px)}
+  .calc-big b{font-weight:500;color:var(--signal);font-size:1.9em;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.04em;margin-right:.1em;vertical-align:-.08em}
+  .calc-tbl{width:100%;margin-top:clamp(22px,2.6vw,34px);border-collapse:collapse;font-family:var(--mono);font-size:13px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+  .calc-tbl caption{caption-side:top;text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);padding:0 0 10px}
+  .calc-tbl th,.calc-tbl td{padding:12px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+  .calc-tbl th{font-weight:400;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);border-bottom:2px solid var(--ink)}
+  .calc-tbl th:first-child,.calc-tbl td:first-child,.calc-tbl th:nth-child(2),.calc-tbl td:nth-child(2){text-align:left}
+  .calc-tbl td b{font-weight:500}
+  .calc-tbl td.on{background:color-mix(in srgb,var(--signal) 12%,transparent);color:var(--signal);font-weight:500}
+  @media (max-width:640px){ .calc-tbl td:nth-child(2),.calc-tbl th:nth-child(2){display:none} .calc-tbl th,.calc-tbl td{padding:10px 6px} }
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
   .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
 
@@ -806,6 +929,15 @@
   .btn.ghost{background:transparent;color:var(--ink)}
   .btn.ghost i{border-left-color:var(--ink)}
   .btn.ghost:hover i{background:var(--signal);color:var(--paper);border-left-color:var(--signal)}
+  /* the one action a lead page is for: big enough to find without looking.
+     .ask .actions .btn resets font, so the size is set at that weight too */
+  .btn.xl,.ask .actions .btn.xl{font-family:var(--mono);font-size:clamp(14px,1.1vw,17px);letter-spacing:.06em}
+  .btn.xl span{padding:clamp(18px,1.5vw,24px) clamp(24px,2.2vw,36px)}
+  .btn.xl i{width:clamp(56px,4.4vw,72px);font-size:clamp(20px,1.6vw,26px)}
+  .btn.signal{background:var(--signal);border-color:var(--signal);color:var(--paper)}
+  .btn.signal i{border-left-color:color-mix(in srgb,var(--paper) 35%,transparent)}
+  .btn.signal:hover i{background:var(--ink)}
+  @media (max-width:600px){ .btn.xl{width:100%} .btn.xl span{flex:1} }
 
   /* hero */
   .hero{padding-top:clamp(28px,4vw,56px)}
@@ -1189,6 +1321,10 @@
   .pdetail h2.line{margin:22px auto 26px;max-width:18ch;color:var(--cream)}
   .pdetail .sub{margin:26px auto 0;color:color-mix(in srgb,var(--cream) 72%,#0A0A0C);max-width:62ch;text-align:center}
   .pdetail .actions{display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+  .pdetail .more{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:26px 0 0}
+  .pdetail .more .link{margin-top:0;color:var(--cream);border-bottom-color:color-mix(in srgb,var(--cream) 45%,transparent)}
+  .pdetail .more .link:hover{color:var(--signal);border-bottom-color:var(--signal)}
+  .pdetail .pays-fine{margin:22px auto 0;max-width:62ch;text-align:center;color:color-mix(in srgb,var(--cream) 55%,#0A0A0C)}
   .btn.cream{background:var(--cream);color:var(--night);border-color:var(--cream)}
   .btn.cream i{border-left-color:color-mix(in srgb,#0A0A0C 25%,transparent)}
   .btn.ghost.cream{background:transparent;color:var(--cream);border-color:var(--cream)}
@@ -1466,8 +1602,9 @@
   .eoi-form .choices label:hover{border-color:var(--cream)}
   .eoi-form .choices input:checked + label{background:var(--cream);color:var(--night);border-color:var(--cream)}
   /* .ask input is width:100%; on the hidden pill inputs that becomes a
-     viewport-wide absolutely positioned box hanging off the right edge. */
-  .eoi-form .choices input{width:1px;height:1px;left:0}
+     viewport-wide absolutely positioned box hanging off the right edge.
+     Every .ask form, not one: the coffee calculator hit it too. */
+  .ask .choices input{width:1px;height:1px;left:0}
   .eoi-form .btn.ghost{color:var(--cream);border-color:color-mix(in srgb,var(--cream) 45%,transparent)}
   .eoi-form .btn.ghost:hover{background:var(--cream);color:var(--night)}
   .eoi-form .hint{color:color-mix(in srgb,var(--cream) 55%,var(--night))}
@@ -2116,6 +2253,32 @@ window.WonderQuote = (function(){
     var r=annual/12; if(!r) return principal/months;
     return principal*r/(1-Math.pow(1+r,-months));
   }
+
+  // The coffee bar sold whole (Gino's offer, 30 Sep 2026): one price that
+  // carries the B Pro delivered, installed and commissioned, its first 24
+  // months of service, the branding and ordering screen, the training and a
+  // starter spares kit, financed as one amount over five or seven years at
+  // the broker's range. What the price is made of stays in the partner
+  // document. After the service term the owner keeps full service at
+  // `after` a month or self-manages. Repayments are monthly in arrears and
+  // shown as a week (monthly x 12 / 52), ex GST, before lender fees.
+  var COFFEE={id:'bpro', price:150000, term:TERM, after:2000, years:[5,7], balloonMax:0.5,
+              rates:[0.075,0.10,0.125,0.15,0.20], tiers:{0.075:'Strong',0.10:'Good',0.125:'Fair',0.15:'Building',0.20:'Limited'}};
+  // One repayment plan. o: {rate, years, deposit, balloon (share of price, 0 to balloonMax), service (bool: keep it on from year 3)}
+  function coffeePlan(o){
+    o=o||{};
+    var rate=Math.min(PAY.finance.high,Math.max(PAY.finance.low,o.rate||PAY.finance.low));
+    var years=COFFEE.years.indexOf(o.years)>=0?o.years:COFFEE.years[COFFEE.years.length-1];
+    var deposit=Math.min(COFFEE.price,Math.max(0,o.deposit||0));
+    var balloon=COFFEE.price*Math.min(COFFEE.balloonMax,Math.max(0,o.balloon||0));
+    var financed=COFFEE.price-deposit, n=years*12, r=rate/12;
+    var month=r?(financed-balloon/Math.pow(1+r,n))*r/(1-Math.pow(1+r,-n)):(financed-balloon)/n;
+    var week=month*12/52, svc=o.service?COFFEE.after:0;
+    return {rate:rate, years:years, months:n, deposit:deposit, balloon:balloon, financed:financed,
+            month:month, week:week, day:week/7, interest:month*n+balloon-financed, repaid:month*n+balloon,
+            serviceMonth:svc, serviceWeek:svc*12/52, weekAfter:week+svc*12/52, serviceYears:Math.max(0,years-2),
+            outlay:deposit+month*n+balloon+svc*12*Math.max(0,years-2)};
+  }
   function waysToPay(c){
     if(!c||!(c.count||c.robots)) return null;
     var m=PAY.finance.months, lo=monthly(c.installed,PAY.finance.low,m), hi=monthly(c.installed,PAY.finance.high,m);
@@ -2489,7 +2652,7 @@ window.WonderQuote = (function(){
   function forget(){ try{ localStorage.removeItem(STORE); }catch(e){} try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){} }
   return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
           optionAmount:optionAmount,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
-          SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
+          SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,COFFEE:COFFEE,coffeePlan:coffeePlan,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
           compute:compute,desk:desk,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
           stateFromQuery:stateFromQuery,toQuery:toQuery,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
@@ -3665,8 +3828,15 @@ window.WonderQuote = (function(){
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
-      var lines, subject;
-      if (eoi) {
+      var lines, subject, lead = f.getAttribute('data-lead');
+      var pick = function (n) { return (f.querySelector('input[name=' + n + ']:checked') || {}).value || ''; };
+      if (lead === 'coffee') {
+        subject = 'Coffee bar: ' + v('company');
+        lines = ['Bar: ' + pick('bar'), 'Paying: ' + pick('pay'), 'Name: ' + v('name'), 'Business: ' + v('company'),
+                 'Phone: ' + v('phone'), 'Email: ' + v('email')];
+        if (v('where')) lines.push('Where: ' + v('where'));
+        if (v('numbers')) lines.push('', 'On the calculator: ' + v('numbers'));
+      } else if (eoi) {
         var picks = [].filter.call(f.querySelectorAll('input[type=checkbox]'), function (c) { return c.checked; }).map(function (c) { return c.value; });
         var venue = (f.querySelector('input[name=venue]:checked') || {}).value || '';
         subject = 'Design, build and fit out: ' + (picks.length ? picks.join(', ') : 'a venue');
@@ -3676,9 +3846,11 @@ window.WonderQuote = (function(){
         subject = 'Quote: ' + machine;
         lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
       }
-      if (v('company')) lines.push('Company: ' + v('company'));
-      if (v('where')) lines.push('Where: ' + v('where'));
-      if (v('job')) lines.push('', 'The job:', v('job'));
+      if (lead !== 'coffee') {
+        if (v('company')) lines.push('Company: ' + v('company'));
+        if (v('where')) lines.push('Where: ' + v('where'));
+        if (v('job')) lines.push('', 'The job:', v('job'));
+      }
       window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
     });
   });

@@ -44,8 +44,8 @@ PAGES = {
     "events": {"out": "events/index.html", "root": "../", "title": "The Robotics and Hardware Club, Wonder Robotics",
                "desc": "The Robotics and Hardware Club: one night a month at 365 St Pauls Terrace for the people building robots and hardware in Queensland. Two talks, the machines running, the bench open."},
     # The two landing pages are titled for the search, not the catalogue.
-    "coffee-landing": {"out": "robot-coffee-machines/index.html", "root": "../", "title": "Robot coffee machines, Brisbane. Wonder Robotics",
-                       "desc": "Robot coffee machines supplied, branded, installed and serviced from Brisbane: dual-arm barista bars and a vending format from {{monthly:bstd}} a month over 24 months with install, training, maintenance and support. About two square metres, your brand on the machine and the cup. Ours pours at 365 St Pauls Terrace."},
+    "coffee-landing": {"out": "robot-coffee-machines/index.html", "root": "../", "title": "Robot coffee machines, Brisbane. Wonder Robotics", "eoi": "coffee",
+                       "desc": "A robot coffee bar sold whole from Brisbane: {{coffee:price}} ex GST buys the dual-arm bar delivered, installed and in your brand, with two years of service. Lease to own over {{coffee:years}} years, subject to finance approval. About two square metres. Ours pours at 365 St Pauls Terrace."},
     "kitchen-landing": {"out": "robot-kitchen-fitouts/index.html", "root": "../", "title": "Robot kitchen fit-outs, Brisbane. Wonder Robotics",
                         "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying and noodle robots from {{monthly:fry}} a month over 24 months with the service, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
     "cocktail-landing": {"out": "robot-cocktail-machines/index.html", "root": "../", "title": "Robot cocktail machines, Brisbane. Wonder Robotics",
@@ -242,6 +242,51 @@ EOI = '''<section class="eoi" id="eoi">
 </section>
 '''
 
+# The coffee page asks only what a coffee lead needs, and carries what the
+# visitor set on the calculator so the call starts from their numbers.
+EOI_COFFEE = '''<section class="eoi" id="eoi">
+  <div class="wrap">
+    <div class="eoi-head">
+      <span class="label">[ Price it for your site ]</span>
+      <h2>Tell us where it would go. We call you back with the numbers.</h2>
+      <p>Which bar, how you'd pay, and how to reach you. Or call <a href="tel:1800983404">1800 983 404</a>.</p>
+    </div>
+    <form class="ask eoi-form" action="mailto:info@wonderbytech.com" method="post" enctype="text/plain" data-lead="coffee">
+      <fieldset class="field">
+        <legend class="label">The bar</legend>
+        <div class="choices" role="radiogroup" aria-label="The bar">
+          <input type="radio" name="bar" id="cl-pkg" value="The coffee bar package, {{coffee:price}}" checked><label for="cl-pkg">The coffee bar package, {{coffee:price}}</label>
+          <input type="radio" name="bar" id="cl-small" value="A smaller format"><label for="cl-small">A smaller format</label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend class="label">Paying</legend>
+        <div class="choices" role="radiogroup" aria-label="Paying">
+          <input type="radio" name="pay" id="cl-fin" value="Finance" checked><label for="cl-fin">Finance</label>
+          <input type="radio" name="pay" id="cl-out" value="Buy outright"><label for="cl-out">Buy outright</label>
+          <input type="radio" name="pay" id="cl-unsure" value="Not sure yet"><label for="cl-unsure">Not sure yet</label>
+        </div>
+      </fieldset>
+      <div class="row">
+        <label><span class="label">Name</span><input type="text" name="name" autocomplete="name" required></label>
+        <label><span class="label">Business</span><input type="text" name="company" autocomplete="organization" required></label>
+      </div>
+      <div class="row">
+        <label><span class="label">Phone</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" required></label>
+        <label><span class="label">Email</span><input type="email" name="email" autocomplete="email" required></label>
+      </div>
+      <label><span class="label">Where it would go</span><input type="text" name="where" placeholder="Suburb, and the kind of site: lobby, café, campus"></label>
+      <input type="hidden" name="numbers">
+      <div class="actions">
+        <button class="btn xl signal" type="submit"><span>Send it</span><i aria-hidden="true">+</i></button>
+      </div>
+      <p class="hint">Opens in your mail app with your answers filled in. We call within a working day.</p>
+    </form>
+  </div>
+</section>
+'''
+EOIS = {"coffee": EOI_COFFEE}
+
 FOOTER = '''<footer>
   <div class="wrap">
     <nav class="cols" aria-label="Footer">
@@ -328,6 +373,7 @@ def quote_data():
               "parts:Q.parts(c).parts.map(l=>Object.assign({},l,{detail:Q.detailFor(l,c),text:Q.valueText(l),note:Q.valueNote(l)})),"
               "pay:Q.payHtml(c,{ask:'#eoi'}),sums:Q.sumsHtml(c),summary:Q.summaryLine(c)})}),"
               "machines:Q.MACHINES,imgpos:Q.IMG_POS,term:Q.TERM,service:Q.SERVICE,pay:Q.PAY.finance,"
+              "coffee:Object.assign({},Q.COFFEE,{low:Q.coffeePlan({rate:Q.PAY.finance.low,years:Q.COFFEE.years[Q.COFFEE.years.length-1]}),high:Q.coffeePlan({rate:Q.PAY.finance.high,years:Q.COFFEE.years[0]})}),"
               "options:Object.fromEntries(Q.OPTIONS.map(o=>[o.id,o.price])),"
               "after:Object.assign({},Q.AFTER,Object.fromEntries(Q.ROBOTS.filter(r=>r.price).map(r=>[r.id,r.after]))),"
               "monthly:Object.fromEntries(Q.MACHINES.map(m=>[m.id,Q.compute({qty:{[m.id]:1}}).monthly])),"
@@ -512,7 +558,12 @@ def pk_tiles():
 #   {{finance:bstd}} (the machine financed at the broker's range: "$a to $b")
 #   {{financefrom:bstd}} (the cheapest month in the first 24: financed at the
 #   low rate plus the service)
-PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|monthly|opt|service|after|finance|financefrom):([a-z0-9,+\-]+)\}\}")
+#   {{coffee:price}} {{coffee:after}} (the bar sold whole, and its service from
+#   year 3)  {{coffee:week}} (the cheapest week: low rate, longest term)
+#   {{coffee:weekhigh}} (the dearest: high rate, shortest term)
+#   {{coffee:years}} ("five or seven")  {{coffee:rates}} ("7.5% to 20%")
+PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|monthly|opt|service|after|finance|financefrom|coffee):([a-z0-9,+\-]+)\}\}")
+WORDS = {5: "five", 6: "six", 7: "seven"}
 
 
 def repayment(principal, annual, months):
@@ -536,6 +587,14 @@ def price_token(m):
             return money(d["service"][arg])
         if kind == "after":
             return money(d["after"][arg])
+        if kind == "coffee":
+            c = d["coffee"]
+            pc = lambda x: f"{round(x * 1000) / 10:g}%"
+            return {"price": money(c["price"]), "after": money(c["after"]),
+                    "week": money(round(c["low"]["week"])), "weekhigh": money(round(c["high"]["week"])),
+                    "month": money(round(c["low"]["month"])), "monthhigh": money(round(c["high"]["month"])),
+                    "years": " or ".join(WORDS[y] for y in c["years"]),
+                    "rates": f'{pc(d["pay"]["low"])} to {pc(d["pay"]["high"])}'}[arg]
         if kind in ("finance", "financefrom"):
             f = d["pay"]
             lo, hi = (repayment(price[arg], f[k], f["months"]) for k in ("low", "high"))
@@ -656,7 +715,7 @@ def render(body, cfg, name=None):
         + ICONS
         + FONTS
         + "<style>\n" + css + "</style>\n\n"
-        + BAR + "\n" + body + "\n" + EOI + FOOTER
+        + BAR + "\n" + body + "\n" + fill_prices(EOIS.get(cfg.get("eoi"), EOI)) + FOOTER
         + "\n<script>\n" + mark + "</script>\n<script>\n" + js + "</script>\n"
     ).replace("{{footer_projects}}", "".join(
         f'        <a href="{{{{root}}}}{href}">{escape(title.split(", ")[0])}</a>\n' for _, href, title, _, _ in PROJECTS)

@@ -181,6 +181,32 @@ window.WonderQuote = (function(){
     var r=annual/12; if(!r) return principal/months;
     return principal*r/(1-Math.pow(1+r,-months));
   }
+
+  // The coffee bar sold whole (Gino's offer, 30 Sep 2026): one price that
+  // carries the B Pro delivered, installed and commissioned, its first 24
+  // months of service, the branding and ordering screen, the training and a
+  // starter spares kit, financed as one amount over five or seven years at
+  // the broker's range. What the price is made of stays in the partner
+  // document. After the service term the owner keeps full service at
+  // `after` a month or self-manages. Repayments are monthly in arrears and
+  // shown as a week (monthly x 12 / 52), ex GST, before lender fees.
+  var COFFEE={id:'bpro', price:150000, term:TERM, after:2000, years:[5,7], balloonMax:0.5,
+              rates:[0.075,0.10,0.125,0.15,0.20], tiers:{0.075:'Strong',0.10:'Good',0.125:'Fair',0.15:'Building',0.20:'Limited'}};
+  // One repayment plan. o: {rate, years, deposit, balloon (share of price, 0 to balloonMax), service (bool: keep it on from year 3)}
+  function coffeePlan(o){
+    o=o||{};
+    var rate=Math.min(PAY.finance.high,Math.max(PAY.finance.low,o.rate||PAY.finance.low));
+    var years=COFFEE.years.indexOf(o.years)>=0?o.years:COFFEE.years[COFFEE.years.length-1];
+    var deposit=Math.min(COFFEE.price,Math.max(0,o.deposit||0));
+    var balloon=COFFEE.price*Math.min(COFFEE.balloonMax,Math.max(0,o.balloon||0));
+    var financed=COFFEE.price-deposit, n=years*12, r=rate/12;
+    var month=r?(financed-balloon/Math.pow(1+r,n))*r/(1-Math.pow(1+r,-n)):(financed-balloon)/n;
+    var week=month*12/52, svc=o.service?COFFEE.after:0;
+    return {rate:rate, years:years, months:n, deposit:deposit, balloon:balloon, financed:financed,
+            month:month, week:week, day:week/7, interest:month*n+balloon-financed, repaid:month*n+balloon,
+            serviceMonth:svc, serviceWeek:svc*12/52, weekAfter:week+svc*12/52, serviceYears:Math.max(0,years-2),
+            outlay:deposit+month*n+balloon+svc*12*Math.max(0,years-2)};
+  }
   function waysToPay(c){
     if(!c||!(c.count||c.robots)) return null;
     var m=PAY.finance.months, lo=monthly(c.installed,PAY.finance.low,m), hi=monthly(c.installed,PAY.finance.high,m);
@@ -554,7 +580,7 @@ window.WonderQuote = (function(){
   function forget(){ try{ localStorage.removeItem(STORE); }catch(e){} try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){} }
   return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
           optionAmount:optionAmount,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
-          SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
+          SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,COFFEE:COFFEE,coffeePlan:coffeePlan,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
           compute:compute,desk:desk,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
           stateFromQuery:stateFromQuery,toQuery:toQuery,parsePick:parsePick,
           money:new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0})};
@@ -1730,8 +1756,15 @@ window.WonderQuote = (function(){
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       var v = function (n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; };
-      var lines, subject;
-      if (eoi) {
+      var lines, subject, lead = f.getAttribute('data-lead');
+      var pick = function (n) { return (f.querySelector('input[name=' + n + ']:checked') || {}).value || ''; };
+      if (lead === 'coffee') {
+        subject = 'Coffee bar: ' + v('company');
+        lines = ['Bar: ' + pick('bar'), 'Paying: ' + pick('pay'), 'Name: ' + v('name'), 'Business: ' + v('company'),
+                 'Phone: ' + v('phone'), 'Email: ' + v('email')];
+        if (v('where')) lines.push('Where: ' + v('where'));
+        if (v('numbers')) lines.push('', 'On the calculator: ' + v('numbers'));
+      } else if (eoi) {
         var picks = [].filter.call(f.querySelectorAll('input[type=checkbox]'), function (c) { return c.checked; }).map(function (c) { return c.value; });
         var venue = (f.querySelector('input[name=venue]:checked') || {}).value || '';
         subject = 'Design, build and fit out: ' + (picks.length ? picks.join(', ') : 'a venue');
@@ -1741,9 +1774,11 @@ window.WonderQuote = (function(){
         subject = 'Quote: ' + machine;
         lines = ['Machine: ' + machine, 'Name: ' + v('name'), 'Email: ' + v('email')];
       }
-      if (v('company')) lines.push('Company: ' + v('company'));
-      if (v('where')) lines.push('Where: ' + v('where'));
-      if (v('job')) lines.push('', 'The job:', v('job'));
+      if (lead !== 'coffee') {
+        if (v('company')) lines.push('Company: ' + v('company'));
+        if (v('where')) lines.push('Where: ' + v('where'));
+        if (v('job')) lines.push('', 'The job:', v('job'));
+      }
       window.location.href = 'mailto:info@wonderbytech.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
     });
   });
