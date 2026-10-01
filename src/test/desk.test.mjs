@@ -26,5 +26,11 @@ t("priced-to-order robots and scoped lines are left out, not costed at zero", ()
   assert.equal(d.rows.some((r) => r.id === "unitree-g1"), false); assert.equal(d.complete, true); });
 t("junk costs are missing, not numbers", () => { for (const bad of [-5, "80000", NaN, Infinity, null, {}, { pct: 2 }]) { const d = Q.desk(Q.compute({ qty: { bpro: 1 }, opts: { wrap: true } }), { ...FULL, options: { wrap: bad } });
   assert.equal(d.complete, false, String(bad)); assert.ok(d.missing.some((m) => /Branding/.test(m))); } });
+t("a machine the supplier has not priced for us has no cost, and no equipment margin is invented", () => { const d = Q.desk(Q.compute({ qty: { wok: 1 } }), FULL);
+  assert.equal(d.complete, false); assert.ok(d.missing.includes("Stir-fry robot unit cost")); assert.equal(d.rows.find((r) => r.id === "wok").cost, null); assert.equal(d.equipment.margin, null); });
+t("extraction is offered with every machine that cooks, and with no other", () => {
+  for (const id of ["fry", "noo", "wok"]) assert.ok(Q.compute({ qty: { [id]: 1 }, opts: { extract: true } }).lines.some((l) => l.id === "extract"), id);
+  for (const id of ["bpro", "bar", "ice"]) assert.equal(Q.compute({ qty: { [id]: 1 }, opts: { extract: true } }).lines.some((l) => l.id === "extract"), false, id);
+  assert.equal(Q.cooksOf({ fry: 2, wok: 1, bpro: 3 }), 3); assert.equal(Q.cooksOf({}), 0); });
 t("an empty quote has nothing to say", () => { const d = Q.desk(Q.compute({}), FULL); assert.equal(d.rows.length, 0); assert.equal(d.complete, false); assert.equal(d.equipment, null); });
 console.log(n + " desk maths tests pass");

@@ -2139,9 +2139,14 @@ window.WonderQuote = (function(){
     {id:'eff',  name:'Coffee robot',     model:'Smart EFF, vending format', kit:'Dual arm, Dr.Coffee F200, BTB Z06 ice, 3 syrups, milk frother, printer', price:68080, img:'../img/machines/coffee-robot-d1.jpg'},
     {id:'bar',  name:'Robot bartender',  model:'T Standard',               kit:'Dobot arm, BTB Z02 ice, 3 syrup channels', price:35880, img:'../img/offer/robot-bar-studio.jpg'},
     {id:'ice',  name:'Ice cream robot',  model:'I Pro',                    kit:'Pasteurising machine, 3 syrups, 2 toppings', price:37720, img:'../img/tile-kiosk.jpg'},
-    {id:'fry',  name:'Deep frying robot',model:'F Standard',               kit:'Dobot arm, 6 frying stoves', price:38640, img:'../img/tile-arm.jpg'},
-    {id:'noo',  name:'Noodle robot',     model:'N Standard',               kit:'Dobot arm, 6 noodle stoves', price:47840, img:'../img/valley-baths.jpg'}
+    {id:'fry',  name:'Deep frying robot',model:'F Standard',               kit:'Dobot arm, 6 frying stoves', price:38640, cook:true, img:'../img/tile-arm.jpg'},
+    {id:'noo',  name:'Noodle robot',     model:'N Standard',               kit:'Dobot arm, 6 noodle stoves', price:47840, cook:true, img:'../img/valley-baths.jpg'},
+    // STAND-IN PRICE (1 Oct 2026): the supplier has not quoted this machine,
+    // so it carries the frying robot's price until they do. Replace it.
+    {id:'wok',  name:'Stir-fry robot',   model:'Wok Hei',                  kit:'Induction wok, automatic ingredient and sauce dosing', price:38640, cook:true, img:'../img/machines/cut/wok-robot.webp'}
   ];
+  // The machines that cook over heat, counted: extraction is offered with them.
+  function cooksOf(qty){ return MACHINES.reduce(function(a,m){ return a+(m.cook?(qty[m.id]||0):0); },0); }
 
   // Accessories beyond the listed configuration. They are priced with the
   // supplier when ordered, so the quote carries them as a line to confirm
@@ -2188,7 +2193,7 @@ window.WonderQuote = (function(){
   // Then the service options, from the partner package: monthly ones join
   // the service, one-off ones are paid once.
   // kitchen: only offered with a kitchen workstation. cook: only with a
-  // frying or noodle robot. each: added for every workstation after the first.
+  // machine that cooks over heat. each: added for every workstation after the first.
   var OPTIONS=[
     {id:'space',    group:'studio', name:'Space design',            sub:'The room drawn around the machines: layout, finishes, lighting, joinery, renders', per:'once', price:14500,
      img:'../img/coffee/venue-02-entry.jpg', alt:'The cafe seen from the street door'},
@@ -2227,7 +2232,8 @@ window.WonderQuote = (function(){
     {id:'cocktail', name:'Robot bartender',   line:'An arm under a rack of your bottles, the same measure every time.', models:['bar'], parts:['icem','syr'], img:'../img/offer/robot-bar-studio.jpg'},
     {id:'icecream', name:'Ice cream robot',   line:'Pasteurised soft serve, and an arm that hands the cone over.', models:['ice'], parts:['syr'], img:'../img/tile-kiosk.jpg'},
     {id:'fryer',    name:'Deep frying robot', line:'Six fryers: basket in, timed, lifted, drained.', models:['fry'], parts:[], img:'../img/tile-arm.jpg'},
-    {id:'noodle',   name:'Noodle robot',      line:'Six noodle stoves, cooked to the order.', models:['noo'], parts:[], img:'../img/valley-baths.jpg'}
+    {id:'noodle',   name:'Noodle robot',      line:'Six noodle stoves, cooked to the order.', models:['noo'], parts:[], img:'../img/valley-baths.jpg'},
+    {id:'stirfry',  name:'Stir-fry robot',    line:'An induction wok that doses and tosses to the recipe.', models:['wok'], parts:[], img:'../img/machines/cut/wok-robot.webp'}
   ];
   // The showroom robots, written in from the catalogue at build time. The
   // two service robots sold in a package carry a price; the rest are priced
@@ -2347,6 +2353,9 @@ window.WonderQuote = (function(){
     noo:{stage:'Equipment', lead:'A Dobot arm over six noodle stoves, cooking to the order.',
       gets:['N Standard noodle robot','Dobot arm','Six noodle stoves','Delivered, positioned, commissioned'],
       facts:[['Suits','Noodle restaurants, food courts, restaurant groups'],['On our floor','365 St Pauls Terrace'],OUTPUT]},
+    wok:{stage:'Equipment', lead:'An induction wok that adds each ingredient and sauce on time and tosses to the recipe, one serve at a time.',
+      gets:['Wok Hei stir-fry robot','Induction wok, to 350°C','Four ingredient boxes','Liquid, powder and sauce dosing','10-inch touchscreen, recipes on file','Delivered, positioned, commissioned'],
+      facts:[['Suits','Made-to-order restaurants, fast casual, rice and noodle bars'],['Power','Three-phase, 8 or 15 kW'],OUTPUT]},
     'ubtech-cadebot':{stage:'Equipment', lead:'Three open trays that carry orders from the pass to the table, mapped to your floor.',
       gets:['UBTECH CadeBot','Three trays, 40 kg','Mapped to your floor','Delivered and commissioned'],
       facts:[['Suits','Restaurants and hotels with indoor routes'],['Service','$500 a month in a kitchen package']]},
@@ -2440,7 +2449,7 @@ window.WonderQuote = (function(){
       INCLUDED.forEach(function(x){ if(x.kitchen&&!sv.kitchen) return;
         lines.push({id:x.id,kind:'included',label:x.name,name:x.name,sub:x.sub,value:0,img:x.img}); });
     }
-    var cooks=(qty.fry||0)+(qty.noo||0);
+    var cooks=cooksOf(qty);
     OPTIONS.forEach(function(o){ if(!opts[o.id]||!open) return;
       var amt=optionAmount(o,count,cooks); if(amt===null) return;
       if(o.per==='month') monthlyOpts+=amt; else if(o.group==='studio') studio+=amt; else once+=amt;
@@ -2650,7 +2659,7 @@ window.WonderQuote = (function(){
   }
   function forget(){ try{ localStorage.removeItem(STORE); }catch(e){} try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){} }
   return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
-          optionAmount:optionAmount,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
+          optionAmount:optionAmount,cooksOf:cooksOf,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
           SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,COFFEE:COFFEE,coffeePlan:coffeePlan,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
           compute:compute,desk:desk,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
           stateFromQuery:stateFromQuery,toQuery:toQuery,parsePick:parsePick,
@@ -3302,6 +3311,7 @@ window.WonderQuote = (function(){
     ice:'Pasteurised soft serve, and an arm that hands the cone over.',
     fry:'Six fryers worked by one arm: basket in, timed, lifted, drained.',
     noo:'Six noodle stoves, cooked to the order.',
+    wok:'An induction wok that doses and tosses to the recipe.',
     'ubtech-cadebot':'Carries orders from the pass to the table, mapped to your floor.',
     'ubtech-cruzr-1s':'Greets guests, answers questions and guides them where they are going.'
   };
@@ -3390,7 +3400,7 @@ window.WonderQuote = (function(){
     $('qs-pick').scrollTop=0;
   }
   function offerPrice(o){
-    var amt=Q.optionAmount(o,machineCount(),(qty.fry||0)+(qty.noo||0));
+    var amt=Q.optionAmount(o,machineCount(),Q.cooksOf(qty));
     return amt===null?'':money.format(amt)+(o.per==='month'?' a month':'');
   }
   function offer(id,kind,title,why,price,on){
@@ -3400,7 +3410,7 @@ window.WonderQuote = (function(){
       '<span class="p'+(/\$/.test(price)?'':' ask')+'">'+price+'</span><span class="tick" aria-hidden="true"></span></button>';
   }
   function resultHtml(){
-    var c=Q.compute(state()), count=c.count, cooks=(qty.fry||0)+(qty.noo||0);
+    var c=Q.compute(state()), count=c.count, cooks=Q.cooksOf(qty);
     var picked=Q.MACHINES.concat(Q.ROBOTS.filter(function(r){return r.price;})).filter(function(m){return qty[m.id]>0;});
     var recs=picked.map(function(m){
       var f=famOf(m.id), others=f?f.models.filter(function(id){return id!==m.id;}):[];
@@ -3546,7 +3556,7 @@ window.WonderQuote = (function(){
   // ---- the tray and the total. Every number comes from the engine; the
   // sheet only draws it.
   function render(){
-    var c=Q.compute(state()), count=c.count, cooks=(qty.fry||0)+(qty.noo||0), open=c.count+c.robots>0;
+    var c=Q.compute(state()), count=c.count, cooks=Q.cooksOf(qty), open=c.count+c.robots>0;
     var tabCount={food:0,robots:0,work:0,care:0}, faces=[];
     Q.MACHINES.forEach(function(m){ mark(m.id,qty[m.id]); if(qty[m.id]){ tabCount.food+=qty[m.id]; faces.push(m.img); } });
     Q.ROBOTS.forEach(function(r){ mark(r.id,qty[r.id]); if(qty[r.id]){ tabCount.robots+=qty[r.id]; faces.push(r.img); } });
@@ -3636,7 +3646,7 @@ window.WonderQuote = (function(){
   // "Have us call you" ticks the matching boxes in the band above the footer,
   // which is on every page, then closes the sheet and takes you there.
   var TO_BAND={bpro:'eoi-coffee',bstd:'eoi-coffee',eff:'eoi-coffee',bar:'eoi-cocktail',ice:'eoi-icecream',
-               fry:'eoi-kitchen',noo:'eoi-kitchen',fitout:'eoi-fitout',space:'eoi-fitout',identity:'eoi-brand',web:'eoi-brand'};
+               fry:'eoi-kitchen',noo:'eoi-kitchen',wok:'eoi-kitchen',fitout:'eoi-fitout',space:'eoi-fitout',identity:'eoi-brand',web:'eoi-brand'};
   $('want-mail').addEventListener('click',function(){
     Object.keys(TO_BAND).forEach(function(id){
       var on=(qty[id]>0)||opts[id];
