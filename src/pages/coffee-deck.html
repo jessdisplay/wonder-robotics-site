@@ -1,0 +1,207 @@
+<main class="deck" id="deck" data-coffee-deck>
+  <div class="deck-tools">
+    <div class="deck-tools-in">
+      <span class="label">[ The coffee bar, sold whole ]</span>
+      <span class="deck-pg label"><span data-out="pg">1</span> of <span data-out="pn">10</span></span>
+      <div class="deck-actions">
+        <button class="btn ghost" type="button" data-deck="prev"><span>Back</span></button>
+        <button class="btn ghost" type="button" data-deck="next"><span>Next</span></button>
+        <button class="btn ghost" type="button" data-deck="full"><span>Full screen</span><i aria-hidden="true">+</i></button>
+        <button class="btn ghost" type="button" data-deck="print"><span>Save as PDF</span><i aria-hidden="true">+</i></button>
+        <a class="btn" href="{{root}}robot-coffee-machines/"><span>The page</span><i aria-hidden="true">+</i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="deck-stack" id="deck-stack">
+
+    <section class="sheet wide pp-cover" id="s1">
+      <img class="cv-img" src="{{root}}img/machines/coffee-robot-stage-poster.jpg" alt="" loading="eager">
+      <div class="cv-band"><div class="cv-top"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="200" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas><span class="cv-kind">Coffee bar</span></div>
+        <h1>A barista in two square metres, in your brand.</h1>
+        <dl class="cv-meta"><div><dt>One price</dt><dd>{{coffee:price}} ex GST</dd></div><div><dt>Each week</dt><dd>From {{coffee:week}}</dd></div><div><dt>Term</dt><dd>{{coffee:years}} years</dd></div><div><dt>Then</dt><dd>Yours</dd></div></dl>
+      </div>
+    </section>
+
+    <section class="sheet wide" id="s2"><div class="sh-in">
+      <span class="label">[ The offer ]</span>
+      <div class="dk-fig">{{coffee:price}}<small>one price, ex GST</small></div>
+      <div class="dk-row">
+        <p class="dk-lead">The bar, delivered, installed and in your colours, with two years of service. Financed as one amount over {{coffee:years}} years. Yours at the end.</p>
+        <ol class="dk-grid six"><li><b>The bar</b><p>Two arms at an Eversys. Ice maker, cup printer.</p></li><li><b>Delivered and installed</b><p>Positioned, plumbed, commissioned on your menu.</p></li><li><b>Two years of service</b><p>Software, monitoring, maintenance, repairs, support.</p></li><li><b>Your brand on it</b><p>Screen, cup and machine. One payment system connected.</p></li><li><b>Your team trained</b><p>The machine, the cleaning, the faults.</p></li><li><b>Spares on the shelf</b><p>A starter kit, so the first fault is fixed the same day.</p></li></ol>
+      </div>
+      <div class="sh-foot"><span>Wonder Robotics</span><span>The coffee bar, sold whole</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide" id="s3"><div class="sh-in">
+      <span class="label">[ What it costs a week ]</span>
+      <form class="ask dk-form" data-coffee-calc>
+        <label><span class="label">Rate <output data-out="rate"></output></span><input type="range" name="rate" min="7.5" max="20" step="0.5" value="10"></label>
+        <fieldset class="field"><legend class="label">Term</legend><div class="choices" role="radiogroup"><input type="radio" name="years" id="dk-y5" value="5"><label for="dk-y5">5 years</label><input type="radio" name="years" id="dk-y7" value="7" checked><label for="dk-y7">7 years</label></div></fieldset>
+        <label><span class="label">Deposit</span><input type="number" name="deposit" min="0" step="1000" placeholder="optional"></label>
+        <label><span class="label">Balloon, %</span><input type="number" name="balloon" min="0" max="50" step="5" placeholder="optional"></label>
+        <fieldset class="field"><legend class="label">Year 3 on</legend><div class="choices"><input type="checkbox" name="service" id="dk-svc"><label for="dk-svc">Service, {{coffee:after}} a month</label></div></fieldset>
+      </form>
+      <div class="dk-row">
+        <div>
+          <div class="dk-fig"><span data-out="week">{{coffee:week}}</span><small>a week</small></div>
+          <p class="dk-lead" data-out="story"></p>
+          <dl class="ps-sums"><dt>Each trading day</dt><dd data-out="day"></dd><dt data-out="thirdLabel">Interest over the term</dt><dd data-out="third"></dd><dt>Repayments</dt><dd data-out="months"></dd></dl>
+        </div>
+        <table class="calc-tbl" data-out="table"></table>
+      </div>
+      <div class="sh-foot"><span>Monthly in arrears, shown as a week. Ex GST and lender fees. Not an offer of finance.</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide" id="s4"><div class="sh-in">
+      <span class="label">[ What it earns ]</span>
+      <form class="ask dk-form" data-coffee-earn>
+        <label><span class="label">Coffees a day <output data-out="cupsOut"></output></span><input type="range" name="cups" min="20" max="400" step="10" value="120"></label>
+        <label><span class="label">Days a week <output data-out="daysOut"></output></span><input type="range" name="days" min="5" max="7" step="1" value="7"></label>
+        <label><span class="label">Price a coffee, ex GST</span><input type="number" name="cup" min="1" step="0.5" value="5.50"></label>
+        <label><span class="label">Kept after beans, milk, cups, %</span><input type="number" name="gp" min="10" max="95" step="1" value="74"></label>
+        <label><span class="label">Other weekly costs</span><input type="number" name="other" min="0" step="10" value="250"></label>
+      </form>
+      <div class="dk-row">
+        <div>
+          <div class="dk-fig"><span data-out="profit"></span><small>a week, after the repayment</small></div>
+          <p class="dk-lead" data-out="earnStory"></p>
+        </div>
+        <dl class="ps-sums"><dt>Weekly sales</dt><dd data-out="sales"></dd><dt>Kept after ingredients</dt><dd data-out="gross"></dd><dt>Repayment</dt><dd data-out="repay"></dd><dt>Service from year 3</dt><dd data-out="svc"></dd><dt>Other costs</dt><dd data-out="other"></dd><dt class="tot">Left each week</dt><dd class="tot" data-out="profit2"></dd><dt>Covered at</dt><dd data-out="cover"></dd></dl>
+      </div>
+      <div class="sh-foot"><span>Your numbers, our arithmetic. Sales depend on the site. A scenario, not a promise.</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide" id="s5"><div class="sh-in">
+      <span class="label">[ Why it works ]</span>
+      <h2 class="dk-h">Where every $100 of sales goes.</h2>
+      <div class="dk-bars">
+        <div class="dk-bar"><span class="label">A staffed café</span><div class="dk-stack" data-out="cafeStack"></div><ul class="dk-leg" data-out="cafeLeg"></ul></div>
+        <div class="dk-bar"><span class="label">The robot bar, at your numbers</span><div class="dk-stack" data-out="botStack"></div><ul class="dk-leg" data-out="botLeg"></ul></div>
+      </div>
+      <ol class="dk-grid three"><li><b>No wages, no penalty rates</b><p>Around 38 cents in the dollar goes to staff in a staffed café. A Sunday costs the same as a Tuesday.</p></li><li><b>Fixed, predictable costs</b><p>One weekly repayment. Nothing rises when someone calls in sick.</p></li><li><b>An asset, not rent</b><p>At the end of the term you hold equipment, not receipts. When the repayment ends, the margin is yours.</p></li></ol>
+      <div class="sh-foot"><span>Café shares are illustrative: ingredients 26, wages 38, occupancy 10, other 12.</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide" id="s6"><div class="sh-in">
+      <span class="label">[ Year by year ]</span>
+      <h2 class="dk-h" data-out="yearsH">The full term, then the first year you own it.</h2>
+      <table class="calc-tbl years" data-out="years"></table>
+      <div class="sh-foot"><span>At the sales, rate and term chosen. Ex GST.</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide" id="s7"><div class="sh-in">
+      <span class="label">[ After year 2 ]</span>
+      <h2 class="dk-h">Your choice.</h2>
+      <ol class="dk-grid two big"><li><b>Keep full service, {{coffee:after}} a month</b><p>Software, ordering and payments. Remote monitoring and updates. Scheduled visits, covered repairs. Support 8am to 6pm weekdays, Brisbane time.</p></li><li><b>Self-manage, no monthly fee</b><p>Repairs and call-outs paid as needed, parts quoted when required. Your team looks after it day to day, as trained. Set aside a repair reserve each month.</p></li></ol>
+      <p class="dk-lead">Tick service on in the calculator once, to see the worst case. If the site still makes money with service on, year three is about convenience, not survival.</p>
+      <div class="sh-foot"><span>Wonder Robotics</span><span>The coffee bar, sold whole</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide" id="s8"><div class="sh-in">
+      <span class="label">[ How it goes ]</span>
+      <h2 class="dk-h">Four steps to owning it.</h2>
+      <ol class="pc-stages four"><li><span class="i">01</span><b>Apply</b><p>A short finance application. The rate comes back with your credit history, {{coffee:rates}}.</p></li><li><span class="i">02</span><b>Place it</b><p>We help choose a site with the foot traffic to carry it, then deliver, install and brand it.</p></li><li><span class="i">03</span><b>Train and trade</b><p>Your team is trained. Guests order on your screen, the robot makes the drink, you keep the takings.</p></li><li><span class="i">04</span><b>Own it</b><p>After the last repayment the bar is yours. From year three, service is your choice.</p></li></ol>
+      <div class="sh-foot"><span>About two months from order to open, within 100 km of an Australian port.</span><span class="pg"></span></div>
+    </div></section>
+
+    <section class="sheet wide pp-photo" id="s9">
+      <img class="cv-img full" src="{{root}}img/machines/coffee-hero.jpg" alt="The dual-arm coffee bar at 365 St Pauls Terrace, the milk jug in hand" loading="lazy" style="object-position:50% 40%">
+      <div class="cv-band short"><div class="dk-row"><div><span class="label">[ Taste it first ]</span><h2 class="dk-h">Ours pours at 365 St Pauls Terrace, Fortitude Valley.</h2></div><dl class="cv-meta tight"><div><dt>Call</dt><dd>1800 983 404</dd></div><div><dt>Email</dt><dd>info@wonderbytech.com</dd></div><div><dt>The page</dt><dd>wonderbytech.com/robot-coffee-machines/</dd></div></dl></div></div>
+    </section>
+
+    <section class="sheet wide pp-close" id="s10"><div class="sh-in">
+      <span class="label">[ The fine print ]</span>
+      <dl class="dk-fine"><dt>Rates</dt><dd>{{coffee:rates}} a year is the indicative range. The rate, fees, deposit and any balloon are set when the application is assessed.</dd><dt>Ownership</dt><dd>Title passes when every repayment and any balloon has been paid, as set out in the finance contract.</dd><dt>Service</dt><dd>Included for the first 24 months within the price. From month 25 it is optional at {{coffee:after}} a month and is not in the headline figures unless selected.</dd><dt>Margin</dt><dd>74% is an estimate of what stays after beans, milk, cups and syrups. Site costs, power, card fees and restocking time are counted separately.</dd><dt>Operation</dt><dd>The robot replaces the barista, not the owner. Someone restocks, cleans daily and holds the food business licence.</dd><dt>Earnings</dt><dd>Sales depend on the site, price and volume. The calculators show scenarios, not a promise.</dd><dt>Tax</dt><dd>A lease, a hire purchase and a chattel mortgage are taxed differently. The equipment is above the instant asset write-off limit. Your accountant should confirm.</dd><dt>Site</dt><dd>The buyer arranges the site, its approvals, power and water.</dd></dl>
+      <div class="sh-foot"><span>AUD ex GST. Illustrative, not an offer of finance or approval. General information, not financial, tax or legal advice.</span><span class="pg"></span></div>
+    </div></section>
+
+  </div>
+</main>
+<script>
+/* The deck reads WonderQuote.COFFEE like the page does, and every sheet that
+   shows a number draws from the two forms on sheets 3 and 4. */
+window.addEventListener('DOMContentLoaded',function(){
+  var Q=window.WonderQuote; if(!Q||!Q.COFFEE) return;
+  var C=Q.COFFEE, money=Q.money, W=12/52;
+  var m2=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',minimumFractionDigits:2,maximumFractionDigits:2});
+  var calc=document.querySelector('[data-coffee-calc]'), earn=document.querySelector('[data-coffee-earn]');
+  function out(k){ return document.querySelector('[data-out="'+k+'"]'); }
+  function set(k,v){ var e=out(k); if(e) e.textContent=v; }
+  function num(f,n){ var v=parseFloat(f.elements[n].value); return isNaN(v)?0:v; }
+  function pc(x){ return Math.round(x*1000)/10+'%'; }
+  function plan(){ return Q.coffeePlan({rate:num(calc,'rate')/100, years:+calc.elements['years'].value, deposit:num(calc,'deposit'), balloon:num(calc,'balloon')/100, service:calc.elements['service'].checked}); }
+  function bar(host,leg,parts,total){
+    host.innerHTML=parts.map(function(p){ return '<div style="width:'+(Math.max(0,p[1])/total*100)+'%" class="'+p[2]+'" title="'+p[0]+'"></div>'; }).join('');
+    leg.innerHTML=parts.map(function(p){ return '<li><i class="'+p[2]+'"></i>'+p[0]+'<b>'+Math.round(p[1])+'</b></li>'; }).join('');
+  }
+  function draw(){
+    var p=plan();
+    set('rate',pc(p.rate)); set('week',money.format(Math.round(p.week))); set('day',money.format(Math.round(p.day)));
+    set('months',p.months+(p.balloon?', then a '+money.format(p.balloon)+' balloon':''));
+    if(p.serviceMonth){ set('thirdLabel','From year 3, with service'); set('third',money.format(Math.round(p.weekAfter))+' a week'); }
+    else { set('thirdLabel','Interest over the term'); set('third',money.format(Math.round(p.interest))); }
+    out('story').innerHTML='At <b>'+pc(p.rate)+'</b> over <b>'+p.years+' years</b>'+(p.deposit?' with '+money.format(p.deposit)+' down':'')+', the whole package is <b>'+money.format(Math.round(p.week))+' a week</b>. Then the bar is yours.';
+    var h='<thead><tr><th>Rate</th><th>Credit</th>'+C.years.map(function(y){return '<th>'+y+' years</th>';}).join('')+'</tr></thead><tbody>';
+    C.rates.forEach(function(r){
+      h+='<tr><td><b>'+pc(r)+'</b></td><td>'+(C.tiers[r]||'')+'</td>'+C.years.map(function(y){
+        var q=Q.coffeePlan({rate:r,years:y}), on=Math.abs(r-p.rate)<1e-6&&y===p.years&&!p.deposit&&!p.balloon;
+        return '<td'+(on?' class="on"':'')+'>'+money.format(Math.round(q.week))+'</td>';
+      }).join('')+'</tr>';
+    });
+    out('table').innerHTML=h+'</tbody><caption>Each week, no deposit, no balloon</caption>';
+
+    // what it earns
+    var cups=num(earn,'cups'), days=num(earn,'days'), cup=num(earn,'cup'), gp=num(earn,'gp')/100, other=num(earn,'other');
+    set('cupsOut',cups); set('daysOut',days);
+    var per=cup*gp, wCups=cups*days, sales=wCups*cup, gross=wCups*per, repay=p.week, svc=p.serviceWeek;
+    var left=gross-repay-svc-other, cover=per>0&&days>0?Math.ceil((repay+svc+other)/per/days):0;
+    set('profit',money.format(Math.round(left))); set('profit2',money.format(Math.round(left)));
+    set('sales',money.format(Math.round(sales))); set('gross',money.format(Math.round(gross))+' at '+m2.format(per)+' a cup');
+    set('repay',money.format(Math.round(repay))); set('svc',svc?money.format(Math.round(svc)):'Optional'); set('other',money.format(Math.round(other)));
+    set('cover',cover+' coffees a day');
+    out('earnStory').innerHTML=wCups.toLocaleString('en-AU')+' coffees a week at '+m2.format(cup)+' is <b>'+money.format(Math.round(sales))+'</b> in sales, and <b>'+money.format(Math.round(gross))+'</b> after beans, milk and cups. Take off the repayment'+(svc?', the service':'')+' and the running costs, and <b>'+money.format(Math.round(left))+'</b> a week is yours'+(left<0?' short':'')+'.';
+
+    // where $100 goes
+    var cafe=[['Ingredients',26,'c1'],['Wages',38,'c2'],['Occupancy',10,'c3'],['Other',12,'c4'],['Profit',14,'c5']];
+    bar(out('cafeStack'),out('cafeLeg'),cafe,100);
+    var s100=sales||1, bot=[['Ingredients',(sales-gross)/s100*100,'c1'],['Repayment',repay/s100*100,'c2'],['Service',svc/s100*100,'c3'],['Other',other/s100*100,'c4'],['Profit',Math.max(0,left)/s100*100,'c5']].filter(function(x){return x[1]>0;});
+    bar(out('botStack'),out('botLeg'),bot,100);
+
+    // year by year
+    var rows='', yrs=p.years+1;
+    var yh='<thead><tr><th>Year</th><th>Sales</th><th>After ingredients</th><th>Repayment</th><th>Service</th><th>Other</th><th>Left</th></tr></thead><tbody>';
+    var tot=0;
+    for(var y=1;y<=yrs;y++){
+      var owned=y>p.years, ySales=sales*52, yGross=gross*52, yRep=owned?0:p.month*12+(y===p.years?p.balloon:0);
+      var ySvc=y<=2?0:(p.serviceMonth?C.after*12:0), yOther=other*52, yLeft=yGross-yRep-ySvc-yOther-(y===1?p.deposit:0);
+      tot+=yLeft;
+      rows+='<tr'+(owned?' class="on"':'')+'><td><b>'+y+(owned?', owned':'')+'</b></td><td>'+money.format(Math.round(ySales))+'</td><td>'+money.format(Math.round(yGross))+'</td><td>'+(yRep?money.format(Math.round(yRep)):'Paid off')+'</td><td>'+(y<=2?'Included':(ySvc?money.format(ySvc):'Optional'))+'</td><td>'+money.format(Math.round(yOther))+'</td><td>'+money.format(Math.round(yLeft))+'</td></tr>';
+    }
+    out('years').innerHTML=yh+rows+'</tbody><caption>'+cups+' coffees a day, '+days+' days, at '+pc(p.rate)+' over '+p.years+' years'+(p.deposit?', '+money.format(p.deposit)+' deposit taken off year 1':'')+'</caption>';
+  }
+  [calc,earn].forEach(function(f){ f.addEventListener('input',draw); f.addEventListener('submit',function(e){e.preventDefault();}); });
+  draw();
+
+  // the deck itself: one sheet at a time, keys, full screen, print
+  var stack=document.getElementById('deck-stack'), sheets=[].slice.call(stack.querySelectorAll('.sheet')), n=sheets.length, at=0;
+  set('pn',n);
+  [].forEach.call(stack.querySelectorAll('.sh-foot .pg'),function(el){ el.textContent=(sheets.indexOf(el.closest('.sheet'))+1)+' of '+n; });
+  function go(i){ at=Math.max(0,Math.min(n-1,i)); sheets[at].scrollIntoView({behavior:'smooth',block:'center'}); set('pg',at+1); }
+  document.querySelectorAll('[data-deck]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.deck;
+      if(k==='prev') go(at-1); else if(k==='next') go(at+1);
+      else if(k==='print') window.print();
+      else if(k==='full'){ var el=document.documentElement; if(document.fullscreenElement) document.exitFullscreen(); else if(el.requestFullscreen) el.requestFullscreen(); }
+    });
+  });
+  document.addEventListener('keydown',function(e){
+    if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(at+1); }
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(at-1); }
+  });
+  var io=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ at=sheets.indexOf(x.target); set('pg',at+1); } }); },{threshold:.6});
+  sheets.forEach(function(s){ io.observe(s); });
+});
+</script>

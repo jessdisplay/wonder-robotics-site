@@ -523,7 +523,7 @@
   .dk-leg i{width:.8cqw;height:.8cqw;border-radius:.2cqw}
   .dk-leg b{font-weight:500;color:var(--ink)}
   .c1{background:#CFC6B8}.c2{background:var(--ink)}.c3{background:#75706B}.c4{background:#A99F8E}.c5{background:var(--signal)}
-  .sheet.wide.pp-photo .cv-img.full{height:100%}
+  .sheet.wide.pp-photo .cv-img.full{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
   .sheet.wide .cv-band.short{color:var(--cream)}
   .sheet.wide .cv-band.short .dk-row{grid-template-columns:1.4fr 1fr;align-items:end;margin:0}
   .sheet.wide .cv-band.short .dk-h{color:var(--cream)}
