@@ -12,6 +12,12 @@ is written from it).
   a forwarding page at each address of the old wonderbytech.com site.
 - `wonder-robotics.html` is the home page without its document wrapper, the
   Claude artifact source.
+- Two decks are built with the site and sent as links. Both are unlisted:
+  `noindex`, not in the sitemap, linked from no page.
+  `deck/coffee/` is the coffee bar sales deck (`src/pages/coffee-deck.html`).
+  `deck/company/` is the company introduction for partners
+  (`src/company-deck.html`, a whole document; its prices and partner wall
+  come from the build).
 
 ## Going live on www.wonderbytech.com
 

@@ -555,6 +555,8 @@ def pk_tiles():
 # Prices in page copy are tokens, so a price changed in the engine changes
 # every sentence that quotes it:
 #   {{installed:bpro}}  {{installedfrom:bpro,bstd,eff}}  {{monthly:bpro}}
+#   {{installedfrom:all}} to {{installedto:all}} (the cheapest and the dearest
+#   machine on the price list)
 #   {{monthly:fry+noo}} (the two together, one service)  {{opt:identity}}
 #   {{service:first}}  {{service:extra}}  {{service:robot}}
 #   {{after:first}}  {{after:extra}}  {{after:hourly}}  {{after:ubtech-cadebot}}
@@ -565,7 +567,7 @@ def pk_tiles():
 #   year 3)  {{coffee:week}} (the cheapest week: low rate, longest term)
 #   {{coffee:weekhigh}} (the dearest: high rate, shortest term)
 #   {{coffee:years}} ("five or seven")  {{coffee:rates}} ("7.5% to 20%")
-PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|monthly|opt|service|after|finance|financefrom|coffee):([a-z0-9,+\-]+)\}\}")
+PRICE_TOKEN = re.compile(r"\{\{(installed|installedfrom|installedto|monthly|opt|service|after|finance|financefrom|coffee):([a-z0-9,+\-]+)\}\}")
 WORDS = {5: "five", 6: "six", 7: "seven"}
 
 
@@ -582,8 +584,9 @@ def price_token(m):
     try:
         if kind == "installed":
             return money(price[arg])
-        if kind == "installedfrom":
-            return money(min(price[i] for i in arg.split(",")))
+        if kind in ("installedfrom", "installedto"):
+            ids = [x["id"] for x in d["machines"]] if arg == "all" else arg.split(",")
+            return money((min if kind == "installedfrom" else max)(price[i] for i in ids))
         if kind == "opt":
             return money(d["options"][arg])
         if kind == "service":
@@ -1152,6 +1155,35 @@ OLD_SITE = {
 for old, (to, name) in OLD_SITE.items():
     assert to == "" or (HERE / to / "index.html").exists(), f"{old} forwards to a page that does not exist: {to}"
     forward(old, to, name)
+
+
+# The company deck: an introduction sent to a partner as a link. A whole
+# document like the price guide, not a page in the site's chrome, because a
+# slide fills the screen. Its prices are the page tokens, its wall is the
+# catalogue's partner list and its pictures are the site's own, so it cannot
+# drift from the site. Unlisted: noindex, not in the sitemap, linked from
+# no page.
+WALL_TALL = {"armhub.png", "onyx-tyres.jpg", "stellaris-robotics.jpg", "little-red-dumplings.jpg"}   # square marks sit taller
+
+
+def company_deck():
+    root = "../../"
+    wall = "".join('      <li><img{} src="{{{{root}}}}img/partners/{}" alt="{}"></li>\n'.format(
+        ' class="tall"' if k in WALL_TALL else "", k, escape(v)) for k, v in PARTNERS)
+    html = fill_prices((SRC / "company-deck.html").read_text()).replace("{{wall}}", wall)
+    html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
+    if "{{" in html:
+        sys.exit("company deck has an unfilled token")
+    for src in re.findall(r'src="' + re.escape(root) + r'([^"]+)"', html):
+        if not (HERE / src).exists():
+            sys.exit(f"company deck: no such picture, {src}")
+    out = HERE / "deck" / "company" / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html)
+    print(f"deck/company/index.html: {out.stat().st_size} bytes")
+
+
+company_deck()
 
 
 # Not found. Served from any depth, so its links are absolute from the root.
