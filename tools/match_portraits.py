@@ -8,7 +8,7 @@ PURPLE = np.array([47, 27, 80.0])                 # the site's deep purple, as c
 CREAM = np.array([232, 222, 200.0])
 people = {"jesse": "purple", "ryan": "cream", "logan": "purple", "gino": "cream"}
 # face boxes from the Mac's Vision detector (faces.swift): x, top, w, h as fractions
-FACES = {"jesse": (0.3250, 0.2088, 0.3825, 0.3081), "ryan": (0.3223, 0.1770, 0.3416, 0.2752),
+FACES = {"jesse": (0.3250, 0.2088, 0.3825, 0.3081), "ryan": (0.2951, 0.1964, 0.4052, 0.3264),
          "logan": (0.2738, 0.1938, 0.4122, 0.3321), "gino": (0.3392, 0.1558, 0.4272, 0.3441)}
 
 def backdrop():

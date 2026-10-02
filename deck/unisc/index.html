@@ -105,7 +105,7 @@
   .team .top{display:flex;justify-content:space-between;align-items:flex-start;gap:calc(48*var(--u))}
   .team .uni{height:calc(92*var(--u));width:auto;flex:0 0 auto}
   .team .l{font-size:calc(84*var(--u));max-width:calc(1100*var(--u))}
-  .crew{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u))}
+  .crew{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u));grid-template-rows:minmax(0,1fr)}
   .crew>div{display:flex;flex-direction:column;min-height:0}
   .crew .pic{flex:1 1 auto;min-height:0;background:#F8EEE4}
   .crew .pic img{object-position:50% 22%}
@@ -116,7 +116,9 @@
 
   /* rows of pictures */
   .row3,.row4{display:grid;gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(44*var(--u))}
+  .row3,.row4{grid-template-rows:minmax(0,1fr)}
   .row3 figure,.row4 figure{display:flex;flex-direction:column;min-height:0}
+  .crew .pic img,.row3 .pic img,.row4 .pic img{position:absolute;inset:0}
   .row3{grid-template-columns:repeat(3,1fr)}
   .row4{grid-template-columns:repeat(4,1fr)}
   .row3 .pic,.row4 .pic{flex:1 1 auto;min-height:0}
@@ -199,6 +201,7 @@
     .crew .none{font-size:60px}
     .crew .alum{height:24px;margin-top:8px}
     .pic{border-radius:10px}
+    .row3,.row4,.crew{grid-template-rows:none}
     .row3 .pic,.row4 .pic,.crew .pic{flex:none;aspect-ratio:4/3}
     .crew .pic{aspect-ratio:1/1}
     .ask .side{position:static;width:100%;height:auto;aspect-ratio:16/10;border-radius:10px;margin-bottom:18px}

@@ -30,6 +30,9 @@ DECKS = {
     "company": ("company", "Wonder-Robotics-introduction.pdf"),
 }
 # Bottom centre and large: at the corner in small type it went unseen.
+# Who to call, on the exported decks only. The site's own number stays as the
+# site has it; Jesse, 2 Oct 2026: "use Ryan's number for now on these decks".
+CONTACT = [("tel:1800983404", "tel:+61498765142"), ("1800 983 404", "Ryan Edwards 0498\u00a0765\u00a0142")]
 DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;'
             "font:500 15px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;"
             'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:10px;padding:16px 26px;'
@@ -70,6 +73,10 @@ def main():
         html = src.read_text()
         html = re.sub(r'href="(?:\.\./)+([^"#]*)', lambda m: 'href="' + SITE + m.group(1), html)
         html = html.replace("../../", "../")
+        for old, new in CONTACT:
+            html = html.replace(old, new)
+        if re.search(r"1800[ ]?983[ ]?404", html):
+            sys.exit(f"{name}: the old number is still on the page")
         files = set(re.findall(r'(?:src|poster)="\.\./((?:img|fonts)/[^"?]+)', html)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', html))
         for f in files:
             if not (HERE / f).exists():
@@ -82,11 +89,13 @@ def main():
             html = html[:cut] + DOWNLOAD.format(pdf=pdf_name) + html[cut:]
         (out / folder).mkdir(parents=True)
         (out / folder / "index.html").write_text(html)
-        pdf(src, out / folder / pdf_name)
-        print(f"{folder}/: page, {pdf_name} {(out / folder / pdf_name).stat().st_size // 1024} KB")
     for f in sorted(used):
         (out / f).parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(HERE / f, out / f)
+    # printed from the exported page, so the PDF says what the page says
+    for name, (folder, pdf_name) in DECKS.items():
+        pdf(out / folder / "index.html", out / folder / pdf_name)
+        print(f"{folder}/: page, {pdf_name} {(out / folder / pdf_name).stat().st_size // 1024} KB")
     print(f"{len(used)} pictures, films and fonts")
 
 
