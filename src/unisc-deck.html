@@ -267,10 +267,16 @@
   .hero .lede{margin-top:calc(26*var(--u));max-width:calc(820*var(--u))}
   .lines .title{font-size:calc(80*var(--u))}
   .lines .rail .pic img{object-fit:cover}
-  .four{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));margin-top:auto}
-  .four div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(24*var(--u));min-height:calc(170*var(--u))}
-  .four h3{font-weight:400;font-size:calc(52*var(--u));line-height:1.02;letter-spacing:-.035em}
-  .four .chip{display:inline-block;margin-top:calc(20*var(--u));background:var(--paper);color:var(--night);border-radius:calc(60*var(--u));padding:calc(8*var(--u)) calc(20*var(--u));font-family:var(--mono);font-size:calc(21*var(--u));letter-spacing:.06em;text-transform:uppercase}
+  .four{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(28*var(--u));margin-top:auto}
+  .four .face{display:block;aspect-ratio:4/5;border-radius:calc(14*var(--u));overflow:hidden;background:var(--paper)}
+  .four .face img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+  .four .face.none{display:grid;place-items:center;background:none;border:calc(2*var(--u)) dashed var(--paper-rule);font-size:calc(120*var(--u));letter-spacing:-.04em;color:var(--paper-2)}
+  .four h3{font-weight:400;font-size:calc(46*var(--u));line-height:1.02;letter-spacing:-.035em;margin-top:calc(22*var(--u))}
+  .four .role{font-size:calc(26*var(--u));line-height:1.3;color:var(--paper-2);margin-top:calc(8*var(--u))}
+  .four .chip{display:inline-block;margin-top:calc(14*var(--u));background:var(--paper);color:var(--night);border-radius:calc(60*var(--u));padding:calc(7*var(--u)) calc(18*var(--u));font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase}
+  .people{padding-top:calc(84*var(--u));padding-bottom:calc(72*var(--u))}
+  .people .title{font-size:calc(72*var(--u))}
+  .people .four{margin-top:calc(40*var(--u))}
   .people .lede{margin-top:calc(36*var(--u));max-width:calc(1200*var(--u))}
   .offer .title{font-size:calc(80*var(--u))}
   .offer .table{margin-top:calc(40*var(--u))}
@@ -279,10 +285,12 @@
     .hero .where{flex-direction:column;gap:14px;margin-top:22px}
     .hero .lede{margin-top:12px}
     .lines .title,.offer .title{font-size:32px}
-    .four{grid-template-columns:1fr;gap:14px;margin-top:26px}
-    .four div{min-height:0;padding-top:14px}
-    .four h3{font-size:26px}
-    .four .chip{font-size:11px;margin-top:8px;padding:5px 12px}
+    .four{grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+    .four h3{font-size:20px;margin-top:10px}
+    .four .role{font-size:14px}
+    .four .chip{font-size:10px;margin-top:8px;padding:4px 10px}
+    .four .face.none{font-size:48px;border-width:1.5px}
+    .people .title{font-size:30px}
     .people .lede{margin-top:14px}
   }
 </style>
@@ -419,16 +427,48 @@
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The founders">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The space">
+  <div class="slide"><div class="in">
+    <p class="eyebrow"><b>The space</b> &middot; Events and entrepreneurs</p>
+    <div class="job">
+      <figure>
+        <div class="pic"><img src="{{root}}img/deck/event-room.jpg" width="1872" height="1231" alt="A full room at an event in our space, guests waving at the camera"></div>
+        <figcaption><p class="cap">An event night at 365 St Pauls Terrace</p></figcaption>
+      </figure>
+      <div>
+        <h2>Pitch nights, demo days, a room that holds a hundred.</h2>
+        <p class="lede soft">Founders and investors use the room. We mentor students and help them build their businesses.</p>
+        <div class="facts">
+          <div class="fact"><p class="cap">Room</p><p class="body">50 seated at dinner, 100 standing</p></div>
+          <div class="fact"><p class="cap">Crew</p><p class="body">Robot kitchen, robot bar, service robots, Pepper on the door</p></div>
+          <div class="fact"><p class="cap">Brand</p><p class="body">The LED wall and every screen dressed in your identity</p></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Who we work with">
+  <div class="slide"><div class="in">
+    <p class="eyebrow"><b>The company we keep</b></p>
+    <h2 class="title">Who we work with.</h2>
+    <div class="fill"></div>
+    <ul class="wall">
+      <li><img src="{{root}}img/partners/airtree.png" alt="AirTree"></li>
+{{wall}}    </ul>
+    <p class="lede soft" style="margin-top:calc(28*var(--u))">Any maker. And we design and build our own.</p>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The team">
   <div class="slide night"><div class="in people">
     <p class="eyebrow"><b>Who we are</b></p>
     <h2 class="title">Three of our four founders studied at UniSC.</h2>
-    <p class="lede soft">We mentor students and help them build their businesses.</p>
     <div class="four">
-      <div><h3>Jesse Costelloe</h3><p class="chip">UniSC alumni</p></div>
-      <div><h3>Ryan Edwards</h3><p class="chip">UniSC alumni</p></div>
-      <div><h3>Logan Baker</h3><p class="chip">UniSC alumni</p></div>
-      <div><h3>Gino Feng</h3></div>
+      <div><span class="face"><img src="{{root}}img/deck/jesse.jpg" width="359" height="452" alt="Jesse Costelloe"></span><h3>Jesse Costelloe</h3><p class="role">Brand, fabrication and product</p><p class="chip">UniSC alumni</p></div>
+      <div><span class="face"><img src="{{root}}img/deck/ryan.jpg" width="1024" height="1025" alt="Ryan Edwards"></span><h3>Ryan Edwards</h3><p class="role">Sales</p><p class="chip">UniSC alumni</p></div>
+      <div><span class="face none">LB</span><h3>Logan Baker</h3><p class="role">&nbsp;</p><p class="chip">UniSC alumni</p></div>
+      <div><span class="face"><img src="{{root}}img/deck/gino.jpg" width="1078" height="1356" alt="Gino Feng"></span><h3>Gino Feng</h3><p class="role">Robotics, hardware and fitout</p></div>
     </div>
   </div></div>
 </section>
