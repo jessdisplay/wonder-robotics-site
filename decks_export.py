@@ -29,9 +29,11 @@ DECKS = {
     "coffee": ("coffee", "Wonder-Robotics-coffee-bar.pdf"),
     "company": ("company", "Wonder-Robotics-introduction.pdf"),
 }
-DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:14px;bottom:12px;z-index:60;'
-            "font:500 12px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;"
-            'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:8px;padding:12px 16px">Download PDF</a>\n'
+# Bottom centre and large: at the corner in small type it went unseen.
+DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;'
+            "font:500 15px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;"
+            'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:10px;padding:16px 26px;'
+            'box-shadow:0 6px 24px rgba(20,10,36,.45)">&darr;&nbsp; Download PDF</a>\n'
             "<style>@media print{{.dl-pdf{{display:none !important}}}}</style>\n")
 
 
