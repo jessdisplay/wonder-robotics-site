@@ -1170,7 +1170,12 @@ def company_deck():
     root = "../../"
     wall = "".join('      <li><img{} src="{{{{root}}}}img/partners/{}" alt="{}"></li>\n'.format(
         ' class="tall"' if k in WALL_TALL else "", k, escape(v)) for k, v in PARTNERS)
-    html = fill_prices((SRC / "company-deck.html").read_text()).replace("{{wall}}", wall)
+    # Slides number themselves, so one can be added without renumbering the rest:
+    # {{i}} and {{n}} are a slide's place in the source, {{of}} the count.
+    head, *slides = (SRC / "company-deck.html").read_text().split('<section class="stage"')
+    html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
+                          for i, s in enumerate(slides, 1))
+    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}")).replace("{{wall}}", wall)
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     if "{{" in html:
         sys.exit("company deck has an unfilled token")

@@ -70,7 +70,7 @@
   .num{font-family:var(--mono);font-weight:500;font-size:calc(24*var(--u));letter-spacing:.06em;color:var(--signal)}
   .night .num{color:var(--paper)}
 
-  /* 01 the website header, as the site runs it */
+  /* the cover: the website header, as the site runs it */
   .hero{padding:0;color:var(--ink);background:linear-gradient(to bottom,#C4B9AE 0%,#D2C8BF 50%,#E6DFD8 100%)}
   .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 100%}
   .hero .bar{position:absolute;left:calc(128*var(--u));right:calc(128*var(--u));top:calc(64*var(--u));display:flex;justify-content:space-between;align-items:center}
@@ -82,7 +82,21 @@
   .hero .eyebrow{color:var(--signal)}
   .hero h1{font-weight:400;font-size:calc(128*var(--u));line-height:.96;letter-spacing:-.045em;margin-top:calc(22*var(--u));max-width:calc(760*var(--u))}
 
-  /* 02 who we are */
+  /* W-1 says it. The approved cutout from the brand kit, on flat signal
+     purple with his own ground shadow. Never set into a photographed room. */
+  .slide.signal{background:var(--signal);color:var(--paper)}
+  .signal .eyebrow{color:var(--paper-2)}
+  .signal .eyebrow b{color:var(--paper)}
+  .says .ground{position:absolute;left:calc(118*var(--u));bottom:calc(92*var(--u));width:calc(500*var(--u));height:calc(64*var(--u));border-radius:50%;background:radial-gradient(closest-side,rgba(29,24,38,.5),rgba(29,24,38,0))}
+  .says .bot{position:absolute;left:calc(148*var(--u));bottom:calc(120*var(--u));height:calc(800*var(--u));width:auto;max-width:none}
+  .says .said{margin-left:calc(580*var(--u));display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  .bubble{position:relative;margin-top:calc(44*var(--u));background:var(--paper);color:var(--ink);border-radius:calc(36*var(--u));padding:calc(56*var(--u)) calc(64*var(--u)) calc(60*var(--u))}
+  .bubble::before{content:"";position:absolute;right:100%;top:calc(120*var(--u));border-style:solid;border-color:transparent var(--paper) transparent transparent;border-width:calc(30*var(--u)) calc(52*var(--u)) calc(30*var(--u)) 0}
+  .bubble .say{font-weight:400;font-size:calc(80*var(--u));line-height:1;letter-spacing:-.045em;text-wrap:balance}
+  .makes{list-style:none;display:flex;flex-wrap:wrap;gap:calc(14*var(--u));margin-top:auto}
+  .makes li{font-family:var(--mono);font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;border:calc(2*var(--u)) solid rgba(243,241,228,.6);border-radius:calc(60*var(--u));padding:calc(14*var(--u)) calc(26*var(--u))}
+
+  /* who we are */
   .team{display:grid;grid-template-columns:1fr 1fr;gap:calc(64*var(--u));margin-top:calc(52*var(--u))}
   .person{display:flex;gap:calc(36*var(--u));align-items:flex-start}
   .person .face{flex:0 0 auto;width:calc(300*var(--u));height:calc(378*var(--u));border-radius:calc(14*var(--u));overflow:hidden;background:var(--card)}
@@ -92,7 +106,7 @@
   .person .body{margin-top:calc(20*var(--u))}
   .line{border-top:1px solid var(--rule);padding-top:calc(22*var(--u));display:flex;justify-content:space-between;gap:calc(32*var(--u))}
 
-  /* 03 the space */
+  /* the space */
   .proof{padding:0}
   .proof .shot{height:calc(748*var(--u));overflow:hidden;position:relative}
   .proof .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 46%}
@@ -101,7 +115,7 @@
   .proof h2{font-weight:400;font-size:calc(84*var(--u));line-height:1;letter-spacing:-.045em}
   .proof .lede{margin-top:calc(14*var(--u))}
 
-  /* 04 the space, close. 05 how we work */
+  /* the line, close. how we work */
   .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(24*var(--u))}
   .tri .pic{aspect-ratio:4/3}
   .tri figcaption,.rail figcaption,.brands figcaption{display:flex;flex-direction:column;gap:calc(6*var(--u));margin-top:calc(18*var(--u))}
@@ -110,7 +124,7 @@
   .rail .pic.draw img{object-fit:contain}
   .rail .body{font-size:calc(25*var(--u));line-height:1.34;margin-top:calc(4*var(--u))}
 
-  /* 06 to 08 the jobs */
+  /* the jobs */
   .job{display:grid;grid-template-columns:1.42fr 1fr;gap:calc(64*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(36*var(--u))}
   .job figure{min-height:0}
   .job .pic{flex:1 1 auto;min-height:0}
@@ -125,20 +139,20 @@
   .dot.on{background:var(--live)}
   .dot.off{border:calc(2*var(--u)) solid var(--ink-2)}
 
-  /* 09 brands */
+  /* brands */
   .brands{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u))}
   .brands .pic{aspect-ratio:1/1}
   .brands .pic.mark{display:grid;place-items:center;border:1px solid var(--rule)}
   .brands .pic.mark img{width:70%;height:auto;object-fit:contain}
   .brands .pic.art img{object-fit:cover;object-position:50% 46%}
 
-  /* 10 who we have worked with. Marks as the site shows them. */
+  /* who we have worked with. Marks as the site shows them. */
   .wall{display:grid;grid-template-columns:repeat(5,1fr);gap:calc(18*var(--u))}
   .wall li{list-style:none;height:calc(146*var(--u));display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
   .wall img{height:calc(50*var(--u));width:auto;max-width:calc(230*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
   .wall img.tall{height:calc(86*var(--u))}
 
-  /* 11 the ledger */
+  /* the ledger */
   .table{display:flex;flex-direction:column;margin-top:calc(48*var(--u))}
   .tr{display:grid;grid-template-columns:1.15fr 1.25fr 1.6fr;gap:calc(32*var(--u));align-items:baseline;border-top:1px solid var(--rule);padding:calc(22*var(--u)) 0}
   .tr:last-child{border-bottom:1px solid var(--rule)}
@@ -148,7 +162,7 @@
   .worked{background:var(--card);border:1px solid var(--rule);border-radius:calc(16*var(--u));padding:calc(26*var(--u)) calc(34*var(--u))}
   .worked .lede{margin-top:calc(8*var(--u))}
 
-  /* 12 visit */
+  /* visit */
   .visit .lede{margin-top:calc(28*var(--u))}
   .close{display:flex;justify-content:space-between;align-items:flex-end;gap:calc(64*var(--u))}
   .where{display:grid;grid-template-columns:repeat(3,auto);gap:calc(56*var(--u))}
@@ -192,6 +206,15 @@
     .hero .bar img{width:150px}
     .hero .wrap{position:static;width:auto;padding:22px 22px 0}
     .hero h1{font-size:44px;line-height:1;margin-top:10px;max-width:none}
+
+    .says .ground{display:none}
+    .says .bot{position:static;height:240px;align-self:center}
+    .says .said{margin:18px 0 0}
+    .bubble{margin-top:14px;border-radius:18px;padding:22px}
+    .bubble::before{right:auto;left:50%;top:auto;bottom:100%;margin-left:-12px;border-color:transparent transparent var(--paper) transparent;border-width:0 12px 16px 12px}
+    .bubble .say{font-size:30px;line-height:1.04}
+    .makes{margin-top:22px;gap:8px}
+    .makes li{font-size:12px;border-width:1.5px;padding:8px 14px}
 
     .team{margin-top:26px;gap:28px}
     .person{gap:18px}
@@ -253,7 +276,7 @@
 <body>
 <main id="deck">
 
-<section class="stage" id="s1" aria-label="Slide 1. Wonder Robotics">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics">
   <div class="slide"><div class="in hero">
     <img class="bg" src="{{root}}img/hero-bot.jpg" width="2400" height="1340" alt="">
     <div class="bar">
@@ -267,9 +290,26 @@
   </div></div>
 </section>
 
-<section class="stage" id="s2" aria-label="Slide 2. Who we are">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. What we do">
+  <div class="slide signal"><div class="in says">
+    <span class="ground" aria-hidden="true"></span>
+    <img class="bot" src="{{root}}img/deck/w1.webp" width="928" height="1683" alt="W-1, the Wonder robot: a silver helmet with a purple visor on a timber body, a W on his chest">
+    <div class="said">
+      <p class="eyebrow"><b>[ {{n}} ]</b> What we do</p>
+      <div class="bubble">
+        <p class="say">Robotics and automation. Idea, sketch, brand, fabrication, fitout. Then we keep it running.</p>
+      </div>
+      <ul class="makes">
+        <li>Coffee</li><li>Cocktails</li><li>Ice cream</li><li>Kitchens</li><li>The robots that work the room</li>
+      </ul>
+    </div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Who we are">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 02 ]</b> Who we are</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> Who we are</p>
     <h2 class="title">We are an engineering company. Robots are most of what we build.</h2>
     <div class="team">
       <div class="person">
@@ -293,15 +333,15 @@
       <p class="eyebrow">Robotics &middot; Hardware &middot; AI &middot; Software</p>
       <p class="eyebrow">Four disciplines, one team</p>
     </div>
-    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">02 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s3" aria-label="Slide 3. The space">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The space">
   <div class="slide"><div class="in proof">
     <div class="shot">
       <img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" alt="The kitchen line at 365 St Pauls Terrace: the ingredient store, the cobot on its rail, three fryers, the noodle baths, and the dining room through the pass">
-      <p class="eyebrow tag"><b>[ 03 ]</b> The space</p>
+      <p class="eyebrow tag"><b>[ {{n}} ]</b> The space</p>
     </div>
     <div class="band">
       <div>
@@ -309,13 +349,13 @@
         <p class="lede soft">We built ours first. A robot kitchen, a robot bar, a dessert kiosk and a service floor, open six days.</p>
       </div>
     </div>
-    <div class="foot"><p class="eyebrow">365 St Pauls Terrace, Fortitude Valley. From the building capture</p><p class="eyebrow">03 / 12</p></div>
+    <div class="foot"><p class="eyebrow">365 St Pauls Terrace, Fortitude Valley. From the building capture</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s4" aria-label="Slide 4. The kitchen line, close">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The kitchen line, close">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 04 ]</b> The line</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> The line</p>
     <h2 class="title">A cobot on a rail, three fryers, six noodle baths.</h2>
     <div class="fill"></div>
     <div class="tri">
@@ -332,13 +372,13 @@
         <figcaption><p class="name">The noodle baths</p><p class="cap">Lift baskets, six at a time</p></figcaption>
       </figure>
     </div>
-    <div class="foot"><p class="eyebrow">From the building capture</p><p class="eyebrow">04 / 12</p></div>
+    <div class="foot"><p class="eyebrow">From the building capture</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s5" aria-label="Slide 5. How we work">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How we work">
   <div class="slide night"><div class="in">
-    <p class="eyebrow"><b>[ 05 ]</b> How we work</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> How we work</p>
     <h2 class="title">Plan, design, fit out, commission, open.</h2>
     <div class="fill"></div>
     <div class="rail">
@@ -363,13 +403,13 @@
         <figcaption><p class="num">05</p><p class="name">Open</p><p class="cap">From the capture</p><p class="body soft">Open six days. Full menu, nobody at the pass.</p></figcaption>
       </figure>
     </div>
-    <div class="foot"><p class="eyebrow">Our kitchen at 365 St Pauls Terrace, plan to open</p><p class="eyebrow">05 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Our kitchen at 365 St Pauls Terrace, plan to open</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s6" aria-label="Slide 6. Little Red Dumpling">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Little Red Dumpling">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 06 ]</b> The jobs &middot; Food</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> The jobs &middot; Food</p>
     <div class="job">
       <figure>
         <div class="pic"><img src="{{root}}img/lrd/room.jpg" width="2000" height="1116" style="object-position:30% 50%" alt="Visualisation of the finished dumpling cafe: a robot arm on a rail behind glass, red lanterns, diners at timber tables"></div>
@@ -385,13 +425,13 @@
         </div>
       </div>
     </div>
-    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">06 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s7" aria-label="Slide 7. The container kitchen">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The container kitchen">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 07 ]</b> The jobs &middot; Food</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> The jobs &middot; Food</p>
     <div class="job">
       <figure>
         <div class="pic"><img src="{{root}}img/container/day.jpg" width="2400" height="1340" style="object-position:42% 50%" alt="Concept of the container kitchen at a market by day, the skin running purple with gold crescents, the hatch up as an awning"></div>
@@ -407,13 +447,13 @@
         </div>
       </div>
     </div>
-    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">07 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s8" aria-label="Slide 8. Fall Sense">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Fall Sense">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 08 ]</b> The jobs &middot; Care</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> The jobs &middot; Care</p>
     <div class="job">
       <figure>
         <div class="pic"><img src="{{root}}img/fallsense/unit.jpg" width="2400" height="1340" alt="Concept of the Fall Sense unit seen from below: a white bezel flush with the ceiling, a mesh face, a ring of amber light"></div>
@@ -429,13 +469,13 @@
         </div>
       </div>
     </div>
-    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">08 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s9" aria-label="Slide 9. Brands">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Brands">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 09 ]</b> The brands</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> The brands</p>
     <h2 class="title">We build the brand too.</h2>
     <div class="fill"></div>
     <div class="brands">
@@ -456,25 +496,25 @@
         <figcaption><p class="name">Little Red Dumpling</p><p class="cap">Their girl, animated for the screens</p></figcaption>
       </figure>
     </div>
-    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">09 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s10" aria-label="Slide 10. Who we have worked with">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Who we have worked with">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 10 ]</b> The company we keep</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> The company we keep</p>
     <h2 class="title">Who we have worked with.</h2>
     <div class="fill"></div>
     <ul class="wall">
 {{wall}}    </ul>
     <p class="lede soft" style="margin-top:calc(28*var(--u))">Any maker. And we design and build our own.</p>
-    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">10 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s11" aria-label="Slide 11. What it costs">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. What it costs">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ 11 ]</b> What it costs</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> What it costs</p>
     <h2 class="title">A machine, then a monthly service.</h2>
     <div class="table" role="table" aria-label="Published prices">
       <div class="tr" role="row">
@@ -502,13 +542,13 @@
       <p class="eyebrow">Worked example. The robot coffee bar</p>
       <p class="lede">{{coffee:price}}, one price. The bar installed and in your brand, with two years of service.</p>
     </div>
-    <div class="foot"><p class="eyebrow">Published prices, AUD ex GST</p><p class="eyebrow">11 / 12</p></div>
+    <div class="foot"><p class="eyebrow">Published prices, AUD ex GST</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s12" aria-label="Slide 12. Visit">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Visit">
   <div class="slide night"><div class="in visit">
-    <p class="eyebrow"><b>[ 12 ]</b> Visit</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> Visit</p>
     <h2 class="title">Come and see it working.</h2>
     <p class="lede soft">Have lunch. Watch the kitchen. Say hello to Pepper. Then tell us what you need built.</p>
     <div class="close push">
@@ -519,7 +559,7 @@
       </div>
       <img class="mark" src="{{root}}img/deck/mark-cream.png" width="1373" height="322" alt="Wonder Robotics">
     </div>
-    <div class="foot"><p class="eyebrow">wonderbytech.com</p><p class="eyebrow">12 / 12</p></div>
+    <div class="foot"><p class="eyebrow">wonderbytech.com</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
 
@@ -527,7 +567,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 12</output>
+  <output id="count" aria-live="polite">01 / {{of}}</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
 </nav>
 
