@@ -295,7 +295,7 @@ MACHINES = [
 # (file in img/partners/, name). Marks go in as the files they came as: the
 # makers and UniQuest from the corporate profile kit, the rest as supplied.
 # No UQ mark on disk yet; it goes in when Jesse supplies it.
-PARTNERS = [("ubtech-mark.png", "UBTECH"), ("unitree.png", "Unitree"), ("agibot.png", "AgiBot"), ("armhub.png", "ArmHub"),
+PARTNERS = [("airtree.png", "AirTree"), ("uq.svg", "The University of Queensland"), ("ubtech-mark.png", "UBTECH"), ("unitree.png", "Unitree"), ("agibot.png", "AgiBot"), ("armhub.png", "ArmHub"),
             ("uniquest.png", "UniQuest"), ("qut.jpg", "QUT"), ("kuehne-nagel.jpg", "Kuehne+Nagel"), ("onyx-tyres.jpg", "Onyx Tyres"),
             ("powerskills-ai.jpg", "PowerSkills AI"), ("muzix-audio.jpg", "Muzix Audio"), ("stellaris-robotics.jpg", "Stellaris Robotics"),
             ("blue-sun-group.jpg", "Blue Sun Group"), ("little-red-dumplings.jpg", "Little Red Dumpling")]

@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wonder Robotics corporate profile</title>
+<meta name="description" content="Wonder Robotics builds fully automated kitchens, bars and cafés in Fortitude Valley, Brisbane. Corporate profile, 2026.">
+{{icons}}{{fonts}}<style>
+  /* The corporate profile: an A4 document to attach, and the same pages on
+     screen. The shape is the first studio profile's (a photograph edge to
+     edge, then a paper page, one idea each); the type and colour are the
+     Wonder Robotics site's. Sizes are millimetres so print is exact. */
+  :root{--paper:#F3F1E4;--ink:#1D1826;--ink-2:rgba(29,24,38,.68);--rule:#DDD8C6;--night:#20103A;--signal:#4A2FD9;--card:#FBFAF3;
+        --paper-2:rgba(243,241,228,.74);--paper-rule:rgba(243,241,228,.24);--m:17mm;
+        --display:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"Geist Mono",ui-monospace,Menlo,monospace}
+  @page{size:210mm 297mm;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:#75706B}
+  body{font-family:var(--display);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img{display:block}
+  .stage{position:relative;width:210mm;height:297mm;overflow:hidden;background:var(--paper);margin:6mm auto;break-after:page}
+  .stage:last-of-type{break-after:auto}
+  .pg{position:absolute;inset:0;background:var(--paper)}
+  .safe{position:absolute;inset:var(--m);display:flex;flex-direction:column}
+  .night{background:var(--night);color:var(--paper)}
+  .lab{font-family:var(--mono);font-size:2.6mm;line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .night .lab,.bleed .lab{color:var(--paper-2)}
+  .d0{font-weight:400;font-size:19mm;line-height:.94;letter-spacing:-.05em;text-wrap:balance;margin-top:5mm}
+  .d1{font-weight:400;font-size:15mm;line-height:.96;letter-spacing:-.048em;text-wrap:balance;margin-top:4mm}
+  .d2{font-weight:400;font-size:11.5mm;line-height:.98;letter-spacing:-.045em;text-wrap:balance;margin-top:4mm}
+  .lede{font-size:4.6mm;line-height:1.35;letter-spacing:-.012em;color:var(--ink-2);margin-top:5mm;max-width:150mm}
+  .night .lede{color:var(--paper-2)} .bleed .lede{color:var(--paper)}
+  p{font-size:3.3mm;line-height:1.45}
+  .cap{font-family:var(--mono);font-size:2.4mm;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);margin-top:4mm}
+  .foot{margin-top:auto;display:flex;justify-content:space-between;font-family:var(--mono);font-size:2.4mm;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding-top:6mm}
+  .night .foot,.bleed .foot{color:var(--paper-2)}
+  h3 b,figcaption b{font-family:var(--mono);font-weight:500;font-size:2.6mm;letter-spacing:.06em;color:var(--signal);margin-right:2mm;vertical-align:middle}
+  .night h3 b{color:var(--paper-2)}
+
+  .bleed{color:var(--paper);background:var(--night)}
+  .bleed .full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .bleed .scrim{position:absolute;left:0;right:0;bottom:0;height:150mm;background:linear-gradient(to top,rgba(20,10,36,.94),rgba(20,10,36,.6) 45%,rgba(20,10,36,0))}
+  .bleed .scrim.tall{height:190mm}
+  .bleed .low{margin-top:auto}
+  .bleed .foot{margin-top:9mm}
+  .cover .mark{width:46mm;height:auto}
+
+  .quad{display:grid;grid-template-columns:1fr 1fr;gap:0 10mm;margin-top:10mm}
+  .quad.three{grid-template-columns:repeat(3,1fr);margin-top:8mm}
+  .quad div{border-top:.4mm solid var(--rule);padding:4.5mm 0 6mm}
+  .night .quad div{border-color:var(--paper-rule)}
+  .quad h3{font-weight:400;font-size:6.4mm;letter-spacing:-.03em;line-height:1.05}
+  .quad p{margin-top:2mm;color:var(--ink-2)} .night .quad p{color:var(--paper-2)}
+  figure.wide{flex:1 1 auto;min-height:0;margin-top:6mm;border-radius:3mm;overflow:hidden}
+  figure.wide.tall{flex:0 0 150mm}
+  figure.wide img{width:100%;height:100%;object-fit:cover}
+  .night figure.wide{background:#000}
+
+  .crew{display:grid;grid-template-columns:1fr 1fr;gap:9mm 8mm;margin-top:9mm}
+  .crew img,.crew .none{width:100%;height:66mm;object-fit:cover;object-position:50% 14%;border-radius:3mm;background:#F8EEE4}
+  .crew .none{display:grid;place-items:center;font-size:26mm;letter-spacing:-.05em;color:rgba(29,24,38,.2)}
+  .crew h3{font-weight:500;font-size:7mm;letter-spacing:-.035em;line-height:1.02;margin-top:4mm}
+  .crew .role{font-weight:300;font-size:3.6mm;line-height:1.3;color:var(--ink-2);margin-top:1.4mm}
+  .crew p{margin-top:2mm}
+  .crew .alum{color:var(--signal)}
+
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:9mm}
+  .trio img{width:100%;height:78mm;object-fit:cover;border-radius:3mm}
+  .trio figcaption{font-size:3.6mm;letter-spacing:-.01em;margin-top:2.5mm}
+  .six{display:grid;grid-template-columns:repeat(3,1fr);gap:0 7mm;margin-top:9mm}
+  .six div{border-top:.4mm solid var(--rule);padding:5mm 0 9mm}
+  .six h3{font-weight:500;font-size:4.2mm;letter-spacing:-.02em}
+  .six p{margin-top:1.6mm;color:var(--ink-2)}
+
+  .grid4{display:grid;grid-template-columns:1fr 1fr;gap:7mm 6mm;margin-top:9mm}
+  .grid4 img{width:100%;height:82mm;object-fit:cover;border-radius:3mm;background:#EFEBDB}
+  .grid4 figcaption{font-size:5.4mm;letter-spacing:-.03em;margin-top:3mm}
+
+  .job{display:grid;grid-template-columns:1.15fr 1fr;gap:8mm;margin-top:9mm}
+  .job>img,.job .lrd{width:100%;height:101mm;border-radius:3mm}
+  .job>img{object-fit:cover}
+  .lrd{display:grid;grid-template-rows:30mm 1fr;gap:3mm}
+  .lrd img{width:100%;height:100%;object-fit:cover;border-radius:3mm}
+  .lrd .logo{object-fit:contain;background:#fff}
+  .job h3{font-weight:400;font-size:8mm;letter-spacing:-.04em;line-height:1}
+  .job p{margin-top:3mm;font-size:3.9mm;color:var(--ink-2)}
+  .job dl{margin-top:5mm;display:grid;grid-template-columns:17mm 1fr}
+  .job dt,.job dd{border-top:.3mm solid var(--rule);padding:2.4mm 0;font-size:3.1mm;line-height:1.35}
+  .job dt{font-family:var(--mono);font-size:2.3mm;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);padding-top:2.9mm}
+  .job p.cap{margin-top:3mm;font-size:2.3mm}
+
+  .table{margin-top:10mm}
+  .table div{display:grid;grid-template-columns:54mm 62mm 1fr;gap:4mm;align-items:baseline;border-top:.4mm solid var(--rule);padding:7.6mm 0}
+  .table div:last-child{border-bottom:.4mm solid var(--rule)}
+  .table span{font-size:4.4mm;letter-spacing:-.02em}
+  .table b{font-weight:400;font-size:7mm;letter-spacing:-.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .table em{font-style:normal;font-size:3.2mm;line-height:1.4;color:var(--ink-2)}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8mm 6mm;margin-top:9mm}
+  .steps img{width:100%;height:76mm;object-fit:cover;border-radius:3mm;background:#F4EFE3}
+  .steps img.draw{object-fit:contain}
+  .steps h3{font-weight:400;font-size:5.6mm;letter-spacing:-.03em;margin-top:3mm}
+  .steps p{margin-top:1.6mm;color:var(--ink-2)}
+  .steps .say{background:var(--night);border-radius:3mm;padding:6mm;display:flex;align-items:flex-end;height:76mm}
+  .steps .say p{color:var(--paper);font-size:4.5mm;line-height:1.25;letter-spacing:-.015em;margin:0}
+
+  .wall{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-top:9mm}
+  .wall li{height:27mm;display:grid;place-items:center;background:var(--card);border:.25mm solid var(--rule);border-radius:2.4mm}
+  .wall img{height:8.5mm;width:auto;max-width:29mm;object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  .wall img.tall{height:15mm}
+  .end + .foot{margin-top:12mm}
+  .end{margin-top:auto;border-top:.4mm solid var(--rule);padding-top:8mm}
+  .end .d1{margin-top:0}
+  .where{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12mm;margin-top:8mm}
+  .where p:not(.lab){font-size:5mm;line-height:1.25;letter-spacing:-.02em;margin-top:1.6mm}
+  .end .mark{width:44mm;height:auto;margin-top:10mm}
+
+  @media screen and (max-width:820px){.stage{zoom:.44;margin:8mm auto}}
+  @media print{html{background:none}.stage{margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<main>
+
+<section class="stage" aria-label="Page {{i}}. Wonder Robotics">
+<div class="pg bleed cover">
+  <img class="full" src="{{root}}img/deck/profile-cover.jpg" alt="W-1, the Wonder robot, alone in an empty warehouse, lit from above">
+  <div class="scrim tall"></div>
+  <div class="safe">
+    <img class="mark" src="{{root}}img/deck/mark-cream.png" alt="Wonder Robotics">
+    <div class="low"><p class="lab">Corporate profile, 2026</p><h1 class="d0">We build fully automated kitchens, bars and cafés.</h1></div>
+    <div class="foot"><span>Fortitude Valley, Brisbane</span><span>wonderbytech.com</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. Who we are">
+<div class="pg paper night">
+  <div class="safe">
+    <p class="lab">[ Who we are ]</p>
+    <h2 class="d2">We are an engineering company. Robots are most of what we build.</h2>
+    <p class="lede">Robotics and automation. Idea, sketch, brand, fabrication, fitout. Then we keep it running.</p>
+    <div class="quad">
+      <div><h3><b>01</b>Robotics</h3><p>Unitree, UBTech, AgiBot, Dobot, JAKA. Humanoids to arms.</p></div>
+      <div><h3><b>02</b>Hardware</h3><p>Nothing off the shelf fits? We draw the cell and build it downstairs.</p></div>
+      <div><h3><b>03</b>AI</h3><p>What the machine sees, picks up, and when it stops. Plus agents for triage, approvals, invoices.</p></div>
+      <div><h3><b>04</b>Apps and software</h3><p>Ordering, payment, stock, dispatch, the dashboard. React, Node, Python, Postgres.</p></div>
+    </div>
+    <figure class="wide"><img src="{{root}}img/machines/unitree-g1-stage.jpg" alt="A Unitree G1 humanoid robot" style="object-position:50% 22%"></figure>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. The founders">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ The founders ]</p>
+    <h2 class="d2">Four founders. Design, engineering and growth in one building.</h2>
+    <div class="crew">
+      <div><img src="{{root}}img/deck/team-jesse.jpg" alt="Jesse Costelloe"><h3>Jesse Costelloe</h3><p class="role">Cofounder, Head of Design and Fabrication</p><p>Twenty years in brand, most of it taken all the way to the factory.</p><p class="alum">University of the Sunshine Coast alumni</p></div>
+      <div><img src="{{root}}img/deck/team-gino.jpg" alt="Gino Feng"><h3>Gino Feng</h3><p class="role">Cofounder, Head of Engineering and Robotics</p><p>Builds robots from the ground up, hardware and software, and leads the engineering team behind our own kitchen.</p></div>
+      <div><img src="{{root}}img/deck/team-ryan.jpg" alt="Ryan Edwards"><h3>Ryan Edwards</h3><p class="role">Cofounder, Chief Commercial Officer</p><p class="alum">University of the Sunshine Coast alumni</p></div>
+      <div><span class="none">LB</span><h3>Logan Baker</h3><p class="role">Cofounder, Chief Marketing Officer</p><p class="alum">University of the Sunshine Coast alumni</p></div>
+    </div>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. The coffee bar">
+<div class="pg bleed">
+  <img class="full" src="{{root}}img/machines/coffee-robot-light.jpg" alt="" style="object-position:50% 60%">
+  <div class="scrim"></div>
+  <div class="safe"><div class="low"><p class="lab">[ The coffee bar ]</p><h2 class="d1">A barista in two square metres, in your brand.</h2></div><div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. What the price buys">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ The coffee bar ]</p>
+    <h2 class="d2">One price. Everything to open.</h2>
+    <p class="lede">{{coffee:price}} buys the bar, delivered, installed and in your colours, with two years of service. Ex GST.</p>
+    <div class="trio">
+      <figure><img src="{{root}}img/machines/coffee-robot-d3.jpg" alt="The Eversys espresso machine and its grinder"><figcaption>Ground to order on an Eversys.</figcaption></figure>
+      <figure><img src="{{root}}img/machines/coffee-robot-d1.jpg" alt="A robot arm holding a cup under the group head"><figcaption>One arm pulls the shot.</figcaption></figure>
+      <figure><img src="{{root}}img/machines/coffee-robot-d2.jpg" alt="A robot arm pouring latte art"><figcaption>The other steams the milk and pours.</figcaption></figure>
+    </div>
+    <div class="six">
+      <div><h3>The bar</h3><p>Two arms at an Eversys. Ice maker, cup printer, your colours on the arms.</p></div>
+      <div><h3>Delivered and installed</h3><p>To your site, positioned, plumbed and commissioned on your menu.</p></div>
+      <div><h3>Two years of service</h3><p>Software, monitoring, maintenance, repairs and weekday support.</p></div>
+      <div><h3>Your brand on it</h3><p>The ordering screen, the cup and the machine. One payment system connected.</p></div>
+      <div><h3>Your team trained</h3><p>On the machine, the cleaning and the faults, at commissioning.</p></div>
+      <div><h3>Spares on the shelf</h3><p>A starter kit of the common parts, kept with the bar.</p></div>
+    </div>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. Design, fabrication, fitout">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ Design, fabrication, fitout ]</p>
+    <h2 class="d2">We design it, build it and fit it out. On brand.</h2>
+    <div class="grid4">
+      <figure><img src="{{root}}img/coffee/bar-01-sketch.jpg" alt="Sketches of a coffee bar with two robot arms"><figcaption><b>01</b>Sketch</figcaption></figure>
+      <figure><img src="{{root}}img/coffee/bar-04-exploded.jpg" alt="Exploded view of the bar"><figcaption><b>02</b>Fabricate</figcaption></figure>
+      <figure><img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" alt="The finished bar in a tiled shopfront" style="object-position:70% 50%"><figcaption><b>03</b>Fit out</figcaption></figure>
+      <figure><img src="{{root}}img/coffee/brand-01-family.jpg" alt="Coffee bags and cups in yellow and purple with moon marks"><figcaption><b>04</b>Brand</figcaption></figure>
+    </div>
+    <p class="cap">Shown: Wonder Bean, our own coffee brand. Concept visualisation.</p>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. Robot kitchens">
+<div class="pg bleed">
+  <img class="full" src="{{root}}img/tile-arm.jpg" alt="" style="object-position:50% 40%">
+  <div class="scrim"></div>
+  <div class="safe"><div class="low"><p class="lab">[ Robot kitchens ]</p><h2 class="d1">Robot kitchens are the specialisation.</h2><p class="lede">A line that fries, boils and plates the whole menu. Ours is open six days.</p></div><div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. The work">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ The work ]</p>
+    <h2 class="d2">We built ours first.</h2>
+    <div class="job">
+      <img src="{{root}}img/hero-kitchen.jpg" alt="Our kitchen line: the cobot on its rail at the fryers" style="object-position:30% 50%">
+      <div><h3>365 St Pauls Terrace</h3><p>We built a robot kitchen for ourselves and opened it before we sold one. Kitchen, bar, kiosk, floor.</p>
+        <dl><dt>What</dt><dd>Robot kitchen, robot bar, dessert kiosk, service floor</dd><dt>Scope</dt><dd>Scope, design, brand, build, run</dd><dt>Status</dt><dd>In service. Open six days</dd></dl></div>
+    </div>
+    <div class="job">
+      <div class="lrd"><img class="logo" src="{{root}}img/lrd/mark.jpg" alt="Little Red Dumpling"><img src="{{root}}img/lrd/room.jpg" alt="Visualisation of the finished dumpling cafe" style="object-position:30% 50%"></div>
+      <div><h3>Little Red Dumpling</h3><p>Thirteen shops in, they wanted the fourteenth to cook without a brigade.</p>
+        <dl><dt>Where</dt><dd>Nexus Way, Gold Coast Health and Knowledge Precinct</dd><dt>What</dt><dd>Robot dumpling kitchen, front of house and back</dd><dt>Status</dt><dd>Machines delivered, fitout under way</dd></dl>
+        <p class="cap">Room: visualisation, built from the room as filmed.</p></div>
+    </div>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. What it costs">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ What it costs ]</p>
+    <h2 class="d2">A machine, then a monthly service.</h2>
+    <div class="table">
+      <div><span>Robot coffee bar, sold whole</span><b>{{coffee:price}}</b><em>Installed, in your brand, with two years of service.</em></div>
+      <div><span>Coffee machines</span><b>{{installedfrom:bpro,bstd,eff}} to {{installedto:bpro,bstd,eff}}</b><em>Installed. Three models.</em></div>
+      <div><span>Robot bartender</span><b>{{installed:bar}}</b><em>Installed. The same measure every time.</em></div>
+      <div><span>Ice cream robot</span><b>{{installed:ice}}</b><em>Installed. Pasteurised soft serve.</em></div>
+      <div><span>Deep frying robot</span><b>{{installed:fry}}</b><em>Installed. Six frying stoves.</em></div>
+      <div><span>Noodle robot</span><b>{{installed:noo}}</b><em>Installed. Six noodle stoves.</em></div>
+      <div><span>The service</span><b>{{service:first}} a month</b><em>First workstation, 24 months. {{service:extra}} for each further one.</em></div>
+      <div><span>Design and build</span><b>From {{opt:wrap}}</b><em>Space, brand, website, counter. Each priced once.</em></div>
+    </div>
+    <p class="cap">Published prices, AUD ex GST.</p>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. The experience hub">
+<div class="pg bleed">
+  <img class="full" src="{{root}}img/deck/hub.jpg" alt="" style="object-position:38% 50%">
+  <div class="scrim"></div>
+  <div class="safe"><div class="low"><p class="lab">[ The experience hub ]</p><h2 class="d1">Our showroom and experience hub.</h2><p class="lede">Everything we build, working. 365 St Pauls Terrace, open six days.</p></div><div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. The studio">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ The studio ]</p>
+    <h2 class="d2">Pitch nights, demo days, and students building their own businesses.</h2>
+    <figure class="wide tall"><img src="{{root}}img/deck/event-room.jpg" alt="A full room at an event in our studio, guests waving at the camera" style="object-position:50% 30%"></figure>
+    <div class="quad three">
+      <div><h3>The room</h3><p>50 seated at dinner, 100 standing. A robot kitchen, a robot bar and Pepper on the door.</p></div>
+      <div><h3>Entrepreneurs</h3><p>We mentor students and help them build their businesses.</p></div>
+      <div><h3>Yours to use</h3><p>Bring a class, run a demo, hold an event.</p></div>
+    </div>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. How we work">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ How we work ]</p>
+    <h2 class="d2">Plan, design, fit out, commission, open.</h2>
+    <div class="steps">
+      <div><img class="draw" src="{{root}}img/process/01-plan.jpg" alt="Plan drawing of the kitchen line"><h3><b>01</b>Plan</h3><p>The line on the floor. Where the queue stands.</p></div>
+      <div><img class="draw" src="{{root}}img/process/02-design.jpg" alt="General arrangement drawing"><h3><b>02</b>Design</h3><p>The general arrangement it gets built from.</p></div>
+      <div><img src="{{root}}img/process/03-fitout.jpg" alt="Concept of the kitchen bay during fit out"><h3><b>03</b>Fit out</h3><p>Bench frames, conduit, the splashback in. Concept.</p></div>
+      <div><img src="{{root}}img/process/04-commission.jpg" alt="Concept of commissioning day"><h3><b>04</b>Commission</h3><p>Machines in, the first program running. Concept.</p></div>
+      <div><img src="{{root}}img/hero-kitchen.jpg" alt="The kitchen line as it stands today" style="object-position:38% 50%"><h3><b>05</b>Open</h3><p>Open six days. Full menu, nobody at the pass.</p></div>
+      <div class="say"><p>One team from the first sketch to the first service, and the same team on the phone after it.</p></div>
+    </div>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page {{i}}. Who we work with">
+<div class="pg paper">
+  <div class="safe">
+    <p class="lab">[ The company we keep ]</p>
+    <h2 class="d2">Who we work with.</h2>
+    <ul class="wall">
+{{wall}}    </ul>
+    <div class="end">
+      <h2 class="d1">Come and see it working.</h2>
+      <div class="where">
+        <div><p class="lab">Call</p><p>1800 983 404</p></div>
+        <div><p class="lab">Email</p><p>info@wonderbytech.com</p></div>
+        <div><p class="lab">Visit</p><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div>
+      </div>
+      <img class="mark" src="{{root}}img/deck/mark-ink.png" alt="Wonder Robotics">
+    </div>
+  <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div></div>
+</div>
+</section>
+
+</main>
+</body>
+</html>

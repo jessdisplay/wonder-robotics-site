@@ -1201,7 +1201,7 @@ def deck(name):
     print(f"deck/{name}/index.html: {out.stat().st_size} bytes")
 
 
-for name in ("company", "unisc"):
+for name in ("company", "unisc", "profile"):
     deck(name)
 
 
