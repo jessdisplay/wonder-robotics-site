@@ -98,21 +98,24 @@
   .team .top{display:flex;justify-content:space-between;align-items:flex-start;gap:calc(48*var(--u))}
   .team .uni{height:calc(92*var(--u));width:auto;flex:0 0 auto}
   .team .l{font-size:calc(84*var(--u));max-width:calc(1100*var(--u))}
-  .crew{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));margin-top:auto}
-  .crew .pic{aspect-ratio:1/1;background:#F8EEE4}
-  .crew .pic img{object-position:50% 12%}
+  .crew{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u))}
+  .crew>div{display:flex;flex-direction:column;min-height:0}
+  .crew .pic{flex:1 1 auto;min-height:0;background:#F8EEE4}
+  .crew .pic img{object-position:50% 22%}
   .crew .none{display:grid;place-items:center;font-size:calc(150*var(--u));letter-spacing:-.05em;color:rgba(29,24,38,.22)}
   .crew h3{font-weight:500;font-size:calc(44*var(--u));line-height:1.02;letter-spacing:-.035em;margin-top:calc(20*var(--u))}
   .crew .role{font-weight:300;font-size:calc(24*var(--u));line-height:1.3;color:var(--ink-2);margin-top:calc(6*var(--u));min-height:2.6em}
   .crew .alum{display:block;height:calc(44*var(--u));width:auto;margin-top:calc(16*var(--u))}
 
   /* rows of pictures */
-  .row3,.row4{display:grid;gap:calc(24*var(--u));margin-top:auto}
+  .row3,.row4{display:grid;gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(44*var(--u))}
+  .row3 figure,.row4 figure{display:flex;flex-direction:column;min-height:0}
   .row3{grid-template-columns:repeat(3,1fr)}
   .row4{grid-template-columns:repeat(4,1fr)}
-  .row3 .pic{aspect-ratio:4/3}
-  .row4 .pic{aspect-ratio:1/1;background:#EFEBDB}
+  .row3 .pic,.row4 .pic{flex:1 1 auto;min-height:0}
+  .row4 .pic{background:#EFEBDB}
   .row3 h3,.row4 h3{font-weight:400;font-size:calc(40*var(--u));letter-spacing:-.03em;line-height:1.05;margin-top:calc(20*var(--u))}
+  .row3 h3{min-height:2.1em}
   .row4 h3 b{font-family:var(--mono);font-weight:500;font-size:calc(22*var(--u));letter-spacing:.06em;color:var(--signal);margin-right:calc(14*var(--u));vertical-align:middle}
 
   /* the work */
@@ -126,18 +129,21 @@
   .lrd .logo img{object-fit:cover}
 
   /* who we work with */
-  .wall{display:grid;grid-template-columns:repeat(5,1fr);gap:calc(18*var(--u));margin-top:auto}
-  .wall li{list-style:none;height:calc(170*var(--u));display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
-  .wall img{height:calc(58*var(--u));width:auto;max-width:calc(250*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
-  .wall img.tall{height:calc(100*var(--u))}
+  .wall{display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:1fr;gap:calc(18*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(44*var(--u))}
+  .wall li{list-style:none;display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
+  .wall img{height:calc(72*var(--u));width:auto;max-width:calc(270*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  .wall img.tall{height:calc(128*var(--u))}
 
   /* the ask */
-  .ask .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(48*var(--u));margin-top:auto}
-  .ask .stats div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(24*var(--u))}
+  .ask .side{position:absolute;right:0;top:0;width:38%;height:100%;object-fit:cover;object-position:50% 50%}
+  .ask>p,.ask>h2,.ask .stats,.ask .then{max-width:calc(1000*var(--u))}
+  .ask .foot{right:calc(38% + 48*var(--u))}
+  .ask .stats{display:flex;flex-direction:column;margin-top:auto}
+  .ask .stats div{display:grid;grid-template-columns:calc(450*var(--u)) 1fr;gap:calc(32*var(--u));align-items:center;border-top:calc(2*var(--u)) solid var(--paper-rule);padding:calc(26*var(--u)) 0}
   .ask .stats .fig{font-weight:400;font-size:calc(92*var(--u));line-height:.95;letter-spacing:-.05em;white-space:nowrap}
-  .ask .stats p{font-size:calc(28*var(--u));line-height:1.3;color:var(--paper-2);margin-top:calc(12*var(--u))}
+  .ask .stats p{font-size:calc(28*var(--u));line-height:1.3;color:var(--paper-2)}
   .ask .stats p.fig{color:var(--paper);margin-top:0}
-  .ask .then{display:flex;justify-content:space-between;align-items:center;gap:calc(48*var(--u));margin-top:calc(44*var(--u))}
+  .ask .then{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(26*var(--u))}
   .ask .then .lede{color:var(--paper-2)}
   .ask .chip{flex:0 0 auto;background:var(--paper);border-radius:calc(14*var(--u));padding:calc(18*var(--u)) calc(26*var(--u))}
   .ask .chip img{height:calc(64*var(--u));width:auto}
@@ -186,15 +192,18 @@
     .crew .none{font-size:60px}
     .crew .alum{height:24px;margin-top:8px}
     .pic{border-radius:10px}
+    .row3 .pic,.row4 .pic,.crew .pic{flex:none;aspect-ratio:4/3}
+    .crew .pic{aspect-ratio:1/1}
+    .ask .side{position:static;width:100%;height:auto;aspect-ratio:16/10;border-radius:10px;margin-bottom:18px}
+    .ask .foot{right:22px}
+    .ask .stats div{grid-template-columns:1fr;gap:4px;padding:14px 0}
     .work .pic{aspect-ratio:16/10}
     .lrd .pic{aspect-ratio:1/1}
     .wall li{height:86px;border-radius:10px}
     .wall img{height:28px;max-width:110px}
     .wall img.tall{height:50px}
     .ask .stats .fig{font-size:44px}
-    .ask .then{flex-direction:column;align-items:flex-start;gap:18px;margin-top:22px}
-    .ask .chip{padding:10px 14px}
-    .ask .chip img{height:34px}
+    .ask .then{padding-top:14px}
     .js .nav{display:none}
   }
 
@@ -255,7 +264,7 @@
       <div><div class="pic"><img src="{{root}}img/deck/team-jesse.jpg" width="1100" height="1366" alt="Jesse Costelloe"></div><h3>Jesse Costelloe</h3><p class="role">Cofounder, Head of Design and Fabrication</p><img class="alum" src="{{root}}img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
       <div><div class="pic"><img src="{{root}}img/deck/team-ryan.jpg" width="1100" height="1366" alt="Ryan Edwards"></div><h3>Ryan Edwards</h3><p class="role">Cofounder, Chief Commercial Officer</p><img class="alum" src="{{root}}img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
       <div><div class="pic"><img src="{{root}}img/deck/team-logan.jpg" width="1100" height="1366" alt="Logan Baker"></div><h3>Logan Baker</h3><p class="role">Cofounder, Chief Marketing Officer</p><img class="alum" src="{{root}}img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
-      <div><div class="pic"><img src="{{root}}img/deck/team-gino.jpg" width="1100" height="1366" alt="Gino Feng"></div><h3>Gino Feng</h3><p class="role">Cofounder, Head of Engineering and Robotics</p></div>
+      <div><div class="pic"><img src="{{root}}img/deck/team-gino.jpg" width="1100" height="1366" alt="Gino Feng"></div><h3>Gino Feng</h3><p class="role">Cofounder, Head of Engineering and Robotics</p><span class="alum" aria-hidden="true"></span></div>
     </div>
   </div></div>
 </section>
@@ -357,8 +366,9 @@
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The offer">
   <div class="slide night"><div class="in ask">
+    <img class="side" src="{{root}}img/offer/coffee-bar-studio.jpg" width="2048" height="1360" alt="The robot coffee bar: two arms at an espresso machine on a timber counter">
     <p class="lab">[ The offer ]</p>
-    <h2 class="xl">A robot coffee bar on campus.</h2>
+    <h2 class="l">A robot coffee bar on campus.</h2>
     <div class="stats">
       <div><p class="fig">{{coffee:price}}</p><p>One price. Installed, in UniSC's brand, with two years of service. Ex GST.</p></div>
       <div><p class="fig">2 m&sup2;</p><p>1.4 m by 1.5 m. Power, water and a drain.</p></div>
@@ -366,7 +376,6 @@
     </div>
     <div class="then">
       <p class="lede">Then the kitchen: frying and noodle robots from {{installedfrom:fry,noo}} each, installed.</p>
-      <p class="chip"><img src="{{root}}img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast"></p>
     </div>
     <div class="foot"><p>Wonder Robotics for UniSC</p><p>1800 983 404 &nbsp;&middot;&nbsp; info@wonderbytech.com</p></div>
   </div></div>
