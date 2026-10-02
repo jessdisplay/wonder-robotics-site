@@ -63,6 +63,14 @@ PAGES = {
     # the sales deck for the coffee bar: shown on a call, never in search
     "coffee-deck": {"out": "deck/coffee/index.html", "root": "../../", "title": "The coffee bar, sold whole. Wonder Robotics", "noindex": True,
                     "desc": "The Wonder Robotics coffee bar deck: one price, what it costs a week, what it earns, year by year, and the choice after year two."},
+    # the same deck with UniSC on the cover, for that pitch. One source: only
+    # the cover's two lines differ, so the numbers cannot drift apart.
+    "coffee-deck-unisc": {"src": "coffee-deck", "out": "deck/unisc-coffee/index.html", "root": "../../", "noindex": True,
+                          "title": "A robot coffee bar for UniSC. Wonder Robotics",
+                          "desc": "The Wonder Robotics coffee bar deck for the University of the Sunshine Coast: one price, what it costs a week, what it earns, year by year.",
+                          "swap": [('<span class="cv-kind">Coffee bar</span>',
+                                    '<span style="display:inline-flex;background:#F3F1E4;border-radius:8px;padding:8px 14px"><img src="{{root}}img/deck/unisc.svg" alt="University of the Sunshine Coast" style="height:40px;width:auto;display:block"></span>'),
+                                   ("<h1>A barista in two square metres, in your brand.</h1>", "<h1>A robot coffee bar for UniSC.</h1>")]},
     "terms": {"out": "terms/index.html", "root": "../", "title": "Terms of sale, Wonder Robotics",
               "desc": "Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance."},
     # unlinked since the menu sends "Book the space" to wonder.fish/book/
@@ -818,7 +826,11 @@ def home_catalogue():
 
 
 def page(name, cfg):
-    body = (SRC / "pages" / f"{name}.html").read_text()
+    body = (SRC / "pages" / f"{cfg.get('src', name)}.html").read_text()
+    for old, new in cfg.get("swap", []):
+        if body.count(old) != 1:
+            sys.exit(f"{name}: the line to swap is not in the source exactly once: {old}")
+        body = body.replace(old, new)
     if "{{next}}" in body:
         body = body.replace("{{next}}", next_block(name))
     if "{{catalogue}}" in body:
