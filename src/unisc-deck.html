@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Wonder Robotics for UniSC</title>
-<meta name="description" content="Wonder Robotics: a robot coffee bar and a robot kitchen for the University of the Sunshine Coast.">
+<meta name="description" content="Wonder Robotics: a robot kitchen and a robot coffee bar for the University of the Sunshine Coast.">
 {{icons}}{{fonts}}<style>
-  /* The UniSC pitch. Base (tokens, sheet, controls, print) is the company
-     deck's. The slides are plain on purpose: one picture, one sentence. */
+  /* The slides and their styles are the investor briefing's
+     (wonder-robotics-deck, 568bb4b) without its market and ask slides.
+     Tokens are the site's own (site.css :root). */
   :root{
     --paper:#F3F1E4;
     --ink:#1D1826;
@@ -41,53 +42,125 @@
   .in{--u:calc(100cqw/1920);position:absolute;inset:0;display:flex;flex-direction:column;
       padding:calc(116*var(--u)) calc(128*var(--u)) calc(140*var(--u))}
 
-  .tag{font-family:var(--mono);font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase}
-  .big{font-weight:400;font-size:calc(132*var(--u));line-height:.95;letter-spacing:-.05em;text-wrap:balance}
-  .sub{font-size:calc(38*var(--u));line-height:1.25;letter-spacing:-.015em;margin-top:calc(24*var(--u));max-width:calc(1200*var(--u))}
-  .brandmark{position:absolute;left:calc(96*var(--u));top:calc(64*var(--u));width:calc(220*var(--u));height:auto}
+  .eyebrow{font-family:var(--mono);font-weight:400;font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .eyebrow b{font-weight:500;color:var(--signal)}
+  .night .eyebrow{color:var(--paper-2)}
+  .night .eyebrow b{color:var(--paper)}
+  .title{font-weight:400;font-size:calc(92*var(--u));line-height:.98;letter-spacing:-.045em;text-wrap:balance;margin-top:calc(28*var(--u))}
+  .lede{font-size:calc(34*var(--u));line-height:1.3;letter-spacing:-.012em}
+  .body{font-size:calc(28*var(--u));line-height:1.38;letter-spacing:-.005em}
+  .soft{color:var(--ink-2)}
+  .night .soft{color:var(--paper-2)}
+  .fill{flex:1 1 auto;min-height:0}
+  .push{margin-top:auto}
 
-  /* a picture, edge to edge, and one sentence on it */
-  .full{padding:0;color:var(--paper)}
-  .full .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .full::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,10,36,.9) 0%,rgba(20,10,36,.55) 30%,rgba(20,10,36,0) 62%)}
-  .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(84*var(--u));z-index:1}
-  .full .note{position:absolute;right:calc(96*var(--u));top:calc(64*var(--u));z-index:1;background:var(--paper);color:var(--ink);border-radius:calc(8*var(--u));padding:calc(10*var(--u)) calc(18*var(--u));font-size:calc(20*var(--u))}
+  .foot{position:absolute;left:calc(128*var(--u));right:calc(128*var(--u));bottom:calc(56*var(--u));display:flex;justify-content:space-between;align-items:center}
+  .foot .eyebrow{font-size:calc(22*var(--u))}
 
-  /* the cover and the close: W-1 in his studio, as the website header */
-  .studio{padding:0;background:linear-gradient(to bottom,#C4B9AE 0%,#D2C8BF 50%,#E6DFD8 100%)}
-  .studio .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 100%}
-  .studio .txt{position:absolute;left:38.1%;right:calc(96*var(--u));top:6%;bottom:0;display:flex;flex-direction:column;justify-content:center}
-  .studio .tag{color:var(--signal);margin-bottom:calc(24*var(--u))}
-  .studio .where{display:flex;gap:calc(56*var(--u));margin-top:calc(48*var(--u));font-size:calc(28*var(--u));line-height:1.38}
-  .studio .where a{text-decoration:none}
+  figure{display:flex;flex-direction:column}
+  .pic{overflow:hidden;border-radius:calc(14*var(--u));background:var(--card)}
+  .pic img{width:100%;height:100%;object-fit:cover}
+  .cap{font-family:var(--mono);font-size:calc(21*var(--u));line-height:1.35;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+  .night .cap{color:var(--paper-2)}
+  .name{font-weight:400;font-size:calc(38*var(--u));line-height:1.08;letter-spacing:-.025em}
+  .num{font-family:var(--mono);font-weight:500;font-size:calc(24*var(--u));letter-spacing:.06em;color:var(--signal)}
+  .night .num{color:var(--paper)}
 
-  /* three machines side by side */
-  .three{padding:calc(96*var(--u))}
-  .three .big{font-size:calc(104*var(--u))}
-  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(48*var(--u))}
-  .trio figure{display:flex;flex-direction:column;min-height:0}
-  .trio .pic{flex:1 1 auto;min-height:0;overflow:hidden;border-radius:calc(14*var(--u));background:var(--card)}
-  .trio .pic img{width:100%;height:100%;object-fit:cover}
-  .trio figcaption{font-size:calc(40*var(--u));letter-spacing:-.025em;margin-top:calc(18*var(--u))}
+  /* the cover: the website header, as the site runs it */
+  .hero{padding:0;color:var(--ink);background:linear-gradient(to bottom,#C4B9AE 0%,#D2C8BF 50%,#E6DFD8 100%)}
+  .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 100%}
+  .hero .bar{position:absolute;left:calc(128*var(--u));right:calc(128*var(--u));top:calc(64*var(--u));display:flex;justify-content:space-between;align-items:center}
+  .hero .bar img{width:calc(250*var(--u));height:auto}
+  /* Centred on the 53% line by its own box, not by a transform: print breaks
+     pages on the untransformed position, and that pushed the headline off
+     the sheet. */
+  .hero .wrap{position:absolute;left:38.1%;top:6%;bottom:0;display:flex;flex-direction:column;justify-content:center;width:calc(900*var(--u))}
+  .hero .eyebrow{color:var(--signal)}
+  .hero h1{font-weight:400;font-size:calc(128*var(--u));line-height:.96;letter-spacing:-.045em;margin-top:calc(22*var(--u));max-width:calc(760*var(--u))}
 
-  /* the founders */
-  .people{padding:calc(96*var(--u))}
-  .four{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));margin-top:auto}
-  .four div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(24*var(--u));min-height:calc(190*var(--u))}
-  .four h3{font-weight:400;font-size:calc(52*var(--u));line-height:1.02;letter-spacing:-.035em}
-  .four .tag{display:inline-block;margin-top:calc(20*var(--u));background:var(--paper);color:var(--night);border-radius:calc(60*var(--u));padding:calc(8*var(--u)) calc(20*var(--u));font-size:calc(21*var(--u))}
+  /* W-1 says it, in his own studio. The wide header plate at sheet scale, so
+     he is the robot the website opens on, in the same light, only closer. */
+  .says .bg{inset:calc(-260*var(--u)) auto auto calc(-120*var(--u));width:calc(4800*var(--u));height:calc(1340*var(--u));max-width:none}
+  .says .wrap{width:calc(1040*var(--u))}
+  .says h2{font-weight:400;font-size:calc(84*var(--u));line-height:.98;letter-spacing:-.045em;text-wrap:balance;margin-top:calc(22*var(--u))}
+  .makes{list-style:none;display:flex;flex-wrap:wrap;gap:calc(14*var(--u));margin-top:calc(44*var(--u))}
+  .makes li{font-family:var(--mono);font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;border:calc(2*var(--u)) solid var(--ink);border-radius:calc(60*var(--u));padding:calc(14*var(--u)) calc(26*var(--u))}
+  .says .foot{justify-content:flex-end}
+  .says .foot .eyebrow{color:var(--ink-2)}
 
-  /* the offer */
-  .offer{padding:calc(96*var(--u))}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(48*var(--u))}
-  .deal{position:relative;overflow:hidden;border-radius:calc(18*var(--u));background:var(--night);color:var(--paper);display:flex;flex-direction:column;justify-content:flex-end;padding:calc(40*var(--u))}
-  .deal img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .deal::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,10,36,.94) 0%,rgba(20,10,36,.6) 45%,rgba(20,10,36,0) 80%)}
-  .deal>*:not(img){position:relative;z-index:1}
-  .deal h3{font-weight:400;font-size:calc(64*var(--u));line-height:1;letter-spacing:-.04em}
-  .deal .fig{font-size:calc(40*var(--u));letter-spacing:-.02em;margin-top:calc(14*var(--u))}
-  .deal p.body{font-size:calc(28*var(--u));line-height:1.3;margin-top:calc(10*var(--u));color:var(--paper-2)}
-  .offer .fine{font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);margin-top:calc(22*var(--u))}
+  /* who we are */
+  .team{display:grid;grid-template-columns:1fr 1fr;gap:calc(64*var(--u));margin-top:calc(52*var(--u))}
+  .person{display:flex;gap:calc(36*var(--u));align-items:flex-start}
+  .person .face{flex:0 0 auto;width:calc(300*var(--u));height:calc(378*var(--u));border-radius:calc(14*var(--u));overflow:hidden;background:var(--card)}
+  .person .face img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
+  .person h3{font-weight:400;font-size:calc(46*var(--u));line-height:1.05;letter-spacing:-.03em}
+  .person .eyebrow{margin-top:calc(10*var(--u))}
+  .person .body{margin-top:calc(20*var(--u))}
+  .line{border-top:1px solid var(--rule);padding-top:calc(22*var(--u));display:flex;justify-content:space-between;gap:calc(32*var(--u))}
+
+  /* the space */
+  .proof{padding:0}
+  .proof .shot{height:calc(748*var(--u));overflow:hidden;position:relative}
+  .proof .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 46%}
+  .proof .tag{position:absolute;left:calc(128*var(--u));top:calc(116*var(--u));background:var(--paper);border-radius:calc(8*var(--u));padding:calc(12*var(--u)) calc(20*var(--u))}
+  .proof .band{display:flex;justify-content:space-between;align-items:flex-end;gap:calc(64*var(--u));padding:calc(40*var(--u)) calc(128*var(--u)) 0}
+  .proof h2{font-weight:400;font-size:calc(84*var(--u));line-height:1;letter-spacing:-.045em}
+  .proof .lede{margin-top:calc(14*var(--u))}
+
+  /* the line, close. how we work */
+  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(24*var(--u))}
+  .tri .pic{aspect-ratio:4/3}
+  .tri figcaption,.rail figcaption,.brands figcaption{display:flex;flex-direction:column;gap:calc(6*var(--u));margin-top:calc(18*var(--u))}
+  .rail{display:grid;grid-template-columns:repeat(5,1fr);gap:calc(22*var(--u))}
+  .rail .pic{aspect-ratio:1/1;background:#F4EFE3}
+  .rail .pic.draw img{object-fit:contain}
+  .rail .body{font-size:calc(25*var(--u));line-height:1.34;margin-top:calc(4*var(--u))}
+
+  /* the jobs */
+  .job{display:grid;grid-template-columns:1.42fr 1fr;gap:calc(64*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(36*var(--u))}
+  .job figure{min-height:0}
+  .job .pic{flex:1 1 auto;min-height:0}
+  .job figcaption{margin-top:calc(16*var(--u))}
+  .job h2{font-weight:400;font-size:calc(76*var(--u));line-height:.98;letter-spacing:-.045em;text-wrap:balance}
+  .job .lede{margin-top:calc(20*var(--u))}
+  .facts{display:flex;flex-direction:column;margin-top:calc(30*var(--u))}
+  .fact{border-top:1px solid var(--rule);padding:calc(16*var(--u)) 0;display:grid;grid-template-columns:calc(150*var(--u)) 1fr;gap:calc(20*var(--u));align-items:baseline}
+  .fact:last-child{border-bottom:1px solid var(--rule)}
+  .fact .body{font-size:calc(27*var(--u));line-height:1.3}
+  .dot{display:inline-block;width:calc(15*var(--u));height:calc(15*var(--u));border-radius:50%;margin-right:calc(12*var(--u));transform:translateY(calc(-1*var(--u)))}
+  .dot.on{background:var(--live)}
+  .dot.off{border:calc(2*var(--u)) solid var(--ink-2)}
+
+  /* brands */
+  .brands{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u))}
+  .brands .pic{aspect-ratio:1/1}
+  .brands .pic.mark{display:grid;place-items:center;border:1px solid var(--rule)}
+  .brands .pic.mark img{width:70%;height:auto;object-fit:contain}
+  .brands .pic.art img{object-fit:cover;object-position:50% 46%}
+
+  /* who we have worked with. Marks as the site shows them. */
+  .wall{display:grid;grid-template-columns:repeat(5,1fr);gap:calc(18*var(--u))}
+  .wall li{list-style:none;height:calc(146*var(--u));display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
+  .wall img{height:calc(50*var(--u));width:auto;max-width:calc(230*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  .wall img.tall{height:calc(86*var(--u))}
+
+  /* the ledger */
+  .table{display:flex;flex-direction:column;margin-top:calc(48*var(--u))}
+  .tr{display:grid;grid-template-columns:1.15fr 1.25fr 1.6fr;gap:calc(32*var(--u));align-items:baseline;border-top:1px solid var(--rule);padding:calc(22*var(--u)) 0}
+  .tr:last-child{border-bottom:1px solid var(--rule)}
+  .td{font-size:calc(30*var(--u));line-height:1.28;letter-spacing:-.01em}
+  .td.name{font-size:calc(34*var(--u));letter-spacing:-.02em}
+  .td.fig{font-size:calc(56*var(--u));line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .worked{background:var(--card);border:1px solid var(--rule);border-radius:calc(16*var(--u));padding:calc(26*var(--u)) calc(34*var(--u))}
+  .worked .lede{margin-top:calc(8*var(--u))}
+
+  /* visit */
+  .visit .lede{margin-top:calc(28*var(--u))}
+  .close{display:flex;justify-content:space-between;align-items:flex-end;gap:calc(64*var(--u))}
+  .where{display:grid;grid-template-columns:repeat(3,auto);gap:calc(56*var(--u))}
+  .where .cap{margin-bottom:calc(12*var(--u))}
+  .where a{text-decoration:none}
+  .close .mark{width:calc(420*var(--u));height:auto}
 
   /* Deck controls. Script only; the deck scrolls and snaps without them. */
   .nav{position:fixed;right:14px;bottom:12px;display:none;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--paper-2);z-index:5}
@@ -97,37 +170,82 @@
   .nav button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
   .nav output{min-width:64px;text-align:center}
 
+  /* Phones, and anything too short to hold a sheet: the slides become a column
+     of cards at reading size. Same words, same order. Screen only, so print
+     keeps the sheets. */
   @media screen and (max-width:760px),screen and (max-height:440px){
     html{scroll-snap-type:none}
     .stage{height:auto;display:block;padding:8px 8px 0}
     .stage:last-of-type{padding-bottom:8px}
     .slide{width:100%;aspect-ratio:auto;border-radius:14px}
-    .in{--u:.5px;position:relative;inset:auto;padding:26px 22px 30px}
-    .tag{font-size:12px}
-    .big,.three .big{font-size:40px;line-height:1}
-    .sub{font-size:18px;margin-top:10px}
-    .brandmark{position:static;width:130px;margin:22px 22px 0}
-    .full{padding:0;background:var(--night)}
-    .full .bg{position:static;height:auto;aspect-ratio:4/3}
-    .full::after{display:none}
-    .full .txt{position:static;padding:22px 22px 28px}
-    .full .note{left:14px;right:auto;top:14px;font-size:11px;padding:6px 10px}
-    .studio{padding:0 0 28px;background:var(--paper)}
-    .studio .bg{position:static;height:auto;aspect-ratio:5/4;object-position:18% 62%}
-    .studio .txt{position:static;padding:22px 22px 0}
-    .studio .tag{margin-bottom:10px}
-    .studio .where{flex-direction:column;gap:14px;margin-top:22px;font-size:16px}
-    .trio,.four,.two{grid-template-columns:1fr;gap:16px;margin-top:22px}
-    .trio .pic{aspect-ratio:4/3;border-radius:10px}
-    .trio figcaption{font-size:20px;margin-top:8px}
-    .four div{min-height:0;padding-top:14px}
-    .four h3{font-size:26px}
-    .four .tag{font-size:11px;margin-top:8px;padding:5px 12px}
-    .deal{min-height:300px;padding:20px;border-radius:12px}
-    .deal h3{font-size:30px}
-    .deal .fig{font-size:20px}
-    .deal p.body{font-size:15px}
-    .offer .fine{font-size:11px;margin-top:14px}
+    .in{--u:.5px;position:relative;inset:auto;padding:30px 22px 76px}
+    .eyebrow,.foot .eyebrow,.cap,.num{font-size:12px}
+    .title{font-size:36px;line-height:1.02;margin-top:14px}
+    .lede{font-size:18px}
+    .body,.rail .body,.fact .body{font-size:16px}
+    .name{font-size:22px}
+    .foot{left:22px;right:22px;bottom:26px}
+    .team,.tri,.rail,.brands{grid-template-columns:1fr;gap:18px}
+    .person h3{font-size:26px}
+    .fill{flex:0 0 28px}
+    .push{margin-top:28px}
+    .pic{border-radius:10px}
+    .tri figcaption,.rail figcaption,.brands figcaption{margin-top:10px;gap:3px}
+
+    .hero{padding:0 0 34px;background:var(--paper)}
+    .hero .bg{position:static;height:auto;aspect-ratio:5/4;object-position:18% 62%}
+    .hero .bar{position:static;padding:26px 22px 0;flex-direction:column;align-items:flex-start;gap:14px}
+    .hero .bar img{width:150px}
+    .hero .wrap{position:static;width:auto;padding:22px 22px 0}
+    .hero h1{font-size:44px;line-height:1;margin-top:10px;max-width:none}
+
+    .says{padding-bottom:76px}
+    .says .bg{inset:auto;width:100%;object-position:0% 50%}
+    .says h2{font-size:32px;line-height:1.02;margin-top:10px}
+    .makes{margin-top:20px;gap:8px}
+    .makes li{font-size:12px;border-width:1.5px;padding:8px 14px}
+
+    .team{margin-top:26px;gap:28px}
+    .person{gap:18px}
+    .person .face{width:104px;height:131px;border-radius:8px}
+    .person .eyebrow{margin-top:6px}
+    .person .body{margin-top:10px}
+    .line{flex-direction:column;gap:6px;padding-top:16px}
+
+    .proof{padding:0 0 76px}
+    .proof .shot{height:auto;aspect-ratio:2400/991}
+    .proof .tag{left:14px;top:14px;padding:8px 12px;border-radius:6px}
+    .proof .band{flex-direction:column;align-items:flex-start;gap:18px;padding:24px 22px 0}
+    .proof h2{font-size:36px}
+    .proof .lede{margin-top:10px}
+
+    .job{grid-template-columns:1fr;gap:24px;margin-top:22px}
+    .job .pic{aspect-ratio:16/10}
+    .job figcaption{margin-top:10px}
+    .job h2{font-size:34px}
+    .job .lede{margin-top:12px}
+    .facts{margin-top:20px}
+    .fact{grid-template-columns:86px 1fr;gap:12px;padding:12px 0}
+    .dot{width:10px;height:10px;margin-right:8px;transform:none}
+    .dot.off{border-width:1.5px}
+
+    .wall{grid-template-columns:repeat(2,1fr);gap:8px}
+    .wall li{height:92px;border-radius:10px}
+    .wall img{height:30px;max-width:120px}
+    .wall img.tall{height:54px}
+
+    .table{margin-top:26px}
+    .tr{grid-template-columns:1fr;gap:4px;padding:16px 0}
+    .td{font-size:16px}
+    .td.name{font-size:22px}
+    .td.fig{font-size:32px;white-space:normal}
+    .worked{padding:20px;border-radius:12px}
+
+    .visit .lede{margin-top:14px}
+    .close{flex-direction:column;align-items:flex-start;gap:28px}
+    .where{grid-template-columns:1fr;gap:18px}
+    .where .cap{margin-bottom:4px}
+    .close .mark{width:62%}
     .js .nav{display:none}
   }
 
@@ -142,76 +260,174 @@
     .nav{display:none !important}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
+
+  /* UniSC pitch: the company deck's sheet and styles, the website's own copy. */
+  .hero .where{display:flex;gap:calc(56*var(--u));margin-top:calc(44*var(--u))}
+  .hero .where a{text-decoration:none}
+  .hero .lede{margin-top:calc(26*var(--u));max-width:calc(820*var(--u))}
+  .lines .title{font-size:calc(80*var(--u))}
+  .lines .rail .pic img{object-fit:cover}
+  .four{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u));margin-top:auto}
+  .four div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(24*var(--u));min-height:calc(170*var(--u))}
+  .four h3{font-weight:400;font-size:calc(52*var(--u));line-height:1.02;letter-spacing:-.035em}
+  .four .chip{display:inline-block;margin-top:calc(20*var(--u));background:var(--paper);color:var(--night);border-radius:calc(60*var(--u));padding:calc(8*var(--u)) calc(20*var(--u));font-family:var(--mono);font-size:calc(21*var(--u));letter-spacing:.06em;text-transform:uppercase}
+  .people .lede{margin-top:calc(36*var(--u));max-width:calc(1200*var(--u))}
+  .offer .title{font-size:calc(80*var(--u))}
+  .offer .table{margin-top:calc(40*var(--u))}
+  .offer .tr{padding:calc(20*var(--u)) 0}
+  @media screen and (max-width:760px),screen and (max-height:440px){
+    .hero .where{flex-direction:column;gap:14px;margin-top:22px}
+    .hero .lede{margin-top:12px}
+    .lines .title,.offer .title{font-size:32px}
+    .four{grid-template-columns:1fr;gap:14px;margin-top:26px}
+    .four div{min-height:0;padding-top:14px}
+    .four h3{font-size:26px}
+    .four .chip{font-size:11px;margin-top:8px;padding:5px 12px}
+    .people .lede{margin-top:14px}
+  }
 </style>
 </head>
 <body>
 <main id="deck">
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics">
-  <div class="slide"><div class="in studio">
-    <img class="bg" src="{{root}}img/hero-bot.jpg" width="2400" height="1340" alt="W-1, the Wonder robot, in his studio">
-    <img class="brandmark" src="{{root}}img/deck/mark-ink.png" width="1373" height="322" alt="Wonder Robotics">
-    <div class="txt">
-      <p class="tag">For the University of the Sunshine Coast</p>
-      <h1 class="big">We're a robotics company.</h1>
+  <div class="slide"><div class="in hero">
+    <img class="bg" src="{{root}}img/hero-bot.jpg" width="2400" height="1340" alt="">
+    <div class="bar">
+      <img src="{{root}}img/deck/mark-ink.png" width="1373" height="322" alt="Wonder Robotics">
+      <p class="eyebrow" style="color:var(--ink-2)">For the University of the Sunshine Coast</p>
+    </div>
+    <div class="wrap">
+      <p class="eyebrow">Fortitude Valley, Brisbane</p>
+      <h1>We build fully automated kitchens, bars and cafés.</h1>
     </div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Coffee">
-  <div class="slide"><div class="in full">
-    <img class="bg" src="{{root}}img/machines/coffee-hero.jpg" width="1448" height="1086" style="object-position:50% 38%" alt="Two robot arms at an espresso machine, one holding the milk jug">
-    <div class="txt"><h2 class="big">Robots that make coffee.</h2></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Kitchen">
-  <div class="slide"><div class="in full">
-    <img class="bg" src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" alt="Our robot kitchen: an arm on a rail, three fryers and a row of noodle baths">
-    <div class="txt"><h2 class="big">Robots that cook.</h2><p class="sub">This is our kitchen. It runs six days a week.</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Bar, dessert, floor">
-  <div class="slide"><div class="in three">
-    <h2 class="big">Robots that pour, serve and deliver.</h2>
-    <div class="trio">
-      <figure><div class="pic"><img src="{{root}}img/offer/robot-bar-studio.jpg" width="2048" height="1360" alt="A robot arm under a rack of bottles on a bar"></div><figcaption>The bartender</figcaption></figure>
-      <figure><div class="pic"><img src="{{root}}img/tile-kiosk.jpg" width="1400" height="1737" style="object-position:50% 30%" alt="A robot arm holding a soft serve cone"></div><figcaption>The soft serve</figcaption></figure>
-      <figure><div class="pic"><img src="{{root}}img/valley-cadebot.jpg" width="1600" height="1300" alt="A delivery robot beside a table"></div><figcaption>The runner</figcaption></figure>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. What we build">
+  <div class="slide"><div class="in lines">
+    <p class="eyebrow"><b>What we build</b></p>
+    <h2 class="title">Coffee, cocktails, ice cream, kitchens. And the robots that work the room.</h2>
+    <div class="fill"></div>
+    <div class="rail">
+      <figure><div class="pic"><img src="{{root}}img/machines/coffee-hero.jpg" width="1448" height="1086" alt="Two robot arms at an espresso machine"></div>
+        <figcaption><p class="name">Coffee</p><p class="body soft">A barista in two square metres, in your brand.</p></figcaption></figure>
+      <figure><div class="pic"><img src="{{root}}img/valley-fryers.jpg" width="1800" height="1171" alt="The fryers on our kitchen line"></div>
+        <figcaption><p class="name">Kitchens</p><p class="body soft">A line that fries, boils and plates the whole menu.</p></figcaption></figure>
+      <figure><div class="pic"><img src="{{root}}img/offer/robot-bar-studio.jpg" width="2048" height="1360" style="object-position:38% 50%" alt="A robot arm under a rack of bottles"></div>
+        <figcaption><p class="name">Cocktails</p><p class="body soft">The same measure every time, under a rack of your bottles.</p></figcaption></figure>
+      <figure><div class="pic"><img src="{{root}}img/tile-kiosk.jpg" width="1400" height="1737" style="object-position:50% 38%" alt="A robot arm holding a soft serve cone"></div>
+        <figcaption><p class="name">Ice cream</p><p class="body soft">Pasteurised soft serve, an arm that hands it over.</p></figcaption></figure>
+      <figure><div class="pic"><img src="{{root}}img/valley-cadebot.jpg" width="1600" height="1300" style="object-position:22% 50%" alt="A UBTECH CadeBot delivery robot on our floor"></div>
+        <figcaption><p class="name">The floor</p><p class="body soft">Forty kilos of plates on a mapped route.</p></figcaption></figure>
     </div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Hospitality">
-  <div class="slide"><div class="in full">
-    <img class="bg" src="{{root}}img/floor-lunch.jpg" width="2400" height="1339" alt="Our dining floor at lunch, tray robots between the tables">
-    <div class="txt"><h2 class="big">Hospitality is what we do.</h2><p class="sub">Our own robot venue is in Fortitude Valley, Brisbane.</p></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. 365 St Pauls Terrace">
+  <div class="slide"><div class="in">
+    <p class="eyebrow"><b>Case study</b> &middot; Fortitude Valley, Brisbane</p>
+    <div class="job">
+      <figure>
+        <div class="pic"><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" style="object-position:30% 50%" alt="Our kitchen line: the ingredient store, the cobot on its rail, three fryers and the noodle baths"></div>
+        <figcaption><p class="cap">Photographed in the building, not rendered</p></figcaption>
+      </figure>
+      <div>
+        <h2>365 St Pauls Terrace</h2>
+        <p class="lede soft">We built a robot kitchen for ourselves and opened it before we sold one.</p>
+        <div class="facts">
+          <div class="fact"><p class="cap">What</p><p class="body">Robot kitchen, robot bar, dessert kiosk, service floor</p></div>
+          <div class="fact"><p class="cap">Scope</p><p class="body">Scope, design, brand, build, run</p></div>
+          <div class="fact"><p class="cap">Status</p><p class="body"><span class="dot on"></span>In service. Open six days</p></div>
+        </div>
+      </div>
+    </div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Fabrication and fitout">
-  <div class="slide"><div class="in full">
-    <img class="bg" src="{{root}}img/coffee/bar-07-open.jpg" width="2048" height="1143" alt="A timber coffee bar with two robot arms, branded cups, bags and stools">
-    <p class="note">Concept: Wonder Bean, our own coffee brand</p>
-    <div class="txt"><h2 class="big">We design it, build it and fit it out. On brand.</h2></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Little Red Dumpling">
+  <div class="slide"><div class="in">
+    <p class="eyebrow"><b>Case study</b> &middot; Gold Coast</p>
+    <div class="job">
+      <figure>
+        <div class="pic"><img src="{{root}}img/lrd/room.jpg" width="2000" height="1116" style="object-position:30% 50%" alt="Visualisation of the finished dumpling cafe: a robot arm on a rail behind glass, red lanterns, diners at timber tables"></div>
+        <figcaption><p class="cap">Visualisation, built from the room as filmed. Not a photograph</p></figcaption>
+      </figure>
+      <div>
+        <h2>Little Red Dumpling</h2>
+        <p class="lede soft">Thirteen shops in, they wanted the fourteenth to cook without a brigade.</p>
+        <div class="facts">
+          <div class="fact"><p class="cap">Where</p><p class="body">Nexus Way, Gold Coast Health and Knowledge Precinct</p></div>
+          <div class="fact"><p class="cap">What</p><p class="body">Robot dumpling kitchen, front of house and back</p></div>
+          <div class="fact"><p class="cap">Status</p><p class="body"><span class="dot off"></span>Machines delivered, fitout under way</p></div>
+        </div>
+      </div>
+    </div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Entrepreneurs">
-  <div class="slide"><div class="in full">
-    <img class="bg" src="{{root}}img/deck/studio-tables.jpg" width="1600" height="1073" style="object-position:50% 60%" alt="People working on laptops in the studio, Pepper the robot beside them">
-    <div class="txt"><h2 class="big">We back entrepreneurs.</h2><p class="sub">We mentor students and help them build their businesses.</p></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The container kitchen">
+  <div class="slide"><div class="in">
+    <p class="eyebrow"><b>Case study</b> &middot; Eat Street Northshore</p>
+    <div class="job">
+      <figure>
+        <div class="pic"><img src="{{root}}img/container/day.jpg" width="2400" height="1340" style="object-position:42% 50%" alt="Concept of the container kitchen at a market by day, the skin running purple with gold crescents, the hatch up as an awning"></div>
+        <figcaption><p class="cap">Concept visualisation</p></figcaption>
+      </figure>
+      <div>
+        <h2>The container kitchen</h2>
+        <p class="lede soft">The arm cooks behind glass. The skin is a screen.</p>
+        <div class="facts">
+          <div class="fact"><p class="cap">Where</p><p class="body">Our own, for Eat Street Northshore, Hamilton</p></div>
+          <div class="fact"><p class="cap">What</p><p class="body">Twenty foot container, projector glass on three faces</p></div>
+          <div class="fact"><p class="cap">Scope</p><p class="body">Planning, design, brand, fabrication, implementation, maintenance</p></div>
+          <div class="fact"><p class="cap">Status</p><p class="body"><span class="dot off"></span>In development</p></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How we work">
+  <div class="slide night"><div class="in">
+    <p class="eyebrow"><b>How we work</b></p>
+    <h2 class="title">Plan, design, fit out, commission, open.</h2>
+    <div class="fill"></div>
+    <div class="rail">
+      <figure>
+        <div class="pic draw"><img src="{{root}}img/process/01-plan.jpg" width="2048" height="1360" alt="Plan drawing of the kitchen line"></div>
+        <figcaption><p class="num">01</p><p class="name">Plan</p><p class="cap">Drawing</p><p class="body soft">The line on the floor. Where the queue stands.</p></figcaption>
+      </figure>
+      <figure>
+        <div class="pic draw"><img src="{{root}}img/process/02-design.jpg" width="2048" height="1360" alt="General arrangement drawing of the kitchen line"></div>
+        <figcaption><p class="num">02</p><p class="name">Design</p><p class="cap">Drawing</p><p class="body soft">The general arrangement it gets built from.</p></figcaption>
+      </figure>
+      <figure>
+        <div class="pic"><img src="{{root}}img/process/03-fitout.jpg" width="2048" height="1360" alt="Concept of the kitchen bay during fit out"></div>
+        <figcaption><p class="num">03</p><p class="name">Fit out</p><p class="cap">Concept, from the capture</p><p class="body soft">Bench frames, conduit, the splashback in.</p></figcaption>
+      </figure>
+      <figure>
+        <div class="pic"><img src="{{root}}img/process/04-commission.jpg" width="2048" height="1360" alt="Concept of the kitchen line on commissioning day"></div>
+        <figcaption><p class="num">04</p><p class="name">Commission</p><p class="cap">Concept, from the capture</p><p class="body soft">Machines in, the first program running.</p></figcaption>
+      </figure>
+      <figure>
+        <div class="pic"><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" style="object-position:38% 50%" alt="The kitchen line as it stands today"></div>
+        <figcaption><p class="num">05</p><p class="name">Open</p><p class="cap">From the capture</p><p class="body soft">Open six days. Full menu, nobody at the pass.</p></figcaption>
+      </figure>
+    </div>
+    <div class="foot"><p class="eyebrow">Our kitchen at 365 St Pauls Terrace, plan to open</p></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The founders">
   <div class="slide night"><div class="in people">
-    <h2 class="big">Three of our four founders studied at UniSC.</h2>
+    <p class="eyebrow"><b>Who we are</b></p>
+    <h2 class="title">Three of our four founders studied at UniSC.</h2>
+    <p class="lede soft">We mentor students and help them build their businesses.</p>
     <div class="four">
-      <div><h3>Jesse Costelloe</h3><p class="tag">UniSC alumni</p></div>
-      <div><h3>Ryan Edwards</h3><p class="tag">UniSC alumni</p></div>
-      <div><h3>Logan Baker</h3><p class="tag">UniSC alumni</p></div>
+      <div><h3>Jesse Costelloe</h3><p class="chip">UniSC alumni</p></div>
+      <div><h3>Ryan Edwards</h3><p class="chip">UniSC alumni</p></div>
+      <div><h3>Logan Baker</h3><p class="chip">UniSC alumni</p></div>
       <div><h3>Gino Feng</h3></div>
     </div>
   </div></div>
@@ -219,32 +435,28 @@
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The offer">
   <div class="slide"><div class="in offer">
-    <h2 class="big">Our offer to UniSC.</h2>
-    <div class="two">
-      <div class="deal">
-        <img src="{{root}}img/offer/coffee-bar-studio.jpg" width="2048" height="1360" alt="The robot coffee bar">
-        <h3>A robot coffee bar</h3>
-        <p class="fig">{{coffee:price}}, one price</p>
-        <p class="body">Installed, in your brand, with two years of service.</p>
-      </div>
-      <div class="deal">
-        <img src="{{root}}img/offer/kitchen-line-studio.jpg" width="2048" height="1360" alt="The robot kitchen line">
-        <h3>A robot kitchen</h3>
-        <p class="fig">Robots from {{installedfrom:fry,noo}} each</p>
-        <p class="body">Installed. Designed around your menu and fitted out by us.</p>
-      </div>
+    <p class="eyebrow"><b>The offer</b></p>
+    <h2 class="title">A robot kitchen and a robot coffee bar for UniSC.</h2>
+    <div class="table" role="table" aria-label="Published prices">
+      <div class="tr" role="row"><p class="td name" role="cell">Robot coffee bar</p><p class="td fig" role="cell">{{coffee:price}}</p><p class="td soft" role="cell">One price. Installed, in your brand, with two years of service.</p></div>
+      <div class="tr" role="row"><p class="td name" role="cell">Deep frying robot</p><p class="td fig" role="cell">{{installed:fry}}</p><p class="td soft" role="cell">Installed. Dobot arm, six frying stoves.</p></div>
+      <div class="tr" role="row"><p class="td name" role="cell">Noodle robot</p><p class="td fig" role="cell">{{installed:noo}}</p><p class="td soft" role="cell">Installed. Dobot arm, six noodle stoves.</p></div>
+      <div class="tr" role="row"><p class="td name" role="cell">The kitchen's service</p><p class="td fig" role="cell">{{service:first}} a month</p><p class="td soft" role="cell">Install, training, maintenance and support for 24 months. Each machine after the first adds {{service:extra}}.</p></div>
+      <div class="tr" role="row"><p class="td name" role="cell">The room and the brand</p><p class="td fig" role="cell">From {{opt:wrap}}</p><p class="td soft" role="cell">Space design, counter, extraction, brand identity. Each priced once.</p></div>
     </div>
-    <p class="fine">Published prices, AUD ex GST</p>
+    <div class="foot"><p class="eyebrow">Published prices, AUD ex GST</p></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Visit">
-  <div class="slide"><div class="in studio">
-    <img class="bg" src="{{root}}img/hero-bot.jpg" width="2400" height="1340" alt="W-1, the Wonder robot, in his studio">
-    <img class="brandmark" src="{{root}}img/deck/mark-ink.png" width="1373" height="322" alt="Wonder Robotics">
-    <div class="txt">
-      <h2 class="big">Come and see it working.</h2>
-      <div class="where">
+  <div class="slide"><div class="in hero">
+    <img class="bg" src="{{root}}img/hero-bot.jpg" width="2400" height="1340" alt="">
+    <div class="bar"><img src="{{root}}img/deck/mark-ink.png" width="1373" height="322" alt="Wonder Robotics"></div>
+    <div class="wrap">
+      <p class="eyebrow">Visit</p>
+      <h1>Come and see it working.</h1>
+      <p class="lede">Have lunch. Watch the kitchen. Say hello to Pepper. Then tell us what you need built.</p>
+      <div class="where body">
         <p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p>
         <p><a href="tel:1800983404">1800 983 404</a><br><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></p>
       </div>
