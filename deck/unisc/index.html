@@ -91,7 +91,9 @@
   .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));z-index:1}
 
   /* who we are */
-  .who .g1{position:absolute;right:0;top:0;height:100%;width:42%;object-fit:cover;object-position:50% 30%;mix-blend-mode:screen}
+  .slide.night:has(.who){background:#201235}
+  .who .g1{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:translateX(11%) scale(1.12);transform-origin:100% 55%}
+  .who .col{position:relative}
   .who .col{width:calc(1120*var(--u));display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   .four4{display:grid;grid-template-columns:1fr 1fr;gap:calc(8*var(--u)) calc(48*var(--u));margin-top:auto}
   .four4 div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding:calc(20*var(--u)) 0 calc(14*var(--u))}
@@ -180,7 +182,7 @@
     .full>video{display:none}
     .full::after{display:none}
     .full .txt{position:static;padding:22px 22px 0}
-    .who .g1{position:static;width:100%;height:auto;aspect-ratio:4/3;margin-top:22px;border-radius:10px;mix-blend-mode:normal}
+    .who .g1{position:static;width:100%;height:auto;aspect-ratio:4/3;object-position:96% 50%;margin-top:22px;border-radius:10px;transform:none}
     .who .col{width:auto}
     .four4,.crew,.row3,.row4,.work,.wall,.ask .stats{grid-template-columns:1fr;gap:16px;margin-top:24px}
     .crew,.wall{grid-template-columns:1fr 1fr}
@@ -236,7 +238,7 @@
 
 <section class="stage" id="s2" aria-label="Slide 2. Who we are">
   <div class="slide night"><div class="in who">
-    <img class="g1" src="../../img/machines/unitree-g1-stage.jpg" width="1600" height="1600" alt="A Unitree G1 humanoid robot">
+    <img class="g1" src="../../img/deck/g1-night.jpg" width="2752" height="1536" alt="A humanoid robot standing in a deep purple studio">
     <div class="col">
       <p class="lab">[ Who we are ]</p>
       <h2 class="l">We are an engineering company. Robots are most of what we build.</h2>
@@ -259,7 +261,7 @@
     <div class="crew">
       <div><div class="pic"><img src="../../img/deck/team-jesse.jpg" width="1100" height="1366" alt="Jesse Costelloe"></div><h3>Jesse Costelloe</h3><p class="role">Cofounder, Head of Design and Fabrication</p><img class="alum" src="../../img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
       <div><div class="pic"><img src="../../img/deck/team-ryan.jpg" width="1100" height="1366" alt="Ryan Edwards"></div><h3>Ryan Edwards</h3><p class="role">Cofounder, Chief Commercial Officer</p><img class="alum" src="../../img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
-      <div><div class="pic none">LB</div><h3>Logan Baker</h3><p class="role">Cofounder, Chief Marketing Officer</p><img class="alum" src="../../img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
+      <div><div class="pic"><img src="../../img/deck/team-logan.jpg" width="1100" height="1366" alt="Logan Baker"></div><h3>Logan Baker</h3><p class="role">Cofounder, Chief Marketing Officer</p><img class="alum" src="../../img/deck/unisc.svg" width="539" height="90" alt="University of the Sunshine Coast alumni"></div>
       <div><div class="pic"><img src="../../img/deck/team-gino.jpg" width="1100" height="1366" alt="Gino Feng"></div><h3>Gino Feng</h3><p class="role">Cofounder, Head of Engineering and Robotics</p></div>
     </div>
   </div></div>
