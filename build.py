@@ -1157,7 +1157,8 @@ for old, (to, name) in OLD_SITE.items():
     forward(old, to, name)
 
 
-# The company deck: an introduction sent to a partner as a link. A whole
+# The decks: the company introduction sent to a partner as a link, and a
+# pitch written for one reader (unisc). Each is a whole
 # document like the price guide, not a page in the site's chrome, because a
 # slide fills the screen. Its prices are the page tokens, its wall is the
 # catalogue's partner list and its pictures are the site's own, so it cannot
@@ -1166,29 +1167,30 @@ for old, (to, name) in OLD_SITE.items():
 WALL_TALL = {"armhub.png", "onyx-tyres.jpg", "stellaris-robotics.jpg", "little-red-dumplings.jpg"}   # square marks sit taller
 
 
-def company_deck():
+def deck(name):
     root = "../../"
     wall = "".join('      <li><img{} src="{{{{root}}}}img/partners/{}" alt="{}"></li>\n'.format(
         ' class="tall"' if k in WALL_TALL else "", k, escape(v)) for k, v in PARTNERS)
     # Slides number themselves, so one can be added without renumbering the rest:
     # {{i}} and {{n}} are a slide's place in the source, {{of}} the count.
-    head, *slides = (SRC / "company-deck.html").read_text().split('<section class="stage"')
+    head, *slides = (SRC / f"{name}-deck.html").read_text().split('<section class="stage"')
     html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
                           for i, s in enumerate(slides, 1))
     html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}")).replace("{{wall}}", wall)
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     if "{{" in html:
-        sys.exit("company deck has an unfilled token")
+        sys.exit(f"{name} deck has an unfilled token")
     for src in re.findall(r'src="' + re.escape(root) + r'([^"]+)"', html):
         if not (HERE / src).exists():
-            sys.exit(f"company deck: no such picture, {src}")
-    out = HERE / "deck" / "company" / "index.html"
+            sys.exit(f"{name} deck: no such picture, {src}")
+    out = HERE / "deck" / name / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
-    print(f"deck/company/index.html: {out.stat().st_size} bytes")
+    print(f"deck/{name}/index.html: {out.stat().st_size} bytes")
 
 
-company_deck()
+for name in ("company", "unisc"):
+    deck(name)
 
 
 # Not found. Served from any depth, so its links are absolute from the root.
