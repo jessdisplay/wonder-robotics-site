@@ -318,7 +318,7 @@ FOOTER = '''<footer>
       <div>
         <span class="label">Work</span>
         <a href="{{root}}#work">Case studies</a>
-{{footer_projects}}        <a href="{{root}}#building">The building</a>
+{{footer_projects}}        <a href="{{root}}#building">Experience hub</a>
       </div>
       <div>
         <span class="label">Sell and support</span>
