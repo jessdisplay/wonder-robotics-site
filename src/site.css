@@ -1651,7 +1651,6 @@
     .process .shot img{clip-path:inset(0 100% 0 0);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
     .process .shot.inked img{clip-path:inset(0 0 0 0)}
   }
-  .process .rail-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--cream) 24%,transparent)}
   .process .rail-btn{border-color:var(--cream);color:var(--cream)}
   .process .rail-btn:hover{background:var(--cream);color:var(--night)}
   .process .rail-btn[disabled]:hover{background:transparent;color:var(--cream)}
@@ -1664,12 +1663,12 @@
 
   /* The building, as a horizontal rail. Native scroll-snap so it works on a
      trackpad, a touchscreen and the keyboard with no library; the arrows are
-     an affordance on top, not the mechanism. */
+     an affordance on top, not the mechanism. The scrollbar itself is hidden:
+     it is browser chrome and looks different on every machine. */
   .venue{padding-top:clamp(64px,8vw,120px)}
   .rail-wrap{position:relative}
-  .rail-scroll{display:flex;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;scrollbar-width:thin}
-  .rail-scroll::-webkit-scrollbar{height:6px}
-  .rail-scroll::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+  .rail-scroll{display:flex;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
+  .rail-scroll::-webkit-scrollbar{display:none}
   .rail-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
   .shot{margin:0;flex:0 0 clamp(280px,42vw,620px);scroll-snap-align:start}
   .shot img,.shot video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);background:var(--rule)}
