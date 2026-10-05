@@ -29,8 +29,8 @@ sys.path.insert(0, str(SRC))
 from machines import MACHINES, PARTNERS  # noqa: E402
 
 PAGES = {
-    "home": {"out": "index.html", "root": "", "title": "Wonder Robotics", "ld": lambda url, img: org_ld(url, img),
-             "desc": "Where Australian business gets into robotics. We scope, design, brand, build and run robot kitchens and service robots, from one building in Fortitude Valley."},
+    "home": {"out": "index.html", "root": "", "title": "Robot cafés, bars and kitchens, Brisbane. Wonder Robotics", "ld": lambda url, img: org_ld(url, img),
+             "desc": "We build fully automated kitchens, bars and cafés in Brisbane. Start with a coffee robot, add the bar, the kitchen and the room when you're ready. See ours working at 365 St Pauls Terrace, Fortitude Valley."},
     "valley": {"out": "work/valley/index.html", "root": "../../", "title": "365 St Pauls Terrace, Wonder Robotics",
                "desc": "Our own building in Fortitude Valley: a robot kitchen, a robot bar, a dessert kiosk and a service floor, all running."},
     "lrd": {"out": "work/little-red-dumplings/index.html", "root": "../../", "title": "Little Red Dumpling, Wonder Robotics",
