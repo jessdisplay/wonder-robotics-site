@@ -806,7 +806,7 @@ def home_tile(href, img, alt, title, line, price, video=None, pos=None):
     # every plate fills the 16:10 frame edge to edge; robot cutouts stand whole
     # instead (the .../cut/ rule in site.css), so they never lose a head or a base
     style = f' style="object-position:{pos}"' if pos else ""
-    pic = (f'<video autoplay muted loop playsinline preload="metadata" poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
+    pic = (f'<video data-play muted loop playsinline preload="none" data-poster="{{{{root}}}}{img}" aria-label="{escape(alt)}">'
            f'<source src="{{{{root}}}}{video}" type="video/mp4"><img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy"{style}></video>'
            if video else f'<img src="{{{{root}}}}{img}" alt="{escape(alt)}" loading="lazy" decoding="async"{style}>'
            if img else f'<span class="glyph">{escape(title)}</span>')  # no photo yet: the name holds the box

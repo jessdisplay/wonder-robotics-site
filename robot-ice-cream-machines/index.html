@@ -3748,6 +3748,28 @@ window.WonderQuote = (function(){
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
 })();
 
+/* Clips below the first screen wait for the visitor. An autoplay video
+   downloads whole on page load wherever it sits on the page (preload="none"
+   does not stop it): three tiles were 6.3 MB of the home page's first 8.2 MB.
+   So these carry data-play instead of autoplay and keep their poster in
+   data-poster; both are handed over half a screen before the clip arrives,
+   and it pauses once it has gone. With no observer they all start at once,
+   as they did before. */
+(function () {
+  var vids = [].slice.call(document.querySelectorAll('video[data-play]'));
+  if (!vids.length) return;
+  function wake(v) {
+    if (v.dataset.poster) { v.poster = v.dataset.poster; delete v.dataset.poster; }
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // autoplay refused (low power mode): the poster stays
+  }
+  if (!('IntersectionObserver' in window)) { vids.forEach(wake); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) wake(e.target); else e.target.pause(); });
+  }, { rootMargin: '50% 0px' });
+  vids.forEach(function (v) { io.observe(v); });
+})();
+
 /* One small animation. The night half of the stack rises into place under the
    cream half, so the page acts out what the section says. Off under reduced
    motion, and it only ever runs once. */

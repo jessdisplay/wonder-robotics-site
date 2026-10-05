@@ -1882,7 +1882,7 @@
         <h2>Coffee, cocktails, ice cream, kitchens.</h2>
         <p>The four lines we design, brand, fit out and run. All priced on the page.</p>
       </div>
-      <ul class="cat two"><li><a class="wz-opt pic" href="../robot-coffee-machines/"><span class="ph"><video autoplay muted loop playsinline preload="metadata" poster="../img/offer/coffee-bar-studio.jpg" aria-label="The dual-arm barista bar on a studio seamless"><source src="../img/machines/coffee-robot-stage.mp4" type="video/mp4"><img src="../img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless" loading="lazy"></video></span><span class="wz-opt-t"><h3><b>Robot coffee machines</b></h3><small>A barista in two square metres, in your brand.</small><span class="label">From $4,568 a month</span></span></a></li><li><a class="wz-opt pic" href="../robot-cocktail-machines/"><span class="ph"><img src="../img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Robot cocktail machines</b></h3><small>The same measure every time, under a rack of your bottles.</small><span class="label">$3,495 a month</span></span></a></li><li><a class="wz-opt pic" href="../robot-ice-cream-machines/"><span class="ph"><img src="../img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" decoding="async" style="object-position:50% 10%"></span><span class="wz-opt-t"><h3><b>Robot ice cream machines</b></h3><small>Pasteurised soft serve, an arm that hands it over, a queue that watches.</small><span class="label">$3,572 a month</span></span></a></li><li><a class="wz-opt pic" href="../robot-kitchen-fitouts/"><span class="ph"><img src="../img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Robot kitchen fit-outs</b></h3><small>A line that fries, boils and plates the whole menu. Ours is open six days.</small><span class="label">Frying robot, $3,610 a month</span></span></a></li></ul>
+      <ul class="cat two"><li><a class="wz-opt pic" href="../robot-coffee-machines/"><span class="ph"><video data-play muted loop playsinline preload="none" data-poster="../img/offer/coffee-bar-studio.jpg" aria-label="The dual-arm barista bar on a studio seamless"><source src="../img/machines/coffee-robot-stage.mp4" type="video/mp4"><img src="../img/offer/coffee-bar-studio.jpg" alt="The dual-arm barista bar on a studio seamless" loading="lazy"></video></span><span class="wz-opt-t"><h3><b>Robot coffee machines</b></h3><small>A barista in two square metres, in your brand.</small><span class="label">From $4,568 a month</span></span></a></li><li><a class="wz-opt pic" href="../robot-cocktail-machines/"><span class="ph"><img src="../img/offer/robot-bar-studio.jpg" alt="The robot bar from 365 St Pauls Terrace on a studio seamless" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Robot cocktail machines</b></h3><small>The same measure every time, under a rack of your bottles.</small><span class="label">$3,495 a month</span></span></a></li><li><a class="wz-opt pic" href="../robot-ice-cream-machines/"><span class="ph"><img src="../img/warm-kiosk.jpg" alt="The dessert kiosk at 365 St Pauls Terrace, the arm handing a soft serve to a boy" loading="lazy" decoding="async" style="object-position:50% 10%"></span><span class="wz-opt-t"><h3><b>Robot ice cream machines</b></h3><small>Pasteurised soft serve, an arm that hands it over, a queue that watches.</small><span class="label">$3,572 a month</span></span></a></li><li><a class="wz-opt pic" href="../robot-kitchen-fitouts/"><span class="ph"><img src="../img/offer/kitchen-line-studio.jpg" alt="The kitchen line from 365 St Pauls Terrace on a studio seamless" loading="lazy" decoding="async"></span><span class="wz-opt-t"><h3><b>Robot kitchen fit-outs</b></h3><small>A line that fries, boils and plates the whole menu. Ours is open six days.</small><span class="label">Frying robot, $3,610 a month</span></span></a></li></ul>
     </div>
   </section>
 
@@ -3715,6 +3715,28 @@ window.WonderQuote = (function(){
   // honour reduced motion for the hero: pause and show the still
   var vid=document.querySelector('.hero-video'); if(!vid) return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ try{vid.pause();}catch(e){} vid.removeAttribute('autoplay'); }
+})();
+
+/* Clips below the first screen wait for the visitor. An autoplay video
+   downloads whole on page load wherever it sits on the page (preload="none"
+   does not stop it): three tiles were 6.3 MB of the home page's first 8.2 MB.
+   So these carry data-play instead of autoplay and keep their poster in
+   data-poster; both are handed over half a screen before the clip arrives,
+   and it pauses once it has gone. With no observer they all start at once,
+   as they did before. */
+(function () {
+  var vids = [].slice.call(document.querySelectorAll('video[data-play]'));
+  if (!vids.length) return;
+  function wake(v) {
+    if (v.dataset.poster) { v.poster = v.dataset.poster; delete v.dataset.poster; }
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // autoplay refused (low power mode): the poster stays
+  }
+  if (!('IntersectionObserver' in window)) { vids.forEach(wake); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) wake(e.target); else e.target.pause(); });
+  }, { rootMargin: '50% 0px' });
+  vids.forEach(function (v) { io.observe(v); });
 })();
 
 /* One small animation. The night half of the stack rises into place under the
