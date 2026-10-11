@@ -86,6 +86,23 @@ ICONS = ('<link rel="icon" href="{{root}}favicon-32.png" sizes="32x32">\n'
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">\n'
 
 BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
+<script>
+/* The curtain is only up if these lines put it up, and they also take it
+   down. A first visit this session, with motion allowed, gets it. If the site
+   script further down the page never arrives, or stops part way, the page
+   shows anyway after three seconds. Once that script has set its own
+   deadline it cancels this one. */
+(function(){
+  var root=document.documentElement, seen=false;
+  try{ seen=sessionStorage.getItem('wr-loader')==='1'; }catch(e){}
+  if(seen||(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  root.classList.add('wr-curtain');
+  window.WonderCurtain=setTimeout(function(){
+    root.classList.remove('wr-curtain');
+    try{ sessionStorage.setItem('wr-loader','1'); }catch(e){}
+  },3000);
+})();
+</script>
 <header class="bar" id="bar">
   <div class="wrap grid">
     <a class="mark" href="{{root}}" aria-label="Wonder Robotics home"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>

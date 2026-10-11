@@ -867,6 +867,7 @@ window.WonderQuote = (function(){
    so the header mark plays the sneak on its own. */
 (function(){
   var L=document.getElementById('loader');
+  var root=document.documentElement;
   var head=document.querySelector('.bar .mark canvas');
   var holder=head&&head.parentNode;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -881,11 +882,14 @@ window.WonderQuote = (function(){
   if(!L){ return; }
   if(reduce){ L.remove(); return; }
   if(seen){ L.remove(); sneakHead(900); return; }
+  // The page shell raises the curtain (build.py, beside the loader) and drops
+  // it again if this script is late. If it is not up, there is no walk to do.
+  if(!root.classList.contains('wr-curtain')){ L.remove(); sneakHead(900); return; }
 
   var lifted=false, started=false;
   var lift=function(){ if(lifted) return; lifted=true;
     if(holder) holder.classList.remove('handing');
-    L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();},600);};
+    L.classList.add('out'); try{sessionStorage.setItem('wr-loader','1');}catch(e){} setTimeout(function(){L.remove();root.classList.remove('wr-curtain');},600);};
 
   // Measure both marks, then move the loader's canvas onto the header's box.
   // Same aspect and same sub, so one scale carries it.
@@ -911,6 +915,7 @@ window.WonderQuote = (function(){
   };
   if(document.fonts&&document.fonts.load){ document.fonts.load('700 84px UnboundedW').then(start,start); setTimeout(start,700); } else { setTimeout(start,200); }
   setTimeout(lift,3200); // never trap anyone behind it
+  clearTimeout(window.WonderCurtain); // the shell's deadline covered the wait for this script; ours takes over
 })();
 
 /* The bar: it sets when you leave the top, it says which page you are on, and

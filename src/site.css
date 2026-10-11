@@ -1170,14 +1170,16 @@
   .studio .half{grid-column:span 6}
   .studio .half img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r)}
   @media (max-width:980px){.studio .half{grid-column:1/13}}
-  /* loader: the mark on cream, first visit per session, under a second */
-  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;transition:opacity .45s ease,visibility .45s,background .55s ease}
+  /* loader: the mark on cream, first visit per session, under a second.
+     Off unless the page shell's own script raises it (html.wr-curtain), so a
+     page whose script never runs is a page, not a cream sheet. */
+  .loader{position:fixed;inset:0;z-index:50;background:var(--paper);display:none;place-items:center;transition:opacity .45s ease,visibility .45s,background .55s ease}
+  .wr-curtain .loader{display:grid}
   /* the ground goes first so the mark looks like it is flying over the page */
   .loader.hand{background:transparent}
   .loader canvas{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease;max-width:calc(100vw - var(--m) * 2);height:auto}
   .loader.in canvas{opacity:1;transform:none}
   .loader.out{opacity:0;visibility:hidden}
-  @media (prefers-reduced-motion:reduce){.loader{display:none}}
   @media (prefers-reduced-motion:reduce){.hero-video{display:none}.plate .hero-video + img{display:block}.stage.film .hero-video,figure.film .hero-video{display:block}}
 
   /* the warm home: one idea per screen */
