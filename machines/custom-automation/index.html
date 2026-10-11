@@ -1614,12 +1614,22 @@
     .mrow .catalogue{grid-template-columns:1fr}
     footer .cols{grid-template-columns:1fr}
     .pop{min-height:auto}
-    .pop.light .wrap > *{grid-column:1/13}
-    /* No room to stand the type beside the robot, so the plate becomes a band
-       above it. Cropped to the robot, not to a fraction of the frame. */
-    .pop.light{display:block;min-height:0;background:var(--paper)}
-    .pop.light .bg{position:static;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;object-position:18% 62%}
-    .pop.light .wrap{padding-top:clamp(26px,6vw,44px)}
+    /* The type stands in the plate beside the robot, as it does on a desk. The
+       plate is cut to him (5:4) and he holds its left third: measured off
+       hero-bot.jpg, 10.7% to 34.4% of the width at this crop. The type takes
+       the wall from 40% to the page margin and is sized in vw, so the two keep
+       their distance at every phone width. The wrap dissolves so its children
+       sit on the section's grid: plate across rows 1 to 4, type in rows 2 and
+       3, and the two doors full width underneath in row 5. The spare height
+       splits 7 to 3 because his middle is 61% down the plate: the type centres
+       on him, not on the frame. */
+    .pop.light{display:grid;grid-template-columns:40% minmax(0,1fr);grid-template-rows:7fr auto auto 3fr auto;align-items:start;min-height:0;background:var(--paper)}
+    .pop.light picture{grid-area:1/1/5/3}
+    .pop.light .bg{position:static;display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;object-position:18% 62%}
+    .pop.light .wrap{display:contents}
+    .pop.light .wrap > .eyebrow{grid-area:2/2;margin:0 var(--m) 2.4vw 0;font-size:max(9.5px,2.6vw)}
+    .pop.light .wrap > h1{grid-area:3/2;margin:0 var(--m) 0 0;font-size:min(7.6vw,40px);line-height:1}
+    .pop.light .wrap > .actions{grid-area:5/1/6/3;margin:var(--m) var(--m) 48px}
   }
 
   /* The work around the machine, drawn as a stack rather than a row: what the
