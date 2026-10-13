@@ -480,19 +480,29 @@
     .sheet{width:210mm;height:297mm;aspect-ratio:auto;border-radius:0;box-shadow:none;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .sheet:last-child{break-after:auto;page-break-after:auto}
   }
-  /* The coffee deck: the proposal's sheet cut 16:9, one sheet a screen,
-     arrow keys, full screen, and the same calculators as the page. The
-     cqw sizes are the A4 sheet's scaled to the wider frame. */
-  .deck{padding:0 0 clamp(40px,5vw,80px)}
-  body:has(main.deck) .eoi{display:none}
-  .deck-tools{position:sticky;top:64px;z-index:5;background:color-mix(in srgb,var(--ink) 9%,var(--paper));border-bottom:1px solid var(--rule)}
-  .bar.bar-set ~ .deck .deck-tools{top:52px}
-  .deck-tools-in{padding:12px var(--m);display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center}
-  .deck-pg{margin-left:auto;font-variant-numeric:tabular-nums}
-  .deck-actions{display:flex;flex-wrap:wrap;gap:8px}
-  .deck-actions button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
-  .deck-stack{display:grid;gap:clamp(20px,3vw,40px);padding:clamp(20px,3vw,40px) var(--m) 0;justify-items:center}
-  .sheet.wide{width:min(100%,calc((100vh - 200px) * 16 / 9));aspect-ratio:16/9;scroll-margin-top:130px}
+  /* The coffee deck: the proposal's sheet cut 16:9 and presented the way the
+     company deck is, one sheet filling the screen on the dark ground, with
+     the same calculators as the page. It is shown on a call, so the site's
+     header and footer stay off it. The cqw sizes are the A4 sheet's scaled
+     to the wider frame. */
+  html:has(main.deck){background:var(--ink);scroll-snap-type:y mandatory}
+  body:has(main.deck){background:var(--ink)}
+  body:has(main.deck) .bar,body:has(main.deck) .loader,body:has(main.deck) .qs,body:has(main.deck) .eoi,body:has(main.deck) > footer{display:none}
+  .deck{--g:clamp(12px,2.2vw,36px);padding:0}
+  .deck-stack{display:grid;grid-auto-rows:100vh;grid-auto-rows:100svh;place-items:center}
+  .sheet.wide{width:min(calc(100vw - 2*var(--g)),calc((100vh - 2*var(--g))*16/9));width:min(calc(100vw - 2*var(--g)),calc((100svh - 2*var(--g))*16/9));
+              aspect-ratio:16/9;border-radius:10px;box-shadow:none;scroll-snap-align:center;scroll-snap-stop:always}
+  /* The controls are the company deck's. They step back when nothing has
+     moved for a moment, so nothing sits over a sheet while it is presented. */
+  .deck-nav{position:fixed;right:14px;bottom:12px;z-index:5;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:color-mix(in srgb,var(--cream) 72%,transparent)}
+  .deck-nav button{appearance:none;width:34px;height:34px;border:1px solid color-mix(in srgb,var(--cream) 22%,transparent);border-radius:8px;background:color-mix(in srgb,var(--ink) 60%,transparent);color:var(--cream);font:inherit;font-size:15px;cursor:pointer}
+  .deck-nav button:hover{border-color:var(--cream)}
+  .deck-nav button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .deck-nav output{min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+  .deck-nav,body:has(main.deck) .dl-pdf{transition:opacity .3s ease}
+  @media (min-width:761px){
+    .dk-quiet .deck-nav:not(:focus-within),.dk-quiet body:has(main.deck) .dl-pdf{opacity:0;pointer-events:none}
+  }
   .sheet.wide .sh-in{padding:3.6cqw 4cqw 4.6cqw;gap:1.6cqw}
   .sheet.wide .label{font-size:.95cqw}
   .sheet.wide .sh-foot{left:4cqw;right:4cqw;bottom:2cqw;font-size:.8cqw;padding-top:.8cqw}
@@ -564,10 +574,33 @@
   .dk-fine dt,.dk-fine dd{margin:0;padding:.7cqw 0;border-bottom:1px solid color-mix(in srgb,var(--cream) 22%,transparent);font-size:1.05cqw;line-height:1.35}
   .dk-fine dt{font-family:var(--mono);font-size:.8cqw;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--cream) 60%,transparent);padding-top:.9cqw}
   .dk-fine dd{color:color-mix(in srgb,var(--cream) 85%,transparent)}
-  @media (max-width:900px){ .sheet.wide{width:100%} }
+  /* Our work and the company we keep: the company deck's job and wall
+     slides, in the sheet's own sizes. */
+  .dk-job{display:grid;grid-template-columns:1.42fr 1fr;gap:3.4cqw;flex:1;min-height:0;margin-top:1.4cqw}
+  .dk-job figure{margin:0;display:flex;flex-direction:column;min-height:0}
+  .dk-pic{flex:1;min-height:0;overflow:hidden;border-radius:.8cqw}
+  .dk-pic img{display:block;width:100%;height:100%;object-fit:cover}
+  .dk-job figcaption{margin-top:.8cqw}
+  .dk-job .dk-h{margin-top:0}
+  .dk-facts{margin:1.8cqw 0 0;display:grid;grid-template-columns:7cqw 1fr;border-top:1px solid var(--rule)}
+  .dk-facts dt,.dk-facts dd{margin:0;padding:.9cqw 0;border-bottom:1px solid var(--rule)}
+  .dk-facts dt{font-family:var(--mono);font-size:.85cqw;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);padding-top:1.15cqw}
+  .dk-facts dd{font-size:1.3cqw;line-height:1.3}
+  .dk-wall{list-style:none;margin:2cqw 0 0;padding:0;flex:1;min-height:0;display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:1fr;gap:1cqw}
+  .dk-wall li{display:grid;place-items:center;border:1px solid var(--rule);border-radius:.8cqw}
+  .dk-wall img{height:2.6cqw;width:auto;max-width:12cqw;object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  .dk-wall img.tall{height:4.5cqw}
+  /* A phone is too narrow to hold a sheet a screen: the sheets stack. */
+  @media (max-width:760px){
+    html:has(main.deck){scroll-snap-type:none}
+    .deck-stack{grid-auto-rows:auto;gap:8px;padding:8px}
+    .sheet.wide{width:100%}
+    .deck-nav{display:none}
+  }
   @media print{
-    body:has(main.deck) .bar,body:has(main.deck) .loader,body:has(main.deck) .qs,body:has(main.deck) footer,.deck-tools{display:none !important}
-    body:has(main.deck) .sheet.wide{width:297mm;height:167mm;aspect-ratio:auto;break-after:page;page-break-after:always;page:deck}
+    html:has(main.deck),body:has(main.deck){background:#fff;scroll-snap-type:none}
+    body:has(main.deck) .bar,body:has(main.deck) .loader,body:has(main.deck) .qs,body:has(main.deck) footer,.deck-nav{display:none !important}
+    body:has(main.deck) .sheet.wide{width:297mm;height:167mm;aspect-ratio:auto;border-radius:0;break-after:page;page-break-after:always;page:deck}
     body:has(main.deck) .deck-stack{display:block;padding:0}
     @page deck{size:A4 landscape;margin:0}
   }

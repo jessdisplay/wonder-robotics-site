@@ -842,12 +842,23 @@ def home_catalogue():
     return '<ul class="cat">' + "".join(tiles) + "</ul>"
 
 
+WALL_TALL = {"armhub.png", "onyx-tyres.jpg", "stellaris-robotics.jpg", "little-red-dumplings.jpg"}   # square marks sit taller
+
+
+def wall():
+    """Who we have worked with, as list items: the catalogue's partner list, so every deck's wall is the site's."""
+    return "".join('      <li><img{} src="{{{{root}}}}img/partners/{}" alt="{}"></li>\n'.format(
+        ' class="tall"' if k in WALL_TALL else "", k, escape(v)) for k, v in PARTNERS)
+
+
 def page(name, cfg):
     body = (SRC / "pages" / f"{cfg.get('src', name)}.html").read_text()
     for old, new in cfg.get("swap", []):
         if body.count(old) != 1:
             sys.exit(f"{name}: the line to swap is not in the source exactly once: {old}")
         body = body.replace(old, new)
+    if "{{wall}}" in body:
+        body = body.replace("{{wall}}", wall())
     if "{{next}}" in body:
         body = body.replace("{{next}}", next_block(name))
     if "{{catalogue}}" in body:
@@ -1193,19 +1204,14 @@ for old, (to, name) in OLD_SITE.items():
 # catalogue's partner list and its pictures are the site's own, so it cannot
 # drift from the site. Unlisted: noindex, not in the sitemap, linked from
 # no page.
-WALL_TALL = {"armhub.png", "onyx-tyres.jpg", "stellaris-robotics.jpg", "little-red-dumplings.jpg"}   # square marks sit taller
-
-
 def deck(name):
     root = "../../"
-    wall = "".join('      <li><img{} src="{{{{root}}}}img/partners/{}" alt="{}"></li>\n'.format(
-        ' class="tall"' if k in WALL_TALL else "", k, escape(v)) for k, v in PARTNERS)
     # Slides number themselves, so one can be added without renumbering the rest:
     # {{i}} and {{n}} are a slide's place in the source, {{of}} the count.
     head, *slides = (SRC / f"{name}-deck.html").read_text().split('<section class="stage"')
     html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
                           for i, s in enumerate(slides, 1))
-    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}")).replace("{{wall}}", wall)
+    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}")).replace("{{wall}}", wall())
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     if "{{" in html:
         sys.exit(f"{name} deck has an unfilled token")
