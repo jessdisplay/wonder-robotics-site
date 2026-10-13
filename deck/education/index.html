@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Wonder Robotics for education</title>
+<meta name="description" content="Wonder Robotics: robotics, apps and research from one building in Fortitude Valley, Brisbane.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  /* The sheet, the controls and the print rules are the Wonder Robotics deck's (src/unisc-deck.html in
+     wonder-robotics-site), by way of the Fonzie Abbott posters deck. That deck is Fonzie Abbott's black and white
+     with the words drawn into each picture; this one is Wonder Robotics' own night, cream and ink, and the words
+     are type on the page. */
+  :root{
+    --paper:#F3F1E4;
+    --ink:#1D1826;
+    --ink-2:rgba(29,24,38,.7);
+    --rule:#DDD8C6;
+    --card:#FBFAF3;
+    --paper-2:rgba(243,241,228,.78);
+    --paper-rule:rgba(243,241,228,.22);
+    --night:#20103A;
+    --signal:#4A2FD9;
+    --display:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+    --g:clamp(12px,2.2vw,36px);
+  }
+  @font-face{font-family:'UnboundedW';src:url(fonts/UnboundedW.woff2) format('woff2');font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--ink);scroll-snap-type:y mandatory}
+  body{font-family:var(--display);color:var(--paper);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img,video{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+
+  .stage{height:100vh;height:100svh;display:grid;place-items:center;padding:var(--g);scroll-snap-align:start;scroll-snap-stop:always}
+  .slide{container-type:inline-size;position:relative;overflow:hidden;background:var(--night);border-radius:10px;aspect-ratio:16/9;
+         width:min(calc(100vw - 2*var(--g)),calc((100vh - 2*var(--g))*16/9));
+         width:min(calc(100vw - 2*var(--g)),calc((100svh - 2*var(--g))*16/9))}
+  .in{--u:calc(100cqw/1920);position:absolute;inset:0}
+  .lab{font-family:var(--mono);font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-2)}
+
+  /* a poster: two very large words, one line under them, and one picture. Words never sit on a face. */
+  .poster{background:var(--night);color:var(--paper)}
+  .poster>.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .poster .words{position:absolute;left:calc(96*var(--u));top:0;bottom:0;width:calc(1000*var(--u));display:flex;flex-direction:column;justify-content:center}
+  .poster h1{font-weight:500;font-size:calc(var(--s,208)*var(--u));line-height:.88;letter-spacing:-.06em;white-space:nowrap;margin-top:calc(30*var(--u))}
+  .poster .sub{font-weight:300;font-size:calc(42*var(--u));line-height:1.18;letter-spacing:-.02em;color:var(--paper-2);margin-top:calc(48*var(--u));max-width:calc(900*var(--u));text-wrap:balance}
+  .poster .low{position:absolute;left:calc(96*var(--u));bottom:calc(46*var(--u));white-space:nowrap}
+  /* the picture: tall, down the right side, edge to edge */
+  .poster .side{position:absolute;right:0;top:0;bottom:0;width:40%;overflow:hidden;background:#150A28}
+  .poster .side>img,.poster .side>video,.ph>img,.ph>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* two phone clips side by side, each at its own 9:16 */
+  .poster .side.two{width:auto;display:flex}
+  .ph{position:relative;height:100%;aspect-ratio:9/16;flex:none}
+  /* the cream page: the studio the machines are photographed in, with ink type */
+  .poster.cream{background:var(--paper);color:var(--ink)}
+  .poster.cream .sub{color:var(--ink-2)}
+  .poster.cream .lab{color:var(--signal)}
+  .poster.cream .side{background:var(--paper)}
+  .poster .mk{position:absolute;left:calc(96*var(--u));top:calc(64*var(--u));width:calc(250*var(--u));height:auto}
+  .poster .words.right{left:auto;right:calc(96*var(--u));width:calc(1090*var(--u))}
+  /* machines standing on the cream floor, each on its own shadow, each named */
+  .stand{position:absolute;right:calc(96*var(--u));bottom:calc(84*var(--u));display:flex;align-items:flex-end;gap:calc(64*var(--u))}
+  .stand figure{display:flex;flex-direction:column;align-items:center}
+  .stand .bot{position:relative;height:calc(var(--box,740)*var(--u));display:flex;align-items:flex-end}
+  .stand .bot::after{content:"";position:absolute;left:4%;right:4%;bottom:calc(-14*var(--u));height:calc(44*var(--u));background:radial-gradient(ellipse at center,rgba(29,24,38,.26),rgba(29,24,38,0) 68%)}
+  .stand .bot img{position:relative;z-index:1;height:calc(var(--h,740)*var(--u));width:auto;max-width:none}
+  .stand figcaption{margin-top:calc(34*var(--u));text-align:center}
+  .stand figcaption b{display:block;font-weight:500;font-size:calc(36*var(--u));letter-spacing:-.03em;line-height:1.05;white-space:nowrap}
+  .stand figcaption span{display:block;margin-top:calc(8*var(--u));font-family:var(--mono);font-size:calc(19*var(--u));letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+  /* three in a row: the words go along the top and the machines across the foot */
+  .poster.row .words{bottom:auto;top:calc(84*var(--u));width:auto;right:calc(96*var(--u));justify-content:flex-start}
+  .poster.row .stand{left:calc(96*var(--u));justify-content:space-between}
+  /* who we work with: the site's own wall */
+  .wall{display:grid;grid-template-columns:repeat(5,1fr);gap:calc(18*var(--u));position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(132*var(--u))}
+  .wall li{list-style:none;height:calc(170*var(--u));display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
+  .wall img{height:calc(60*var(--u));width:auto;max-width:calc(250*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  .wall img.tall{height:calc(104*var(--u))}
+
+  /* a picture slide: the picture is the slide, edge to edge, with one small label */
+  .full>img,.full>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .full::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(to top,rgba(14,8,26,.8),rgba(14,8,26,0))}
+  .full .lab{position:absolute;left:calc(64*var(--u));bottom:calc(46*var(--u));z-index:1;color:var(--paper);display:flex;align-items:center;gap:calc(18*var(--u));white-space:nowrap}
+  .full .lab b{font-weight:500;color:var(--ink);background:var(--paper);border-radius:calc(60*var(--u));padding:calc(7*var(--u)) calc(18*var(--u))}
+  /* the first picture of a section carries the section's name: large, one line, along the foot, on a deeper shade */
+  .full.titled::after{height:62%;background:linear-gradient(to top,rgba(14,8,26,.93) 0%,rgba(14,8,26,.72) 36%,rgba(14,8,26,0) 100%)}
+  .ttl{position:absolute;left:calc(64*var(--u));right:calc(64*var(--u));bottom:calc(50*var(--u));z-index:1}
+  .ttl.r{text-align:right}
+  .full .ttl .lab{position:static;display:inline-flex}
+  .ttl h1{font-weight:500;font-size:calc(150*var(--u));line-height:.92;letter-spacing:-.06em;white-space:nowrap;margin-top:calc(10*var(--u))}
+  .ttl .sub{font-weight:300;font-size:calc(38*var(--u));line-height:1.2;letter-spacing:-.02em;color:var(--paper-2);margin-top:calc(20*var(--u));text-wrap:balance}
+  /* a drawing or a studio picture is on paper: no shade over it, and its label is in ink */
+  .full.paper::after{display:none}
+  .full.paper .lab{color:var(--ink);background:rgba(243,241,228,.94);border-radius:calc(60*var(--u));padding:calc(8*var(--u)) calc(22*var(--u)) calc(8*var(--u)) calc(8*var(--u));left:calc(56*var(--u));bottom:calc(38*var(--u))}
+  .full.paper .lab b{color:var(--paper);background:var(--ink)}
+  .full.paper.titled::after{display:none}
+  .full.paper .ttl{color:var(--ink)}
+  .full.paper .ttl .sub{color:var(--ink-2);max-width:calc(1150*var(--u))}
+  .full.paper .ttl .lab{background:none;padding:0;color:var(--signal)}
+  /* whose work it is, and who stands behind it: a mark at the head, two logos at the foot on the wall's own cards */
+  .full .mk{position:absolute;left:calc(64*var(--u));top:calc(54*var(--u));width:calc(170*var(--u));height:auto;inset-block-end:auto;inset-inline-end:auto;object-fit:contain}
+  .backed{position:absolute;right:calc(64*var(--u));bottom:calc(50*var(--u));z-index:1;text-align:right}
+  .full.paper .backed .lab{position:static;display:block;background:none;padding:0;color:var(--ink-2)}
+  .backed ul{display:flex;gap:calc(18*var(--u));margin-top:calc(14*var(--u))}
+  .backed li{list-style:none;width:calc(250*var(--u));height:calc(130*var(--u));display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
+  .backed img{height:calc(58*var(--u));width:auto;max-width:calc(200*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  /* a picture wider or smaller than the slide keeps its own shape on the night, and is never stretched to fill */
+  .full.cine>img,.full.cine>video{object-fit:contain}
+  .full.cine::after{display:none}
+  .full.cine.screen>img{inset:calc(96*var(--u)) calc(320*var(--u)) calc(184*var(--u));width:calc(1280*var(--u));height:calc(800*var(--u));border-radius:calc(18*var(--u))}
+  /* three tall photographs across the slide, each a third */
+  .trio{display:flex}
+  .trio>img{position:static;flex:1 1 0;min-width:0;height:100%;object-fit:cover}
+
+  /* the last page: the Wonder Robotics mark, large, then who to call. On screen it is the site's own drawn mark
+     and the robot looks round the moon as the page arrives; on paper it is the still mark. */
+  .cover .sting{position:absolute;left:0;right:0;top:0;height:72%;display:grid;place-items:center;
+                background:radial-gradient(ellipse 60% 70% at 50% 56%,#37226A 0%,var(--night) 72%)}
+  .cover .sting canvas{display:block;max-width:none}
+  .cover .sting .still{display:none;width:calc(980*var(--u));height:auto}
+  .cover .bye{position:absolute;left:0;right:0;bottom:calc(120*var(--u));text-align:center}
+  .cover .bye h1{font-weight:500;font-size:calc(92*var(--u));line-height:.95;letter-spacing:-.05em;white-space:nowrap}
+  .cover .bye .lab{margin-top:calc(30*var(--u))}
+  .credit{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(30*var(--u));text-align:center;font-family:var(--mono);font-size:calc(13*var(--u));letter-spacing:.04em;color:rgba(243,241,228,.55)}
+
+  .nav{position:fixed;right:14px;bottom:12px;display:none;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--paper-2);z-index:5}
+  .js .nav{display:flex}
+  .nav button{appearance:none;border:1px solid var(--paper-rule);background:rgba(29,24,38,.6);color:var(--paper);width:34px;height:34px;border-radius:8px;font:inherit;font-size:15px;cursor:pointer}
+  .nav button:hover{border-color:var(--paper)}
+  .nav button:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+  .nav output{min-width:64px;text-align:center}
+  .nav a{border:1px solid var(--paper-rule);background:rgba(29,24,38,.6);color:var(--paper);height:34px;border-radius:8px;padding:0 12px;display:flex;align-items:center;text-transform:uppercase}
+  .nav a:hover{border-color:var(--paper)}
+  .nav button.wide{width:auto;padding:0 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+  .nav{transition:opacity .3s ease}
+  /* presenting: the slide is the screen, and the controls go quiet until the mouse moves */
+  :root:fullscreen,:root.present{background:#000}
+  :root:fullscreen .stage,:root.present .stage{padding:0}
+  :root:fullscreen .slide,:root.present .slide{border-radius:0;width:min(100vw,calc(100vh*16/9))}
+  :root.idle{cursor:none}
+  :root.idle .nav{opacity:0;pointer-events:none}
+
+  @page{size:1920px 1080px;margin:0}
+  @media print{
+    html{background:none;scroll-snap-type:none}
+    .stage{height:1080px;padding:0;break-after:page;break-inside:avoid}
+    .slide,.in,h1{break-inside:avoid}
+    .slide{width:1920px;border-radius:0}
+    .nav{display:none !important}
+    .cover .sting canvas{display:none}
+    .in video{display:none}      /* paper gets the still underneath */
+    .cover .sting .still{display:block}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<main>
+
+<section class="stage" aria-label="Wonder Robotics for education">
+  <div class="slide"><div class="in poster cream">
+    <img class="bg" src="pictures/w1.jpg" alt="W-1, the small walnut timber robot with a purple visor, standing in a cream studio">
+    <img class="mk" src="marks/wonder-robotics-ink.png" width="1373" height="322" alt="Wonder Robotics">
+    <div class="words right">
+      <p class="lab">[ For education ]</p>
+      <h1 style="--s:134">We build the robots.<br>Then we run them<br>in front of you.</h1>
+      <p class="sub">365 St Pauls Terrace, Fortitude Valley, Brisbane</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="What we do: robotics, apps, research">
+  <div class="slide"><div class="in poster">
+    <div class="words" style="width:auto">
+      <p class="lab">[ What we do ]</p>
+      <h1 style="--s:290">Robotics.<br>Apps.<br>Research.</h1>
+    </div>
+    <p class="lab low">Idea &rarr; sketch &rarr; brand &rarr; supply &rarr; fabricate &rarr; full fitout &rarr; maintenance</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Robot kitchens">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/kitchen-loop.jpg" alt="The whole robot kitchen line at 365 St Pauls Terrace: the ingredient store, the arm on its rail, the fryers and the noodle baths, with the dining room behind the glass">
+    <video src="clips/kitchen-loop.mp4" poster="pictures/kitchen-loop.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="ttl">
+      <p class="lab">[ Robotics &middot; our kitchen, 365 St Pauls Terrace ]</p>
+      <h1>Robot kitchens.</h1>
+      <p class="sub">Ours cooks the whole menu, six days a week.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Robot coffee">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/coffee-bar.jpg" alt="Two silver robot arms at a coffee machine on a white counter, one lifting a purple cup off the stack">
+    <video src="clips/coffee-bar.mp4" poster="pictures/coffee-bar.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="ttl">
+      <p class="lab">[ Robotics &middot; the dual-arm barista bar ]</p>
+      <h1>Robot coffee.</h1>
+      <p class="sub">A barista or a bartender in about two square metres.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="On site, programming the arms">
+  <div class="slide"><div class="in poster">
+    <div class="words" style="width:calc(560*var(--u))">
+      <p class="lab">[ Robotics ]</p>
+      <h1>On<br>site.</h1>
+      <p class="sub">Programming the arms.</p>
+    </div>
+    <div class="side two">
+      <div class="ph"><img src="pictures/on-site-1.jpg" alt="A phone clip from site: a young man films himself, then an engineer at a laptop beside a robot arm on a steel bench">
+        <video src="clips/on-site-1.mp4" poster="pictures/on-site-1.jpg" controls playsinline preload="metadata"></video></div>
+      <div class="ph"><img src="pictures/on-site-2.jpg" alt="A phone clip from site: an engineer programs a robot arm from a laptop, then a white arm at a coffee machine and a cup of coffee it has made">
+        <video src="clips/on-site-2.mp4" poster="pictures/on-site-2.jpg" controls playsinline preload="metadata"></video></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Service robots">
+  <div class="slide"><div class="in poster cream">
+    <div class="words">
+      <p class="lab">[ Robotics ]</p>
+      <h1>Service<br>robots.</h1>
+      <p class="sub">They greet, guide and carry the plates.</p>
+    </div>
+    <div class="stand">
+      <figure><div class="bot"><img src="pictures/cruzr.webp" alt="UBTECH Cruzr, a white reception robot with a round head and a touchscreen"></div>
+        <figcaption><b>Cruzr</b><span>Works our door</span></figcaption></figure>
+      <figure><div class="bot"><img src="pictures/cadebot.webp" alt="UBTECH CadeBot, a white tray robot with three trays and a tall screen"></div>
+        <figcaption><b>CadeBot</b><span>Three trays, 40 kg</span></figcaption></figure>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Humanoids">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/g1.jpg" alt="A Unitree G1 humanoid robot standing in a dark purple studio, lit warm from the floor">
+    <div class="ttl">
+      <p class="lab">[ Robotics &middot; Unitree G1 ]</p>
+      <h1>Humanoids.</h1>
+      <p class="sub">One lives on our floor.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Classroom robots">
+  <div class="slide"><div class="in poster cream row">
+    <div class="words">
+      <p class="lab">[ Robotics, for the classroom ]</p>
+      <h1 style="--s:150">Classroom robots.</h1>
+    </div>
+    <div class="stand" style="--box:550">
+      <figure><div class="bot"><img style="--h:460" src="pictures/ukit.webp" alt="UBTECH uKit: a tray of snap-together blue, yellow and grey robot parts with a tablet"></div>
+        <figcaption><b>uKit</b><span>Snap together, visual coding</span><span>Primary and lower secondary</span></figcaption></figure>
+      <figure><div class="bot"><img style="--h:510" src="pictures/ugot.webp" alt="UBTECH UGOT, built as a wheeled, legged robot in black and orange"></div>
+        <figcaption><b>UGOT</b><span>One kit, seven robots</span><span>Python and ROS 2</span></figcaption></figure>
+      <figure><div class="bot"><img style="--h:550" src="pictures/yanshee.webp" alt="UBTECH Yanshee, a small white and grey jointed humanoid"></div>
+        <figcaption><b>Yanshee</b><span>A desk-sized humanoid</span><span>Python and Scratch</span></figcaption></figure>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="For the kids">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/kids-hero.jpg" alt="Pepper, a white humanoid robot wearing a backpack, giving a high five to a young girl in our room, balloons behind them">
+    <div class="ttl">
+      <p class="lab">[ Robotics ]</p>
+      <h1>For the kids.</h1>
+      <p class="sub">Pepper at the door, robots on the floor, a kitchen cooking behind glass.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Pepper and a guest">
+  <div class="slide"><div class="in full">
+    <img src="pictures/kids-party.jpg" alt="Pepper and a young girl looking at each other in our room, a blue balloon above them">
+    <p class="lab">Pepper, at a kids party in our room</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Our apps">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/app-cadebot-menu.jpg" alt="The menu we built, running on a CadeBot's screen on the Airtree Pathfinders night, a second CadeBot beside it">
+    <div class="ttl r">
+      <p class="lab">[ Apps &middot; our menu, running on the CadeBot ]</p>
+      <h1>Our apps.</h1>
+      <p class="sub">Ordering, payment, stock and dispatch. Every robot here talks to it.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Pepper's tablet on the Discover Hong Kong night">
+  <div class="slide"><div class="in full cine screen">
+    <img src="pictures/app-pepper-tablet.jpg" alt="The page we built for Pepper's tablet on the Discover Hong Kong night: the menu served by the robots, and buttons to ask what is on the menu, who is speaking tonight, about Hong Kong, or for a photo">
+    <p class="lab">Pepper's tablet, built for the Discover Hong Kong night</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Rise, software incubated here">
+  <div class="slide"><div class="in full paper titled">
+    <img src="pictures/rise-sky.jpg" alt="Rise's own picture: a single flower bud on a tall stem against a soft pink and blue sky">
+    <img class="mk" src="marks/rise-wordmark-ink.svg" width="488" height="203" alt="Rise">
+    <div class="ttl">
+      <p class="lab">[ Apps &middot; incubated here ]</p>
+      <h1>Rise.</h1>
+      <p class="sub">We incubate software here too. Rise is the operating system for regulated-care compliance.</p>
+    </div>
+    <div class="backed">
+      <p class="lab">Backed through</p>
+      <ul>
+        <li><img src="partners/uq.svg" alt="The University of Queensland"></li>
+        <li><img src="partners/uniquest.png" alt="UniQuest"></li>
+      </ul>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Research: Fall Sense">
+  <div class="slide"><div class="in full paper titled">
+    <img src="pictures/fallsense-unit.jpg" alt="A round unit recessed in a ceiling, mesh faced, with one pinhole and a thin ring of amber light">
+    <div class="ttl">
+      <p class="lab">[ Research &middot; Fall Sense, a concept in design ]</p>
+      <h1>Research.</h1>
+      <p class="sub">A disc in a care home ceiling that knows what happened below it, without ever making a picture.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Fall Sense: the sketches">
+  <div class="slide"><div class="in full paper">
+    <img src="pictures/fallsense-sketch.jpg" alt="An open sketchbook of ceiling unit ideas, most of them crossed out, one drawn with a ring of amber light, two pens beside it">
+    <p class="lab"><b>Concept sketches</b>The first page. Most of them crossed out.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Little Red Dumpling">
+  <div class="slide"><div class="in poster cream">
+    <div class="words">
+      <p class="lab">[ The work &middot; under construction ]</p>
+      <h1>Little Red<br>Dumpling.</h1>
+      <p class="sub">Thirteen shops open. The fourteenth will cook by robot. Machines delivered, fitout under way.</p>
+    </div>
+    <div class="side"><img src="pictures/lrd-girl.jpg" alt="Little Red Dumpling's own mark: a drawn girl in a cap with a red star, eating a dumpling">
+      <video src="clips/lrd-girl.mp4" poster="pictures/lrd-girl.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Little Red Dumpling: the plan">
+  <div class="slide"><div class="in full paper">
+    <img src="pictures/lrd-plan.jpg" alt="An ink plan drawing of the shop: the cook line with the arm on its rail and six wells along one wall, tables along the glass">
+    <p class="lab"><b>Design drawing</b>Nexus Way, Gold Coast. Cook line on the blind wall, seating on the glass.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Little Red Dumpling: the room">
+  <div class="slide"><div class="in full">
+    <img src="pictures/lrd-room.jpg" alt="A visualisation of the finished shop: a white robot arm working behind glass beside stacked bamboo steamers, red lanterns overhead, people eating at timber tables by the window">
+    <p class="lab"><b>Visualisation</b>Built from the room as filmed. Not a photograph.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Fonzie Abbott, a concept in pitch">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/fonzie-airport.jpg" alt="A concept: a long matte black Fonzie Abbott robot coffee kiosk standing under the skylight of an airport terminal, travellers walking past and queueing at it">
+    <div class="ttl">
+      <p class="lab"><b>Concept</b>The work. In pitch, October 2026</p>
+      <h1>Fonzie Abbott.</h1>
+      <p class="sub">A robot barista in their own brand. Shown here at Brisbane Airport.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Fonzie Abbott: the large kiosk">
+  <div class="slide"><div class="in full paper">
+    <img src="pictures/fonzie-kiosk.jpg" alt="A concept: a long matte black three-bay kiosk lettered Fonzie Abbott, with a retail cabinet, a black robot arm at a coffee machine behind glass, five lit serving windows and a large ordering screen">
+    <video src="clips/fonzie-kiosk.mp4" poster="pictures/fonzie-kiosk-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <p class="lab"><b>Concept</b>The arm serves each coffee into a lit window.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Fonzie Abbott: the small one">
+  <div class="slide"><div class="in full">
+    <img src="pictures/fonzie-robina.jpg" alt="A concept: a small matte black Fonzie Abbott robot coffee booth standing against a dark timber wall in a shopping centre, under a sign reading The Kitchens">
+    <p class="lab"><b>Concept</b>The small one, at The Kitchens, Robina Town Centre.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Airtree Pathfinders">
+  <div class="slide"><div class="in poster">
+    <div class="words">
+      <p class="lab">[ Nights at our building ]</p>
+      <h1>Airtree<br>Pathfinders.</h1>
+      <p class="sub">27 August 2026, with Airtree and UQIES.</p>
+    </div>
+    <div class="side two">
+      <div class="ph"><img src="pictures/airtree-reel.jpg" alt="The film of the night: guests arriving, the CadeBots carrying the menu and the food, the robot bar, the talk on the big screen">
+        <video src="clips/airtree-reel.mp4" poster="pictures/airtree-reel.jpg" controls playsinline preload="metadata"></video></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Airtree Pathfinders: the robot bar">
+  <div class="slide"><div class="in full">
+    <img src="pictures/airtree-bar-wide.jpg" alt="Our robot bar on the night: the maroon arm under rows of bottles, the screen behind it reading airtree and UQIES">
+    <p class="lab">The robot bar, dressed for the night</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Airtree Pathfinders: the night">
+  <div class="slide"><div class="in full trio">
+    <img src="pictures/airtree-1.jpg" alt="A CadeBot carrying a bowl of fried food and a bamboo steamer of dumplings on its trays">
+    <img src="pictures/airtree-2.jpg" alt="Cruzr, the white reception robot with a smiling face on its screen, among the guests">
+    <img src="pictures/airtree-3.jpg" alt="A full room seen from the back, watching two speakers on the stage and on the big screen">
+    <p class="lab">Airtree Pathfinders, 27 August 2026</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Discover Hong Kong">
+  <div class="slide"><div class="in full titled">
+    <img src="pictures/hk-delegation.jpg" alt="The delegation at the end of the night: a full room of guests seated and standing, smiling and giving a thumbs up">
+    <div class="ttl">
+      <p class="lab">[ Nights at our building ]</p>
+      <h1>Discover Hong Kong.</h1>
+      <p class="sub">26 August 2026, with ACIA and HKTDC. The delegation, at the end of the night.</p>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Discover Hong Kong: the room">
+  <div class="slide"><div class="in full">
+    <img src="pictures/hk-floor.jpg" alt="Guests standing and talking in our room on the Discover Hong Kong night">
+    <p class="lab">Discover Hong Kong. The room, working.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Who we work with">
+  <div class="slide"><div class="in poster cream row">
+    <div class="words">
+      <p class="lab">[ Partners ]</p>
+      <h1 style="--s:150">Who we work with.</h1>
+    </div>
+    <ul class="wall">
+      <li><img src="partners/airtree.png" alt="AirTree"></li>
+      <li><img src="partners/uq.svg" alt="The University of Queensland"></li>
+      <li><img src="partners/ubtech-mark.png" alt="UBTECH"></li>
+      <li><img src="partners/unitree.png" alt="Unitree"></li>
+      <li><img src="partners/agibot.png" alt="AgiBot"></li>
+      <li><img class="tall" src="partners/armhub.png" alt="ArmHub"></li>
+      <li><img src="partners/uniquest.png" alt="UniQuest"></li>
+      <li><img src="partners/qut.jpg" alt="QUT"></li>
+      <li><img src="partners/kuehne-nagel.jpg" alt="Kuehne+Nagel"></li>
+      <li><img class="tall" src="partners/onyx-tyres.jpg" alt="Onyx Tyres"></li>
+      <li><img src="partners/powerskills-ai.jpg" alt="PowerSkills AI"></li>
+      <li><img src="partners/muzix-audio.jpg" alt="Muzix Audio"></li>
+      <li><img class="tall" src="partners/stellaris-robotics.jpg" alt="Stellaris Robotics"></li>
+      <li><img src="partners/blue-sun-group.jpg" alt="Blue Sun Group"></li>
+      <li><img class="tall" src="partners/little-red-dumplings.jpg" alt="Little Red Dumpling"></li>
+    </ul>
+    <p class="lab low">And we design and build our own machines too.</p>
+  </div></div>
+</section>
+
+<section class="stage" aria-label="Thank you, from Wonder Robotics">
+  <div class="slide"><div class="in cover end">
+    <div class="sting">
+      <canvas id="sting" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="1690" data-hr="0.30" role="img" aria-label="Wonder Robotics"></canvas>
+      <img class="still" src="marks/wonder-robotics-cream.png" width="1373" height="322" alt="Wonder Robotics">
+    </div>
+    <div class="bye">
+      <h1>Thank you.</h1>
+      <p class="lab">365 St Pauls Terrace, Fortitude Valley, Brisbane &nbsp;&middot;&nbsp; wonderbytech.com</p>
+    </div>
+    <p class="credit">Pictures marked Concept, Visualisation or Design drawing show work that is not built yet. The two pictures of Pepper with a child are renders of our room. Fonzie Abbott's, Little Red Dumpling's and Rise's marks are their own.</p>
+  </div></div>
+</section>
+
+</main>
+
+<nav class="nav" aria-label="Slide controls">
+  <a href="Wonder-Robotics-for-education.pdf" download>PDF</a>
+  <button type="button" class="wide" id="fs" aria-label="Present in full screen">Full screen</button>
+  <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
+  <output id="count" aria-live="polite">01 / 28</output>
+  <button type="button" id="next" aria-label="Next slide">&#8594;</button>
+</nav>
+
+<script>
+/* The mark is drawn at a width in pixels, and a slide is whatever size the window makes it. Tell the mark how wide
+   its canvas is right now, before it paints and before it repaints on a resize. The word fills 58% of the canvas
+   the mark draws into, so a canvas 1690 sheet pixels wide sets the word 980 wide, the size of the still on paper. */
+(function () {
+  var cv = document.getElementById("sting");
+  function size() { cv.dataset.w = Math.max(200, Math.round(cv.closest(".slide").clientWidth * 1690 / 1920)); }
+  size();
+  window.addEventListener("resize", size);
+})();
+</script>
+<script src="mark.js"></script>
+<script>
+(function () {
+  "use strict";
+  var stages = Array.prototype.slice.call(document.querySelectorAll(".stage"));
+  if (!stages.length) return;
+  document.documentElement.classList.add("js");
+  var count = document.getElementById("count");
+  var at = 0;
+
+  var root = document.documentElement;
+  var sting = document.getElementById("sting");
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // The last page: the robot looks round the moon, hesitates, and comes home. Once each time the page is
+  // actually on screen, never while it is still scrolling in, and never twice at once.
+  var sneaking = false, seenAt = -1;
+  function sneak(tries) {
+    if (still || sneaking || !window.WonderSneak) return;
+    if (!WonderSneak.park(sting)) {               // the mark paints after its font loads: wait for it
+      if ((tries || 0) < 90) requestAnimationFrame(function () { sneak((tries || 0) + 1); });
+      return;
+    }
+    sneaking = true;
+    setTimeout(function () { WonderSneak.run(sting, 1700, function () { sneaking = false; }); }, 450);
+  }
+
+  // A clip plays only while its slide is the one on screen, so the page never pulls seven films at once.
+  // With reduced motion asked for, no clip plays and each slide keeps its still.
+  function clips(i) {
+    stages.forEach(function (s, n) {
+      Array.prototype.forEach.call(s.querySelectorAll("video"), function (v) {
+        if (v.controls) { if (n !== i) v.pause(); return; }      // a film with its own play button and sound is the presenter's to start
+        if (n === i && !still) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    });
+  }
+
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function show(i, seen) {
+    at = Math.max(0, Math.min(stages.length - 1, i));
+    count.textContent = pad(at + 1) + " / " + pad(stages.length);
+    if (seen) {
+      if (at === stages.length - 1 && seenAt !== at) sneak();
+      if (seenAt !== at) clips(at);
+      seenAt = at;
+    }
+  }
+  var watching = "IntersectionObserver" in window;
+  function go(i) {
+    show(i, !watching);
+    // a cut, not a glide: a glide can be stopped half way by a picture still loading, and a slide must never be half on
+    stages[at].scrollIntoView({ block: "start", behavior: "instant" });
+    if (history.replaceState) history.replaceState(null, "", "#" + (at + 1));
+  }
+
+  // Which slide is on screen: the one covering the middle of the window.
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      if (window.innerHeight < 120) return;   // a hidden window reports no height, and then every slide looks on screen
+      entries.forEach(function (e) { if (e.isIntersecting) show(stages.indexOf(e.target), true); });
+    }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 });
+    stages.forEach(function (s) { io.observe(s); });
+  }
+
+  // A slide is as tall as the window. When the window changes size (full screen, a hidden tab waking, a rotated
+  // screen) the page is left part way between slides, so put the current slide back on screen.
+  window.addEventListener("resize", function () { if (window.innerHeight >= 120) go(at); });
+
+  document.getElementById("prev").addEventListener("click", function () { go(at - 1); });
+  document.getElementById("next").addEventListener("click", function () { go(at + 1); });
+
+  // Presenting: the button, or F. The slide fills the window and the browser is asked for full screen.
+  // Where a browser refuses full screen the slide still fills the window, so its own full screen finishes the job.
+  var fs = document.getElementById("fs"), presenting = false;
+  function settle() {
+    fs.textContent = presenting ? "Exit" : "Full screen";
+    root.classList.toggle("present", presenting);
+    if (!presenting) root.classList.remove("idle");
+    setTimeout(function () { go(at); }, 120);   // the window changed size under the slide: put it back on screen
+  }
+  function present() {
+    presenting = !presenting;
+    settle();
+    if (presenting && root.requestFullscreen && !document.fullscreenElement) {
+      var asked = root.requestFullscreen();
+      if (asked && asked.catch) asked.catch(function () {});
+    } else if (!presenting && document.fullscreenElement) document.exitFullscreen();
+  }
+  fs.addEventListener("click", present);
+  document.addEventListener("fullscreenchange", function () {    // Esc leaves full screen: leave presenting with it
+    if (!document.fullscreenElement && presenting) { presenting = false; settle(); }
+  });
+  var rest;
+  document.addEventListener("mousemove", function () {
+    root.classList.remove("idle");
+    clearTimeout(rest);
+    if (presenting) rest = setTimeout(function () { root.classList.add("idle"); }, 2500);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === "f" || k === "F") { e.preventDefault(); present(); return; }
+    if (k === "ArrowRight" || k === "ArrowDown" || k === "PageDown" || k === " ") { e.preventDefault(); go(at + 1); }
+    else if (k === "ArrowLeft" || k === "ArrowUp" || k === "PageUp") { e.preventDefault(); go(at - 1); }
+    else if (k === "Home") { e.preventDefault(); go(0); }
+    else if (k === "End") { e.preventDefault(); go(stages.length - 1); }
+  });
+
+  // A link to #4 opens on slide four, and so does a refresh in the middle of a talk. Once as soon as the page can,
+  // and once more when everything has loaded, in case the browser put the page back at the top in between.
+  // The address is the one authority on which slide: the browser's own memory of where the page was scrolled is off.
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  function fromAddress() {
+    var n = parseInt((location.hash || "").replace("#", ""), 10);
+    if (n >= 1 && n <= stages.length) go(n - 1);
+  }
+  requestAnimationFrame(fromAddress);
+  window.addEventListener("load", fromAddress);
+  window.addEventListener("hashchange", fromAddress);
+})();
+</script>
+</body>
+</html>
