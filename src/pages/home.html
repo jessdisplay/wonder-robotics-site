@@ -4,12 +4,12 @@
     <canvas class="stage" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Fortitude Valley, Brisbane</span>
-      <h1>We build fully automated kitchens, bars and cafés.</h1>
+      <h1 class="fit"><span class="ln">We build fully</span> <span class="ln">automated kitchens,</span> <span class="ln">bars and cafés.</span></h1>
       <div class="actions"><a class="btn" href="quote/" data-quote><span>Price yours</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#building"><span>See ours working</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true"><div><span>ROBOTICS &middot; HARDWARE &middot; AI &middot; SOFTWARE &middot;</span><span>ROBOTICS &middot; HARDWARE &middot; AI &middot; SOFTWARE &middot;</span></div></div>
+  <div class="marquee" aria-hidden="true"><div><span>ROBOTICS <i class="moon"></i> HARDWARE <i class="moon"></i> AI <i class="moon"></i> SOFTWARE <i class="moon"></i></span><span>ROBOTICS <i class="moon"></i> HARDWARE <i class="moon"></i> AI <i class="moon"></i> SOFTWARE <i class="moon"></i></span></div></div>
 
   <section class="strip">
     <div class="wrap">
@@ -142,7 +142,7 @@
     <div class="wrap">
       <div class="grid head">
         <span class="label">Build a quote</span>
-        <h2>Pick the robot. Then everything around it.</h2>
+        <h2 class="fit"><span class="ln">Pick the robot.</span> <span class="ln">Then everything</span> <span class="ln">around it.</span></h2>
         <p>It prices as you go: the equipment installed, the design and build around it, one monthly budget, and a proposal you can save.</p>
       </div>
       <div class="actions quote-go"><a class="btn" href="quote/" data-quote><span>Build a quote</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="robot-cafe-packages/"><span>Start from a package</span><i aria-hidden="true">+</i></a></div>
@@ -167,7 +167,7 @@
   <section class="say band" id="club">
     <div class="wrap">
       <span class="eyebrow">The Robotics and Hardware Club</span>
-      <h2 class="line">One night a month, the building is yours.</h2>
+      <h2 class="line fit"><span class="ln">One night a month,</span> <span class="ln">the building</span> <span class="ln">is yours.</span></h2>
       <p class="sub">Two talks, the machines running, the bench open.</p>
       <div class="actions"><a class="btn" href="events/"><span>The club</span><i aria-hidden="true">+</i></a></div>
     </div>
@@ -194,6 +194,58 @@
     </div>
   </section>
 </main>
+<script>
+/* The edgier treatment's stacked headlines (src/edgier.css, .fit): each line is drawn out to the
+   heading's width, as the deck's titles are. Measured, not guessed: a line is set at 100px, measured
+   and scaled, then again when the faces arrive and whenever the heading's width changes. A heading
+   with no width (a hidden pane) is left at its own size rather than sized to nothing. */
+(function () {
+  var heads = [].slice.call(document.querySelectorAll(".fit")); if (!heads.length) return;
+  function fit(h) {
+    var w = h.clientWidth; if (!(w > 0)) return;
+    h._fitW = w; h.classList.add("fitted");
+    [].forEach.call(h.querySelectorAll(".ln"), function (l) {
+      // twice: the second pass absorbs anything that does not scale with the size (fixed tracking,
+      // hinting), so a line can land a hair short of the edge but never past it
+      var fs = 100; l.style.fontSize = fs + "px";
+      for (var k = 0; k < 2; k++) {
+        var lw = l.getBoundingClientRect().width; if (!(lw > 0)) { l.style.fontSize = ""; return; }
+        fs = Math.floor(fs * w / lw * 100) / 100; l.style.fontSize = fs + "px";
+      }
+    });
+  }
+  // Then the gaps. Anton's capitals fill the line, so an accent (the E of CAFES rises 0.24em over the
+  // caps) or a comma's tail would touch the next line. Read every line's real ink from the face's own
+  // metrics and space the whole stack evenly to clear its worst pair: a stack with no marks keeps the
+  // deck's tight gap, and no line is ever spaced differently from its neighbours.
+  var g = document.createElement("canvas").getContext("2d");
+  function ink(l) {
+    var cs = getComputedStyle(l), fs = parseFloat(cs.fontSize), lh = parseFloat(cs.lineHeight);
+    g.font = cs.fontWeight + " " + fs + "px " + cs.fontFamily;
+    var t = g.measureText(l.textContent.toUpperCase()), cap = g.measureText("H").actualBoundingBoxAscent;
+    var base = (lh - t.fontBoundingBoxAscent - t.fontBoundingBoxDescent) / 2 + t.fontBoundingBoxAscent;
+    return { fs: fs, lh: lh, base: base, cap: cap, over: Math.max(0, t.actualBoundingBoxAscent - cap), under: Math.max(0, t.actualBoundingBoxDescent) };
+  }
+  function space(h) {
+    var ls = [].slice.call(h.querySelectorAll(".ln")); if (ls.length < 2) return;
+    ls.forEach(function (l) { l.style.marginTop = ""; });
+    var m = ls.map(ink), want = 0, natural = [];
+    for (var i = 1; i < ls.length; i++) {
+      var p = m[i - 1], c = m[i], mt = parseFloat(getComputedStyle(ls[i]).marginTop) || 0;
+      natural[i] = (p.lh - p.base) + mt + (c.base - c.cap);       // baseline to the next line's cap top, as set
+      want = Math.max(want, natural[i], p.under + c.over + 0.035 * Math.min(p.fs, c.fs));
+    }
+    for (var j = 1; j < ls.length; j++) ls[j].style.marginTop = ((parseFloat(getComputedStyle(ls[j]).marginTop) || 0) + want - natural[j]).toFixed(2) + "px";
+  }
+  function all() { heads.forEach(function (h) { fit(h); if (h.classList.contains("fitted")) space(h); }); }
+  all();
+  if (document.fonts && document.fonts.load) Promise.all([document.fonts.load("400 100px Anton"), document.fonts.ready]).then(all, all);
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (es) { es.forEach(function (e) { if (e.target.clientWidth !== e.target._fitW) { fit(e.target); space(e.target); } }); });
+    heads.forEach(function (h) { ro.observe(h); });
+  } else window.addEventListener("resize", all);
+})();
+</script>
 <!-- The mesh hero (hero.js, models/w1.glb) is off the page until the mesh
      is right: the 15 Sep Hunyuan build carries a second right arm. Restore
      the two script tags below once a mesh has been approved on a test link.

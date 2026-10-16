@@ -84,6 +84,9 @@ ICONS = ('<link rel="icon" href="{{root}}favicon-32.png" sizes="32x32">\n'
          '<meta name="theme-color" content="#20103A">\n')
 
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">\n'
+# The edgier treatment (src/edgier.css): a trial on the home page only, so its two faces load there and nowhere else.
+EDGIER = ("home",)
+EDGIER_FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wdth,wght@1,125,800&display=swap">\n'
 
 BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
 <script>
@@ -744,8 +747,8 @@ def render(body, cfg, name=None):
         f'<meta name="description" content="{attr(cfg["desc"])}">\n'
         + head_tags(cfg, name)
         + ICONS
-        + FONTS
-        + "<style>\n" + css + "</style>\n\n"
+        + FONTS + (EDGIER_FONTS if name in EDGIER else "")
+        + "<style>\n" + css + ((SRC / "edgier.css").read_text() if name in EDGIER else "") + "</style>\n\n"
         + BAR + "\n" + body + "\n" + fill_prices(EOIS.get(cfg.get("eoi"), EOI)) + FOOTER
         + "\n<script>\n" + mark + "</script>\n<script>\n" + js + "</script>\n"
     ).replace("{{footer_projects}}", "".join(

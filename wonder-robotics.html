@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wdth,wght@1,125,800&display=swap">
 <style>
   :root{
     --paper:#F3F1E4;
@@ -1774,6 +1775,126 @@
   img[src][src$="warm-kiosk.jpg"]{object-position:50% 10%}
   img[src][src$="tile-coffee.jpg"]{object-position:50% 25%}
   img[src][src$="tile-arm.jpg"]{object-position:50% 12%}
+  /* THE EDGIER TREATMENT. A trial on branch `edgier`, the home page only, shown at
+     wonder-robotics-edgier.pages.dev and never at www.wonderbytech.com until Jesse says so.
+
+     The branding of the Fonzie Abbott posters deck (wonder.fish/robotics/fonzie-abbott/posters/,
+     our five purple posters first): heavy compressed capitals stacked tight, a wide heavy italic
+     line with the Wonder moon between its words, big numerals over small italic captions, cream
+     on the night purple with one soft glow. The deck set them in Impact and slanted Arial Black;
+     on the web they are Anton and Archivo Expanded Italic, the nearest free faces.
+
+     Type, ground and labels only. No word, picture or layout changes here; the line breaks in
+     the three stacked headlines are set in src/pages/home.html. Loaded after site.css, so every
+     rule below is a deliberate override of one there. Everything is held inside main: the bar,
+     the footer and the quote sheet are shared by every page and stay as they are. */
+  :root{
+    --heavy:"Anton",Impact,"Haettenschweiler","Arial Narrow",sans-serif;
+    --wide:"Archivo","Arial Black",sans-serif;
+    /* the deck's stage, measured off poster w2: #361D61 at the glow, #20103A at the edge */
+    --stage:radial-gradient(50% 62% at 50% 62%,#361D61 0%,#2A1549 35%,var(--night) 100%) var(--night);
+  }
+
+  /* the two voices */
+  main .hero-in h1,main .head h2,main h2.line,main .strip p,main .marquee,main .wz-opt b,main .layer b,main .layer .n{
+    font-family:var(--heavy);font-weight:400;text-transform:uppercase;font-synthesis:none}
+  main .label,main .eyebrow,main .layer-tag,main .link,main .btn,main .shot figcaption .label{
+    font-family:var(--wide);font-weight:800;font-style:italic;font-stretch:125%;text-transform:uppercase;letter-spacing:.02em}
+
+  /* The moon between words, as the deck's wide line has it. One mask, coloured by the text. */
+  .moon{display:inline-block;width:calc(var(--mh,.62em) * 1.2115);height:var(--mh,.62em);background:currentColor;vertical-align:baseline;
+        -webkit-mask:url(img/moon.svg) center/contain no-repeat;mask:url(img/moon.svg) center/contain no-repeat}
+
+  /* Stacked lines drawn out to one width, the shape of the deck's titles. Each .ln is sized by
+     the script at the foot of the page; without it they stack at the heading's own size, so
+     nothing waits on script to be readable. */
+  /* A fitted line owns its tracking: an inherited one is in px (site.css #quote .head h2 pins
+     -.035em, worked out at the heading's size) and px does not scale with the line. */
+  .fit .ln{display:block;letter-spacing:0}
+  /* unfitted (no script yet, or none): open enough that an accent never meets the line above */
+  .fit:not(.fitted){line-height:1.04}
+  .fit.fitted .ln{width:max-content;white-space:nowrap}
+  /* the width is capped by the screen's height, so a stack never outgrows one screen on a wide window */
+  .fit{max-width:min(100%,118vh)}
+  .say.band h2.fit{margin-inline:auto}
+
+  /* hero: W-1's plate untouched; only the words over it change */
+  .pop.light h1{margin-top:12px;font-size:clamp(44px,6.4vw,120px);line-height:.86;letter-spacing:0;color:var(--ink)}
+  .pop.light h1 .ln + .ln{margin-top:.04em}
+  .pop.light h1.fit{max-width:min(100%,102vh)}
+  /* site.css's short-window rule shrinks the headline so the whole plate stays on the first screen; the stack honours it */
+  @media (max-height:720px) and (min-width:601px){ .pop.light h1.fit{max-width:min(100%,84vh)} }
+  .pop.light .eyebrow{font-size:clamp(11px,.9vw,15px);color:var(--night)}
+  .pop .actions .btn{font-size:clamp(11px,.78vw,14px)}
+
+  /* the crawl and the line under it: one purple block, as a deck slide */
+  .marquee{margin:0;padding:clamp(28px,4vw,64px) 0 clamp(10px,1.4vw,24px);background:var(--stage);color:var(--cream);opacity:1;
+           font-size:clamp(84px,15vw,280px);line-height:.88;letter-spacing:0}
+  .marquee span{padding-right:.22em}
+  .marquee .moon{--mh:.6em;margin:0 .14em;vertical-align:.02em}
+  .strip{background:var(--night);color:var(--cream)}
+  .strip .wrap{padding-block:clamp(18px,2.4vw,40px) clamp(36px,4.4vw,72px)}
+  .strip p{font-size:clamp(28px,3.4vw,62px);line-height:.94;letter-spacing:0;max-width:26ch}
+  .strip .link{color:var(--cream);vertical-align:.5em;margin-left:.4em;font-size:12px}
+
+  /* section heads */
+  .head .label{font-size:12px;letter-spacing:.03em;color:var(--night)}
+  .head h2{font-size:clamp(40px,5.4vw,100px);line-height:.9;letter-spacing:0}
+  .head p{margin-top:22px}
+
+  /* cards: the name heavy, the price line wide */
+  .wz-opt b{font-size:clamp(24px,2vw,34px);line-height:.94;letter-spacing:0}
+  .cat .wz-opt-t .label{font-size:11px;color:var(--night)}
+  .wz-opt.pic .wz-opt-t .label{font-size:11px}
+
+  /* what we build: the four numbers set like the deck's figures */
+  .layer .n{font-size:clamp(40px,4vw,68px);line-height:.86;letter-spacing:0;color:var(--night)}
+  .layer.bottom .n{color:var(--cream)}
+  .layer b{font-size:clamp(26px,2.5vw,42px);line-height:.92;letter-spacing:0}
+  .layer-tag{font-size:12px;line-height:1.35;color:var(--night)}
+  .layer.bottom{background:var(--stage)}
+  .layer.bottom .layer-tag{color:var(--cream)}
+  main .link{font-size:11.5px;letter-spacing:.03em}
+
+  /* the night sections take the deck's stage, not a flat fill */
+  .process{background:var(--stage)}
+  .process .head .label{color:var(--cream)}
+  .process .shot figcaption .label{font-size:11px;color:color-mix(in srgb,var(--cream) 72%,var(--night))}
+  .process .shot figcaption .label b{display:block;margin-bottom:8px;font:400 clamp(34px,3vw,54px)/.86 var(--heavy);letter-spacing:0;color:var(--cream)}
+  .venue .shot figcaption.label{font-size:11px}
+
+  /* build a quote: a purple slide between the case studies and the people */
+  #quote{background:var(--stage);color:var(--cream);margin-top:clamp(72px,10vw,150px);padding-block:clamp(64px,9vw,140px)}
+  #quote .head{border-top-color:color-mix(in srgb,var(--cream) 40%,transparent)}
+  #quote .head .label{color:var(--cream)}
+  #quote .head h2{color:var(--cream);font-size:clamp(48px,7vw,140px);line-height:.86}
+  #quote .head h2 .ln + .ln,.say.band h2 .ln + .ln{margin-top:.04em}
+  #quote .head p{color:color-mix(in srgb,var(--cream) 72%,var(--night))}
+  #quote .btn{background:var(--cream);border-color:var(--cream);color:var(--night)}
+  #quote .btn i{border-left-color:color-mix(in srgb,var(--night) 25%,transparent)}
+  #quote .btn.ghost{background:transparent;color:var(--cream)}
+  #quote .btn.ghost i{border-left-color:var(--cream)}
+
+  /* the people */
+  .feature .side h2.line{font-size:clamp(40px,4.8vw,92px);line-height:.9;letter-spacing:0}
+  .feature .eyebrow{font-size:12px;color:var(--night)}
+
+  /* the club: the last purple slide, words stacked to one width */
+  .say.band{background:var(--stage);color:var(--cream)}
+  .say.band .eyebrow{font-size:12px;color:var(--cream)}
+  .say.band h2.line{color:var(--cream);font-size:clamp(48px,7vw,140px);line-height:.86;letter-spacing:0;max-width:none}
+  .say.band h2.fit{display:flex;flex-direction:column;align-items:center}
+  .say.band .sub{color:color-mix(in srgb,var(--cream) 72%,var(--night))}
+  .say.band .btn{background:var(--cream);border-color:var(--cream);color:var(--night)}
+  .say.band .btn i{border-left-color:color-mix(in srgb,var(--night) 25%,transparent)}
+
+  /* visit */
+  .visit .details .eyebrow{font-size:11.5px;color:var(--night)}
+  .visit .peek .label{font-size:11px}
+
+  @media (max-width:900px){
+    .pop.light h1{line-height:.9}
+  }
 </style>
 
 <div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="420" data-hr="0.30"></canvas></div>
@@ -1919,12 +2040,12 @@
     <canvas class="stage" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Fortitude Valley, Brisbane</span>
-      <h1>We build fully automated kitchens, bars and cafés.</h1>
+      <h1 class="fit"><span class="ln">We build fully</span> <span class="ln">automated kitchens,</span> <span class="ln">bars and cafés.</span></h1>
       <div class="actions"><a class="btn" href="quote/" data-quote><span>Price yours</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#building"><span>See ours working</span><i aria-hidden="true">+</i></a></div>
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true"><div><span>ROBOTICS &middot; HARDWARE &middot; AI &middot; SOFTWARE &middot;</span><span>ROBOTICS &middot; HARDWARE &middot; AI &middot; SOFTWARE &middot;</span></div></div>
+  <div class="marquee" aria-hidden="true"><div><span>ROBOTICS <i class="moon"></i> HARDWARE <i class="moon"></i> AI <i class="moon"></i> SOFTWARE <i class="moon"></i></span><span>ROBOTICS <i class="moon"></i> HARDWARE <i class="moon"></i> AI <i class="moon"></i> SOFTWARE <i class="moon"></i></span></div></div>
 
   <section class="strip">
     <div class="wrap">
@@ -2057,7 +2178,7 @@
     <div class="wrap">
       <div class="grid head">
         <span class="label">Build a quote</span>
-        <h2>Pick the robot. Then everything around it.</h2>
+        <h2 class="fit"><span class="ln">Pick the robot.</span> <span class="ln">Then everything</span> <span class="ln">around it.</span></h2>
         <p>It prices as you go: the equipment installed, the design and build around it, one monthly budget, and a proposal you can save.</p>
       </div>
       <div class="actions quote-go"><a class="btn" href="quote/" data-quote><span>Build a quote</span><i aria-hidden="true">+</i></a><a class="btn ghost" href="robot-cafe-packages/"><span>Start from a package</span><i aria-hidden="true">+</i></a></div>
@@ -2082,7 +2203,7 @@
   <section class="say band" id="club">
     <div class="wrap">
       <span class="eyebrow">The Robotics and Hardware Club</span>
-      <h2 class="line">One night a month, the building is yours.</h2>
+      <h2 class="line fit"><span class="ln">One night a month,</span> <span class="ln">the building</span> <span class="ln">is yours.</span></h2>
       <p class="sub">Two talks, the machines running, the bench open.</p>
       <div class="actions"><a class="btn" href="events/"><span>The club</span><i aria-hidden="true">+</i></a></div>
     </div>
@@ -2109,6 +2230,58 @@
     </div>
   </section>
 </main>
+<script>
+/* The edgier treatment's stacked headlines (src/edgier.css, .fit): each line is drawn out to the
+   heading's width, as the deck's titles are. Measured, not guessed: a line is set at 100px, measured
+   and scaled, then again when the faces arrive and whenever the heading's width changes. A heading
+   with no width (a hidden pane) is left at its own size rather than sized to nothing. */
+(function () {
+  var heads = [].slice.call(document.querySelectorAll(".fit")); if (!heads.length) return;
+  function fit(h) {
+    var w = h.clientWidth; if (!(w > 0)) return;
+    h._fitW = w; h.classList.add("fitted");
+    [].forEach.call(h.querySelectorAll(".ln"), function (l) {
+      // twice: the second pass absorbs anything that does not scale with the size (fixed tracking,
+      // hinting), so a line can land a hair short of the edge but never past it
+      var fs = 100; l.style.fontSize = fs + "px";
+      for (var k = 0; k < 2; k++) {
+        var lw = l.getBoundingClientRect().width; if (!(lw > 0)) { l.style.fontSize = ""; return; }
+        fs = Math.floor(fs * w / lw * 100) / 100; l.style.fontSize = fs + "px";
+      }
+    });
+  }
+  // Then the gaps. Anton's capitals fill the line, so an accent (the E of CAFES rises 0.24em over the
+  // caps) or a comma's tail would touch the next line. Read every line's real ink from the face's own
+  // metrics and space the whole stack evenly to clear its worst pair: a stack with no marks keeps the
+  // deck's tight gap, and no line is ever spaced differently from its neighbours.
+  var g = document.createElement("canvas").getContext("2d");
+  function ink(l) {
+    var cs = getComputedStyle(l), fs = parseFloat(cs.fontSize), lh = parseFloat(cs.lineHeight);
+    g.font = cs.fontWeight + " " + fs + "px " + cs.fontFamily;
+    var t = g.measureText(l.textContent.toUpperCase()), cap = g.measureText("H").actualBoundingBoxAscent;
+    var base = (lh - t.fontBoundingBoxAscent - t.fontBoundingBoxDescent) / 2 + t.fontBoundingBoxAscent;
+    return { fs: fs, lh: lh, base: base, cap: cap, over: Math.max(0, t.actualBoundingBoxAscent - cap), under: Math.max(0, t.actualBoundingBoxDescent) };
+  }
+  function space(h) {
+    var ls = [].slice.call(h.querySelectorAll(".ln")); if (ls.length < 2) return;
+    ls.forEach(function (l) { l.style.marginTop = ""; });
+    var m = ls.map(ink), want = 0, natural = [];
+    for (var i = 1; i < ls.length; i++) {
+      var p = m[i - 1], c = m[i], mt = parseFloat(getComputedStyle(ls[i]).marginTop) || 0;
+      natural[i] = (p.lh - p.base) + mt + (c.base - c.cap);       // baseline to the next line's cap top, as set
+      want = Math.max(want, natural[i], p.under + c.over + 0.035 * Math.min(p.fs, c.fs));
+    }
+    for (var j = 1; j < ls.length; j++) ls[j].style.marginTop = ((parseFloat(getComputedStyle(ls[j]).marginTop) || 0) + want - natural[j]).toFixed(2) + "px";
+  }
+  function all() { heads.forEach(function (h) { fit(h); if (h.classList.contains("fitted")) space(h); }); }
+  all();
+  if (document.fonts && document.fonts.load) Promise.all([document.fonts.load("400 100px Anton"), document.fonts.ready]).then(all, all);
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (es) { es.forEach(function (e) { if (e.target.clientWidth !== e.target._fitW) { fit(e.target); space(e.target); } }); });
+    heads.forEach(function (h) { ro.observe(h); });
+  } else window.addEventListener("resize", all);
+})();
+</script>
 <!-- The mesh hero (hero.js, models/w1.glb) is off the page until the mesh
      is right: the 15 Sep Hunyuan build carries a second right arm. Restore
      the two script tags below once a mesh has been approved on a test link.
