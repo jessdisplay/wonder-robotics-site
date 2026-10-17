@@ -614,6 +614,10 @@
   .wz-prog .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);transition:width .4s cubic-bezier(.16,.84,.24,1)}
   .wz-q{margin:0;font-weight:500;font-size:clamp(34px,3.8vw,64px);line-height:.95;letter-spacing:-.045em;max-width:18ch}
   .wz-hint{margin:12px 0 0;font-size:16px;color:var(--graphite)}
+  /* a question can carry a second door on its own line: the question on the
+     left, the way past it on the right, wrapping under on a phone */
+  .wz-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px}
+  .wz-door{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
   .wz-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:clamp(20px,2.4vw,34px)}
   /* picture answers fill the sheet: as many columns as answers up to
      three, so two answers are two big plates and six are two rows */
@@ -642,7 +646,7 @@
   .qs-pick:has(.wz > .wz-foot){padding-bottom:0}
   .wz > .wz-foot{position:sticky;bottom:0;z-index:3;margin:clamp(14px,1.6vw,22px) calc(-1*var(--m)) 0;padding:14px var(--m);
                  background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule)}
-  .wz-foot button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
+  .wz-foot button.btn,.wz-door button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
   .wz-foot button.btn[disabled]{opacity:.35;cursor:not-allowed}
   .wz-back,.wz-browse{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:0;padding:6px 0;color:var(--graphite);cursor:pointer;text-decoration:underline;text-underline-offset:5px}
   .wz-back:hover,.wz-browse:hover{color:var(--ink)}

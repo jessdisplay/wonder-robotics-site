@@ -1,0 +1,165 @@
+<Rive version="1" kind="fragment">
+    <!-- The WonderBot face in the moon, ported from src/mark.js. See SPEC.md
+         for every number and where it came from. The artboard is mark.js's own
+         R0=100 space: moon centre (100,100), radius 100. No background fill,
+         because this sits on paper, on night and on photographs.
+
+         The page drives four things through the Bot view model: ink (the same
+         colour the canvas mark takes as data-ink), glow (the screen's
+         brightness, 0 dark to 1 lit), and lookX/lookY (where the eyes are
+         pointed, -1 to 1 each). -->
+    <Artboard defaultStateMachineId="0:60" viewModelId="0:80" styleId="0:5" width="200" height="200" name="Bot" id="0:2">
+        <LayoutComponentStyle name="Artboard Style" id="0:5"/>
+
+        <!-- Drawn first is drawn on top: eyes, then the screen behind them,
+             then the moon under both. -->
+        <Node name="Face" id="0:30" x="0" y="0">
+
+            <!-- The eyes travel on the screen; the screen itself does not move.
+                 Range is held inside the panel with room to spare: the panel
+                 gives 31px clearance at the left eye and 29px at the right. -->
+            <Node name="Look" id="0:40" x="0" y="0">
+                <DataBindContext sourcePathIds="0:80-0:83" propertyKey="13" converterId="0:70"/>
+                <DataBindContext sourcePathIds="0:80-0:84" propertyKey="14" converterId="0:71"/>
+
+                <Shape name="EyeLeft" x="120" y="90" id="0:34">
+                    <Rectangle width="19" height="19" cornerRadiusTL="4.94" name="Path"/>
+                    <Fill name="Ink">
+                        <SolidColor colorValue="FF1D1826" name="Color">
+                            <DataBindContext sourcePathIds="0:80-0:81" propertyKey="37"/>
+                        </SolidColor>
+                    </Fill>
+                    <ClippingShape sourceId="0:12" name="InTheMoon"/>
+                </Shape>
+
+                <Shape name="EyeRight" x="170" y="90" id="0:36">
+                    <Rectangle width="19" height="19" cornerRadiusTL="4.94" name="Path"/>
+                    <Fill name="Ink">
+                        <SolidColor colorValue="FF1D1826" name="Color">
+                            <DataBindContext sourcePathIds="0:80-0:81" propertyKey="37"/>
+                        </SolidColor>
+                    </Fill>
+                    <ClippingShape sourceId="0:12" name="InTheMoon"/>
+                </Shape>
+            </Node>
+
+            <!-- The screen: the panel hole, lit from inside. A radial gradient
+                 falling to alpha 00, because a Feather inside a Fill renders
+                 nothing. Its opacity is the brightness the page asks for. -->
+            <Shape name="Screen" x="0" y="0" id="0:44" opacity="0.55">
+                <DataBindContext sourcePathIds="0:80-0:82" propertyKey="18"/>
+                <Rectangle width="130" height="142" x="144" y="104" cornerRadiusTL="30" name="Panel"/>
+                <Fill name="Light">
+                    <!-- Pooled on the eyes, not centred on the panel: a screen
+                         is lit from behind its face, so the corners stay dark. -->
+                    <RadialGradient startX="144" startY="92" endX="216" endY="92" name="Gradient">
+                        <GradientStop colorValue="FF4A2FD9" position="0" name="Core"/>
+                        <GradientStop colorValue="9E4A2FD9" position="0.42" name="Falloff"/>
+                        <GradientStop colorValue="004A2FD9" position="1" name="Edge"/>
+                    </RadialGradient>
+                </Fill>
+                <ClippingShape sourceId="0:12" name="InTheMoon"/>
+            </Shape>
+
+            <!-- The spill: the screen lighting the moon it sits in. Clipped to
+                 the ink the moon actually draws, screened over it so it lifts
+                 the colour instead of painting a shape on top of it. -->
+            <Shape name="Spill" x="0" y="0" id="0:46" opacity="0.55">
+                <DataBindContext sourcePathIds="0:80-0:82" propertyKey="18"/>
+                <Ellipse width="200" height="200" x="100" y="100" name="Disc"/>
+                <Fill name="Light" blendModeValue="screen">
+                    <RadialGradient startX="144" startY="92" endX="252" endY="92" name="Gradient">
+                        <GradientStop colorValue="6B4A2FD9" position="0" name="Core"/>
+                        <GradientStop colorValue="004A2FD9" position="1" name="Edge"/>
+                    </RadialGradient>
+                </Fill>
+                <ClippingShape sourceId="0:20" fillRule="evenOdd" name="NotTheCut"/>
+                <ClippingShape sourceId="0:32" fillRule="evenOdd" name="NotThePanel"/>
+            </Shape>
+
+            <!-- Clipper, no paints: everything except the face panel. -->
+            <Shape name="NotPanel" x="0" y="0" id="0:32">
+                <Rectangle width="600" height="600" x="100" y="100" name="Everything"/>
+                <Rectangle width="130" height="142" x="144" y="104" cornerRadiusTL="30" name="Panel"/>
+            </Shape>
+        </Node>
+
+        <Shape name="Moon" x="0" y="0" id="0:10">
+            <Ellipse width="200" height="200" x="100" y="100" name="Disc"/>
+            <Fill name="Ink">
+                <SolidColor colorValue="FF1D1826" name="Color">
+                    <DataBindContext sourcePathIds="0:80-0:81" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+            <ClippingShape sourceId="0:20" fillRule="evenOdd" name="NotTheCut"/>
+            <ClippingShape sourceId="0:32" fillRule="evenOdd" name="NotThePanel"/>
+        </Shape>
+
+        <!-- Clipper, no paints: everything except the crescent's cut. -->
+        <Shape name="NotCut" x="0" y="0" id="0:20">
+            <Rectangle width="600" height="600" x="100" y="100" name="Everything"/>
+            <Ellipse width="140" height="140" x="150" y="94" name="Cut"/>
+        </Shape>
+
+        <!-- Clipper, no paints: the moon disc, so nothing escapes it. -->
+        <Shape name="MoonDisc" x="0" y="0" id="0:12">
+            <Ellipse width="200" height="200" x="100" y="100" name="Disc"/>
+        </Shape>
+
+        <!-- The sneak: peek round the edge of the moon, hesitate, then commit.
+             Keyframes and easing are WonderSneak's, converted at 60fps
+             (1050ms = 63 frames). See SPEC.md. -->
+        <LinearAnimation duration="63" name="Sneak" id="0:52">
+            <KeyedObject objectId="0:30">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble value="118" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.65" y1="0" x2="0.35" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="74" frame="19" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.65" y1="0" x2="0.35" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="70" frame="29" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.65" y1="0" x2="0.35" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0" frame="63" interpolationType="linear"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <LinearAnimation duration="60" name="Rest" id="0:50"/>
+
+        <StateMachine name="Bot" id="0:60">
+            <StateMachineLayer name="Face" id="0:61">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState x="-160" y="0">
+                    <StateTransition stateToId="0:63"/>
+                </EntryState>
+                <AnimationState x="0" y="0" animationId="0:52" id="0:63">
+                    <StateTransition stateToId="0:62" enableExitTime="true"
+                                     exitTimeIsPercetange="true" exitTime="100"/>
+                </AnimationState>
+                <AnimationState x="220" y="0" animationId="0:50" id="0:62"/>
+            </StateMachineLayer>
+        </StateMachine>
+    </Artboard>
+
+    <!-- -1..1 from the page becomes pixels of eye travel on the screen. -->
+    <DataConverterRangeMapper minInput="-1" maxInput="1" minOutput="-8" maxOutput="8"
+                              clampLower="true" clampUpper="true" name="LookToX" id="0:70"/>
+    <DataConverterRangeMapper minInput="-1" maxInput="1" minOutput="-6" maxOutput="6"
+                              clampLower="true" clampUpper="true" name="LookToY" id="0:71"/>
+
+    <ViewModel defaultInstanceId="0:90" name="Bot" id="0:80">
+        <ViewModelPropertyColor name="ink" id="0:81"/>
+        <ViewModelPropertyNumber name="glow" id="0:82"/>
+        <ViewModelPropertyNumber name="lookX" id="0:83"/>
+        <ViewModelPropertyNumber name="lookY" id="0:84"/>
+        <ViewModelInstance exports="true" name="Default" id="0:90">
+            <ViewModelInstanceColor propertyValue="FF1D1826" viewModelPropertyId="0:81"/>
+            <ViewModelInstanceNumber propertyValue="0.55" viewModelPropertyId="0:82"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="0:83"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="0:84"/>
+        </ViewModelInstance>
+    </ViewModel>
+</Rive>

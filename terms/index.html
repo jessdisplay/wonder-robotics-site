@@ -639,6 +639,10 @@
   .wz-prog .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);transition:width .4s cubic-bezier(.16,.84,.24,1)}
   .wz-q{margin:0;font-weight:500;font-size:clamp(34px,3.8vw,64px);line-height:.95;letter-spacing:-.045em;max-width:18ch}
   .wz-hint{margin:12px 0 0;font-size:16px;color:var(--graphite)}
+  /* a question can carry a second door on its own line: the question on the
+     left, the way past it on the right, wrapping under on a phone */
+  .wz-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px}
+  .wz-door{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
   .wz-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:clamp(20px,2.4vw,34px)}
   /* picture answers fill the sheet: as many columns as answers up to
      three, so two answers are two big plates and six are two rows */
@@ -667,7 +671,7 @@
   .qs-pick:has(.wz > .wz-foot){padding-bottom:0}
   .wz > .wz-foot{position:sticky;bottom:0;z-index:3;margin:clamp(14px,1.6vw,22px) calc(-1*var(--m)) 0;padding:14px var(--m);
                  background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule)}
-  .wz-foot button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
+  .wz-foot button.btn,.wz-door button.btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:0}
   .wz-foot button.btn[disabled]{opacity:.35;cursor:not-allowed}
   .wz-back,.wz-browse{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:0;padding:6px 0;color:var(--graphite);cursor:pointer;text-decoration:underline;text-underline-offset:5px}
   .wz-back:hover,.wz-browse:hover{color:var(--ink)}
@@ -3359,20 +3363,24 @@ window.WonderQuote = (function(){
     // no "of N": how many questions there are depends on the answers
     var prog=name==='result'?'':'<div class="wz-prog"><span class="label">Question '+(wz.step+1)+'</span><span class="bar"><i style="width:'+Math.round((wz.step+1)/(n+1)*100)+'%"></i></span></div>';
     var back=wz.step>0?'<button type="button" class="wz-back" data-wz="back">Back</button>':'';
-    var browse='<button type="button" class="wz-browse" data-wz="browse">Or browse every machine</button>';
+    // A buyer may need only the equipment, never the room or the brand around
+    // it. Every path offers that: on the first question it leads straight to
+    // the machines, and on the last it answers with nothing built around them.
+    var door=function(ask,act){ return '<p class="wz-door"><span class="label">'+ask+'</span><button type="button" class="btn ghost" '+act+'><span>Just the machines</span><i aria-hidden="true">+</i></button></p>'; };
     var opts=function(list,kind,cur,multi){ return '<div class="wz-opts" style="--n:'+list.length+'">'+list.map(function(o){return choice(kind,o,multi?cur.indexOf(o.id)>=0:cur===o.id,multi);}).join('')+'</div>'; };
     var ask=function(q,hint,list,kind,cur){ return prog+'<h3 class="wz-q">'+q+'</h3>'+(hint?'<p class="wz-hint">'+hint+'</p>':'')+opts(list,kind,cur)+'<div class="wz-foot">'+back+'</div>'; };
     var html='';
     if(name==='type'){
-      html=prog+'<h3 class="wz-q">What are you opening?</h3>'+opts(TYPES,'type',wz.type)+
-        '<div class="wz-foot">'+browse+'</div>';
+      html=prog+'<div class="wz-head"><h3 class="wz-q">What are you opening?</h3>'+door('Not opening a venue?','data-wz="machines"')+'</div>'+opts(TYPES,'type',wz.type);
     }else if(name==='serve'){
       html=prog+'<h3 class="wz-q">What will it serve?</h3><p class="wz-hint">Pick as many as you like.</p>'+opts(SERVES,'serve',wz.serve,true)+
         '<div class="wz-foot">'+back+'<button type="button" class="btn" data-wz="next"'+(wz.serve.length?'':' disabled')+'><span>Next</span><i aria-hidden="true">+</i></button></div>';
     }else if(name==='front'){
       html=ask('What should it do?','',FRONTS,'front',wz.front);
     }else if(name==='where'){
-      html=ask('Where will it go?','',WHERE,'where',wz.where);
+      // 'none' has no OPEN_WITH entry, so it ticks nothing
+      html=prog+'<div class="wz-head"><h3 class="wz-q">Where will it go?</h3>'+door('No fit-out needed?','data-wz="where" data-val="none"')+'</div>'+
+        opts(WHERE,'where',wz.where)+'<div class="wz-foot">'+back+'</div>';
     }else{
       html=resultHtml();
     }
@@ -3455,6 +3463,9 @@ window.WonderQuote = (function(){
     else if(k==='back'){ wz.step=Math.max(0,wz.step-1); }
     else if(k==='restart'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll(); Q.forget(); }
     else if(k==='browse'){ $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-pick').scrollTop=0; render(); return; }
+    // like any answer to the first question, it starts the quote again
+    else if(k==='machines'){ wz={step:0,type:null,serve:[],front:null,where:null,applied:false}; clearAll();
+      $('wz').hidden=true; $('qs-browse').hidden=false; $('qs-title').textContent='Just the machines.'; $('qs-pick').scrollTop=0; render(); return; }
     if(wzSteps()[wz.step]==='result'){ applyRecommendation(); }
     else if(k==='type'||k==='front'||k==='where'||k==='next'||k==='back'){ applyAnswers(); }
     wzDraw(); render();
