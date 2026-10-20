@@ -28,6 +28,35 @@ SRC = HERE / "src"
 sys.path.insert(0, str(SRC))
 from machines import MACHINES, PARTNERS  # noqa: E402
 
+# Prices are not published (Jesse, 20 Oct 2026: "remove the pricing on the
+# website, just POA"). With POA on, every public page says POA where it said
+# a number: the price tokens, the pills, the quote sheet and its totals, the
+# package pages, the product data search reads, and the price guide. The
+# price list stays in the engine, so the sales desk still prices a quote
+# after a sign-in, and a page marked "priced" (the unlisted decks, the venue
+# hire) keeps its numbers. Off, the numbers come back everywhere, unchanged.
+POA = True
+POA_TEXT = "POA"
+
+
+def poa_or(text):
+    """A price line as the page shows it: POA while prices are off, if it quotes the engine."""
+    return POA_TEXT if POA and "{{" in text else text
+
+
+def price_of(m):
+    return poa_or(m["price"])
+
+
+# Copy that only reads right with a number in it sits between <!--priced-->
+# and <!--/priced-->; what the page says instead while prices are off sits
+# between <!--poa--> and <!--/poa-->. The build keeps one and drops the other.
+def pick_copy(text, priced):
+    drop, keep = ("poa", "priced") if priced else ("priced", "poa")
+    text = re.sub(rf"<!--{drop}-->.*?<!--/{drop}-->", "", text, flags=re.S)
+    return text.replace(f"<!--{keep}-->", "").replace(f"<!--/{keep}-->", "")
+
+
 PAGES = {
     "home": {"out": "index.html", "root": "", "title": "Robot cafés, bars and kitchens, Brisbane. Wonder Robotics", "ld": lambda url, img: org_ld(url, img),
              "desc": "We build fully automated kitchens, bars and cafés in Brisbane. Start with a coffee robot, add the bar, the kitchen and the room when you're ready. See ours working at 365 St Pauls Terrace, Fortitude Valley."},
@@ -40,18 +69,18 @@ PAGES = {
     "fallsense": {"out": "work/fall-sense/index.html", "root": "../../", "title": "Fall Sense, Wonder Robotics",
                   "desc": "Florence Fall Sense: a ceiling-mounted edge AI unit for residential aged care that reports the event, never the footage. Brand, enclosure, electronics, firmware and software, all built in Fortitude Valley."},
     "quote": {"out": "quote/index.html", "root": "../", "title": "Get a quote, Wonder Robotics",
-              "desc": "Price a robot café, bar or kitchen: the equipment installed, the design and build around it, and a 24 month service, as one monthly budget."},
+              "desc": "<!--priced-->Price<!--/priced--><!--poa-->Build a quote for<!--/poa--> a robot café, bar or kitchen: the equipment installed, the design and build around it, and a 24 month service, as one monthly budget.<!--poa--> We price it for your site.<!--/poa-->"},
     "events": {"out": "events/index.html", "root": "../", "title": "The Robotics and Hardware Club, Wonder Robotics",
                "desc": "The Robotics and Hardware Club: one night a month at 365 St Pauls Terrace for the people building robots and hardware in Queensland. Two talks, the machines running, the bench open."},
     # The two landing pages are titled for the search, not the catalogue.
     "coffee-landing": {"out": "robot-coffee-machines/index.html", "root": "../", "title": "Robot coffee machines, Brisbane. Wonder Robotics", "eoi": "coffee",
-                       "desc": "A robot coffee bar sold whole from Brisbane: {{coffee:price}} ex GST buys the dual-arm bar delivered, installed and in your brand, with two years of service. Lease to own over {{coffee:years}} years, subject to finance approval. About two square metres. Ours pours at 365 St Pauls Terrace."},
+                       "desc": "A robot coffee bar sold whole from Brisbane: <!--priced-->{{coffee:price}} ex GST<!--/priced--><!--poa-->one price<!--/poa--> buys the dual-arm bar delivered, installed and in your brand, with two years of service. Lease to own over {{coffee:years}} years, subject to finance approval. About two square metres. Ours pours at 365 St Pauls Terrace."},
     "kitchen-landing": {"out": "robot-kitchen-fitouts/index.html", "root": "../", "title": "Robot kitchen fit-outs, Brisbane. Wonder Robotics",
-                        "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying and noodle robots from {{monthly:fry}} a month over 24 months with the service, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
+                        "desc": "Robot kitchen fit-outs designed and built in Brisbane: concept, drawings, colours, fit-out, commissioning. Frying and noodle robots<!--priced--> from {{monthly:fry}} a month<!--/priced--> over 24 months with the service, a rail cobot serving the whole line. Our own robot kitchen is open six days at 365 St Pauls Terrace."},
     "cocktail-landing": {"out": "robot-cocktail-machines/index.html", "root": "../", "title": "Robot cocktail machines, Brisbane. Wonder Robotics",
-                         "desc": "Robot cocktail machines supplied, branded, installed and serviced from Brisbane: the T Standard robot bartender, Dobot arm, ice maker, three syrups, {{monthly:bar}} a month over 24 months with the service. Ours pours at 365 St Pauls Terrace six days a week."},
+                         "desc": "Robot cocktail machines supplied, branded, installed and serviced from Brisbane: the T Standard robot bartender, Dobot arm, ice maker, three syrups, <!--priced-->{{monthly:bar}} a month over<!--/priced--><!--poa-->installed with<!--/poa--> 24 months <!--priced-->with the<!--/priced--><!--poa-->of<!--/poa--> service. Ours pours at 365 St Pauls Terrace six days a week."},
     "icecream-landing": {"out": "robot-ice-cream-machines/index.html", "root": "../", "title": "Robot ice cream machines, Brisbane. Wonder Robotics",
-                         "desc": "Robot ice cream machines supplied, branded, installed and serviced from Brisbane: the I Pro, a pasteurising soft-serve machine with three syrups, two toppings and a kiosk arm, {{monthly:ice}} a month over 24 months with the service. Ours is the dessert kiosk at 365 St Pauls Terrace."},
+                         "desc": "Robot ice cream machines supplied, branded, installed and serviced from Brisbane: the I Pro, a pasteurising soft-serve machine with three syrups, two toppings and a kiosk arm, <!--priced-->{{monthly:ice}} a month over<!--/priced--><!--poa-->installed with<!--/poa--> 24 months <!--priced-->with the<!--/priced--><!--poa-->of<!--/poa--> service. Ours is the dessert kiosk at 365 St Pauls Terrace."},
     "packages-landing": {"out": "robot-cafe-packages/index.html", "root": "../", "title": "Robot café packages, Brisbane. Wonder Robotics",
                          "desc": "A robot café bought whole: the room, the brand, the website, the robot coffee bar installed, the counter, and 24 months of install, training, maintenance and support, as one monthly budget. Robot coffee bar, robot café and robot container kitchen packages, from Brisbane."},
     "container-landing": {"out": "robot-container-kitchens/index.html", "root": "../", "title": "Robot container kitchens, Brisbane. Wonder Robotics",
@@ -61,11 +90,11 @@ PAGES = {
     "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics", "noindex": True,
                  "desc": "A Wonder Robotics proposal: the equipment installed, the design and build, and the 24 month service, as one monthly budget. Save it as a PDF or share the link."},
     # the sales deck for the coffee bar: shown on a call, never in search
-    "coffee-deck": {"out": "deck/coffee/index.html", "root": "../../", "title": "The coffee bar, sold whole. Wonder Robotics", "noindex": True,
+    "coffee-deck": {"out": "deck/coffee/index.html", "root": "../../", "title": "The coffee bar, sold whole. Wonder Robotics", "noindex": True, "priced": True,
                     "desc": "The Wonder Robotics coffee bar deck: one price, what it costs a week, what it earns, year by year, and the choice after year two."},
     # the same deck with UniSC on the cover, for that pitch. One source: only
     # the cover's two lines differ, so the numbers cannot drift apart.
-    "coffee-deck-unisc": {"src": "coffee-deck", "out": "deck/unisc-coffee/index.html", "root": "../../", "noindex": True,
+    "coffee-deck-unisc": {"src": "coffee-deck", "out": "deck/unisc-coffee/index.html", "root": "../../", "noindex": True, "priced": True,
                           "title": "A robot coffee bar for UniSC. Wonder Robotics",
                           "desc": "The Wonder Robotics coffee bar deck for the University of the Sunshine Coast: one price, what it costs a week, what it earns, year by year.",
                           "swap": [('<span class="cv-kind">Coffee bar</span>',
@@ -74,7 +103,8 @@ PAGES = {
     "terms": {"out": "terms/index.html", "root": "../", "title": "Terms of sale, Wonder Robotics",
               "desc": "Wonder Robotics terms of sale for robot coffee bars, robot kitchens, service robots, design, fit-out, software, installation and maintenance."},
     # unlinked since the menu sends "Book the space" to wonder.fish/book/
-    "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics", "noindex": True,
+    # the venue hire rate is the Studios rate card, published at wonder.fish, so it stays
+    "book": {"out": "book/index.html", "root": "../", "title": "Book the space, Wonder Robotics", "noindex": True, "priced": True,
              "desc": "Book 365 St Pauls Terrace, Fortitude Valley: a demo of the machines for your team, a night in the room, or the floor for a day. 100 standing, 50 seated."},
 }
 
@@ -142,8 +172,8 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
           <span class="label">Ways in</span>
           <ul>
             <li><a href="{{root}}quote/" data-quote>Build a quote</a></li>
-            <li><a href="{{root}}price-guide.pdf">Price guide, PDF</a></li>
-            <li><a href="{{root}}#visit">Come and see it</a></li>
+<!--priced-->            <li><a href="{{root}}price-guide.pdf">Price guide, PDF</a></li>
+<!--/priced-->            <li><a href="{{root}}#visit">Come and see it</a></li>
             <li><a href="https://wonder.fish/book/">Book the space</a></li>
             <li><a href="{{root}}terms/">Terms of sale</a></li>
           </ul>
@@ -205,11 +235,11 @@ BAR = '''<div class="loader" id="loader" aria-hidden="true"><canvas data-wonder-
           <div class="qs-tray-h label">Your quote</div>
           <ul class="qs-lines" id="qs-lines"></ul>
           <div class="qs-sum" aria-live="polite">
-            <div class="qs-num" id="dq-total">$0</div>
+            <div class="qs-num" id="dq-total"><!--priced-->$0<!--/priced--><!--poa-->POA<!--/poa--></div>
             <div class="label" id="dq-note">Pick a machine to start</div>
             <div class="qs-pay" id="dq-pay"></div>
           </div>
-          <p class="qs-fine">Equipment installed, with a 24 month service. Design and build indicative until we have seen the site. Accessories and showroom robots priced to order. Ex GST.</p>
+          <p class="qs-fine">Equipment installed, with a 24 month service.<!--priced--> Design and build indicative until we have seen the site. Accessories and showroom robots priced to order.<!--/priced--><!--poa--> Every line is priced on application, for your site.<!--/poa--> Ex GST.</p>
           <div class="qs-desk" id="qs-desk" hidden></div>
           <button type="button" class="qs-desk-in" id="desk-in">Sales sign in</button>
           <div class="qs-go">
@@ -262,8 +292,8 @@ EOI = '''<section class="eoi" id="eoi">
       <div class="actions">
         <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
         <a class="btn ghost" href="{{root}}quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
-        <a class="btn ghost" href="{{root}}price-guide.pdf"><span>Price guide, PDF</span><i aria-hidden="true">+</i></a>
-      </div>
+<!--priced-->        <a class="btn ghost" href="{{root}}price-guide.pdf"><span>Price guide, PDF</span><i aria-hidden="true">+</i></a>
+<!--/priced-->      </div>
       <p class="hint">Opens in your mail app with your picks filled in. We reply within a working day.</p>
     </form>
   </div>
@@ -283,7 +313,7 @@ EOI_COFFEE = '''<section class="eoi" id="eoi">
       <fieldset class="field">
         <legend class="label">The bar</legend>
         <div class="choices" role="radiogroup" aria-label="The bar">
-          <input type="radio" name="bar" id="cl-pkg" value="The coffee bar package, {{coffee:price}}" checked><label for="cl-pkg">The coffee bar package, {{coffee:price}}</label>
+          <input type="radio" name="bar" id="cl-pkg" value="The coffee bar package<!--priced-->, {{coffee:price}}<!--/priced-->" checked><label for="cl-pkg">The coffee bar package<!--priced-->, {{coffee:price}}<!--/priced--></label>
           <input type="radio" name="bar" id="cl-small" value="A smaller format"><label for="cl-small">A smaller format</label>
         </div>
       </fieldset>
@@ -388,11 +418,21 @@ def robots_json():
 # runs that same module in node and writes the numbers into the HTML, so a
 # product page carries its price before any script runs (search, ad review,
 # link previews) and can never disagree with the quote.
+def engine_js():
+    """site.js with the build's values written in: the showroom robots, and whether prices show."""
+    return ((SRC / "site.js").read_text().replace("/*{{robots}}*/[]", robots_json())
+            .replace("/*{{poa}}*/false", "/*{{poa}}*/" + ("true" if POA else "false")))
+
+
 @functools.lru_cache(maxsize=None)
 def quote_data():
     if not shutil.which("node"):
         sys.exit("build needs node to price the packages (the price list is JavaScript)")
-    src = (SRC / "site.js").read_text().replace("/*{{robots}}*/[]", robots_json())
+    # one syntax error anywhere in site.js leaves every page behind the curtain (12 Oct 2026)
+    check = subprocess.run(["node", "--check", str(SRC / "site.js")], capture_output=True, text=True)
+    if check.returncode != 0:
+        sys.exit("src/site.js does not parse:\n" + check.stderr)
+    src = engine_js()
     start = src.index("window.WonderQuote = (function(){")
     end = src.index("\n})();", start) + len("\n})();")
     script = ("globalThis.window={};" + src[start:end] +
@@ -424,11 +464,15 @@ def package(pid):
 
 
 def pk_from():
+    if POA:
+        return POA_TEXT
     whole = [p["quote"]["monthly"] for p in quote_data()["packages"] if not p.get("extra")]
     return "From " + money(min(whole)) + " a month"
 
 
 def pk_price(pid):
+    if POA:
+        return POA_TEXT
     p = package(pid)
     return money(p["quote"]["monthly"]) + " a month" + (" plus the build" if p.get("extra") else "")
 
@@ -437,10 +481,13 @@ def pk_number(pid, line):
     """The monthly budget, set as large as the page allows, and the ask beside it."""
     p = package(pid); q = p["quote"]
     extra = ", plus the container build, priced on scope" if p.get("extra") else ""
+    label, fig, when = (("The price", POA_TEXT, "Price on application, ex GST") if POA
+                        else ("Your monthly budget", money(q["monthly"]), f'a month over {q["term"]} months, ex GST'))
+    sums = f'<dl class="pn-sum">{p["sums"]}</dl>' if p["sums"] else ""
     return (f'<section class="pnum"><div class="wrap">'
-            f'<span class="label">[ Your monthly budget ]</span>'
-            f'<div class="pn-fig">{money(q["monthly"])}</div><span class="pn-extra">a month over {q["term"]} months, ex GST{extra}</span>'
-            f'<div class="pn-row"><p>{escape(line)}</p><dl class="pn-sum">{p["sums"]}</dl></div>'
+            f'<span class="label">[ {label} ]</span>'
+            f'<div class="pn-fig">{fig}</div><span class="pn-extra">{when}{extra}</span>'
+            f'<div class="pn-row"><p>{escape(line)}</p>{sums}</div>'
             f'<div class="pn-pay"><span class="label">Ways to pay</span>{p["pay"]}</div>'
             f'<div class="actions"><a class="btn" href="{{{{root}}}}quote/?pkg={pid}" data-quote data-pkg="{pid}"><span>Build this package</span><i aria-hidden="true">+</i></a>'
             f'<a class="btn ghost" href="{{{{root}}}}quote/proposal/?pkg={pid}"><span>The proposal, PDF</span><i aria-hidden="true">+</i></a>'
@@ -551,12 +598,13 @@ def pk_spreads(pid):
             f'</article>')
     count = len(out)
     words = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"]
-    head = f"{words[count] if count < len(words) else count} parts. One monthly budget."
+    head = f"{words[count] if count < len(words) else count} parts. One " + ("price, on application." if POA else "monthly budget.")
+    label, fig = ("Price on application, ex GST", POA_TEXT) if POA else ("Your monthly budget, ex GST", money(q["monthly"]))
     return (f'<section class="incs"><div class="wrap">'
             f'<div class="incs-h"><span class="label">[ Everything in it ]</span><h2>{head}</h2></div>'
             + "".join(out) +
-            f'<div class="inc-sum"><dl>{p["sums"]}</dl>'
-            f'<div class="inc-total"><span class="label">Your monthly budget, ex GST{", plus the container build" if p.get("extra") else ""}</span><span class="inc-fig">{money(q["monthly"])}</span></div>'
+            f'<div class="inc-sum">{f"<dl>{p['sums']}</dl>" if p["sums"] else ""}'
+            f'<div class="inc-total"><span class="label">{label}{", plus the container build" if p.get("extra") else ""}</span><span class="inc-fig">{fig}</span></div>'
             f'<div class="actions"><a class="btn" href="{{{{root}}}}quote/?pkg={pid}" data-quote data-pkg="{pid}"><span>Build this package</span><i aria-hidden="true">+</i></a>'
             f'<a class="btn ghost" href="#eoi"><span>Talk it through</span><i aria-hidden="true">+</i></a></div>'
             f'</div></div></section>')
@@ -571,8 +619,8 @@ def pk_tiles():
             f'<a class="pkt" href="{p.get("url") or "#"}">'
             f'<figure class="pkt-ph"><img src="{p["img"]}" alt="{escape(p["alt"])}" loading="lazy"></figure>'
             f'<div class="pkt-b"><span class="inc-i">({i:02d})</span><h2>{escape(p["name"])}</h2><p>{escape(p["line"])}</p>'
-            f'<div class="pkt-price"><span class="pkt-fig">{money(q["monthly"])}</span>'
-            f'<span class="label">A month over {q["term"]} months{", plus the container build" if p.get("extra") else ""}. {len(p["parts"])} parts</span></div>'
+            f'<div class="pkt-price"><span class="pkt-fig">{POA_TEXT if POA else money(q["monthly"])}</span>'
+            f'<span class="label">{"Price on application" if POA else f"A month over {q['term']} months"}{", plus the container build" if p.get("extra") else ""}. {len(p["parts"])} parts</span></div>'
             f'<span class="pkt-go">See the package</span></div></a>')
     return '<div class="pkts">' + "".join(out) + "</div>"
 
@@ -601,8 +649,11 @@ def repayment(principal, annual, months):
     return principal * r / (1 - (1 + r) ** -months)
 
 
-def price_token(m):
+def price_token(m, priced=not POA):
     kind, arg = m.group(1), m.group(2)
+    if not priced and not (kind == "coffee" and arg in ("years", "rates")):
+        sys.exit(f"{m.group(0)} is a price and prices are off: put the line between <!--priced--> and <!--/priced-->, "
+                 "with its POA reading between <!--poa--> and <!--/poa-->, or mark the page priced")
     d = quote_data()
     price = {x["id"]: x["price"] for x in d["machines"]}
     price.update({r["id"]: r["price"] for r in d["robots"]})
@@ -641,8 +692,9 @@ def price_token(m):
         sys.exit(f"unknown price token {m.group(0)}")
 
 
-def fill_prices(body):
-    body = PRICE_TOKEN.sub(price_token, body)
+def fill_prices(body, priced=not POA):
+    body = pick_copy(body, priced)
+    body = PRICE_TOKEN.sub(lambda m: price_token(m, priced), body)
     body = body.replace("{{pkfrom}}", pk_from())
     body = body.replace("{{packages}}", pk_tiles())
     for pid in [p["id"] for p in quote_data()["packages"]]:
@@ -686,14 +738,18 @@ def attr(t):
 def product_ld(name, desc, url, image, prices):
     org = ORG
     tax = {"@type": "PriceSpecification", "priceCurrency": "AUD", "valueAddedTaxIncluded": False}
-    if len(prices) == 1:
+    if POA:
+        offers = None
+    elif len(prices) == 1:
         offers = {"@type": "Offer", "price": prices[0], "priceCurrency": "AUD", "priceSpecification": dict(tax, price=prices[0]),
                   "availability": "https://schema.org/PreOrder", "url": url, "seller": org}
     else:
         offers = {"@type": "AggregateOffer", "lowPrice": min(prices), "highPrice": max(prices), "offerCount": len(prices),
                   "priceCurrency": "AUD", "availability": "https://schema.org/PreOrder", "url": url, "seller": org}
     ld = {"@context": "https://schema.org", "@type": "Product", "name": name, "description": desc, "image": [image],
-          "brand": {"@type": "Brand", "name": "Wonder Robotics"}, "offers": offers}
+          "brand": {"@type": "Brand", "name": "Wonder Robotics"}}
+    if offers:
+        ld["offers"] = offers
     return ld_tag(ld)
 
 
@@ -728,17 +784,17 @@ LISTED = []   # every indexable page render() wrote, for the sitemap
 
 
 def render(body, cfg, name=None):
-    body = fill_prices(body)
-    cfg = dict(cfg, desc=PRICE_TOKEN.sub(price_token, cfg["desc"]))
+    priced = not POA or bool(cfg.get("priced"))
+    body = fill_prices(body, priced)
+    cfg = dict(cfg, desc=fill_prices(cfg["desc"], priced))
     css = (SRC / "site.css").read_text()
-    js = (SRC / "site.js").read_text()
     mark = (SRC / "mark.js").read_text()
     root = cfg["root"]
     # hero.js is the one script that is not inlined, so browsers cache it.
     # Its URL carries a hash of its own contents: a change ships, an unchanged
     # file stays cached. Same for the model it loads.
     body = body.replace("{{herov}}", hashlib.sha1((HERE / "hero.js").read_bytes()).hexdigest()[:8])
-    js = js.replace("/*{{robots}}*/[]", robots_json())
+    js = engine_js()
     inner = (
         f'<title>{cfg["title"]}</title>\n'
         f'<meta name="description" content="{attr(cfg["desc"])}">\n'
@@ -746,7 +802,8 @@ def render(body, cfg, name=None):
         + ICONS
         + FONTS
         + "<style>\n" + css + "</style>\n\n"
-        + BAR + "\n" + body + "\n" + fill_prices(EOIS.get(cfg.get("eoi"), EOI)) + FOOTER
+        # the chrome is the site's, not the page's: its price guide link goes with the guide
+        + fill_prices(BAR, not POA) + "\n" + body + "\n" + fill_prices(EOIS.get(cfg.get("eoi"), EOI), not POA) + FOOTER
         + "\n<script>\n" + mark + "</script>\n<script>\n" + js + "</script>\n"
     ).replace("{{footer_projects}}", "".join(
         f'        <a href="{{{{root}}}}{href}">{escape(title.split(", ")[0])}</a>\n' for _, href, title, _, _ in PROJECTS)
@@ -756,6 +813,11 @@ def render(body, cfg, name=None):
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n"
         + ('<meta name="robots" content="noindex">\n' if cfg.get("noindex") else "") + inner + "\n</head>\n</html>\n"
     )
+    if not priced:
+        # the words of the page, not its scripts (the engine keeps the list)
+        leak = re.search(r"\$\d[\d,]*", re.sub(r"<script.*?</script>", "", doc, flags=re.S))
+        if leak:
+            sys.exit(f'{cfg["out"]}: shows a price while prices are off: {leak.group(0)}')
     out = HERE / cfg["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc)
@@ -820,6 +882,7 @@ HOME_LINES = [
 
 
 def home_tile(href, img, alt, title, line, price, video=None, pos=None):
+    price = poa_or(price)
     # every plate fills the 16:10 frame edge to edge; robot cutouts stand whole
     # instead (the .../cut/ rule in site.css), so they never lose a head or a base
     style = f' style="object-position:{pos}"' if pos else ""
@@ -838,7 +901,7 @@ def home_catalogue():
     tiles = [home_tile(*t) for t in HOME_LINES]
     for slug in HOME_MACHINES:
         m = BY_SLUG[slug]
-        tiles.append(home_tile(href_of(m), "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], m["price"]))
+        tiles.append(home_tile(href_of(m), "img/" + (m.get("light") or m["hero"]), m["name"], m["name"], m["line"], price_of(m)))
     return '<ul class="cat">' + "".join(tiles) + "</ul>"
 
 
@@ -898,7 +961,7 @@ def card(m):
 def pills_of(m, price=False):
     # status and price are both "Scoped first" on the service lines; one pill, not two
     out = []
-    for x in [m["maker"], m["kind"], m["status"]] + ([m["price"]] if price else []):
+    for x in [m["maker"], m["kind"], m["status"]] + ([price_of(m)] if price else []):
         if x and x not in out: out.append(x)
     return out
 
@@ -906,7 +969,7 @@ def pillrow(m):
     return "".join(f'<span class="pill">{escape(x)}</span>' for x in pills_of(m))
 
 def price_pill(m):
-    return "" if m["price"] in pills_of(m) else f'<span class="pill price">{escape(m["price"])}</span>'
+    return "" if price_of(m) in pills_of(m) else f'<span class="pill price">{escape(price_of(m))}</span>'
 
 
 def thumb(m):
@@ -923,7 +986,7 @@ def machine_body(m):
     pills = "".join(f'<span class="pill">{escape(t)}</span>' for t in pills_of(m, price=True))
     # A line on the Moton list gets a Buy button that opens the quote with it
     # picked; a scoped line keeps the plain quote link.
-    buy = f'<a class="btn cream" href="{{{{root}}}}quote/?pick={m["buy"]}"><span>Buy it, {escape(m["price"].replace("From ", "from "))}</span><i aria-hidden="true">+</i></a>' if m.get("buy") else ""
+    buy = f'<a class="btn cream" href="{{{{root}}}}quote/?pick={m["buy"]}"><span>{"Add it to a quote" if POA else "Buy it, " + escape(m["price"].replace("From ", "from "))}</span><i aria-hidden="true">+</i></a>' if m.get("buy") else ""
     if m.get("video"):
         # A moving stage: same markup as the home kitchen loop (poster, muted
         # loop, the still inside as the no-video fallback). Captioned the way
@@ -945,7 +1008,7 @@ def machine_body(m):
         src = x.get("light") or x["hero"]
         return "img/" + src if src else None
     rel = "".join(home_tile(href_of(BY_SLUG[r]), shot_of(BY_SLUG[r]), BY_SLUG[r]["name"],
-                            BY_SLUG[r]["name"], BY_SLUG[r].get("line", ""), BY_SLUG[r]["price"])
+                            BY_SLUG[r]["name"], BY_SLUG[r].get("line", ""), price_of(BY_SLUG[r]))
                   for r in m["related"])
     rel_cls = "cat" if len(m["related"]) == 3 else "cat two"
     specs = "".join(f'<div><b>{escape(k)}</b><span>{escape(v)}</span></div>' for k, v in m["specs"])
@@ -1081,7 +1144,7 @@ def catalogue_body():
     # three copies: one row is narrower than a wide viewport, so two would gap
     logos = f'<div class="track"><div>{row}</div><div aria-hidden="true">{row}</div><div aria-hidden="true">{row}</div></div>'
     facts = [("Makers", "Unitree, UBTECH, Moton, JAKA, Dobot, and whoever makes the right machine for the job"),
-             ("Prices", "List, ex GST, delivered within 100 km of an Australian port"),
+             ("Prices", ("On application" if POA else "List") + ", ex GST, delivered within 100 km of an Australian port"),
              ("With every machine", "Installation, programming to your task, staff training, maintenance"),
              ("See them", "Most of the range is on our floor at 365 St Pauls Terrace")]
     # the four lines are the home catalogue's own tiles, from the same list
@@ -1099,7 +1162,7 @@ def catalogue_body():
         {dl(facts, "facts label")}
         <div class="intro">
           <p>Humanoids and quadrupeds for research, service robots for the floor, coffee, bar and kitchen lines for food, kits for the classroom, and the engineering and software to make any of them do your job.</p>
-          <p>Every line comes with us attached: we scope it, program it, install it and keep it running. Pick the machine, then <a class="link" href="{{{{root}}}}#quote">price it</a>.</p>
+          <p>Every line comes with us attached: we scope it, program it, install it and keep it running. Pick the machine, then <a class="link" href="{{{{root}}}}#quote"><!--priced-->price it<!--/priced--><!--poa-->build the quote<!--/poa--></a>.</p>
         </div>
       </div>
     </div>
@@ -1110,7 +1173,7 @@ def catalogue_body():
       <div class="grid head">
         <span class="label">Start here</span>
         <h2>Coffee, cocktails, ice cream, kitchens.</h2>
-        <p>The four lines we design, brand, fit out and run. All priced on the page.</p>
+        <p>The four lines we design, brand, fit out and run.<!--priced--> All priced on the page.<!--/priced--></p>
       </div>
       <ul class="cat two">{lines}</ul>
     </div>
@@ -1156,7 +1219,8 @@ for name, cfg in PAGES.items():
 for pid, d in PACKAGE_PAGES.items():
     NEXT["pkg-" + pid] = d["next"]
     q = package(pid)["quote"]
-    desc = f'{d["h1"].rstrip(".")} package: {d["sub"]} {money(q["monthly"])} a month over {q["term"]} months, {money(q["total"])} in all, ex GST. Designed, built and supported from Brisbane.'
+    desc = (f'{d["h1"].rstrip(".")} package: {d["sub"]} ' + ("Price on application, ex GST." if POA else f'{money(q["monthly"])} a month over {q["term"]} months, {money(q["total"])} in all, ex GST.')
+            + " Designed, built and supported from Brisbane.")
     render(package_page(pid).replace("{{next}}", next_block("pkg-" + pid)),
            {"out": d["slug"] + "/index.html", "root": "../", "title": d["title"], "desc": desc, "og": d["img"],
             "ld": (lambda url, img, d=d, q=q, desc=desc: product_ld(d["h1"].rstrip(".") + " package", desc, url, img, [q["total"]]))},
@@ -1211,7 +1275,7 @@ def deck(name):
     head, *slides = (SRC / f"{name}-deck.html").read_text().split('<section class="stage"')
     html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
                           for i, s in enumerate(slides, 1))
-    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}")).replace("{{wall}}", wall())
+    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}"), priced=True).replace("{{wall}}", wall())
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     if "{{" in html:
         sys.exit(f"{name} deck has an unfilled token")
@@ -1248,6 +1312,8 @@ print(f"sitemap.xml: {len(set(LISTED))} pages; robots.txt; CNAME")
 # The price guide PDF, from src/price-guide.html with the same price tokens.
 # It needs Chrome, so it only runs when asked: python3 build.py --price-guide
 def price_guide():
+    if POA:
+        sys.exit("prices are off (POA in build.py), so there is no price guide to print")
     import base64
     import os
     import signal

@@ -7,7 +7,15 @@ is written from it).
 - Edit `src/` (pages in `src/pages/`, shared `site.css`, `site.js`, `mark.js`,
   the catalogue in `machines.py`), then run `python3 build.py`. Every page is
   built from those; never edit a built `index.html` by hand.
-- `python3 build.py --price-guide` reprints `price-guide.pdf` (needs Chrome).
+- **Prices are off** (`POA = True` in `build.py`, 20 Oct 2026): every public
+  page says POA where it said a number. Copy that needs a number sits between
+  `<!--priced-->` and `<!--/priced-->` in the source, its POA reading between
+  `<!--poa-->` and `<!--/poa-->`, and the build keeps one. The price list stays
+  in `site.js`, so the sales desk still prices a quote after a sign-in, and the
+  unlisted decks keep their numbers. Set `POA = False` and rebuild to put the
+  prices back.
+- `python3 build.py --price-guide` reprints `price-guide.pdf` (needs Chrome,
+  and prices on).
 - The build also writes `sitemap.xml`, `robots.txt`, `CNAME`, `404.html`, and
   a forwarding page at each address of the old wonderbytech.com site.
 - `wonder-robotics.html` is the home page without its document wrapper, the
@@ -46,8 +54,7 @@ Do steps 1 and 2 together: between them the old site or a GitHub error shows.
    worker has to be deployed for sign-in to work on the new address.
 5. **Search.** Add www.wonderbytech.com to Google Search Console and submit
    `https://www.wonderbytech.com/sitemap.xml`.
-6. **Check it live:** the home page, a machine page, `/quote/`, the price guide
-   PDF, an old address such as `/robots/unitree/g1`, and a made-up address for
-   the 404.
+6. **Check it live:** the home page, a machine page, `/quote/`, an old address
+   such as `/robots/unitree/g1`, and a made-up address for the 404.
 
 The domain registration runs out on **17 November 2026**. Renew it at Namecheap.

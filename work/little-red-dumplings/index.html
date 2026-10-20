@@ -1837,7 +1837,6 @@
           <span class="label">Ways in</span>
           <ul>
             <li><a href="../../quote/" data-quote>Build a quote</a></li>
-            <li><a href="../../price-guide.pdf">Price guide, PDF</a></li>
             <li><a href="../../#visit">Come and see it</a></li>
             <li><a href="https://wonder.fish/book/">Book the space</a></li>
             <li><a href="../../terms/">Terms of sale</a></li>
@@ -1900,11 +1899,11 @@
           <div class="qs-tray-h label">Your quote</div>
           <ul class="qs-lines" id="qs-lines"></ul>
           <div class="qs-sum" aria-live="polite">
-            <div class="qs-num" id="dq-total">$0</div>
+            <div class="qs-num" id="dq-total">POA</div>
             <div class="label" id="dq-note">Pick a machine to start</div>
             <div class="qs-pay" id="dq-pay"></div>
           </div>
-          <p class="qs-fine">Equipment installed, with a 24 month service. Design and build indicative until we have seen the site. Accessories and showroom robots priced to order. Ex GST.</p>
+          <p class="qs-fine">Equipment installed, with a 24 month service. Every line is priced on application, for your site. Ex GST.</p>
           <div class="qs-desk" id="qs-desk" hidden></div>
           <button type="button" class="qs-desk-in" id="desk-in">Sales sign in</button>
           <div class="qs-go">
@@ -2074,7 +2073,6 @@
       <div class="actions">
         <button class="btn" type="submit"><span>Send it to Gino</span><i aria-hidden="true">+</i></button>
         <a class="btn ghost" href="../../quote/"><span>Or build the quote yourself</span><i aria-hidden="true">+</i></a>
-        <a class="btn ghost" href="../../price-guide.pdf"><span>Price guide, PDF</span><i aria-hidden="true">+</i></a>
       </div>
       <p class="hint">Opens in your mail app with your picks filled in. We reply within a working day.</p>
     </form>
@@ -2299,6 +2297,10 @@ window.WonderSneak = (function () {
 /* The price list, once. The quote page and the quote drop in the bar both
    read it, so a price changed here changes everywhere. */
 window.WonderQuote = (function(){
+  // Prices off (POA in build.py, written in at build time): every figure a
+  // visitor sees reads POA. The list stays, so a computed quote still has
+  // its numbers for the sales desk after a sign-in.
+  var POA=/*{{poa}}*/true, POA_TEXT='POA';
   // How it is sold (the Wonder Byte partner package, September 2026): no
   // machine on its own. Every sale is the equipment, installed, and a monthly
   // service for at least 24 months that carries the design, the software, the
@@ -2471,6 +2473,11 @@ window.WonderQuote = (function(){
     var money=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0});
     var f=w.finance, pc=function(x){ return Math.round(x*1000)/10+'%'; };
     var work=c.studio||c.once;
+    if(POA) return '<div class="pays-grid">'+
+      '<article class="pay monthly"><span class="label">Price on application</span><div class="pay-fig">'+POA_TEXT+'</div>'+
+        '<p>'+(work?'The equipment and the design and build':'The equipment')+' spread over '+w.budget.term+' months plus the service, paid upfront, or the equipment financed through our finance partner. We price it for your site and organise the rest.</p>'+
+        (opts&&opts.ask?'<a class="link" href="'+opts.ask+'">Ask us to price it</a>':'')+'</article>'+
+      '</div><p class="pays-fine">Ex GST. Every package has a '+w.budget.term+' month service term.</p>';
     return '<div class="pays-grid">'+
       '<article class="pay monthly"><span class="label">Your monthly budget</span><div class="pay-fig">'+money.format(w.budget.monthly)+'<small>a month</small></div>'+
         '<p>'+(work?'The equipment and the design and build':'The equipment')+' spread over '+w.budget.term+' months, plus the service. '+money.format(w.budget.total)+' over the term.</p></article>'+
@@ -2603,11 +2610,11 @@ window.WonderQuote = (function(){
     var lines=[], count=0, installed=0, asks=0, robotRows=[], once=0, studio=0, monthlyOpts=0, scoped=false;
     MACHINES.forEach(function(m){ var n=qty[m.id]||0; if(!n) return;
       count+=n; installed+=n*m.price;
-      lines.push({id:m.id,kind:'machine',n:n,label:m.name+', '+m.model,name:m.name,model:m.model,sub:n+' × '+money.format(m.price)+', installed',value:n*m.price,img:m.img}); });
+      lines.push({id:m.id,kind:'machine',n:n,label:m.name+', '+m.model,name:m.name,model:m.model,sub:n+' × '+(POA?'installed, price on application':money.format(m.price)+', installed'),value:n*m.price,img:m.img}); });
     ROBOTS.forEach(function(r){ var n=qty[r.id]||0; if(!n) return;
       if(r.price){
         robotRows.push({n:n,alone:r.alone,after:r.after}); installed+=n*r.price;
-        lines.push({id:r.id,kind:'robot',n:n,label:r.name,name:r.name,model:r.kind,status:r.status,sub:n+' × '+money.format(r.price)+', installed',value:n*r.price,img:r.img});
+        lines.push({id:r.id,kind:'robot',n:n,label:r.name,name:r.name,model:r.kind,status:r.status,sub:n+' × '+(POA?'installed, price on application':money.format(r.price)+', installed'),value:n*r.price,img:r.img});
       }else{
         asks+=n; scoped=true;
         lines.push({id:r.id,kind:'robot',n:n,label:r.name,name:r.name,model:r.kind,status:r.status,sub:n+' × '+r.kind+', priced to order',value:null,note:'Priced to order',img:r.img});
@@ -2617,8 +2624,8 @@ window.WonderQuote = (function(){
       lines.push({id:p.id,kind:'part',label:p.name,name:p.name,sub:p.sub,value:null,note:'Priced on order',img:p.img}); });
     var sv=serviceFor(count,robotRows), open=count+robots>0;
     if(open){
-      var how=sv.kitchen?['First workstation '+money.format(SERVICE.first)].concat(count>1?[(count-1)+' more at '+money.format(SERVICE.extra)]:[]).concat(robots?[robots+(robots===1?' robot':' robots')+' at '+money.format(SERVICE.robot)]:[]).join(', ')
-                        :'Service robot package';
+      var how=!sv.kitchen?'Service robot package':POA?'Kitchen service package'
+             :['First workstation '+money.format(SERVICE.first)].concat(count>1?[(count-1)+' more at '+money.format(SERVICE.extra)]:[]).concat(robots?[robots+(robots===1?' robot':' robots')+' at '+money.format(SERVICE.robot)]:[]).join(', ');
       lines.push({id:'service',kind:'service',label:'The service, '+TERM+' months',name:'The service',sub:how,value:sv.amount,per:'month',img:'../../img/hero-kitchen.jpg'});
       INCLUDED.forEach(function(x){ if(x.kitchen&&!sv.kitchen) return;
         lines.push({id:x.id,kind:'included',label:x.name,name:x.name,sub:x.sub,value:0,img:x.img}); });
@@ -2759,8 +2766,9 @@ window.WonderQuote = (function(){
             parts:c.lines.filter(function(l){return l.kind!=='included'&&!(l.kind==='delivery'&&l.value!==null);})};
   }
   function valueText(l){
-    if(l.value===null) return l.note||'On request';
     if(l.value===0) return 'Included';
+    if(POA) return POA_TEXT;
+    if(l.value===null) return l.note||'On request';
     return fmt.format(l.value)+(l.per==='month'?' a month':'');
   }
   function valueNote(l){
@@ -2775,12 +2783,13 @@ window.WonderQuote = (function(){
     if(l.kind==='service'){
       var inc=c.lines.filter(function(x){return x.kind==='included';});
       return {stage:'Run',
-        lead:c.count?'One monthly fee runs the venue for '+TERM+' months: the robots and the ordering screen in your brand, install and training, maintenance and support. Each machine after the first adds '+fmt.format(SERVICE.extra)+', not '+fmt.format(SERVICE.first)+'.'
+        lead:c.count?'One monthly fee runs the venue for '+TERM+' months: the robots and the ordering screen in your brand, install and training, maintenance and support. Each machine after the first adds '+(POA?'less':fmt.format(SERVICE.extra)+', not '+fmt.format(SERVICE.first))+'.'
                     :'One monthly fee for '+TERM+' months: install and training, maintenance and support for the robot.',
         gets:inc.map(function(x){return x.name;}),
-        facts:[['Support','8am to 6pm weekdays, Brisbane time'],['Covered repairs','Parts and labour, '+TERM+' months'],['After that',c.after?'From '+fmt.format(c.after.monthly)+' a month, or on call':'Managed, or on call']]};
+        facts:[['Support','8am to 6pm weekdays, Brisbane time'],['Covered repairs','Parts and labour, '+TERM+' months'],['After that',c.after&&!POA?'From '+fmt.format(c.after.monthly)+' a month, or on call':'Managed, or on call']]};
     }
-    if(DETAILS[l.id]) return DETAILS[l.id];
+    // a detail's own facts can name a figure; none shows while prices are off
+    if(DETAILS[l.id]) return !POA?DETAILS[l.id]:Object.assign({},DETAILS[l.id],{facts:(DETAILS[l.id].facts||[]).filter(function(f){ return !/\$/.test(f[1]); })});
     if(l.kind==='robot') return {stage:'Equipment', lead:l.status+'. '+l.model+', priced to order.'};
     if(l.kind==='extra') return {stage:'Build', lead:l.sub+'.'};
     return {stage:'Equipment', lead:l.sub+'.'};
@@ -2788,10 +2797,10 @@ window.WonderQuote = (function(){
   function summaryLine(c){
     if(!c.monthly) return 'Showroom robots are priced to order. We will come back to you with the quote.';
     return 'The equipment installed'+(c.studio?', the design and build around it,':'')+' and the service that runs it for '+TERM+' months: install, training, maintenance and support.'+
-      (c.scoped?' Anything marked to confirm is priced once we have the site.':'')+(c.asks?' Showroom robots are priced to order.':'');
+      (POA?' Send it to us and we price it for your site.':c.scoped?' Anything marked to confirm is priced once we have the site.':'')+(c.asks?' Showroom robots are priced to order.':'');
   }
   function sumsHtml(c,doc){
-    if(!c.monthly) return '';
+    if(!c.monthly||POA) return '';
     var r='<dt>Equipment, installed</dt><dd>'+fmt.format(c.installed)+'</dd>';
     if(c.studio) r+='<dt>Design and build, indicative</dt><dd>'+fmt.format(c.studio)+'</dd>';
     if(c.once) r+='<dt>Options, once</dt><dd>'+fmt.format(c.once)+'</dd>';
@@ -2808,7 +2817,8 @@ window.WonderQuote = (function(){
     if(c.studio) t.push(['Design and build indicative','Confirmed once we have seen the site','Design and build indicative, confirmed once we have seen the site']);
     t.push(['A '+TERM+' month service','Maintenance and support included','A '+TERM+' month service term, billed monthly, maintenance and support included']);
     t.push(['Support','8am to 6pm weekdays, Brisbane time','Support from 8am to 6pm, Monday to Friday, Brisbane time']);
-    if(c.after) t.push(['After '+TERM+' months','Managed from '+fmt.format(c.after.monthly)+' a month, or on call','After '+TERM+' months, a managed service from '+fmt.format(c.after.monthly)+' a month, or on call at '+fmt.format(AFTER.hourly)+' an hour, two hours minimum']);
+    if(c.after) t.push(POA?['After '+TERM+' months','Managed, or on call','After '+TERM+' months, a managed service or on call, priced on application']
+                      :['After '+TERM+' months','Managed from '+fmt.format(c.after.monthly)+' a month, or on call','After '+TERM+' months, a managed service from '+fmt.format(c.after.monthly)+' a month, or on call at '+fmt.format(AFTER.hourly)+' an hour, two hours minimum']);
     t.push(['Valid 30 days','Until '+until,'Valid 30 days, until '+until]);
     t.push(['12 month supplier warranty','Our cover runs the full '+TERM+' months','A 12 month supplier warranty on the machines, and our cover for covered repairs for the full '+TERM+' months']);
     t.push(['About two months','From order','About two months from order']);
@@ -2832,7 +2842,7 @@ window.WonderQuote = (function(){
     try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){}
   }
   function forget(){ try{ localStorage.removeItem(STORE); }catch(e){} try{ window.dispatchEvent(new CustomEvent('wr-quote')); }catch(e){} }
-  return {load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
+  return {POA:POA,POA_TEXT:POA_TEXT,load:load,save:save,forget:forget,parts:parts,valueText:valueText,valueNote:valueNote,detailFor:detailFor,summaryLine:summaryLine,sumsHtml:sumsHtml,termsList:termsList,
           optionAmount:optionAmount,cooksOf:cooksOf,STUDIO:STUDIO,MACHINES:MACHINES,PARTS:PARTS,OPTIONS:OPTIONS,INCLUDED:INCLUDED,FAMILIES:FAMILIES,ROBOTS:ROBOTS,ROBOT_PRICES:ROBOT_PRICES,
           SERVICE:SERVICE,TERM:TERM,AFTER:AFTER,GST:GST,PAY:PAY,COFFEE:COFFEE,coffeePlan:coffeePlan,PACKAGES:PACKAGES,DETAILS:DETAILS,IMG_POS:IMG_POS,
           compute:compute,desk:desk,packageQuote:packageQuote,packageFor:packageFor,waysToPay:waysToPay,payHtml:payHtml,titleOf:titleOf,
@@ -2910,7 +2920,7 @@ window.WonderQuote = (function(){
     var c=Q.compute(st), P=Q.parts(c);
     if(!P.picked.length){
       host.innerHTML='<section class="qv-empty"><div class="wrap"><span class="label">[ Your quote ]</span><h1>Nothing on it yet.</h1>'+
-        '<p>Pick a robot, then everything around it. It prices as you go, and lands here.</p>'+
+        '<p>Pick a robot, then everything around it. '+(Q.POA?'It lands here, and we price it for your site.':'It prices as you go, and lands here.')+'</p>'+
         '<div class="actions"><a class="btn" href="'+root+'quote/" data-quote><span>Build a quote</span><i aria-hidden="true">+</i></a>'+
         '<a class="btn ghost" href="'+root+'robot-cafe-packages/"><span>Start from a package</span><i aria-hidden="true">+</i></a></div></div></section>';
       return;
@@ -2921,7 +2931,8 @@ window.WonderQuote = (function(){
     var hero=c.pkg?c.pkg.img:(famImg(P.picked[0].id)||P.picked[0].img);
     var q=Q.toQuery(st);
     var body=['Quote '+ref+': '+title].concat(P.parts.map(function(l){ return l.label+': '+Q.valueText(l); }))
-      .concat(['Monthly budget: '+money.format(c.monthly)+' a month over '+c.term+' months','Upfront: '+money.format(c.upfront),'Service: '+money.format(c.service)+' a month','Over '+c.term+' months, ex GST: '+money.format(c.total),'',location.origin+location.pathname+q]).join('\n');
+      .concat(Q.POA?['Price on application']:['Monthly budget: '+money.format(c.monthly)+' a month over '+c.term+' months','Upfront: '+money.format(c.upfront),'Service: '+money.format(c.service)+' a month','Over '+c.term+' months, ex GST: '+money.format(c.total)])
+      .concat(['',location.origin+location.pathname+q]).join('\n');
     var opt=function(name,value,label,on){ return '<button type="button" class="qv-seg" data-opt="'+name+'" data-val="'+value+'" aria-pressed="'+(on?'true':'false')+'">'+label+'</button>'; };
     var options=c.monthly?'<div class="qv-opts"><div><span class="label">Delivery</span><div class="qv-segs">'+opt('site','local','Within 100 km of a port',c.site==='local')+opt('site','far','Further',c.site==='far')+'</div></div></div>':'';
 
@@ -2937,18 +2948,18 @@ window.WonderQuote = (function(){
     }).join('');
 
     host.innerHTML=
-      '<section class="phero"><div class="wrap"><div class="pills"><span class="pill">Quote '+ref+'</span><span class="pill">Valid until '+long.format(until)+'</span><span class="pill">About two months</span>'+(c.monthly?'<span class="pill price">'+money.format(c.monthly)+' a month</span>':'')+'</div>'+
+      '<section class="phero"><div class="wrap"><div class="pills"><span class="pill">Quote '+ref+'</span><span class="pill">Valid until '+long.format(until)+'</span><span class="pill">About two months</span>'+(c.monthly?'<span class="pill price">'+(Q.POA?Q.POA_TEXT:money.format(c.monthly)+' a month')+'</span>':'')+'</div>'+
         '<h1>'+esc(title)+'.</h1><figure class="stage photo"><img src="'+hero+'" alt="" loading="eager" style="object-position:'+pos(hero)+'"><figcaption class="label"><span>'+esc(title)+'</span><span>Your quote</span></figcaption></figure></div></section>'+
-      '<section class="pnum"><div class="wrap"><span class="label">[ Your monthly budget ]</span>'+
-        (c.monthly?'<div class="pn-fig">'+money.format(c.monthly)+'</div><span class="pn-extra">a month over '+c.term+' months, ex GST'+(c.pkg&&c.pkg.extra?', plus '+esc(c.pkg.extra.name.toLowerCase())+', priced on scope':'')+'</span>':'<div class="pn-fig">On request</div>')+
-        '<div class="pn-row"><p>'+esc(Q.summaryLine(c))+'</p><dl class="pn-sum">'+Q.sumsHtml(c)+'</dl></div>'+
+      '<section class="pnum"><div class="wrap"><span class="label">[ '+(Q.POA?'The price':'Your monthly budget')+' ]</span>'+
+        (c.monthly?'<div class="pn-fig">'+(Q.POA?Q.POA_TEXT:money.format(c.monthly))+'</div><span class="pn-extra">'+(Q.POA?'Price on application, ex GST':'a month over '+c.term+' months, ex GST')+(c.pkg&&c.pkg.extra?', plus '+esc(c.pkg.extra.name.toLowerCase())+', priced on scope':'')+'</span>':'<div class="pn-fig">On request</div>')+
+        '<div class="pn-row"><p>'+esc(Q.summaryLine(c))+'</p>'+(Q.sumsHtml(c)?'<dl class="pn-sum">'+Q.sumsHtml(c)+'</dl>':'')+'</div>'+
         options+
         '<div class="actions"><a class="btn" href="'+root+'quote/proposal/'+q+'"><span>The proposal, PDF</span><i aria-hidden="true">+</i></a>'+
         '<button type="button" class="btn ghost" id="qv-change"><span>Change it</span><i aria-hidden="true">+</i></button>'+
         '<a class="btn ghost" href="mailto:info@wonderbytech.com?subject='+encodeURIComponent('Quote '+ref)+'&body='+encodeURIComponent(body)+'"><span>Send it to us</span><i aria-hidden="true">+</i></a></div>'+
       '</div></section>'+
       (c.monthly?'<section class="pays"><div class="wrap"><div class="pays-h"><span class="label">[ Ways to pay ]</span><h2>Spread, upfront or financed.</h2></div>'+Q.payHtml(c,{ask:'#eoi'})+'</div></section>':'')+
-      '<section class="incs"><div class="wrap"><div class="incs-h"><span class="label">[ Everything in it ]</span><h2>'+P.parts.length+(P.parts.length===1?' part':' parts')+'. One monthly budget.</h2></div>'+spreads+'</div></section>'+
+      '<section class="incs"><div class="wrap"><div class="incs-h"><span class="label">[ Everything in it ]</span><h2>'+P.parts.length+(P.parts.length===1?' part':' parts')+'. One '+(Q.POA?'price, on application.':'monthly budget.')+'</h2></div>'+spreads+'</div></section>'+
       '<section class="rail last"><div class="wrap"><span class="label">[ Terms ]</span><div><ol class="hl three">'+
         Q.termsList(c,long.format(until)).slice(0,6).map(function(t){ return '<li><b>'+esc(t[0])+'</b><p>'+esc(t[1])+'</p></li>'; }).join('')+
         '</ol><p class="pays-fine"><a class="link" href="'+root+'terms/">The terms of sale</a></p></div></div></section>';
@@ -3014,9 +3025,9 @@ window.WonderQuote = (function(){
       return '<li>'+pic(l.img)+'<span class="i">'+('0'+(i+1)).slice(-2)+'</span><b>'+esc(l.label)+'</b><span class="v'+(l.value===null?' ask':'')+'">'+esc(Q.valueText(l))+'</span></li>';
     }).join('');
     sheets.push('<section class="sheet pp-sum"><div class="sh-in">'+
-      '<span class="label">[ Your monthly budget ]</span>'+
-      '<div class="ps-fig">'+(c.monthly?money.format(c.monthly)+'<small>a month</small>':'On request')+'</div>'+
-      '<div class="ps-row"><p>'+esc(Q.summaryLine(c))+'</p><dl class="ps-sums">'+Q.sumsHtml(c,true)+'</dl></div>'+
+      '<span class="label">[ '+(Q.POA?'The price':'Your monthly budget')+' ]</span>'+
+      '<div class="ps-fig">'+(!c.monthly?'On request':Q.POA?Q.POA_TEXT+'<small>on application</small>':money.format(c.monthly)+'<small>a month</small>')+'</div>'+
+      '<div class="ps-row"><p>'+esc(Q.summaryLine(c))+'</p>'+(Q.sumsHtml(c,true)?'<dl class="ps-sums">'+Q.sumsHtml(c,true)+'</dl>':'')+'</div>'+
       '<span class="label ps-in">In this proposal</span><ol class="ps-grid'+(P.parts.length>8?' many':'')+'">'+grid+'</ol></div>'+foot(ref)+'</section>');
 
     // 3. every part, two to a sheet
@@ -3301,7 +3312,7 @@ window.WonderQuote = (function(){
       '<span class="n" aria-hidden="true"></span>'+
       '<div class="ph"><img src="'+pk.img+'" alt="" loading="lazy" decoding="async"></div>'+
       '<div class="qs-card-b"><h3>'+esc(pk.name)+'</h3><p>'+esc(pk.line)+'</p><p class="has">'+esc(has)+'</p>'+
-      '<div class="qs-card-f"><span class="price">'+money.format(c.monthly)+'<small>a month over '+c.term+' months'+(pk.extra?', plus the container':'')+'</small></span>'+
+      '<div class="qs-card-f"><span class="price">'+(Q.POA?Q.POA_TEXT+'<small>'+(pk.extra?'plus the container':'installed, with the service')+'</small>':money.format(c.monthly)+'<small>a month over '+c.term+' months'+(pk.extra?', plus the container':'')+'</small>')+'</span>'+
       '<span class="add" aria-hidden="true">Add</span></div></div></article>';
   }
   function mById(id){ return Q.MACHINES.filter(function(m){return m.id===id;})[0]; }
@@ -3313,7 +3324,7 @@ window.WonderQuote = (function(){
   function machineCount(){ return Q.MACHINES.reduce(function(a,m){return a+(qty[m.id]||0);},0); }
   function famCard(f){
     var prices=f.models.map(function(id){return mById(id).price;}), low=Math.min.apply(null,prices);
-    var from=(f.models.length>1?'From ':'')+money.format(low);
+    var from=Q.POA?Q.POA_TEXT:(f.models.length>1?'From ':'')+money.format(low);
     var small=f.models.length>1?f.models.length+' models':mById(f.models[0]).model;
     return '<article class="qs-card fam" id="qf-'+f.id+'">'+
       '<button type="button" class="qs-hit" data-id="'+f.id+'" data-kind="fam" aria-expanded="false" aria-controls="qs-conf" aria-label="'+esc(f.name)+'"></button>'+
@@ -3324,6 +3335,7 @@ window.WonderQuote = (function(){
   }
   // The service for the next machine, said where the buyer is deciding.
   function nextLine(){
+    if(Q.POA) return '';
     return machineCount()?'Another machine adds '+money.format(Q.SERVICE.extra)+' a month to the service, not '+money.format(Q.SERVICE.first)+'.'
                          :'The first machine carries the service: '+money.format(Q.SERVICE.first)+' a month for '+Q.TERM+' months.';
   }
@@ -3337,7 +3349,7 @@ window.WonderQuote = (function(){
     var models=f.models.length>1?'<div class="cf-block"><span class="label">Which '+esc(f.name.toLowerCase())+'</span><div class="cf-models">'+f.models.map(function(id){
         var m=mById(id);
         return '<button type="button" class="cf-model" id="qm-'+id+'" data-kind="model" data-fam="'+f.id+'" data-id="'+id+'" aria-pressed="false">'+
-          '<span class="t"><img src="'+m.img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(m.model)+'</b><small>'+esc(m.kit)+'</small></span><span class="p">'+money.format(m.price)+'</span></button>';
+          '<span class="t"><img src="'+m.img+'" alt="" loading="lazy"></span><span class="m"><b>'+esc(m.model)+'</b><small>'+esc(m.kit)+'</small></span><span class="p">'+(Q.POA?Q.POA_TEXT:money.format(m.price))+'</span></button>';
       }).join('')+'</div></div>':'';
     var counts='<div class="cf-block"><span class="label">How many</span><div class="cf-counts">'+f.models.map(function(id){
         var m=mById(id); return '<div class="cf-count" id="qcc-'+id+'"><span>'+esc(m.model)+'</span>'+stepper(id,m.model)+'</div>';
@@ -3372,7 +3384,7 @@ window.WonderQuote = (function(){
     });
   }
   window.addEventListener('resize',function(){ if(openFam) drawConf(), render(); });
-  function robotPrice(r){ return r.price?money.format(r.price)+'<small>+ '+money.format(Q.SERVICE.robot)+' a month</small>':'On request'; }
+  function robotPrice(r){ return !r.price?'On request':Q.POA?Q.POA_TEXT:money.format(r.price)+'<small>+ '+money.format(Q.SERVICE.robot)+' a month</small>'; }
   function draw(){
     if(drawn) return; drawn=true;
     $('qp-pkg').innerHTML=Q.PACKAGES.map(pkgCard).join('');
@@ -3437,9 +3449,9 @@ window.WonderQuote = (function(){
   function paintBar(){
     var c=Q.compute(state()), sp=btn.querySelector('span'); if(!sp) return;
     var has=c.count+c.robots+c.asks>0;
-    sp.innerHTML=has?'Your quote'+(c.monthly?'<em>'+money.format(c.monthly)+' a month</em>':''):'Build a quote';
+    sp.innerHTML=has?'Your quote'+(c.monthly&&!Q.POA?'<em>'+money.format(c.monthly)+' a month</em>':''):'Build a quote';
     btn.classList.toggle('has',has);
-    btn.setAttribute('aria-label',has?'Your quote'+(c.monthly?', '+money.format(c.monthly)+' a month':'')+'. Open it':'Build a quote');
+    btn.setAttribute('aria-label',has?'Your quote'+(c.monthly&&!Q.POA?', '+money.format(c.monthly)+' a month':'')+'. Open it':'Build a quote');
   }
   paintBar();
   window.WonderQuoteSheet={
@@ -3498,7 +3510,7 @@ window.WonderQuote = (function(){
   // plate, and the door to the venue questions
   function machineChoices(){
     return Q.MACHINES.concat(Q.ROBOTS.filter(function(r){return r.price;})).map(function(m){
-      return {id:m.id, t:m.name, s:(m.model?m.model+', ':'')+money.format(m.price)+' installed', img:m.img};
+      return {id:m.id, t:m.name, s:(m.model?m.model+', ':'')+(Q.POA?'installed, POA':money.format(m.price)+' installed'), img:m.img};
     }).concat([{id:'venue', t:'A whole venue', s:'Tell us what you are opening', img:'../../img/coffee/venue-01-bar-in-room.jpg'}]);
   }
   function wzSteps(){
@@ -3580,7 +3592,7 @@ window.WonderQuote = (function(){
   }
   function offerPrice(o){
     var amt=Q.optionAmount(o,machineCount(),Q.cooksOf(qty));
-    return amt===null?'':money.format(amt)+(o.per==='month'?' a month':'');
+    return amt===null?'':Q.POA?Q.POA_TEXT:money.format(amt)+(o.per==='month'?' a month':'');
   }
   function offer(id,kind,title,why,price,on){
     var img=kind==='part'?pById(id).img:kind==='unit'?rById(id).img:oById(id).img;
@@ -3593,18 +3605,21 @@ window.WonderQuote = (function(){
     var picked=Q.MACHINES.concat(Q.ROBOTS.filter(function(r){return r.price;})).filter(function(m){return qty[m.id]>0;});
     var recs=picked.map(function(m){
       var f=famOf(m.id), others=f?f.models.filter(function(id){return id!==m.id;}):[];
-      var swap=others.length?'<span class="wz-swap">Or '+others.map(function(id){ var o=mById(id); return '<button type="button" data-kind="model" data-fam="'+f.id+'" data-id="'+id+'">'+esc(o.model)+', '+money.format(o.price)+'</button>'; }).join(' or ')+'</span>':'';
+      var swap=others.length?'<span class="wz-swap">Or '+others.map(function(id){ var o=mById(id); return '<button type="button" data-kind="model" data-fam="'+f.id+'" data-id="'+id+'">'+esc(o.model)+(Q.POA?'':', '+money.format(o.price))+'</button>'; }).join(' or ')+'</span>':'';
       var img=f&&f.models.length>1&&f.models[0]===m.id?f.img:m.img;
       return '<div class="wz-rec"><span class="t"><img src="'+img+'" alt="" loading="lazy"></span>'+
         '<div class="m"><span class="label">'+esc(m.model||m.kind)+'</span><h4>'+(qty[m.id]>1?qty[m.id]+' × ':'')+esc(m.name)+'</h4><p>'+esc(WHY[m.id]||m.kit||'')+'</p>'+swap+'</div>'+
-        '<div class="r"><span class="p">'+money.format(m.price*qty[m.id])+'</span>'+stepper(m.id,m.model||m.name)+'</div></div>';
+        '<div class="r"><span class="p">'+(Q.POA?Q.POA_TEXT:money.format(m.price*qty[m.id]))+'</span>'+stepper(m.id,m.model||m.name)+'</div></div>';
     }).join('');
     // The budget, then the upsell that is true of this quote: the next
     // machine costs half the service of the first.
-    var budget=c.monthly?'<div class="wz-pkg on"><div><span class="label">Your monthly budget</span><h4>'+money.format(c.monthly)+' a month over '+c.term+' months.</h4>'+
+    var budget=!c.monthly?'':Q.POA?'<div class="wz-pkg on"><div><span class="label">The price</span><h4>Price on application.</h4>'+
+      '<p>Open the full quote and send it to us. We price it for your site, installed with '+c.term+' months of service, within a working day. Ex GST.</p>'+
+      '<ul class="wz-pieces">'+Q.INCLUDED.filter(function(x){return count||!x.kitchen;}).map(function(x){return '<li class="on">'+esc(x.name)+'</li>';}).join('')+'</ul></div></div>'
+      :'<div class="wz-pkg on"><div><span class="label">Your monthly budget</span><h4>'+money.format(c.monthly)+' a month over '+c.term+' months.</h4>'+
       '<p>'+money.format(c.upfront)+' upfront and '+money.format(c.service)+' a month, or finance the equipment and we organise it. Ex GST.</p>'+
-      '<ul class="wz-pieces">'+Q.INCLUDED.filter(function(x){return count||!x.kitchen;}).map(function(x){return '<li class="on">'+esc(x.name)+'</li>';}).join('')+'</ul></div></div>':'';
-    var nudge=count?'<p class="wz-note">'+esc(nextLine())+'</p>':'';
+      '<ul class="wz-pieces">'+Q.INCLUDED.filter(function(x){return count||!x.kitchen;}).map(function(x){return '<li class="on">'+esc(x.name)+'</li>';}).join('')+'</ul></div></div>';
+    var nudge=count&&nextLine()?'<p class="wz-note">'+esc(nextLine())+'</p>':'';
     var studio=Q.OPTIONS.filter(function(o){ return o.group==='studio'&&Q.optionAmount(o,count,cooks)!==null; });
     var WHY_OPT={
       space:'The room drawn around the machines, so the robots, the queue and your people all fit.',
@@ -3623,7 +3638,7 @@ window.WonderQuote = (function(){
     var ACC_WHY={prnt:'Your mark in chocolate on every crema and foam. The cup people photograph.',icem:'A second ice maker for iced drinks on a hot day.',milk:'Oat or soy on its own line.',syr:'Three more flavours on the menu.'};
     var extras=accIds.map(function(id){ var x=pById(id); return offer(id,'part',x.name,ACC_WHY[id]||x.sub,'Priced on order',parts[id]); }).join('');
     Q.ROBOTS.filter(function(r){return r.price&&!qty[r.id];}).forEach(function(r){
-      extras+=offer(r.id,'unit',r.name,WHY[r.id]||r.role,money.format(r.price)+' + '+money.format(count?Q.SERVICE.robot:r.alone)+' a month',false);
+      extras+=offer(r.id,'unit',r.name,WHY[r.id]||r.role,Q.POA?Q.POA_TEXT:money.format(r.price)+' + '+money.format(count?Q.SERVICE.robot:r.alone)+' a month',false);
     });
     ['ext','pos','train'].forEach(function(id){ var o=oById(id); extras+=offer(id,'opt',o.name,WHY_OPT[id],offerPrice(o),opts[id]); });
     var boxNote=wz.where==='box'?'<p class="wz-note">The container build is priced once we have your site and menu, and it is on the quote to confirm.</p>':'';
@@ -3745,7 +3760,7 @@ window.WonderQuote = (function(){
       if(amt===null&&opts[o.id]&&count) opts[o.id]=false;
       if(card) card.hidden=!!count&&amt===null;
       var pv=$('qpv-'+o.id);
-      if(pv){ pv.textContent=!open?'Priced on your machines':amt===null?'With a machine':money.format(amt)+(o.per==='month'?' a month':''); pv.classList.toggle('ask',!open||amt===null); }
+      if(pv){ pv.textContent=!open?'Priced on your machines':amt===null?'With a machine':Q.POA?Q.POA_TEXT:money.format(amt)+(o.per==='month'?' a month':''); pv.classList.toggle('ask',!open||amt===null); }
       toggle(o.id,opts[o.id]);
       if(opts[o.id]) tabCount[o.group==='studio'?'work':'care']++;
     });
@@ -3781,15 +3796,19 @@ window.WonderQuote = (function(){
     var lines=c.lines.filter(function(l){ return l.kind!=='included'&&l.kind!=='delivery'; });
     var ul=$('qs-lines');
     ul.innerHTML=lines.length?lines.map(function(l){
-      var v=l.value===null?(l.note||'On request'):money.format(l.value)+(l.per==='month'?'/mo':'');
+      var v=Q.POA?Q.POA_TEXT:l.value===null?(l.note||'On request'):money.format(l.value)+(l.per==='month'?'/mo':'');
       return '<li><span class="t">'+(l.img?'<img src="'+l.img+'" alt="">':'')+'</span><span><b>'+esc(l.kind==='machine'?l.name:l.label)+'</b><small>'+esc(l.kind==='machine'?(l.n>1?l.n+' × ':'')+l.model:l.sub)+'</small></span>'+
              '<span class="v'+(l.value===null?' ask':'')+'">'+esc(v)+'</span></li>';
-    }).join(''):'<li class="empty">Nothing yet. Pick a machine or a robot and it lands here, priced.</li>';
+    }).join(''):'<li class="empty">Nothing yet. Pick a machine or a robot and it lands here'+(Q.POA?'':', priced')+'.</li>';
 
     var totalEl=$('dq-total'), noteEl=$('dq-note'), payEl=$('dq-pay');
     if(!open){
-      totalEl.textContent=money.format(0);
+      totalEl.textContent=Q.POA?Q.POA_TEXT:money.format(0);
       noteEl.textContent=c.asks?'Showroom robots are priced to order':'Pick a machine to start';
+      if(payEl) payEl.textContent='';
+    }else if(Q.POA){
+      totalEl.textContent=Q.POA_TEXT;
+      noteEl.textContent='Price on application. Open the quote and send it to us. Ex GST';
       if(payEl) payEl.textContent='';
     }else{
       totalEl.innerHTML=money.format(c.monthly)+'<small>a month</small>';
