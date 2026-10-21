@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Export the decks as a folder another site can serve.
 
-    python3 build.py && python3 decks_export.py <out-dir>
+    python3 build.py && python3 decks_export.py <out-dir> [deck ...]
 
 The decks are built with this site and normally served by it at deck/<name>/.
 This writes the same pages to <out-dir>/<name>/index.html with only the
 pictures, films and fonts they use under <out-dir>/img and <out-dir>/fonts,
 a PDF of each beside its page, and a Download button on the page that hands
-over that PDF. Links back into the site go to the live site.
+over that PDF. Links back into the site go to the live site. Name decks
+after the folder to export only those, so the others on wonder.fish stay as
+they were published.
 
 Used to put the decks on wonder.fish/robotics/, where a pushed commit is live
 in under a minute.
@@ -28,6 +30,7 @@ DECKS = {
     "profile": ("profile", "Wonder-Robotics-corporate-profile.pdf"),
     "coffee": ("coffee", "Wonder-Robotics-coffee-bar.pdf"),
     "company": ("company", "Wonder-Robotics-introduction.pdf"),
+    "brochure": ("brochure", "Wonder-Robotics-brochure.pdf"),
 }
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the
@@ -60,13 +63,18 @@ def pdf(page, out):
 
 
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         sys.exit(__doc__)
     out = Path(sys.argv[1]).resolve()
+    names = sys.argv[2:] or list(DECKS)
+    unknown = set(names) - set(DECKS)
+    if unknown:
+        sys.exit(f"no such deck: {sorted(unknown)}")
+    decks = {name: DECKS[name] for name in names}
     if out.exists():
         shutil.rmtree(out)
     used = set()
-    for name, (folder, pdf_name) in DECKS.items():
+    for name, (folder, pdf_name) in decks.items():
         src = HERE / "deck" / name / "index.html"
         if not src.exists():
             sys.exit(f"no built deck at {src}: run build.py first")
@@ -93,7 +101,7 @@ def main():
         (out / f).parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(HERE / f, out / f)
     # printed from the exported page, so the PDF says what the page says
-    for name, (folder, pdf_name) in DECKS.items():
+    for name, (folder, pdf_name) in decks.items():
         pdf(out / folder / "index.html", out / folder / pdf_name)
         print(f"{folder}/: page, {pdf_name} {(out / folder / pdf_name).stat().st_size // 1024} KB")
     print(f"{len(used)} pictures, films and fonts")

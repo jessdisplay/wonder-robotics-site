@@ -1268,14 +1268,31 @@ for old, (to, name) in OLD_SITE.items():
 # catalogue's partner list and its pictures are the site's own, so it cannot
 # drift from the site. Unlisted: noindex, not in the sitemap, linked from
 # no page.
-def deck(name):
+def deck(name, src=None, drop=(), after=None, swap=(), priced=True):
     root = "../../"
     # Slides number themselves, so one can be added without renumbering the rest:
     # {{i}} and {{n}} are a slide's place in the source, {{of}} the count.
-    head, *slides = (SRC / f"{name}-deck.html").read_text().split('<section class="stage"')
+    head, *slides = (SRC / f"{src or name}-deck.html").read_text().split('<section class="stage"')
+    for old, new in swap:
+        if old not in head:
+            sys.exit(f"{name} deck: nothing to swap for {old!r}")
+        head = head.replace(old, new)
+    titles = [m.group(1) if (m := re.search(r'aria-label="Slide \{\{i\}\}\. ([^"]+)"', s)) else None for s in slides]
+    unknown = (set(drop) | set(after or {})) - set(titles)
+    if unknown:
+        sys.exit(f"{name} deck: no slide called {sorted(unknown)}")
+    kept = []
+    for s, title in zip(slides, titles):
+        if title not in drop:
+            kept.append(s)
+        if after and title in after:
+            kept += (SRC / f"{after[title]}.html").read_text().split('<section class="stage"')[1:]
+    slides = kept
     html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
                           for i, s in enumerate(slides, 1))
-    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}"), priced=True).replace("{{wall}}", wall())
+    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}"), priced=priced).replace("{{wall}}", wall())
+    if not priced and re.search(r"\$\s?\d", html):
+        sys.exit(f"{name} deck is meant to carry no prices, and one is on it")
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     if "{{" in html:
         sys.exit(f"{name} deck has an unfilled token")
@@ -1290,6 +1307,18 @@ def deck(name):
 
 for name in ("company", "unisc", "profile"):
     deck(name)
+
+# An edition is one deck for another reader: the same source with slides taken
+# out or put in by name, so it cannot drift from the deck it comes from. The
+# brochure is the company deck for a shop fitter to show his own clients
+# (Jesse, 21 Oct 2026: "I just need the pricing on the machines removed"), with
+# the machines shown plain, in place.
+EDITIONS = {
+    "brochure": {"src": "company", "drop": ("What it costs",), "after": {"How we work": "brochure-slides"},
+                 "swap": [("and what it costs.", "and where it fits.")], "priced": False},
+}
+for name, edition in EDITIONS.items():
+    deck(name, **edition)
 
 
 # Not found. Served from any depth, so its links are absolute from the root.
