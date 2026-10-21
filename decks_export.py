@@ -30,7 +30,6 @@ DECKS = {
     "profile": ("profile", "Wonder-Robotics-corporate-profile.pdf"),
     "coffee": ("coffee", "Wonder-Robotics-coffee-bar.pdf"),
     "company": ("company", "Wonder-Robotics-introduction.pdf"),
-    "brochure": ("brochure", "Wonder-Robotics-brochure.pdf"),
 }
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the
