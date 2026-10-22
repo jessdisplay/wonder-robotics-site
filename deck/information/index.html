@@ -316,7 +316,9 @@
     .full::after{display:none}
     .full .txt,.cover .txt{position:static;width:auto;padding:22px 22px 0}
     .cover .mark{width:130px;left:18px;top:18px}
-    .who .g1{position:static;width:100%;height:auto;aspect-ratio:4/3;object-position:96% 50%;margin-top:22px;border-radius:10px;transform:none}
+    /* the humanoid big on a phone (Jesse, 22 Oct: "this guy can be big and epic"): a tall frame cut close on him, edge
+       to edge across the top of the slide */
+    .who .g1{position:static;width:calc(100% + 44px);max-width:none;height:auto;aspect-ratio:3/4;object-position:89% 45%;margin:-28px -22px 24px;border-radius:0;transform:none}
     .who .col,.price .col,.split .txt{width:auto}
     .four4,.row3,.work,.ngrid,.hundred,.three,.steps,.six{grid-template-columns:1fr;gap:16px;margin-top:24px}
     .crew{grid-template-columns:1fr 1fr;grid-template-rows:none;gap:14px;margin-top:22px}
