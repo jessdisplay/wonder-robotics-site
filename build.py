@@ -1261,6 +1261,11 @@ for old, (to, name) in OLD_SITE.items():
     forward(old, to, name)
 
 
+# The robot's peek round the moon, for the decks that draw the mark.
+SNEAK_JS = (SRC / "site.js").read_text().split("/* The price list, once.")[0]
+assert "window.WonderSneak" in SNEAK_JS and "WonderQuote" not in SNEAK_JS, "site.js: the sneak no longer opens the file"
+
+
 # The decks: the company introduction sent to a partner as a link, and a
 # pitch written for one reader (unisc). Each is a whole
 # document like the price guide, not a page in the site's chrome, because a
@@ -1277,6 +1282,8 @@ def deck(name):
                           for i, s in enumerate(slides, 1))
     html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}"), priced=True).replace("{{wall}}", wall())
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
+    # the drawn mark and the robot's peek round the moon, the site's own code (a deck is one file)
+    html = html.replace("{{markjs}}", (SRC / "mark.js").read_text()).replace("{{sneakjs}}", SNEAK_JS)
     if "{{" in html:
         sys.exit(f"{name} deck has an unfilled token")
     for src in re.findall(r'src="' + re.escape(root) + r'([^"]+)"', html):
@@ -1288,7 +1295,7 @@ def deck(name):
     print(f"deck/{name}/index.html: {out.stat().st_size} bytes")
 
 
-for name in ("company", "unisc", "profile"):
+for name in ("company", "unisc", "profile", "information"):
     deck(name)
 
 

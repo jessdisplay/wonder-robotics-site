@@ -1,0 +1,96 @@
+<!-- The login on a deck with a passcode, put in by decks_export.py on wonder.fish only: the shared gate
+     (/shared/gate.css, /shared/gate.js: checks the code in the browser, then opens the page at its top) with the
+     four digit boxes of the factory binder's login (robotics/b-pro) and the Fonzie pages, in Wonder Robotics colours.
+     Behind it, W-1 alone in the warehouse: the still at once, then the film over it once it plays. -->
+<link rel="stylesheet" href="/shared/gate.css?v=9a577ce">
+<script src="/shared/gate.js?v=9a577ce" data-pass-hash="{{hash}}" data-bg="../img/deck/warehouse-loop.jpg"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var gate = document.getElementById('gate'), real = gate && gate.querySelector('#gate-pass');
+  if (!real) return;
+  var form = real.form, error = gate.querySelector('.gate-error'), boxes = [], row = document.createElement('div');
+  gate.querySelector('label').textContent = 'Enter the 4-digit passcode';
+  real.classList.add('pin-real'); real.tabIndex = -1; real.setAttribute('aria-hidden', 'true');
+  row.className = 'pin';
+  for (var i = 0; i < 4; i++) {
+    var b = document.createElement('input');
+    b.type = 'password'; b.inputMode = 'numeric'; b.autocomplete = 'off';   // no maxlength: a burst of digits spreads on
+    b.setAttribute('aria-label', 'Digit ' + (i + 1) + ' of 4'); boxes.push(b); row.appendChild(b);
+  }
+  real.parentNode.insertBefore(row, real);
+  function sync() { real.value = boxes.map(function (x) { return x.value; }).join(''); }
+  function send() { if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event('submit', { cancelable: true })); }
+  boxes.forEach(function (b, i) {
+    b.addEventListener('input', function () {
+      var d = b.value.replace(/\D/g, '');
+      if (d.length > 1) { for (var j = 0; j < d.length && i + j < 4; j++) boxes[i + j].value = d[j]; } else b.value = d;
+      sync();
+      var empty = boxes.filter(function (x) { return !x.value; })[0];
+      if (real.value.length === 4) send(); else if (empty) empty.focus();
+    });
+    b.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !b.value && i > 0) { boxes[i - 1].value = ''; boxes[i - 1].focus(); sync(); e.preventDefault(); }
+    });
+    b.addEventListener('paste', function (e) {
+      var t = ((e.clipboardData && e.clipboardData.getData('text')) || '').replace(/\D/g, '').slice(0, 4);
+      if (!t) return;
+      e.preventDefault(); boxes.forEach(function (x, j) { x.value = t[j] || ''; }); sync();
+      if (t.length === 4) send(); else boxes[t.length].focus();
+    });
+  });
+  new MutationObserver(function () {
+    if (error.textContent) { boxes.forEach(function (x) { x.value = ''; }); boxes[0].focus(); }
+  }).observe(error, { childList: true, characterData: true, subtree: true });
+  boxes[0].focus();
+
+  // the warehouse comes alive behind the boxes, unless the reader has asked for less motion
+  if (!window.wonderClip || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var bg = gate.querySelector('.gate-bg'), v = document.createElement('video');
+  v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+  window.wonderClip('../img/deck/warehouse-loop.mp4').then(function (url) {
+    v.addEventListener('playing', function () { v.classList.add('live'); }, { once: true });
+    v.src = url; bg.appendChild(v);
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  }).catch(function () { /* the still stays */ });
+  // a browser pauses a film in a tab nobody is looking at; carry on when they come back
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && v.src && v.paused) { var q = v.play(); if (q && q.catch) q.catch(function () {}); }
+  });
+});
+</script>
+<style>
+  #gate,#gate.no-video{background:#140A24;overflow:hidden;font-family:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif}
+  /* W-1 is never behind the box: on a wide screen the box sits left and he stands clear to its right; on a tall
+     one the box sits low and the picture is pushed in from the floor, so he stands above it */
+  #gate .gate-bg{transform-origin:var(--o,50% 50%);animation:wr-drift 32s ease-in-out infinite alternate}
+  #gate .gate-bg img,#gate .gate-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--op,35% 50%)}
+  #gate .gate-bg video{opacity:0;transition:opacity 1.6s ease}
+  #gate .gate-bg video.live{opacity:1}
+  @keyframes wr-drift{from{transform:scale(var(--s0,1.04))}to{transform:scale(var(--s1,1.1)) translateY(-1%)}}
+  @media (prefers-reduced-motion:reduce){#gate .gate-bg{animation:none}}
+  #gate.is-still form{background:rgba(32,16,58,.6);-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1);
+                      border:1px solid rgba(243,241,228,.16);box-shadow:0 30px 80px rgba(10,5,20,.6);border-radius:18px;padding:30px 28px 22px}
+  #gate.is-still form::before{content:"";display:block;width:190px;height:45px;margin:4px auto 22px;background:url(../img/deck/mark-cream.png) center/contain no-repeat}
+  #gate.is-still label,#gate.no-video label{font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,241,228,.78)}
+  #gate.is-still .pin{display:flex;gap:12px;justify-content:center;margin:10px 0 4px}
+  #gate.is-still .pin input{width:64px;height:78px;padding:0;font-size:34px;line-height:1;text-align:center;border-radius:12px;
+                            border:2px solid rgba(243,241,228,.4);background:#F3F1E4;color:#1D1826;-webkit-appearance:none;appearance:none}
+  #gate.is-still .pin input:focus{outline:3px solid #8E7BFF;outline-offset:3px;border-color:#F3F1E4}
+  #gate .pin-real{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  #gate.is-still button{background:#4A2FD9;color:#F3F1E4;font-family:"Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+  #gate.is-still button:focus-visible{outline-color:#F3F1E4}
+  #gate.is-still .gate-error,#gate.no-video .gate-error{color:#F3F1E4}
+  /* the screen's shape last, so it wins over the rules above */
+  @media (min-aspect-ratio:1/1){
+    #gate{align-items:flex-start;padding-left:clamp(24px,7vw,140px)}
+    #gate.is-still .gate-scrim{background:linear-gradient(to right,rgba(20,10,36,.62) 0%,rgba(20,10,36,.22) 42%,rgba(20,10,36,0) 68%),linear-gradient(to top,rgba(20,10,36,.5) 0%,rgba(20,10,36,0) 38%)}
+  }
+  @media (max-aspect-ratio:1/1){
+    #gate{justify-content:flex-end;padding-bottom:max(24px,5vh)}
+    #gate .gate-bg{--s0:1.5;--s1:1.56;--o:50% 100%;--op:50% 50%}
+    #gate.is-still .gate-scrim{background:linear-gradient(to top,rgba(20,10,36,.8) 0%,rgba(20,10,36,.35) 45%,rgba(20,10,36,0) 65%)}
+    #gate.is-still form{padding:22px 22px 16px}
+    #gate.is-still form::before{width:150px;height:36px;margin:2px auto 14px}
+    #gate.is-still .pin input{width:54px;height:64px;font-size:28px}
+  }
+</style>

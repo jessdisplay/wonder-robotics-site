@@ -30,7 +30,13 @@ DECKS = {
     "profile": ("profile", "Wonder-Robotics-corporate-profile.pdf"),
     "coffee": ("coffee", "Wonder-Robotics-coffee-bar.pdf"),
     "company": ("company", "Wonder-Robotics-introduction.pdf"),
+    "information": ("information", "Wonder-Robotics-Information-Deck.pdf"),
 }
+# Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
+# put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
+# information deck gets a login like the other client pages.
+GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+GATE = HERE / "src" / "deck-gate.html"
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the
 # site has it; Jesse, 2 Oct 2026: "use Ryan's number for now on these decks".
@@ -56,7 +62,11 @@ def pdf(page, out):
             if now > 0 and now == size and out.read_bytes().rstrip().endswith(b"%%EOF"):
                 break
             size = now
-        os.killpg(proc.pid, signal.SIGKILL); proc.wait()
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except (ProcessLookupError, PermissionError):   # Chrome closed itself first (macOS says EPERM for a group of zombies)
+            pass
+        proc.wait()
     if not (out.exists() and out.read_bytes().rstrip().endswith(b"%%EOF")):
         sys.exit(f"Chrome did not print {page}")
 
@@ -103,6 +113,13 @@ def main():
     for name, (folder, pdf_name) in decks.items():
         pdf(out / folder / "index.html", out / folder / pdf_name)
         print(f"{folder}/: page, {pdf_name} {(out / folder / pdf_name).stat().st_size // 1024} KB")
+    for name in set(decks) & set(GATED):
+        page = out / decks[name][0] / "index.html"
+        html, head = page.read_text(), '<meta charset="utf-8">\n'
+        if html.count(head) != 1:
+            sys.exit(f"{name}: no single charset line to put the login after")
+        page.write_text(html.replace(head, head + GATE.read_text().replace("{{hash}}", GATED[name])))
+        print(f"{decks[name][0]}/: behind its passcode")
     print(f"{len(used)} pictures, films and fonts")
 
 
