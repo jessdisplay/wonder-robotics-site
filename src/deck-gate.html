@@ -60,10 +60,14 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <style>
   #gate,#gate.no-video{background:#140A24;overflow:hidden;font-family:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif}
-  /* W-1 is never behind the box: on a wide screen the box sits left and he stands clear to its right; on a tall
-     one the box sits low and the picture is pushed in from the floor, so he stands above it */
+  /* W-1 is never behind the box: on a wide screen the box sits centred across, above him (Jesse, 22 Oct: "this
+     should be in the middle"); on a tall one it sits low and the picture is pushed in from the floor, so he stands
+     above it */
   #gate .gate-bg{transform-origin:var(--o,50% 50%);animation:wr-drift 32s ease-in-out infinite alternate}
-  #gate .gate-bg img,#gate .gate-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--op,35% 50%)}
+  /* gate.css centres a video with top/left 50% and a translate (it was written for the reef footage): undone here,
+     or the film sits a quarter off, over the still */
+  #gate .gate-bg img,#gate .gate-bg video{position:absolute;inset:0;width:100%;height:100%;min-width:0;min-height:0;transform:none;
+                                          object-fit:cover;object-position:var(--op,50% 50%)}
   #gate .gate-bg video{opacity:0;transition:opacity 1.6s ease}
   #gate .gate-bg video.live{opacity:1}
   @keyframes wr-drift{from{transform:scale(var(--s0,1.04))}to{transform:scale(var(--s1,1.1)) translateY(-1%)}}
@@ -82,8 +86,14 @@ document.addEventListener('DOMContentLoaded', function () {
   #gate.is-still .gate-error,#gate.no-video .gate-error{color:#F3F1E4}
   /* the screen's shape last, so it wins over the rules above */
   @media (min-aspect-ratio:1/1){
-    #gate{align-items:flex-start;padding-left:clamp(24px,7vw,140px)}
-    #gate.is-still .gate-scrim{background:linear-gradient(to right,rgba(20,10,36,.62) 0%,rgba(20,10,36,.22) 42%,rgba(20,10,36,0) 68%),linear-gradient(to top,rgba(20,10,36,.5) 0%,rgba(20,10,36,0) 38%)}
+    #gate{justify-content:flex-start;padding-top:clamp(16px,4vh,60px)}
+    #gate .gate-bg{--o:50% 0%}
+    #gate.is-still .gate-scrim{background:radial-gradient(ellipse 50% 55% at 50% 22%,rgba(20,10,36,.55) 0%,rgba(20,10,36,.2) 60%,rgba(20,10,36,0) 100%),linear-gradient(to top,rgba(20,10,36,.45) 0%,rgba(20,10,36,0) 35%)}
+  }
+  @media (min-aspect-ratio:1/1) and (max-height:900px){
+    #gate.is-still form{padding:22px 24px 16px}
+    #gate.is-still form::before{width:150px;height:36px;margin:2px auto 14px}
+    #gate.is-still .pin input{width:56px;height:66px;font-size:30px}
   }
   @media (max-aspect-ratio:1/1){
     #gate{justify-content:flex-end;padding-bottom:max(24px,5vh)}
