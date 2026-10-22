@@ -99,7 +99,9 @@
 
   /* who we are */
   .slide.night:has(.who){background:#201235}
-  .who .g1{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:translateX(11%) scale(1.12);transform-origin:100% 55%}
+  /* the humanoid at the slide's full height, pinned right, so a screen wider than his picture never crops his head
+     (Jesse, 22 Oct: "head is cut off here"); the picture's ground is the slide's own #201235, so its edge never shows */
+  .who .g1{position:absolute;top:0;right:0;width:auto;height:100%;max-width:none;transform:translateX(11%) scale(1.12);transform-origin:100% 55%}
   .who .col{position:relative;width:calc(1080*var(--u));display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   .who .l{font-size:calc(88*var(--u))}
   .who .lede{font-size:calc(32*var(--u))}
@@ -127,7 +129,9 @@
   .crew .p.a{grid-column:6}
   .crew .p.a~.p.a{grid-column:7}
   .crew .pic{flex:1 1 auto;min-height:0;background:#E6D7C4}
-  .crew .pic img{object-position:50% 22%}
+  /* anchored at the top: a box wider than the photo (a wide screen) loses shirt, never the top of a head
+     (Jesse, 22 Oct: "heads are cut off") */
+  .crew .pic img{object-position:50% 0%}
   .crew .t{height:calc(182*var(--u))}
   .crew h3{font-weight:500;font-size:calc(34*var(--u));line-height:1.04;letter-spacing:-.035em;margin-top:calc(18*var(--u));white-space:nowrap}
   .crew .role{font-weight:300;font-size:calc(22*var(--u));line-height:1.3;color:var(--ink-2);margin-top:calc(6*var(--u));height:2.6em}
@@ -627,7 +631,7 @@
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The studio">
   <div class="slide"><div class="in full deep">
-    <div class="plate" style="--op:50% 30%"><img src="{{root}}img/deck/event-room.jpg" width="1872" height="1231" alt="A full room at an event in our studio, guests waving at the camera"></div>
+    <div class="plate" style="--op:50% 12%"><img src="{{root}}img/deck/event-room.jpg" width="1872" height="1231" alt="A full room at an event in our studio, guests waving at the camera"></div>
     <div class="txt">
       <p class="lab r">[ The studio ]</p>
       <h2 class="l r">Pitch nights, demo days, and students building their own businesses.</h2>
