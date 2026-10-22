@@ -73,10 +73,6 @@
   .night .foot,.full .foot{color:var(--paper-2)}
   .pic{overflow:hidden;border-radius:calc(14*var(--u));background:var(--card);position:relative}
   .pic img,.pic video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
-  .go{align-self:flex-start;display:inline-flex;align-items:center;gap:calc(16*var(--u));font-family:var(--mono);font-size:calc(22*var(--u));letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
-      color:var(--paper);background:var(--signal);border-radius:calc(12*var(--u));padding:calc(20*var(--u)) calc(30*var(--u))}
-  .go:hover{background:#3B22C4}
-  .go:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
 
   /* A picture or a film, edge to edge. The plate holds both, so they move as one. */
   .full{padding:0;color:var(--paper);background:var(--night)}
@@ -137,7 +133,6 @@
   .six div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding:calc(16*var(--u)) 0 calc(20*var(--u))}
   .six h3{font-weight:500;font-size:calc(27*var(--u));letter-spacing:-.02em;line-height:1.1}
   .six p{font-size:calc(21*var(--u));line-height:1.35;color:var(--paper-2);margin-top:calc(6*var(--u))}
-  .price .go{margin-top:calc(22*var(--u))}
 
   /* rows of pictures */
   .row3,.steps{display:grid;gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u));grid-template-rows:minmax(0,1fr)}
@@ -231,7 +226,6 @@
   .hero .where{display:flex;gap:calc(56*var(--u));margin-top:calc(44*var(--u));font-size:calc(34*var(--u));line-height:1.2;letter-spacing:-.02em}
   .hero .where a{text-decoration:none}
   .hero .where .cap{margin:0 0 calc(10*var(--u))}
-  .hero .go{margin-top:calc(44*var(--u))}
 
   /* Motion, quiet: as a slide arrives its lines rise in one after another and
      its picture settles. Only with script, never in print, never for anyone
@@ -257,6 +251,45 @@
   .nav button:focus-visible,.nav a:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
   .nav output{min-width:64px;text-align:center}
 
+  /* The menu: folds out from the right (Jesse, 22 Oct 2026: "accessible from a navigation that folds out").
+     First the numbers: a link to Ryan's coffee bar deck, our base model, with no prices in the menu itself. Then
+     every slide. Script only, never in print. */
+  .menu-btn{position:fixed;top:14px;right:14px;z-index:20;display:none;align-items:center;gap:10px;height:40px;padding:0 16px;
+            border:1px solid var(--paper-rule);border-radius:10px;background:rgba(29,24,38,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+            color:var(--paper);font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:opacity .5s ease}
+  .menu-btn i{display:grid;gap:4px;width:16px} .menu-btn i::before,.menu-btn i::after{content:"";height:1.5px;background:currentColor;border-radius:1px}
+  .js .menu-btn{display:inline-flex}
+  .quiet .menu-btn{opacity:.45}
+  .menu-btn:hover{border-color:var(--paper)}
+  .menu-btn:focus-visible,.menu button:focus-visible,.menu a:focus-visible{outline:2px solid #8E7BFF;outline-offset:2px}
+  .menu-scrim{position:fixed;inset:0;z-index:69;background:rgba(10,5,20,.5);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
+  .menu{position:fixed;top:0;right:0;bottom:0;z-index:70;width:min(460px,100vw);overflow-y:auto;overscroll-behavior:contain;
+        background:#1A0D30;color:var(--paper);padding:20px 28px 44px;box-shadow:-30px 0 80px rgba(0,0,0,.35);
+        transform:translateX(100%);visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
+  .open .menu{transform:none;visibility:visible;transition:transform .45s var(--ease)}
+  .open .menu-scrim{opacity:1;visibility:visible;transition:opacity .35s ease}
+  .menu-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+  .menu-top img{width:124px;height:auto}
+  .menu-x{appearance:none;width:40px;height:40px;border:1px solid var(--paper-rule);border-radius:10px;background:none;color:var(--paper);font-size:22px;line-height:1;cursor:pointer}
+  .menu-lab{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-2);border-top:1px solid var(--paper-rule);padding-top:14px}
+  .menu-sec+.menu-sec{margin-top:36px}
+  .menu-card{display:block;margin-top:16px;border:1px solid var(--paper-rule);border-radius:14px;overflow:hidden;background:rgba(243,241,228,.05);text-decoration:none;color:inherit}
+  .menu-card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:40% 50%}
+  .menu-card .t{display:block;padding:16px 18px 0}
+  .menu-card b{display:block;font-weight:400;font-size:24px;line-height:1.1;letter-spacing:-.03em}
+  .menu-card .t span{display:block;font-size:14px;line-height:1.4;color:var(--paper-2);margin-top:8px}
+  .menu-go{display:flex;justify-content:space-between;align-items:center;margin:16px 18px 18px;padding:15px 18px;border-radius:10px;background:var(--signal);
+           color:var(--paper);font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .menu-card:hover .menu-go{background:#3B22C4}
+  .menu-slides{list-style:none;margin-top:6px}
+  .menu-slides button{appearance:none;display:grid;grid-template-columns:36px 1fr;width:100%;text-align:left;padding:10px 0;border:0;border-bottom:1px solid rgba(243,241,228,.08);
+                      background:none;color:var(--paper);font:400 15px/1.3 var(--display);cursor:pointer}
+  .menu-slides b{font:500 11px/1.9 var(--mono);color:var(--paper-2)}
+  .menu-slides button:hover span,.menu-slides button[aria-current] span{color:#B3A6FF}
+  .menu-foot a{display:block;font-size:15px;line-height:1.3;margin-top:10px;text-decoration:none}
+  .menu-foot a:first-of-type{margin-top:14px}
+  @media (prefers-reduced-motion:reduce){.menu,.menu-scrim,.open .menu,.open .menu-scrim{transition:none}}
+
   @media screen and (max-width:760px),screen and (max-height:440px){
     html{scroll-snap-type:none}
     .stage{height:auto;display:block;padding:8px 8px 0}
@@ -268,7 +301,6 @@
     .l,.team .l,.who .l,.price .l{font-size:32px;line-height:1.04;margin-top:12px}
     .lede,.who .lede,.price .lede,.nums .lede{font-size:17px}
     .foot{left:22px;right:22px;bottom:22px;flex-direction:column;gap:4px}
-    .go{font-size:12px;padding:12px 16px;border-radius:9px}
     .full{padding:0 0 64px}
     .plate{position:relative;inset:auto;aspect-ratio:4/3}
     .full::after{display:none}
@@ -319,6 +351,8 @@
     .hero h1{font-size:42px;line-height:1;margin-top:10px;max-width:none}
     .hero .where{flex-direction:column;gap:16px;margin-top:22px;font-size:20px}
     .js .nav{display:none}
+    .menu-btn{top:10px;right:10px}
+    .menu{padding:16px 20px 40px}
   }
 
   @page{size:1920px 1080px;margin:0}
@@ -327,7 +361,7 @@
     .stage{height:1080px;padding:0;break-after:page;break-inside:avoid}
     .slide,.in,h1,h2{break-inside:avoid}
     .slide{width:1920px;border-radius:0}
-    .nav,video{display:none !important}
+    .nav,video,.menu,.menu-btn,.menu-scrim{display:none !important}
     .hero .bar canvas{display:none !important} .hero .bar img.still{display:block !important}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
@@ -417,7 +451,6 @@
         <div class="r"><h3>Your team trained</h3><p>On the machine, the cleaning and the faults, at commissioning.</p></div>
         <div class="r"><h3>Spares on the shelf</h3><p>A starter kit of the common parts, kept with the bar.</p></div>
       </div>
-      <a class="go r" href="https://wonder.fish/robotics/coffee/">See the full offer <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
@@ -595,15 +628,37 @@
         <div><p class="cap">Email</p><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></div>
       </div>
       <p class="cap r" style="margin-top:calc(30*var(--u))">365 St Pauls Terrace, Fortitude Valley QLD 4006</p>
-      <a class="go r" href="https://wonder.fish/robotics/coffee/">See the full offer <span aria-hidden="true">&rarr;</span></a>
     </div>
   </div></div>
 </section>
 
 </main>
 
+<button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i>Menu</button>
+<div class="menu-scrim" id="menu-scrim"></div>
+<aside class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="menu-top"><img src="{{root}}img/deck/mark-cream.png" width="1373" height="322" alt="Wonder Robotics"><button type="button" class="menu-x" id="menu-x" aria-label="Close the menu">&times;</button></div>
+  <section class="menu-sec" aria-labelledby="numbers-h">
+    <p class="menu-lab" id="numbers-h">The numbers</p>
+    <a class="menu-card" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener">
+      <img src="{{root}}img/offer/coffee-bar-studio.jpg" width="2048" height="1360" alt="">
+      <span class="t"><b>Our base model, the robot coffee bar</b><span>Ryan&rsquo;s numbers deck: one price, what it costs a week, what it earns, year by year.</span></span>
+      <span class="menu-go">Open the numbers deck <span aria-hidden="true">&nearr;</span></span>
+    </a>
+  </section>
+  <section class="menu-sec" aria-labelledby="slides-h">
+    <p class="menu-lab" id="slides-h">The deck</p>
+    <ol class="menu-slides" id="menu-slides"></ol>
+  </section>
+  <section class="menu-sec menu-foot" aria-label="Contact">
+    <p class="menu-lab">Come in</p>
+    <a href="tel:+61498765142">Ryan Edwards 0498&nbsp;765&nbsp;142</a>
+    <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=365+St+Pauls+Terrace+Fortitude+Valley+QLD+4006" target="_blank" rel="noopener">365 St Pauls Terrace, Fortitude Valley</a>
+  </section>
+</aside>
+
 <nav class="nav" aria-label="Slide controls">
-  <a href="https://wonder.fish/robotics/coffee/">The offer</a>
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
   <output id="count" aria-live="polite">01 / {{of}}</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
@@ -638,9 +693,9 @@
   }
   // Moves the window, never the slide into view: scrollIntoView also scrolls
   // any page this deck is framed in.
-  function go(i) {
+  function go(i, jump) {
     show(i);
-    window.scrollTo({ top: stages[at].offsetTop, left: 0, behavior: still.matches ? "instant" : "smooth" });
+    window.scrollTo({ top: stages[at].offsetTop, left: 0, behavior: jump || still.matches ? "instant" : "smooth" });
   }
   function full() {
     if (document.fullscreenElement) document.exitFullscreen();
@@ -705,7 +760,36 @@
   document.getElementById("prev").addEventListener("click", function () { go(at - 1); });
   document.getElementById("next").addEventListener("click", function () { go(at + 1); });
   document.getElementById("full").addEventListener("click", full);
+
+  // The menu. A slide in its list closes it and goes there.
+  var menu = document.getElementById("menu"), menuBtn = document.getElementById("menu-btn"), list = document.getElementById("menu-slides"), back = null;
+  stages.forEach(function (s, i) {
+    var li = document.createElement("li"), b = document.createElement("button"), n = document.createElement("b"), t = document.createElement("span");
+    b.type = "button"; n.textContent = pad(i + 1); t.textContent = (s.getAttribute("aria-label") || "").replace(/^Slide \d+\.\s*/, "");
+    b.appendChild(n); b.appendChild(t); li.appendChild(b); list.appendChild(li);
+    b.addEventListener("click", function () { closeMenu(true); go(i, true); });   // a jump, not a ride past every slide
+  });
+  function openMenu() {
+    back = document.activeElement;
+    list.querySelectorAll("button").forEach(function (b, i) { if (i === at) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
+    menu.scrollTop = 0;
+    root.classList.add("open"); menuBtn.setAttribute("aria-expanded", "true");
+    setTimeout(function () { document.getElementById("menu-x").focus({ preventScroll: true }); }, 60);
+  }
+  function closeMenu(moving) {
+    if (!root.classList.contains("open")) return;
+    root.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false");
+    if (!moving && back && back.focus) back.focus({ preventScroll: true });
+  }
+  menuBtn.addEventListener("click", function () { if (root.classList.contains("open")) closeMenu(); else openMenu(); });
+  document.getElementById("menu-x").addEventListener("click", function () { closeMenu(); });
+  document.getElementById("menu-scrim").addEventListener("click", function () { closeMenu(); });
+  // keep the keyboard inside the menu while it is open
+  document.addEventListener("focusin", function (e) {
+    if (root.classList.contains("open") && !menu.contains(e.target)) document.getElementById("menu-x").focus({ preventScroll: true });
+  });
   document.addEventListener("keydown", function (e) {
+    if (root.classList.contains("open")) { if (e.key === "Escape") { e.preventDefault(); closeMenu(); } return; }
     if (sheet.matches || e.metaKey || e.ctrlKey || e.altKey || root.classList.contains("gate-locked")) return;
     var k = e.key;
     if (k === "ArrowRight" || k === "ArrowDown" || k === "PageDown" || k === " ") { e.preventDefault(); go(at + 1); }
