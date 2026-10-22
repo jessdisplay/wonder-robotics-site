@@ -185,8 +185,8 @@
   .hundred div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(24*var(--u))}
   .hundred .fig{font-weight:400;font-size:calc(190*var(--u));line-height:.9;letter-spacing:-.055em}
   .hundred .meter{display:block;height:calc(14*var(--u));border-radius:calc(7*var(--u));background:var(--paper-rule);margin-top:calc(26*var(--u));overflow:hidden}
-  .hundred .meter i{display:block;height:100%;width:calc(var(--v)*1%);background:var(--paper);border-radius:inherit;transform-origin:0 50%}
-  .hundred .us .meter i{background:#8E7BFF}
+  .hundred .meter i{display:block;height:100%;width:calc(var(--v)*1%);background:rgba(243,241,228,.42);border-radius:inherit;transform-origin:0 50%}
+  .hundred .us .meter i{background:var(--paper)}
   .hundred p{font-size:calc(30*var(--u));line-height:1.28;color:var(--paper-2);margin-top:calc(18*var(--u))}
 
   /* the studio */
@@ -248,8 +248,9 @@
   .nav button,.nav a{appearance:none;border:1px solid var(--paper-rule);background:rgba(29,24,38,.6);color:var(--paper);height:34px;min-width:34px;border-radius:8px;font:inherit;font-size:15px;cursor:pointer;display:grid;place-items:center}
   .nav a{font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:0 12px;margin-right:6px}
   .nav button:hover,.nav a:hover{border-color:var(--paper)}
-  .nav button:focus-visible,.nav a:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  .nav button:focus-visible,.nav a:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
   .nav output{min-width:64px;text-align:center}
+  .dl-pdf{background:var(--paper) !important;color:var(--ink) !important}
 
   /* The menu: folds out from the right (Jesse, 22 Oct 2026: "accessible from a navigation that folds out").
      First the numbers: a link to Ryan's coffee bar deck, our base model, with no prices in the menu itself. Then
@@ -261,7 +262,7 @@
   .js .menu-btn{display:inline-flex}
   .quiet .menu-btn{opacity:.45}
   .menu-btn:hover{border-color:var(--paper)}
-  .menu-btn:focus-visible,.menu button:focus-visible,.menu a:focus-visible{outline:2px solid #8E7BFF;outline-offset:2px}
+  .menu-btn:focus-visible,.menu button:focus-visible,.menu a:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
   .menu-scrim{position:fixed;inset:0;z-index:69;background:rgba(10,5,20,.5);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
   .menu{position:fixed;top:0;right:0;bottom:0;z-index:70;width:min(460px,100vw);overflow-y:auto;overscroll-behavior:contain;
         background:#1A0D30;color:var(--paper);padding:20px 28px 44px;box-shadow:-30px 0 80px rgba(0,0,0,.35);
@@ -278,14 +279,16 @@
   .menu-card .t{display:block;padding:16px 18px 0}
   .menu-card b{display:block;font-weight:400;font-size:24px;line-height:1.1;letter-spacing:-.03em}
   .menu-card .t span{display:block;font-size:14px;line-height:1.4;color:var(--paper-2);margin-top:8px}
-  .menu-go{display:flex;justify-content:space-between;align-items:center;margin:16px 18px 18px;padding:15px 18px;border-radius:10px;background:var(--signal);
-           color:var(--paper);font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-  .menu-card:hover .menu-go{background:#3B22C4}
+  .menu-go{display:flex;justify-content:space-between;align-items:center;margin:16px 18px 18px;padding:15px 18px;border-radius:10px;background:var(--paper);
+           color:var(--ink);font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .menu-card:hover .menu-go{background:#FFFFFF}
   .menu-slides{list-style:none;margin-top:6px}
   .menu-slides button{appearance:none;display:grid;grid-template-columns:36px 1fr;width:100%;text-align:left;padding:10px 0;border:0;border-bottom:1px solid rgba(243,241,228,.08);
                       background:none;color:var(--paper);font:400 15px/1.3 var(--display);cursor:pointer}
   .menu-slides b{font:500 11px/1.9 var(--mono);color:var(--paper-2)}
-  .menu-slides button:hover span,.menu-slides button[aria-current] span{color:#B3A6FF}
+  .menu-slides span{color:rgba(243,241,228,.74)}
+  .menu-slides button:hover span,.menu-slides button[aria-current] span{color:var(--paper)}
+  .menu-slides button[aria-current] span{font-weight:500}
   .menu-foot a{display:block;font-size:15px;line-height:1.3;margin-top:10px;text-decoration:none}
   .menu-foot a:first-of-type{margin-top:14px}
   @media (prefers-reduced-motion:reduce){.menu,.menu-scrim,.open .menu,.open .menu-scrim{transition:none}}
