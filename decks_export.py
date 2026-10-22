@@ -94,7 +94,8 @@ def main():
             html = html.replace(old, new)
         if re.search(r"1800[ ]?983[ ]?404", html):
             sys.exit(f"{name}: the old number is still on the page")
-        files = set(re.findall(r'(?:src|poster)="\.\./((?:img|fonts)/[^"?]+)', html)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', html))
+        seen = html + (GATE.read_text() if name in GATED else "")   # the login is put in later; its pictures go now
+        files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))
         for f in files:
             if not (HERE / f).exists():
                 sys.exit(f"{name}: no such file, {f}")

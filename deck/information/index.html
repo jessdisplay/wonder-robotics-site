@@ -49,23 +49,30 @@
     --paper-rule:rgba(243,241,228,.22);
     --display:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
     --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-    --g:clamp(12px,2.2vw,36px);
+    --bar:64px;
+    --m:clamp(18px,2.6vw,40px);
+    --gap:clamp(12px,1.6vw,24px);
+    --graphite:#75706B;
+    --live:#1F9D5B;
+    --rb:8px;
     --ease:cubic-bezier(.2,.7,.2,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{background:var(--ink);scroll-snap-type:y mandatory}
+  html{background:var(--ink);scroll-snap-type:y mandatory;scroll-padding-top:var(--bar)}
+  body{padding-top:var(--bar)}
   body{font-family:var(--display);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   img{display:block;max-width:100%}
   a{color:inherit}
 
   /* One slide per screen. The slide is a 1920 by 1080 sheet; every size inside
      it is written in sheet pixels times --u, so it scales with no script. */
-  .stage{height:100vh;height:100svh;display:grid;place-items:center;padding:var(--g);scroll-snap-align:start;scroll-snap-stop:always}
-  .slide{container-type:inline-size;position:relative;overflow:hidden;background:var(--paper);border-radius:10px;aspect-ratio:16/9;
-         width:min(calc(100vw - 2*var(--g)),calc((100vh - 2*var(--g))*16/9));
-         width:min(calc(100vw - 2*var(--g)),calc((100svh - 2*var(--g))*16/9))}
+  /* Every slide is the full screen under the header, edge to edge (Jesse, 22 Oct 2026: "pull the slides out to full
+     width"). Pictures fill it; type and spacing are sheet pixels times --u, the smaller of the width and height
+     scales, so a wide screen gets wider rows, never bigger type that runs off the bottom. */
+  .stage{height:calc(100vh - var(--bar));height:calc(100svh - var(--bar));display:block;padding:0;scroll-snap-align:start;scroll-snap-stop:always}
+  .slide{container-type:size;position:relative;overflow:hidden;background:var(--paper);width:100%;height:100%}
   .slide.night{background:var(--night);color:var(--paper)}
-  .in{--u:calc(100cqw/1920);position:absolute;inset:0;display:flex;flex-direction:column;
+  .in{--u:min(100cqw/1920,100cqh/1080);position:absolute;inset:0;display:flex;flex-direction:column;
       padding:calc(96*var(--u)) calc(96*var(--u)) calc(120*var(--u))}
 
   .lab{font-family:var(--mono);font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
@@ -94,7 +101,6 @@
   /* the cover: W-1 alone in the warehouse, the plate wonder.fish opens on */
   .cover::after{background:linear-gradient(to top,rgba(20,10,36,.9) 0%,rgba(20,10,36,.5) 30%,rgba(20,10,36,0) 60%),
                 linear-gradient(to right,rgba(20,10,36,.55) 0%,rgba(20,10,36,0) 55%)}
-  .cover .mark{position:absolute;left:calc(96*var(--u));top:calc(80*var(--u));width:calc(250*var(--u));height:auto;z-index:1}
   .cover .txt{right:auto;width:calc(1060*var(--u))}
   .cover h1{font-weight:400;font-size:calc(116*var(--u));line-height:.94;letter-spacing:-.05em;margin-top:calc(22*var(--u))}
 
@@ -119,6 +125,14 @@
   .crew .grp.f{grid-column:1/5} .crew .grp.a{grid-column:6/8}
   .crew .p{grid-row:2;display:flex;flex-direction:column;min-height:0}
   .crew .gap{grid-column:5;grid-row:1/3}
+  /* the two advisors on the deck's night, their portraits re-shot on it (Jesse, 22 Oct: "try these 2 on a dark
+     purple bg"); the founders stay on cream */
+  .crew .adv-bg{grid-column:6/8;grid-row:1/3;margin:calc(-22*var(--u)) calc(-22*var(--u)) calc(-18*var(--u));background:var(--night);border-radius:calc(16*var(--u))}
+  .crew .grp.a,.crew .p.a{position:relative;z-index:1}
+  .crew .grp.a{color:var(--paper-2);border-top-color:var(--paper-rule)}
+  .crew .p.a h3{color:var(--paper)}
+  .crew .p.a .role,.crew .p.a .org{color:var(--paper-2)}
+  .crew .p.a .pic{background:var(--night)}
   .crew .p.a{grid-column:6}
   .crew .p.a~.p.a{grid-column:7}
   .crew .pic{flex:1 1 auto;min-height:0;background:#E6D7C4}
@@ -222,11 +236,6 @@
   /* the close: the website header, as the site runs it */
   .hero{padding:0;color:var(--ink);background:linear-gradient(to bottom,#C4B9AE 0%,#D2C8BF 50%,#E6DFD8 100%)}
   .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 100%}
-  .hero .bar{position:absolute;left:calc(128*var(--u));top:calc(64*var(--u))}
-  .hero .bar canvas,.hero .bar img{display:block;width:calc(250*var(--u)) !important;height:auto !important}
-  /* the drawn mark once script has it; the picture of it without script and in print */
-  .hero .bar canvas,.js .hero .bar img.still{display:none}
-  .js .hero .bar canvas{display:block}
   .hero .wrap{position:absolute;left:38.1%;top:6%;bottom:0;display:flex;flex-direction:column;justify-content:center;width:calc(1020*var(--u))}
   .hero .eyebrow{font-family:var(--mono);font-size:calc(24*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--signal)}
   .hero h1{font-weight:400;font-size:calc(112*var(--u));line-height:.96;letter-spacing:-.045em;margin-top:calc(22*var(--u));max-width:calc(1000*var(--u))}
@@ -259,26 +268,58 @@
   .nav output{min-width:64px;text-align:center}
   .dl-pdf{background:var(--paper) !important;color:var(--ink) !important}
 
+
+  /* The website's header (Jesse, 22 Oct 2026: "the header should be the same as our website with the wonder header"):
+     the drawn mark, Brisbane's clock and the floor, the sections, a button and the menu. Rules copied from
+     src/site.css .bar in its scrolled state; fixed over the deck. The site's "Build a quote" is "The numbers" here. */
+  .bar{position:fixed;top:0;left:0;right:0;z-index:80;height:var(--bar);color:var(--ink);font-family:var(--display);
+       background:color-mix(in srgb,var(--paper) 92%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+  .bar .wrap{padding-inline:var(--m);height:100%}
+  .bar .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-items:center}
+  .bar .label{font-family:var(--mono);font-size:11.5px;line-height:1.35;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);font-weight:400}
+  .bar .label b{color:var(--ink);font-weight:500}
+  .bar .mark{grid-column:1/3;display:flex;align-items:center}
+  .bar .clock{grid-column:3/5;white-space:nowrap}
+  .bar nav{grid-column:5/11;display:flex;gap:clamp(12px,1.6vw,26px);white-space:nowrap;justify-content:flex-end;padding-right:var(--gap)}
+  .bar nav a{text-decoration:none;position:relative;padding-bottom:4px}
+  .bar nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);
+                    transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
+  .bar nav a:hover{color:var(--ink)} .bar nav a:hover::after{transform:none}
+  .bar nav a[aria-current]{color:var(--ink)} .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
+  .bar .cta{grid-column:11/13;justify-self:end;display:flex;align-items:center;gap:8px}
+  .bar :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
+  .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
+  .btn{display:inline-flex;align-items:stretch;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:var(--ink);color:var(--paper);white-space:nowrap;cursor:pointer;border-radius:var(--rb);overflow:hidden;padding:0}
+  .btn span{padding:10px 14px;display:flex;align-items:center}
+  .btn i{font-style:normal;display:flex;align-items:center;justify-content:center;width:38px;border-left:1px solid color-mix(in srgb,var(--paper) 28%,transparent);font-size:15px}
+  .btn i b{font-weight:400}
+  .btn:hover i{background:var(--signal)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost i{border-left-color:var(--ink)}
+  .btn.ghost:hover i{background:var(--signal);color:var(--paper);border-left-color:var(--signal)}
+  .btn.menu i{border-left:0;width:36px;height:36px}
+  .btn.menu i b{position:relative;display:block;width:14px;height:1px;background:currentColor;transition:background .2s ease}
+  .btn.menu i b::before,.btn.menu i b::after{content:"";position:absolute;left:0;width:14px;height:1px;background:currentColor;
+                                             transition:top .34s cubic-bezier(.16,.84,.24,1),transform .34s cubic-bezier(.16,.84,.24,1)}
+  .btn.menu i b::before{top:-5px} .btn.menu i b::after{top:5px}
+  .btn.menu[aria-expanded="true"] i b{background:transparent}
+  .btn.menu[aria-expanded="true"] i b::before{top:0;transform:rotate(45deg)}
+  .btn.menu[aria-expanded="true"] i b::after{top:0;transform:rotate(-45deg)}
+  @media (max-width:1180px){.bar nav{display:none} .bar .clock{grid-column:3/9}}
+  @media (max-width:640px){.bar .clock{display:none} .bar .btn.want span{padding:10px 10px}}
+
   /* The menu: folds out from the right (Jesse, 22 Oct 2026: "accessible from a navigation that folds out").
      First the numbers: a link to Ryan's coffee bar deck, our base model, with no prices in the menu itself. Then
      every slide. Script only, never in print. */
-  .menu-btn{position:fixed;top:14px;right:14px;z-index:20;display:none;align-items:center;gap:10px;height:40px;padding:0 16px;
-            border:1px solid var(--paper-rule);border-radius:10px;background:rgba(29,24,38,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-            color:var(--paper);font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:opacity .5s ease}
-  .menu-btn i{display:grid;gap:4px;width:16px} .menu-btn i::before,.menu-btn i::after{content:"";height:1.5px;background:currentColor;border-radius:1px}
-  .js .menu-btn{display:inline-flex}
-  .quiet .menu-btn{opacity:.45}
-  .menu-btn:hover{border-color:var(--paper)}
-  .menu-btn:focus-visible,.menu button:focus-visible,.menu a:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
-  .menu-scrim{position:fixed;inset:0;z-index:69;background:rgba(10,5,20,.5);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
-  .menu{position:fixed;top:0;right:0;bottom:0;z-index:70;width:min(460px,100vw);overflow-y:auto;overscroll-behavior:contain;
+  aside.menu button:focus-visible,aside.menu a:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+  .menu-scrim{position:fixed;inset:var(--bar) 0 0 0;z-index:69;background:rgba(10,5,20,.5);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
+  /* aside.menu, never .menu alone: the header's menu button is .btn.menu, as on the site */
+  aside.menu{position:fixed;top:var(--bar);right:0;bottom:0;z-index:70;width:min(460px,100vw);overflow-y:auto;overscroll-behavior:contain;
         background:#1A0D30;color:var(--paper);padding:20px 28px 44px;box-shadow:-30px 0 80px rgba(0,0,0,.35);
         transform:translateX(100%);visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
-  .open .menu{transform:none;visibility:visible;transition:transform .45s var(--ease)}
+  .open aside.menu{transform:none;visibility:visible;transition:transform .45s var(--ease)}
   .open .menu-scrim{opacity:1;visibility:visible;transition:opacity .35s ease}
-  .menu-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-  .menu-top img{width:124px;height:auto}
-  .menu-x{appearance:none;width:40px;height:40px;border:1px solid var(--paper-rule);border-radius:10px;background:none;color:var(--paper);font-size:22px;line-height:1;cursor:pointer}
   .menu-lab{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-2);border-top:1px solid var(--paper-rule);padding-top:14px}
   .menu-sec+.menu-sec{margin-top:36px}
   .menu-card{display:block;margin-top:16px;border:1px solid var(--paper-rule);border-radius:14px;overflow:hidden;background:rgba(243,241,228,.05);text-decoration:none;color:inherit}
@@ -298,13 +339,13 @@
   .menu-slides button[aria-current] span{font-weight:500}
   .menu-foot a{display:block;font-size:15px;line-height:1.3;margin-top:10px;text-decoration:none}
   .menu-foot a:first-of-type{margin-top:14px}
-  @media (prefers-reduced-motion:reduce){.menu,.menu-scrim,.open .menu,.open .menu-scrim{transition:none}}
+  @media (prefers-reduced-motion:reduce){aside.menu,.menu-scrim,.open aside.menu,.open .menu-scrim{transition:none}}
 
   @media screen and (max-width:760px),screen and (max-height:440px){
     html{scroll-snap-type:none}
-    .stage{height:auto;display:block;padding:8px 8px 0}
+    .stage{height:auto;display:block;padding:0 0 6px}
     .stage:last-of-type{padding-bottom:84px}
-    .slide{width:100%;aspect-ratio:auto;border-radius:14px}
+    .slide{width:100%;height:auto;container-type:inline-size}
     .in{--u:.5px;position:relative;inset:auto;padding:28px 22px 64px}
     .lab,.cap,.foot,.crew .grp{font-size:11px}
     .xl,.cover h1{font-size:42px;line-height:1;margin-top:12px}
@@ -315,7 +356,6 @@
     .plate{position:relative;inset:auto;aspect-ratio:4/3}
     .full::after{display:none}
     .full .txt,.cover .txt{position:static;width:auto;padding:22px 22px 0}
-    .cover .mark{width:130px;left:18px;top:18px}
     /* the humanoid big on a phone (Jesse, 22 Oct: "this guy can be big and epic"): a tall frame cut close on him, edge
        to edge across the top of the slide */
     .who .g1{position:static;width:calc(100% + 44px);max-width:none;height:auto;aspect-ratio:3/4;object-position:89% 45%;margin:-28px -22px 24px;border-radius:0;transform:none}
@@ -325,8 +365,12 @@
     .crew .grp.f,.crew .grp.a{grid-column:1/-1}
     .crew .gap{display:none}
     .crew .p,.crew .p.a,.crew .p.a~.p.a{grid-row:auto;grid-column:auto}
-    .crew .grp.a{order:2;margin-top:10px}
-    .crew .p.a{order:3}
+    .crew .grp.a{grid-row:4;margin-top:14px}
+    /* fixed columns: the panel holds both columns of these rows, and an advisor with no column of its own would be
+       pushed into new columns beside it */
+    .crew .p.a{grid-row:5;grid-column:1} .crew .p.a~.p.a{grid-row:5;grid-column:2}
+    .crew .adv-bg{grid-column:1/-1;grid-row:4/6;margin:2px -12px -12px;border-radius:12px}
+    .in.team{padding-bottom:92px}
     .crew .pic{flex:none;aspect-ratio:4/5}
     .crew h3{font-size:18px;white-space:normal}
     .crew .role,.crew .org{font-size:13px;height:auto}
@@ -357,14 +401,11 @@
     .wall img.tall{height:50px}
     .hero{padding:0 0 34px;background:var(--paper)}
     .hero .bg{position:static;height:auto;aspect-ratio:5/4;object-position:18% 62%}
-    .hero .bar{position:absolute;left:22px;top:22px}
-    .hero .bar canvas,.hero .bar img{width:130px !important}
     .hero .wrap{position:static;width:auto;padding:22px 22px 0}
     .hero h1{font-size:42px;line-height:1;margin-top:10px;max-width:none}
     .hero .where{flex-direction:column;gap:16px;margin-top:22px;font-size:20px}
     .js .nav{display:none}
-    .menu-btn{top:10px;right:10px}
-    .menu{padding:16px 20px 40px}
+    aside.menu{padding:16px 20px 40px}
   }
 
   @page{size:1920px 1080px;margin:0}
@@ -372,14 +413,24 @@
     html{background:none;scroll-snap-type:none}
     .stage{height:1080px;padding:0;break-after:page;break-inside:avoid}
     .slide,.in,h1,h2{break-inside:avoid}
-    .slide{width:1920px;border-radius:0}
-    .nav,video,.menu,.menu-btn,.menu-scrim{display:none !important}
-    .hero .bar canvas{display:none !important} .hero .bar img.still{display:block !important}
+    .slide{width:1920px;height:1080px}
+    .nav,video,aside.menu,.bar,.menu-scrim{display:none !important}
+    body{padding-top:0}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 </head>
 <body>
+<header class="bar" id="bar">
+  <div class="wrap grid">
+    <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
+    <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
+    <nav class="label" aria-label="Sections">
+      <a href="#" data-go="Who we are">Who we are</a><a href="#" data-go="The team">The team</a><a href="#" data-go="The coffee bar">The coffee bar</a><a href="#" data-go="The work">The work</a><a href="#" data-go="The experience hub">Experience hub</a>
+    </nav>
+    <div class="cta"><a class="btn want" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener"><span>The numbers</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
+  </div>
+</header>
 <main id="deck">
 
 <section class="stage" id="s1" aria-label="Slide 1. Wonder Robotics">
@@ -388,7 +439,6 @@
       <img src="../../img/deck/warehouse-loop.jpg" width="2880" height="1236" alt="W-1, the Wonder robot, alone in an empty warehouse, lit from above">
       <video data-src="../../img/deck/warehouse-loop.mp4" data-now muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
-    <img class="mark r" src="../../img/deck/mark-cream.png" width="1373" height="322" alt="Wonder Robotics">
     <div class="txt">
       <p class="lab r">[ Corporate profile, 2026 ]</p>
       <h1 class="r">We build fully automated kitchens, bars and cafés.</h1>
@@ -422,13 +472,14 @@
     <div class="crew">
       <p class="grp f r">Founders</p>
       <span class="gap" aria-hidden="true"></span>
+      <span class="adv-bg" aria-hidden="true"></span>
       <p class="grp a r">Advisory</p>
       <div class="p r"><div class="pic"><img src="../../img/deck/team-jesse.jpg" width="1100" height="1366" alt="Jesse Costelloe"></div><div class="t"><h3>Jesse Costelloe</h3><p class="role">Cofounder, Head of Design and Fabrication</p></div></div>
       <div class="p r"><div class="pic"><img src="../../img/deck/team-ryan.jpg" width="1100" height="1366" alt="Ryan Edwards"></div><div class="t"><h3>Ryan Edwards</h3><p class="role">Cofounder, Chief Commercial Officer</p></div></div>
       <div class="p r"><div class="pic"><img src="../../img/deck/team-logan.jpg" width="1100" height="1366" alt="Logan Baker"></div><div class="t"><h3>Logan Baker</h3><p class="role">Cofounder, Chief Marketing Officer</p></div></div>
       <div class="p r"><div class="pic"><img src="../../img/deck/team-gino.jpg" width="1100" height="1366" alt="Gino Feng"></div><div class="t"><h3>Gino Feng</h3><p class="role">Cofounder, Head of Engineering and Robotics</p></div></div>
-      <div class="p a r"><div class="pic"><img src="../../img/deck/team-peter.jpg" width="1100" height="1366" alt="Peter White"></div><div class="t"><h3>Peter White</h3><p class="role">Advisor, franchising</p><p class="org">FRANdata Australia, ex Franchise Council of Australia</p></div></div>
-      <div class="p a r"><div class="pic"><img src="../../img/deck/team-don.jpg" width="1100" height="1366" alt="Don Sanka Small"></div><div class="t"><h3>Don Sanka Small</h3><p class="role">Advisor, growth</p><p class="org">Ducere Global Business School, ex Go1</p></div></div>
+      <div class="p a r"><div class="pic"><img src="../../img/deck/team-peter-night.jpg" width="1100" height="1366" alt="Peter White"></div><div class="t"><h3>Peter White</h3><p class="role">Advisor, franchising</p><p class="org">FRANdata Australia, ex Franchise Council of Australia</p></div></div>
+      <div class="p a r"><div class="pic"><img src="../../img/deck/team-don-night.jpg" width="1100" height="1366" alt="Don Sanka Small"></div><div class="t"><h3>Don Sanka Small</h3><p class="role">Advisor, growth</p><p class="org">Ducere Global Business School, ex Go1</p></div></div>
     </div>
     <div class="foot"><p>Wonder Robotics</p><p>03</p></div>
   </div></div>
@@ -645,8 +696,7 @@
 
 <section class="stage" id="s16" aria-label="Slide 16. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
-    <img class="bg" src="../../img/hero-bot.jpg" width="2400" height="1340" alt="W-1, the Wonder robot, in his studio">
-    <div class="bar"><img class="still" src="../../img/deck/mark-ink.png" width="1373" height="322" alt="Wonder Robotics"><canvas id="mark" data-wonder-mark data-sub="ROBOTICS" data-ink="#1D1826" data-w="320" data-pxr="0.225" data-hr="0.3" width="320" height="96" role="img" aria-label="Wonder Robotics"></canvas></div>
+    <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
       <p class="eyebrow r">Fortitude Valley, Brisbane</p>
       <h1 class="r">We build fully automated kitchens, bars and cafés.</h1>
@@ -661,10 +711,8 @@
 
 </main>
 
-<button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i>Menu</button>
 <div class="menu-scrim" id="menu-scrim"></div>
 <aside class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
-  <div class="menu-top"><img src="../../img/deck/mark-cream.png" width="1373" height="322" alt="Wonder Robotics"><button type="button" class="menu-x" id="menu-x" aria-label="Close the menu">&times;</button></div>
   <section class="menu-sec" aria-labelledby="numbers-h">
     <p class="menu-lab" id="numbers-h">The numbers</p>
     <a class="menu-card" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener">
@@ -870,7 +918,7 @@ window.WonderSneak = (function () {
   var count = document.getElementById("count");
   var sheet = window.matchMedia("screen and (max-width:760px),screen and (max-height:440px)");
   var still = window.matchMedia("(prefers-reduced-motion: reduce)");
-  var at = 0;
+  var at = 0, navLinks = null;
 
   // each slide's rising lines go in order
   stages.forEach(function (s) {
@@ -881,12 +929,15 @@ window.WonderSneak = (function () {
   function show(i) {
     at = Math.max(0, Math.min(stages.length - 1, i));
     count.textContent = pad(at + 1) + " / " + pad(stages.length);
+    if (navLinks) markNav();
   }
   // Moves the window, never the slide into view: scrollIntoView also scrolls
   // any page this deck is framed in.
+  var bar = document.getElementById("bar");
   function go(i, jump) {
     show(i);
-    window.scrollTo({ top: stages[at].offsetTop, left: 0, behavior: jump || still.matches ? "instant" : "smooth" });
+    var top = stages[at].getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0);
+    window.scrollTo({ top: Math.max(0, top), left: 0, behavior: jump || still.matches ? "instant" : "smooth" });
   }
   function full() {
     if (document.fullscreenElement) document.exitFullscreen();
@@ -915,14 +966,17 @@ window.WonderSneak = (function () {
   });
 
   // The close: the robot looks round the edge of the moon, as on the site.
-  var mark = document.getElementById("mark"), sneaked = false;
+  // The robot looks round the edge of the moon in the header's mark, as on the site: when the deck opens and
+  // again on the last slide.
+  var mark = document.getElementById("bar-canvas"), peeking = false;
   function sneak() {
-    if (sneaked || still.matches || !window.WonderSneak) return;
-    sneaked = true;
+    if (peeking || still.matches || !window.WonderSneak || !mark) return;
+    peeking = true; setTimeout(function () { peeking = false; }, 3200);
     if (WonderSneak.park(mark)) setTimeout(function () { WonderSneak.run(mark, 1800); }, 900);
   }
 
   function start() {
+    sneak();
     if ("IntersectionObserver" in window) {
       // the slide in the middle of the window is the one on screen, and stays lit once seen
       var io = new IntersectionObserver(function (entries) {
@@ -930,7 +984,7 @@ window.WonderSneak = (function () {
           if (!e.isIntersecting) return;
           show(stages.indexOf(e.target));
           e.target.classList.add("on");
-          if (e.target.contains(mark)) sneak();
+          if (e.target === stages[stages.length - 1]) sneak();
         });
       }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 });
       var near = new IntersectionObserver(function (entries) {
@@ -965,7 +1019,7 @@ window.WonderSneak = (function () {
     list.querySelectorAll("button").forEach(function (b, i) { if (i === at) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     menu.scrollTop = 0;
     root.classList.add("open"); menuBtn.setAttribute("aria-expanded", "true");
-    setTimeout(function () { document.getElementById("menu-x").focus({ preventScroll: true }); }, 60);
+    setTimeout(function () { var f = menu.querySelector("a,button"); if (f) f.focus({ preventScroll: true }); }, 60);
   }
   function closeMenu(moving) {
     if (!root.classList.contains("open")) return;
@@ -973,11 +1027,10 @@ window.WonderSneak = (function () {
     if (!moving && back && back.focus) back.focus({ preventScroll: true });
   }
   menuBtn.addEventListener("click", function () { if (root.classList.contains("open")) closeMenu(); else openMenu(); });
-  document.getElementById("menu-x").addEventListener("click", function () { closeMenu(); });
   document.getElementById("menu-scrim").addEventListener("click", function () { closeMenu(); });
   // keep the keyboard inside the menu while it is open
   document.addEventListener("focusin", function (e) {
-    if (root.classList.contains("open") && !menu.contains(e.target)) document.getElementById("menu-x").focus({ preventScroll: true });
+    if (root.classList.contains("open") && !menu.contains(e.target) && e.target !== menuBtn) menuBtn.focus({ preventScroll: true });
   });
   document.addEventListener("keydown", function (e) {
     if (root.classList.contains("open")) { if (e.key === "Escape") { e.preventDefault(); closeMenu(); } return; }
@@ -989,6 +1042,35 @@ window.WonderSneak = (function () {
     else if (k === "End") { e.preventDefault(); go(stages.length - 1); }
     else if (k === "f" || k === "F") { e.preventDefault(); full(); }
   });
+
+  // the header: its sections jump to their slide and show where you are; the mark goes back to the start
+  navLinks = Array.prototype.slice.call(document.querySelectorAll(".bar nav a[data-go]")).map(function (a) {
+    var i = stages.findIndex(function (s) { return (s.getAttribute("aria-label") || "").replace(/^Slide \d+\.\s*/, "") === a.dataset.go; });
+    a.addEventListener("click", function (e) { e.preventDefault(); if (i >= 0) go(i, true); });
+    return { a: a, i: i };
+  });
+  function markNav() {
+    var cur = null;
+    navLinks.forEach(function (n) { if (n.i >= 0 && n.i <= at) cur = n; });
+    navLinks.forEach(function (n) { if (n === cur) n.a.setAttribute("aria-current", "true"); else n.a.removeAttribute("aria-current"); });
+  }
+  document.getElementById("bar-mark").addEventListener("click", function (e) { e.preventDefault(); go(0, true); });
+  // Brisbane's time and whether the floor is open, as the site's header has it
+  (function () {
+    var clock = document.getElementById("clock"), state = document.getElementById("floor-state"), dot = document.getElementById("floor-dot");
+    var fmt = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Australia/Brisbane" });
+    var parts = new Intl.DateTimeFormat("en-AU", { weekday: "short", hour: "numeric", minute: "numeric", hour12: false, timeZone: "Australia/Brisbane" });
+    var HOURS = { Mon: [9, 19], Tue: [9, 19], Wed: [9, 19], Thu: [9, 19], Fri: [9, 19], Sat: [10, 17] };
+    function tick() {
+      var now = new Date(), p = {};
+      clock.textContent = fmt.format(now);
+      parts.formatToParts(now).forEach(function (x) { p[x.type] = x.value; });
+      var h = parseInt(p.hour, 10) % 24 + parseInt(p.minute, 10) / 60, span = HOURS[p.weekday], open = !!span && h >= span[0] && h < span[1];
+      state.textContent = open ? "Floor open" : "Floor closed";
+      dot.classList.toggle("shut", !open);
+    }
+    tick(); setInterval(tick, 15000);
+  })();
 
   // opens at the top, and comes back to the top from the browser's Back
   window.scrollTo({ top: 0, left: 0, behavior: "instant" });
