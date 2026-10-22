@@ -213,7 +213,11 @@
 
   /* how we work */
   .steps{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}
-  .steps .pic:has(.draw){background:#fff}
+  /* the drawings sit in their own paper (sampled off their edges, #F5EEDF), their edges faded into it, so a box of
+     any shape reads as one sheet (Jesse, 22 Oct: "buggin here", of white boxes round cream drawings) */
+  .steps .pic:has(.draw){background:#F5EEDF}
+  .steps .pic img.draw{-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);
+                       -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);mask-composite:intersect}
   .steps .pic{background:#F4EFE3}
   .steps .pic img.draw{object-fit:contain}
   .steps h3{font-weight:400;font-size:calc(34*var(--u));letter-spacing:-.03em;margin-top:calc(16*var(--u))}
