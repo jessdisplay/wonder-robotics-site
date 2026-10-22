@@ -110,7 +110,10 @@
   .four4 p{font-size:calc(24*var(--u));line-height:1.3;color:var(--paper-2);margin-top:calc(8*var(--u))}
 
   /* the team: four founders, then the two advisors, one row of equal portraits */
-  .team .l{font-size:calc(84*var(--u));max-width:calc(1500*var(--u))}
+  /* the headline runs across the slide on one line, the strap under it (Jesse, 22 Oct: "change headline, it can move
+     across the deck; design, engineering and growth in one building can stay") */
+  .team .l{max-width:none}
+  .team .lede{margin-top:calc(14*var(--u))}
   .crew{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) calc(8*var(--u)) repeat(2,minmax(0,1fr));grid-template-rows:auto minmax(0,1fr);
         column-gap:calc(24*var(--u));row-gap:calc(18*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u))}
   .crew .grp{font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
@@ -118,13 +121,8 @@
   .crew .grp.f{grid-column:1/5} .crew .grp.a{grid-column:6/8}
   .crew .p{grid-row:2;display:flex;flex-direction:column;min-height:0}
   .crew .gap{grid-column:5;grid-row:1/3}
-  /* the two advisors on the deck's night, their portraits re-shot on it (Jesse, 22 Oct: "try these 2 on a dark
-     purple bg"); the founders stay on cream */
-  .crew .adv-bg{grid-column:6/8;grid-row:1/3;margin:calc(-22*var(--u)) calc(-22*var(--u)) calc(-18*var(--u));background:var(--night);border-radius:calc(16*var(--u))}
-  .crew .grp.a,.crew .p.a{position:relative;z-index:1}
-  .crew .grp.a{color:var(--paper-2);border-top-color:var(--paper-rule)}
-  .crew .p.a h3{color:var(--paper)}
-  .crew .p.a .role,.crew .p.a .org{color:var(--paper-2)}
+  /* the two advisors set like the founders, only their portraits on the deck's night purple (Jesse, 22 Oct: "same
+     type, just purple bg, not a separator") */
   .crew .p.a .pic{background:var(--night)}
   .crew .p.a{grid-column:6}
   .crew .p.a~.p.a{grid-column:7}
@@ -359,11 +357,8 @@
     .crew .gap{display:none}
     .crew .p,.crew .p.a,.crew .p.a~.p.a{grid-row:auto;grid-column:auto}
     .crew .grp.a{grid-row:4;margin-top:14px}
-    /* fixed columns: the panel holds both columns of these rows, and an advisor with no column of its own would be
-       pushed into new columns beside it */
+    /* the advisors' label and pair on rows of their own, after the founders */
     .crew .p.a{grid-row:5;grid-column:1} .crew .p.a~.p.a{grid-row:5;grid-column:2}
-    .crew .adv-bg{grid-column:1/-1;grid-row:4/6;margin:2px -12px -12px;border-radius:12px}
-    .in.team{padding-bottom:92px}
     .crew .pic{flex:none;aspect-ratio:4/5}
     .crew h3{font-size:18px;white-space:normal}
     .crew .role,.crew .org{font-size:13px;height:auto}
@@ -461,11 +456,11 @@
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The team">
   <div class="slide"><div class="in team">
     <p class="lab r">[ The team ]</p>
-    <h2 class="l r">Four founders. Design, engineering and growth in one building.</h2>
+    <h2 class="l r">Four founders and two advisors.</h2>
+    <p class="lede r">Design, engineering and growth in one building.</p>
     <div class="crew">
       <p class="grp f r">Founders</p>
       <span class="gap" aria-hidden="true"></span>
-      <span class="adv-bg" aria-hidden="true"></span>
       <p class="grp a r">Advisory</p>
       <div class="p r"><div class="pic"><img src="{{root}}img/deck/team-jesse.jpg" width="1100" height="1366" alt="Jesse Costelloe"></div><div class="t"><h3>Jesse Costelloe</h3><p class="role">Cofounder, Head of Design and Fabrication</p></div></div>
       <div class="p r"><div class="pic"><img src="{{root}}img/deck/team-ryan.jpg" width="1100" height="1366" alt="Ryan Edwards"></div><div class="t"><h3>Ryan Edwards</h3><p class="role">Cofounder, Chief Commercial Officer</p></div></div>
