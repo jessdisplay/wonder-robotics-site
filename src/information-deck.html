@@ -91,6 +91,20 @@
   .full.deep::after{background:linear-gradient(to top,rgba(20,10,36,.96) 0%,rgba(20,10,36,.8) 40%,rgba(20,10,36,0) 80%)}
   .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));z-index:1}
 
+  /* Volta yellow, alternating with the night purple (Jesse, 24 Oct: "alternate the yellow branding in with the dark purple") */
+  .slide.sun{background:#F6CD12;color:#1A1A1A}
+  .sun .lab,.sun .cap,.sun .foot{color:rgba(26,26,26,.72)}
+  .sun .row3 h3 b,.sun .spec3 h3 b{color:#1A1A1A}
+  .full.sun::after{background:linear-gradient(to top,rgba(246,205,18,.97) 0%,rgba(246,205,18,.86) 30%,rgba(246,205,18,0) 62%)}
+  .full.sun{color:#1A1A1A}
+  .full.sun .lab,.full.sun .lede,.full.sun .foot{color:rgba(26,26,26,.78)}
+  .spec3{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(28*var(--u));margin-top:calc(40*var(--u))}
+  .spec3 .pic{aspect-ratio:16/10}
+  .spec3 h3{font-weight:500;font-size:calc(34*var(--u));letter-spacing:-.03em;margin-top:calc(16*var(--u))}
+  .spec3 h3 b{font-family:var(--mono);font-weight:500;font-size:calc(22*var(--u));letter-spacing:.06em;margin-right:calc(14*var(--u));vertical-align:middle}
+  .spec-list{list-style:none;margin:calc(34*var(--u)) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:calc(10*var(--u)) calc(28*var(--u))}
+  .spec-list li{border-top:calc(2*var(--u)) solid rgba(26,26,26,.25);padding-top:calc(12*var(--u));font-size:calc(28*var(--u));line-height:1.25;letter-spacing:-.02em}
+
   /* the cover: W-1 alone in the warehouse, the plate wonder.fish opens on */
   .cover::after{background:linear-gradient(to top,rgba(20,10,36,.9) 0%,rgba(20,10,36,.5) 30%,rgba(20,10,36,0) 60%),
                 linear-gradient(to right,rgba(20,10,36,.55) 0%,rgba(20,10,36,0) 55%)}
@@ -353,6 +367,9 @@
     .foot{left:22px;right:22px;bottom:22px;flex-direction:column;gap:4px}
     .full{padding:0 0 64px}
     .plate{position:relative;inset:auto;aspect-ratio:4/3}
+    .spec3,.spec-list{grid-template-columns:1fr;gap:16px}
+    .spec-list li{font-size:17px}
+    .spec3 h3{font-size:20px}
     .full::after{display:none}
     .full .txt,.cover .txt{position:static;width:auto;padding:22px 22px 0}
     /* the humanoid big on a phone (Jesse, 22 Oct: "this guy can be big and epic"): a tall frame cut close on him, edge
@@ -437,7 +454,8 @@
     </div>
     <div class="txt">
       <p class="lab r">[ Corporate profile, 2026 ]</p>
-      <h1 class="r">We build fully automated kitchens, bars and cafés.</h1>
+      <h1 class="r">We are the creative robotics agency.</h1>
+      <p class="lede r" style="margin-top:calc(24*var(--u))">We build fully automated kitchens, bars and cafés.</p>
     </div>
     <div class="foot r"><p>Fortitude Valley, Brisbane</p><p>wonderbytech.com</p></div>
   </div></div>
@@ -484,7 +502,7 @@
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee bar">
   <div class="slide"><div class="in full">
     <div class="plate">
-      <img src="{{root}}img/machines/coffee-robot-stage-poster.jpg" width="1920" height="1086" alt="Two robot arms at an Eversys espresso machine, a purple cup coming off the stack">
+      <img src="{{root}}img/machines/coffee-robot-stage-poster.jpg" width="1920" height="1086" alt="Two robot arms at an espresso machine, a purple cup coming off the stack">
       <video data-src="{{root}}img/machines/coffee-robot-stage.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
     <div class="txt">
@@ -503,7 +521,7 @@
       <h2 class="l r">One price. Everything to open.</h2>
       <p class="lede r">{{coffee:price}} buys the bar, delivered, installed and in your colours, with two years of service. Ex GST.</p>
       <div class="six">
-        <div class="r"><h3>The bar</h3><p>Two arms at an Eversys. Ice maker, cup printer, your colours on the arms.</p></div>
+        <div class="r"><h3>The bar</h3><p>Two arms at a commercial espresso machine. Ice maker, cup printer, your colours on the arms.</p></div>
         <div class="r"><h3>Delivered and installed</h3><p>To your site, positioned, plumbed and commissioned on your menu.</p></div>
         <div class="r"><h3>Two years of service</h3><p>Software, monitoring, maintenance, repairs and weekday support.</p></div>
         <div class="r"><h3>Your brand on it</h3><p>The ordering screen, the cup and the machine. One payment system connected.</p></div>
@@ -519,7 +537,7 @@
   <div class="slide night"><div class="in">
     <p class="lab r">[ How it pours ]</p>
     <div class="row3">
-      <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d3.jpg" width="1400" height="1045" alt="The Eversys espresso machine and its grinder"></div><h3>Ground to order on an Eversys.</h3></figure>
+      <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d3.jpg" width="1400" height="1045" alt="The espresso machine and its grinder"></div><h3>Ground to order, every cup.</h3></figure>
       <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d1.jpg" width="1400" height="1045" alt="A robot arm holding a cup under the group head as the shot pours"></div><h3>One arm pulls the shot.</h3></figure>
       <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d2.jpg" width="1400" height="1045" alt="A robot arm pouring latte art"></div><h3>The other steams the milk and pours.</h3></figure>
     </div>
@@ -550,6 +568,96 @@
       <h2 class="l r">Robot kitchens are the specialisation.</h2>
       <p class="lede r">A line that fries, boils and plates the whole menu. Ours is open six days.</p>
     </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Full restaurants">
+  <div class="slide"><div class="in full sun">
+    <div class="plate" style="--op:50% 55%"><img src="{{root}}img/deck/fit-restaurant.jpg" width="2600" height="1451" alt="Concept: the Volta race garage restaurant, a red robot arm on a rail at the pasta and stir fry line, customers at the bar"></div>
+    <div class="txt">
+      <p class="lab r">[ Full restaurants ]</p>
+      <h2 class="l r">A whole restaurant, fitted out and on brand.</h2>
+      <p class="lede r">The robot line, the bar, the walls, the menus and the signs. Shown: Volta, our Italian kitchen. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. In the wall">
+  <div class="slide"><div class="in full">
+    <div class="plate" style="--op:40% 55%"><img src="{{root}}img/deck/fit-coffee-wall.jpg" width="2600" height="1451" alt="Concept: the Volta garage in red brick, a robot coffee kiosk built into its front wall, a customer at the screen">
+      <video data-src="{{root}}img/deck/fit-coffee-wall.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+    <div class="txt">
+      <p class="lab r">[ In the wall ]</p>
+      <h2 class="l r">Coffee, built into the street.</h2>
+      <p class="lede r">A robot coffee bar set into the front wall, trading straight onto the footpath. The panel plays the race. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Custom machines">
+  <div class="slide"><div class="in full sun">
+    <div class="plate" style="--op:45% 50%"><img src="{{root}}img/deck/fit-pizza-wall.jpg" width="2600" height="1451" alt="Concept: a robot pizza maker built into the wall of the Volta garage, the arm at the press, the oven glowing"></div>
+    <div class="txt">
+      <p class="lab r">[ Custom machines ]</p>
+      <h2 class="l r">Pizza, pasta or coffee. Same wall.</h2>
+      <p class="lede r">Each machine is drawn and built for the site, then dressed in the brand. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Drive-throughs">
+  <div class="slide"><div class="in full">
+    <div class="plate" style="--op:40% 55%"><img src="{{root}}img/deck/fit-drive-thru.jpg" width="2600" height="1451" alt="Concept: the Volta pit stop drive-through, a yellow robot coffee booth against painted black brick, the lane painted with red and yellow kerbs and HIT STOP"></div>
+    <div class="txt">
+      <p class="lab r">[ Drive-throughs ]</p>
+      <h2 class="l r">Hit stop. Coffee in.</h2>
+      <p class="lede r">A booth in the lane, the lane painted as a pit stop. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. After hours">
+  <div class="slide"><div class="in full sun">
+    <div class="plate" style="--op:50% 55%"><img src="{{root}}img/deck/fit-after-hours.jpg" width="2600" height="1451" alt="Concept: the Volta garage at night, the black roller door painted with the red race car, the coffee kiosk lit beside it"></div>
+    <div class="txt">
+      <p class="lab r">[ After hours ]</p>
+      <h2 class="l r">The door does the talking.</h2>
+      <p class="lede r">Closed, the roller door is the billboard. The kiosk beside it trades all night. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Our own">
+  <div class="slide"><div class="in full">
+    <div class="plate" style="--op:50% 45%"><img src="{{root}}img/deck/fit-wonder-kitchen.jpg" width="2600" height="1451" alt="Concept: an open kitchen with two robot arms at the espresso machine, the Wonder menu screens over the counter"></div>
+    <div class="txt">
+      <p class="lab r">[ Our own ]</p>
+      <h2 class="l r">Our kitchen, our menus, our cups.</h2>
+      <p class="lede r">The same build in Wonder colours: our menu screens over the line, our mark on the counter. Concept.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Built to your spec">
+  <div class="slide sun"><div class="in">
+    <p class="lab r">[ Built to your spec ]</p>
+    <h2 class="l r">One machine. Your brand, your menu, your way.</h2>
+    <div class="spec3">
+      <figure class="r"><div class="pic"><img src="{{root}}img/deck/spec-blank.jpg" width="1600" height="1073" alt="The kiosk as it leaves the workshop, plain, its panel reading Your branding here"></div><h3><b>01</b>The blank</h3></figure>
+      <figure class="r"><div class="pic"><img src="{{root}}img/deck/spec-volta.jpg" width="1600" height="893" alt="The same kiosk dressed as Volta, built into a red brick garage"></div><h3><b>02</b>Dressed as Volta</h3></figure>
+      <figure class="r"><div class="pic"><img src="{{root}}img/deck/spec-wonder.jpg" width="1600" height="893" alt="The same kiosk dressed as Wonder, purple with an amber arm"></div><h3><b>03</b>Dressed as Wonder</h3></figure>
+    </div>
+    <ul class="spec-list r">
+      <li>Your brand on every panel, sign and arm</li><li>Your menu on the screen</li><li>Your recipes, the same every time</li>
+      <li>Your cups and packaging</li><li>Your site, drawn and built for it</li><li>Real materials: steel, timber, paint, enamel</li>
+    </ul>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
