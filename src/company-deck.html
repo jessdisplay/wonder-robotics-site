@@ -136,6 +136,11 @@
   .dot.off{border:calc(2*var(--u)) solid var(--ink-2)}
 
   /* brands */
+  .spec3{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(24*var(--u))}
+  .spec3 .pic{aspect-ratio:16/10}
+  .spec3 figcaption{display:flex;flex-direction:column;gap:calc(6*var(--u));margin-top:calc(16*var(--u))}
+  .spec-list{list-style:none;margin:calc(30*var(--u)) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:calc(10*var(--u)) calc(24*var(--u))}
+  .spec-list li{border-top:1px solid var(--rule);padding-top:calc(10*var(--u));font-size:calc(24*var(--u));line-height:1.3}
   .brands{display:grid;grid-template-columns:repeat(4,1fr);gap:calc(24*var(--u))}
   .brands .pic{aspect-ratio:1/1}
   .brands .pic.mark{display:grid;place-items:center;border:1px solid var(--rule)}
@@ -189,7 +194,9 @@
     .body,.rail .body,.fact .body{font-size:16px}
     .name{font-size:22px}
     .foot{left:22px;right:22px;bottom:26px}
-    .team,.tri,.rail,.brands{grid-template-columns:1fr;gap:18px}
+    .team,.tri,.rail,.brands,.spec3,.spec-list{grid-template-columns:1fr;gap:18px}
+    .spec-list li{font-size:16px;padding-top:8px}
+    .spec3 figcaption{margin-top:10px;gap:3px}
     .person h3{font-size:26px}
     .fill{flex:0 0 28px}
     .push{margin-top:28px}
@@ -278,7 +285,8 @@
     </div>
     <div class="wrap">
       <p class="eyebrow">Fortitude Valley, Brisbane</p>
-      <h1>We build fully automated kitchens, bars and cafés.</h1>
+      <h1>We are the creative robotics agency.</h1>
+      <p class="lede" style="margin-top:calc(22*var(--u));max-width:calc(760*var(--u))">We build fully automated kitchens, bars and cafés.</p>
     </div>
   </div></div>
 </section>
@@ -465,7 +473,7 @@
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Brands">
   <div class="slide"><div class="in">
-    <p class="eyebrow"><b>[ {{n}} ]</b> The brands</p>
+    <p class="eyebrow"><b>[ {{n}} ]</b> Our brands, built here</p>
     <h2 class="title">We build the brand too.</h2>
     <div class="fill"></div>
     <div class="brands">
@@ -478,14 +486,41 @@
         <figcaption><p class="name">Wonder Bean</p><p class="cap">Our coffee brand. Concept visualisation</p></figcaption>
       </figure>
       <figure>
-        <div class="pic"><img src="{{root}}img/fallsense/packaging.jpg" width="2400" height="1792" alt="The Fall Sense unit in its box, the Florence ring mark on the lid"></div>
-        <figcaption><p class="name">Florence</p><p class="cap">Care device brand. Concept visualisation</p></figcaption>
+        <div class="pic"><img src="{{root}}img/deck/brand-volta.jpg" width="1800" height="1005" alt="The Volta race garage at night: a black roller door painted with the red 365 racer, the coffee kiosk trading beside it" style="object-position:62% 50%"></div>
+        <figcaption><p class="name">Volta</p><p class="cap">Our Italian robot kitchen brand. Concept visualisation</p></figcaption>
       </figure>
       <figure>
         <div class="pic art"><img src="{{root}}img/lrd/girl.jpg" width="800" height="1000" alt="The Little Red Dumpling girl, the client's own character"></div>
         <figcaption><p class="name">Little Red Dumpling</p><p class="cap">Their girl, animated for the screens</p></figcaption>
       </figure>
     </div>
+    <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Your spec">
+  <div class="slide"><div class="in">
+    <p class="eyebrow"><b>[ {{n}} ]</b> Built to your spec</p>
+    <h2 class="title">One machine. Your brand, your menu, your way.</h2>
+    <div class="fill"></div>
+    <div class="spec3">
+      <figure>
+        <div class="pic"><img src="{{root}}img/deck/spec-blank.jpg" width="1800" height="1208" alt="The robot coffee kiosk as it leaves the workshop, plain, its panels reading Your branding here"></div>
+        <figcaption><p class="name">01 The blank</p><p class="cap">Every machine leaves the workshop plain</p></figcaption>
+      </figure>
+      <figure>
+        <div class="pic"><img src="{{root}}img/deck/spec-volta.jpg" width="1800" height="1005" alt="The same kiosk dressed as Volta, black and red, built into a red brick garage"></div>
+        <figcaption><p class="name">02 Dressed as Volta</p><p class="cap">Our Italian brand. Concept</p></figcaption>
+      </figure>
+      <figure>
+        <div class="pic"><img src="{{root}}img/deck/spec-wonder.jpg" width="1800" height="1005" alt="The same kiosk dressed as Wonder, purple with an amber arm and the Wonder cups"></div>
+        <figcaption><p class="name">03 Dressed as Wonder</p><p class="cap">Our coffee brand. Concept</p></figcaption>
+      </figure>
+    </div>
+    <ul class="spec-list">
+      <li>Your brand on every panel, sign and arm</li><li>Your menu on the screen</li><li>Your recipes, the same in every cup</li>
+      <li>Your cups and packaging</li><li>Your site, drawn and built for it</li><li>Your payments and reporting</li>
+    </ul>
     <div class="foot"><p class="eyebrow">Wonder Robotics</p><p class="eyebrow">{{n}} / {{of}}</p></div>
   </div></div>
 </section>
