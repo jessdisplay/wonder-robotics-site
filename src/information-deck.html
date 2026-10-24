@@ -91,6 +91,18 @@
   .full.deep::after{background:linear-gradient(to top,rgba(20,10,36,.96) 0%,rgba(20,10,36,.8) 40%,rgba(20,10,36,0) 80%)}
   .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));z-index:1}
 
+  /* Full-bleed posters: the lettering is in the picture (comp_fullbleed_posters.py), so no fade over it. */
+  .full.poster::after{display:none}
+  .full.poster .foot{color:rgba(243,241,228,.7)}
+  /* From plan to open: the stages cross-fade on their own while the slide is on screen. */
+  .life .plate img.f{opacity:0;transition:opacity 1.2s ease}
+  .life .plate img.f.on{opacity:1}
+  .life-steps{list-style:none;display:flex;gap:calc(34*var(--u));margin-top:calc(30*var(--u));padding:0}
+  .life-steps li{font-family:var(--mono);font-size:calc(22*var(--u));letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,228,.45);border-top:calc(3*var(--u)) solid rgba(243,241,228,.2);padding-top:calc(12*var(--u));transition:color .6s,border-color .6s}
+  .life-steps li b{font-weight:500;margin-right:calc(10*var(--u))}
+  .life-steps li.on{color:#F3F1E4;border-color:#E8A84C}
+  @media print{ .life .plate img.f{opacity:0!important} .life .plate img.f:last-child{opacity:1!important} .life-steps li{color:#F3F1E4} }
+
   /* Jesse, 24 Oct 2026: "inversions": every light slide is the Wonder gold with dark purple type, so the deck runs
      gold and purple; and "I don't like the small boxes": pictures are full height, edge to edge, never thumbnails. */
   .slide:not(.night){background:#E8A84C;color:#20103A;--ink:#20103A;--ink-2:rgba(32,16,58,.74);--rule:rgba(32,16,58,.24);--card:transparent}
@@ -599,76 +611,88 @@
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Full restaurants">
-  <div class="slide"><div class="in full sun">
-    <div class="plate" style="--op:50% 55%"><img src="{{root}}img/deck/fit-restaurant.jpg" width="2600" height="1451" alt="Concept: the Volta race garage restaurant, a red robot arm on a rail at the pasta and stir fry line, customers at the bar"></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. From plan to open">
+  <div class="slide night"><div class="in full life">
+    <div class="plate">
+      <img src="{{root}}img/lrd/plan.jpg" alt="Plan of the cook line and floor" class="f on" style="object-position:50% 50%">
+      <img src="{{root}}img/lrd/section.jpg" alt="Section through the cook line" class="f" style="object-position:50% 50%">
+      <img src="{{root}}img/lrd/shell.jpg" alt="The empty shell of the site" class="f" style="object-position:50% 60%">
+      <img src="{{root}}img/lrd/fitout.jpg" alt="The rail in, the arm still in its crate" class="f" style="object-position:50% 50%">
+      <img src="{{root}}img/lrd/commissioning.jpg" alt="Commissioning the line" class="f" style="object-position:50% 50%">
+      <img src="{{root}}img/lrd/room.jpg" alt="The finished dumpling cafe, a robot arm on its rail behind glass" class="f" style="object-position:30% 50%">
+    </div>
     <div class="txt">
-      <p class="lab r">[ Full restaurants ]</p>
-      <h2 class="l r">A whole restaurant, fitted out and on brand.</h2>
-      <p class="lede r">The robot line, the bar, the walls, the menus and the signs. Shown: Volta, our Italian kitchen. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
+      <p class="lab r">[ From plan to open ]</p>
+      <h2 class="l r">Little Red Dumpling, from the plan to the first service.</h2>
+      <ol class="life-steps r"><li class="on"><b>01</b>Plan</li><li><b>02</b>Section</li><li><b>03</b>Site</li><li><b>04</b>Fit out</li><li><b>05</b>Commission</li><li><b>06</b>Open</li></ol>
     </div>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. From sketch to bar">
+  <div class="slide night"><div class="in full life">
+    <div class="plate">
+      <img src="{{root}}img/coffee/bar-01-sketch.jpg" alt="Sketches of the coffee bar" class="f on" style="object-position:50% 50%">
+      <img src="{{root}}img/coffee/bar-04-exploded.jpg" alt="Exploded drawing: frame, machine, panels, arm" class="f" style="object-position:50% 50%">
+      <img src="{{root}}img/coffee/bar-02-front.jpg" alt="The built bar, front on" class="f" style="object-position:50% 50%">
+      <img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" alt="The bar in its room" class="f" style="object-position:70% 50%">
+    </div>
+    <div class="txt">
+      <p class="lab r">[ From sketch to bar ]</p>
+      <h2 class="l r">A coffee bar, from the first line to the room.</h2>
+      <ol class="life-steps r"><li class="on"><b>01</b>Sketch</li><li><b>02</b>Engineer</li><li><b>03</b>Build</li><li><b>04</b>Fit out</li></ol>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Full fitout">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-full-fitout.jpg" width="2880" height="1620" alt="Concept: an open kitchen fitted out in Wonder purple and gold, two robot arms at the espresso machine, our menu screens over the line"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. In the wall">
-  <div class="slide"><div class="in full">
-    <div class="plate" style="--op:40% 55%"><img src="{{root}}img/deck/fit-coffee-wall.jpg" width="2600" height="1451" alt="Concept: the Volta garage in red brick, a robot coffee kiosk built into its front wall, a customer at the screen">
-      <video data-src="{{root}}img/deck/fit-coffee-wall.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div>
-    <div class="txt">
-      <p class="lab r">[ In the wall ]</p>
-      <h2 class="l r">Coffee, built into the street.</h2>
-      <p class="lede r">A robot coffee bar set into the front wall, trading straight onto the footpath. The panel plays the race. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-in-the-wall.jpg" width="2880" height="1620" alt="Concept: the Volta garage in red brick, a robot coffee bar built into its front wall, a customer at the screen"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Custom machines">
-  <div class="slide"><div class="in full sun">
-    <div class="plate" style="--op:45% 50%"><img src="{{root}}img/deck/fit-pizza-wall.jpg" width="2600" height="1451" alt="Concept: a robot pizza maker built into the wall of the Volta garage, the arm at the press, the oven glowing"></div>
-    <div class="txt">
-      <p class="lab r">[ Custom machines ]</p>
-      <h2 class="l r">Pizza, pasta or coffee. Same wall.</h2>
-      <p class="lede r">Each machine is drawn and built for the site, then dressed in the brand. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Stays open">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-stays-open.jpg" width="2880" height="1620" alt="Concept: a Wonder purple robot coffee kiosk in an airport hall, travellers walking past"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Drive-throughs">
-  <div class="slide"><div class="in full">
-    <div class="plate" style="--op:40% 55%"><img src="{{root}}img/deck/fit-drive-thru.jpg" width="2600" height="1451" alt="Concept: the Volta pit stop drive-through, a yellow robot coffee booth against painted black brick, the lane painted with red and yellow kerbs and HIT STOP"></div>
-    <div class="txt">
-      <p class="lab r">[ Drive-throughs ]</p>
-      <h2 class="l r">Hit stop. Coffee in.</h2>
-      <p class="lede r">A booth in the lane, the lane painted as a pit stop. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Hit stop">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-hit-stop.jpg" width="2880" height="1620" alt="Concept: the Volta pit stop drive-through, a yellow robot coffee booth, the lane painted with red and yellow kerbs and HIT STOP"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. On the road">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-on-the-road.jpg" width="2880" height="1620" alt="Concept: a Wonder purple coffee van with a robot bar in its hatch, a crescent painted on the car park"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. After hours">
-  <div class="slide"><div class="in full sun">
-    <div class="plate" style="--op:50% 55%"><img src="{{root}}img/deck/fit-after-hours.jpg" width="2600" height="1451" alt="Concept: the Volta garage at night, the black roller door painted with the red race car, the coffee kiosk lit beside it"></div>
-    <div class="txt">
-      <p class="lab r">[ After hours ]</p>
-      <h2 class="l r">The door does the talking.</h2>
-      <p class="lede r">Closed, the roller door is the billboard. The kiosk beside it trades all night. Concept. Volta and the 365 racer are Wonder brands, not to be copied.</p>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-after-hours.jpg" width="2880" height="1620" alt="Concept: the Volta garage at night, the roller door painted with the red race car, the kiosk lit beside it"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Our own">
-  <div class="slide"><div class="in full">
-    <div class="plate" style="--op:50% 45%"><img src="{{root}}img/deck/fit-wonder-kitchen.jpg" width="2600" height="1451" alt="Concept: an open kitchen with two robot arms at the espresso machine, the Wonder menu screens over the counter"></div>
-    <div class="txt">
-      <p class="lab r">[ Our own ]</p>
-      <h2 class="l r">Our kitchen, our menus, our cups.</h2>
-      <p class="lede r">The same build in Wonder colours: our menu screens over the line, our mark on the counter. Concept.</p>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Any site">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-any-site.jpg" width="2880" height="1620" alt="Concept: a Wonder glass drive-through bay against a black timber building, the purple arm at the espresso machine"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
@@ -1014,6 +1038,16 @@
   ["mousemove", "keydown", "touchstart"].forEach(function (ev) { document.addEventListener(ev, wake, { passive: true }); });
   wake();
 })();
+</script>
+<script>
+/* From plan to open: while a .life slide is on screen its stages step through, two and a half seconds each. */
+document.querySelectorAll('.life').forEach(function (w) {
+  var st = w.closest('.stage'), imgs = [].slice.call(w.querySelectorAll('img.f')), lis = [].slice.call(w.querySelectorAll('.life-steps li')), i = 0, timer = null;
+  function go(n) { i = n % imgs.length; imgs.forEach(function (m, k) { m.classList.toggle('on', k === i); }); lis.forEach(function (l, k) { l.classList.toggle('on', k <= i); }); }
+  new IntersectionObserver(function (es) { es.forEach(function (e) {
+    if (e.isIntersecting && !timer) { go(0); timer = setInterval(function () { go(i + 1); }, 2500); }
+    if (!e.isIntersecting && timer) { clearInterval(timer); timer = null; } }); }, { threshold: 0.5 }).observe(st);
+});
 </script>
 </body>
 </html>
