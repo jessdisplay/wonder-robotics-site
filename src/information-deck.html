@@ -91,6 +91,28 @@
   .full.deep::after{background:linear-gradient(to top,rgba(20,10,36,.96) 0%,rgba(20,10,36,.8) 40%,rgba(20,10,36,0) 80%)}
   .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));z-index:1}
 
+  /* Jesse, 24 Oct 2026: "inversions": every light slide is the Wonder gold with dark purple type, so the deck runs
+     gold and purple; and "I don't like the small boxes": pictures are full height, edge to edge, never thumbnails. */
+  .slide:not(.night){background:#E8A84C;color:#20103A;--ink:#20103A;--ink-2:rgba(32,16,58,.74);--rule:rgba(32,16,58,.24);--card:transparent}
+  .slide:not(.night) .wall li{background:none;border:0}
+  .edge{padding:0}
+  .duo,.trio{display:grid;grid-template-columns:1fr 1fr}
+  .duo{position:absolute;inset:0}
+  .trio{grid-template-columns:repeat(3,1fr);position:absolute;left:0;right:0;bottom:0;height:55%}
+  .duo figure,.trio figure{position:relative;overflow:hidden;margin:0}
+  .duo figure>img,.trio figure>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .duo figure::after,.trio figure::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,10,36,.92) 0%,rgba(20,10,36,.55) 30%,rgba(20,10,36,0) 58%)}
+  .duo figure.doc{background:#F5EEDF}
+  .duo figure.doc>img{object-fit:contain;padding:calc(120*var(--u)) calc(70*var(--u)) calc(300*var(--u))}
+  .duo figcaption,.trio figcaption{position:absolute;left:calc(70*var(--u));right:calc(70*var(--u));bottom:calc(110*var(--u));z-index:1;color:#F3F1E4}
+  .trio figcaption{bottom:calc(104*var(--u));left:calc(48*var(--u))}
+  .duo h3{font-weight:400;font-size:calc(64*var(--u));line-height:.98;letter-spacing:-.045em}
+  .trio h3{font-weight:500;font-size:calc(34*var(--u));letter-spacing:-.03em}
+  .duo figcaption p,.trio figcaption p{font-size:calc(24*var(--u));line-height:1.32;color:rgba(243,241,228,.8);margin-top:calc(10*var(--u));max-width:calc(760*var(--u))}
+  .lab.top{position:absolute;left:calc(70*var(--u));top:calc(56*var(--u));z-index:2;color:#F3F1E4;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+  .edge .foot{color:rgba(243,241,228,.75)}
+  .trio ~ .foot,.trio + .foot{color:rgba(243,241,228,.75)}
+
   /* The Wonder gold, #E8A84C (the Come in button), alternating with the night purple (Jesse, 24 Oct: "alternate the yellow branding in with the dark purple") */
   .slide.sun{background:#E8A84C;color:#1A1A1A}
   .sun .lab,.sun .cap,.sun .foot{color:rgba(26,26,26,.72)}
@@ -368,6 +390,11 @@
     .full{padding:0 0 64px}
     .plate{position:relative;inset:auto;aspect-ratio:4/3}
     .spec3,.spec-list{grid-template-columns:1fr;gap:16px}
+    .duo,.trio{position:static;grid-template-columns:1fr;height:auto}
+    .duo figure,.trio figure{aspect-ratio:4/3}
+    .duo h3{font-size:24px}
+    .duo figcaption p,.trio figcaption p{font-size:15px}
+    .lab.top{position:static;padding:22px 22px 0}
     .spec-list li{font-size:17px}
     .spec3 h3{font-size:20px}
     .full::after{display:none}
@@ -534,28 +561,28 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it pours">
-  <div class="slide night"><div class="in">
-    <p class="lab r">[ How it pours ]</p>
-    <div class="row3">
-      <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d3.jpg" width="1400" height="1045" alt="The espresso machine and its grinder"></div><h3>Ground to order, every cup.</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d1.jpg" width="1400" height="1045" alt="A robot arm holding a cup under the group head as the shot pours"></div><h3>One arm pulls the shot.</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/machines/coffee-robot-d2.jpg" width="1400" height="1045" alt="A robot arm pouring latte art"></div><h3>The other steams the milk and pours.</h3></figure>
+  <div class="slide"><div class="in full deep">
+    <div class="plate" style="--op:50% 45%"><img src="{{root}}img/machines/coffee-robot-d2.jpg" width="1400" height="1045" alt="A robot arm pouring latte art into a cup"></div>
+    <div class="txt">
+      <p class="lab r">[ How it pours ]</p>
+      <h2 class="l r">Two arms. Every cup the same.</h2>
+      <div class="three">
+        <div class="r"><h3>Ground to order</h3><p>Fresh for every cup.</p></div>
+        <div class="r"><h3>One arm pulls the shot</h3><p>Dose, tamp and time, held to your recipe.</p></div>
+        <div class="r"><h3>The other pours</h3><p>Steams the milk and pours the art.</p></div>
+      </div>
     </div>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Design, fabrication, fitout">
-  <div class="slide"><div class="in">
-    <p class="lab r">[ Design, fabrication, fitout ]</p>
-    <h2 class="l r">We design it, build it and fit it out. On brand.</h2>
-    <div class="row3 four">
-      <figure class="r"><div class="pic"><img src="{{root}}img/coffee/bar-01-sketch.jpg" width="2048" height="1529" alt="Sketches of a coffee bar with two robot arms"></div><h3><b>01</b>Sketch</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/coffee/bar-04-exploded.jpg" width="2048" height="1529" alt="Exploded view of the bar: frame, machine, timber panels, arm"></div><h3><b>02</b>Fabricate</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" width="2048" height="1529" style="object-position:70% 50%" alt="The finished bar in a tiled shopfront"></div><h3><b>03</b>Fit out</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/coffee/brand-01-family.jpg" width="2048" height="1143" alt="Coffee bags and cups in yellow and purple with moon marks"></div><h3><b>04</b>Brand</h3></figure>
+  <div class="slide night"><div class="in edge">
+    <div class="duo">
+      <figure class="doc"><img src="{{root}}img/coffee/bar-04-exploded.jpg" width="2048" height="1360" style="object-position:50% 50%" alt="Exploded drawing of the bar: frame, machine, timber panels, arm"><figcaption><h3>Drawn, then fabricated.</h3><p>Frame, machine, panels and arm, drawn part by part before a cut is made.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" width="2048" height="1360" style="object-position:70% 50%" alt="The finished bar in a tiled shopfront"><figcaption><h3>Fitted out and on brand.</h3><p>The same bar in its room. Shown: Wonder Bean, our own coffee brand. Concept.</p></figcaption></figure>
     </div>
-    <p class="cap r">Shown: Wonder Bean, our own coffee brand. Concept visualisation.</p>
+    <p class="lab top r">[ Design, fabrication, fitout ]</p>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
@@ -646,40 +673,26 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Built to your spec">
-  <div class="slide sun"><div class="in">
+  <div class="slide"><div class="in">
     <p class="lab r">[ Built to your spec ]</p>
     <h2 class="l r">One machine. Your brand, your menu, your way.</h2>
-    <div class="spec3">
-      <figure class="r"><div class="pic"><img src="{{root}}img/deck/spec-blank.jpg" width="1600" height="1073" alt="The kiosk as it leaves the workshop, plain, its panel reading Your branding here"></div><h3><b>01</b>The blank</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/deck/spec-volta.jpg" width="1600" height="893" alt="The same kiosk dressed as Volta, built into a red brick garage"></div><h3><b>02</b>Dressed as Volta</h3></figure>
-      <figure class="r"><div class="pic"><img src="{{root}}img/deck/spec-wonder.jpg" width="1600" height="893" alt="The same kiosk dressed as Wonder, purple with an amber arm"></div><h3><b>03</b>Dressed as Wonder</h3></figure>
+    <p class="lede r" style="margin-top:calc(18*var(--u))">Your brand on every panel, sign and arm. Your menu, your recipes, your cups. Real materials: steel, timber, paint, enamel.</p>
+    <div class="trio">
+      <figure class=""><img src="{{root}}img/deck/spec-blank.jpg" width="1600" height="1073" style="object-position:50% 55%" alt="The kiosk as it leaves the workshop, plain, its panel reading Your branding here"><figcaption><h3>01 The blank</h3><p>As it leaves the workshop.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/deck/spec-volta.jpg" width="1600" height="893" style="object-position:35% 55%" alt="The same kiosk dressed as Volta, built into a red brick garage"><figcaption><h3>02 Dressed as Volta</h3><p>Our Italian brand. Concept.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/deck/spec-wonder.jpg" width="1600" height="893" style="object-position:50% 55%" alt="The same kiosk dressed as Wonder, purple with an amber arm"><figcaption><h3>03 Dressed as Wonder</h3><p>Our coffee brand. Concept.</p></figcaption></figure>
     </div>
-    <ul class="spec-list r">
-      <li>Your brand on every panel, sign and arm</li><li>Your menu on the screen</li><li>Your recipes, the same every time</li>
-      <li>Your cups and packaging</li><li>Your site, drawn and built for it</li><li>Real materials: steel, timber, paint, enamel</li>
-    </ul>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The work">
-  <div class="slide"><div class="in">
-    <p class="lab r">[ The work ]</p>
-    <h2 class="l r">We built ours first.</h2>
-    <div class="work">
-      <figure class="r">
-        <div class="pic"><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" style="object-position:30% 50%" alt="Our kitchen line: the cobot on its rail at the fryers"><video data-src="{{root}}img/hero-kitchen.mp4" muted loop playsinline preload="none" style="object-position:30% 50%" aria-hidden="true"></video></div>
-        <h3>365 St Pauls Terrace</h3>
-        <p>We built a robot kitchen for ourselves and opened it before we sold one. Kitchen, bar, kiosk, floor.</p>
-        <dl><dt>What</dt><dd>Robot kitchen, robot bar, dessert kiosk, service floor</dd><dt>Scope</dt><dd>Scope, design, brand, build, run</dd><dt>Status</dt><dd>In service. Open six days</dd></dl>
-      </figure>
-      <figure class="r">
-        <div class="lrd"><div class="pic logo"><img src="{{root}}img/lrd/mark.jpg" width="1200" height="1000" alt="Little Red Dumpling"></div><div class="pic"><img src="{{root}}img/lrd/room.jpg" width="2000" height="1116" style="object-position:30% 50%" alt="Visualisation of the finished dumpling cafe"><span class="tag">Visualisation, built from the room as filmed</span></div></div>
-        <h3>Little Red Dumpling</h3>
-        <p>Thirteen shops in, they wanted the fourteenth to cook without a brigade.</p>
-        <dl><dt>Where</dt><dd>Nexus Way, Gold Coast Health and Knowledge Precinct</dd><dt>What</dt><dd>Robot dumpling kitchen, front of house and back</dd><dt>Status</dt><dd>Machines delivered, fitout under way</dd></dl>
-      </figure>
+  <div class="slide night"><div class="in edge">
+    <div class="duo">
+      <figure class=""><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" style="object-position:30% 50%" alt="Our kitchen line: the cobot on its rail at the fryers"><figcaption><h3>365 St Pauls Terrace</h3><p>We built a robot kitchen for ourselves and opened it before we sold one. Open six days.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/lrd/room.jpg" width="2000" height="1116" style="object-position:30% 50%" alt="Visualisation of the finished Little Red Dumpling cafe"><figcaption><h3>Little Red Dumpling</h3><p>Thirteen shops in, they wanted the fourteenth to cook without a brigade. Robot dumpling kitchen, Gold Coast. Visualisation.</p></figcaption></figure>
     </div>
+    <p class="lab top r">[ The work ]</p>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
@@ -758,17 +771,12 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How we work">
-  <div class="slide"><div class="in">
-    <p class="lab r">[ How we work ]</p>
-    <h2 class="l r">Plan, design, fit out, commission, open.</h2>
-    <div class="steps">
-      <div class="r"><div class="pic"><img class="draw" src="{{root}}img/process/01-plan.jpg" width="2048" height="1360" alt="Plan drawing of the kitchen line"></div><h3><b>01</b>Plan</h3><p>The line on the floor. Where the queue stands.</p></div>
-      <div class="r"><div class="pic"><img class="draw" src="{{root}}img/process/02-design.jpg" width="2048" height="1360" alt="General arrangement drawing"></div><h3><b>02</b>Design</h3><p>The general arrangement it gets built from.</p></div>
-      <div class="r"><div class="pic"><img src="{{root}}img/process/03-fitout.jpg" width="2048" height="1360" alt="Concept of the kitchen bay during fit out"></div><h3><b>03</b>Fit out</h3><p>Bench frames, conduit, the splashback in. Concept.</p></div>
-      <div class="r"><div class="pic"><img src="{{root}}img/process/04-commission.jpg" width="2048" height="1360" alt="Concept of commissioning day"></div><h3><b>04</b>Commission</h3><p>Machines in, the first program running. Concept.</p></div>
-      <div class="r"><div class="pic"><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" style="object-position:38% 50%" alt="The kitchen line as it stands today"></div><h3><b>05</b>Open</h3><p>Open six days. Full menu, nobody at the pass.</p></div>
-      <div class="r say"><p>One team from the first sketch to the first service, and the same team on the phone after it.</p></div>
+  <div class="slide night"><div class="in edge">
+    <div class="duo">
+      <figure class="doc"><img src="{{root}}img/process/01-plan.jpg" width="2048" height="1360" style="object-position:50% 50%" alt="Plan drawing of the kitchen line"><figcaption><h3>01 Plan</h3><p>The line on the floor. Where the queue stands.</p></figcaption></figure>
+      <figure class="doc"><img src="{{root}}img/process/02-design.jpg" width="2048" height="1360" style="object-position:50% 50%" alt="General arrangement drawing"><figcaption><h3>02 Design, 03 Fit out, 04 Commission, 05 Open</h3><p>The general arrangement it is built from, then one team to the first service, and on the phone after it.</p></figcaption></figure>
     </div>
+    <p class="lab top r">[ How we work ]</p>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
