@@ -91,17 +91,32 @@
   .full.deep::after{background:linear-gradient(to top,rgba(20,10,36,.96) 0%,rgba(20,10,36,.8) 40%,rgba(20,10,36,0) 80%)}
   .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));z-index:1}
 
+  /* What we do: one typeface, set big and plain, the Bobby Ash way. */
+  .say-it{justify-content:center}
+  .big{font-weight:500;font-size:calc(104*var(--u));line-height:1;letter-spacing:-.045em;max-width:calc(1560*var(--u));margin-top:calc(30*var(--u));text-wrap:balance}
+  .big-2{font-weight:500;font-size:calc(104*var(--u));line-height:1;letter-spacing:-.045em;margin-top:calc(40*var(--u));color:var(--ink-2)}
+  /* Sketch to service: one picture pinned behind five stages; the scroll cross-fades it from one to the next. */
+  .seq{position:relative}
+  .seq-back{position:sticky;top:var(--bar);height:calc(100vh - var(--bar));height:calc(100svh - var(--bar));overflow:hidden;margin-bottom:calc(-100vh + var(--bar));margin-bottom:calc(-100svh + var(--bar));background:var(--night)}
+  .seq-back img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+  .seq-back img.b1{opacity:1}
+  .seq .slide{background:transparent!important}
+  .seq .full{background:transparent}
+  .seq .full::before{content:"";position:absolute;inset:0;background:transparent}
+  .print-only{display:none}
+  @media print{ .seq-back{display:none} .print-only{display:block} }
+  @media (max-width:760px){ .seq-back{display:none} .print-only{display:block} }
+
   /* Full-bleed posters: the lettering is in the picture (comp_fullbleed_posters.py), so no fade over it. */
   .full.poster::after{display:none}
   .full.poster .foot{color:rgba(243,241,228,.7)}
-  /* From plan to open: the stages cross-fade on their own while the slide is on screen. */
-  .life .plate img.f{opacity:0;transition:opacity 1.2s ease}
-  .life .plate img.f.on{opacity:1}
-  .life-steps{list-style:none;display:flex;gap:calc(34*var(--u));margin-top:calc(30*var(--u));padding:0}
-  .life-steps li{font-family:var(--mono);font-size:calc(22*var(--u));letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,228,.45);border-top:calc(3*var(--u)) solid rgba(243,241,228,.2);padding-top:calc(12*var(--u));transition:color .6s,border-color .6s}
-  .life-steps li b{font-weight:500;margin-right:calc(10*var(--u))}
-  .life-steps li.on{color:#F3F1E4;border-color:#E8A84C}
-  @media print{ .life .plate img.f{opacity:0!important} .life .plate img.f:last-child{opacity:1!important} .life-steps li{color:#F3F1E4} }
+  /* From plan to open: one stage per scroll, the same frame each time, the line along the bottom fills as it goes. */
+  .life-say{font-size:calc(40*var(--u));line-height:1.15;letter-spacing:-.03em;margin-top:calc(18*var(--u));max-width:calc(1100*var(--u))}
+  .life-steps{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:calc(14*var(--u));margin-top:calc(34*var(--u));padding:0}
+  .life-steps li{font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,228,.42);border-top:calc(4*var(--u)) solid rgba(243,241,228,.18);padding-top:calc(12*var(--u))}
+  .life-steps li b{font-weight:500;margin-right:calc(8*var(--u))}
+  .life-steps li.done{color:rgba(243,241,228,.75);border-color:rgba(232,168,76,.65)}
+  .life-steps li.now{color:#F3F1E4;border-color:#E8A84C}
 
   /* Jesse, 24 Oct 2026: "inversions": every light slide is the Wonder gold with dark purple type, so the deck runs
      gold and purple; and "I don't like the small boxes": pictures are full height, edge to edge, never thumbnails. */
@@ -478,7 +493,7 @@
     <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#" data-go="Who we are">Who we are</a><a href="#" data-go="The team">The team</a><a href="#" data-go="The coffee bar">The coffee bar</a><a href="#" data-go="The work">The work</a><a href="#" data-go="The experience hub">Experience hub</a>
+      <a href="#" data-go="What we do">What we do</a><a href="#" data-go="The team">The team</a><a href="#" data-go="Sketch to service, sketch">Sketch to service</a><a href="#" data-go="Full fitout">The work</a><a href="#" data-go="The experience hub">Experience hub</a>
     </nav>
     <div class="cta"><a class="btn want" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener"><span>The numbers</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
@@ -500,20 +515,11 @@
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Who we are">
-  <div class="slide night"><div class="in who">
-    <img class="g1" src="{{root}}img/deck/g1-night.jpg" width="2752" height="1536" alt="A humanoid robot standing in a deep purple studio">
-    <div class="col">
-      <p class="lab r">[ Who we are ]</p>
-      <h2 class="l r">We are an engineering company. Robots are most of what we build.</h2>
-      <p class="lede r">Robotics and automation. Idea, sketch, brand, fabrication, fitout. Then we keep it running.</p>
-      <div class="four4">
-        <div class="r"><h3><b>01</b>Robotics</h3><p>Unitree, UBTech, AgiBot, Dobot, JAKA. Humanoids to arms.</p></div>
-        <div class="r"><h3><b>02</b>Hardware</h3><p>Nothing off the shelf fits? We draw the cell and build it downstairs.</p></div>
-        <div class="r"><h3><b>03</b>AI</h3><p>What the machine sees, picks up, and when it stops. Plus agents for triage, approvals, invoices.</p></div>
-        <div class="r"><h3><b>04</b>Apps and software</h3><p>Ordering, payment, stock, dispatch, the dashboard. React, Node, Python, Postgres.</p></div>
-      </div>
-    </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. What we do">
+  <div class="slide"><div class="in say-it">
+    <p class="lab r">[ What we do ]</p>
+    <h2 class="big r">We design the space, build the machines, fit it out and put the brand on it.</h2>
+    <p class="big-2 r">Then we keep it running.</p>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
@@ -538,114 +544,71 @@
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee bar">
-  <div class="slide"><div class="in full">
-    <div class="plate">
-      <img src="{{root}}img/machines/coffee-robot-stage-poster.jpg" width="1920" height="1086" alt="Two robot arms at an espresso machine, a purple cup coming off the stack">
-      <video data-src="{{root}}img/machines/coffee-robot-stage.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
-    </div>
+<div class="seq">
+  <div class="seq-back" aria-hidden="true">
+    <img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt="Volta, sketch" class="b1">
+    <img src="{{root}}img/deck/build-2.jpg" width="2752" height="1536" alt="Volta, shell" class="b2">
+    <img src="{{root}}img/deck/build-3.jpg" width="2752" height="1536" alt="Volta, fit out" class="b3">
+    <img src="{{root}}img/deck/build-4.jpg" width="2752" height="1536" alt="Volta, brand" class="b4">
+    <img src="{{root}}img/deck/build-5.jpg" width="2752" height="1536" alt="Volta, open" class="b5">
+  </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Sketch to service, sketch">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
-      <p class="lab r">[ The coffee bar ]</p>
-      <h2 class="xl r">A barista in two square metres, in your brand.</h2>
+      <p class="lab">[ Volta, sketch to service ]</p>
+      <h2 class="l">Sketch to service.</h2>
+      <p class="life-say">It starts as a drawing.</p>
+      <ol class="life-steps"><li class="now"><b>01</b>Sketch</li><li><b>02</b>Shell</li><li><b>03</b>Fit out</li><li><b>04</b>Brand</li><li><b>05</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
   </div></div>
 </section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. One price">
-  <div class="slide night"><div class="in price">
-    <div class="side"><img src="{{root}}img/offer/coffee-bar-studio.jpg" width="2048" height="1360" alt="The robot coffee bar: two arms at an espresso machine on a timber counter"></div>
-    <div class="col">
-      <p class="lab r">[ The coffee bar ]</p>
-      <h2 class="l r">One price. Everything to open.</h2>
-      <p class="lede r">{{coffee:price}} buys the bar, delivered, installed and in your colours, with two years of service. Ex GST.</p>
-      <div class="six">
-        <div class="r"><h3>The bar</h3><p>Two arms at a commercial espresso machine. Ice maker, cup printer, your colours on the arms.</p></div>
-        <div class="r"><h3>Delivered and installed</h3><p>To your site, positioned, plumbed and commissioned on your menu.</p></div>
-        <div class="r"><h3>Two years of service</h3><p>Software, monitoring, maintenance, repairs and weekday support.</p></div>
-        <div class="r"><h3>Your brand on it</h3><p>The ordering screen, the cup and the machine. One payment system connected.</p></div>
-        <div class="r"><h3>Your team trained</h3><p>On the machine, the cleaning and the faults, at commissioning.</p></div>
-        <div class="r"><h3>Spares on the shelf</h3><p>A starter kit of the common parts, kept with the bar.</p></div>
-      </div>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it pours">
-  <div class="slide"><div class="in full deep">
-    <div class="plate" style="--op:50% 45%"><img src="{{root}}img/machines/coffee-robot-d2.jpg" width="1400" height="1045" alt="A robot arm pouring latte art into a cup"></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Sketch to service, shell">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-2.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
-      <p class="lab r">[ How it pours ]</p>
-      <h2 class="l r">Two arms. Every cup the same.</h2>
-      <div class="three">
-        <div class="r"><h3>Ground to order</h3><p>Fresh for every cup.</p></div>
-        <div class="r"><h3>One arm pulls the shot</h3><p>Dose, tamp and time, held to your recipe.</p></div>
-        <div class="r"><h3>The other pours</h3><p>Steams the milk and pours the art.</p></div>
-      </div>
+      <p class="lab">[ Volta, sketch to service ]</p>
+      <p class="life-say">The building goes up around it.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Sketch</li><li class="now"><b>02</b>Shell</li><li><b>03</b>Fit out</li><li><b>04</b>Brand</li><li><b>05</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
   </div></div>
 </section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Design, fabrication, fitout">
-  <div class="slide night"><div class="in edge">
-    <div class="duo">
-      <figure class="doc"><img src="{{root}}img/coffee/bar-04-exploded.jpg" width="2048" height="1360" style="object-position:50% 50%" alt="Exploded drawing of the bar: frame, machine, timber panels, arm"><figcaption><h3>Drawn, then fabricated.</h3><p>Frame, machine, panels and arm, drawn part by part before a cut is made.</p></figcaption></figure>
-      <figure class=""><img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" width="2048" height="1360" style="object-position:70% 50%" alt="The finished bar in a tiled shopfront"><figcaption><h3>Fitted out and on brand.</h3><p>The same bar in its room. Shown: Wonder Bean, our own coffee brand. Concept.</p></figcaption></figure>
-    </div>
-    <p class="lab top r">[ Design, fabrication, fitout ]</p>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Robot kitchens">
-  <div class="slide night"><div class="in split">
-    <div class="half"><img src="{{root}}img/tile-arm.jpg" width="1400" height="1737" alt="The kitchen's robot arm lifting a basket of chips from the fryer"></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Sketch to service, fit out">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-3.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
-      <p class="lab r">[ Robot kitchens ]</p>
-      <h2 class="l r">Robot kitchens are the specialisation.</h2>
-      <p class="lede r">A line that fries, boils and plates the whole menu. Ours is open six days.</p>
+      <p class="lab">[ Volta, sketch to service ]</p>
+      <p class="life-say">Frame, machine and services in.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Sketch</li><li class="done"><b>02</b>Shell</li><li class="now"><b>03</b>Fit out</li><li><b>04</b>Brand</li><li><b>05</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
   </div></div>
 </section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. From plan to open">
-  <div class="slide night"><div class="in full life">
-    <div class="plate">
-      <img src="{{root}}img/lrd/plan.jpg" alt="Plan of the cook line and floor" class="f on" style="object-position:50% 50%">
-      <img src="{{root}}img/lrd/section.jpg" alt="Section through the cook line" class="f" style="object-position:50% 50%">
-      <img src="{{root}}img/lrd/shell.jpg" alt="The empty shell of the site" class="f" style="object-position:50% 60%">
-      <img src="{{root}}img/lrd/fitout.jpg" alt="The rail in, the arm still in its crate" class="f" style="object-position:50% 50%">
-      <img src="{{root}}img/lrd/commissioning.jpg" alt="Commissioning the line" class="f" style="object-position:50% 50%">
-      <img src="{{root}}img/lrd/room.jpg" alt="The finished dumpling cafe, a robot arm on its rail behind glass" class="f" style="object-position:30% 50%">
-    </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Sketch to service, brand">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-4.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
-      <p class="lab r">[ From plan to open ]</p>
-      <h2 class="l r">Little Red Dumpling, from the plan to the first service.</h2>
-      <ol class="life-steps r"><li class="on"><b>01</b>Plan</li><li><b>02</b>Section</li><li><b>03</b>Site</li><li><b>04</b>Fit out</li><li><b>05</b>Commission</li><li><b>06</b>Open</li></ol>
+      <p class="lab">[ Volta, sketch to service ]</p>
+      <p class="life-say">The brand goes on, by hand.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Sketch</li><li class="done"><b>02</b>Shell</li><li class="done"><b>03</b>Fit out</li><li class="now"><b>04</b>Brand</li><li><b>05</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
   </div></div>
 </section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. From sketch to bar">
-  <div class="slide night"><div class="in full life">
-    <div class="plate">
-      <img src="{{root}}img/coffee/bar-01-sketch.jpg" alt="Sketches of the coffee bar" class="f on" style="object-position:50% 50%">
-      <img src="{{root}}img/coffee/bar-04-exploded.jpg" alt="Exploded drawing: frame, machine, panels, arm" class="f" style="object-position:50% 50%">
-      <img src="{{root}}img/coffee/bar-02-front.jpg" alt="The built bar, front on" class="f" style="object-position:50% 50%">
-      <img src="{{root}}img/coffee/venue-01-bar-in-room.jpg" alt="The bar in its room" class="f" style="object-position:70% 50%">
-    </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Sketch to service, open">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-5.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
-      <p class="lab r">[ From sketch to bar ]</p>
-      <h2 class="l r">A coffee bar, from the first line to the room.</h2>
-      <ol class="life-steps r"><li class="on"><b>01</b>Sketch</li><li><b>02</b>Engineer</li><li><b>03</b>Build</li><li><b>04</b>Fit out</li></ol>
+      <p class="lab">[ Volta, sketch to service ]</p>
+      <p class="life-say">Trading.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Sketch</li><li class="done"><b>02</b>Shell</li><li class="done"><b>03</b>Fit out</li><li class="done"><b>04</b>Brand</li><li class="now"><b>05</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
   </div></div>
 </section>
+</div>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Full fitout">
   <div class="slide night"><div class="in full poster">
@@ -714,7 +677,7 @@
   <div class="slide night"><div class="in edge">
     <div class="duo">
       <figure class=""><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" style="object-position:30% 50%" alt="Our kitchen line: the cobot on its rail at the fryers"><figcaption><h3>365 St Pauls Terrace</h3><p>We built a robot kitchen for ourselves and opened it before we sold one. Open six days.</p></figcaption></figure>
-      <figure class=""><img src="{{root}}img/lrd/room.jpg" width="2000" height="1116" style="object-position:30% 50%" alt="Visualisation of the finished Little Red Dumpling cafe"><figcaption><h3>Little Red Dumpling</h3><p>Thirteen shops in, they wanted the fourteenth to cook without a brigade. Robot dumpling kitchen, Gold Coast. Visualisation.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/lrd/pass.jpg" width="2000" height="1116" style="object-position:50% 50%" alt="Visualisation of the Little Red Dumpling pass, steamers and a full room"><figcaption><h3>Little Red Dumpling</h3><p>Thirteen shops in, they wanted the fourteenth to cook without a brigade. Robot dumpling kitchen, Gold Coast. Visualisation.</p></figcaption></figure>
     </div>
     <p class="lab top r">[ The work ]</p>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
@@ -724,48 +687,6 @@
 <!-- Ryan's worked example, as the profile printed it on 2 Oct 2026: the bar at
      $150,000, 10% over five years, $5.50 a coffee, 74% kept, $250 a week to run.
      Every figure here follows from those; change one and change them all. -->
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The numbers">
-  <div class="slide"><div class="in nums">
-    <p class="lab r">[ The numbers ]</p>
-    <h2 class="l r">What one coffee bar can earn.</h2>
-    <p class="lede r">The $150,000 bar, financed over five years and trading seven days. An example of the shape of the numbers, not a promise.</p>
-    <div class="ngrid">
-      <div class="stats">
-        <div class="r"><p class="fig">$735</p><div><p class="k">Weekly repayment</p><p>10% over five years. Service included for the first two.</p></div></div>
-        <div class="r"><p class="fig">74%</p><div><p class="k">Kept from every coffee</p><p>$4.07 of a $5.50 coffee, after beans, milk and cups. No barista.</p></div></div>
-        <div class="r"><p class="fig">35 a day</p><div><p class="k">Break-even</p><p>Coffees that cover the repayment and the running costs.</p></div></div>
-      </div>
-      <div class="vol r">
-        <p class="k">A week at three volumes</p>
-        <table>
-          <thead><tr><th>Coffees a day</th><th>Profit a week</th><th>Profit a year</th><th>Once it&rsquo;s paid off</th></tr></thead>
-          <tbody>
-            <tr><td>50</td><td>$440</td><td>$22,800</td><td>$1,170 <small>a week</small></td></tr>
-            <tr><td>100</td><td>$1,860</td><td>$96,900</td><td>$2,600 <small>a week</small></td></tr>
-            <tr><td>150</td><td>$3,290</td><td>$171,000</td><td>$4,020 <small>a week</small></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <p class="cap fine r">Example only. AUD ex GST. $5.50 a coffee, 74% gross profit (estimate), $250 a week running costs, 10% finance over five years; rates 5 to 20% set on credit. Earnings depend on the site.</p>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Of every $100 of sales">
-  <div class="slide night"><div class="in">
-    <p class="lab r">[ The numbers ]</p>
-    <h2 class="l r">Of every $100 of sales.</h2>
-    <div class="hundred">
-      <div class="r"><p class="fig">$14</p><span class="meter" aria-hidden="true"><i style="--v:14"></i></span><p>a staffed café keeps, after 38% in wages</p></div>
-      <div class="r us"><p class="fig">$48</p><span class="meter" aria-hidden="true"><i style="--v:48"></i></span><p>the coffee bar keeps at 100 coffees a day</p></div>
-      <div class="r us"><p class="fig">$68</p><span class="meter" aria-hidden="true"><i style="--v:68"></i></span><p>it keeps once it&rsquo;s paid off</p></div>
-    </div>
-    <p class="cap fine r">Example only. AUD ex GST. $5.50 a coffee, 74% gross profit (estimate), $250 a week running costs, 10% finance over five years; rates 5 to 20% set on credit. Earnings depend on the site.</p>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The experience hub">
   <div class="slide"><div class="in full">
     <div class="plate" style="--op:50% 62%"><img src="{{root}}img/deck/hub.jpg" width="2600" height="1733" alt="Our experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"></div>
@@ -790,17 +711,6 @@
         <div class="r"><h3>Yours to use</h3><p>Bring a class, run a demo, hold an event.</p></div>
       </div>
     </div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How we work">
-  <div class="slide night"><div class="in edge">
-    <div class="duo">
-      <figure class="doc"><img src="{{root}}img/process/01-plan.jpg" width="2048" height="1360" style="object-position:50% 50%" alt="Plan drawing of the kitchen line"><figcaption><h3>01 Plan</h3><p>The line on the floor. Where the queue stands.</p></figcaption></figure>
-      <figure class="doc"><img src="{{root}}img/process/02-design.jpg" width="2048" height="1360" style="object-position:50% 50%" alt="General arrangement drawing"><figcaption><h3>02 Design, 03 Fit out, 04 Commission, 05 Open</h3><p>The general arrangement it is built from, then one team to the first service, and on the phone after it.</p></figcaption></figure>
-    </div>
-    <p class="lab top r">[ How we work ]</p>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
@@ -1040,14 +950,16 @@
 })();
 </script>
 <script>
-/* From plan to open: while a .life slide is on screen its stages step through, two and a half seconds each. */
-document.querySelectorAll('.life').forEach(function (w) {
-  var st = w.closest('.stage'), imgs = [].slice.call(w.querySelectorAll('img.f')), lis = [].slice.call(w.querySelectorAll('.life-steps li')), i = 0, timer = null;
-  function go(n) { i = n % imgs.length; imgs.forEach(function (m, k) { m.classList.toggle('on', k === i); }); lis.forEach(function (l, k) { l.classList.toggle('on', k <= i); }); }
-  new IntersectionObserver(function (es) { es.forEach(function (e) {
-    if (e.isIntersecting && !timer) { go(0); timer = setInterval(function () { go(i + 1); }, 2500); }
-    if (!e.isIntersecting && timer) { clearInterval(timer); timer = null; } }); }, { threshold: 0.5 }).observe(st);
-});
+/* Sketch to service: as the window moves through the five stages, each picture fades up over the last. */
+(function () {
+  var seq = document.querySelector('.seq'); if (!seq) return;
+  var imgs = [].slice.call(seq.querySelectorAll('.seq-back img')), st = [].slice.call(seq.querySelectorAll('.stage'));
+  function tick() {
+    var h = st[0].offsetHeight || 1, p = (window.scrollY + (document.getElementById('bar') || {offsetHeight: 0}).offsetHeight - (seq.getBoundingClientRect().top + window.scrollY)) / h;
+    imgs.forEach(function (im, k) { if (k) im.style.opacity = Math.max(0, Math.min(1, (p - k) * 1.6 + 1)); });
+  }
+  window.addEventListener('scroll', tick, { passive: true }); tick();
+})();
 </script>
 </body>
 </html>
