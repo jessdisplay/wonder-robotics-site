@@ -99,6 +99,9 @@ def main():
             sys.exit(f"{name}: the old number is still on the page")
         seen = html + (GATE.read_text() if name in GATED else "")   # the login is put in later; its pictures go now
         files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))
+        # a film the scroll plays (src/scrub.js) names its frames once, with {n} for the frame number
+        for path, count in re.findall(r'data-frames="\.\./((?:img)/[^"]+)" data-count="(\d+)"', seen):
+            files |= {path.replace("{n}", f"{i:03d}") for i in range(int(count))}
         for f in files:
             if not (HERE / f).exists():
                 sys.exit(f"{name}: no such file, {f}")

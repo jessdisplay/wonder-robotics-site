@@ -1284,6 +1284,7 @@ def deck(name):
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     # the drawn mark and the robot's peek round the moon, the site's own code (a deck is one file)
     html = html.replace("{{markjs}}", (SRC / "mark.js").read_text()).replace("{{sneakjs}}", SNEAK_JS)
+    html = html.replace("{{scrubjs}}", (SRC / "scrub.js").read_text())
     if "{{" in html:
         sys.exit(f"{name} deck has an unfilled token")
     for src in re.findall(r'src="' + re.escape(root) + r'([^"]+)"', html):

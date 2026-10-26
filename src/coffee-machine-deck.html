@@ -100,6 +100,12 @@
   .seq-back{position:sticky;top:var(--bar);height:calc(100vh - var(--bar));height:calc(100svh - var(--bar));overflow:hidden;margin-bottom:calc(-100vh + var(--bar));margin-bottom:calc(-100svh + var(--bar));background:var(--night)}
   .seq-back img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
   .seq-back img.b1{opacity:1}
+  /* The plan to open film (src/scrub.js): the canvas covers the first still once it can draw, and the whole film is
+     one snap area, so the scroll runs through it freely instead of stopping at each stage. */
+  .seq-back canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+  .seq-back canvas.live{opacity:1}
+  .seq.film{scroll-snap-align:start}
+  .seq.film .stage{scroll-snap-align:none;scroll-snap-stop:normal}
   .seq .slide{background:transparent!important}
   .seq .full{background:transparent}
   .seq .full::before{content:"";position:absolute;inset:0;background:transparent}
@@ -544,16 +550,10 @@
   </div></div>
 </section>
 
-<div class="seq">
+<div class="seq film">
   <div class="seq-back" aria-hidden="true">
-    <img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt="Volta, the floor plan" data-at="0" class="b1">
-    <img src="{{root}}img/deck/build-2.jpg" width="2752" height="1536" alt="Volta, the sketch" data-at="1">
-    <img src="{{root}}img/deck/build-3.jpg" width="2752" height="1536" alt="Volta, the machine drawn part by part" data-at="2">
-    <img src="{{root}}img/deck/build-4.jpg" width="2752" height="1536" alt="Volta, the bare frame" data-at="3">
-    <img src="{{root}}img/deck/build-5.jpg" width="2752" height="1536" alt="Volta, the machine in the frame" data-at="3.34">
-    <img src="{{root}}img/deck/build-6.jpg" width="2752" height="1536" alt="Volta, the panels on" data-at="3.67">
-    <img src="{{root}}img/deck/build-7.jpg" width="2752" height="1536" alt="Volta, the brand going on" data-at="4">
-    <img src="{{root}}img/deck/build-8.jpg" width="2752" height="1536" alt="Volta, trading" data-at="5">
+    <img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt="Volta, the floor plan" class="b1">
+    <canvas data-frames="{{root}}img/deck/plan-to-open/f{n}.webp" data-count="141" data-knots="0,20,40,80,120,140"></canvas>
   </div>
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, plan">
   <div class="slide"><div class="in full life">
@@ -937,6 +937,7 @@
 /* Each pinned scroll (plan to open, the machines): as the window moves through the stages, each picture fades up over the last. A picture's data-at
    is the stage it belongs to; the build has three pictures inside one stage, so the machine goes up as you scroll it. */
 [].forEach.call(document.querySelectorAll('.seq'), function (seq) {
+  if (seq.querySelector('canvas[data-frames]')) return;   // a film: src/scrub.js plays it
   var imgs = [].slice.call(seq.querySelectorAll('.seq-back img')), st = [].slice.call(seq.querySelectorAll('.stage'));
   function tick() {
     var h = st[0].offsetHeight || 1, p = (window.scrollY + (document.getElementById('bar') || {offsetHeight: 0}).offsetHeight - (seq.getBoundingClientRect().top + window.scrollY)) / h;
@@ -944,6 +945,9 @@
   }
   window.addEventListener('scroll', tick, { passive: true }); tick();
 });
+</script>
+<script>
+{{scrubjs}}
 </script>
 </body>
 </html>
