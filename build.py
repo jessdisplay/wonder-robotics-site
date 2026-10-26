@@ -1286,11 +1286,11 @@ assert "window.WonderSneak" in SNEAK_JS and "WonderQuote" not in SNEAK_JS, "site
 # catalogue's partner list and its pictures are the site's own, so it cannot
 # drift from the site. Unlisted: noindex, not in the sitemap, linked from
 # no page.
-def deck(name):
+def deck(name, source=None):
     root = "../../"
     # Slides number themselves, so one can be added without renumbering the rest:
     # {{i}} and {{n}} are a slide's place in the source, {{of}} the count.
-    head, *slides = (SRC / f"{name}-deck.html").read_text().split('<section class="stage"')
+    head, *slides = (source or (SRC / f"{name}-deck.html").read_text()).split('<section class="stage"')
     html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
                           for i, s in enumerate(slides, 1))
     html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}"), priced=True).replace("{{wall}}", wall())
@@ -1311,6 +1311,25 @@ def deck(name):
 
 for name in ("company", "unisc", "profile", "information", "coffee-machine"):
     deck(name)
+
+
+def noodle_box_source():
+    """The information deck with the Noodle Box slides set into it (src/noodle-box-slides.html): theirs after Built to
+    your spec, their close before ours. Made from the information deck at build time, so the two never drift apart."""
+    info = (SRC / "information-deck.html").read_text()
+    theirs, close = (SRC / "noodle-box-slides.html").read_text().split("<!-- close -->")
+    theirs = theirs[theirs.index('<section class="stage"'):]
+    after = '<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The work">'
+    last = '<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics, Fortitude Valley">'
+    for mark in (after, last, "<title>Wonder Robotics, information deck</title>"):
+        assert info.count(mark) == 1, mark
+    info = info.replace(after, theirs + after).replace(last, close.strip() + "\n\n" + last)
+    info = info.replace("<title>Wonder Robotics, information deck</title>", "<title>Wonder Robotics for Noodle Box</title>")
+    return re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wonder Robotics for Noodle Box: '
+                  'who we are and what we build, then a robot wok, a stir-fry line and a dark kitchen in the Noodle Box brand.">', info, count=1)
+
+
+deck("noodle-box", noodle_box_source())
 
 
 # Not found. Served from any depth, so its links are absolute from the root.
