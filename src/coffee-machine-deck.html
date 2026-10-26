@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Wonder Robotics, robot coffee bars</title>
+<meta name="description" content="Wonder Robotics designs, builds, brands and installs robot coffee bars from Fortitude Valley, Brisbane, then keeps them running.">
+<script>
+  /* Every deck opens at its first slide (Jesse, 20 Oct 2026): the browser never
+     acts on a #slide left in the address, and never puts back an old place. */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  /* Films are fetched whole and played from memory: wonder.fish answers no
+     partial requests, and Safari will not play a film without them. One fetch
+     per film, shared by the deck and its login. */
+  window.wonderClip = window.wonderClip || (function () {
+    var got = {};
+    return function (url) {
+      return got[url] || (got[url] = fetch(url).then(function (r) {
+        if (!r.ok) throw new Error(url + " " + r.status);
+        return r.blob();
+      }).then(function (b) { return URL.createObjectURL(b); }));
+    };
+  })();
+</script>
+{{icons}}{{fonts}}<style>
+  /* The information deck: the corporate profile (2 Oct 2026, the PDF Jesse sent
+     on 22 Oct as the USC information deck) as slides, with the two advisors on
+     the team and no university branding (Jesse, 22 Oct: "no longer pitching to
+     SC"). The sheet, type and colours are the 2 Oct stage decks'. */
+  @font-face{font-family:"UnboundedW";src:url({{root}}fonts/UnboundedW.woff2) format("woff2");font-weight:100 900;font-display:swap}
+  :root{
+    --paper:#F3F1E4;
+    --ink:#1D1826;
+    --ink-2:rgba(29,24,38,.7);
+    --rule:#DDD8C6;
+    --night:#20103A;
+    --signal:#4A2FD9;
+    --card:#FBFAF3;
+    --paper-2:rgba(243,241,228,.72);
+    --paper-rule:rgba(243,241,228,.22);
+    --display:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+    --bar:64px;
+    --m:clamp(18px,2.6vw,40px);
+    --gap:clamp(12px,1.6vw,24px);
+    --graphite:#75706B;
+    --live:#1F9D5B;
+    --rb:8px;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--ink);scroll-snap-type:y mandatory;scroll-padding-top:var(--bar)}
+  body{padding-top:var(--bar)}
+  body{font-family:var(--display);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+
+  /* One slide per screen. The slide is a 1920 by 1080 sheet; every size inside
+     it is written in sheet pixels times --u, so it scales with no script. */
+  /* Every slide is the full screen under the header, edge to edge (Jesse, 22 Oct 2026: "pull the slides out to full
+     width"). Pictures fill it; type and spacing are sheet pixels times --u, the smaller of the width and height
+     scales, so a wide screen gets wider rows, never bigger type that runs off the bottom. */
+  .stage{height:calc(100vh - var(--bar));height:calc(100svh - var(--bar));display:block;padding:0;scroll-snap-align:start;scroll-snap-stop:always}
+  .slide{container-type:size;position:relative;overflow:hidden;background:var(--paper);width:100%;height:100%}
+  .slide.night{background:var(--night);color:var(--paper)}
+  .in{--u:min(100cqw/1920,100cqh/1080);position:absolute;inset:0;display:flex;flex-direction:column;
+      padding:calc(96*var(--u)) calc(96*var(--u)) calc(120*var(--u))}
+
+  .lab{font-family:var(--mono);font-size:calc(24*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .night .lab,.full .lab{color:var(--paper-2)}
+  .xl{font-weight:400;font-size:calc(140*var(--u));line-height:.92;letter-spacing:-.05em;text-wrap:balance;margin-top:calc(26*var(--u))}
+  .l{font-weight:400;font-size:calc(100*var(--u));line-height:.95;letter-spacing:-.048em;text-wrap:balance;margin-top:calc(26*var(--u))}
+  .lede{font-size:calc(36*var(--u));line-height:1.28;letter-spacing:-.015em;margin-top:calc(22*var(--u))}
+  .night .lede,.full .lede{color:var(--paper-2)}
+  .cap{font-family:var(--mono);font-size:calc(20*var(--u));line-height:1.4;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);margin-top:calc(14*var(--u))}
+  .night .cap{color:var(--paper-2)}
+  .foot{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(46*var(--u));display:flex;justify-content:space-between;font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);z-index:2}
+  .night .foot,.full .foot{color:var(--paper-2)}
+  .pic{overflow:hidden;border-radius:calc(14*var(--u));background:var(--card);position:relative}
+  .pic img,.pic video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+
+  /* A picture or a film, edge to edge. The plate holds both, so they move as one. */
+  .full{padding:0;color:var(--paper);background:var(--night)}
+  .plate{position:absolute;inset:0;overflow:hidden}
+  .plate>img,.plate>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--op,50% 50%)}
+  video{opacity:0;transition:opacity 1.4s ease}
+  video.live{opacity:1}
+  .full::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,10,36,.94) 0%,rgba(20,10,36,.62) 34%,rgba(20,10,36,0) 68%)}
+  .full.deep::after{background:linear-gradient(to top,rgba(20,10,36,.96) 0%,rgba(20,10,36,.8) 40%,rgba(20,10,36,0) 80%)}
+  .full .txt{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));z-index:1}
+
+  /* What we do: one typeface, set big and plain, the Bobby Ash way. */
+  .say-it{justify-content:center}
+  .big{font-weight:500;font-size:calc(104*var(--u));line-height:1;letter-spacing:-.045em;max-width:calc(1560*var(--u));margin-top:calc(30*var(--u));text-wrap:balance}
+  .big-2{font-weight:500;font-size:calc(104*var(--u));line-height:1;letter-spacing:-.045em;margin-top:calc(40*var(--u));color:var(--ink-2)}
+  /* Plan to open: one picture pinned behind six stages; the scroll cross-fades it from one to the next. */
+  .seq{position:relative}
+  .seq-back{position:sticky;top:var(--bar);height:calc(100vh - var(--bar));height:calc(100svh - var(--bar));overflow:hidden;margin-bottom:calc(-100vh + var(--bar));margin-bottom:calc(-100svh + var(--bar));background:var(--night)}
+  .seq-back img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+  .seq-back img.b1{opacity:1}
+  .seq .slide{background:transparent!important}
+  .seq .full{background:transparent}
+  .seq .full::before{content:"";position:absolute;inset:0;background:transparent}
+  .print-only{display:none}
+  @media print{ .seq-back{display:none} .print-only{display:block} }
+  @media (max-width:760px){ .seq-back{display:none} .print-only{display:block} }
+
+  /* Full-bleed posters: the lettering is in the picture (comp_fullbleed_posters.py), so no fade over it. */
+  .full.poster::after{display:none}
+  .full.poster .foot{color:rgba(243,241,228,.7)}
+  /* From plan to open: one stage per scroll, the same frame each time, the line along the bottom fills as it goes. */
+  .life-say{font-size:calc(40*var(--u));line-height:1.15;letter-spacing:-.03em;margin-top:calc(18*var(--u));max-width:calc(1100*var(--u))}
+  .life-steps{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:calc(14*var(--u));margin-top:calc(34*var(--u));padding:0}
+  .life-steps li{font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,228,.42);border-top:calc(4*var(--u)) solid rgba(243,241,228,.18);padding-top:calc(12*var(--u))}
+  .life-steps li b{font-weight:500;margin-right:calc(8*var(--u))}
+  .life-steps li.done{color:rgba(243,241,228,.75);border-color:rgba(232,168,76,.65)}
+  .life-steps li.now{color:#F3F1E4;border-color:#E8A84C}
+
+  /* Jesse, 24 Oct 2026: "inversions": every light slide is the Wonder gold with dark purple type, so the deck runs
+     gold and purple; and "I don't like the small boxes": pictures are full height, edge to edge, never thumbnails. */
+  .slide:not(.night){background:#E8A84C;color:#20103A;--ink:#20103A;--ink-2:rgba(32,16,58,.74);--rule:rgba(32,16,58,.24);--card:transparent}
+  .slide:not(.night) .wall li{background:none;border:0}
+  .edge{padding:0}
+  .duo,.trio{display:grid;grid-template-columns:1fr 1fr}
+  .duo{position:absolute;inset:0}
+  .trio{grid-template-columns:repeat(3,1fr);position:absolute;left:0;right:0;bottom:0;height:55%}
+  .duo figure,.trio figure{position:relative;overflow:hidden;margin:0}
+  .duo figure>img,.trio figure>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .duo figure::after,.trio figure::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,10,36,.92) 0%,rgba(20,10,36,.55) 30%,rgba(20,10,36,0) 58%)}
+  .duo figure.doc{background:#F5EEDF}
+  .duo figure.doc>img{object-fit:contain;padding:calc(120*var(--u)) calc(70*var(--u)) calc(300*var(--u))}
+  .duo figcaption,.trio figcaption{position:absolute;left:calc(70*var(--u));right:calc(70*var(--u));bottom:calc(110*var(--u));z-index:1;color:#F3F1E4}
+  .trio figcaption{bottom:calc(104*var(--u));left:calc(48*var(--u))}
+  .duo h3{font-weight:400;font-size:calc(64*var(--u));line-height:.98;letter-spacing:-.045em}
+  .trio h3{font-weight:500;font-size:calc(34*var(--u));letter-spacing:-.03em}
+  .duo figcaption p,.trio figcaption p{font-size:calc(24*var(--u));line-height:1.32;color:rgba(243,241,228,.8);margin-top:calc(10*var(--u));max-width:calc(760*var(--u))}
+  .lab.top{position:absolute;left:calc(70*var(--u));top:calc(56*var(--u));z-index:2;color:#F3F1E4;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+  .edge .foot{color:rgba(243,241,228,.75)}
+  .trio ~ .foot,.trio + .foot{color:rgba(243,241,228,.75)}
+
+  /* The Wonder gold, #E8A84C (the Come in button), alternating with the night purple (Jesse, 24 Oct: "alternate the yellow branding in with the dark purple") */
+  .slide.sun{background:#E8A84C;color:#1A1A1A}
+  .sun .lab,.sun .cap,.sun .foot{color:rgba(26,26,26,.72)}
+  .sun .row3 h3 b,.sun .spec3 h3 b{color:#1A1A1A}
+  .full.sun::after{background:linear-gradient(to top,rgba(232,168,76,.97) 0%,rgba(232,168,76,.86) 30%,rgba(232,168,76,0) 62%)}
+  .full.sun{color:#1A1A1A}
+  .full.sun .lab,.full.sun .lede,.full.sun .foot{color:rgba(26,26,26,.78)}
+  .spec3{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(28*var(--u));margin-top:calc(40*var(--u))}
+  .spec3 .pic{aspect-ratio:16/10}
+  .spec3 h3{font-weight:500;font-size:calc(34*var(--u));letter-spacing:-.03em;margin-top:calc(16*var(--u))}
+  .spec3 h3 b{font-family:var(--mono);font-weight:500;font-size:calc(22*var(--u));letter-spacing:.06em;margin-right:calc(14*var(--u));vertical-align:middle}
+  .spec-list{list-style:none;margin:calc(34*var(--u)) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:calc(10*var(--u)) calc(28*var(--u))}
+  .spec-list li{border-top:calc(2*var(--u)) solid rgba(26,26,26,.25);padding-top:calc(12*var(--u));font-size:calc(28*var(--u));line-height:1.25;letter-spacing:-.02em}
+
+  /* the cover: W-1 alone in the warehouse, the plate wonder.fish opens on */
+  .cover::after{background:linear-gradient(to top,rgba(20,10,36,.9) 0%,rgba(20,10,36,.5) 30%,rgba(20,10,36,0) 60%),
+                linear-gradient(to right,rgba(20,10,36,.55) 0%,rgba(20,10,36,0) 55%)}
+  .cover .txt{right:auto;width:calc(1060*var(--u))}
+  .cover h1{font-weight:400;font-size:calc(116*var(--u));line-height:.94;letter-spacing:-.05em;margin-top:calc(22*var(--u))}
+
+  /* who we are */
+  .slide.night:has(.who){background:#201235}
+  /* the humanoid at the slide's full height, pinned right, so a screen wider than his picture never crops his head
+     (Jesse, 22 Oct: "head is cut off here"); the picture's ground is the slide's own #201235, so its edge never shows */
+  .who .g1{position:absolute;top:0;right:0;width:auto;height:100%;max-width:none;transform:translateX(11%) scale(1.12);transform-origin:100% 55%}
+  .who .col{position:relative;width:calc(1080*var(--u));display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  .who .l{font-size:calc(88*var(--u))}
+  .who .lede{font-size:calc(32*var(--u))}
+  .four4{display:grid;grid-template-columns:1fr 1fr;gap:0 calc(48*var(--u));margin-top:auto}
+  .four4 div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding:calc(18*var(--u)) 0 calc(16*var(--u))}
+  .four4 h3{font-weight:400;font-size:calc(40*var(--u));letter-spacing:-.03em;line-height:1.05}
+  .four4 h3 b{font-family:var(--mono);font-weight:500;font-size:calc(22*var(--u));letter-spacing:.06em;margin-right:calc(16*var(--u));vertical-align:middle;color:var(--paper-2)}
+  .four4 p{font-size:calc(24*var(--u));line-height:1.3;color:var(--paper-2);margin-top:calc(8*var(--u))}
+
+  /* the team: four founders, then the two advisors, one row of equal portraits */
+  /* the headline runs across the slide on one line, the strap under it (Jesse, 22 Oct: "change headline, it can move
+     across the deck; design, engineering and growth in one building can stay") */
+  .team .l{max-width:none}
+  .team .lede{margin-top:calc(14*var(--u))}
+  .crew{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) calc(8*var(--u)) repeat(2,minmax(0,1fr));grid-template-rows:auto minmax(0,1fr);
+        column-gap:calc(24*var(--u));row-gap:calc(18*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u))}
+  .crew .grp{font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
+             border-top:calc(2*var(--u)) solid var(--rule);padding-top:calc(14*var(--u))}
+  .crew .grp.f{grid-column:1/5} .crew .grp.a{grid-column:6/8}
+  .crew .p{grid-row:2;display:flex;flex-direction:column;min-height:0}
+  .crew .gap{grid-column:5;grid-row:1/3}
+  /* the two advisors set like the founders, only their portraits on the deck's night purple (Jesse, 22 Oct: "same
+     type, just purple bg, not a separator") */
+  .crew .p.a .pic{background:var(--night)}
+  .crew .p.a{grid-column:6}
+  .crew .p.a~.p.a{grid-column:7}
+  .crew .pic{flex:1 1 auto;min-height:0;background:#E6D7C4}
+  /* anchored at the top: a box wider than the photo (a wide screen) loses shirt, never the top of a head
+     (Jesse, 22 Oct: "heads are cut off") */
+  .crew .pic img{object-position:50% 0%}
+  .crew .t{height:calc(182*var(--u))}
+  .crew h3{font-weight:500;font-size:calc(34*var(--u));line-height:1.04;letter-spacing:-.035em;margin-top:calc(18*var(--u));white-space:nowrap}
+  .crew .role{font-weight:300;font-size:calc(22*var(--u));line-height:1.3;color:var(--ink-2);margin-top:calc(6*var(--u));height:2.6em}
+  .crew .p.a .role{height:auto}
+  .crew .org{font-size:calc(19*var(--u));line-height:1.35;color:var(--ink-2);height:calc(52*var(--u));margin-top:calc(14*var(--u))}
+
+  /* one price */
+  .price .side{position:absolute;right:0;top:0;width:36%;height:100%;overflow:hidden}
+  .price .side img{width:100%;height:100%;object-fit:cover;object-position:40% 50%}
+  .price .col{width:calc(1060*var(--u));display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  .price .l{font-size:calc(92*var(--u))}
+  .price .lede{font-size:calc(30*var(--u))}
+  .price .foot{right:calc(36% + 48*var(--u))}
+  .six{display:grid;grid-template-columns:repeat(3,1fr);gap:0 calc(32*var(--u));margin-top:auto}
+  .six div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding:calc(16*var(--u)) 0 calc(20*var(--u))}
+  .six h3{font-weight:500;font-size:calc(27*var(--u));letter-spacing:-.02em;line-height:1.1}
+  .six p{font-size:calc(21*var(--u));line-height:1.35;color:var(--paper-2);margin-top:calc(6*var(--u))}
+
+  /* rows of pictures */
+  .row3,.steps{display:grid;gap:calc(24*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(40*var(--u));grid-template-rows:minmax(0,1fr)}
+  .row3{grid-template-columns:repeat(3,1fr)}
+  .row3.four{grid-template-columns:repeat(4,1fr)}
+  .row3 figure,.steps>div{display:flex;flex-direction:column;min-height:0}
+  .row3 .pic,.steps .pic{flex:1 1 auto;min-height:0}
+  .row3 h3{font-weight:400;font-size:calc(40*var(--u));letter-spacing:-.03em;line-height:1.05;margin-top:calc(20*var(--u));min-height:2.1em}
+  .row3.four h3{min-height:0}
+  .row3 h3 b{font-family:var(--mono);font-weight:500;font-size:calc(22*var(--u));letter-spacing:.06em;color:var(--signal);margin-right:calc(14*var(--u));vertical-align:middle}
+
+  /* robot kitchens: the photograph on the right half, at its own shape */
+  .split .half{position:absolute;right:0;top:0;width:50%;height:100%;overflow:hidden}
+  .split .half img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+  .split .txt{margin-top:auto;width:calc(800*var(--u))}
+  .split .foot{right:calc(50% + 48*var(--u))}
+
+  /* the work */
+  .work{display:grid;grid-template-columns:1fr 1fr;gap:calc(56*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(36*var(--u))}
+  .work figure{display:flex;flex-direction:column;min-height:0}
+  .work .pic,.work .lrd{flex:1 1 auto;min-height:0}
+  .work .lrd{display:grid;grid-template-columns:1fr 1.6fr;gap:calc(16*var(--u))}
+  .work .lrd .logo{background:#fff}
+  .work h3{font-weight:400;font-size:calc(44*var(--u));letter-spacing:-.035em;line-height:1.05;margin-top:calc(20*var(--u))}
+  .work p{font-size:calc(25*var(--u));line-height:1.3;color:var(--ink-2);margin-top:calc(8*var(--u));min-height:2.6em}
+  .work dl{display:grid;grid-template-columns:calc(110*var(--u)) 1fr;margin-top:calc(14*var(--u))}
+  .work dt,.work dd{border-top:calc(2*var(--u)) solid var(--rule);padding:calc(10*var(--u)) 0;font-size:calc(22*var(--u));line-height:1.3}
+  .work dt{font-family:var(--mono);font-size:calc(18*var(--u));letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);padding-top:calc(13*var(--u))}
+  .pic .tag{position:absolute;left:calc(14*var(--u));bottom:calc(14*var(--u));font-family:var(--mono);font-size:calc(16*var(--u));letter-spacing:.05em;text-transform:uppercase;
+            color:var(--paper);background:rgba(29,24,38,.66);border-radius:calc(6*var(--u));padding:calc(7*var(--u)) calc(11*var(--u))}
+
+  /* the numbers */
+  .nums .lede{max-width:calc(1300*var(--u));font-size:calc(30*var(--u))}
+  .ngrid{display:grid;grid-template-columns:calc(760*var(--u)) 1fr;gap:calc(64*var(--u));margin-top:auto}
+  .stats>div{display:grid;grid-template-columns:calc(320*var(--u)) 1fr;gap:calc(24*var(--u));align-items:center;border-top:calc(2*var(--u)) solid var(--rule);padding:calc(18*var(--u)) 0}
+  .stats .fig{font-weight:400;font-size:calc(84*var(--u));line-height:1;letter-spacing:-.05em;white-space:nowrap}
+  .stats .k,.vol .k,.vol th{font-family:var(--mono);font-size:calc(18*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:400}
+  .stats p:not(.fig):not(.k){font-size:calc(23*var(--u));line-height:1.3;color:var(--ink-2);margin-top:calc(4*var(--u))}
+  .stats .k{margin:0}
+  .vol table{width:100%;border-collapse:collapse;margin-top:calc(14*var(--u));font-variant-numeric:tabular-nums}
+  .vol th{text-align:left;padding:0 calc(28*var(--u)) calc(12*var(--u)) 0;white-space:nowrap}
+  .vol th:last-child,.vol td:last-child{padding-right:0}
+  .vol td{border-top:calc(2*var(--u)) solid var(--rule);padding:calc(24*var(--u)) calc(28*var(--u)) calc(24*var(--u)) 0;font-size:calc(46*var(--u));letter-spacing:-.04em;line-height:1;white-space:nowrap}
+  .vol td small{font-size:calc(24*var(--u));letter-spacing:-.01em;color:var(--ink-2)}
+  .vol tr:last-child td{border-bottom:calc(2*var(--u)) solid var(--rule)}
+  .fine{font-size:calc(16*var(--u));margin-top:calc(22*var(--u))}
+
+  /* of every $100 */
+  .hundred{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(48*var(--u));margin-top:auto}
+  .hundred div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(24*var(--u))}
+  .hundred .fig{font-weight:400;font-size:calc(190*var(--u));line-height:.9;letter-spacing:-.055em}
+  .hundred .meter{display:block;height:calc(14*var(--u));border-radius:calc(7*var(--u));background:var(--paper-rule);margin-top:calc(26*var(--u));overflow:hidden}
+  .hundred .meter i{display:block;height:100%;width:calc(var(--v)*1%);background:rgba(243,241,228,.42);border-radius:inherit;transform-origin:0 50%}
+  .hundred .us .meter i{background:var(--paper)}
+  .hundred p{font-size:calc(30*var(--u));line-height:1.28;color:var(--paper-2);margin-top:calc(18*var(--u))}
+
+  /* the studio */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(40*var(--u));margin-top:calc(40*var(--u))}
+  .three div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(16*var(--u))}
+  .three h3{font-weight:500;font-size:calc(30*var(--u));letter-spacing:-.02em}
+  .three p{font-size:calc(24*var(--u));line-height:1.32;color:var(--paper-2);margin-top:calc(6*var(--u))}
+
+  /* how we work */
+  .steps{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}
+  /* the drawings sit in their own paper (sampled off their edges, #F5EEDF), their edges faded into it, so a box of
+     any shape reads as one sheet (Jesse, 22 Oct: "buggin here", of white boxes round cream drawings) */
+  .steps .pic:has(.draw){background:#F5EEDF}
+  .steps .pic img.draw{-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);
+                       -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);mask-composite:intersect}
+  .steps .pic{background:#F4EFE3}
+  .steps .pic img.draw{object-fit:contain}
+  .steps h3{font-weight:400;font-size:calc(34*var(--u));letter-spacing:-.03em;margin-top:calc(16*var(--u))}
+  .steps h3 b{font-family:var(--mono);font-weight:500;font-size:calc(20*var(--u));letter-spacing:.06em;color:var(--signal);margin-right:calc(12*var(--u));vertical-align:middle}
+  .steps p{font-size:calc(22*var(--u));line-height:1.32;color:var(--ink-2);margin-top:calc(4*var(--u));height:1.32em}
+  .steps .say{background:var(--night);border-radius:calc(14*var(--u));padding:calc(28*var(--u));justify-content:flex-end}
+  .steps .say p{color:var(--paper);font-size:calc(40*var(--u));line-height:1.18;letter-spacing:-.025em;height:auto;margin:0}
+
+  /* who we work with */
+  .wall{display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:1fr;gap:calc(18*var(--u));flex:1 1 auto;min-height:0;margin-top:calc(44*var(--u))}
+  .wall li{list-style:none;display:grid;place-items:center;background:var(--card);border:1px solid var(--rule);border-radius:calc(14*var(--u))}
+  .wall img{height:calc(72*var(--u));width:auto;max-width:calc(270*var(--u));object-fit:contain;filter:grayscale(1) brightness(1.12) contrast(1.12);opacity:.88;mix-blend-mode:multiply}
+  .wall img.tall{height:calc(128*var(--u))}
+
+  /* the close: the website header, as the site runs it */
+  .hero{padding:0;color:var(--ink);background:linear-gradient(to bottom,#C4B9AE 0%,#D2C8BF 50%,#E6DFD8 100%)}
+  .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 100%}
+  .hero .wrap{position:absolute;left:38.1%;top:6%;bottom:0;display:flex;flex-direction:column;justify-content:center;width:calc(1020*var(--u))}
+  .hero .eyebrow{font-family:var(--mono);font-size:calc(24*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--signal)}
+  .hero h1{font-weight:400;font-size:calc(112*var(--u));line-height:.96;letter-spacing:-.045em;margin-top:calc(22*var(--u));max-width:calc(1000*var(--u))}
+  .hero .where{display:flex;gap:calc(56*var(--u));margin-top:calc(44*var(--u));font-size:calc(34*var(--u));line-height:1.2;letter-spacing:-.02em}
+  .hero .where a{text-decoration:none}
+  .hero .where .cap{margin:0 0 calc(10*var(--u))}
+
+  /* Motion, quiet: as a slide arrives its lines rise in one after another and
+     its picture settles. Only with script, never in print, never for anyone
+     who has asked their system for less motion. */
+  @media screen and (prefers-reduced-motion:no-preference){
+    .js .stage .r{opacity:0;transform:translateY(22px)}
+    .js .stage.on .r{opacity:1;transform:none;transition:opacity .9s var(--ease) calc(120ms + var(--k,0)*85ms),transform 1.1s var(--ease) calc(120ms + var(--k,0)*85ms)}
+    .js .stage .plate,.js .stage .half img,.js .stage .side img,.js .stage .hero .bg{transform:scale(1.06)}
+    .js .stage.on .plate,.js .stage.on .half img,.js .stage.on .side img,.js .stage.on .hero .bg{transform:none;transition:transform 9s cubic-bezier(.16,.6,.2,1)}
+    .js .stage .meter i{transform:scaleX(0)}
+    .js .stage.on .meter i{transform:none;transition:transform 1.6s var(--ease) calc(500ms + var(--k,0)*85ms)}
+    html{scroll-behavior:smooth}
+  }
+
+  /* Deck controls. Script only; the deck scrolls and snaps without them. They
+     step back when nothing has moved for a moment, and return on any movement. */
+  .nav{position:fixed;right:14px;bottom:12px;display:none;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--paper-2);z-index:5;transition:opacity .5s ease}
+  .js .nav{display:flex}
+  .quiet .nav{opacity:0}
+  .nav button,.nav a{appearance:none;border:1px solid var(--paper-rule);background:rgba(29,24,38,.6);color:var(--paper);height:34px;min-width:34px;border-radius:8px;font:inherit;font-size:15px;cursor:pointer;display:grid;place-items:center}
+  .nav a{font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:0 12px;margin-right:6px}
+  .nav button:hover,.nav a:hover{border-color:var(--paper)}
+  .nav button:focus-visible,.nav a:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+  .nav output{min-width:64px;text-align:center}
+  .dl-pdf{background:var(--paper) !important;color:var(--ink) !important}
+
+
+  /* The website's header (Jesse, 22 Oct 2026: "the header should be the same as our website with the wonder header"):
+     the drawn mark, Brisbane's clock and the floor, the sections, a button and the menu. Rules copied from
+     src/site.css .bar in its scrolled state; fixed over the deck. The site's "Build a quote" is "The numbers" here. */
+  .bar{position:fixed;top:0;left:0;right:0;z-index:80;height:var(--bar);color:var(--ink);font-family:var(--display);
+       background:color-mix(in srgb,var(--paper) 92%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+  .bar .wrap{padding-inline:var(--m);height:100%}
+  .bar .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-items:center}
+  .bar .label{font-family:var(--mono);font-size:11.5px;line-height:1.35;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite);font-weight:400}
+  .bar .label b{color:var(--ink);font-weight:500}
+  .bar .mark{grid-column:1/3;display:flex;align-items:center}
+  .bar .clock{grid-column:3/5;white-space:nowrap}
+  .bar nav{grid-column:5/11;display:flex;gap:clamp(12px,1.6vw,26px);white-space:nowrap;justify-content:flex-end;padding-right:var(--gap)}
+  .bar nav a{text-decoration:none;position:relative;padding-bottom:4px}
+  .bar nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);
+                    transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
+  .bar nav a:hover{color:var(--ink)} .bar nav a:hover::after{transform:none}
+  .bar nav a[aria-current]{color:var(--ink)} .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
+  .bar .cta{grid-column:11/13;justify-self:end;display:flex;align-items:center;gap:8px}
+  .bar :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
+  .dot.shut{background:var(--graphite);box-shadow:0 0 0 3px color-mix(in srgb,var(--graphite) 18%,transparent)}
+  .btn{display:inline-flex;align-items:stretch;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:var(--ink);color:var(--paper);white-space:nowrap;cursor:pointer;border-radius:var(--rb);overflow:hidden;padding:0}
+  .btn span{padding:10px 14px;display:flex;align-items:center}
+  .btn i{font-style:normal;display:flex;align-items:center;justify-content:center;width:38px;border-left:1px solid color-mix(in srgb,var(--paper) 28%,transparent);font-size:15px}
+  .btn i b{font-weight:400}
+  .btn:hover i{background:var(--signal)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost i{border-left-color:var(--ink)}
+  .btn.ghost:hover i{background:var(--signal);color:var(--paper);border-left-color:var(--signal)}
+  .btn.menu i{border-left:0;width:36px;height:36px}
+  .btn.menu i b{position:relative;display:block;width:14px;height:1px;background:currentColor;transition:background .2s ease}
+  .btn.menu i b::before,.btn.menu i b::after{content:"";position:absolute;left:0;width:14px;height:1px;background:currentColor;
+                                             transition:top .34s cubic-bezier(.16,.84,.24,1),transform .34s cubic-bezier(.16,.84,.24,1)}
+  .btn.menu i b::before{top:-5px} .btn.menu i b::after{top:5px}
+  .btn.menu[aria-expanded="true"] i b{background:transparent}
+  .btn.menu[aria-expanded="true"] i b::before{top:0;transform:rotate(45deg)}
+  .btn.menu[aria-expanded="true"] i b::after{top:0;transform:rotate(-45deg)}
+  @media (max-width:1180px){.bar nav{display:none} .bar .clock{grid-column:3/9}}
+  @media (max-width:640px){.bar .clock{display:none} .bar .btn.want span{padding:10px 10px}}
+
+  /* The menu: folds out from the right (Jesse, 22 Oct 2026: "accessible from a navigation that folds out").
+     First the numbers: a link to Ryan's coffee bar deck, our base model, with no prices in the menu itself. Then
+     every slide. Script only, never in print. */
+  aside.menu button:focus-visible,aside.menu a:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+  .menu-scrim{position:fixed;inset:var(--bar) 0 0 0;z-index:69;background:rgba(10,5,20,.5);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
+  /* aside.menu, never .menu alone: the header's menu button is .btn.menu, as on the site */
+  aside.menu{position:fixed;top:var(--bar);right:0;bottom:0;z-index:70;width:min(460px,100vw);overflow-y:auto;overscroll-behavior:contain;
+        background:#1A0D30;color:var(--paper);padding:20px 28px 44px;box-shadow:-30px 0 80px rgba(0,0,0,.35);
+        transform:translateX(100%);visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
+  .open aside.menu{transform:none;visibility:visible;transition:transform .45s var(--ease)}
+  .open .menu-scrim{opacity:1;visibility:visible;transition:opacity .35s ease}
+  .menu-lab{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-2);border-top:1px solid var(--paper-rule);padding-top:14px}
+  .menu-sec+.menu-sec{margin-top:36px}
+  .menu-card{display:block;margin-top:16px;border:1px solid var(--paper-rule);border-radius:14px;overflow:hidden;background:rgba(243,241,228,.05);text-decoration:none;color:inherit}
+  .menu-card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:40% 50%}
+  .menu-card .t{display:block;padding:16px 18px 0}
+  .menu-card b{display:block;font-weight:400;font-size:24px;line-height:1.1;letter-spacing:-.03em}
+  .menu-card .t span{display:block;font-size:14px;line-height:1.4;color:var(--paper-2);margin-top:8px}
+  .menu-go{display:flex;justify-content:space-between;align-items:center;margin:16px 18px 18px;padding:15px 18px;border-radius:10px;background:var(--paper);
+           color:var(--ink);font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .menu-card:hover .menu-go{background:#FFFFFF}
+  .menu-slides{list-style:none;margin-top:6px}
+  .menu-slides button{appearance:none;display:grid;grid-template-columns:36px 1fr;width:100%;text-align:left;padding:10px 0;border:0;border-bottom:1px solid rgba(243,241,228,.08);
+                      background:none;color:var(--paper);font:400 15px/1.3 var(--display);cursor:pointer}
+  .menu-slides b{font:500 11px/1.9 var(--mono);color:var(--paper-2)}
+  .menu-slides span{color:rgba(243,241,228,.74)}
+  .menu-slides button:hover span,.menu-slides button[aria-current] span{color:var(--paper)}
+  .menu-slides button[aria-current] span{font-weight:500}
+  .menu-foot a{display:block;font-size:15px;line-height:1.3;margin-top:10px;text-decoration:none}
+  .menu-foot a:first-of-type{margin-top:14px}
+  @media (prefers-reduced-motion:reduce){aside.menu,.menu-scrim,.open aside.menu,.open .menu-scrim{transition:none}}
+
+  @media screen and (max-width:760px),screen and (max-height:440px){
+    html{scroll-snap-type:none}
+    .stage{height:auto;display:block;padding:0 0 6px}
+    .stage:last-of-type{padding-bottom:84px}
+    .slide{width:100%;height:auto;container-type:inline-size}
+    .in{--u:.5px;position:relative;inset:auto;padding:28px 22px 64px}
+    .lab,.cap,.foot,.crew .grp{font-size:11px}
+    .xl,.cover h1{font-size:42px;line-height:1;margin-top:12px}
+    .l,.team .l,.who .l,.price .l{font-size:32px;line-height:1.04;margin-top:12px}
+    .lede,.who .lede,.price .lede,.nums .lede{font-size:17px}
+    .foot{left:22px;right:22px;bottom:22px;flex-direction:column;gap:4px}
+    .full{padding:0 0 64px}
+    .plate{position:relative;inset:auto;aspect-ratio:4/3}
+    .spec3,.spec-list{grid-template-columns:1fr;gap:16px}
+    .duo,.trio{position:static;grid-template-columns:1fr;height:auto}
+    .duo figure,.trio figure{aspect-ratio:4/3}
+    .duo h3{font-size:24px}
+    .duo figcaption p,.trio figcaption p{font-size:15px}
+    .lab.top{position:static;padding:22px 22px 0}
+    .spec-list li{font-size:17px}
+    .spec3 h3{font-size:20px}
+    .full::after{display:none}
+    .full .txt,.cover .txt{position:static;width:auto;padding:22px 22px 0}
+    /* the humanoid big on a phone (Jesse, 22 Oct: "this guy can be big and epic"): a tall frame cut close on him, edge
+       to edge across the top of the slide */
+    .who .g1{position:static;width:calc(100% + 44px);max-width:none;height:auto;aspect-ratio:3/4;object-position:89% 45%;margin:-28px -22px 24px;border-radius:0;transform:none}
+    .who .col,.price .col,.split .txt{width:auto}
+    .four4,.row3,.work,.ngrid,.hundred,.three,.steps,.six{grid-template-columns:1fr;gap:16px;margin-top:24px}
+    .crew{grid-template-columns:1fr 1fr;grid-template-rows:none;gap:14px;margin-top:22px}
+    .crew .grp.f,.crew .grp.a{grid-column:1/-1}
+    .crew .gap{display:none}
+    .crew .p,.crew .p.a,.crew .p.a~.p.a{grid-row:auto;grid-column:auto}
+    .crew .grp.a{grid-row:4;margin-top:14px}
+    /* the advisors' label and pair on rows of their own, after the founders */
+    .crew .p.a{grid-row:5;grid-column:1} .crew .p.a~.p.a{grid-row:5;grid-column:2}
+    .crew .pic{flex:none;aspect-ratio:4/5}
+    .crew h3{font-size:18px;white-space:normal}
+    .crew .role,.crew .org{font-size:13px;height:auto}
+    .crew .t{height:auto}
+    .four4 h3,.row3 h3,.work h3,.steps h3,.three h3,.six h3{font-size:20px;margin-top:10px}
+    .four4 p,.work p,.six p,.steps p,.three p,.stats p:not(.fig):not(.k),.hundred p{font-size:15px;height:auto;min-height:0}
+    .row3,.steps,.wall{grid-template-rows:none}
+    .row3 .pic,.steps .pic{flex:none;aspect-ratio:4/3}
+    .steps .say{min-height:140px}
+    .steps .say p{font-size:20px}
+    .price .side,.split .half{position:static;width:100%;height:auto;aspect-ratio:16/10}
+    .price .foot,.split .foot{right:22px}
+    .work .pic,.work .lrd{flex:none;aspect-ratio:16/10}
+    .work dt,.work dd{font-size:13px}
+    .work dl{grid-template-columns:72px 1fr}
+    .pic .tag{font-size:10px;padding:4px 7px}
+    .steps{grid-template-rows:none}
+    .steps p{height:auto}
+    .row3.four{grid-template-columns:1fr 1fr}
+    .stats>div{grid-template-columns:132px 1fr;gap:12px}
+    .stats .fig{font-size:28px}
+    .vol th{font-size:9px;padding-right:10px;white-space:normal}
+    .vol td{font-size:17px;padding:12px 10px 12px 0} .vol td small{font-size:11px}
+    .hundred .fig{font-size:64px}
+    .wall{grid-template-columns:1fr 1fr}
+    .wall li{height:86px;border-radius:10px}
+    .wall img{height:28px;max-width:110px}
+    .wall img.tall{height:50px}
+    .hero{padding:0 0 34px;background:var(--paper)}
+    .hero .bg{position:static;height:auto;aspect-ratio:5/4;object-position:18% 62%}
+    .hero .wrap{position:static;width:auto;padding:22px 22px 0}
+    .hero h1{font-size:42px;line-height:1;margin-top:10px;max-width:none}
+    .hero .where{flex-direction:column;gap:16px;margin-top:22px;font-size:20px}
+    .js .nav{display:none}
+    aside.menu{padding:16px 20px 40px}
+  }
+
+  @page{size:1920px 1080px;margin:0}
+  @media print{
+    html{background:none;scroll-snap-type:none}
+    .stage{height:1080px;padding:0;break-after:page;break-inside:avoid}
+    .slide,.in,h1,h2{break-inside:avoid}
+    .slide{width:1920px;height:1080px}
+    .nav,video,aside.menu,.bar,.menu-scrim{display:none !important}
+    body{padding-top:0}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<header class="bar" id="bar">
+  <div class="wrap grid">
+    <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
+    <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
+    <nav class="label" aria-label="Sections">
+      <a href="#" data-go="What we do">What we do</a><a href="#" data-go="Plan to open, plan">Plan to open</a><a href="#" data-go="The machine">The machine</a><a href="#" data-go="Coffee bars">Coffee bars</a><a href="#" data-go="The experience hub">Experience hub</a>
+    </nav>
+    <div class="cta"><a class="btn want" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener"><span>The numbers</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
+  </div>
+</header>
+<main id="deck">
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics">
+  <div class="slide"><div class="in full cover">
+    <div class="plate" style="--op:0% 50%">
+      <img src="{{root}}img/deck/warehouse-loop.jpg" width="2880" height="1236" alt="W-1, the Wonder robot, alone in an empty warehouse, lit from above">
+      <video data-src="{{root}}img/deck/warehouse-loop.mp4" data-now muted loop playsinline preload="none" aria-hidden="true"></video>
+    </div>
+    <div class="txt">
+      <p class="lab r">[ Robot coffee, 2026 ]</p>
+      <h1 class="r">We build robot coffee&nbsp;bars.</h1>
+      <p class="lede r" style="margin-top:calc(24*var(--u))">Designed, built, branded and installed from Brisbane, then kept&nbsp;running.</p>
+    </div>
+    <div class="foot r"><p>Fortitude Valley, Brisbane</p><p>wonderbytech.com</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. What we do">
+  <div class="slide"><div class="in say-it">
+    <p class="lab r">[ What we do ]</p>
+    <h2 class="big r">We design the machine, build it, put your brand on it and install it.</h2>
+    <p class="big-2 r">Then we keep it running.</p>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<div class="seq">
+  <div class="seq-back" aria-hidden="true">
+    <img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt="Volta, the floor plan" data-at="0" class="b1">
+    <img src="{{root}}img/deck/build-2.jpg" width="2752" height="1536" alt="Volta, the sketch" data-at="1">
+    <img src="{{root}}img/deck/build-3.jpg" width="2752" height="1536" alt="Volta, the machine drawn part by part" data-at="2">
+    <img src="{{root}}img/deck/build-4.jpg" width="2752" height="1536" alt="Volta, the bare frame" data-at="3">
+    <img src="{{root}}img/deck/build-5.jpg" width="2752" height="1536" alt="Volta, the machine in the frame" data-at="3.34">
+    <img src="{{root}}img/deck/build-6.jpg" width="2752" height="1536" alt="Volta, the panels on" data-at="3.67">
+    <img src="{{root}}img/deck/build-7.jpg" width="2752" height="1536" alt="Volta, the brand going on" data-at="4">
+    <img src="{{root}}img/deck/build-8.jpg" width="2752" height="1536" alt="Volta, trading" data-at="5">
+  </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, plan">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Volta, plan to open ]</p>
+      <h2 class="l">Floor plan to first customer.</h2>
+      <p class="life-say">We start with the site you have.</p>
+      <ol class="life-steps"><li class="now"><b>01</b>Plan</li><li><b>02</b>Sketch</li><li><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, sketch">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-2.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Volta, plan to open ]</p>
+      <p class="life-say">Then we draw what it could be.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="now"><b>02</b>Sketch</li><li><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, design">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-3.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Volta, plan to open ]</p>
+      <p class="life-say">Every part of the machine, drawn before it is cut.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="now"><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, build">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-6.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Volta, plan to open ]</p>
+      <p class="life-say">Built from a bare frame up.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="now"><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, brand">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-7.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Volta, plan to open ]</p>
+      <p class="life-say">Your brand goes on, by hand.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="done"><b>04</b>Build</li><li class="now"><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open, open">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/build-8.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Volta, plan to open ]</p>
+      <p class="life-say">Open, and we keep it running.</p>
+      <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="done"><b>04</b>Build</li><li class="done"><b>05</b>Brand</li><li class="now"><b>06</b>Open</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+</div>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machine">
+  <div class="slide night"><div class="in full">
+    <div class="plate"><img src="{{root}}img/deck/build-3.jpg" width="2752" height="1536" alt="The Volta kiosk drawn part by part: frame, panels, robot arm, espresso machine, grinders, ordering screen, pickup bays, rear service hatch"></div>
+    <div class="txt">
+      <p class="lab r">[ The machine ]</p>
+      <h2 class="l r">A full coffee bar in about two square metres.</h2>
+      <p class="lede r">Robot arm, espresso machine and grinders inside; ordering screen and pickup bays out front; a service hatch at the back.</p>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Coffee bars">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-coffee-bars.jpg" width="2880" height="1620" alt="Concept: the Volta garage in red brick, a robot coffee bar built into its front wall, a customer at the screen"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Robot kiosks">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-robot-kiosks.jpg" width="2880" height="1620" alt="Concept: a Wonder purple robot coffee kiosk in an airport hall, travellers walking past"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Drive thrus">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-drive-thrus.jpg" width="2880" height="1620" alt="Concept: the Volta pit stop drive-through, a yellow robot coffee booth, the lane painted with red and yellow kerbs"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Mobile bars">
+  <div class="slide night"><div class="in full poster">
+    <div class="plate"><img src="{{root}}img/deck/full-mobile-bars.jpg" width="2880" height="1620" alt="Concept: a Wonder purple coffee van with a robot bar in its hatch, a crescent painted on the car park"></div>
+    <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Built to your spec">
+  <div class="slide"><div class="in">
+    <p class="lab r">[ Built to your spec ]</p>
+    <h2 class="l r">One machine. Your brand, your menu, your way.</h2>
+    <p class="lede r" style="margin-top:calc(18*var(--u))">Your brand on every panel, sign and arm. Your menu, your recipes, your cups. Real materials: steel, timber, paint, enamel.</p>
+    <div class="trio">
+      <figure class=""><img src="{{root}}img/deck/spec-blank.jpg" width="1600" height="1073" style="object-position:50% 55%" alt="The kiosk as it leaves the workshop, plain, its panel reading Your branding here"><figcaption><h3>01 The blank</h3><p>As it leaves the workshop.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/deck/spec-volta.jpg" width="1600" height="893" style="object-position:35% 55%" alt="The same kiosk dressed as Volta, built into a red brick garage"><figcaption><h3>02 Dressed as Volta</h3><p>Our Italian brand. Concept.</p></figcaption></figure>
+      <figure class=""><img src="{{root}}img/deck/spec-wonder.jpg" width="1600" height="893" style="object-position:50% 55%" alt="The same kiosk dressed as Wonder, purple with an amber arm"><figcaption><h3>03 Dressed as Wonder</h3><p>Our coffee brand. Concept.</p></figcaption></figure>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Installed and looked after">
+  <div class="slide"><div class="in say-it">
+    <p class="lab r">[ Installed and looked after ]</p>
+    <h2 class="big r">Delivered, plumbed and commissioned on your menu.</h2>
+    <p class="big-2 r">Your team trained, spares on the shelf, two years of service.</p>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The experience hub">
+  <div class="slide"><div class="in full">
+    <div class="plate" style="--op:50% 62%"><img src="{{root}}img/deck/hub.jpg" width="2600" height="1733" alt="Our experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"></div>
+    <div class="txt">
+      <p class="lab r">[ The experience hub ]</p>
+      <h2 class="xl r">Ours pours at 365&nbsp;St&nbsp;Pauls&nbsp;Terrace.</h2>
+      <p class="lede r">Taste it before you buy one. Open six days, Fortitude Valley.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Who we work with">
+  <div class="slide"><div class="in">
+    <p class="lab r">[ The company we keep ]</p>
+    <h2 class="l r">Who we work with.</h2>
+    <ul class="wall r">
+{{wall}}    </ul>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics, Fortitude Valley">
+  <div class="slide"><div class="in hero">
+    <picture><source media="(max-width:760px)" srcset="{{root}}img/hero-bot.jpg"><img class="bg" src="{{root}}img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
+    <div class="wrap">
+      <p class="eyebrow r">Fortitude Valley, Brisbane</p>
+      <h1 class="r">We build fully automated kitchens, bars and cafés.</h1>
+      <div class="where r">
+        <div><p class="cap">Call</p><a href="tel:+61498765142">Ryan Edwards 0498&nbsp;765&nbsp;142</a></div>
+        <div><p class="cap">Email</p><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></div>
+      </div>
+      <p class="cap r" style="margin-top:calc(30*var(--u))">365 St Pauls Terrace, Fortitude Valley QLD 4006</p>
+    </div>
+  </div></div>
+</section>
+
+</main>
+
+<div class="menu-scrim" id="menu-scrim"></div>
+<aside class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <section class="menu-sec" aria-labelledby="numbers-h">
+    <p class="menu-lab" id="numbers-h">The numbers</p>
+    <a class="menu-card" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener">
+      <img src="{{root}}img/offer/coffee-bar-studio.jpg" width="2048" height="1360" alt="">
+      <span class="t"><b>Our base model, the robot coffee bar</b><span>Ryan&rsquo;s numbers deck: one price, what it costs a week, what it earns, year by year.</span></span>
+      <span class="menu-go">Open the numbers deck <span aria-hidden="true">&nearr;</span></span>
+    </a>
+  </section>
+  <section class="menu-sec" aria-labelledby="slides-h">
+    <p class="menu-lab" id="slides-h">The deck</p>
+    <ol class="menu-slides" id="menu-slides"></ol>
+  </section>
+  <section class="menu-sec menu-foot" aria-label="Contact">
+    <p class="menu-lab">Come in</p>
+    <a href="tel:+61498765142">Ryan Edwards 0498&nbsp;765&nbsp;142</a>
+    <a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=365+St+Pauls+Terrace+Fortitude+Valley+QLD+4006" target="_blank" rel="noopener">365 St Pauls Terrace, Fortitude Valley</a>
+  </section>
+</aside>
+
+<nav class="nav" aria-label="Slide controls">
+  <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
+  <output id="count" aria-live="polite">01 / {{of}}</output>
+  <button type="button" id="next" aria-label="Next slide">&#8594;</button>
+  <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
+</nav>
+
+<script>
+{{markjs}}
+{{sneakjs}}
+</script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var stages = Array.prototype.slice.call(document.querySelectorAll(".stage"));
+  if (!stages.length) return;
+  root.classList.add("js");
+  var count = document.getElementById("count");
+  var sheet = window.matchMedia("screen and (max-width:760px),screen and (max-height:440px)");
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var at = 0, navLinks = null;
+
+  // each slide's rising lines go in order
+  stages.forEach(function (s) {
+    s.querySelectorAll(".r").forEach(function (el, k) { el.style.setProperty("--k", k); });
+  });
+
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function show(i) {
+    at = Math.max(0, Math.min(stages.length - 1, i));
+    count.textContent = pad(at + 1) + " / " + pad(stages.length);
+    if (navLinks) markNav();
+  }
+  // Moves the window, never the slide into view: scrollIntoView also scrolls
+  // any page this deck is framed in.
+  var bar = document.getElementById("bar");
+  function go(i, jump) {
+    show(i);
+    var top = stages[at].getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0);
+    window.scrollTo({ top: Math.max(0, top), left: 0, behavior: jump || still.matches ? "instant" : "smooth" });
+  }
+  function full() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (root.requestFullscreen) root.requestFullscreen();
+  }
+
+  // Films: the cover's at once, the others as their slide comes near. Each
+  // fades in over its own first frame once it is really playing.
+  function play(v) {
+    if (v.dataset.started || still.matches || !window.wonderClip) return;
+    v.dataset.started = "1";
+    window.wonderClip(v.dataset.src).then(function (url) {
+      v.addEventListener("playing", function () { v.classList.add("live"); }, { once: true });
+      v.src = url;
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }).catch(function () { /* the still stays */ });
+  }
+  document.querySelectorAll("video[data-now]").forEach(play);
+  // a browser pauses films in a tab nobody is looking at; carry on when they come back
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState !== "visible") return;
+    document.querySelectorAll("video[data-started]").forEach(function (v) {
+      if (v.src && v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    });
+  });
+
+  // The close: the robot looks round the edge of the moon, as on the site.
+  // The robot looks round the edge of the moon in the header's mark, as on the site: when the deck opens and
+  // again on the last slide.
+  var mark = document.getElementById("bar-canvas"), peeking = false;
+  function sneak() {
+    if (peeking || still.matches || !window.WonderSneak || !mark) return;
+    peeking = true; setTimeout(function () { peeking = false; }, 3200);
+    if (WonderSneak.park(mark)) setTimeout(function () { WonderSneak.run(mark, 1800); }, 900);
+  }
+
+  function start() {
+    sneak();
+    if ("IntersectionObserver" in window) {
+      // the slide in the middle of the window is the one on screen, and stays lit once seen
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          show(stages.indexOf(e.target));
+          e.target.classList.add("on");
+          if (e.target === stages[stages.length - 1]) sneak();
+        });
+      }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 });
+      var near = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) e.target.querySelectorAll("video[data-src]").forEach(play); });
+      }, { rootMargin: "100% 0px 100% 0px", threshold: 0 });
+      stages.forEach(function (s) { io.observe(s); near.observe(s); });
+    } else {
+      stages.forEach(function (s) { s.classList.add("on"); });
+    }
+  }
+  // Behind the login nothing starts, so the cover plays to whoever comes in.
+  if (root.classList.contains("gate-locked")) {
+    new MutationObserver(function (m, o) {
+      if (!root.classList.contains("gate-locked")) { o.disconnect(); requestAnimationFrame(start); }
+    }).observe(root, { attributes: true, attributeFilter: ["class"] });
+  } else start();
+
+  document.getElementById("prev").addEventListener("click", function () { go(at - 1); });
+  document.getElementById("next").addEventListener("click", function () { go(at + 1); });
+  document.getElementById("full").addEventListener("click", full);
+
+  // The menu. A slide in its list closes it and goes there.
+  var menu = document.getElementById("menu"), menuBtn = document.getElementById("menu-btn"), list = document.getElementById("menu-slides"), back = null;
+  stages.forEach(function (s, i) {
+    var li = document.createElement("li"), b = document.createElement("button"), n = document.createElement("b"), t = document.createElement("span");
+    b.type = "button"; n.textContent = pad(i + 1); t.textContent = (s.getAttribute("aria-label") || "").replace(/^Slide \d+\.\s*/, "");
+    b.appendChild(n); b.appendChild(t); li.appendChild(b); list.appendChild(li);
+    b.addEventListener("click", function () { closeMenu(true); go(i, true); });   // a jump, not a ride past every slide
+  });
+  function openMenu() {
+    back = document.activeElement;
+    list.querySelectorAll("button").forEach(function (b, i) { if (i === at) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
+    menu.scrollTop = 0;
+    root.classList.add("open"); menuBtn.setAttribute("aria-expanded", "true");
+    setTimeout(function () { var f = menu.querySelector("a,button"); if (f) f.focus({ preventScroll: true }); }, 60);
+  }
+  function closeMenu(moving) {
+    if (!root.classList.contains("open")) return;
+    root.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false");
+    if (!moving && back && back.focus) back.focus({ preventScroll: true });
+  }
+  menuBtn.addEventListener("click", function () { if (root.classList.contains("open")) closeMenu(); else openMenu(); });
+  document.getElementById("menu-scrim").addEventListener("click", function () { closeMenu(); });
+  // keep the keyboard inside the menu while it is open
+  document.addEventListener("focusin", function (e) {
+    if (root.classList.contains("open") && !menu.contains(e.target) && e.target !== menuBtn) menuBtn.focus({ preventScroll: true });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (root.classList.contains("open")) { if (e.key === "Escape") { e.preventDefault(); closeMenu(); } return; }
+    if (sheet.matches || e.metaKey || e.ctrlKey || e.altKey || root.classList.contains("gate-locked")) return;
+    var k = e.key;
+    if (k === "ArrowRight" || k === "ArrowDown" || k === "PageDown" || k === " ") { e.preventDefault(); go(at + 1); }
+    else if (k === "ArrowLeft" || k === "ArrowUp" || k === "PageUp") { e.preventDefault(); go(at - 1); }
+    else if (k === "Home") { e.preventDefault(); go(0); }
+    else if (k === "End") { e.preventDefault(); go(stages.length - 1); }
+    else if (k === "f" || k === "F") { e.preventDefault(); full(); }
+  });
+
+  // the header: its sections jump to their slide and show where you are; the mark goes back to the start
+  navLinks = Array.prototype.slice.call(document.querySelectorAll(".bar nav a[data-go]")).map(function (a) {
+    var i = stages.findIndex(function (s) { return (s.getAttribute("aria-label") || "").replace(/^Slide \d+\.\s*/, "") === a.dataset.go; });
+    a.addEventListener("click", function (e) { e.preventDefault(); if (i >= 0) go(i, true); });
+    return { a: a, i: i };
+  });
+  function markNav() {
+    var cur = null;
+    navLinks.forEach(function (n) { if (n.i >= 0 && n.i <= at) cur = n; });
+    navLinks.forEach(function (n) { if (n === cur) n.a.setAttribute("aria-current", "true"); else n.a.removeAttribute("aria-current"); });
+  }
+  document.getElementById("bar-mark").addEventListener("click", function (e) { e.preventDefault(); go(0, true); });
+  // Brisbane's time and whether the floor is open, as the site's header has it
+  (function () {
+    var clock = document.getElementById("clock"), state = document.getElementById("floor-state"), dot = document.getElementById("floor-dot");
+    var fmt = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Australia/Brisbane" });
+    var parts = new Intl.DateTimeFormat("en-AU", { weekday: "short", hour: "numeric", minute: "numeric", hour12: false, timeZone: "Australia/Brisbane" });
+    var HOURS = { Mon: [9, 19], Tue: [9, 19], Wed: [9, 19], Thu: [9, 19], Fri: [9, 19], Sat: [10, 17] };
+    function tick() {
+      var now = new Date(), p = {};
+      clock.textContent = fmt.format(now);
+      parts.formatToParts(now).forEach(function (x) { p[x.type] = x.value; });
+      var h = parseInt(p.hour, 10) % 24 + parseInt(p.minute, 10) / 60, span = HOURS[p.weekday], open = !!span && h >= span[0] && h < span[1];
+      state.textContent = open ? "Floor open" : "Floor closed";
+      dot.classList.toggle("shut", !open);
+    }
+    tick(); setInterval(tick, 15000);
+  })();
+
+  // opens at the top, and comes back to the top from the browser's Back
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  window.addEventListener("pageshow", function (e) { if (e.persisted) window.scrollTo({ top: 0, left: 0, behavior: "instant" }); });
+
+  var rest = null;
+  function wake() { root.classList.remove("quiet"); clearTimeout(rest); rest = setTimeout(function () { root.classList.add("quiet"); }, 2600); }
+  ["mousemove", "keydown", "touchstart"].forEach(function (ev) { document.addEventListener(ev, wake, { passive: true }); });
+  wake();
+})();
+</script>
+<script>
+/* Plan to open: as the window moves through the six stages, each picture fades up over the last. A picture's data-at
+   is the stage it belongs to; the build has three pictures inside one stage, so the machine goes up as you scroll it. */
+(function () {
+  var seq = document.querySelector('.seq'); if (!seq) return;
+  var imgs = [].slice.call(seq.querySelectorAll('.seq-back img')), st = [].slice.call(seq.querySelectorAll('.stage'));
+  function tick() {
+    var h = st[0].offsetHeight || 1, p = (window.scrollY + (document.getElementById('bar') || {offsetHeight: 0}).offsetHeight - (seq.getBoundingClientRect().top + window.scrollY)) / h;
+    imgs.forEach(function (im, k) { if (k) im.style.opacity = Math.max(0, Math.min(1, (p - parseFloat(im.getAttribute('data-at'))) * 3 + 1)); });
+  }
+  window.addEventListener('scroll', tick, { passive: true }); tick();
+})();
+</script>
+</body>
+</html>

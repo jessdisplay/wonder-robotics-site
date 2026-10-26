@@ -31,11 +31,14 @@ DECKS = {
     "coffee": ("coffee", "Wonder-Robotics-coffee-bar.pdf"),
     "company": ("company", "Wonder-Robotics-introduction.pdf"),
     "information": ("information", "Wonder-Robotics-Information-Deck.pdf"),
+    "coffee-machine": ("coffee-machine", "Wonder-Robotics-coffee-machine.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
 # information deck gets a login like the other client pages.
-GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+# The coffee machine deck shares the information deck's passcode (26 Oct 2026).
+GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "coffee-machine": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the
