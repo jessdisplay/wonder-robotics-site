@@ -113,6 +113,7 @@
   /* From plan to open: one stage per scroll, the same frame each time, the line along the bottom fills as it goes. */
   .life-say{font-size:calc(40*var(--u));line-height:1.15;letter-spacing:-.03em;margin-top:calc(18*var(--u));max-width:calc(1100*var(--u))}
   .life-steps{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:calc(14*var(--u));margin-top:calc(34*var(--u));padding:0}
+  .life-steps.five{grid-template-columns:repeat(5,1fr)}
   .life-steps li{font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,228,.42);border-top:calc(4*var(--u)) solid rgba(243,241,228,.18);padding-top:calc(12*var(--u))}
   .life-steps li b{font-weight:500;margin-right:calc(8*var(--u))}
   .life-steps li.done{color:rgba(243,241,228,.75);border-color:rgba(232,168,76,.65)}
@@ -493,7 +494,7 @@
     <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#" data-go="What we do">What we do</a><a href="#" data-go="The team">The team</a><a href="#" data-go="Plan to open, plan">Plan to open</a><a href="#" data-go="What we build">What we build</a><a href="#" data-go="The experience hub">Experience hub</a>
+      <a href="#" data-go="What we do">What we do</a><a href="#" data-go="The team">The team</a><a href="#" data-go="Plan to open, plan">Plan to open</a><a href="#" data-go="What we build">What we build</a><a href="#" data-go="The machines, stir-fry drawing">The machines</a><a href="#" data-go="The experience hub">Experience hub</a>
     </nav>
     <div class="cta"><a class="btn want" href="https://wonder.fish/robotics/coffee/" target="_blank" rel="noopener"><span>The numbers</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
@@ -674,6 +675,144 @@
     <div class="foot"><p>Concept. Wonder and Volta are Wonder brands</p><p>{{n}}</p></div>
   </div></div>
 </section>
+
+<div class="seq">
+  <div class="seq-back" aria-hidden="true">
+    <img src="{{root}}img/deck/mach-wok-d.jpg" width="2752" height="1536" alt="The Volta stir-fry kiosk drawn in ink" data-at="0" class="b1">
+    <img src="{{root}}img/deck/mach-wok.jpg" width="2752" height="1536" alt="The Volta stir-fry kiosk, the arm at the wok" data-at="1">
+    <img src="{{root}}img/deck/mach-fry-d.jpg" width="2400" height="991" alt="Our fryer line drawn in ink, the arm on its rail" data-at="2">
+    <img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" alt="Our kitchen line: the cobot on its rail at the fryers" data-at="3">
+    <img src="{{root}}img/lrd/plan.jpg" width="2400" height="1340" alt="The Little Red Dumpling kitchen plan" data-at="4">
+    <img src="{{root}}img/lrd/fitout.jpg" width="2400" height="1340" alt="Fitters installing the robot arm on its rail at Little Red Dumpling" data-at="5">
+    <img src="{{root}}img/lrd/commissioning.jpg" width="2000" height="1116" alt="Commissioning the dumpling arm at the steamers" data-at="6">
+    <img src="{{root}}img/deck/mach-pizza-d.jpg" width="2752" height="1536" alt="The Wonder pizza line drawn in ink" data-at="7">
+    <img src="{{root}}img/deck/mach-pizza.jpg" width="2752" height="1536" alt="The Wonder pizza line, dough press to oven to arm" data-at="8">
+    <img src="{{root}}img/deck/mach-pasta-d.jpg" width="2752" height="1536" alt="The Volta pasta line drawn in ink" data-at="9">
+    <img src="{{root}}img/deck/mach-pasta.jpg" width="2752" height="1536" alt="The Volta pasta line, the arm between the stations" data-at="10">
+  </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, stir-fry drawing">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-wok-d.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <h2 class="l">The machines.</h2>
+      <p class="life-say">Stir fry, drawn around the wok.</p>
+      <ol class="life-steps five"><li class="now"><b>01</b>Stir fry</li><li><b>02</b>Fryers</li><li><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, stir-fry">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-wok.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Stir fry, cooked to order, two pickup windows.</p>
+      <ol class="life-steps five"><li class="now"><b>01</b>Stir fry</li><li><b>02</b>Fryers</li><li><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, fryers drawing">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-fry-d.jpg" width="2400" height="991" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Deep fryers, an arm on a rail working the baskets.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="now"><b>02</b>Fryers</li><li><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Our kitchen, 365 St Pauls Terrace</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, fryers">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/hero-kitchen.jpg" width="2400" height="991" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Built, and frying at 365 St Pauls Terrace.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="now"><b>02</b>Fryers</li><li><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Our kitchen, 365 St Pauls Terrace</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, dumplings plan">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/lrd/plan.jpg" width="2400" height="1340" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Dumplings for Little Red Dumpling, from the plan.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="now"><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Little Red Dumpling, Gold Coast</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, dumplings fit out">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/lrd/fitout.jpg" width="2400" height="1340" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">The arm goes in on site.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="now"><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Little Red Dumpling, Gold Coast</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, dumplings commissioning">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/lrd/commissioning.jpg" width="2000" height="1116" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Commissioning on the Gold Coast.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="now"><b>03</b>Dumplings</li><li><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Little Red Dumpling, Gold Coast</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, pizza drawing">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-pizza-d.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Pizza, dough press to oven drawn as one line.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="done"><b>03</b>Dumplings</li><li class="now"><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Wonder is our brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, pizza">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-pizza.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Built as one line, boxed at the end.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="done"><b>03</b>Dumplings</li><li class="now"><b>04</b>Pizza</li><li><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Wonder is our brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, pasta drawing">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-pasta-d.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Pasta, three stations and one arm.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="done"><b>03</b>Dumplings</li><li class="done"><b>04</b>Pizza</li><li class="now"><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The machines, pasta">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/mach-pasta.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ The machines ]</p>
+      <p class="life-say">Cooking to order, in the room.</p>
+      <ol class="life-steps five"><li class="done"><b>01</b>Stir fry</li><li class="done"><b>02</b>Fryers</li><li class="done"><b>03</b>Dumplings</li><li class="done"><b>04</b>Pizza</li><li class="now"><b>05</b>Pasta</li></ol>
+    </div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+</div>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Built to your spec">
   <div class="slide"><div class="in">
@@ -966,17 +1105,16 @@
 })();
 </script>
 <script>
-/* Plan to open: as the window moves through the six stages, each picture fades up over the last. A picture's data-at
+/* Each pinned scroll (plan to open, the machines): as the window moves through the stages, each picture fades up over the last. A picture's data-at
    is the stage it belongs to; the build has three pictures inside one stage, so the machine goes up as you scroll it. */
-(function () {
-  var seq = document.querySelector('.seq'); if (!seq) return;
+[].forEach.call(document.querySelectorAll('.seq'), function (seq) {
   var imgs = [].slice.call(seq.querySelectorAll('.seq-back img')), st = [].slice.call(seq.querySelectorAll('.stage'));
   function tick() {
     var h = st[0].offsetHeight || 1, p = (window.scrollY + (document.getElementById('bar') || {offsetHeight: 0}).offsetHeight - (seq.getBoundingClientRect().top + window.scrollY)) / h;
     imgs.forEach(function (im, k) { if (k) im.style.opacity = Math.max(0, Math.min(1, (p - parseFloat(im.getAttribute('data-at'))) * 3 + 1)); });
   }
   window.addEventListener('scroll', tick, { passive: true }); tick();
-})();
+});
 </script>
 </body>
 </html>

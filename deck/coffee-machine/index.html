@@ -1120,17 +1120,16 @@ window.WonderSneak = (function () {
 })();
 </script>
 <script>
-/* Plan to open: as the window moves through the six stages, each picture fades up over the last. A picture's data-at
+/* Each pinned scroll (plan to open, the machines): as the window moves through the stages, each picture fades up over the last. A picture's data-at
    is the stage it belongs to; the build has three pictures inside one stage, so the machine goes up as you scroll it. */
-(function () {
-  var seq = document.querySelector('.seq'); if (!seq) return;
+[].forEach.call(document.querySelectorAll('.seq'), function (seq) {
   var imgs = [].slice.call(seq.querySelectorAll('.seq-back img')), st = [].slice.call(seq.querySelectorAll('.stage'));
   function tick() {
     var h = st[0].offsetHeight || 1, p = (window.scrollY + (document.getElementById('bar') || {offsetHeight: 0}).offsetHeight - (seq.getBoundingClientRect().top + window.scrollY)) / h;
     imgs.forEach(function (im, k) { if (k) im.style.opacity = Math.max(0, Math.min(1, (p - parseFloat(im.getAttribute('data-at'))) * 3 + 1)); });
   }
   window.addEventListener('scroll', tick, { passive: true }); tick();
-})();
+});
 </script>
 </body>
 </html>
