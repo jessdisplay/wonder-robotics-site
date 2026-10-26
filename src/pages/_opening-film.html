@@ -1,0 +1,65 @@
+<style>
+  /* The film opening (opening.html, the variant beside W-1): the decks' plan-to-open film, pinned under the bar and
+     played by the scroll (src/scrub.js). Six screens; the words sit low on a night scrim, the gold step line marks
+     the stage. A phone gets one screen: the open kiosk as a still, the headline and the buttons. */
+  .film-open{position:relative;background:#0A0A0C;color:var(--cream);overflow:clip}
+  .film-open .seq-back{position:sticky;top:64px;height:calc(100vh - 64px);height:calc(100svh - 64px);overflow:hidden;
+                       margin-bottom:calc(-100vh + 64px);margin-bottom:calc(-100svh + 64px)}
+  .film-open .seq-back img,.film-open .seq-back canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .film-open .seq-back canvas{opacity:0}
+  .film-open .seq-back canvas.live{opacity:1}
+  .film-open .seq-back::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,12,.94) 0%,rgba(10,10,12,.74) 38%,rgba(10,10,12,.3) 66%,rgba(10,10,12,0) 84%)}
+  .film-open .stage{position:relative;height:calc(100vh - 64px);height:calc(100svh - 64px);display:flex;align-items:flex-end}
+  .film-open .wrap{max-width:1500px;margin-inline:auto;width:100%;padding-bottom:clamp(40px,5.5vw,84px)}
+  .film-open .eyebrow{color:color-mix(in srgb,var(--cream) 70%,transparent)}
+  .film-open h1{margin:14px 0 0;font-weight:400;font-size:clamp(40px,5.4vw,96px);line-height:.96;letter-spacing:-.045em;text-wrap:balance;max-width:15ch}
+  .film-open .actions{display:flex;gap:10px;margin-top:clamp(22px,2.6vw,36px);flex-wrap:wrap}
+  .film-open .actions .btn{background:var(--cream);border-color:var(--cream);color:var(--ink)}
+  .film-open .actions .btn.ghost{background:transparent;color:var(--cream);border-color:color-mix(in srgb,var(--cream) 45%,transparent)}
+  .film-open .fo-say{margin:clamp(18px,2vw,28px) 0 0;font-size:clamp(20px,2vw,34px);line-height:1.15;letter-spacing:-.02em}
+  .film-open .fo-steps{list-style:none;padding:0;margin:clamp(18px,2vw,28px) 0 0;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+  .film-open .fo-steps li{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(243,241,228,.42);
+                          border-top:3px solid rgba(243,241,228,.18);padding-top:10px}
+  .film-open .fo-steps li b{font-weight:500;margin-right:6px}
+  .film-open .fo-steps .done{color:rgba(243,241,228,.75);border-color:rgba(232,168,76,.65)}
+  .film-open .fo-steps .now{color:var(--cream);border-color:#E8A84C}
+  @media (max-width:760px){
+    .film-open .seq-back canvas,.film-open .stage ~ .stage,.film-open .fo-say,.film-open .fo-steps{display:none}
+    .film-open .actions{display:grid;grid-template-columns:1fr}
+  }
+</style>
+  <!-- The film opening (variant beside the W-1 header, 26 Oct 2026): the plan-to-open film from the decks, played by
+       the scroll (src/scrub.js), six screens tall. A phone gets the open kiosk as one still. -->
+  <section class="seq film film-open" aria-label="From the plan to open: a Volta robot coffee kiosk, a Wonder brand">
+    <div class="seq-back" aria-hidden="true">
+      <picture><source media="(max-width:760px)" srcset="img/deck/build-8.jpg"><img src="img/deck/build-1.jpg" alt="" fetchpriority="high" width="2752" height="1536"></picture>
+      <canvas data-frames="img/deck/plan-to-open/f{n}.webp" data-count="141" data-knots="0,20,40,80,120,140"></canvas>
+    </div>
+    <div class="stage"><div class="wrap">
+        <span class="eyebrow">Fortitude Valley, Brisbane</span>
+        <h1>We build fully automated kitchens, bars and cafés.</h1>
+        <div class="actions"><a class="btn" href="quote/" data-quote><span><!--priced-->Price yours<!--/priced--><!--poa-->Build your quote<!--/poa--></span><i aria-hidden="true">+</i></a><a class="btn ghost" href="#building"><span>See ours working</span><i aria-hidden="true">+</i></a></div>
+        <p class="fo-say">We start with the site you have.</p>
+        <ol class="fo-steps" aria-hidden="true"><li class="now"><b>01</b>Plan</li><li><b>02</b>Sketch</li><li><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+      </div></div>
+    <div class="stage"><div class="wrap">
+        <p class="fo-say">Then we draw what it could be.</p>
+        <ol class="fo-steps" aria-hidden="true"><li class="done"><b>01</b>Plan</li><li class="now"><b>02</b>Sketch</li><li><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+      </div></div>
+    <div class="stage"><div class="wrap">
+        <p class="fo-say">Every part of the machine, drawn before it is cut.</p>
+        <ol class="fo-steps" aria-hidden="true"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="now"><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+      </div></div>
+    <div class="stage"><div class="wrap">
+        <p class="fo-say">Built from a bare frame up.</p>
+        <ol class="fo-steps" aria-hidden="true"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="now"><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+      </div></div>
+    <div class="stage"><div class="wrap">
+        <p class="fo-say">Your brand goes on, by hand.</p>
+        <ol class="fo-steps" aria-hidden="true"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="done"><b>04</b>Build</li><li class="now"><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
+      </div></div>
+    <div class="stage"><div class="wrap">
+        <p class="fo-say">Open, and we keep it running.</p>
+        <ol class="fo-steps" aria-hidden="true"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="done"><b>04</b>Build</li><li class="done"><b>05</b>Brand</li><li class="now"><b>06</b>Open</li></ol>
+      </div></div>
+  </section>

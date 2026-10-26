@@ -57,6 +57,13 @@ def pick_copy(text, priced):
     return text.replace(f"<!--{keep}-->", "").replace(f"<!--/{keep}-->", "")
 
 
+# The two openings of the home page: W-1, the live one, read from home.html, and the plan-to-open film in
+# _opening-film.html, swapped in for the variant at opening.html.
+_HOME = (SRC / "pages" / "home.html").read_text()
+_W1 = _HOME.index('  <section class="pop light hero-in">')
+OPENING_W1 = _HOME[_W1:_HOME.index("  </section>", _W1) + len("  </section>")]
+OPENING_FILM = (SRC / "pages" / "_opening-film.html").read_text().rstrip("\n")
+
 PAGES = {
     "home": {"out": "index.html", "root": "", "title": "Robot cafés, bars and kitchens, Brisbane. Wonder Robotics", "ld": lambda url, img: org_ld(url, img),
              "desc": "We build fully automated kitchens, bars and cafés in Brisbane. Start with a coffee robot, add the bar, the kitchen and the room when you're ready. See ours working at 365 St Pauls Terrace, Fortitude Valley."},
@@ -89,6 +96,12 @@ PAGES = {
     # is nothing on it for search
     "proposal": {"out": "quote/proposal/index.html", "root": "../../", "title": "Proposal, Wonder Robotics", "noindex": True,
                  "desc": "A Wonder Robotics proposal: the equipment installed, the design and build, and the 24 month service, as one monthly budget. Save it as a PDF or share the link."},
+    # the home page with the plan-to-open film as its opening, beside the W-1 header for Jesse to compare (26 Oct 2026).
+    # One source: only the opening differs. At the root so the page's relative paths hold; never in search.
+    "opening": {"src": "home", "out": "opening.html", "root": "", "noindex": True,
+                "title": "Robot cafés, bars and kitchens, Brisbane. Wonder Robotics",
+                "desc": "We build fully automated kitchens, bars and cafés in Brisbane, from the plan to open.",
+                "swap": [(OPENING_W1, OPENING_FILM), ("</main>", '</main>\n<script src="src/scrub.js" defer></script>')]},
     # the sales deck for the coffee bar: shown on a call, never in search
     "coffee-deck": {"out": "deck/coffee/index.html", "root": "../../", "title": "The coffee bar, sold whole. Wonder Robotics", "noindex": True, "priced": True,
                     "desc": "The Wonder Robotics coffee bar deck: one price, what it costs a week, what it earns, year by year, and the choice after year two."},
