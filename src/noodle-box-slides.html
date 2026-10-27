@@ -41,6 +41,12 @@
   .figs dt{font-weight:400;font-size:calc(150*var(--u));line-height:.9;letter-spacing:-.05em;color:#E8A84C;font-variant-numeric:tabular-nums}
   .figs dt small{font-size:.3em;letter-spacing:0;margin-left:.2em;color:var(--paper-2)}
   .figs dd{margin:calc(16*var(--u)) 0 0;font-size:calc(28*var(--u));line-height:1.3;color:var(--paper-2);max-width:calc(340*var(--u))}
+  /* A film's words take their dark from the film, which stays put. A gradient on each stop scrolled with the stop and
+     left a hard band across the film between stops (Jesse, 28 Oct 2026: "a sketch with gradients over the top of it"). */
+  .seq.film .full::after,.seq.film .open::after{display:none}
+  .seq.film .seq-back::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top,rgba(19,10,36,.85) 0%,rgba(19,10,36,.45) 32%,rgba(19,10,36,0) 62%),
+               linear-gradient(to right,rgba(19,10,36,.55) 0%,rgba(19,10,36,0) 45%)}
   /* pictures with a caption over a pale floor get a dark foot, so the caption reads */
   .in.full.poster.foot-dark::after{display:block;background:linear-gradient(to top,rgba(19,10,36,.78) 0%,rgba(19,10,36,0) 20%)}
   @media screen{.tm p.print-only{display:none !important}}   /* the phone shows print-only stills; this line is for paper */
@@ -74,7 +80,7 @@
 <div class="seq film" data-one>
   <div class="seq-back" aria-hidden="true">
     <img src="{{root}}img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt="The Noodle Box robot wok, drawn" class="b1">
-    <canvas data-frames="{{root}}img/deck/noodle-box/build/f{n}.webp" data-count="240" data-knots="0,28,64,90,112,146,239" data-fy="0.15"></canvas>
+    <canvas data-frames="{{root}}img/deck/noodle-box/build/f{n}.webp" data-count="240" data-knots="0,30,64,100,120,145,239" data-fy="0.15"></canvas>
   </div>
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics for Noodle Box">
   <div class="slide night"><div class="in full open">
