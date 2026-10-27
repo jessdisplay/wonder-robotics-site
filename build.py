@@ -1289,11 +1289,19 @@ assert "window.WonderSneak" in SNEAK_JS and "WonderQuote" not in SNEAK_JS, "site
 def deck(name, source=None):
     root = "../../"
     # Slides number themselves, so one can be added without renumbering the rest:
-    # {{i}} and {{n}} are a slide's place in the source, {{of}} the count.
+    # {{i}} is a slide's place in the source, {{n}} its page and {{of}} the page count. A film marked
+    # <div class="seq film" data-one> ... </div><!-- /one --> is one page, however many stops it has.
     head, *slides = (source or (SRC / f"{name}-deck.html").read_text()).split('<section class="stage"')
-    html = head + "".join('<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{i:02d}")
-                          for i, s in enumerate(slides, 1))
-    html = fill_prices(html.replace("{{of}}", f"{len(slides):02d}"), priced=True).replace("{{wall}}", wall())
+    html, page, held, opening = head, 0, False, "data-one" in head
+    for i, s in enumerate(slides, 1):
+        if not held:
+            page += 1
+        held, opening = held or opening, False
+        html += '<section class="stage"' + s.replace("{{i}}", str(i)).replace("{{n}}", f"{page:02d}")
+        if "<!-- /one -->" in s:
+            held = False
+        opening = "data-one" in s
+    html = fill_prices(html.replace("{{of}}", f"{page:02d}"), priced=True).replace("{{wall}}", wall())
     html = html.replace("{{icons}}", ICONS).replace("{{fonts}}", FONTS).replace("{{site}}", SITE).replace("{{root}}", root)
     # the drawn mark and the robot's peek round the moon, the site's own code (a deck is one file)
     html = html.replace("{{markjs}}", (SRC / "mark.js").read_text()).replace("{{sneakjs}}", SNEAK_JS)
@@ -1314,19 +1322,32 @@ for name in ("company", "unisc", "profile", "information", "coffee-machine"):
 
 
 def noodle_box_source():
-    """The information deck with the Noodle Box slides set into it (src/noodle-box-slides.html): theirs after Built to
-    your spec, their close before ours. Made from the information deck at build time, so the two never drift apart."""
+    """Wonder Robotics for Noodle Box, about ten pages (Jesse, 27 Oct 2026: "like a 10 pager about the company for
+    noodle box with a scroller that shows how it works"; the 26 Oct build was the whole information deck, 45 slides).
+    The running order is src/noodle-box-slides.html; each <!-- take: Label --> in it is that slide of the information
+    deck, and the head, header, menu and scripts are the information deck's too, so the shared parts never drift."""
     info = (SRC / "information-deck.html").read_text()
-    theirs, close = (SRC / "noodle-box-slides.html").read_text().split("<!-- close -->")
-    theirs = theirs[theirs.index('<section class="stage"'):]
-    after = '<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The work">'
-    last = '<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics, Fortitude Valley">'
-    for mark in (after, last, "<title>Wonder Robotics, information deck</title>"):
-        assert info.count(mark) == 1, mark
-    info = info.replace(after, theirs + after).replace(last, close.strip() + "\n\n" + last)
-    info = info.replace("<title>Wonder Robotics, information deck</title>", "<title>Wonder Robotics for Noodle Box</title>")
-    return re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wonder Robotics for Noodle Box: '
-                  'who we are and what we build, then a robot wok, a stir-fry line and a dark kitchen in the Noodle Box brand.">', info, count=1)
+    notes, order = (SRC / "noodle-box-slides.html").read_text().split("<!-- running order -->")
+    head, rest = info.split('<main id="deck">', 1)
+    tail = rest[rest.index("</main>"):]
+
+    def take(label):
+        found = re.findall(r'<section class="stage" id="s\{\{i\}\}" aria-label="Slide \{\{i\}\}\. ' + re.escape(label)
+                           + r'">.*?</section>\n', info, re.S)
+        assert len(found) == 1, label
+        return found[0]
+
+    slides = re.sub(r"<!-- take: (.+?) -->\n", lambda m: take(m.group(1)), order)
+    nav = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', head, re.S).group(0)
+    ours = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', notes, re.S).group(0)
+    style = re.search(r"<style>.*?</style>", notes, re.S).group(0)
+    for mark in ("<title>Wonder Robotics, information deck</title>", "</head>"):
+        assert head.count(mark) == 1, mark
+    head = (head.replace(nav, ours).replace("</head>", style + "\n</head>")
+            .replace("<title>Wonder Robotics, information deck</title>", "<title>Wonder Robotics for Noodle Box</title>"))
+    head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wonder Robotics for Noodle Box: '
+                  'who we are, our stir-fry robot built in their brand, the line, the shop and the dark kitchen.">', head, count=1)
+    return head + '<main id="deck">' + slides + tail
 
 
 deck("noodle-box", noodle_box_source())

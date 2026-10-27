@@ -355,6 +355,7 @@
                     transform:scaleX(0);transform-origin:0 50%;transition:transform .34s cubic-bezier(.16,.84,.24,1)}
   .bar nav a:hover{color:var(--ink)} .bar nav a:hover::after{transform:none}
   .bar nav a[aria-current]{color:var(--ink)} .bar nav a[aria-current]::after{transform:none;background:var(--signal)}
+  .bar nav.cramped{visibility:hidden}
   .bar .cta{grid-column:11/13;justify-self:end;display:flex;align-items:center;gap:8px}
   .bar :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
   .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--live) 18%,transparent)}
@@ -947,10 +948,19 @@
     s.querySelectorAll(".r").forEach(function (el, k) { el.style.setProperty("--k", k); });
   });
 
+  // A film the deck scrolls through (a .seq marked data-one) is one page however many stops it has, so the counter
+  // and the menu count it once, as build.py numbers it.
+  var page = [], pages = 0;
+  stages.forEach(function (s, i) {
+    var one = s.closest(".seq[data-one]");
+    if (!one || !i || stages[i - 1].closest(".seq[data-one]") !== one) pages++;
+    page.push(pages);
+  });
+
   function pad(n) { return (n < 10 ? "0" : "") + n; }
   function show(i) {
     at = Math.max(0, Math.min(stages.length - 1, i));
-    count.textContent = pad(at + 1) + " / " + pad(stages.length);
+    count.textContent = pad(page[at]) + " / " + pad(pages);
     if (navLinks) markNav();
   }
   // Moves the window, never the slide into view: scrollIntoView also scrolls
@@ -1031,14 +1041,15 @@
   // The menu. A slide in its list closes it and goes there.
   var menu = document.getElementById("menu"), menuBtn = document.getElementById("menu-btn"), list = document.getElementById("menu-slides"), back = null;
   stages.forEach(function (s, i) {
+    if (i && page[i] === page[i - 1]) return;   // a film's later stops are the same page
     var li = document.createElement("li"), b = document.createElement("button"), n = document.createElement("b"), t = document.createElement("span");
-    b.type = "button"; n.textContent = pad(i + 1); t.textContent = (s.getAttribute("aria-label") || "").replace(/^Slide \d+\.\s*/, "");
+    b.type = "button"; b.dataset.page = page[i]; n.textContent = pad(page[i]); t.textContent = (s.getAttribute("aria-label") || "").replace(/^Slide \d+\.\s*/, "");
     b.appendChild(n); b.appendChild(t); li.appendChild(b); list.appendChild(li);
     b.addEventListener("click", function () { closeMenu(true); go(i, true); });   // a jump, not a ride past every slide
   });
   function openMenu() {
     back = document.activeElement;
-    list.querySelectorAll("button").forEach(function (b, i) { if (i === at) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
+    list.querySelectorAll("button").forEach(function (b) { if (+b.dataset.page === page[at]) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
     menu.scrollTop = 0;
     root.classList.add("open"); menuBtn.setAttribute("aria-expanded", "true");
     setTimeout(function () { var f = menu.querySelector("a,button"); if (f) f.focus({ preventScroll: true }); }, 60);
@@ -1076,6 +1087,17 @@
     navLinks.forEach(function (n) { if (n.i >= 0 && n.i <= at) cur = n; });
     navLinks.forEach(function (n) { if (n === cur) n.a.setAttribute("aria-current", "true"); else n.a.removeAttribute("aria-current"); });
   }
+  // Just over the width where the section links go, they ran into the clock (Jesse, 27 Oct 2026: "buggy"). They
+  // stand down whenever they would touch it; the menu holds every slide.
+  var sections = document.querySelector(".bar nav"), clockBox = document.querySelector(".bar .clock");
+  function fitBar() {
+    if (!sections.firstElementChild) return;
+    var gap = clockBox.getBoundingClientRect().right + 16;
+    sections.classList.toggle("cramped", sections.firstElementChild.getBoundingClientRect().left < gap);
+  }
+  window.addEventListener("resize", fitBar);
+  setTimeout(fitBar, 0);   // once the clock below has its time
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBar);
   document.getElementById("bar-mark").addEventListener("click", function (e) { e.preventDefault(); go(0, true); });
   // Brisbane's time and whether the floor is open, as the site's header has it
   (function () {

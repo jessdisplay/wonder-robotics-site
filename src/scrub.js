@@ -12,6 +12,9 @@
   if (!n || knots.length !== st.length) return;   // a mismatch would put the words over the wrong picture: show the stills
   var pad = function (i) { return ('00' + i).slice(-3); }, src = cv.getAttribute('data-frames');
   var imgs = new Array(n), ctx = cv.getContext('2d'), shown = -1, want = 0, bar = document.getElementById('bar');
+  // data-fy: where the crop holds when the window is wider than the film, 0 the top to 1 the bottom (a tall machine
+  // keeps its head; Noodle Box deck, 27 Oct 2026); centred without it
+  var fy = cv.hasAttribute('data-fy') ? +cv.getAttribute('data-fy') : 0.5;
   function fit() {
     var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
     cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); shown = -1; draw();
@@ -27,7 +30,7 @@
     var i = nearest(want); if (i < 0 || i === shown) return;
     var im = imgs[i], s = Math.max(cv.width / im.naturalWidth, cv.height / im.naturalHeight);
     var w = im.naturalWidth * s, h = im.naturalHeight * s;
-    ctx.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h); shown = i;
+    ctx.drawImage(im, (cv.width - w) / 2, (cv.height - h) * fy, w, h); shown = i;
   }
   function tick() {
     var top = seq.getBoundingClientRect().top - (bar ? bar.offsetHeight : 0);
