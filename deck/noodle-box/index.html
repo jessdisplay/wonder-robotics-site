@@ -516,6 +516,14 @@
   .tm-film iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .tm .in.full::after{pointer-events:none}
   .tm .print-only{position:absolute;left:calc(96*var(--u));top:45%;font-size:calc(40*var(--u));color:var(--paper)}
+  /* Why us: three places side by side, the line across their tops */
+  .duo.three-up{grid-template-columns:repeat(3,1fr)}
+  .places::before{content:"";position:absolute;left:0;right:0;top:0;height:46%;z-index:1;pointer-events:none;
+    background:linear-gradient(to bottom,rgba(19,10,36,.88) 0%,rgba(19,10,36,.55) 55%,rgba(19,10,36,0) 100%)}
+  .places-head{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));top:calc(64*var(--u));z-index:2;color:var(--paper)}
+  .places-head .lede{max-width:calc(1100*var(--u))}
+  .duo .tag{display:inline-block;margin-left:calc(10*var(--u));font-family:var(--mono);font-size:calc(17*var(--u));letter-spacing:.08em;
+    text-transform:uppercase;color:rgba(243,241,228,.62);border:1px solid rgba(243,241,228,.35);border-radius:calc(4*var(--u));padding:calc(2*var(--u)) calc(8*var(--u))}
   /* pictures with a caption over a pale floor get a dark foot, so the caption reads */
   .in.full.poster.foot-dark::after{display:block;background:linear-gradient(to top,rgba(19,10,36,.78) 0%,rgba(19,10,36,0) 20%)}
   @media screen{.tm p.print-only{display:none !important}}   /* the phone shows print-only stills; this line is for paper */
@@ -528,6 +536,11 @@
     .tm-film{position:relative;inset:auto;aspect-ratio:16/9}
     .tm .lab.top{display:none}
     .tm .foot{position:static;padding:14px 22px 28px}
+    /* the places stack, the line above them */
+    .in.places{display:flex;flex-direction:column}
+    .places-head{position:static;order:-1;padding:28px 22px 18px}
+    .places::before{display:none}
+    .duo.three-up{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -695,17 +708,20 @@
 
 <section class="stage" id="s10" aria-label="Slide 10. Why us">
   <!-- Jesse, 27 Oct 2026: our capacity, "multiple offices across China and Aus", "taking their pain away": they never
-       source machines in China on their own, then keep them running themselves -->
-  <div class="slide night"><div class="in say-it">
-    <p class="lab r">[ Why us ]</p>
-    <h2 class="l r">We take the pain away.</h2>
-    <p class="lede r">Offices across Australia and China, and one team from the first drawing to the service call.</p>
-    <div class="three">
-      <div class="r"><h3>Brisbane</h3><p>Our studio. Your concept is designed and engineered here, and tested in the robot kitchen we run ourselves.</p></div>
-      <div class="r"><h3>Melbourne</h3><p>Our office in the south, on the ground in Victoria.</p></div>
-      <div class="r"><h3>China</h3><p>Our offices and our own factory. We make the machines, so we keep them running.</p></div>
+       source machines in China on their own, then keep them running themselves; then "not text heavy, big images",
+       "image of the Brisbane showroom, Melbourne offices, Chinese factory". Brisbane is our real showroom; Melbourne and
+       Huzhou (Motong's factory, China Daily 8 Aug 2025) are generated around our machine, so they say Concept. -->
+  <div class="slide night"><div class="in edge places">
+    <div class="duo three-up">
+      <figure><img src="../../img/deck/hub.jpg" width="2600" height="1733" style="object-position:62% 60%" alt="Our showroom and experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"><figcaption><h3>Brisbane</h3><p>Our studio and showroom.</p></figcaption></figure>
+      <figure><img src="../../img/deck/noodle-box/place-melbourne.jpg" width="1344" height="1800" alt="Concept: a brick warehouse office in Melbourne with a violet wall, engineers at timber tables and our stir-fry robot on a plinth"><figcaption><h3>Melbourne</h3><p>Our office. <span class="tag">Concept</span></p></figcaption></figure>
+      <figure><img src="../../img/deck/noodle-box/place-huzhou.jpg" width="1344" height="1800" alt="Concept: an assembly hall in Huzhou, China, a row of our stir-fry robots being built by technicians in purple, crates for export at the far end"><figcaption><h3>Huzhou, China</h3><p>Where the machines are built. <span class="tag">Concept</span></p></figcaption></figure>
     </div>
-    <p class="lede r" style="margin-top:calc(64*var(--u))">You won&rsquo;t be sourcing machines from China on your own, then keeping them running yourself.</p>
+    <div class="places-head">
+      <p class="lab r">[ Why us ]</p>
+      <h2 class="l r">We take the pain away.</h2>
+      <p class="lede r">You never source a machine in China on your own, or keep it running yourself.</p>
+    </div>
     <div class="foot"><p>Wonder Robotics</p><p>05</p></div>
   </div></div>
 </section>
