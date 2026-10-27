@@ -1337,7 +1337,15 @@ def noodle_box_source():
         assert len(found) == 1, label
         return found[0]
 
-    slides = re.sub(r"<!-- take: (.+?) -->\n", lambda m: take(m.group(1)), order)
+    def take_film(label):
+        """The whole scroll film whose first stop has this label, counted as one page in this deck."""
+        at = info.index('aria-label="Slide {{i}}. ' + label + '"')
+        start = info.rindex('<div class="seq film">', 0, at)
+        end = info.index("\n</div>\n", at) + len("\n</div>")
+        return info[start:end].replace('<div class="seq film">', '<div class="seq film" data-one>', 1) + "<!-- /one -->\n"
+
+    slides = re.sub(r"<!-- take-film: (.+?) -->\n", lambda m: take_film(m.group(1)), order)
+    slides = re.sub(r"<!-- take: (.+?) -->\n", lambda m: take(m.group(1)), slides)
     nav = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', head, re.S).group(0)
     ours = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', notes, re.S).group(0)
     style = re.search(r"<style>.*?</style>", notes, re.S).group(0)
