@@ -17,7 +17,7 @@
   .open .lab{position:absolute;left:calc(96*var(--u));top:calc(72*var(--u));z-index:1}
   .open-c{position:absolute;left:calc(96*var(--u));top:0;bottom:0;width:calc(780*var(--u));display:flex;flex-direction:column;justify-content:center;z-index:1}
   .open-mark{margin:0}
-  .open-mark img{display:block;width:100%;height:auto}
+  .open-mark canvas{display:block;width:100% !important;height:auto !important}   /* the drawn mark, sized by its box */
   .open-line{margin-top:calc(34*var(--u));font-size:calc(44*var(--u));line-height:1.15;letter-spacing:-.025em;color:var(--paper)}
   /* TechMagic's film, played through their own player */
   .slide.tm{background:#000}
@@ -46,11 +46,32 @@
     <div class="plate" style="--op:50% 30%"><img src="{{root}}img/deck/noodle-box/cover.jpg" width="2880" height="1620" alt="Our stir-fry robot in raw brushed steel, alone in a deep purple studio"></div>
     <p class="lab r">[ Wonder Robotics for Noodle Box ]</p>
     <div class="open-c">
-      <h1 class="open-mark r"><img src="{{root}}img/deck/mark-cream.png" width="1373" height="322" alt="Wonder Robotics"></h1>
+      <h1 class="open-mark r"><canvas id="open-mark" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="960" data-pxr="0.2" data-hr="0.34" role="img" aria-label="Wonder Robotics"></canvas></h1>
       <p class="open-line r">We don&rsquo;t sell robots. We build concepts.</p>
     </div>
     <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
   </div></div>
+  <script>
+  // The robot pops into the moon, as on the website (Jesse, 27 Oct 2026: "when we scroll get the robotics head to pop
+  // into the moon too like the website"): the cover's mark whenever the cover comes on screen, the header's the first
+  // time you scroll on, as the mark hands over to the bar. The site's own WonderSneak, loaded at the foot of the deck.
+  window.addEventListener("load", function () {
+    var big = document.getElementById("open-mark"), head = document.getElementById("bar-canvas"), cover = big && big.closest(".stage");
+    if (!cover || !window.WonderSneak || !window.IntersectionObserver) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function peek(cv, ms) { if (cv && WonderSneak.park(cv)) setTimeout(function () { WonderSneak.run(cv, ms); }, 140); }
+    var on = false, handed = false;
+    function watch() {
+      new IntersectionObserver(function (es) {
+        var now = es[0].isIntersecting;
+        if (now && !on) peek(big, 1100);
+        if (!now && on && !handed) { handed = true; peek(head, 950); }
+        on = now;
+      }, { threshold: 0.55 }).observe(cover);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(watch); else watch();   // the mark needs its face drawn first
+  });
+  </script>
 </section>
 
 <!-- take: The team -->
