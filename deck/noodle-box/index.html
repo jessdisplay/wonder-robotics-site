@@ -516,13 +516,14 @@
   .tm-film iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .tm .in.full::after{pointer-events:none}
   .tm .print-only{position:absolute;left:calc(96*var(--u));top:45%;font-size:calc(40*var(--u));color:var(--paper)}
-  /* Why us: three places side by side, the line across their tops */
-  .duo.three-up{grid-template-columns:repeat(3,1fr)}
-  .places::before{content:"";position:absolute;left:0;right:0;top:0;height:46%;z-index:1;pointer-events:none;
-    background:linear-gradient(to bottom,rgba(19,10,36,.88) 0%,rgba(19,10,36,.55) 55%,rgba(19,10,36,0) 100%)}
-  .places-head{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));top:calc(64*var(--u));z-index:2;color:var(--paper)}
-  .places-head .lede{max-width:calc(1100*var(--u))}
-  .duo .tag{display:inline-block;margin-left:calc(10*var(--u));font-family:var(--mono);font-size:calc(17*var(--u));letter-spacing:.08em;
+  /* Why us: three full screens, each pinned in turn while the next scrolls up over it */
+  .stack .stage{position:sticky;top:var(--bar)}
+  .in.full.place::before{content:"";position:absolute;inset:0 0 auto;height:48%;z-index:1;pointer-events:none;
+    background:linear-gradient(to bottom,rgba(19,10,36,.82) 0%,rgba(19,10,36,.45) 55%,rgba(19,10,36,0) 100%)}
+  .place .lab.top{top:calc(64*var(--u));left:calc(96*var(--u))}
+  .place-head{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));top:calc(118*var(--u));z-index:2;color:var(--paper)}
+  .place-head .lede{max-width:calc(1100*var(--u))}
+  .place .tag{display:inline-block;margin-left:calc(12*var(--u));font-family:var(--mono);font-size:calc(18*var(--u));letter-spacing:.08em;vertical-align:middle;
     text-transform:uppercase;color:rgba(243,241,228,.62);border:1px solid rgba(243,241,228,.35);border-radius:calc(4*var(--u));padding:calc(2*var(--u)) calc(8*var(--u))}
   /* The numbers: four figures across, the deck's amber on night */
   .figs-page{justify-content:center}
@@ -543,11 +544,10 @@
     .tm-film{position:relative;inset:auto;aspect-ratio:16/9}
     .tm .lab.top{display:none}
     .tm .foot{position:static;padding:14px 22px 28px}
-    /* the places stack, the line above them */
-    .in.places{display:flex;flex-direction:column}
-    .places-head{position:static;order:-1;padding:28px 22px 18px}
-    .places::before{display:none}
-    .duo.three-up{grid-template-columns:1fr}
+    /* the places simply follow one another, the line above the first */
+    .stack .stage{position:static}
+    .in.full.place::before{display:none}
+    .place-head{position:static;padding:28px 22px 18px}
     .figs{grid-template-columns:1fr 1fr;gap:22px;margin-top:28px}
     .figs dt{font-size:52px}
     .figs dd{font-size:15px}
@@ -566,9 +566,21 @@
   </div>
 </header>
 <main id="deck">
+<!-- The header (Jesse, 28 Oct 2026: "the scroll trigger is supposed to be in the header", "a movement from sketch all the
+     way to fitted"). How it is built, on their machine (Jesse, 26 Oct 2026: "start from a drawing and by the end of the scroll the full
+     machine is there"; 27 Oct: "high spec photorealistic", "steel and purple and as it gets branded for the noodle box").
+     Made from the established hero render: the sketch, the machine in raw steel in our purple studio, their red and
+     wordmark going on, the flame and the toss, then fitted in their shop as the studio falls away. Three generated clips
+     locked to those stills, cut to 240 frames that src/scrub.js plays as the window moves (Drive
+     wonder-noodle-box/film/cut_film.py); the cover is its first stop; one page in the count. -->
+<div class="seq film" data-one>
+  <div class="seq-back" aria-hidden="true">
+    <img src="../../img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt="The Noodle Box robot wok, drawn" class="b1">
+    <canvas data-frames="../../img/deck/noodle-box/build/f{n}.webp" data-count="240" data-knots="0,28,64,90,112,146,239" data-fy="0.15"></canvas>
+  </div>
 <section class="stage" id="s1" aria-label="Slide 1. Wonder Robotics for Noodle Box">
   <div class="slide night"><div class="in full open">
-    <div class="plate" style="--op:50% 30%"><img src="../../img/deck/noodle-box/cover.jpg" width="2880" height="1620" alt="Our stir-fry robot in raw brushed steel, alone in a deep purple studio"></div>
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt="The Noodle Box robot wok, drawn"></div>
     <p class="lab r">[ Wonder Robotics for Noodle Box ]</p>
     <div class="open-c">
       <h1 class="open-mark r"><canvas id="open-mark" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="960" data-pxr="0.2" data-hr="0.34" role="img" aria-label="Wonder Robotics"></canvas></h1>
@@ -598,8 +610,69 @@
   });
   </script>
 </section>
+<section class="stage" id="s2" aria-label="Slide 2. Robotic hospitality">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-2.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
+      <h2 class="l">Robotic hospitality.</h2>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box</p><p>01</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s3" aria-label="Slide 3. Custom built">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-3.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
+      <h2 class="l">Custom built.</h2>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box</p><p>01</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s4" aria-label="Slide 4. In house">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-4.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
+      <h2 class="l">In house.</h2>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box</p><p>01</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s5" aria-label="Slide 5. On brand">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-5.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
+      <h2 class="l">On brand.</h2>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box</p><p>01</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s6" aria-label="Slide 6. Future ready">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-6.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
+      <h2 class="l">Future ready.</h2>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box</p><p>01</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s7" aria-label="Slide 7. Fully serviced">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-7.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
+      <h2 class="l">Fully serviced.</h2>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box</p><p>01</p></div>
+  </div></div>
+</section>
+</div><!-- /one -->
 
-<section class="stage" id="s2" aria-label="Slide 2. The team">
+<section class="stage" id="s8" aria-label="Slide 8. The team">
   <div class="slide"><div class="in team">
     <p class="lab r">[ The team ]</p>
     <h2 class="l r">Four founders and two advisors.</h2>
@@ -619,77 +692,9 @@
   </div></div>
 </section>
 
-<!-- How it is built, on their machine (Jesse, 26 Oct 2026: "start from a drawing and by the end of the scroll the full
-     machine is there"; 27 Oct: "high spec photorealistic", "steel and purple and as it gets branded for the noodle box").
-     Made from the established hero render: the sketch, the machine in raw steel in our purple studio, their red and
-     wordmark going on, the flame and the toss. Two generated clips locked to those stills, cut to 180 frames that
-     src/scrub.js plays as the window moves (Drive wonder-noodle-box/film/cut_film.py); one page in the count. -->
-<div class="seq film" data-one>
-  <div class="seq-back" aria-hidden="true">
-    <img src="../../img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt="The Noodle Box robot wok, drawn" class="b1">
-    <canvas data-frames="../../img/deck/noodle-box/build/f{n}.webp" data-count="180" data-knots="0,26,81,122,150,179" data-fy="0.15"></canvas>
-  </div>
-<section class="stage" id="s3" aria-label="Slide 3. Robotic hospitality">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Robotic hospitality.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>03</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s4" aria-label="Slide 4. Custom built">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-2.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Custom built.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>03</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s5" aria-label="Slide 5. In house">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-3.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">In house.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>03</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s6" aria-label="Slide 6. On brand">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-4.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">On brand.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>03</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s7" aria-label="Slide 7. Future ready">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-5.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Future ready.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>03</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s8" aria-label="Slide 8. Fully serviced">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="../../img/deck/noodle-box/build-6.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Fully serviced.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>03</p></div>
-  </div></div>
-</section>
-</div><!-- /one -->
+
+
+
 
 <!-- How it works (Jesse, 27 Oct 2026: "this was supposed to be a wrap around with script", "descriptive"): the
      camera travels round our wok in a Noodle Box shop, as in the Fonzie brand film, a line of script at each stop.
@@ -709,7 +714,7 @@
       <h2 class="l">Orders go straight to the wok.</h2>
       <p class="life-say">From the counter, the app or the delivery tablet.</p>
     </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>04</p></div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>03</p></div>
   </div></div>
 </section>
 <section class="stage" id="s10" aria-label="Slide 10. How it works, dose">
@@ -720,7 +725,7 @@
       <h2 class="l">Dosed to the gram.</h2>
       <p class="life-say">Noodles, vegetables and sauce, the same in every box.</p>
     </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>04</p></div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>03</p></div>
   </div></div>
 </section>
 <section class="stage" id="s11" aria-label="Slide 11. How it works, toss">
@@ -731,7 +736,7 @@
       <h2 class="l">Wok hei, every time.</h2>
       <p class="life-say">Full flame and a real toss, two minutes a box.</p>
     </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>04</p></div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>03</p></div>
   </div></div>
 </section>
 <section class="stage" id="s12" aria-label="Slide 12. How it works, box">
@@ -742,7 +747,7 @@
       <h2 class="l">Boxed at the pass.</h2>
       <p class="life-say">Out of the wok, into the box, lid on.</p>
     </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>04</p></div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>03</p></div>
   </div></div>
 </section>
 <section class="stage" id="s13" aria-label="Slide 13. How it works, serve">
@@ -753,16 +758,34 @@
       <h2 class="l">Your crew serves. The robot cooks.</h2>
       <p class="life-say">Thirty boxes an hour from one wok.</p>
     </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>04</p></div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>03</p></div>
   </div></div>
 </section>
 </div><!-- /one -->
+
+<!-- Back by Jesse's word (28 Oct 2026: "you have completely removed the dark kitchen, that was not what I asked for, just
+     that you didn't need 3"; "you have not put the render of the big machine in there either"): the big machine, the
+     stir-fry line as rendered without the poster's words, and the dark kitchen. The shop picture stays out. -->
+<section class="stage" id="s14" aria-label="Slide 14. Noodle Box, the stir-fry line">
+  <div class="slide night"><div class="in full poster foot-dark">
+    <div class="plate"><img src="../../img/deck/noodle-box/stir-fry-line-plate.jpg" width="2880" height="1620" alt="Concept: our robotic kitchen line made a Noodle Box stir-fry line: noodle cookers, a red arm on its overhead rail, four flaming woks, the sauce pumps, the dosing rack and the boxing station, their wordmark on the cabinets"></div>
+    <div class="foot"><p>Concept. One line, four woks, one arm</p><p>04</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s15" aria-label="Slide 15. Noodle Box, the dark kitchen">
+  <div class="slide night"><div class="in full poster foot-dark">
+    <div class="plate"><img src="../../img/deck/noodle-box/dark-kitchen.jpg" width="2880" height="1620" alt="Concept: a red warehouse dark kitchen, a Noodle Box stir-fry line down each side under gantry rails with red robot arms, conveyors carrying red and white boxes to the open roller doors where delivery riders collect, their wordmark over the doors and their Slurping since 1996 badge on the wall"></div>
+    <div class="foot"><p>Concept. No crew on the line, the riders collect at the door</p><p>05</p></div>
+  </div></div>
+</section>
+
 
 <!-- The numbers (Jesse, 27 Oct 2026: "you took out all the numbers, cost saving, time saving", then "just place them
      in as placeholders please so the deck actually lands"). PLACEHOLDERS, not quotes: two minutes a box is Motong's own
      figure for noodles (China Daily, 8 Aug 2025); thirty an hour follows from it; the wages are one wok cook on every
      shift; the payback sets those against our listed price for the wok. Ryan confirms every one before it is sent. -->
-<section class="stage" id="s14" aria-label="Slide 14. The numbers">
+<section class="stage" id="s16" aria-label="Slide 16. The numbers">
   <div class="slide night"><div class="in figs-page">
     <p class="lab r">[ The numbers, one wok ]</p>
     <h2 class="l r">Faster at the pass. Lighter on the roster.</h2>
@@ -772,7 +795,7 @@
       <div class="r"><dt>$52k</dt><dd>Wages back a year, one wok cook off every shift.</dd></div>
       <div class="r"><dt>&lt;12<small>mo</small></dt><dd>For the machine to pay for itself.</dd></div>
     </dl>
-    <div class="foot"><p>Placeholder figures, confirmed in your quote</p><p>05</p></div>
+    <div class="foot"><p>Placeholder figures, confirmed in your quote</p><p>06</p></div>
   </div></div>
 </section>
 
@@ -784,7 +807,7 @@
     <img src="../../img/deck/build-1.jpg" width="2752" height="1536" alt="Volta, the floor plan" class="b1">
     <canvas data-frames="../../img/deck/plan-to-open/f{n}.webp" data-count="141" data-knots="0,20,40,80,120,140"></canvas>
   </div>
-<section class="stage" id="s15" aria-label="Slide 15. Plan to open, plan">
+<section class="stage" id="s17" aria-label="Slide 17. Plan to open, plan">
   <div class="slide"><div class="in full life">
     <div class="plate print-only"><img src="../../img/deck/build-1.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
@@ -793,10 +816,10 @@
       <p class="life-say">We start with the site you have.</p>
       <ol class="life-steps"><li class="now"><b>01</b>Plan</li><li><b>02</b>Sketch</li><li><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>06</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>07</p></div>
   </div></div>
 </section>
-<section class="stage" id="s16" aria-label="Slide 16. Plan to open, sketch">
+<section class="stage" id="s18" aria-label="Slide 18. Plan to open, sketch">
   <div class="slide"><div class="in full life">
     <div class="plate print-only"><img src="../../img/deck/build-2.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
@@ -804,10 +827,10 @@
       <p class="life-say">Then we draw what it could be.</p>
       <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="now"><b>02</b>Sketch</li><li><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>06</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>07</p></div>
   </div></div>
 </section>
-<section class="stage" id="s17" aria-label="Slide 17. Plan to open, design">
+<section class="stage" id="s19" aria-label="Slide 19. Plan to open, design">
   <div class="slide"><div class="in full life">
     <div class="plate print-only"><img src="../../img/deck/build-3.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
@@ -815,10 +838,10 @@
       <p class="life-say">Every part of the machine, drawn before it is cut.</p>
       <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="now"><b>03</b>Design</li><li><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>06</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>07</p></div>
   </div></div>
 </section>
-<section class="stage" id="s18" aria-label="Slide 18. Plan to open, build">
+<section class="stage" id="s20" aria-label="Slide 20. Plan to open, build">
   <div class="slide"><div class="in full life">
     <div class="plate print-only"><img src="../../img/deck/build-6.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
@@ -826,10 +849,10 @@
       <p class="life-say">Built from a bare frame up.</p>
       <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="now"><b>04</b>Build</li><li><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>06</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>07</p></div>
   </div></div>
 </section>
-<section class="stage" id="s19" aria-label="Slide 19. Plan to open, brand">
+<section class="stage" id="s21" aria-label="Slide 21. Plan to open, brand">
   <div class="slide"><div class="in full life">
     <div class="plate print-only"><img src="../../img/deck/build-7.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
@@ -837,10 +860,10 @@
       <p class="life-say">Your brand goes on, by hand.</p>
       <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="done"><b>04</b>Build</li><li class="now"><b>05</b>Brand</li><li><b>06</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>06</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>07</p></div>
   </div></div>
 </section>
-<section class="stage" id="s20" aria-label="Slide 20. Plan to open, open">
+<section class="stage" id="s22" aria-label="Slide 22. Plan to open, open">
   <div class="slide"><div class="in full life">
     <div class="plate print-only"><img src="../../img/deck/build-8.jpg" width="2752" height="1536" alt=""></div>
     <div class="txt">
@@ -848,7 +871,7 @@
       <p class="life-say">Open, and we keep it running.</p>
       <ol class="life-steps"><li class="done"><b>01</b>Plan</li><li class="done"><b>02</b>Sketch</li><li class="done"><b>03</b>Design</li><li class="done"><b>04</b>Build</li><li class="done"><b>05</b>Brand</li><li class="now"><b>06</b>Open</li></ol>
     </div>
-    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>06</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>07</p></div>
   </div></div>
 </section>
 </div><!-- /one -->
@@ -856,12 +879,12 @@
 <!-- The reference itself (Jesse, 27 Oct 2026: "put that video in there too", "yeah it, P-Robo", "this film"): the film
      their P-Robo page opens from Play Movie, "TechMagic's Value", 77 s, through TechMagic's own Vimeo player and
      credited, never a copy on our server. Muted until someone presses the sound on in the player. -->
-<section class="stage" id="s21" aria-label="Slide 21. Already cooking in Tokyo">
+<section class="stage" id="s23" aria-label="Slide 23. Already cooking in Tokyo">
   <div class="slide night tm"><div class="in full">
     <div class="tm-film" id="tm-film" data-src="https://player.vimeo.com/video/718124878?autoplay=1&amp;muted=1&amp;loop=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;dnt=1&amp;playsinline=1"></div>
     <p class="lab top">[ Already cooking in Tokyo ]</p>
     <p class="print-only">The film: techmagic.co.jp/en/p-robo</p>
-    <div class="foot"><p>Film: TechMagic&rsquo;s P-Robo, cooking for Ebino Spaghetti, Tokyo</p><p>07</p></div>
+    <div class="foot"><p>Film: TechMagic&rsquo;s P-Robo, cooking for Ebino Spaghetti, Tokyo</p><p>08</p></div>
   </div></div>
   <script>
   // their player comes in as the slide comes near and goes when it leaves, so the film never plays out of sight
@@ -878,41 +901,51 @@
   </script>
 </section>
 
-<section class="stage" id="s22" aria-label="Slide 22. Why us">
-  <!-- Jesse, 27 Oct 2026: our capacity, "multiple offices across China and Aus", "taking their pain away": they never
-       source machines in China on their own, then keep them running themselves; then "not text heavy, big images",
-       "image of the Brisbane showroom, Melbourne offices, Chinese factory". Brisbane is our real showroom. Melbourne is
-       generated in the building language of a real Cremorne warehouse office (Biasol's Gwynne St Studio, Domus 2017),
-       a different room, no machine ("don't put the stir fry machine in the Melbourne render, find a real Melbourne
-       office and base it on that"). China is Moton's own factory hall from their Alibaba company video (MOTON ROBOTICS,
-       Shenyang; Huzhou Motong Intelligent Robot Co.), cleaned up ("clean up the factory too"). Both say Concept. -->
-  <div class="slide night"><div class="in edge places">
-    <div class="duo three-up">
-      <figure><img src="../../img/deck/hub.jpg" width="2600" height="1733" style="object-position:62% 60%" alt="Our showroom and experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"><figcaption><h3>Brisbane</h3><p>Our studio and showroom.</p></figcaption></figure>
-      <figure><img src="../../img/deck/noodle-box/place-melbourne.jpg" width="1344" height="1800" alt="Concept: a converted Melbourne warehouse office, steel-framed glass walls and roof trusses under a glazed roof, sketches pinned up, two people at plywood desks beside a violet felt wall"><figcaption><h3>Melbourne</h3><p>Our office. <span class="tag">Concept</span></p></figcaption></figure>
-      <figure><img src="../../img/deck/noodle-box/place-china.jpg" width="1344" height="1800" style="object-position:50% 62%" alt="Concept, cleaned up from Moton's own footage: their factory hall in China, a white Moton kiosk and an orange robot booth on a green epoxy floor with yellow lanes"><figcaption><h3>China</h3><p>Where the machines are built. <span class="tag">Concept</span></p></figcaption></figure>
-    </div>
-    <div class="places-head">
-      <p class="lab r">[ Why us ]</p>
-      <h2 class="l r">We take the pain away.</h2>
-      <p class="lede r">You never source a machine in China on your own, or keep it running yourself.</p>
-    </div>
-    <div class="foot"><p>Wonder Robotics</p><p>08</p></div>
+<!-- Why us (Jesse, 27 Oct 2026: our capacity, "multiple offices across China and Aus", "taking their pain away"; "not text
+     heavy, big images"; 28 Oct: "3 full size scrolling into each other"): three full screens, each scrolling up over
+     the last, one page in the count. Brisbane is our real showroom. Melbourne is generated in the building language of
+     a real Cremorne warehouse office (Biasol's Gwynne St Studio, Domus 2017), a different room, no machine. China is
+     Moton's own factory hall from their Alibaba company video, cleaned up. Both say Concept. -->
+<div class="seq stack" data-one>
+<section class="stage" id="s24" aria-label="Slide 24. Why us">
+  <div class="slide night"><div class="in full place">
+    <div class="plate"><img src="../../img/deck/hub.jpg" width="2600" height="1733" alt="Our showroom and experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"></div>
+    <p class="lab top">[ Why us ]</p>
+    <div class="place-head"><h2 class="l">We take the pain away.</h2><p class="lede">You never source a machine in China on your own, or keep it running yourself.</p></div>
+    <div class="txt"><h2 class="xl">Brisbane</h2><p class="lede">Our studio and showroom.</p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>09</p></div>
   </div></div>
 </section>
+<section class="stage" id="s25" aria-label="Slide 25. Why us, Melbourne">
+  <div class="slide night"><div class="in full place">
+    <div class="plate"><img src="../../img/deck/noodle-box/place-melbourne-wide.jpg" width="2752" height="1536" alt="Concept: a converted Melbourne warehouse office, steel-framed glass walls and roof trusses under a glazed roof, sketches pinned up, two people at plywood desks beside a violet felt wall"></div>
+    <p class="lab top">[ Why us ]</p>
+    <div class="txt"><h2 class="xl">Melbourne</h2><p class="lede">Our office. <span class="tag">Concept</span></p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>09</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s26" aria-label="Slide 26. Why us, China">
+  <div class="slide night"><div class="in full place">
+    <div class="plate"><img src="../../img/deck/noodle-box/place-china-wide.jpg" width="2752" height="1536" alt="Concept, cleaned up from Moton's own footage: their factory hall in China, a white Moton kiosk and an orange robot booth on a green epoxy floor with yellow lanes"></div>
+    <p class="lab top">[ Why us ]</p>
+    <div class="txt"><h2 class="xl">China</h2><p class="lede">Where the machines are built. <span class="tag">Concept</span></p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>09</p></div>
+  </div></div>
+</section>
+</div><!-- /one -->
 
-<section class="stage" id="s23" aria-label="Slide 23. The work">
+<section class="stage" id="s27" aria-label="Slide 27. The work">
   <div class="slide night"><div class="in edge">
     <div class="duo">
       <figure class=""><img src="../../img/hero-kitchen.jpg" width="2400" height="991" style="object-position:30% 50%" alt="Our kitchen line: the cobot on its rail at the fryers"><figcaption><h3>365 St Pauls Terrace</h3><p>We built a robot kitchen for ourselves and opened it before we sold one. Open six days.</p></figcaption></figure>
       <figure class=""><img src="../../img/lrd/pass.jpg" width="2000" height="1116" style="object-position:50% 50%" alt="Visualisation of the Little Red Dumpling pass, steamers and a full room"><figcaption><h3>Little Red Dumpling</h3><p>Thirteen shops in, they wanted the fourteenth to cook without a brigade. Robot dumpling kitchen, Gold Coast. Visualisation.</p></figcaption></figure>
     </div>
     <p class="lab top r">[ The work ]</p>
-    <div class="foot"><p>Wonder Robotics</p><p>09</p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>10</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s24" aria-label="Slide 24. Who we work with">
+<section class="stage" id="s28" aria-label="Slide 28. Who we work with">
   <div class="slide"><div class="in">
     <p class="lab r">[ The company we keep ]</p>
     <h2 class="l r">Who we work with.</h2>
@@ -933,18 +966,18 @@
       <li><img src="../../img/partners/blue-sun-group.jpg" alt="Blue Sun Group"></li>
       <li><img class="tall" src="../../img/partners/little-red-dumplings.jpg" alt="Little Red Dumpling"></li>
     </ul>
-    <div class="foot"><p>Wonder Robotics</p><p>10</p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>11</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s25" aria-label="Slide 25. Your recipes, our robots">
+<section class="stage" id="s29" aria-label="Slide 29. Your recipes, our robots">
   <div class="slide night"><div class="in full poster">
     <div class="plate"><img src="../../img/deck/noodle-box/close.jpg" width="2880" height="1620" alt="In a flowing script, white on Noodle Box red: Your recipes, our robots; under it the Wonder Robotics mark and the Noodle Box wordmark side by side"></div>
-    <div class="foot"><p>Wonder Robotics for Noodle Box</p><p>11</p></div>
+    <div class="foot"><p>Wonder Robotics for Noodle Box</p><p>12</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s26" aria-label="Slide 26. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s30" aria-label="Slide 30. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
     <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
@@ -984,7 +1017,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 12</output>
+  <output id="count" aria-live="polite">01 / 13</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>
