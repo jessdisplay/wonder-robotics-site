@@ -5,10 +5,9 @@
    and the picture always agree. Frames load as the film comes near, in passes (every 8th, then 4th, 2nd, all) and the nearest loaded frame
    is drawn meanwhile, so it plays from the first second and sharpens as it loads. Without the canvas (print, a
    phone, no script) the stills in the slides stand in. */
-[].forEach.call(document.querySelectorAll('.seq canvas[data-frames]'), function (cv) {
+function scrubFilm(cv) {
   var seq = cv.closest('.seq'), st = [].slice.call(seq.querySelectorAll('.stage'));
   var n = +cv.getAttribute('data-count'), knots = cv.getAttribute('data-knots').split(',').map(Number);
-  if (!cv.getClientRects().length) return;   // the backdrop is off (a phone, print): the stills stand in, nothing loads
   if (!n || knots.length !== st.length) return;   // a mismatch would put the words over the wrong picture: show the stills
   var pad = function (i) { return ('00' + i).slice(-3); }, src = cv.getAttribute('data-frames');
   var imgs = new Array(n), ctx = cv.getContext('2d'), shown = -1, want = 0, bar = document.getElementById('bar');
@@ -52,4 +51,14 @@
   cv.classList.add('live');
   window.addEventListener('resize', fit); window.addEventListener('scroll', function () { tick(); }, { passive: true });
   fit(); tick();
+}
+[].forEach.call(document.querySelectorAll('.seq canvas[data-frames]'), function (cv) {
+  if (cv.getClientRects().length) return scrubFilm(cv);
+  // No box yet: the backdrop is off (a phone, print), where the stills stand in and nothing loads, or the page is
+  // hidden behind its passcode until the code goes in. Measured then, the film stayed off for everyone who came in
+  // by the passcode (Noodle Box deck, 28 Oct 2026: "there is no movement, there is no scroll trigger"), so it starts
+  // the first time the canvas has a box.
+  if (!('ResizeObserver' in window)) return;
+  var ro = new ResizeObserver(function () { if (cv.getClientRects().length) { ro.disconnect(); scrubFilm(cv); } });
+  ro.observe(cv);
 });

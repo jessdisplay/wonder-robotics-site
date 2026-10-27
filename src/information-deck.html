@@ -1091,13 +1091,16 @@
   // stand down whenever they would touch it; the menu holds every slide.
   var sections = document.querySelector(".bar nav"), clockBox = document.querySelector(".bar .clock");
   function fitBar() {
-    if (!sections.firstElementChild) return;
+    if (!sections.firstElementChild || !sections.getClientRects().length) return;
     var gap = clockBox.getBoundingClientRect().right + 16;
     sections.classList.toggle("cramped", sections.firstElementChild.getBoundingClientRect().left < gap);
   }
   window.addEventListener("resize", fitBar);
   setTimeout(fitBar, 0);   // once the clock below has its time
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBar);
+  // Behind a passcode the bar has no size until the code goes in, and measured then the links always read as
+  // cramped and stood down (Noodle Box deck, 28 Oct 2026): fit it again whenever the bar's size changes
+  if ("ResizeObserver" in window) new ResizeObserver(fitBar).observe(document.getElementById("bar"));
   document.getElementById("bar-mark").addEventListener("click", function (e) { e.preventDefault(); go(0, true); });
   // Brisbane's time and whether the floor is open, as the site's header has it
   (function () {
