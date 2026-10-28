@@ -58,11 +58,12 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box-lab37-red": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-lab37-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
-# A deck may dress its login: src/<name>-gate.html, or the dressings named here, in order. The Lab37 decks wear Concept
-# Eight's own Noodle Box login and its digit boxes as their little man (Jesse, 29 Oct 2026: "change the login screen to
-# our noodle box one, make the login tabs the little icon man").
-GATE_DRESS = {n: ("concept-eight", "noodle-box-tabs")
-              for n in ("noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")}
+# A deck may dress its login: src/<name>-gate.html, or the dressings named here, in order. Every Concept Eight deck wears
+# Concept Eight's own Noodle Box login with the little man's hat in its digit boxes (Jesse, 29 Oct 2026: "change the login
+# screen to our noodle box one", "just the triangle hats for the login tabs is enough", "across all decks and logins").
+CONCEPT_EIGHT = ("concept-eight", "noodle-box", "noodle-box-info", "noodle-box-separate", "noodle-box-lab37",
+                 "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")
+GATE_DRESS = {n: ("concept-eight", "noodle-box-tabs") for n in CONCEPT_EIGHT}
 
 
 def dressing(name):
@@ -73,7 +74,7 @@ def dressing(name):
 NO_PDF = {"concept-eight"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
-CONFIDENTIAL = {"concept-eight", "noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon"}
+CONFIDENTIAL = set(CONCEPT_EIGHT)
 GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () {\n"
              "  var e = document.querySelector('#gate .gate-error'); if (!e) return;\n"
              "  var n = document.createElement('p'); n.className = 'gate-own';\n"
