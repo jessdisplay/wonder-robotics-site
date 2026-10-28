@@ -1,10 +1,12 @@
 <!-- The Concept Eight deck's own login, dressed over the shared one (src/deck-gate.html), put in by decks_export.py after
-     it. Jesse, 29 Oct 2026: "the login page might just be the man in red bg with animation", then "the HAI sound effect,
-     like a Japanese samurai saying yes, on login". Their red, their own little man (img/deck/concept-eight/
-     mascot-white.png, cut from their real wordmark, never redrawn), swaying a little while the code goes in; when it is
-     right he hops and the kabuki call sounds, pon, pon, "Yoooo!" (login-call.mp3, made by Drive wonder-noodle-box/tools/
-     c8_sounds.py from our own takes; Jesse: "the 2 dings and yooooo", "make your own versions"), then the page opens. W-1's warehouse film is not wanted here,
-     so it is stopped before it plays. -->
+     it. Jesse, 29 Oct 2026: "the login page might just be the man in red bg with animation", a sound on a right code
+     ("use this one": his own gong, img/deck/concept-eight/login-gong.mp3, made by Drive wonder-noodle-box/tools/
+     c8_sounds.py), and "make sure the little man animates in line with the sound effect". Their red, their own little
+     man (img/deck/concept-eight/mascot-white.png, cut from their real wordmark, never redrawn), swaying a little while
+     the code goes in. When it is right the gong strikes and he moves with it, timed from the moment the sound starts:
+     the strike squashes him, he hops as it blooms (it peaks about 0.45 s in), then shivers as it rings, the shiver
+     dying as the ring does, while two white rings go out from him; the page opens as the ring fades, and the gong rings
+     on into the deck. W-1's warehouse film is not wanted here, so it is stopped before it plays. -->
 <style>
   #gate,#gate.no-video,#gate.is-still{background:#EE2626}
   #gate .gate-bg,#gate .gate-scrim{display:none}
@@ -13,37 +15,51 @@
   #gate.is-still button,#gate button{background:#F9D900;color:#282828}
   #gate.is-still button:hover,#gate button:hover{background:#FFE54D}
   #gate .c8-man{position:absolute;left:50%;bottom:5vh;height:min(46vh,60vw);transform:translateX(-50%);z-index:1;pointer-events:none}
-  #gate .c8-man img{display:block;height:100%;width:auto;transform-origin:50% 100%}
+  #gate .c8-man img{position:relative;display:block;height:100%;width:auto;transform-origin:50% 100%}
+  #gate .c8-ring{position:absolute;left:50%;top:48%;width:100%;aspect-ratio:1;margin-left:-50%;margin-top:-50%;border:max(3px,.5vh) solid #fff;
+                 border-radius:50%;opacity:0;pointer-events:none}
   @media (max-aspect-ratio:1/1){#gate .c8-man{bottom:auto;top:7vh;height:min(34vh,58vw)}}
   #gate.c8-yes form{opacity:0;transform:translateY(14px) scale(.98);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
   @media (prefers-reduced-motion:no-preference){
     #gate .c8-man img{animation:c8-sway 3.2s ease-in-out infinite}
-    #gate.c8-yes .c8-man img{animation:c8-hop .7s cubic-bezier(.2,.9,.3,1.25) 1}
+    #gate.c8-gong .c8-man img{animation:c8-gong 1.6s linear 1 both}
+    #gate.c8-gong .c8-ring{animation:c8-ring 1.3s cubic-bezier(.2,.7,.3,1) 1 both}
+    #gate.c8-gong .c8-ring + .c8-ring{animation-delay:.16s}
   }
   @keyframes c8-sway{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(2deg) translateY(-6px)}}
-  @keyframes c8-hop{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-9%) scale(1.04,.97)}70%{transform:translateY(0) scale(.98,1.03)}100%{transform:none}}
+  /* 1.6 s, laid on the gong: the strike (0 s), the bloom (to 0.45 s), the ring dying (to about 1.6 s) */
+  @keyframes c8-gong{
+    0%{transform:none}
+    6%{transform:translateY(1.5%) scale(1.07,.9)}
+    18%{transform:translateY(-7%) scale(.97,1.04)}
+    30%{transform:translateY(0) scale(1)}
+    36%{transform:rotate(2.6deg)} 42%{transform:rotate(-2.3deg)} 48%{transform:rotate(2deg)} 54%{transform:rotate(-1.7deg)}
+    60%{transform:rotate(1.4deg)} 66%{transform:rotate(-1.1deg)} 72%{transform:rotate(.8deg)} 79%{transform:rotate(-.5deg)}
+    87%{transform:rotate(.3deg)} 100%{transform:none}}
+  @keyframes c8-ring{0%{opacity:.8;transform:scale(.3)}100%{opacity:0;transform:scale(2.4)}}
 </style>
-<!-- in a template, which may sit in the head; the sound is put in the body, outside the login, so it plays on after the login goes -->
-<template id="c8-sound"><audio src="../img/deck/concept-eight/login-call.mp3" preload="auto"></audio></template>
+<!-- in a template, which may sit in the head; the sound is put in the body, outside the login, so it rings on after the login goes -->
+<template id="c8-sound"><audio src="../img/deck/concept-eight/login-gong.mp3" preload="auto"></audio></template>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var gate = document.getElementById('gate'); if (!gate) return;
   var man = document.createElement('div'); man.className = 'c8-man'; man.setAttribute('aria-hidden', 'true');
-  man.innerHTML = '<img src="../img/deck/concept-eight/mascot-white.png" alt="">';
+  man.innerHTML = '<span class="c8-ring"></span><span class="c8-ring"></span><img src="../img/deck/concept-eight/mascot-white.png" alt="">';
   gate.appendChild(man);
 
   // The shared login takes the page away the moment the code is right, so the code is checked here first, against the
-  // same hash the shared login uses: right, and he hops and the call sounds, then the shared login is let through to open
-  // the page; wrong, and it goes straight through to its own message. If anything here fails, the login works as ever.
-  var t = document.getElementById('c8-sound'), call = t && t.content.firstElementChild ? document.body.appendChild(t.content.firstElementChild.cloneNode(true)) : null;
+  // same hash the shared login uses: right, and the gong strikes and he moves with it, then the shared login is let
+  // through to open the page; wrong, and it goes straight through to its own message. If anything here fails, the login
+  // works as ever.
+  var t = document.getElementById('c8-sound'), gong = t && t.content.firstElementChild ? document.body.appendChild(t.content.firstElementChild.cloneNode(true)) : null;
   var pass = false, primed = false, wanted = false;
   var tag = document.querySelector('script[data-pass-hash]'), hash = tag && tag.getAttribute('data-pass-hash');
   function prime() {   // a phone only lets a sound play later if it was started inside a tap or keypress: start it silent now
-    if (primed || !call) return; primed = true;
-    call.muted = true; var p = call.play();
-    // never stops the real "Hai!": a fast or pasted code can ask for it before this silent start has settled
-    if (p && p.then) p.then(function () { if (!wanted) { call.pause(); call.currentTime = 0; } call.muted = false; }, function () { call.muted = false; });
-    else { if (!wanted) call.pause(); call.muted = false; }
+    if (primed || !gong) return; primed = true;
+    gong.muted = true; var p = gong.play();
+    // never stops the real strike: a fast or pasted code can ask for it before this silent start has settled
+    if (p && p.then) p.then(function () { if (!wanted) { gong.pause(); gong.currentTime = 0; } gong.muted = false; }, function () { gong.muted = false; });
+    else { if (!wanted) gong.pause(); gong.muted = false; }
   }
   gate.addEventListener('keydown', prime, true); gate.addEventListener('pointerdown', prime, true);
   function sha(s) {
@@ -59,8 +75,18 @@ document.addEventListener('DOMContentLoaded', function () {
     sha(real.value).then(function (h) {
       if (h !== hash) return through(form);
       gate.classList.add('c8-yes');
-      if (call) { wanted = true; call.muted = false; call.currentTime = 0; var p = call.play(); if (p && p.catch) p.catch(function () {}); }
-      setTimeout(function () { through(form); }, 750);
+      // he moves when the sound is actually heard, not when it was asked for; if it will not play, he moves anyway
+      var struck = false;
+      function strike() {
+        if (struck) return; struck = true; gate.classList.add('c8-gong');
+        setTimeout(function () { through(form); }, 1500);
+      }
+      if (gong) {
+        wanted = true; gong.muted = false; gong.currentTime = 0;
+        gong.addEventListener('playing', strike, { once: true });
+        var p = gong.play(); if (p && p.catch) p.catch(strike);
+      }
+      setTimeout(strike, gong ? 350 : 0);
     }, function () { through(form); });
   }, true);
 
