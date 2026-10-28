@@ -102,7 +102,9 @@
   .steps li{display:grid;grid-template-columns:12mm 38mm 1fr;align-items:baseline;border-bottom:.3mm solid var(--rule);padding:3.6mm 0;font-size:3.5mm}
   .steps b{font-weight:500;color:var(--ink-2)} .steps strong{font-weight:500} .steps span{color:var(--ink-2)}
   .draws{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:8mm}
-  .draws img{width:100%;height:62mm;object-fit:contain;background:#FFFFFF}
+  .draws img{width:100%;height:62mm;object-fit:cover;background:var(--card)}
+  .draws figcaption{font-weight:500;font-size:3.2mm;margin-top:2.6mm;letter-spacing:-.01em}
+  .draws figcaption b{font-weight:500;color:var(--ink-2);margin-right:1.6mm}
 
   /* the pill, as their buttons; on paper it only says who to call */
   .pill{display:inline-flex;align-self:flex-start;background:var(--ink);color:var(--paper);border-radius:99mm;padding:3mm 6mm;font-weight:500;font-size:3.4mm;margin-top:7mm}
@@ -245,6 +247,8 @@
     <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">Our studio</span></div>
     <h2 class="h1">We built ours first.<br><span class="g">Open six days.</span></h2>
     <p class="body">We built a robot kitchen for ourselves and opened it before we sold one: kitchen, bar, kiosk and floor, at 365 St Pauls Terrace, Fortitude Valley. It is our showroom and our test kitchen.</p>
+    <!-- the room's capacity, as the information deck gives it (Jesse, 29 Oct 2026: "add our showroom and capacity") -->
+    <div class="facts" style="grid-template-columns:1fr;margin-top:6mm"><div><h3>The room</h3><p>50 seated at dinner, 100 standing. A robot kitchen, a robot bar and Pepper on the door.</p></div></div>
     <figure class="fill"><img class="mono" src="{{root}}img/deck/hub.jpg" alt="Our experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof" style="object-position:38% 50%"></figure>
     <div class="pair">
       <figure><img class="mono" src="{{root}}img/hero-kitchen.jpg" alt="The kitchen line: the cobot on its rail at the fryers" style="object-position:30% 50%"><figcaption><b>Kitchen</b>The arm on its rail</figcaption></figure>
@@ -271,17 +275,32 @@
 </section>
 
 <section class="stage" aria-label="Page {{i}}. The team">
+<!-- The team as a collage, for the Concept Eight proposal. Jesse, 29 Oct 2026: "I preferred the collage and we need our advisors in there; the collage one is good if you can
+     pull it off without my massive head; it should just be small texts". The static deck's collage gave him half the
+     frame; here six tiles touch, edge to edge across the page, every face at one scale, purple and cream tees
+     alternating. Advisors' portraits are the cream ones (live at robotics/img/deck/), their roles as the static deck
+     names them. -->
+<style>
+  .collage{display:grid;grid-template-columns:repeat(3,1fr);margin:9mm calc(-1 * var(--m)) 0}
+  .collage figure{position:relative;aspect-ratio:1100/1366;overflow:hidden;background:var(--card)}
+  .collage img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .collage figure::after{content:"";position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(to top,rgba(10,6,8,.62),rgba(10,6,8,0))}
+  .collage figcaption{position:absolute;left:3.4mm;right:3.4mm;bottom:3mm;z-index:1;color:#FFFFFF;font-size:2.3mm;line-height:1.3}
+  .collage figcaption b{display:block;font-weight:500;font-size:2.9mm;letter-spacing:-.01em}
+</style>
 <div class="pg">
   <div class="safe">
     <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">The team</span></div>
-    <h2 class="h1">Four founders.<br><span class="g">One building.</span></h2>
-    <div class="team">
-      <div><img src="{{root}}img/deck/team-jesse.jpg" alt="Jesse Costelloe"><h3>Jesse Costelloe</h3><p>Cofounder, Head of Design and Fabrication</p></div>
-      <div><img src="{{root}}img/deck/team-ryan.jpg" alt="Ryan Edwards"><h3>Ryan Edwards</h3><p>Cofounder, Chief Commercial Officer</p></div>
-      <div><img src="{{root}}img/deck/team-logan.jpg" alt="Logan Baker"><h3>Logan Baker</h3><p>Cofounder, Chief Marketing Officer</p></div>
-      <div><img src="{{root}}img/deck/team-gino.jpg" alt="Gino Feng"><h3>Gino Feng</h3><p>Cofounder, Head of Engineering and Robotics</p></div>
+    <h2 class="h1">Four founders, two advisors.<br><span class="g">One building.</span></h2>
+    <div class="collage">
+      <figure><img src="{{root}}img/deck/team-jesse.jpg" alt="Jesse Costelloe"><figcaption><b>Jesse Costelloe</b>Cofounder, Head of Design and Fabrication</figcaption></figure>
+      <figure><img src="{{root}}img/deck/team-ryan.jpg" alt="Ryan Edwards"><figcaption><b>Ryan Edwards</b>Cofounder, Chief Commercial Officer</figcaption></figure>
+      <figure><img src="{{root}}img/deck/team-logan.jpg" alt="Logan Baker"><figcaption><b>Logan Baker</b>Cofounder, Chief Marketing Officer</figcaption></figure>
+      <figure><img src="{{root}}img/deck/team-gino.jpg" alt="Gino Feng"><figcaption><b>Gino Feng</b>Cofounder, Head of Engineering and Robotics</figcaption></figure>
+      <figure><img src="{{root}}img/deck/team-peter.jpg" alt="Peter White"><figcaption><b>Peter White</b>Advisor, franchising</figcaption></figure>
+      <figure><img src="{{root}}img/deck/team-don.jpg" alt="Don Sanka Small"><figcaption><b>Don Sanka Small</b>Advisor, growth</figcaption></figure>
     </div>
-    <p class="cap" style="margin-top:6mm">Advised by Peter White, franchising (FRANdata Australia, ex Franchise Council of Australia), and Don Sanka Small, growth (Ducere Global Business School, ex Go1).</p>
+    <p class="cap" style="margin-top:6mm;max-width:150mm;line-height:1.45">Peter White: General Manager Client Solutions, FRANdata Australia; acting CEO, Franchise Council of Australia, 2023. Don Sanka Small: CRO, Ducere Global Business School; ex Go1.</p>
     <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div>
   </div>
 </div>
@@ -292,9 +311,11 @@
   <div class="safe">
     <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">How we work</span></div>
     <h2 class="h1">One team,<br><span class="g">sketch to service.</span></h2>
+    <!-- Sketch to service, the two ends of it (Jesse, 29 Oct 2026: "sketch to service would show that, not 2 x the same
+         image"): the first and last frames of the Noodle Box build film, the drawing and the machine serving a box. -->
     <div class="draws">
-      <img src="{{root}}img/process/01-plan.jpg" alt="Plan drawing of a kitchen line">
-      <img src="{{root}}img/process/02-design.jpg" alt="General arrangement drawing">
+      <figure><img src="{{root}}img/deck/noodle-box/build-1.jpg" alt="Our robot wok as a drawing, before it is built" style="object-position:60% 50%"><figcaption><b>02</b>Design</figcaption></figure>
+      <figure><img src="{{root}}img/deck/noodle-box/how-5.jpg" alt="Our robot wok in a Noodle Box shop, a box handed across the counter" style="object-position:62% 50%"><figcaption><b>06</b>Service</figcaption></figure>
     </div>
     <ol class="steps">
       <li><b>01</b><strong>Plan</strong><span>The line on the floor, where the queue stands.</span></li>
@@ -315,7 +336,9 @@
   <div class="safe">
     <div class="bar"><img class="mk light-only" src="{{root}}img/deck/mark-ink.png" alt="Wonder Robotics"><img class="mk dark-only" src="{{root}}img/deck/mark-cream.png" alt="Wonder Robotics"><span class="lab">Fortitude Valley, Brisbane</span></div>
     <h2 class="h1">We build fully automated<br><span class="g">kitchens, bars and cafés.</span></h2>
-    <figure class="fill"><img src="{{root}}img/hero-bot.jpg" alt="W-1, the Wonder robot, in his studio" style="object-position:12% 50%"></figure>
+    <!-- W-1 on white (Jesse, 29 Oct 2026: "this image here doesn't work, make the bg white"): hero-bot.jpg with W-1 cut
+         out by macOS Vision and left exactly as he is, the cream backdrop replaced by white, his own floor shadow kept. -->
+    <figure class="fill"><img src="{{root}}img/hero-bot-white.jpg" alt="W-1, the Wonder robot" style="object-position:12% 50%"></figure>
     <span class="pill">1800 983 404</span>
     <div class="reach"><div><p class="lab">Email</p><p>info@wonderbytech.com</p></div><div><p class="lab">Visit</p><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div><div><p class="lab">Web</p><p>wonderbytech.com</p></div></div>
     <div class="foot"><span>Wonder Robotics</span><span>{{n}}</span></div>

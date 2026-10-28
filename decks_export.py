@@ -58,12 +58,23 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box-lab37-red": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-lab37-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
+# A deck may dress its login: src/<name>-gate.html, or the dressings named here, in order. Every Concept Eight deck wears
+# Concept Eight's own Noodle Box login with the little man's hat in its digit boxes (Jesse, 29 Oct 2026: "change the login
+# screen to our noodle box one", "just the triangle hats for the login tabs is enough", "across all decks and logins").
+CONCEPT_EIGHT = ("concept-eight", "noodle-box", "noodle-box-info", "noodle-box-separate", "noodle-box-lab37",
+                 "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")
+GATE_DRESS = {n: ("concept-eight", "noodle-box-tabs") for n in CONCEPT_EIGHT}
+
+
+def dressing(name):
+    return "".join(p.read_text() for p in (HERE / "src" / f"{stem}-gate.html" for stem in GATE_DRESS.get(name, (name,)))
+                   if p.exists())
 # Decks sent as a page only, with no PDF to download (Jesse, 29 Oct 2026, of the Concept Eight deck: "I don't want to
 # send it as a PDF as it could be copied").
 NO_PDF = {"concept-eight"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
-CONFIDENTIAL = {"concept-eight", "noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon"}
+CONFIDENTIAL = set(CONCEPT_EIGHT)
 GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () {\n"
              "  var e = document.querySelector('#gate .gate-error'); if (!e) return;\n"
              "  var n = document.createElement('p'); n.className = 'gate-own';\n"
@@ -83,6 +94,9 @@ CONTACT_FOR = {"concept-eight": [("tel:1800983404", "tel:+61407474025"), ("1800 
                                  ("tel:+61498765142", "tel:+61407474025"),
                                  ("Ryan Edwards 0498&nbsp;765&nbsp;142", "Peter White 0407&nbsp;474&nbsp;025"),
                                  ("info@wonderbytech.com", "peter@wonderbytech.com")]}
+# the Lab37 decks for the Concept Eight proposal close on Peter too (Jesse, 29 Oct 2026: "update to Peter's details")
+CONTACT_FOR.update({n: CONTACT_FOR["concept-eight"]
+                    for n in ("noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")})
 DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;'
             "font:500 15px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;"
             'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:10px;padding:16px 26px;'
@@ -138,8 +152,7 @@ def main():
             sys.exit(f"{name}: the old number is still on the page")
         if name in CONTACT_FOR and re.search(r"498[ ]?765[ ]?142|0498", html):
             sys.exit(f"{name}: Ryan's number is still on a deck with its own contact")
-        own_gate = HERE / "src" / f"{name}-gate.html"               # a deck may dress its login (src/<name>-gate.html)
-        seen = html + (GATE.read_text() + (own_gate.read_text() if own_gate.exists() else "") if name in GATED else "")   # the login is put in later; its pictures go now
+        seen = html + (GATE.read_text() + dressing(name) if name in GATED else "")   # the login is put in later; its pictures go now
         files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))
         # a film the scroll plays (src/scrub.js) names its frames once, with {n} for the frame number
         for path, count in re.findall(r'data-frames="\.\./((?:img)/[^"]+)" data-count="(\d+)"', seen):
@@ -172,8 +185,7 @@ def main():
         html, head = page.read_text(), '<meta charset="utf-8">\n'
         if html.count(head) != 1:
             sys.exit(f"{name}: no single charset line to put the login after")
-        own_gate = HERE / "src" / f"{name}-gate.html"
-        gate = GATE.read_text().replace("{{hash}}", GATED[name]) + (own_gate.read_text() if own_gate.exists() else "") + (GATE_NOTE if name in CONFIDENTIAL else "")
+        gate = GATE.read_text().replace("{{hash}}", GATED[name]) + dressing(name) + (GATE_NOTE if name in CONFIDENTIAL else "")
         page.write_text(html.replace(head, head + gate))
         print(f"{decks[name][0]}/: behind its passcode")
     print(f"{len(used)} pictures, films and fonts")
