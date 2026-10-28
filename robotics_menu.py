@@ -29,6 +29,7 @@ CLIENTS = [
         ("concept-eight", "Concept Eight deck"), ("concept-eight-decks", "All their decks"),
         ("noodle-box", "Noodle Box, posters"), ("noodle-box-info", "Noodle Box, information deck"),
         ("noodle-box-lab37", "Noodle Box, Lab37 white"), ("noodle-box-lab37-dark", "Noodle Box, Lab37 dark"),
+        ("noodle-box-lab37-red", "Noodle Box, Lab37 red"), ("noodle-box-lab37-maroon", "Noodle Box, Lab37 maroon"),
         ("noodle-box-separate", "Noodle Box, separate"), ("noodle-box-static", "Noodle Box, static")]),
     ("Fonzie Abbott", "Robot baristas", [
         ("fonzie-abbott/posters", "Posters"), ("fonzie-abbott/proposal", "Proposal"), ("fonzie-abbott", "Concept"),
