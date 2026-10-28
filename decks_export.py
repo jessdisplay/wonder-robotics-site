@@ -76,6 +76,13 @@ GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () 
 # Who to call, on the exported decks only. The site's own number stays as the
 # site has it; Jesse, 2 Oct 2026: "use Ryan's number for now on these decks".
 CONTACT = [("tel:1800983404", "tel:+61498765142"), ("1800 983 404", "Ryan Edwards 0498\u00a0765\u00a0142")]
+# A deck's own contact in place of CONTACT (Jesse, 29 Oct 2026, of the Concept Eight deck: "should be Peter White not
+# Ryan, peter@wonderbytech.com", with his number).
+# The pages it takes from the information deck name Ryan in full, so his number is swapped as well.
+CONTACT_FOR = {"concept-eight": [("tel:1800983404", "tel:+61407474025"), ("1800 983 404", "Peter White 0407\u00a0474\u00a0025"),
+                                 ("tel:+61498765142", "tel:+61407474025"),
+                                 ("Ryan Edwards 0498&nbsp;765&nbsp;142", "Peter White 0407&nbsp;474&nbsp;025"),
+                                 ("info@wonderbytech.com", "peter@wonderbytech.com")]}
 DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;'
             "font:500 15px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;"
             'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:10px;padding:16px 26px;'
@@ -125,10 +132,12 @@ def main():
         html = src.read_text()
         html = re.sub(r'href="(?:\.\./)+([^"#]*)', lambda m: 'href="' + SITE + m.group(1), html)
         html = html.replace("../../", "../")
-        for old, new in CONTACT:
+        for old, new in CONTACT_FOR.get(name, CONTACT):
             html = html.replace(old, new)
         if re.search(r"1800[ ]?983[ ]?404", html):
             sys.exit(f"{name}: the old number is still on the page")
+        if name in CONTACT_FOR and re.search(r"498[ ]?765[ ]?142|0498", html):
+            sys.exit(f"{name}: Ryan's number is still on a deck with its own contact")
         own_gate = HERE / "src" / f"{name}-gate.html"               # a deck may dress its login (src/<name>-gate.html)
         seen = html + (GATE.read_text() + (own_gate.read_text() if own_gate.exists() else "") if name in GATED else "")   # the login is put in later; its pictures go now
         files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))

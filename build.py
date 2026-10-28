@@ -1334,7 +1334,7 @@ for name, body in (("noodle-box-lab37-red", "dark red screen"), ("noodle-box-lab
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
                       description="Wonder Robotics for Noodle Box: who we are, our stir-fry robot built in their brand, "
-                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True):
+                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True, edits=()):
     """Wonder Robotics for Noodle Box, about ten pages (Jesse, 27 Oct 2026: "like a 10 pager about the company for
     noodle box with a scroller that shows how it works"; the 26 Oct build was the whole information deck, 45 slides).
     The running order is src/<running>; each <!-- take: Label --> in it is that slide of the information
@@ -1359,6 +1359,9 @@ def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics f
 
     slides = re.sub(r"<!-- take-film: (.+?) -->\n", lambda m: take_film(m.group(1)), order)
     slides = re.sub(r"<!-- take: (.+?) -->\n", lambda m: take(m.group(1)), slides)
+    for old, new in edits:   # this deck's own wording on a page it takes, each change made exactly once
+        assert slides.count(old) == 1, ("an edit that does not match once", old)
+        slides = slides.replace(old, new)
     if not brackets:  # the labels of the pages taken from the information deck, without their square brackets
         slides = re.sub(r'(<p class="lab[^"]*">)\[ (.*?) \](</p>)', r"\1\2\3", slides)
     nav = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', head, re.S).group(0)
@@ -1383,7 +1386,12 @@ deck("noodle-box", noodle_box_source())
 deck("concept-eight", noodle_box_source("concept-eight-slides.html", "Wonder Robotics for Concept Eight",
                                         "Wonder Robotics for Concept Eight: a Noodle Box restaurant, the carton booths for "
                                         "Noodle Box and Wok in a Box, the line, the dark kitchen, and who builds them.",
-                                        numbers=False, brackets=False))
+                                        numbers=False, brackets=False,
+                                        # Jesse, 29 Oct 2026: "remove visualisation"; the case study still says it is not built,
+                                        # in the small print, so a concept never reads as a finished job
+                                        edits=[(" Robot dumpling kitchen, Gold Coast. Visualisation.</p>", " Robot dumpling kitchen, Gold Coast.</p>"),
+                                               ('<p class="lab top r">[ The work ]</p>\n    <div class="foot"><p>Wonder Robotics</p>',
+                                                '<p class="lab top r">[ The work ]</p>\n    <div class="foot"><p>Little Red Dumpling: concept</p>')]))
 
 
 # Not found. Served from any depth, so its links are absolute from the root.
