@@ -1323,13 +1323,15 @@ for name in ("company", "unisc", "profile", "information", "coffee-machine", "no
 deck("noodle-box-lab37-dark", (SRC / "noodle-box-lab37-deck.html").read_text().replace("<body>", '<body class="dark">', 1))
 
 
-def noodle_box_source():
+def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
+                      description="Wonder Robotics for Noodle Box: who we are, our stir-fry robot built in their brand, "
+                                  "the line, the shop and the dark kitchen.", numbers=True):
     """Wonder Robotics for Noodle Box, about ten pages (Jesse, 27 Oct 2026: "like a 10 pager about the company for
     noodle box with a scroller that shows how it works"; the 26 Oct build was the whole information deck, 45 slides).
-    The running order is src/noodle-box-slides.html; each <!-- take: Label --> in it is that slide of the information
+    The running order is src/<running>; each <!-- take: Label --> in it is that slide of the information
     deck, and the head, header, menu and scripts are the information deck's too, so the shared parts never drift."""
     info = (SRC / "information-deck.html").read_text()
-    notes, order = (SRC / "noodle-box-slides.html").read_text().split("<!-- running order -->")
+    notes, order = (SRC / running).read_text().split("<!-- running order -->")
     head, rest = info.split('<main id="deck">', 1)
     tail = rest[rest.index("</main>"):]
 
@@ -1354,13 +1356,23 @@ def noodle_box_source():
     for mark in ("<title>Wonder Robotics, information deck</title>", "</head>"):
         assert head.count(mark) == 1, mark
     head = (head.replace(nav, ours).replace("</head>", style + "\n</head>")
-            .replace("<title>Wonder Robotics, information deck</title>", "<title>Wonder Robotics for Noodle Box</title>"))
-    head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Wonder Robotics for Noodle Box: '
-                  'who we are, our stir-fry robot built in their brand, the line, the shop and the dark kitchen.">', head, count=1)
+            .replace("<title>Wonder Robotics, information deck</title>", f"<title>{title}</title>"))
+    head = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{description}">', head, count=1)
+    if not numbers:   # a deck with no prices in it: no button or menu card out to the coffee bar's numbers deck
+        want = re.findall(r'<a class="btn want" href="https://wonder\.fish/robotics/coffee/".*?</a>', head, re.S)
+        card = re.findall(r'  <section class="menu-sec" aria-labelledby="numbers-h">.*?</section>\n', tail, re.S)
+        assert len(want) == 1 and len(card) == 1, ("the numbers button and menu card", len(want), len(card))
+        head, tail = head.replace(want[0], ""), tail.replace(card[0], "")
     return head + '<main id="deck">' + slides + tail
 
 
 deck("noodle-box", noodle_box_source())
+# Noodle Box and Wok in a Box together, layered in their own red and yellow (Jesse, 28 Oct 2026: "do a layered deck in
+# their colours and brand")
+deck("concept-eight", noodle_box_source("concept-eight-slides.html", "Wonder Robotics for Concept Eight",
+                                        "Wonder Robotics for Concept Eight: a Noodle Box restaurant, the carton booths for "
+                                        "Noodle Box and Wok in a Box, the line, the dark kitchen, and who builds them.",
+                                        numbers=False))
 
 
 # Not found. Served from any depth, so its links are absolute from the root.

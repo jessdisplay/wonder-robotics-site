@@ -38,6 +38,8 @@ DECKS = {
     # the same story in Lab37's manner, white and dark (Jesse, 28 Oct 2026: "redo an entire deck in the Lab37 treatment")
     "noodle-box-lab37": ("noodle-box-lab37", "Wonder-Robotics-for-Noodle-Box.pdf"),
     "noodle-box-lab37-dark": ("noodle-box-lab37-dark", "Wonder-Robotics-for-Noodle-Box-dark.pdf"),
+    # both brands, layered in their own red and yellow (Jesse, 28 Oct 2026)
+    "concept-eight": ("concept-eight", "Wonder-Robotics-for-Concept-Eight.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -48,7 +50,8 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-info": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-lab37": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
-         "noodle-box-lab37-dark": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+         "noodle-box-lab37-dark": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "concept-eight": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the
