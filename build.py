@@ -1327,8 +1327,9 @@ lab37 = (SRC / "noodle-box-lab37-deck.html").read_text()
 team = re.findall(r'<section class="stage" aria-label="Page \{\{i\}\}\. The team">.*?</section>\n', lab37, re.S)
 assert len(team) == 1, "the Lab37 deck's team page"
 proposal = lab37.replace(team[0], (SRC / "noodle-box-lab37-team-collage.html").read_text())
-deck("noodle-box-lab37-red", proposal.replace("<body>", '<body class="dark red">', 1))
-deck("noodle-box-lab37-maroon", proposal.replace("<body>", '<body class="maroon">', 1))
+# "screen": the same pages full screen, one at a time (Jesse, 29 Oct 2026: "make these digital")
+deck("noodle-box-lab37-red", proposal.replace("<body>", '<body class="dark red screen">', 1))
+deck("noodle-box-lab37-maroon", proposal.replace("<body>", '<body class="maroon screen">', 1))
 
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
