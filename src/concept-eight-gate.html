@@ -39,7 +39,7 @@
   @keyframes c8-ring{0%{opacity:.8;transform:scale(.3)}100%{opacity:0;transform:scale(2.4)}}
 </style>
 <!-- in a template, which may sit in the head; the sound is put in the body, outside the login, so it rings on after the login goes -->
-<template id="c8-sound"><audio src="../img/deck/concept-eight/login-gong.mp3" preload="auto"></audio></template>
+<template id="c8-sound"><audio id="c8-gong" src="../img/deck/concept-eight/login-gong.mp3" preload="auto"></audio></template>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var gate = document.getElementById('gate'); if (!gate) return;
