@@ -63,7 +63,7 @@ GATE = HERE / "src" / "deck-gate.html"
 NO_PDF = {"concept-eight"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
-CONFIDENTIAL = {"concept-eight", "noodle-box-lab37-red", "noodle-box-lab37-maroon"}
+CONFIDENTIAL = {"concept-eight", "noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon"}
 GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () {\n"
              "  var e = document.querySelector('#gate .gate-error'); if (!e) return;\n"
              "  var n = document.createElement('p'); n.className = 'gate-own';\n"
