@@ -1,0 +1,35 @@
+<!-- The Concept Eight deck's own login, dressed over the shared one (src/deck-gate.html), put in by decks_export.py after
+     it. Jesse, 29 Oct 2026: "the login page might just be the man in red bg with animation". Their red, their own
+     little man (img/deck/concept-eight/mascot-white.png, cut from their real wordmark, never redrawn), swaying a
+     little while the code goes in and hopping when it is right. W-1's warehouse film is not wanted here, so it is
+     stopped before it plays. -->
+<style>
+  #gate,#gate.no-video,#gate.is-still{background:#EE2626}
+  #gate .gate-bg,#gate .gate-scrim{display:none}
+  #gate form,#gate.is-still form{position:relative;z-index:2;background:rgba(120,8,8,.28);border:1px solid rgba(255,255,255,.22);box-shadow:none;
+                                 -webkit-backdrop-filter:none;backdrop-filter:none}
+  #gate.is-still button,#gate button{background:#F9D900;color:#282828}
+  #gate.is-still button:hover,#gate button:hover{background:#FFE54D}
+  #gate .c8-man{position:absolute;left:50%;bottom:5vh;height:min(46vh,60vw);transform:translateX(-50%);z-index:1;pointer-events:none}
+  #gate .c8-man img{display:block;height:100%;width:auto;transform-origin:50% 100%}
+  @media (max-aspect-ratio:1/1){#gate .c8-man{bottom:auto;top:7vh;height:min(34vh,58vw)}}
+  @media (prefers-reduced-motion:no-preference){
+    #gate .c8-man img{animation:c8-sway 3.2s ease-in-out infinite}
+    #gate.wr-welcome .c8-man img{animation:c8-hop .7s cubic-bezier(.2,.9,.3,1.25) 2}
+  }
+  @keyframes c8-sway{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(2deg) translateY(-6px)}}
+  @keyframes c8-hop{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-9%) scale(1.04,.97)}70%{transform:translateY(0) scale(.98,1.03)}100%{transform:none}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var gate = document.getElementById('gate'); if (!gate) return;
+  var man = document.createElement('div'); man.className = 'c8-man'; man.setAttribute('aria-hidden', 'true');
+  man.innerHTML = '<img src="../img/deck/concept-eight/mascot-white.png" alt="">';
+  gate.appendChild(man);
+  // the shared login starts W-1's warehouse film behind the box; this one has no use for it
+  var bg = gate.querySelector('.gate-bg'); if (!bg) return;
+  new MutationObserver(function () {
+    [].forEach.call(bg.querySelectorAll('video'), function (v) { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); });
+  }).observe(bg, { childList: true });
+});
+</script>

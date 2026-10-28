@@ -53,6 +53,20 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box-lab37-dark": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "concept-eight": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
+# Decks sent as a page only, with no PDF to download (Jesse, 29 Oct 2026, of the Concept Eight deck: "I don't want to
+# send it as a PDF as it could be copied").
+NO_PDF = {"concept-eight"}
+# Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
+# to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
+CONFIDENTIAL = {"concept-eight"}
+GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () {\n"
+             "  var e = document.querySelector('#gate .gate-error'); if (!e) return;\n"
+             "  var n = document.createElement('p'); n.className = 'gate-own';\n"
+             "  n.textContent = 'Concept and property of Wonder Robotics. Shared in confidence.';\n"
+             "  e.parentNode.insertBefore(n, e.nextSibling);\n"
+             "});</script>\n"
+             "<style>#gate .gate-own{margin:18px 0 0;font:500 12px/1.4 'Geist Mono',ui-monospace,Menlo,monospace;"
+             "letter-spacing:.06em;text-transform:uppercase;text-align:center;color:rgba(243,241,228,.74)}</style>\n")
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the
 # site has it; Jesse, 2 Oct 2026: "use Ryan's number for now on these decks".
@@ -110,7 +124,8 @@ def main():
             html = html.replace(old, new)
         if re.search(r"1800[ ]?983[ ]?404", html):
             sys.exit(f"{name}: the old number is still on the page")
-        seen = html + (GATE.read_text() if name in GATED else "")   # the login is put in later; its pictures go now
+        own_gate = HERE / "src" / f"{name}-gate.html"               # a deck may dress its login (src/<name>-gate.html)
+        seen = html + (GATE.read_text() + (own_gate.read_text() if own_gate.exists() else "") if name in GATED else "")   # the login is put in later; its pictures go now
         files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))
         # a film the scroll plays (src/scrub.js) names its frames once, with {n} for the frame number
         for path, count in re.findall(r'data-frames="\.\./((?:img)/[^"]+)" data-count="(\d+)"', seen):
@@ -119,7 +134,9 @@ def main():
             if not (HERE / f).exists():
                 sys.exit(f"{name}: no such file, {f}")
         used |= files
-        if html.count("</body>") == 1:
+        if name in NO_PDF:
+            pass
+        elif html.count("</body>") == 1:
             html = html.replace("</body>", DOWNLOAD.format(pdf=pdf_name) + "</body>")
         else:   # the site's own pages close the head, not the body
             cut = html.rindex("</head>")
@@ -131,6 +148,9 @@ def main():
         shutil.copyfile(HERE / f, out / f)
     # printed from the exported page, so the PDF says what the page says
     for name, (folder, pdf_name) in decks.items():
+        if name in NO_PDF:
+            print(f"{folder}/: page only, no PDF")
+            continue
         pdf(out / folder / "index.html", out / folder / pdf_name)
         print(f"{folder}/: page, {pdf_name} {(out / folder / pdf_name).stat().st_size // 1024} KB")
     for name in set(decks) & set(GATED):
@@ -138,7 +158,9 @@ def main():
         html, head = page.read_text(), '<meta charset="utf-8">\n'
         if html.count(head) != 1:
             sys.exit(f"{name}: no single charset line to put the login after")
-        page.write_text(html.replace(head, head + GATE.read_text().replace("{{hash}}", GATED[name])))
+        own_gate = HERE / "src" / f"{name}-gate.html"
+        gate = GATE.read_text().replace("{{hash}}", GATED[name]) + (own_gate.read_text() if own_gate.exists() else "") + (GATE_NOTE if name in CONFIDENTIAL else "")
+        page.write_text(html.replace(head, head + gate))
         print(f"{decks[name][0]}/: behind its passcode")
     print(f"{len(used)} pictures, films and fonts")
 
