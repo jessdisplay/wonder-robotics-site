@@ -1320,13 +1320,10 @@ def deck(name, source=None):
 for name in ("company", "unisc", "profile", "information", "coffee-machine", "noodle-box-info"):
     deck(name)
 # The Lab37 deck for the Concept Eight proposal: the same pages on the machine's maroon and on white with maroon
-# (Jesse, 29 Oct 2026), their team page the collage with the advisors (src/noodle-box-lab37-team-collage.html), full
-# screen one page at a time ("screen"; "make these digital"). One treatment: the first two addresses, once black and
-# white (28 Oct), carry it too, so a link already sent lands on the new colours (Jesse: "not black and white").
-lab37 = (SRC / "noodle-box-lab37-deck.html").read_text()
-team = re.findall(r'<section class="stage" aria-label="Page \{\{i\}\}\. The team">.*?</section>\n', lab37, re.S)
-assert len(team) == 1, "the Lab37 deck's team page"
-proposal = lab37.replace(team[0], (SRC / "noodle-box-lab37-team-collage.html").read_text())
+# (Jesse, 29 Oct 2026), full screen one page at a time ("screen"; "make these digital"). One treatment: the first two
+# addresses, once black and white (28 Oct), carry it too, so a link already sent lands on the new colours (Jesse: "not
+# black and white").
+proposal = (SRC / "noodle-box-lab37-deck.html").read_text()
 for name, body in (("noodle-box-lab37-red", "dark red screen"), ("noodle-box-lab37-dark", "dark red screen"),
                    ("noodle-box-lab37-maroon", "maroon screen"), ("noodle-box-lab37", "maroon screen")):
     deck(name, proposal.replace("<body>", f'<body class="{body}">', 1))
