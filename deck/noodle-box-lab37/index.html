@@ -126,7 +126,7 @@
   @media print{html{background:none}.stage{margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 </head>
-<body>
+<body class="maroon screen">
 <main>
 
 <section class="stage" aria-label="Page 1. Robot woks for Noodle Box">
@@ -278,17 +278,33 @@
 </section>
 
 <section class="stage" aria-label="Page 10. The team">
+<!-- The team as a collage, for the Concept Eight proposal decks (build.py puts it in place of the Lab37 team page).
+     Jesse, 29 Oct 2026: "I preferred the collage and we need our advisors in there; the collage one is good if you can
+     pull it off without my massive head; it should just be small texts". The static deck's collage gave him half the
+     frame; here six tiles touch, edge to edge across the page, every face at one scale, purple and cream tees
+     alternating. Advisors' portraits are the cream ones (live at robotics/img/deck/), their roles as the static deck
+     names them. -->
+<style>
+  .collage{display:grid;grid-template-columns:repeat(3,1fr);margin:9mm calc(-1 * var(--m)) 0}
+  .collage figure{position:relative;aspect-ratio:1100/1366;overflow:hidden;background:var(--card)}
+  .collage img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .collage figure::after{content:"";position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(to top,rgba(10,6,8,.62),rgba(10,6,8,0))}
+  .collage figcaption{position:absolute;left:3.4mm;right:3.4mm;bottom:3mm;z-index:1;color:#FFFFFF;font-size:2.3mm;line-height:1.3}
+  .collage figcaption b{display:block;font-weight:500;font-size:2.9mm;letter-spacing:-.01em}
+</style>
 <div class="pg">
   <div class="safe">
     <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">The team</span></div>
-    <h2 class="h1">Four founders.<br><span class="g">One building.</span></h2>
-    <div class="team">
-      <div><img src="../../img/deck/team-jesse.jpg" alt="Jesse Costelloe"><h3>Jesse Costelloe</h3><p>Cofounder, Head of Design and Fabrication</p></div>
-      <div><img src="../../img/deck/team-ryan.jpg" alt="Ryan Edwards"><h3>Ryan Edwards</h3><p>Cofounder, Chief Commercial Officer</p></div>
-      <div><img src="../../img/deck/team-logan.jpg" alt="Logan Baker"><h3>Logan Baker</h3><p>Cofounder, Chief Marketing Officer</p></div>
-      <div><img src="../../img/deck/team-gino.jpg" alt="Gino Feng"><h3>Gino Feng</h3><p>Cofounder, Head of Engineering and Robotics</p></div>
+    <h2 class="h1">Four founders, two advisors.<br><span class="g">One building.</span></h2>
+    <div class="collage">
+      <figure><img src="../../img/deck/team-jesse.jpg" alt="Jesse Costelloe"><figcaption><b>Jesse Costelloe</b>Cofounder, Head of Design and Fabrication</figcaption></figure>
+      <figure><img src="../../img/deck/team-ryan.jpg" alt="Ryan Edwards"><figcaption><b>Ryan Edwards</b>Cofounder, Chief Commercial Officer</figcaption></figure>
+      <figure><img src="../../img/deck/team-logan.jpg" alt="Logan Baker"><figcaption><b>Logan Baker</b>Cofounder, Chief Marketing Officer</figcaption></figure>
+      <figure><img src="../../img/deck/team-gino.jpg" alt="Gino Feng"><figcaption><b>Gino Feng</b>Cofounder, Head of Engineering and Robotics</figcaption></figure>
+      <figure><img src="../../img/deck/team-peter.jpg" alt="Peter White"><figcaption><b>Peter White</b>Advisor, franchising</figcaption></figure>
+      <figure><img src="../../img/deck/team-don.jpg" alt="Don Sanka Small"><figcaption><b>Don Sanka Small</b>Advisor, growth</figcaption></figure>
     </div>
-    <p class="cap" style="margin-top:6mm">Advised by Peter White, franchising (FRANdata Australia, ex Franchise Council of Australia), and Don Sanka Small, growth (Ducere Global Business School, ex Go1).</p>
+    <p class="cap" style="margin-top:6mm;max-width:150mm;line-height:1.45">Peter White: FRANdata Australia, ex Franchise Council of Australia. Don Sanka Small: Ducere Global Business School, ex Go1.</p>
     <div class="foot"><span>Wonder Robotics</span><span>10</span></div>
   </div>
 </div>
