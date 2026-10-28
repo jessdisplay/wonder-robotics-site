@@ -1325,7 +1325,7 @@ deck("noodle-box-lab37-dark", (SRC / "noodle-box-lab37-deck.html").read_text().r
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
                       description="Wonder Robotics for Noodle Box: who we are, our stir-fry robot built in their brand, "
-                                  "the line, the shop and the dark kitchen.", numbers=True):
+                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True):
     """Wonder Robotics for Noodle Box, about ten pages (Jesse, 27 Oct 2026: "like a 10 pager about the company for
     noodle box with a scroller that shows how it works"; the 26 Oct build was the whole information deck, 45 slides).
     The running order is src/<running>; each <!-- take: Label --> in it is that slide of the information
@@ -1350,6 +1350,8 @@ def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics f
 
     slides = re.sub(r"<!-- take-film: (.+?) -->\n", lambda m: take_film(m.group(1)), order)
     slides = re.sub(r"<!-- take: (.+?) -->\n", lambda m: take(m.group(1)), slides)
+    if not brackets:  # the labels of the pages taken from the information deck, without their square brackets
+        slides = re.sub(r'(<p class="lab[^"]*">)\[ (.*?) \](</p>)', r"\1\2\3", slides)
     nav = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', head, re.S).group(0)
     ours = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', notes, re.S).group(0)
     style = re.search(r"<style>.*?</style>", notes, re.S).group(0)
@@ -1372,7 +1374,7 @@ deck("noodle-box", noodle_box_source())
 deck("concept-eight", noodle_box_source("concept-eight-slides.html", "Wonder Robotics for Concept Eight",
                                         "Wonder Robotics for Concept Eight: a Noodle Box restaurant, the carton booths for "
                                         "Noodle Box and Wok in a Box, the line, the dark kitchen, and who builds them.",
-                                        numbers=False))
+                                        numbers=False, brackets=False))
 
 
 # Not found. Served from any depth, so its links are absolute from the root.

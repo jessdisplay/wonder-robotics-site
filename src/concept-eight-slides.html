@@ -1,25 +1,40 @@
 <!-- Wonder Robotics for Concept Eight, the running order (build.py, noodle_box_source). Jesse, 28 Oct 2026, night: "can
      you go through and do a layered deck in their colours and brand", "those other renders we have are going to be
      helpful", "do up a full restaurant for them, really edgy with the woks in the bg", "we have the full dark kitchen
-     too", "add our capacity, our showrooms etc too and our team slide, use the yellow purple treatment", "host this
-     live too"; of their Wok-Day ads, "yellow and red alternating backgrounds with red or yellow fonts in their brand",
-     "colour palette and font right". So their pages alternate their red and yellow, the words in the other colour,
-     the pictures standing in front, their tilted sticker saying CONCEPT on every render; ours are in our purple, the
-     founders poster as it was made today. The posters are made by Drive wonder-noodle-box/tools/c8_posters.py (on
-     nb_posters.py and the posters deck's poster.py); the team, design-build-run and close cards are the Noodle Box
-     deck's own. A "take" marker below is that slide of the information deck, word for word. -->
+     too", "host this live too"; of their Wok-Day ads, "yellow and red alternating backgrounds with red or yellow fonts in
+     their brand", "colour palette and font right". 29 Oct: "remove concept" (the stickers; the small print keeps it);
+     "need team slide, showroom, who we have worked with, real photos of us, need our process, the numbers, team slide
+     should be real photos with advisors"; "use the build, add the case study and brands we have worked with"; "opening
+     slide of we build robotic kitchens too"; "ghost kitchen copy"; and TechMagic's film, through their own player,
+     credited (it is theirs to host). So their pages alternate their red and yellow, the words in the other colour, the
+     pictures standing in front; ours are the information deck's own pages, real photographs, without the brackets on
+     their labels. The posters are made by Drive wonder-noodle-box/tools/c8_posters.py (on nb_posters.py and the posters
+     deck's poster.py). A "take" marker below is that slide of the information deck, word for word. -->
 
 <nav class="label" aria-label="Sections">
-      <a href="#" data-go="Dinner and a show">The restaurant</a><a href="#" data-go="Noodle Box, anywhere">The booths</a><a href="#" data-go="Four woks, one arm">The line</a><a href="#" data-go="Two brands, one kitchen">The dark kitchen</a><a href="#" data-go="Made to roll out">Who builds it</a>
+      <a href="#" data-go="Dinner and a show">The restaurant</a><a href="#" data-go="Noodle Box, anywhere">The booths</a><a href="#" data-go="Two brands, one ghost kitchen">The ghost kitchen</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Wonder Robotics">Who we are</a><a href="#" data-go="The work">The work</a>
     </nav>
 
 <style>
   /* The posters carry their own words; the small print stays small and quiet, so the poster carries the page */
   .foot{font-size:calc(16*var(--u));opacity:.62}
   .in.full.poster.foot-ink .foot{color:rgba(40,40,40,.72)}                      /* on their yellow, and the pale line plate */
+  /* TechMagic's film, in their own Vimeo player: it comes in only while its page is on screen */
+  .slide.tm{background:#000}
+  .tm-film{position:absolute;inset:0;background:#000}
+  .tm-film iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .tm .in.full::after{pointer-events:none}
+  .tm .film-line{position:absolute;left:calc(96*var(--u));bottom:calc(150*var(--u));z-index:2;margin:0;max-width:calc(1100*var(--u));
+    font-size:calc(44*var(--u));line-height:1.15;letter-spacing:-.025em;color:var(--paper)}
+  .tm .print-only{position:absolute;left:calc(96*var(--u));top:45%;font-size:calc(40*var(--u));color:var(--paper)}
+  @media screen{.tm p.print-only{display:none !important}}   /* paper gets the film's address instead */
   @media screen and (max-width:760px),screen and (max-height:440px){   /* the deck's own phone rule: screen only, never the PDF */
     .in.full.poster .plate{aspect-ratio:16/9}                                     /* a poster is never cropped: its words are in it */
     .in.full.poster.foot-ink .foot{color:inherit}                                 /* the small print drops under the poster, onto our night */
+    .tm .in{padding:0}
+    .tm-film{position:relative;inset:auto;aspect-ratio:16/9}
+    .tm .film-line{position:static;font-size:22px;padding:18px 22px 0}
+    .tm .foot{position:static;padding:14px 22px 28px}
   }
 </style>
 
@@ -27,7 +42,7 @@
 <!-- 1. Both booths, each on the other brand's colour, under their kind of pun. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wok this way">
   <div class="slide night"><div class="in full poster foot-ink">
-    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-cover.jpg" width="2880" height="1620" alt="Wonder Robotics and Concept Eight: WOK THIS WAY over a field split on a slant, Wok in a Box yellow and Noodle Box red, with our two carton booths standing in front, the red Noodle Box booth on the yellow and the yellow Wok in a Box booth on the red. A tilted sticker: Concept"></div>
+    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-cover.jpg" width="2880" height="1620" alt="Wonder Robotics and Concept Eight: WOK THIS WAY over a field split on a slant, Wok in a Box yellow and Noodle Box red, with our two carton booths standing in front, the red Noodle Box booth on the yellow and the yellow Wok in a Box booth on the red"></div>
     <div class="foot"><p>Concept</p><p>{{n}}</p></div>
   </div></div>
 </section>
@@ -60,41 +75,73 @@
   </div></div>
 </section>
 
-<!-- 6 and 7. Bigger: the busiest stores get the line, and both brands share one dark kitchen. -->
+<!-- 6 and 7. Bigger: the busiest stores get the line, and both brands share one ghost kitchen. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Four woks, one arm">
   <div class="slide night"><div class="in full poster foot-ink">
     <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-rush.jpg" width="2880" height="1620" alt="Concept: FOUR WOKS. ONE ARM. Built for the Friday rush. Our stir-fry line in Noodle Box red: noodle cookers, a red arm on its overhead rail, four flaming woks, the sauce rack and stacks of their boxes"></div>
     <div class="foot"><p>Concept</p><p>{{n}}</p></div>
   </div></div>
 </section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Two brands, one kitchen">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Two brands, one ghost kitchen">
   <div class="slide night"><div class="in full poster">
-    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-two-brands.jpg" width="2880" height="1620" alt="Concept: the Concept Eight dark kitchen, the Noodle Box line on their red, the Wok in a Box line on their yellow and the lockers between. TWO BRANDS. ONE KITCHEN."></div>
+    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-two-brands.jpg" width="2880" height="1620" alt="Concept: the Concept Eight ghost kitchen, the Noodle Box line on their red, the Wok in a Box line on their yellow and the lockers between; on a band of their red, TWO BRANDS. ONE GHOST KITCHEN. No shopfront, delivery and pickup lockers"></div>
     <div class="foot"><p>Concept</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
-<!-- 8 and 9. Who builds it, in our purple: the capacity to roll it out, and the showroom. -->
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Made to roll out">
-  <div class="slide night"><div class="in full poster">
-    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-roll-out.jpg" width="2880" height="1620" alt="Under a band of our purple, MADE TO ROLL OUT: one design, every store, installed and serviced by us. Below, two of the machines standing in the factory hall"></div>
-    <div class="foot"><p>Visualisation, from the factory as filmed</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Come see them work">
-  <div class="slide night"><div class="in full poster">
-    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-showroom.jpg" width="2880" height="1620" alt="Our showroom in Fortitude Valley, the bar, the tables and our machines, under COME SEE THEM WORK in our cream on our purple"></div>
-    <div class="foot"><p></p><p>{{n}}</p></div>
+<!-- 8. What one wok does. Expected figures, as the Noodle Box deck has them (c8_posters.py and nb_posters.py say where
+     each comes from). -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The numbers">
+  <div class="slide night"><div class="in full poster foot-ink">
+    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-numbers.jpg" width="2880" height="1620" alt="On Wok in a Box yellow, in Noodle Box red: 30 boxes an hour, one wok; 2 min a box, order to lid; $52K wages back a year, every store; 70+ Noodle Box stores, one install"></div>
+    <div class="foot"><p>Expected figures, confirmed in your quote</p><p>{{n}}</p></div>
   </div></div>
 </section>
 
-<!-- 10 and 11. The founders poster as it was made today, and DESIGN BUILD RUN (the Noodle Box deck's own). -->
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The team">
+<!-- 9. A robot already cooking for a restaurant: TechMagic's film of P-Robo at Ebino Spaghetti, Tokyo, in their own
+     Vimeo player, credited (theirs to host, so it is played from Vimeo, never copied onto our site). Muted, loops, and
+     comes in only while the page is on screen. -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Film: TechMagic's P-Robo">
+  <div class="slide night tm"><div class="in full">
+    <div class="tm-film" id="tm-film" data-src="https://player.vimeo.com/video/718124878?autoplay=1&amp;muted=1&amp;loop=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;dnt=1&amp;playsinline=1"></div>
+    <p class="print-only">The film: techmagic.co.jp/en/p-robo</p>
+    <p class="film-line">Already cooking for a restaurant in Tokyo.</p>
+    <div class="foot"><p>Film: TechMagic&rsquo;s P-Robo, cooking for Ebino Spaghetti, Tokyo</p><p>{{n}}</p></div>
+  </div></div>
+  <script>
+  (function () {
+    var box = document.getElementById("tm-film"); if (!box || !window.IntersectionObserver) return;
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && !box.firstChild) {
+        var f = document.createElement("iframe");
+        f.title = "TechMagic's film of P-Robo"; f.allow = "autoplay; fullscreen; picture-in-picture"; f.src = box.dataset.src;
+        box.appendChild(f);
+      } else if (!es[0].isIntersecting) box.textContent = "";
+    }, { rootMargin: "50% 0px" }).observe(box);
+  })();
+  </script>
+</section>
+
+<!-- 10 to 12. Who we are: the opening page (we build robotic kitchens), our process, and the build itself. -->
+<!-- take: Wonder Robotics -->
+<!-- take-film: Plan to open, plan -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Made to roll out">
   <div class="slide night"><div class="in full poster">
-    <div class="plate"><img src="{{root}}img/deck/noodle-box/poster-team.jpg" width="2880" height="1620" alt="Our four founders as drawn heads in four purple panels: DESIGN, Jesse Costelloe; GROWTH, Ryan Edwards; MARKETING, Logan Baker; ROBOTICS, Gino Feng"></div>
-    <div class="foot"><p></p><p>{{n}}</p></div>
+    <div class="plate"><img src="{{root}}img/deck/concept-eight/poster-roll-out.jpg" width="2880" height="1620" alt="On our purple: MADE TO ROLL OUT, one design, every store, installed and serviced by us; four pictures of our stir-fry robot being made: 1 Draw, the ink drawing; 2 Build, in raw steel; 3 Brand, in Noodle Box red; 4 Install, behind the counter of their shop"></div>
+    <div class="foot"><p>Concept</p><p>{{n}}</p></div>
   </div></div>
 </section>
+
+<!-- 13 to 15. Us, in photographs: the founders and our advisers, the showroom, the studio full of people. -->
+<!-- take: The team -->
+<!-- take: The experience hub -->
+<!-- take: The studio -->
+
+<!-- 16 and 17. The case study and the brands we work with. -->
+<!-- take: The work -->
+<!-- take: Who we work with -->
+
+<!-- 18. DESIGN BUILD RUN (the Noodle Box deck's own). -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Design, build, run">
   <div class="slide night"><div class="in full poster">
     <div class="plate"><img src="{{root}}img/deck/noodle-box/poster-design-build-run.jpg" width="2880" height="1620" alt="On our purple: DESIGN BUILD RUN, Australian based, serviced on site, beside the ink drawing of their robot wok"></div>
@@ -102,7 +149,7 @@
   </div></div>
 </section>
 
-<!-- 12. The last word, as the Noodle Box deck closes. -->
+<!-- 19. The last word, as the Noodle Box deck closes. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Your recipes, our robots">
   <div class="slide night"><div class="in full poster">
     <div class="plate"><img src="{{root}}img/deck/noodle-box/close.jpg" width="2880" height="1620" alt="In a flowing script, white on Noodle Box red: Your recipes, our robots; under it the Wonder Robotics mark and the Noodle Box wordmark side by side"></div>
@@ -110,5 +157,5 @@
   </div></div>
 </section>
 
-<!-- 13. The close is the website's header, as every Wonder Robotics deck closes (rule, Jesse, 22 Oct 2026) -->
+<!-- 20. The close is the website's header, as every Wonder Robotics deck closes (rule, Jesse, 22 Oct 2026) -->
 <!-- take: Wonder Robotics, Fortitude Valley -->
