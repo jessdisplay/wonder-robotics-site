@@ -93,6 +93,9 @@ CONTACT_FOR = {"concept-eight": [("tel:1800983404", "tel:+61407474025"), ("1800 
                                  ("tel:+61498765142", "tel:+61407474025"),
                                  ("Ryan Edwards 0498&nbsp;765&nbsp;142", "Peter White 0407&nbsp;474&nbsp;025"),
                                  ("info@wonderbytech.com", "peter@wonderbytech.com")]}
+# the Lab37 decks for the Concept Eight proposal close on Peter too (Jesse, 29 Oct 2026: "update to Peter's details")
+CONTACT_FOR.update({n: CONTACT_FOR["concept-eight"]
+                    for n in ("noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")})
 DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;'
             "font:500 15px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;"
             'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:10px;padding:16px 26px;'
