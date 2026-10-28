@@ -1,32 +1,38 @@
 <!-- Wonder Robotics for Noodle Box, the running order (build.py, noodle_box_source). Jesse, 27 Oct 2026: "like a 10
      pager about the company for noodle box with a scroller that shows how it works"; the treatment is TechMagic's P-Robo
-     page ("P-Robo is the treatment"), our purple dark first with our branding, then their brand; the story is "we can
-     make any concept, that's what we need to say", and the difference is the Brisbane studio, the Melbourne office and
-     our own factory in China. A "take" marker below is that slide of the information deck, word for word. The pictures
-     are concept renders from their published wordmark and our real machine; the posters come from Drive
-     wonder-noodle-box/deck-source/nb_posters.py, the film and the cover from wonder-noodle-box/3d/wok_machine.py. -->
+     page, our purple dark first with our branding, then their brand; the story is "we can make any concept, that's what
+     we need to say". 28 Oct 2026: "give me this deck in 12 slides max"; "all of the sliders with text don't work", so no
+     page depends on scrolling: "animate the movements in one slide like a loop and tell the story that way without
+     scroll", "maybe go with larger text"; no China, Melbourne or Australia places, "just that we are Australian based,
+     repairs and engineering is done on site", shown in our studio the way Lab37 shows its lab. A "take" marker below is
+     that slide of the information deck, word for word. The pictures are concept renders from their published wordmark
+     and our real machine; the loops are made by Drive wonder-noodle-box/tools/make_loop.py. -->
 
 <nav class="label" aria-label="Sections">
-      <a href="#" data-go="The team">Who we are</a><a href="#" data-go="Robotic hospitality">The machine</a><a href="#" data-go="How it works, order">How it works</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Plan to open, plan">Our process</a><a href="#" data-go="Why us">Why us</a>
+      <a href="#" data-go="The team">Who we are</a><a href="#" data-go="How it works">How it works</a><a href="#" data-go="Noodle Box, the stir-fry line">The machine</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Plan to open">Our process</a><a href="#" data-go="Why us">Why us</a>
     </nav>
 
 <style>
-  /* The opening, after P-Robo's: the machine alone in the dark, the mark across it */
-  /* The block is placed by its box, never by transform: the deck's rising lines (.r) animate transform. */
-  .open::after{background:linear-gradient(to right,rgba(19,10,36,.7) 0%,rgba(19,10,36,0) 46%)}
-  .open .lab{position:absolute;left:calc(96*var(--u));top:calc(72*var(--u));z-index:1}
-  .open-c{position:absolute;left:calc(96*var(--u));top:0;bottom:0;width:calc(780*var(--u));display:flex;flex-direction:column;justify-content:center;z-index:1}
+  /* The opener (Jesse, 28 Oct 2026: "Wonder Robotics for Concept Eight on either side, so that's it, the opener"): the
+     film plays between the two marks, ours on the left, theirs on the right, nothing else. The machine stands right of
+     centre in the film (x 41 to 78 percent), so their mark sits in the strip beyond it. Blocks are placed by their box,
+     never by transform: the deck's rising lines (.r) animate transform. */
+  .in.full.open.loop::after{background:linear-gradient(to right,rgba(19,10,36,.66) 0%,rgba(19,10,36,0) 38%),
+    linear-gradient(to left,rgba(19,10,36,.6) 0%,rgba(19,10,36,0) 24%),
+    linear-gradient(to bottom,rgba(19,10,36,.5) 0%,rgba(19,10,36,0) 16%)}
+  .open .lab{position:absolute;left:calc(96*var(--u));top:calc(72*var(--u));z-index:2}
+  .open-c,.open-r{position:absolute;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;z-index:2}
+  .open-c{left:calc(96*var(--u));width:calc(500*var(--u))}
+  .open-r{right:calc(96*var(--u));width:calc(370*var(--u));flex-direction:row;align-items:center;gap:calc(26*var(--u))}
+  .open-r img{display:block;width:calc(290*var(--u));height:auto}
+  .open-r .x{font-weight:300;font-size:calc(64*var(--u));line-height:1;color:var(--paper)}
+  /* "x Concept Eight" comes in as the machine becomes theirs, and goes as the film fades back to the empty stage */
+  .open.cued .open-r{opacity:0;transition:opacity .9s ease}
+  .open.cued .open-r.on{opacity:1}
+  @media print,(prefers-reduced-motion:reduce){.open.cued .open-r{opacity:1}}   /* no film: both marks, still */
   .open-mark{margin:0}
   .open-mark canvas{display:block;width:100% !important;height:auto !important}   /* the drawn mark, sized by its box */
-  .open-line{margin-top:calc(34*var(--u));font-size:calc(44*var(--u));line-height:1.15;letter-spacing:-.025em;color:var(--paper)}
-  /* TechMagic's film, played through their own player */
-  .slide.tm{background:#000}
-  .tm-film{position:absolute;inset:0;background:#000}
-  .tm-film iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .tm .in.full::after{pointer-events:none}
-  .tm .print-only{position:absolute;left:calc(96*var(--u));top:45%;font-size:calc(40*var(--u));color:var(--paper)}
-  /* Why us: three full screens, each pinned in turn while the next scrolls up over it */
-  .stack .stage{position:sticky;top:var(--bar)}
+  /* Why us: our studio, one full screen, the line over the top of the picture */
   .in.full.place::before{content:"";position:absolute;inset:0 0 auto;height:48%;z-index:1;pointer-events:none;
     background:linear-gradient(to bottom,rgba(19,10,36,.82) 0%,rgba(19,10,36,.45) 55%,rgba(19,10,36,0) 100%)}
   .place .lab.top{top:calc(64*var(--u));left:calc(96*var(--u))}
@@ -34,6 +40,20 @@
   .place-head .lede{max-width:calc(1100*var(--u))}
   .place .tag{display:inline-block;margin-left:calc(12*var(--u));font-family:var(--mono);font-size:calc(18*var(--u));letter-spacing:.08em;vertical-align:middle;
     text-transform:uppercase;color:rgba(243,241,228,.62);border:1px solid rgba(243,241,228,.35);border-radius:calc(4*var(--u));padding:calc(2*var(--u)) calc(8*var(--u))}
+  /* The cover: the branded machine on the right, the mark and the line on the left, six words under them */
+  /* A loop: the film plays by itself behind the page's one core line (Jesse, 28 Oct 2026: "I don't want a timer like
+     this, I want it just to animate in the background of the core text"). No scroll, so it works with the arrows, in
+     full screen, on a phone and behind the passcode. */
+  .loop-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--night)}
+  .in.full.loop::after{background:linear-gradient(to top,rgba(19,10,36,.88) 0%,rgba(19,10,36,.5) 34%,rgba(19,10,36,0) 64%),
+    linear-gradient(to bottom,rgba(19,10,36,.62) 0%,rgba(19,10,36,0) 16%),
+    linear-gradient(to right,rgba(19,10,36,.55) 0%,rgba(19,10,36,0) 48%)}
+  .loop .lab.top{position:absolute;left:calc(96*var(--u));top:calc(64*var(--u));z-index:2;color:var(--paper)}
+  .loop-say{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(120*var(--u));z-index:2}
+  .loop-say h2{margin:0;font-weight:400;font-size:calc(124*var(--u));line-height:.94;letter-spacing:-.05em;text-wrap:balance;color:var(--paper);max-width:calc(1500*var(--u))}
+  .loop-say p{margin:calc(22*var(--u)) 0 0;font-size:calc(44*var(--u));line-height:1.2;letter-spacing:-.02em;color:var(--paper-2);max-width:calc(1300*var(--u))}
+  .loop .still-only{display:none}
+  @media print{ .loop-film{display:none} .loop .still-only{display:block} }
   /* The numbers: four figures across, the deck's amber on night */
   .figs-page{justify-content:center}
   .figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:calc(48*var(--u));margin:calc(72*var(--u)) 0 0}
@@ -41,26 +61,18 @@
   .figs dt{font-weight:400;font-size:calc(150*var(--u));line-height:.9;letter-spacing:-.05em;color:#E8A84C;font-variant-numeric:tabular-nums}
   .figs dt small{font-size:.3em;letter-spacing:0;margin-left:.2em;color:var(--paper-2)}
   .figs dd{margin:calc(16*var(--u)) 0 0;font-size:calc(28*var(--u));line-height:1.3;color:var(--paper-2);max-width:calc(340*var(--u))}
-  /* A film's words take their dark from the film, which stays put. A gradient on each stop scrolled with the stop and
-     left a hard band across the film between stops (Jesse, 28 Oct 2026: "a sketch with gradients over the top of it"). */
-  .seq.film .full::after,.seq.film .open::after{display:none}
-  .seq.film .seq-back::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(to top,rgba(19,10,36,.85) 0%,rgba(19,10,36,.45) 32%,rgba(19,10,36,0) 62%),
-               linear-gradient(to right,rgba(19,10,36,.55) 0%,rgba(19,10,36,0) 45%)}
   /* pictures with a caption over a pale floor get a dark foot, so the caption reads */
   .in.full.poster.foot-dark::after{display:block;background:linear-gradient(to top,rgba(19,10,36,.78) 0%,rgba(19,10,36,0) 20%)}
-  @media screen{.tm p.print-only{display:none !important}}   /* the phone shows print-only stills; this line is for paper */
   @media (max-width:760px){
     .open .lab{position:static;padding:18px 22px 0}
-    .open-c{position:relative;left:auto;width:auto;margin-top:28px;padding:0 22px 56px}
-    .open-line{font-size:22px;margin-top:14px}
-    /* their film on its own, our words under it, never over their player's buttons */
-    .tm .in{padding:0}
-    .tm-film{position:relative;inset:auto;aspect-ratio:16/9}
-    .tm .lab.top{display:none}
-    .tm .foot{position:static;padding:14px 22px 28px}
-    /* the places simply follow one another, the line above the first */
-    .stack .stage{position:static}
+    .open-c,.open-r{position:relative;left:auto;right:auto}
+    .open-c{width:62%;margin:26px 22px 0} .open-r{width:36%;margin:22px 22px 44px}
+    /* a loop on a phone: the film on top, its line under it */
+    .loop-film{position:relative;inset:auto;aspect-ratio:16/9;height:auto}
+    .in.full.loop::after{display:none}
+    .loop .lab.top{position:static;padding:18px 22px 0}
+    .loop-say{position:relative;left:auto;right:auto;bottom:auto;margin:18px 22px 56px}
+    .loop-say h2{font-size:34px} .loop-say p{font-size:17px;margin-top:10px}
     .in.full.place::before{display:none}
     .place-head{position:static;padding:28px 22px 18px}
     .figs{grid-template-columns:1fr 1fr;gap:22px;margin-top:28px}
@@ -70,32 +82,29 @@
 </style>
 
 <!-- running order -->
-<!-- The header (Jesse, 28 Oct 2026: "the scroll trigger is supposed to be in the header", "a movement from sketch all the
-     way to fitted"). How it is built, on their machine (Jesse, 26 Oct 2026: "start from a drawing and by the end of the scroll the full
-     machine is there"; 27 Oct: "high spec photorealistic", "steel and purple and as it gets branded for the noodle box").
-     Made from the established hero render: the sketch, the machine in raw steel in our purple studio, their red and
-     wordmark going on, the flame and the toss, then fitted in their shop as the studio falls away. Three generated clips
-     locked to those stills, cut to 240 frames that src/scrub.js plays as the window moves (Drive
-     wonder-noodle-box/film/cut_film.py); the cover is its first stop; one page in the count. -->
-<div class="seq film" data-one>
-  <div class="seq-back" aria-hidden="true">
-    <img src="{{root}}img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt="The Noodle Box robot wok, drawn" class="b1">
-    <canvas data-frames="{{root}}img/deck/noodle-box/build/f{n}.webp" data-count="240" data-knots="0,30,64,100,120,145,239" data-fy="0.15"></canvas>
-  </div>
+<!-- 1. The opener plays by itself (Jesse, 28 Oct 2026: "animated starting blank"; "the original one was best"; "use
+     the same idea you used to go from paper to metal to go from metal to branded red"; "no stirring until in the
+     restaurant"; "keep it clean and minimal"): the build film from the empty stage and the drawing to the steel machine
+     under our mark; a white light sweeps across it, as the paper-to-steel sweep does, and behind it the machine is
+     theirs, with "x Concept Eight" coming in at that moment; clean and still, then the film's own way into their
+     white-tiled shop, where it starts cooking. cover-loop.mp4 is the build film through Drive
+     wonder-noodle-box/tools/opener_frames.py and make_loop.py reveal; data-at is the second it becomes theirs
+     (opener_frames.py prints it). Concept Eight's mark, in white. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics for Noodle Box">
-  <div class="slide night"><div class="in full open">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-1.jpg" width="2752" height="1536" alt="The Noodle Box robot wok, drawn"></div>
-    <p class="lab r">[ Wonder Robotics for Noodle Box ]</p>
+  <div class="slide night"><div class="in full open loop cued">
+    <video class="loop-film" src="{{root}}img/deck/noodle-box/cover-loop.mp4" muted playsinline loop preload="auto" aria-hidden="true"></video>
+    <div class="plate still-only"><img src="{{root}}img/deck/noodle-box/build-5.jpg" width="2752" height="1536" alt="Our robot wok in Noodle Box red, standing alone in our purple studio" style="--op:72% 50%"></div>
+    <p class="lab r">[ Wonder Robotics for Concept Eight ]</p>
     <div class="open-c">
       <h1 class="open-mark r"><canvas id="open-mark" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="960" data-pxr="0.2" data-hr="0.34" role="img" aria-label="Wonder Robotics"></canvas></h1>
-      <p class="open-line r">We don&rsquo;t sell robots. We build concepts.</p>
     </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
+    <div class="open-r" data-at="6.08" data-out="1.1"><span class="x" aria-hidden="true">&times;</span><img src="{{root}}img/deck/noodle-box/c8-white.png" width="1200" height="487" alt="Concept Eight"></div>
+    <div class="foot"><p>Concept for Concept Eight</p><p>{{n}}</p></div>
   </div></div>
   <script>
   // The robot pops into the moon, as on the website (Jesse, 27 Oct 2026: "when we scroll get the robotics head to pop
   // into the moon too like the website"): the cover's mark whenever the cover comes on screen, the header's the first
-  // time you scroll on, as the mark hands over to the bar. The site's own WonderSneak, loaded at the foot of the deck.
+  // time you move on, as the mark hands over to the bar. The site's own WonderSneak, loaded at the foot of the deck.
   window.addEventListener("load", function () {
     var big = document.getElementById("open-mark"), head = document.getElementById("bar-canvas"), cover = big && big.closest(".stage");
     if (!cover || !window.WonderSneak || !window.IntersectionObserver) return;
@@ -114,161 +123,66 @@
   });
   </script>
 </section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Robotic hospitality">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-2.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Robotic hospitality.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Custom built">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-3.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Custom built.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. In house">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-4.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">In house.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. On brand">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-5.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">On brand.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Future ready">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-6.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Future ready.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Fully serviced">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/build-7.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ Wonder Robotics for Noodle Box ]</p>
-      <h2 class="l">Fully serviced.</h2>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-</div><!-- /one -->
 
+<!-- 2. -->
 <!-- take: The team -->
 
-
-
-
-
-<!-- How it works (Jesse, 27 Oct 2026: "this was supposed to be a wrap around with script", "descriptive"): the
-     camera travels round our wok in a Noodle Box shop, as in the Fonzie brand film, a line of script at each stop.
-     Five stills made from one anchor (the shop, natively lit, our machine the only one in the kitchen), four clips
-     locked to them, cut to 200 frames (Drive wonder-noodle-box/film/cut_film.py, CUT_NAME=how). One page in the count.
-     The two minutes and thirty an hour are the numbers page's placeholders. -->
-<div class="seq film" data-one>
-  <div class="seq-back" aria-hidden="true">
-    <img src="{{root}}img/deck/noodle-box/how-1.jpg" width="2752" height="1536" alt="Our robot wok in a Noodle Box shop, behind the counter" class="b1">
-    <canvas data-frames="{{root}}img/deck/noodle-box/how/f{n}.webp" data-count="200" data-knots="0,63,120,164,199"></canvas>
-  </div>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, order">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-1.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ How it works ]</p>
-      <h2 class="l">Orders go straight to the wok.</h2>
-      <p class="life-say">From the counter, the app or the delivery tablet.</p>
-    </div>
+<!-- 3. How it works, a loop (Jesse, 27 Oct 2026: "a wrap around with script"; 28 Oct: "animate the movements in one
+     slide like a loop", "just to animate in the background of the core text"): the camera travels round our wok in a
+     Noodle Box shop, resting at each step (how-loop.mp4, make_loop.py), behind one line. Two minutes is a placeholder. -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works">
+  <div class="slide night"><div class="in full loop">
+    <video class="loop-film" src="{{root}}img/deck/noodle-box/how-loop.mp4" poster="{{root}}img/deck/noodle-box/how-1.jpg" muted playsinline loop preload="none" aria-hidden="true"></video>
+    <div class="plate still-only"><img src="{{root}}img/deck/noodle-box/how-1.jpg" width="2752" height="1536" alt="Our robot wok behind the counter of a Noodle Box shop"></div>
+    <p class="lab top">[ How it works ]</p>
+    <div class="loop-say"><h2>Orders in. Boxes out.</h2><p>Dosed to the gram, tossed over full flame, two minutes a box. Your crew serves.</p></div>
     <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
   </div></div>
+  <script>
+  // Every loop on the page plays while it is on screen and stops when it leaves; reduced motion keeps the first frame.
+  window.addEventListener("load", function () {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
+    [].forEach.call(document.querySelectorAll(".loop video"), function (v) {
+      v.addEventListener("playing", function () { v.classList.add("live"); });   // the deck shows a video once it plays
+      // a mark that comes in at a moment of the film (the opener's "x Concept Eight"): on from data-at seconds, off
+      // data-out seconds before the end, as the film fades back to the empty stage
+      var box = v.closest(".in"), cued = box && box.querySelectorAll("[data-at]");
+      if (cued && cued.length) {
+        v.addEventListener("timeupdate", function () {
+          [].forEach.call(cued, function (el) {
+            var t = v.currentTime, d = v.duration || 0;
+            el.classList.toggle("on", t >= +el.dataset.at && (!d || t < d - +el.dataset.out));
+          });
+        });
+      }
+      new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) {
+          if (v.preload !== "auto") { v.preload = "auto"; v.load(); }
+          var go = v.play(); if (go && go.catch) go.catch(function () {});
+        } else v.pause();
+      }, { threshold: 0.35 }).observe(v.closest(".stage"));
+    });
+  });
+  </script>
 </section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, dose">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-2.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ How it works ]</p>
-      <h2 class="l">Dosed to the gram.</h2>
-      <p class="life-say">Noodles, vegetables and sauce, the same in every box.</p>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, toss">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-3.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ How it works ]</p>
-      <h2 class="l">Wok hei, every time.</h2>
-      <p class="life-say">Full flame and a real toss, two minutes a box.</p>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, box">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-4.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ How it works ]</p>
-      <h2 class="l">Boxed at the pass.</h2>
-      <p class="life-say">Out of the wok, into the box, lid on.</p>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, serve">
-  <div class="slide"><div class="in full life">
-    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-5.jpg" width="2752" height="1536" alt=""></div>
-    <div class="txt">
-      <p class="lab">[ How it works ]</p>
-      <h2 class="l">Your crew serves. The robot cooks.</h2>
-      <p class="life-say">Thirty boxes an hour from one wok.</p>
-    </div>
-    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-</div><!-- /one -->
 
-<!-- Back by Jesse's word (28 Oct 2026: "you have completely removed the dark kitchen, that was not what I asked for, just
-     that you didn't need 3"; "you have not put the render of the big machine in there either"): the big machine, the
-     stir-fry line as rendered without the poster's words, and the dark kitchen. The shop picture stays out. -->
+<!-- 4 to 6. The big machine, the mark in its steel and the dark kitchen (Jesse, 28 Oct 2026: "you have completely removed
+     the dark kitchen, that was not what I asked for, just that you didn't need 3"; "G1NO Ultra Kitchen upclose is nice",
+     engraved, an O in place of Gino's head, the 1 and the bolt in Wonder gold, the logo cut in from its own file by
+     Drive wonder-noodle-box/tools/g1no-engraving-layers.py and g1no-engrave.py). -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Noodle Box, the stir-fry line">
   <div class="slide night"><div class="in full poster foot-dark">
     <div class="plate"><img src="{{root}}img/deck/noodle-box/stir-fry-line-plate.jpg" width="2880" height="1620" alt="Concept: our robotic kitchen line made a Noodle Box stir-fry line: noodle cookers, a red arm on its overhead rail, four flaming woks, the sauce pumps, the dosing rack and the boxing station, their wordmark on the cabinets"></div>
     <div class="foot"><p>Concept. One line, four woks, one arm</p><p>{{n}}</p></div>
   </div></div>
 </section>
-
-<!-- The mark in the steel, Lab37's treatment (Jesse, 28 Oct 2026: "G1NO Ultra Kitchen upclose is nice", engraved,
-     an O in place of Gino's head, the 1 and the bolt in Wonder gold). A generated macro of our machine's cabinet with
-     the logo cut in from its own file: wonder-noodle-box/tools/g1no-engraving-layers.py and g1no-engrave.py on Drive. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. G1NO Ultra Kitchen, in the steel">
   <div class="slide night"><div class="in full poster foot-dark">
     <div class="plate"><img src="{{root}}img/deck/noodle-box/g1no-engraved.jpg" width="2880" height="1607" alt="Concept: a close-up of our machine's brushed steel cabinet with G1NO Ultra Kitchen engraved into it, the 1 and the lightning bolt filled in Wonder gold"></div>
     <div class="foot"><p>Concept. G1NO Ultra Kitchen, the software that runs the line, cut into its steel</p><p>{{n}}</p></div>
   </div></div>
 </section>
-
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Noodle Box, the dark kitchen">
   <div class="slide night"><div class="in full poster foot-dark">
     <div class="plate"><img src="{{root}}img/deck/noodle-box/ghost-kitchen.jpg" width="2880" height="1615" alt="Concept: a Concept Eight ghost kitchen, the Noodle Box line in red down the left and the Wokinabox line in yellow down the right, robot arms on black gantry rails, conveyors running to collection lockers under a glass control room where one operator watches the order screens, the floor marked orders in, cook, pack, collect"></div>
@@ -276,8 +190,7 @@
   </div></div>
 </section>
 
-
-<!-- The numbers (Jesse, 27 Oct 2026: "you took out all the numbers, cost saving, time saving", then "just place them
+<!-- 7. The numbers (Jesse, 27 Oct 2026: "you took out all the numbers, cost saving, time saving", then "just place them
      in as placeholders please so the deck actually lands"). PLACEHOLDERS, not quotes: two minutes a box is Motong's own
      figure for noodles (China Daily, 8 Aug 2025); thirty an hour follows from it; the wages are one wok cook on every
      shift; the payback sets those against our listed price for the wok. Ryan confirms every one before it is sent. -->
@@ -295,73 +208,36 @@
   </div></div>
 </section>
 
-<!-- Our process, the information deck's own film (Jesse, 27 Oct 2026: "you have nothing to do with our process"):
-     floor plan to first customer, shown on Volta, one page in this deck. It replaces the stir-fry line, the shop and
-     the dark kitchen ("3 random shots of ghost kitchens"). -->
-<!-- take-film: Plan to open, plan -->
-
-<!-- The reference itself (Jesse, 27 Oct 2026: "put that video in there too", "yeah it, P-Robo", "this film"): the film
-     their P-Robo page opens from Play Movie, "TechMagic's Value", 77 s, through TechMagic's own Vimeo player and
-     credited, never a copy on our server. Muted until someone presses the sound on in the player. -->
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Already cooking in Tokyo">
-  <div class="slide night tm"><div class="in full">
-    <div class="tm-film" id="tm-film" data-src="https://player.vimeo.com/video/718124878?autoplay=1&amp;muted=1&amp;loop=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;dnt=1&amp;playsinline=1"></div>
-    <p class="lab top">[ Already cooking in Tokyo ]</p>
-    <p class="print-only">The film: techmagic.co.jp/en/p-robo</p>
-    <div class="foot"><p>Film: TechMagic&rsquo;s P-Robo, cooking for Ebino Spaghetti, Tokyo</p><p>{{n}}</p></div>
+<!-- 8. Our process, a loop (Jesse, 28 Oct 2026: "floor plan to fit-out"; "can it flow in without just changing images
+     underneath"): the information deck's own film, floor plan to open on Volta, played through with a short rest at
+     each stage (plan-loop.mp4, make_loop.py frames), behind one line. -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open">
+  <div class="slide night"><div class="in full loop">
+    <video class="loop-film" src="{{root}}img/deck/noodle-box/plan-loop.mp4" poster="{{root}}img/deck/build-1.jpg" muted playsinline loop preload="none" aria-hidden="true"></video>
+    <div class="plate still-only"><img src="{{root}}img/deck/build-1.jpg" width="2752" height="1536" alt="The Volta floor plan, drawn"></div>
+    <p class="lab top">[ Volta, plan to open ]</p>
+    <div class="loop-say"><h2>Floor plan to fit-out.</h2><p>We plan it, draw it, build it, brand it, open it, and keep it running.</p></div>
+    <div class="foot"><p>Concept. Volta is a Wonder brand</p><p>{{n}}</p></div>
   </div></div>
-  <script>
-  // their player comes in as the slide comes near and goes when it leaves, so the film never plays out of sight
-  (function () {
-    var box = document.getElementById("tm-film"); if (!box || !window.IntersectionObserver) return;
-    new IntersectionObserver(function (es) {
-      if (es[0].isIntersecting && !box.firstChild) {
-        var f = document.createElement("iframe");
-        f.title = "TechMagic's film of P-Robo"; f.allow = "autoplay; fullscreen; picture-in-picture"; f.src = box.dataset.src;
-        box.appendChild(f);
-      } else if (!es[0].isIntersecting) box.textContent = "";
-    }, { rootMargin: "50% 0px" }).observe(box);
-  })();
-  </script>
 </section>
 
-<!-- Why us (Jesse, 27 Oct 2026: our capacity, "multiple offices across China and Aus", "taking their pain away"; "not text
-     heavy, big images"; 28 Oct: "3 full size scrolling into each other"): three full screens, each scrolling up over
-     the last, one page in the count. Brisbane is our real showroom. Melbourne is generated in the building language of
-     a real Cremorne warehouse office (Biasol's Gwynne St Studio, Domus 2017), a different room, no machine. China is
-     Moton's own factory hall from their Alibaba company video, cleaned up. Both say Concept. -->
-<div class="seq stack" data-one>
+<!-- 9. Why us, in our studio (Jesse, 28 Oct 2026: "it does not need to mention Australia, China, Melbourne, just that we
+     are Australian based, repairs and engineering is done on site"; "use that type of the reference but you could do it
+     in studio"): our real robot kitchen at 365 St Pauls Terrace from its Matterport capture, nothing added to the room,
+     two engineers at work photographed the way Lab37 photographs its lab. People and work are staged: Concept. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Why us">
   <div class="slide night"><div class="in full place">
-    <div class="plate"><img src="{{root}}img/deck/hub.jpg" width="2600" height="1733" alt="Our showroom and experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"></div>
+    <div class="plate"><img src="{{root}}img/deck/noodle-box/studio-engineers.jpg" width="2880" height="1607" alt="Concept: two of our engineers servicing the robot kitchen in our Brisbane studio, a cooker panel off and a drill at the robot arm"></div>
     <p class="lab top">[ Why us ]</p>
-    <div class="place-head"><h2 class="l">We take the pain away.</h2><p class="lede">You never source a machine in China on your own, or keep it running yourself.</p></div>
-    <div class="txt"><h2 class="xl">Brisbane</h2><p class="lede">Our studio and showroom.</p></div>
+    <div class="place-head"><h2 class="l">We take the pain away.</h2><p class="lede">Australian based. Repairs and engineering, done on site. <span class="tag">Concept</span></p></div>
     <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>
 </section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Why us, Melbourne">
-  <div class="slide night"><div class="in full place">
-    <div class="plate"><img src="{{root}}img/deck/noodle-box/place-melbourne-wide.jpg" width="2752" height="1536" alt="Concept: a converted Melbourne warehouse office, steel-framed glass walls and roof trusses under a glazed roof, sketches pinned up, two people at plywood desks beside a violet felt wall"></div>
-    <p class="lab top">[ Why us ]</p>
-    <div class="txt"><h2 class="xl">Melbourne</h2><p class="lede">Our office. <span class="tag">Concept</span></p></div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Why us, China">
-  <div class="slide night"><div class="in full place">
-    <div class="plate"><img src="{{root}}img/deck/noodle-box/place-china-wide.jpg" width="2752" height="1536" alt="Concept, cleaned up from Moton's own footage: their factory hall in China, a white Moton kiosk and an orange robot booth on a green epoxy floor with yellow lanes"></div>
-    <p class="lab top">[ Why us ]</p>
-    <div class="txt"><h2 class="xl">China</h2><p class="lede">Where the machines are built. <span class="tag">Concept</span></p></div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
-  </div></div>
-</section>
-</div><!-- /one -->
 
+<!-- 10. -->
 <!-- take: The work -->
 
-<!-- take: Who we work with -->
-
+<!-- 11. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Your recipes, our robots">
   <div class="slide night"><div class="in full poster">
     <div class="plate"><img src="{{root}}img/deck/noodle-box/close.jpg" width="2880" height="1620" alt="In a flowing script, white on Noodle Box red: Your recipes, our robots; under it the Wonder Robotics mark and the Noodle Box wordmark side by side"></div>
@@ -369,4 +245,5 @@
   </div></div>
 </section>
 
+<!-- 12. -->
 <!-- take: Wonder Robotics, Fortitude Valley -->
