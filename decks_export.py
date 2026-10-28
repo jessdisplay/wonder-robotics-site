@@ -33,6 +33,11 @@ DECKS = {
     "information": ("information", "Wonder-Robotics-Information-Deck.pdf"),
     "coffee-machine": ("coffee-machine", "Wonder-Robotics-coffee-machine.pdf"),
     "noodle-box": ("noodle-box", "Wonder-Robotics-for-Noodle-Box.pdf"),
+    # the USC information deck's pages for Noodle Box (Jesse, 28 Oct 2026: "a version just like the USC PDF")
+    "noodle-box-info": ("noodle-box-info", "Wonder-Robotics-Noodle-Box-Information-Deck.pdf"),
+    # the same story in Lab37's manner, white and dark (Jesse, 28 Oct 2026: "redo an entire deck in the Lab37 treatment")
+    "noodle-box-lab37": ("noodle-box-lab37", "Wonder-Robotics-for-Noodle-Box.pdf"),
+    "noodle-box-lab37-dark": ("noodle-box-lab37-dark", "Wonder-Robotics-for-Noodle-Box-dark.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -40,7 +45,10 @@ DECKS = {
 # The coffee machine and Noodle Box decks share the information deck's passcode (26 Oct 2026).
 GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "coffee-machine": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
-         "noodle-box": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+         "noodle-box": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-info": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-lab37": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-lab37-dark": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
 # Bottom centre and large: at the corner in small type it went unseen.
 # Who to call, on the exported decks only. The site's own number stays as the

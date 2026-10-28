@@ -1317,8 +1317,10 @@ def deck(name, source=None):
     print(f"deck/{name}/index.html: {out.stat().st_size} bytes")
 
 
-for name in ("company", "unisc", "profile", "information", "coffee-machine"):
+for name in ("company", "unisc", "profile", "information", "coffee-machine", "noodle-box-info", "noodle-box-lab37"):
     deck(name)
+# the Lab37 deck's second version, the same pages on black (Jesse, 28 Oct 2026: "provide 2 versions")
+deck("noodle-box-lab37-dark", (SRC / "noodle-box-lab37-deck.html").read_text().replace("<body>", '<body class="dark">', 1))
 
 
 def noodle_box_source():
