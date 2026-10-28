@@ -2,7 +2,8 @@
      it. Jesse, 29 Oct 2026: "the login page might just be the man in red bg with animation", then "the HAI sound effect,
      like a Japanese samurai saying yes, on login". Their red, their own little man (img/deck/concept-eight/
      mascot-white.png, cut from their real wordmark, never redrawn), swaying a little while the code goes in; when it is
-     right he hops and a kitchen "Hai!" sounds (hai.mp3), then the page opens. W-1's warehouse film is not wanted here,
+     right he hops and the kabuki call sounds, pon, pon, "Yoooo!" (login-call.mp3, made by Drive wonder-noodle-box/tools/
+     c8_sounds.py from our own takes; Jesse: "the 2 dings and yooooo", "make your own versions"), then the page opens. W-1's warehouse film is not wanted here,
      so it is stopped before it plays. -->
 <style>
   #gate,#gate.no-video,#gate.is-still{background:#EE2626}
@@ -22,7 +23,8 @@
   @keyframes c8-sway{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(2deg) translateY(-6px)}}
   @keyframes c8-hop{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-9%) scale(1.04,.97)}70%{transform:translateY(0) scale(.98,1.03)}100%{transform:none}}
 </style>
-<audio id="c8-hai" src="../img/deck/concept-eight/hai.mp3" preload="auto"></audio>
+<!-- in a template, which may sit in the head; the sound is put in the body, outside the login, so it plays on after the login goes -->
+<template id="c8-sound"><audio src="../img/deck/concept-eight/login-call.mp3" preload="auto"></audio></template>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var gate = document.getElementById('gate'); if (!gate) return;
@@ -31,16 +33,17 @@ document.addEventListener('DOMContentLoaded', function () {
   gate.appendChild(man);
 
   // The shared login takes the page away the moment the code is right, so the code is checked here first, against the
-  // same hash the shared login uses: right, and he hops and says "Hai!", then the shared login is let through to open
+  // same hash the shared login uses: right, and he hops and the call sounds, then the shared login is let through to open
   // the page; wrong, and it goes straight through to its own message. If anything here fails, the login works as ever.
-  var hai = document.getElementById('c8-hai'), pass = false, primed = false, wanted = false;
+  var t = document.getElementById('c8-sound'), call = t && t.content.firstElementChild ? document.body.appendChild(t.content.firstElementChild.cloneNode(true)) : null;
+  var pass = false, primed = false, wanted = false;
   var tag = document.querySelector('script[data-pass-hash]'), hash = tag && tag.getAttribute('data-pass-hash');
   function prime() {   // a phone only lets a sound play later if it was started inside a tap or keypress: start it silent now
-    if (primed || !hai) return; primed = true;
-    hai.muted = true; var p = hai.play();
+    if (primed || !call) return; primed = true;
+    call.muted = true; var p = call.play();
     // never stops the real "Hai!": a fast or pasted code can ask for it before this silent start has settled
-    if (p && p.then) p.then(function () { if (!wanted) { hai.pause(); hai.currentTime = 0; } hai.muted = false; }, function () { hai.muted = false; });
-    else { if (!wanted) hai.pause(); hai.muted = false; }
+    if (p && p.then) p.then(function () { if (!wanted) { call.pause(); call.currentTime = 0; } call.muted = false; }, function () { call.muted = false; });
+    else { if (!wanted) call.pause(); call.muted = false; }
   }
   gate.addEventListener('keydown', prime, true); gate.addEventListener('pointerdown', prime, true);
   function sha(s) {
@@ -56,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sha(real.value).then(function (h) {
       if (h !== hash) return through(form);
       gate.classList.add('c8-yes');
-      if (hai) { wanted = true; hai.muted = false; hai.currentTime = 0; var p = hai.play(); if (p && p.catch) p.catch(function () {}); }
+      if (call) { wanted = true; call.muted = false; call.currentTime = 0; var p = call.play(); if (p && p.catch) p.catch(function () {}); }
       setTimeout(function () { through(form); }, 750);
     }, function () { through(form); });
   }, true);
