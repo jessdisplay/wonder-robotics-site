@@ -40,6 +40,9 @@ DECKS = {
     "noodle-box-lab37-dark": ("noodle-box-lab37-dark", "Wonder-Robotics-for-Noodle-Box-dark.pdf"),
     # both brands, layered in their own red and yellow (Jesse, 28 Oct 2026)
     "concept-eight": ("concept-eight", "Wonder-Robotics-for-Concept-Eight.pdf"),
+    # the Lab37 deck in two more colours, on Noodle Box red and white with maroon (Jesse, 29 Oct 2026)
+    "noodle-box-lab37-red": ("noodle-box-lab37-red", "Wonder-Robotics-for-Noodle-Box-red.pdf"),
+    "noodle-box-lab37-maroon": ("noodle-box-lab37-maroon", "Wonder-Robotics-for-Noodle-Box-maroon.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -51,14 +54,16 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box-info": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-lab37": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-lab37-dark": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
-         "concept-eight": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+         "concept-eight": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-lab37-red": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-lab37-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
 # Decks sent as a page only, with no PDF to download (Jesse, 29 Oct 2026, of the Concept Eight deck: "I don't want to
 # send it as a PDF as it could be copied").
 NO_PDF = {"concept-eight"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
-CONFIDENTIAL = {"concept-eight"}
+CONFIDENTIAL = {"concept-eight", "noodle-box-lab37-red", "noodle-box-lab37-maroon"}
 GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () {\n"
              "  var e = document.querySelector('#gate .gate-error'); if (!e) return;\n"
              "  var n = document.createElement('p'); n.className = 'gate-own';\n"

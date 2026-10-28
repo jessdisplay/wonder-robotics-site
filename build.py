@@ -1321,6 +1321,14 @@ for name in ("company", "unisc", "profile", "information", "coffee-machine", "no
     deck(name)
 # the Lab37 deck's second version, the same pages on black (Jesse, 28 Oct 2026: "provide 2 versions")
 deck("noodle-box-lab37-dark", (SRC / "noodle-box-lab37-deck.html").read_text().replace("<body>", '<body class="dark">', 1))
+# and two more for the Concept Eight proposal, the same pages on the machine's maroon and on white with maroon
+# (Jesse, 29 Oct 2026), their team page the collage with the advisors (src/noodle-box-lab37-team-collage.html)
+lab37 = (SRC / "noodle-box-lab37-deck.html").read_text()
+team = re.findall(r'<section class="stage" aria-label="Page \{\{i\}\}\. The team">.*?</section>\n', lab37, re.S)
+assert len(team) == 1, "the Lab37 deck's team page"
+proposal = lab37.replace(team[0], (SRC / "noodle-box-lab37-team-collage.html").read_text())
+deck("noodle-box-lab37-red", proposal.replace("<body>", '<body class="dark red">', 1))
+deck("noodle-box-lab37-maroon", proposal.replace("<body>", '<body class="maroon">', 1))
 
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
