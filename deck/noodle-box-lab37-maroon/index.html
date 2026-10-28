@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wonder Robotics for Noodle Box</title>
+<meta name="description" content="Robot woks for Noodle Box and Concept Eight, from Wonder Robotics in Fortitude Valley, Brisbane.">
+<link rel="icon" href="../../favicon-32.png" sizes="32x32">
+<link rel="icon" href="../../favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<meta name="theme-color" content="#20103A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  /* The Noodle Box deck in Lab37's manner (Jesse, 28 Oct 2026: "redo an entire deck in the Lab37 treatment, separately
+     to these but keep"; "use their imagery style and text"; "provide 2 versions"). Read from lab37.us on 28 Oct: white
+     pages, black Swiss type in sentence case with the second line in grey, small medium labels, machines photographed
+     alone in a white room, black-and-white pictures of places and history, plain portraits, plan drawings, cards and a
+     published spec. Their face is Suisse Int'l, which is not held: Host Grotesk, the site's own grotesk, stands in.
+     The pages are the corporate profile's A4 (src/profile-deck.html), so it prints like the USC PDF. Version two is
+     the same pages on black, as Lab37's own dark sections are (build.py gives it <body class="dark">). */
+  :root{--paper:#FFFFFF;--ink:#0B0B0C;--ink-2:rgba(11,11,12,.46);--rule:#E7E7E7;--card:#F3F3F3;--room:#F7F7F7;--m:16mm;
+        --display:"Host Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif}
+  body.dark{--paper:#0B0B0C;--ink:#F4F4F2;--ink-2:rgba(244,244,242,.48);--rule:#232325;--card:#161618;--room:#0E0E0F}
+  /* Two more versions, colour only (Jesse, 29 Oct 2026: "change the colour bg from black to red", "on the white use the
+     dark red maroon as the accent colours"). Red is Noodle Box's own, the median of their wordmark file (Drive
+     wonder-noodle-box/tools/logo-red-alpha.png); the second thought goes white at .82, as 48% grey on red cannot be read.
+     Maroon is the machine's cabinet, the median of its red in wok-white.jpg. */
+  body.dark.red{--paper:#EE2626;--ink:#FFFFFF;--ink-2:rgba(255,255,255,.82);--rule:rgba(255,255,255,.34);--card:#D61F1F;--room:#EE2626}
+  body.maroon{--ink-2:#7A171F}
+  @page{size:210mm 297mm;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:#75706B}
+  body{font-family:var(--display);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img{display:block}
+  .stage{position:relative;width:210mm;height:297mm;overflow:hidden;background:var(--paper);margin:6mm auto;break-after:page}
+  .stage:last-of-type{break-after:auto}
+  .pg{position:absolute;inset:0;background:var(--paper)}
+  .safe{position:absolute;inset:var(--m);display:flex;flex-direction:column}
+  .dark .light-only,body:not(.dark) .dark-only{display:none !important}
+
+  /* the bar along the top of every page, as Lab37's site runs its own: our mark, and where you are */
+  .bar{display:flex;justify-content:space-between;align-items:center}
+  .bar .mk{height:5.2mm;width:auto}
+  .lab{font-weight:500;font-size:2.7mm;letter-spacing:-.01em;color:var(--ink-2)}
+  .foot{margin-top:auto;display:flex;justify-content:space-between;font-weight:500;font-size:2.4mm;color:var(--ink-2);padding-top:6mm}
+
+  /* their type: sentence case, set close, the second thought in grey */
+  .h0{font-weight:400;font-size:15mm;line-height:1;letter-spacing:-.045em;text-wrap:balance}
+  .h1{font-weight:400;font-size:10mm;line-height:1.04;letter-spacing:-.04em;text-wrap:balance;margin-top:12mm}
+  .para{font-weight:400;font-size:7.6mm;line-height:1.16;letter-spacing:-.03em;margin-top:14mm;text-wrap:pretty}
+  .g{color:var(--ink-2)}
+  .body{font-size:3.7mm;line-height:1.42;letter-spacing:-.01em;margin-top:5mm;max-width:132mm}
+  .cap{font-weight:500;font-size:2.4mm;color:var(--ink-2);margin-top:3.5mm}
+
+  /* pictures: places and people in black and white, machines and food in colour; square corners, as theirs */
+  .mono{filter:grayscale(1) contrast(1.04)}
+  figure.fill{flex:1 1 auto;min-height:0;margin-top:8mm;overflow:hidden;background:var(--card)}
+  figure.fill img{width:100%;height:100%;object-fit:cover}
+  figure.edge{margin:8mm calc(-1 * var(--m)) 0}
+  figure.edge img{width:100%;height:auto}
+  .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:9mm}
+  .row3 img{width:100%;height:92mm;object-fit:cover;background:var(--card)}
+  .row3 figcaption,.pair figcaption{font-weight:500;font-size:3.2mm;margin-top:2.6mm;letter-spacing:-.01em}
+  .row3 figcaption b,.pair figcaption b{font-weight:500;color:var(--ink-2);margin-right:1.6mm}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:8mm}
+  .pair img{width:100%;height:70mm;object-fit:cover;background:var(--card)}
+
+  /* the cover and the close: one picture filling the page, the words on it */
+  .full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .over{position:relative;display:flex;flex-direction:column;height:100%}
+  .over .low{margin-top:auto}
+  .over .foot{margin-top:0}
+  /* the cover's machine fills the top of the page and fades into the room's own colour, so the title has clean ground */
+  .full.room{height:76%;-webkit-mask-image:linear-gradient(to bottom,#000 78%,transparent);mask-image:linear-gradient(to bottom,#000 78%,transparent)}
+
+  /* facts in a row, as their "Half the labor, double the output." blocks */
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:6mm;margin-top:auto}
+  .facts div{border-top:.3mm solid var(--rule);padding-top:3.4mm}
+  .facts h3{font-weight:500;font-size:3.8mm;letter-spacing:-.02em}
+  .facts p{font-size:3.2mm;line-height:1.38;color:var(--ink-2);margin-top:1.4mm}
+
+  /* the without and with cards, as their Bowl Builder cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:9mm}
+  .card{background:var(--card);border-radius:3mm;padding:5mm}
+  .card h3{font-weight:500;font-size:4.2mm;letter-spacing:-.02em;line-height:1.1}
+  .card ul{list-style:none;margin-top:5mm;display:grid;gap:2.4mm}
+  .card li{display:flex;justify-content:space-between;align-items:center;background:var(--paper);border-radius:2mm;padding:3mm 3.4mm;font-size:3.3mm}
+  .card li span{color:var(--ink-2)}
+  .card.with{outline:.35mm solid var(--ink)}
+
+  /* the published spec */
+  .spec{margin-top:10mm}
+  .spec div{display:grid;grid-template-columns:1fr 1fr;gap:6mm;border-top:.3mm solid var(--rule);padding:4.6mm 0}
+  .spec div:last-child{border-bottom:.3mm solid var(--rule)}
+  .spec dt{font-size:3.6mm;color:var(--ink-2)}
+  .spec dd{font-size:3.6mm;font-weight:500;letter-spacing:-.01em}
+
+  /* the team, plain portraits */
+  .team{display:grid;grid-template-columns:1fr 1fr;gap:7mm 3mm;margin-top:9mm}
+  .team img{width:100%;height:78mm;object-fit:cover;object-position:50% 16%;background:var(--card)}
+  .team h3{font-weight:500;font-size:4mm;letter-spacing:-.02em;margin-top:3mm}
+  .team p{font-size:3.1mm;color:var(--ink-2);margin-top:.8mm}
+
+  /* the steps, a plain numbered list beside the drawings */
+  .steps{list-style:none;margin-top:8mm;border-top:.3mm solid var(--rule)}
+  .steps li{display:grid;grid-template-columns:12mm 38mm 1fr;align-items:baseline;border-bottom:.3mm solid var(--rule);padding:3.6mm 0;font-size:3.5mm}
+  .steps b{font-weight:500;color:var(--ink-2)} .steps strong{font-weight:500} .steps span{color:var(--ink-2)}
+  .draws{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:8mm}
+  .draws img{width:100%;height:62mm;object-fit:contain;background:#FFFFFF}
+
+  /* the pill, as their buttons; on paper it only says who to call */
+  .pill{display:inline-flex;align-self:flex-start;background:var(--ink);color:var(--paper);border-radius:99mm;padding:3mm 6mm;font-weight:500;font-size:3.4mm;margin-top:7mm}
+  .reach{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:10mm;margin-top:7mm;font-size:3.6mm;line-height:1.35}
+
+  @media screen and (max-width:820px){.stage{zoom:.44;margin:8mm auto}}
+  @media print{html{background:none}.stage{margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body class="maroon">
+<main>
+
+<section class="stage" aria-label="Page 1. Robot woks for Noodle Box">
+<div class="pg" style="background:var(--room)">
+  <img class="full room light-only" src="../../img/deck/noodle-box/wok-white.jpg" alt="Our robot wok in Noodle Box red, alone in a white room" style="object-position:50% 60%">
+  <img class="full room dark-only" src="../../img/deck/noodle-box/wok-black.jpg" alt="Our robot wok in Noodle Box red, alone in a dark room" style="object-position:50% 60%">
+  <div class="safe"><div class="over">
+    <div class="bar"><img class="mk light-only" src="../../img/deck/mark-ink.png" alt="Wonder Robotics"><img class="mk dark-only" src="../../img/deck/mark-cream.png" alt="Wonder Robotics"><span class="lab">For Concept Eight</span></div>
+    <div class="low"><h1 class="h0">Robot woks<br><span class="g">for Noodle Box.</span></h1><p class="cap">Concept visualisation.</p></div>
+    <div class="foot"><span>Wonder Robotics, Brisbane</span><span>October 2026</span></div>
+  </div></div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 2. About">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">About</span></div>
+    <p class="para">At Wonder Robotics, we build robots for kitchens. <span class="g">For Noodle Box, that is a wok that cooks every box to your recipe, in every store, on every shift.</span></p>
+    <figure class="fill"><img class="mono" src="../../img/hero-kitchen.jpg" alt="Our own robot kitchen at 365 St Pauls Terrace: the cobot on its rail at the fryers" style="object-position:30% 50%"></figure>
+    <div class="facts" style="margin-top:8mm">
+      <div><h3>Open six days</h3><p>Our own robot kitchen, 365 St Pauls Terrace.</p></div>
+      <div><h3>End to end</h3><p>Idea, sketch, brand, fabrication, fit-out, service.</p></div>
+      <div><h3>Australian based</h3><p>Repairs and engineering on site.</p></div>
+    </div>
+    <div class="foot"><span>Wonder Robotics</span><span>02</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 3. Every box, the same">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">The robot wok</span></div>
+    <h2 class="h1">Every box,<br><span class="g">the same.</span></h2>
+    <p class="body">Noodles, vegetables and sauce dosed to the gram. Full flame and a real toss, to your recipe. Into your box at the pass, lid on. G1NO, our software, sends every order to the wok.</p>
+    <div class="row3">
+      <figure><img src="../../img/deck/noodle-box/how-2.jpg" alt="The wok over its flame, the machine's screen beside it" style="object-position:57% 50%"><figcaption><b>01</b>Dose</figcaption></figure>
+      <figure><img src="../../img/deck/noodle-box/how-3.jpg" alt="Noodles and greens tossed high out of the wok over a blue flame" style="object-position:40% 50%"><figcaption><b>02</b>Cook</figcaption></figure>
+      <figure><img src="../../img/deck/noodle-box/how-4.jpg" alt="The wok tips the noodles into a Noodle Box box" style="object-position:80% 50%"><figcaption><b>03</b>Box</figcaption></figure>
+    </div>
+    <p class="cap">Concept visualisation.</p>
+    <div class="foot"><span>Wonder Robotics</span><span>03</span></div>
+  </div>
+</div>
+</section>
+
+<!-- Their Bowl Builder cards, for the wok. An illustration, not a roster: the one change it shows is the one the
+     figures rest on, one wok cook off every shift. -->
+<section class="stage" aria-label="Page 4. Your crew serves">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">The robot wok</span></div>
+    <h2 class="h1">Your crew serves.<br><span class="g">The robot cooks.</span></h2>
+    <p class="body">The hottest job in the shop goes to the machine. Your team preps, serves and looks after the customer.</p>
+    <figure class="fill"><img src="../../img/deck/noodle-box/build-7.jpg" alt="Our robot wok behind the counter of a Noodle Box shop" style="object-position:66% 50%"></figure>
+    <div class="cards">
+      <div class="card"><h3>Without the<br>robot wok</h3><ul><li>Wok cook<span>Every shift</span></li><li>Prep<span>Mornings</span></li><li>Front<span>Every shift</span></li></ul></div>
+      <div class="card with"><h3>With the<br>robot wok</h3><ul><li>Prep<span>Mornings</span></li><li>Front<span>Every shift</span></li></ul></div>
+    </div>
+    <p class="cap">Illustration. Concept visualisation.</p>
+    <div class="foot"><span>Wonder Robotics</span><span>04</span></div>
+  </div>
+</div>
+</section>
+
+<!-- The spec, as Lab37 publishes its own. The machine's lines are the rate card's (src/site.js, wok); the figures are
+     the deck's expected ones (two minutes a box is the maker's own figure for noodles, China Daily, 8 Aug 2025, no
+     country named here; thirty an hour follows; the wages are one wok cook on every shift; the store count is Noodle
+     Box's own). Ryan confirms them in the quote. -->
+<section class="stage" aria-label="Page 5. Specification">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">Specification</span></div>
+    <h2 class="h1">What one wok does.</h2>
+    <dl class="spec">
+      <div><dt>A box, order to lid</dt><dd>2 minutes</dd></div>
+      <div><dt>Boxes an hour</dt><dd>30 from one wok</dd></div>
+      <div><dt>Wages back a year</dt><dd>$52,000 a store</dd></div>
+      <div><dt>Ingredient boxes</dt><dd>4</dd></div>
+      <div><dt>Dosing</dt><dd>Liquid, powder and sauce</dd></div>
+      <div><dt>Recipes</dt><dd>On file, on its screen</dd></div>
+      <div><dt>Power</dt><dd>Three-phase, 8 or 15 kW</dd></div>
+      <div><dt>Service</dt><dd>24 months, repairs on site</dd></div>
+      <div><dt>Stores</dt><dd>70+, the same install</dd></div>
+    </dl>
+    <p class="cap">Expected figures, confirmed in your quote.</p>
+    <div class="foot"><span>Wonder Robotics</span><span>05</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 6. The line">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">The line</span></div>
+    <h2 class="h1">Busier stores,<br><span class="g">the same box.</span></h2>
+    <p class="body">For the busiest stores, four woks and one arm on a rail. Noodles boiled, tossed and boxed on one line.</p>
+    <figure class="fill"><img src="../../img/deck/noodle-box/line-tall.jpg" alt="Our stir-fry line in Noodle Box red: noodle cookers, a red arm on its overhead rail, four flaming woks, the sauce rack and the boxes" style="object-position:50% 50%"></figure>
+    <p class="cap">Concept visualisation.</p>
+    <div class="foot"><span>Wonder Robotics</span><span>06</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 7. Dark kitchens">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">Dark kitchens</span></div>
+    <h2 class="h1">Two brands,<br><span class="g">one kitchen.</span></h2>
+    <p class="body">Noodle Box and Wok in a Box cooked side by side, one operator watching. Delivery orders in, lockers out.</p>
+    <figure class="fill"><img src="../../img/deck/noodle-box/dark-kitchen-tall.jpg" alt="Down the middle of a Concept Eight dark kitchen: the lockers under Noodle Box and Wok in a Box, the red line and the yellow line either side, the aisle marked 1 orders in, 2 cook, 3 pack, 4 collect" style="object-position:50% 0%"></figure>
+    <p class="cap">Concept visualisation.</p>
+    <div class="foot"><span>Wonder Robotics</span><span>07</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 8. Our studio">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">Our studio</span></div>
+    <h2 class="h1">We built ours first.<br><span class="g">Open six days.</span></h2>
+    <p class="body">We built a robot kitchen for ourselves and opened it before we sold one: kitchen, bar, kiosk and floor, at 365 St Pauls Terrace, Fortitude Valley. It is our showroom and our test kitchen.</p>
+    <figure class="fill"><img class="mono" src="../../img/deck/hub.jpg" alt="Our experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof" style="object-position:38% 50%"></figure>
+    <div class="pair">
+      <figure><img class="mono" src="../../img/hero-kitchen.jpg" alt="The kitchen line: the cobot on its rail at the fryers" style="object-position:30% 50%"><figcaption><b>Kitchen</b>The arm on its rail</figcaption></figure>
+      <figure><img class="mono" src="../../img/studio-workshop.jpg" alt="Our workshop, where the custom machines get built"><figcaption><b>Workshop</b>Where the custom machines get built</figcaption></figure>
+    </div>
+    <div class="foot"><span>Wonder Robotics</span><span>08</span></div>
+  </div>
+</div>
+</section>
+
+<!-- Where our machines are built (Jesse, 28 Oct 2026: "our factories"): the floor from the maker's own film, cleaned,
+     labelled as a visualisation; no country named (his ruling on this deck). -->
+<section class="stage" aria-label="Page 9. Where our machines are built">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">Manufacturing</span></div>
+    <h2 class="h1">Where our machines<br><span class="g">are built.</span></h2>
+    <p class="body">Then installed, branded and serviced by our own team. Australian based, repairs and engineering on site.</p>
+    <figure class="fill"><img class="mono" src="../../img/deck/noodle-box/factory-floor.jpg" alt="The factory floor where our machines are built, two finished machines standing on it" style="object-position:50% 55%"></figure>
+    <p class="cap">Visualisation, from the factory as filmed.</p>
+    <div class="foot"><span>Wonder Robotics</span><span>09</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 10. The team">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">The team</span></div>
+    <h2 class="h1">Four founders.<br><span class="g">One building.</span></h2>
+    <div class="team">
+      <div><img src="../../img/deck/team-jesse.jpg" alt="Jesse Costelloe"><h3>Jesse Costelloe</h3><p>Cofounder, Head of Design and Fabrication</p></div>
+      <div><img src="../../img/deck/team-ryan.jpg" alt="Ryan Edwards"><h3>Ryan Edwards</h3><p>Cofounder, Chief Commercial Officer</p></div>
+      <div><img src="../../img/deck/team-logan.jpg" alt="Logan Baker"><h3>Logan Baker</h3><p>Cofounder, Chief Marketing Officer</p></div>
+      <div><img src="../../img/deck/team-gino.jpg" alt="Gino Feng"><h3>Gino Feng</h3><p>Cofounder, Head of Engineering and Robotics</p></div>
+    </div>
+    <p class="cap" style="margin-top:6mm">Advised by Peter White, franchising (FRANdata Australia, ex Franchise Council of Australia), and Don Sanka Small, growth (Ducere Global Business School, ex Go1).</p>
+    <div class="foot"><span>Wonder Robotics</span><span>10</span></div>
+  </div>
+</div>
+</section>
+
+<section class="stage" aria-label="Page 11. How we work">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><span class="lab">Wonder Robotics</span><span class="lab">How we work</span></div>
+    <h2 class="h1">One team,<br><span class="g">sketch to service.</span></h2>
+    <div class="draws">
+      <img src="../../img/process/01-plan.jpg" alt="Plan drawing of a kitchen line">
+      <img src="../../img/process/02-design.jpg" alt="General arrangement drawing">
+    </div>
+    <ol class="steps">
+      <li><b>01</b><strong>Plan</strong><span>The line on the floor, where the queue stands.</span></li>
+      <li><b>02</b><strong>Design</strong><span>Every part drawn before it is cut.</span></li>
+      <li><b>03</b><strong>Build</strong><span>Built by our maker, tested by us.</span></li>
+      <li><b>04</b><strong>Brand</strong><span>Your red on every panel.</span></li>
+      <li><b>05</b><strong>Fit out</strong><span>Into your store, connected to your orders.</span></li>
+      <li><b>06</b><strong>Service</strong><span>Monitoring, repairs and support, on site.</span></li>
+    </ol>
+    <div class="foot"><span>Wonder Robotics</span><span>11</span></div>
+  </div>
+</div>
+</section>
+
+<!-- The close is the website's header (rule, Jesse, 22 Oct 2026): W-1 in his studio and its words, who to call under them. -->
+<section class="stage" aria-label="Page 12. We build fully automated kitchens, bars and cafés">
+<div class="pg">
+  <div class="safe">
+    <div class="bar"><img class="mk light-only" src="../../img/deck/mark-ink.png" alt="Wonder Robotics"><img class="mk dark-only" src="../../img/deck/mark-cream.png" alt="Wonder Robotics"><span class="lab">Fortitude Valley, Brisbane</span></div>
+    <h2 class="h1">We build fully automated<br><span class="g">kitchens, bars and cafés.</span></h2>
+    <figure class="fill"><img src="../../img/hero-bot.jpg" alt="W-1, the Wonder robot, in his studio" style="object-position:12% 50%"></figure>
+    <span class="pill">1800 983 404</span>
+    <div class="reach"><div><p class="lab">Email</p><p>info@wonderbytech.com</p></div><div><p class="lab">Visit</p><p>365 St Pauls Terrace<br>Fortitude Valley QLD 4006</p></div><div><p class="lab">Web</p><p>wonderbytech.com</p></div></div>
+    <div class="foot"><span>Wonder Robotics</span><span>12</span></div>
+  </div>
+</div>
+</section>
+
+</main>
+</body>
+</html>

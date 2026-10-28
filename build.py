@@ -1321,6 +1321,9 @@ for name in ("company", "unisc", "profile", "information", "coffee-machine", "no
     deck(name)
 # the Lab37 deck's second version, the same pages on black (Jesse, 28 Oct 2026: "provide 2 versions")
 deck("noodle-box-lab37-dark", (SRC / "noodle-box-lab37-deck.html").read_text().replace("<body>", '<body class="dark">', 1))
+# and two more, the same pages in other colours: on Noodle Box red, and white with maroon (Jesse, 29 Oct 2026)
+deck("noodle-box-lab37-red", (SRC / "noodle-box-lab37-deck.html").read_text().replace("<body>", '<body class="dark red">', 1))
+deck("noodle-box-lab37-maroon", (SRC / "noodle-box-lab37-deck.html").read_text().replace("<body>", '<body class="maroon">', 1))
 
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
