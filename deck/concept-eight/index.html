@@ -552,6 +552,15 @@
   .tm-film iframe{position:absolute;top:50%;left:50%;width:max(100cqw,177.78cqh);height:max(100cqh,56.25cqw);border:0;
                   transform:translate(-50%,-50%);pointer-events:none}
   .tm .in.full::after{pointer-events:none}
+  /* its line in the posters' capitals, size and place (c8_posters.py stir-fry, as DINNER AND A SHOW), laid in the page's
+     own frame; it rises in as the page comes on, holds about four seconds, and fades so the film plays clear (Jesse,
+     29 Oct 2026: "it needs big text like the rest of the deck then so it lands", "it can fade back after 3 or 5 seconds") */
+  .stir-say{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:0% 100%;z-index:2;pointer-events:none}
+  @media (prefers-reduced-motion:no-preference){
+    .js .stage .stir-say{opacity:0}
+    .js .stage.on .stir-say{animation:stir-say 5.4s ease .2s 1 both}
+  }
+  @keyframes stir-say{0%{opacity:0;transform:translateY(22px)}11%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
   .loop .lab.top{position:absolute;left:calc(96*var(--u));top:calc(64*var(--u));z-index:2;color:var(--paper)}
   .loop-say{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(120*var(--u));z-index:2}
   .loop-say h2{margin:0;font-weight:400;font-size:calc(124*var(--u));line-height:.94;letter-spacing:-.05em;text-wrap:balance;color:var(--paper);max-width:calc(1500*var(--u))}
@@ -609,6 +618,7 @@
                font-size:20px;white-space:normal}                                  /* under the poster, on its own red */
     .close-who .cap{margin-bottom:6px}
     .tm-film{position:relative;inset:auto;aspect-ratio:16/9}
+    .stir-say{inset:auto;top:0;left:0;height:auto;aspect-ratio:16/9}               /* over the film, which heads the page */
     .tm .foot{position:static;padding:14px 22px 28px}
   }
 </style>
@@ -631,16 +641,16 @@
      restaurant"; "keep it clean and minimal"): the build film from the empty stage and the drawing to the steel machine
      under our mark; a white light sweeps across it, as the paper-to-steel sweep does, and behind it the machine is
      theirs, with "x Concept Eight" coming in at that moment; clean and still, then the film's own way into their
-     white-tiled shop, where it starts cooking. cover-loop.mp4 is the build film through Drive
+     white-tiled shop, where it starts cooking. cover-machine.mp4 is the build film through Drive
      wonder-noodle-box/tools/opener_frames.py and make_loop.py reveal; data-at is the second it becomes theirs
-     (opener_frames.py prints it). Concept Eight's mark, in white. This deck's own cut starts past the drawing (Jesse, 29
-     Oct 2026, of the sketch: "for the intro remove this one", "the sketch, start with the machine"): make_loop.py reveal
-     on the opener's frames from f034, the first steel frame clear of the sweep's light, so the empty stage gives way
-     to the steel machine; everything after is the same film, 34 frames sooner (data-at 6.08 - 34/24 = 4.66). The
-     Noodle Box deck keeps its own. -->
+     (opener_frames.py prints it). Concept Eight's mark, in white. It starts past the drawing (Jesse, 29 Oct 2026, of
+     the sketch: "for the intro remove this one", "the sketch, start with the machine"; "Yes, both intros"):
+     make_loop.py reveal on the opener's frames from f034, the first steel frame clear of the sweep's light, so the
+     empty stage gives way to the steel machine; everything after is the same film, 34 frames sooner (data-at 6.08 -
+     34/24 = 4.66). The Noodle Box deck opens on the same film. -->
 <section class="stage" id="s1" aria-label="Slide 1. Wonder Robotics for Concept Eight">
   <div class="slide night"><div class="in full open loop cued">
-    <video class="loop-film" src="../../img/deck/concept-eight/cover-loop.mp4" muted playsinline loop preload="auto" aria-hidden="true"></video>
+    <video class="loop-film" src="../../img/deck/noodle-box/cover-machine.mp4" muted playsinline loop preload="auto" aria-hidden="true"></video>
     <div class="plate still-only"><img src="../../img/deck/noodle-box/build-5.jpg" width="2752" height="1536" alt="Our robot wok in Noodle Box red, standing alone in our purple studio" style="--op:72% 50%"></div>
     <div class="open-c">
       <h1 class="open-mark r"><canvas id="open-mark" data-wonder-mark data-sub="ROBOTICS" data-ink="#F3F1E4" data-w="960" data-pxr="0.2" data-hr="0.34" role="img" aria-label="Wonder Robotics"></canvas></h1>
@@ -764,7 +774,8 @@
   </div></div>
 </section>
 
-<!-- 9. Stir fry in action (Jesse, 29 Oct 2026: "just say example of stir fry machine in action", "remove any text,
+<!-- 9. Stir fry in action, straight after the claim it proves (Jesse, 29 Oct 2026, tried right under the cover, then
+     of this spot: "will run with you on this"; "just say example of stir fry machine in action", "remove any text,
      cutting those scenes out", "some text over the top to say stir fry in action"). TechMagic's film of P-Robo, in their
      own Vimeo player: theirs to host, so it is played from Vimeo and never copied onto our site, and a short credit
      stays in the small print, since without it their robot would read as ours. Its first 55 s are the robot cooking;
@@ -774,7 +785,7 @@
   <div class="slide night tm"><div class="in full">
     <div class="tm-film" id="tm-film" data-src="https://player.vimeo.com/video/718124878?background=1&amp;dnt=1&amp;playsinline=1"></div>
     <p class="print-only">The film: techmagic.co.jp/en/p-robo</p>
-    <div class="loop-say"><h2 class="r">Stir fry in action</h2></div>
+    <img class="stir-say" src="../../img/deck/concept-eight/poster-stir-fry-words.png" width="2880" height="1620" alt="Stir fry in action">
     <div class="foot"><p>An example of a stir fry robot. Film: TechMagic</p><p>11</p></div>
   </div></div>
   <script>
