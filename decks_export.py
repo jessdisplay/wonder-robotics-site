@@ -43,6 +43,9 @@ DECKS = {
     # the Lab37 deck in two more colours, on Noodle Box red and white with maroon (Jesse, 29 Oct 2026)
     "noodle-box-lab37-red": ("noodle-box-lab37-red", "Wonder-Robotics-for-Noodle-Box-red.pdf"),
     "noodle-box-lab37-maroon": ("noodle-box-lab37-maroon", "Wonder-Robotics-for-Noodle-Box-maroon.pdf"),
+    # the same two without Lab37 in the address or the PDF (Jesse, 29 Oct 2026); the white one is the plain name
+    "noodle-box-proposal": ("noodle-box-proposal", "Wonder-Robotics-for-Noodle-Box.pdf"),
+    "noodle-box-proposal-maroon": ("noodle-box-proposal-maroon", "Wonder-Robotics-for-Noodle-Box-maroon.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -56,13 +59,16 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box-lab37-dark": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "concept-eight": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-lab37-red": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
-         "noodle-box-lab37-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+         "noodle-box-lab37-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-proposal": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
+         "noodle-box-proposal-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
 GATE = HERE / "src" / "deck-gate.html"
 # A deck may dress its login: src/<name>-gate.html, or the dressings named here, in order. Every Concept Eight deck wears
 # Concept Eight's own Noodle Box login with the little man's hat in its digit boxes (Jesse, 29 Oct 2026: "change the login
 # screen to our noodle box one", "just the triangle hats for the login tabs is enough", "across all decks and logins").
 CONCEPT_EIGHT = ("concept-eight", "noodle-box", "noodle-box-info", "noodle-box-separate", "noodle-box-lab37",
-                 "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")
+                 "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon", "noodle-box-proposal",
+                 "noodle-box-proposal-maroon")
 GATE_DRESS = {n: ("concept-eight", "noodle-box-tabs") for n in CONCEPT_EIGHT}
 
 
@@ -96,7 +102,8 @@ CONTACT_FOR = {"concept-eight": [("tel:1800983404", "tel:+61407474025"), ("1800 
                                  ("info@wonderbytech.com", "peter@wonderbytech.com")]}
 # the Lab37 decks for the Concept Eight proposal close on Peter too (Jesse, 29 Oct 2026: "update to Peter's details")
 CONTACT_FOR.update({n: CONTACT_FOR["concept-eight"]
-                    for n in ("noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon")})
+                    for n in ("noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon",
+                              "noodle-box-proposal", "noodle-box-proposal-maroon")})
 DOWNLOAD = ('<a class="dl-pdf" href="{pdf}" download style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;'
             "font:500 15px/1 'Geist Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;"
             'text-decoration:none;color:#F3F1E4;background:#4A2FD9;border-radius:10px;padding:16px 26px;'

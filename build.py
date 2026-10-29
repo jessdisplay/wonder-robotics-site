@@ -1325,7 +1325,9 @@ for name in ("company", "unisc", "profile", "information", "coffee-machine", "no
 # black and white").
 proposal = (SRC / "noodle-box-lab37-deck.html").read_text()
 for name, body in (("noodle-box-lab37-red", "dark red screen"), ("noodle-box-lab37-dark", "dark red screen"),
-                   ("noodle-box-lab37-maroon", "maroon screen"), ("noodle-box-lab37", "maroon screen")):
+                   ("noodle-box-lab37-maroon", "maroon screen"), ("noodle-box-lab37", "maroon screen"),
+                   # the addresses to send, without Lab37 in them (Jesse, 29 Oct 2026: "take lab37 out of the address")
+                   ("noodle-box-proposal", "maroon screen"), ("noodle-box-proposal-maroon", "dark red screen")):
     deck(name, proposal.replace("<body>", f'<body class="{body}">', 1))
 
 
