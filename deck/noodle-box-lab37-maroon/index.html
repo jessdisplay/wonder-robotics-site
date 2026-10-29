@@ -140,15 +140,67 @@
   /* the fade is the page colour laid over the picture's edge, not a mask: print drops a mask and leaves a hard box */
   .pg:has(> .full.room)::after{content:"";position:absolute;top:0;bottom:0;left:calc(42% - 1mm);width:calc(14% + 1mm);background:linear-gradient(to right,var(--room),transparent);pointer-events:none}
 
-  @media screen and (max-width:820px){.stage{zoom:.44;margin:8mm auto}}
   /* The Concept Eight proposal versions on a screen (build.py adds class "screen"; Jesse, 29 Oct 2026: "make these
      digital", "same pages, full screen"): one page at a time, scaled to the screen by the script at the end, on the
      page's own colour, snapping page to page. */
   @media screen{
     html:has(body.screen){scroll-snap-type:y mandatory}
-    body.screen .stage{zoom:var(--k,.4);margin:0 auto;scroll-snap-align:center;scroll-snap-stop:always}   /* small until measured, so nothing ever overflows a phone */
+    body.screen .stage{zoom:var(--k,.4);margin:0 auto;scroll-snap-align:center;scroll-snap-stop:always}   /* small until measured */
   }
-  @media print{html{background:none}.stage{margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+  /* The presenter's controls, the information deck's own (Jesse, 29 Oct 2026: "need arrows and full screen deck for
+     presentation like our other decks"): back, where you are, on, full screen; they fade when the pointer rests. */
+  .nav{position:fixed;right:14px;bottom:12px;display:none;align-items:center;gap:6px;font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.06em;color:rgba(243,241,228,.72);z-index:5;transition:opacity .5s ease}
+  .js .nav{display:flex}
+  .quiet .nav{opacity:0}
+  .nav button{appearance:none;border:1px solid rgba(243,241,228,.22);background:rgba(29,24,38,.6);color:#F3F1E4;height:34px;min-width:34px;border-radius:8px;font:inherit;font-size:15px;cursor:pointer;display:grid;place-items:center}
+  .nav button:hover{border-color:#F3F1E4}
+  .nav button:focus-visible{outline:2px solid #F3F1E4;outline-offset:2px}
+  .nav output{min-width:64px;text-align:center;background:rgba(29,24,38,.6);border-radius:8px;height:34px;display:grid;place-items:center}
+
+  /* On a phone, as the other decks do it: the pages run down the screen at the phone's own width, words then pictures,
+     readable without zooming, and no controls (the screen is the scroll). The same query as the information deck's. */
+  @media screen and (max-width:760px),screen and (max-height:440px){
+    html:has(body.screen){scroll-snap-type:none}
+    .stage,body.screen .stage{zoom:1;width:auto;height:auto;margin:0;overflow:visible}
+    .pg{position:relative;inset:auto}
+    .safe{position:relative;inset:auto;padding:30px 20px 34px}
+    .js .nav{display:none}
+    .bar .mk{height:20px}
+    .lab,.foot,.cap{font-size:11px}
+    .foot{padding-top:26px}
+    .h0{font-size:44px}
+    .h1{font-size:31px}
+    .para{font-size:24px}
+    .body{font-size:15px;max-width:none}
+    .cols{flex:none;display:flex;flex-direction:column;gap:24px;margin-top:22px}
+    .txt .cap:last-child,.txt .facts:last-child{margin-top:18px}
+    .facts{grid-template-columns:1fr;gap:14px}
+    .facts h3{font-size:15px} .facts p{font-size:13px}
+    .cards{grid-template-columns:1fr}
+    .card h3{font-size:15px} .card li{font-size:13px}
+    .spec dt,.spec dd{font-size:14px}
+    .steps li{grid-template-columns:30px 82px 1fr;font-size:13px}
+    .reach,.txt .reach{font-size:14px}
+    .pill{font-size:14px}
+    .pic figure.fill{flex:none;aspect-ratio:4/3}
+    .pic .row3,.pic .draws{flex:none}
+    .pic .row3 img{flex:none;height:auto;aspect-ratio:3/4}
+    .pic .draws img{flex:none;height:auto;aspect-ratio:4/5}
+    .row3 figcaption,.pair figcaption,.draws figcaption{font-size:12px}
+    .pic .pair img{height:auto;aspect-ratio:4/3}
+    .pic .collage{grid-template-columns:repeat(2,1fr)}
+    .pic .collage figcaption{font-size:11px} .pic .collage figcaption b{font-size:13px}
+    .txt .cap[style]{margin-top:16px !important}
+    .pic figure.w1{aspect-ratio:1/1} .pic figure.w1 img{object-position:0% 50% !important}
+    /* the cover stands as the A4 cover did: the machine above, fading down into the room where the title sits */
+    .stage:has(.full.room){height:min(100svh,190vw)}
+    .stage:has(.full.room) .pg{position:absolute;inset:0}
+    .stage:has(.full.room) .safe{position:absolute;inset:0}
+    .full.room{left:0;width:100%;height:74%}
+    .pg:has(> .full.room)::after{left:0;width:100%;top:auto;bottom:26%;height:22%;background:linear-gradient(to bottom,transparent,var(--room))}
+  }
+  @media print{html{background:none}.stage{margin:0}.nav{display:none !important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 </head>
 <body class="maroon screen">
@@ -402,7 +454,7 @@
     </div><div class="pic">
     <!-- W-1 on white (Jesse, 29 Oct 2026: "this image here doesn't work, make the bg white"): hero-bot.jpg with W-1 cut
          out by macOS Vision and left exactly as he is, the cream backdrop replaced by white, his own floor shadow kept. -->
-    <figure class="fill"><img src="../../img/hero-bot-white.jpg" alt="W-1, the Wonder robot" style="object-position:12% 50%"></figure>
+    <figure class="fill w1"><img src="../../img/hero-bot-white.jpg" alt="W-1, the Wonder robot" style="object-position:12% 50%"></figure>
     </div></div>
     <div class="foot"><span>Wonder Robotics</span><span>12</span></div>
   </div>
@@ -410,18 +462,29 @@
 </section>
 
 </main>
+<nav class="nav" aria-label="Page controls">
+  <button type="button" id="prev" aria-label="Previous page">&#8592;</button>
+  <output id="count" aria-live="polite"></output>
+  <button type="button" id="next" aria-label="Next page">&#8594;</button>
+  <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
+</nav>
 <script>
 // The proposal versions on a screen: each page as big as the screen allows (its width, or its height on a wider screen), the
 // window behind it in the page's own colour, and the keys a deck answers to. A swipe is the browser's own scroll.
 (function () {
   if (!document.body.classList.contains("screen")) return;
   var root = document.documentElement, mm = 96 / 25.4;
+  root.classList.add("js");
   root.style.background = getComputedStyle(document.body).getPropertyValue("--paper");
+  // a phone reads the pages down its own width (the CSS's sheet), so nothing is scaled and the keys and controls stand down
+  var sheet = matchMedia("screen and (max-width:760px),screen and (max-height:440px)");
   // the root's client size is the screen the page was laid out for; a phone's innerWidth grows with anything too wide
-  function fit() { root.style.setProperty("--k", Math.min(root.clientWidth / (338.667 * mm), root.clientHeight / (190.5 * mm))); }
+  function fit() { root.style.setProperty("--k", sheet.matches ? 1 : Math.min(root.clientWidth / (338.667 * mm), root.clientHeight / (190.5 * mm))); }
   fit();
   addEventListener("resize", fit);
   var pages = Array.prototype.slice.call(document.querySelectorAll(".stage"));
+  var count = document.getElementById("count");
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
   function at() {
     var mid = innerHeight / 2, best = 0, gap = Infinity;
     pages.forEach(function (p, i) {
@@ -430,17 +493,41 @@
     });
     return best;
   }
+  function mark(i) { count.textContent = pad(i + 1) + " / " + pad(pages.length); }
+  mark(0);
+  addEventListener("scroll", function () { if (going === null) mark(at()); }, { passive: true });
   // presses in quick succession count from the page already on its way, not the one still passing mid-scroll
-  var STEP = { ArrowDown: 1, ArrowRight: 1, PageDown: 1, " ": 1, ArrowUp: -1, ArrowLeft: -1, PageUp: -1 }, going = null, settle;
-  addEventListener("keydown", function (e) {
-    var step = STEP[e.key];
-    if (!step || e.metaKey || e.ctrlKey || e.altKey || (e.target.closest && e.target.closest("input, textarea, #gate"))) return;
-    e.preventDefault();
-    going = Math.max(0, Math.min(pages.length - 1, (going === null ? at() : going) + step));
+  var going = null, settle;
+  function go(i) {
+    going = Math.max(0, Math.min(pages.length - 1, i));
+    mark(going);
     pages[going].scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     clearTimeout(settle);
     settle = setTimeout(function () { going = null; }, 700);
+  }
+  function step(n) { go((going === null ? at() : going) + n); }
+  function full() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (root.requestFullscreen) root.requestFullscreen();
+  }
+  document.getElementById("prev").addEventListener("click", function () { step(-1); });
+  document.getElementById("next").addEventListener("click", function () { step(1); });
+  document.getElementById("full").addEventListener("click", full);
+  var STEP = { ArrowDown: 1, ArrowRight: 1, PageDown: 1, " ": 1, ArrowUp: -1, ArrowLeft: -1, PageUp: -1 };
+  addEventListener("keydown", function (e) {
+    if (sheet.matches || e.metaKey || e.ctrlKey || e.altKey || root.classList.contains("gate-locked")) return;
+    if (e.target.closest && e.target.closest("input, textarea, #gate")) return;
+    var k = e.key;
+    if (STEP[k]) { e.preventDefault(); step(STEP[k]); }
+    else if (k === "Home") { e.preventDefault(); go(0); }
+    else if (k === "End") { e.preventDefault(); go(pages.length - 1); }
+    else if (k === "f" || k === "F") { e.preventDefault(); full(); }
   });
+  // the controls rest out of the way until the pointer, a key or a touch wakes them
+  var rest = null;
+  function wake() { root.classList.remove("quiet"); clearTimeout(rest); rest = setTimeout(function () { root.classList.add("quiet"); }, 2600); }
+  ["mousemove", "keydown", "touchstart"].forEach(function (ev) { document.addEventListener(ev, wake, { passive: true }); });
+  wake();
 })();
 </script>
 </body>
