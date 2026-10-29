@@ -6,13 +6,13 @@
      "need team slide, showroom, who we have worked with, real photos of us, need our process, the numbers, team slide
      should be real photos with advisors"; "use the build, add the case study and brands we have worked with"; "opening
      slide of we build robotic kitchens too"; "ghost kitchen copy"; TechMagic's film, through their own player,
-     credited (it is theirs to host), with no line of ours over it; and the Noodle Box deck's opener film as the cover. So their pages alternate their red and yellow, the words in the other colour, the
+     (it is theirs to host), now under STIR FRY IN ACTION with no credit; and the Noodle Box deck's opener film as the cover. So their pages alternate their red and yellow, the words in the other colour, the
      pictures standing in front; ours are the information deck's own pages, real photographs, without the brackets on
      their labels. The posters are made by Drive wonder-noodle-box/tools/c8_posters.py (on nb_posters.py and the posters
      deck's poster.py). A "take" marker below is that slide of the information deck, word for word. -->
 
 <nav class="label" aria-label="Sections">
-      <a href="#" data-go="Dinner and a show">The restaurant</a><a href="#" data-go="Noodle Box, anywhere">The booths</a><a href="#" data-go="Two brands, one ghost kitchen">The ghost kitchen</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Plan to open">Who we are</a><a href="#" data-go="The work">The work</a>
+      <a href="#" data-go="Dinner and a show">The restaurant</a><a href="#" data-go="Noodle Box, anywhere">The booths</a><a href="#" data-go="Two brands, one ghost kitchen">The ghost kitchen</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Made to roll out">Who we are</a><a href="#" data-go="The work">The work</a>
     </nav>
 
 <style>
@@ -74,11 +74,10 @@
     .js .stage .stir-say{opacity:0}
     .js .stage.on .stir-say{animation:stir-say 5.4s ease .2s 1 both}
   }
+  .stir-sound{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;background:none;border:0;padding:0;
+              margin-right:calc(28*var(--u));cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.3em}
+  .stir-sound:focus-visible{outline:1px solid currentColor;outline-offset:4px}
   @keyframes stir-say{0%{opacity:0;transform:translateY(22px)}11%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
-  .loop .lab.top{position:absolute;left:calc(96*var(--u));top:calc(64*var(--u));z-index:2;color:var(--paper)}
-  .loop-say{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(120*var(--u));z-index:2}
-  .loop-say h2{margin:0;font-weight:400;font-size:calc(124*var(--u));line-height:.94;letter-spacing:-.05em;text-wrap:balance;color:var(--paper);max-width:calc(1500*var(--u))}
-  .loop-say p{margin:calc(22*var(--u)) 0 0;font-size:calc(44*var(--u));line-height:1.2;letter-spacing:-.02em;color:var(--paper-2);max-width:calc(1300*var(--u))}
   /* the ownership page: the ice cream proposal's, in this deck's own type */
   .own .lab{color:var(--paper-2)}
   .own p.own-text{margin:calc(40*var(--u)) 0 0;font-size:calc(30*var(--u));line-height:1.45;color:var(--paper);max-width:calc(1650*var(--u))}
@@ -124,9 +123,6 @@
     .in.full.poster{padding-bottom:0}                                             /* with none of the room kept for the small print */
     .stage:has(.in.full.poster){padding-bottom:0}                                 /* and no gap between them */
     .tm .in{padding:0}
-    .loop .lab.top{position:static;padding:18px 22px 0}
-    .loop-say{position:relative;left:auto;right:auto;bottom:auto;margin:18px 22px 56px}
-    .loop-say h2{font-size:34px} .loop-say p{font-size:17px;margin-top:10px}
     .own p.own-text{font-size:15px}
     .close-who{position:static;flex-direction:column;justify-content:flex-start;gap:16px;padding:22px 22px 40px;background:#D92222;
                font-size:20px;white-space:normal}                                  /* under the poster, on its own red */
@@ -280,8 +276,8 @@
 <!-- 9. Stir fry in action, straight after the claim it proves (Jesse, 29 Oct 2026, tried right under the cover, then
      of this spot: "will run with you on this"; "just say example of stir fry machine in action", "remove any text,
      cutting those scenes out", "some text over the top to say stir fry in action"). TechMagic's film of P-Robo, in their
-     own Vimeo player: theirs to host, so it is played from Vimeo and never copied onto our site, and a short credit
-     stays in the small print, since without it their robot would read as ours. Its first 55 s are the robot cooking;
+     own Vimeo player: theirs to host, so it is played from Vimeo and never copied onto our site. Its credit in the small
+     print came off at Jesse's word (29 Oct 2026, "remove", after hearing why it was there). Its first 55 s are the robot cooking;
      from 55.8 s on it is all text (a caption, two slogans, the P-Robo logo, their end card), so the player is sent back
      to the start at 54.6 s and those never play. Full screen, no controls, muted, and only while the page is on screen. -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Stir fry in action">
@@ -289,7 +285,8 @@
     <div class="tm-film" id="tm-film" data-src="https://player.vimeo.com/video/718124878?background=1&amp;dnt=1&amp;playsinline=1"></div>
     <p class="print-only">The film: techmagic.co.jp/en/p-robo</p>
     <img class="stir-say" src="{{root}}img/deck/concept-eight/poster-stir-fry-words.png" width="2880" height="1620" alt="Stir fry in action">
-    <div class="foot"><p>An example of a stir fry robot. Film: TechMagic</p><p>{{n}}</p></div>
+    <audio id="stir-track" src="{{root}}img/deck/concept-eight/stir-fry-track.mp3" preload="none" loop></audio>
+    <div class="foot"><p></p><p><button class="stir-sound" type="button" aria-pressed="false">Mute</button>{{n}}</p></div>
   </div></div>
   <script>
   (function () {
@@ -313,31 +310,53 @@
       } else if (!es[0].isIntersecting) box.textContent = "";
     }, { rootMargin: "50% 0px" }).observe(box);
   })();
-  </script>
-</section>
-
-<!-- Who we are (the warehouse opener taken out, Jesse, 29 Oct 2026: "this needs removed, it's random"): our process as one film that plays in the
-     page, floor plan to the open shop (plan-loop.mp4, the Noodle Box deck's, make_loop.py), as the PDF would show it on
-     one page, holding on the open shop (plan-once.mp4); and the build itself. -->
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Plan to open">
-  <div class="slide night"><div class="in full loop">
-    <video class="loop-film" id="plan-once" src="{{root}}img/deck/concept-eight/plan-once.mp4" poster="{{root}}img/deck/build-1.jpg" muted playsinline preload="none" aria-hidden="true"></video>
-    <div class="plate still-only"><img src="{{root}}img/deck/build-8.jpg" width="2752" height="1536" alt="Volta open: the robot coffee kiosk built into the brick shopfront, a customer at its screen"></div>
-    <p class="lab top">Volta, plan to open</p>
-    <div class="loop-say"><h2>Floor plan to fit-out.</h2><p>We plan it, draw it, build it, brand it, open it, and keep it running.</p></div>
-    <div class="foot"><p>Volta is a Wonder brand</p><p>{{n}}</p></div>
-  </div></div>
-  <script>
-  // Jesse, 29 Oct 2026: "the final should be the full painted, not picked in a random spot". The film plays once, floor
-  // plan to the painted, open shop, and holds there (plan-once.mp4: plan-loop.mp4 cut before it dissolves back). Once it
-  // has been seen through, coming back to the page shows the finished shop, not the film again.
+  // Its soundtrack, ours (Jesse, 29 Oct 2026: "add a sound track to this one to make it pop"): from its first hit each
+  // time the page comes into the middle of the window, as the words land, and faded out when it leaves. Its own watch,
+  // on the deck's own band (-35%): the deck's .on stays lit once a page has been seen, so it cannot say the page left. It plays by
+  // default; the Mute button in the small print turns it off for the rest of the visit ("sound will play as default
+  // with mute button on it"). A phone plays it only if it was first started inside a tap or a
+  // keypress, so the first one primes it, silently.
   (function () {
-    var v = document.getElementById("plan-once"); if (!v) return;
-    v.addEventListener("ended", function () { v.dataset.seen = "1"; });
-    v.addEventListener("play", function () { if (v.dataset.seen) { v.pause(); v.currentTime = v.duration || 12.8; } });
+    var page = document.getElementById("tm-film").closest(".stage"), track = document.getElementById("stir-track");
+    var button = page.querySelector(".stir-sound"), peak = 0.85, primed = false, on = false, fade = 0, off = false;
+    try { off = sessionStorage.getItem("c8-stir-sound") === "off"; } catch (e) { /* no storage: sound on */ }
+    function show() { button.textContent = off ? "Unmute" : "Mute"; button.setAttribute("aria-pressed", String(off)); }
+    function start() {   // at full straight away: a fade would soften the first hit
+      if (off) return;
+      clearInterval(fade); track.muted = false; track.volume = peak; track.currentTime = 0;
+      var p = track.play(); if (p && p.catch) p.catch(function () {});
+    }
+    function stop() {
+      clearInterval(fade); var from = track.volume, t0 = Date.now();
+      fade = setInterval(function () {
+        var k = Math.min(1, (Date.now() - t0) / 700); track.volume = from * (1 - k);
+        if (k === 1) { clearInterval(fade); track.pause(); }
+      }, 30);
+    }
+    function prime() {
+      if (primed) return; primed = true;
+      if (on) { if (track.paused) start(); return; }   // the first tap is on this page: start it inside the tap
+      track.muted = true; var p = track.play();
+      if (p && p.then) p.then(function () { if (!on) { track.pause(); track.currentTime = 0; } track.muted = false; }, function () { track.muted = false; });
+    }
+    document.addEventListener("keydown", prime, true); document.addEventListener("pointerdown", prime, true);
+    button.addEventListener("click", function () {
+      off = !off; show();
+      try { sessionStorage.setItem("c8-stir-sound", off ? "off" : "on"); } catch (e) { /* kept for this page only */ }
+      if (off) stop(); else if (on) start();
+    });
+    show();
+    if (!window.IntersectionObserver) return;
+    new IntersectionObserver(function (es) {
+      var now = es[0].isIntersecting;
+      if (now && !on) { on = true; start(); } else if (!now && on) { on = false; stop(); }
+    }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 }).observe(page);
   })();
   </script>
 </section>
+
+<!-- Who we are (the warehouse opener and the Volta page, "Plan to open", taken out: Jesse, 29 Oct 2026, "this needs
+     removed, it's random"; "this one can be removed"). -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Made to roll out">
   <div class="slide night"><div class="in full poster">
     <div class="plate" style="--l:#110921;--r:#110921"><img src="{{root}}img/deck/concept-eight/poster-roll-out.jpg" width="2880" height="1620" alt="On our purple: MADE TO ROLL OUT, one design, every store, installed and serviced by us; four pictures of our stir-fry robot being made: 1 Draw, the ink drawing; 2 Build, in raw steel; 3 Brand, in Noodle Box red; 4 Install, behind the counter of their shop"><img class="words r" src="{{root}}img/deck/concept-eight/poster-roll-out-words.png" width="2880" height="1620" alt=""></div>
