@@ -93,14 +93,14 @@ GATE_NOTE = ("<script>document.addEventListener('DOMContentLoaded', function () 
 # Who to call, on the exported decks only. The site's own number stays as the
 # site has it; Jesse, 2 Oct 2026: "use Ryan's number for now on these decks".
 CONTACT = [("tel:1800983404", "tel:+61498765142"), ("1800 983 404", "Ryan Edwards 0498\u00a0765\u00a0142")]
-# A deck's own contact in place of CONTACT (Jesse, 29 Oct 2026, of the Concept Eight deck: "should be Peter White not
-# Ryan, peter@wonderbytech.com", with his number).
+# A deck's own contact in place of CONTACT: Don Sanka Small on the Concept Eight deck (Jesse, 29 Oct 2026, first
+# Peter White in place of Ryan, then Don in place of Peter, don@wonderbytech.com, 0477 240 022).
 # The pages it takes from the information deck name Ryan in full, so his number is swapped as well.
-CONTACT_FOR = {"concept-eight": [("tel:1800983404", "tel:+61407474025"), ("1800 983 404", "Peter White 0407\u00a0474\u00a0025"),
-                                 ("tel:+61498765142", "tel:+61407474025"),
-                                 ("Ryan Edwards 0498&nbsp;765&nbsp;142", "Peter White 0407&nbsp;474&nbsp;025"),
-                                 ("info@wonderbytech.com", "peter@wonderbytech.com")]}
-# the Lab37 decks for the Concept Eight proposal close on Peter too (Jesse, 29 Oct 2026: "update to Peter's details")
+CONTACT_FOR = {"concept-eight": [("tel:1800983404", "tel:+61477240022"), ("1800 983 404", "Don Sanka Small 0477\u00a0240\u00a0022"),
+                                 ("tel:+61498765142", "tel:+61477240022"),
+                                 ("Ryan Edwards 0498&nbsp;765&nbsp;142", "Don Sanka Small 0477&nbsp;240&nbsp;022"),
+                                 ("info@wonderbytech.com", "don@wonderbytech.com")]}
+# the Lab37 decks for the Concept Eight proposal close on Don too
 CONTACT_FOR.update({n: CONTACT_FOR["concept-eight"]
                     for n in ("noodle-box-lab37", "noodle-box-lab37-dark", "noodle-box-lab37-red", "noodle-box-lab37-maroon",
                               "noodle-box-proposal", "noodle-box-proposal-maroon")})
@@ -159,6 +159,8 @@ def main():
             sys.exit(f"{name}: the old number is still on the page")
         if name in CONTACT_FOR and re.search(r"498[ ]?765[ ]?142|0498", html):
             sys.exit(f"{name}: Ryan's number is still on a deck with its own contact")
+        if re.search(r"407\D{0,6}474\D{0,6}025|peter@", html):   # Peter is an advisor, no longer a contact (29 Oct 2026)
+            sys.exit(f"{name}: Peter's number or email is still on the page")
         seen = html + (GATE.read_text() + dressing(name) if name in GATED else "")   # the login is put in later; its pictures go now
         files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))
         # a film the scroll plays (src/scrub.js) names its frames once, with {n} for the frame number
