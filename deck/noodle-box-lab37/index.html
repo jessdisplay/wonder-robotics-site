@@ -136,7 +136,9 @@
   .pic .collage{margin:0;align-self:end;width:100%}
   .txt .reach{grid-template-columns:auto auto;gap:5mm 10mm}
   /* the cover: the machine stands on the right half in its own room, fading into the page where the title sits */
-  .full.room{left:auto;width:58%;height:100%;-webkit-mask-image:linear-gradient(to right,transparent,#000 22%);mask-image:linear-gradient(to right,transparent,#000 22%)}
+  .full.room{left:auto;width:58%;height:100%}
+  /* the fade is the page colour laid over the picture's edge, not a mask: print drops a mask and leaves a hard box */
+  .pg:has(> .full.room)::after{content:"";position:absolute;top:0;bottom:0;left:calc(42% - 1mm);width:calc(14% + 1mm);background:linear-gradient(to right,var(--room),transparent);pointer-events:none}
 
   @media screen and (max-width:820px){.stage{zoom:.44;margin:8mm auto}}
   /* The Concept Eight proposal versions on a screen (build.py adds class "screen"; Jesse, 29 Oct 2026: "make these
