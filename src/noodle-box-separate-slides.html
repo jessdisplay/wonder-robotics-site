@@ -1,0 +1,258 @@
+<!-- Wonder Robotics for Noodle Box, the running order (build.py, noodle_box_source). Jesse, 27 Oct 2026: "like a 10
+     pager about the company for noodle box with a scroller that shows how it works"; the treatment is TechMagic's P-Robo
+     page ("P-Robo is the treatment"), our purple dark first with our branding, then their brand; the story is "we can
+     make any concept, that's what we need to say", and the difference is the Brisbane studio, the Melbourne office and
+     our own factory in China. A "take" marker below is that slide of the information deck, word for word. The pictures
+     are concept renders from their published wordmark and our real machine; the posters come from Drive
+     wonder-noodle-box/deck-source/nb_posters.py, the film and the cover from wonder-noodle-box/3d/wok_machine.py. -->
+
+<nav class="label" aria-label="Sections">
+      <a href="#" data-go="The team">Who we are</a><a href="#" data-go="Robotic hospitality">The machine</a><a href="#" data-go="How it works, order">How it works</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Plan to open, plan">Our process</a><a href="#" data-go="Why us">Why us</a>
+    </nav>
+
+<style>
+  /* The opening, after P-Robo's: the machine alone in the dark, the mark across it */
+  /* The block is placed by its box, never by transform: the deck's rising lines (.r) animate transform. */
+  .open::after{background:linear-gradient(to right,rgba(19,10,36,.7) 0%,rgba(19,10,36,0) 46%)}
+  .open .lab{position:absolute;left:calc(96*var(--u));top:calc(72*var(--u));z-index:1}
+  .open-c{position:absolute;left:calc(96*var(--u));top:0;bottom:0;width:calc(780*var(--u));display:flex;flex-direction:column;justify-content:center;z-index:1}
+  .open-mark{margin:0}
+  .open-mark canvas{display:block;width:100% !important;height:auto !important}   /* the drawn mark, sized by its box */
+  .open-line{margin-top:calc(34*var(--u));font-size:calc(44*var(--u));line-height:1.15;letter-spacing:-.025em;color:var(--paper)}
+  /* TechMagic's film, played through their own player */
+  .slide.tm{background:#000}
+  .tm-film{position:absolute;inset:0;background:#000}
+  .tm-film iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .tm .in.full::after{pointer-events:none}
+  .tm .print-only{position:absolute;left:calc(96*var(--u));top:45%;font-size:calc(40*var(--u));color:var(--paper)}
+  /* Why us: three full screens, each pinned in turn while the next scrolls up over it */
+  .stack .stage{position:sticky;top:var(--bar)}
+  .in.full.place::before{content:"";position:absolute;inset:0 0 auto;height:48%;z-index:1;pointer-events:none;
+    background:linear-gradient(to bottom,rgba(19,10,36,.82) 0%,rgba(19,10,36,.45) 55%,rgba(19,10,36,0) 100%)}
+  .place .lab.top{top:calc(64*var(--u));left:calc(96*var(--u))}
+  .place-head{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));top:calc(118*var(--u));z-index:2;color:var(--paper)}
+  .place-head .lede{max-width:calc(1100*var(--u))}
+  .place .tag{display:inline-block;margin-left:calc(12*var(--u));font-family:var(--mono);font-size:calc(18*var(--u));letter-spacing:.08em;vertical-align:middle;
+    text-transform:uppercase;color:rgba(243,241,228,.62);border:1px solid rgba(243,241,228,.35);border-radius:calc(4*var(--u));padding:calc(2*var(--u)) calc(8*var(--u))}
+  /* The numbers: four figures across, the deck's amber on night */
+  .figs-page{justify-content:center}
+  .figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:calc(48*var(--u));margin:calc(72*var(--u)) 0 0}
+  .figs div{border-top:calc(2*var(--u)) solid var(--paper-rule);padding-top:calc(22*var(--u))}
+  .figs dt{font-weight:400;font-size:calc(150*var(--u));line-height:.9;letter-spacing:-.05em;color:#E8A84C;font-variant-numeric:tabular-nums}
+  .figs dt small{font-size:.3em;letter-spacing:0;margin-left:.2em;color:var(--paper-2)}
+  .figs dd{margin:calc(16*var(--u)) 0 0;font-size:calc(28*var(--u));line-height:1.3;color:var(--paper-2);max-width:calc(340*var(--u))}
+  /* A film's words take their dark from the film, which stays put. A gradient on each stop scrolled with the stop and
+     left a hard band across the film between stops (Jesse, 28 Oct 2026: "a sketch with gradients over the top of it"). */
+  .seq.film .full::after,.seq.film .open::after{display:none}
+  .seq.film .seq-back::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top,rgba(19,10,36,.85) 0%,rgba(19,10,36,.45) 32%,rgba(19,10,36,0) 62%),
+               linear-gradient(to right,rgba(19,10,36,.55) 0%,rgba(19,10,36,0) 45%)}
+  /* pictures with a caption over a pale floor get a dark foot, so the caption reads */
+  .in.full.poster.foot-dark::after{display:block;background:linear-gradient(to top,rgba(19,10,36,.78) 0%,rgba(19,10,36,0) 20%)}
+  @media screen{.tm p.print-only{display:none !important}}   /* the phone shows print-only stills; this line is for paper */
+  @media (max-width:760px){
+    .open .lab{position:static;padding:18px 22px 0}
+    .open-c{position:relative;left:auto;width:auto;margin-top:28px;padding:0 22px 56px}
+    .open-line{font-size:22px;margin-top:14px}
+    /* their film on its own, our words under it, never over their player's buttons */
+    .tm .in{padding:0}
+    .tm-film{position:relative;inset:auto;aspect-ratio:16/9}
+    .tm .lab.top{display:none}
+    .tm .foot{position:static;padding:14px 22px 28px}
+    /* the places simply follow one another, the line above the first */
+    .stack .stage{position:static}
+    .in.full.place::before{display:none}
+    .place-head{position:static;padding:28px 22px 18px}
+    .figs{grid-template-columns:1fr 1fr;gap:22px;margin-top:28px}
+    .figs dt{font-size:52px}
+    .figs dd{font-size:15px}
+  }
+</style>
+
+<!-- running order -->
+<!-- The header is TechMagic's P-Robo film through their own Vimeo player, credited, the same way page 8 plays it
+     (Jesse, 28 Oct 2026: "lets do the vimeo"). Muted, loops, and comes in only while the slide is on screen. -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Film: TechMagic's P-Robo">
+  <div class="slide night tm"><div class="in full">
+    <div class="tm-film" id="tm-film-header" data-src="https://player.vimeo.com/video/718124878?autoplay=1&amp;muted=1&amp;loop=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;dnt=1&amp;playsinline=1"></div>
+    <p class="print-only">The film: techmagic.co.jp/en/p-robo</p>
+    <p class="open-line" style="position:absolute;left:calc(96*var(--u));bottom:calc(150*var(--u));z-index:2;margin:0;color:var(--paper);font-size:calc(44*var(--u))">We don&rsquo;t sell robots.</p>
+    <div class="foot"><p>Film: TechMagic&rsquo;s P-Robo, cooking for Ebino Spaghetti, Tokyo</p><p>{{n}}</p></div>
+  </div></div>
+  <script>
+  (function () {
+    var box = document.getElementById("tm-film-header"); if (!box || !window.IntersectionObserver) return;
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && !box.firstChild) {
+        var f = document.createElement("iframe");
+        f.title = "TechMagic's film of P-Robo"; f.allow = "autoplay; fullscreen; picture-in-picture"; f.src = box.dataset.src;
+        box.appendChild(f);
+      } else if (!es[0].isIntersecting) box.textContent = "";
+    }, { rootMargin: "50% 0px" }).observe(box);
+  })();
+  </script>
+</section>
+
+
+<!-- take: The team -->
+
+
+
+
+
+<!-- How it works (Jesse, 27 Oct 2026: "this was supposed to be a wrap around with script", "descriptive"): the
+     camera travels round our wok in a Noodle Box shop, as in the Fonzie brand film, a line of script at each stop.
+     Five stills made from one anchor (the shop, natively lit, our machine the only one in the kitchen), four clips
+     locked to them, cut to 200 frames (Drive wonder-noodle-box/film/cut_film.py, CUT_NAME=how). One page in the count.
+     The two minutes and thirty an hour are the numbers page's placeholders. -->
+<div class="seq film" data-one>
+  <div class="seq-back" aria-hidden="true">
+    <img src="{{root}}img/deck/noodle-box/how-1.jpg" width="2752" height="1536" alt="Our robot wok in a Noodle Box shop, behind the counter" class="b1">
+    <canvas data-frames="{{root}}img/deck/noodle-box/how/f{n}.webp" data-count="200" data-knots="0,63,120,164,199"></canvas>
+  </div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, order">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-1.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ How it works ]</p>
+      <h2 class="l">Orders go straight to the wok.</h2>
+      <p class="life-say">From the counter, the app or the delivery tablet.</p>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, dose">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-2.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ How it works ]</p>
+      <h2 class="l">Dosed to the gram.</h2>
+      <p class="life-say">Noodles, vegetables and sauce, the same in every box.</p>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, toss">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-3.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ How it works ]</p>
+      <h2 class="l">Wok hei, every time.</h2>
+      <p class="life-say">Full flame and a real toss, two minutes a box.</p>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, box">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-4.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ How it works ]</p>
+      <h2 class="l">Boxed at the pass.</h2>
+      <p class="life-say">Out of the wok, into the box, lid on.</p>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works, serve">
+  <div class="slide"><div class="in full life">
+    <div class="plate print-only"><img src="{{root}}img/deck/noodle-box/how-5.jpg" width="2752" height="1536" alt=""></div>
+    <div class="txt">
+      <p class="lab">[ How it works ]</p>
+      <h2 class="l">Your crew serves. The robot cooks.</h2>
+      <p class="life-say">Thirty boxes an hour from one wok.</p>
+    </div>
+    <div class="foot"><p>Concept for Noodle Box. Placeholder figures</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+</div><!-- /one -->
+
+<!-- Back by Jesse's word (28 Oct 2026: "you have completely removed the dark kitchen, that was not what I asked for, just
+     that you didn't need 3"; "you have not put the render of the big machine in there either"): the big machine, the
+     stir-fry line as rendered without the poster's words, and the dark kitchen. The shop picture stays out. -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Noodle Box, the stir-fry line">
+  <div class="slide night"><div class="in full poster foot-dark">
+    <div class="plate"><img src="{{root}}img/deck/noodle-box/stir-fry-line-plate.jpg" width="2880" height="1620" alt="Concept: our robotic kitchen line made a Noodle Box stir-fry line: noodle cookers, a red arm on its overhead rail, four flaming woks, the sauce pumps, the dosing rack and the boxing station, their wordmark on the cabinets"></div>
+    <div class="foot"><p>Concept. One line, four woks, one arm</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Noodle Box, the dark kitchen">
+  <div class="slide night"><div class="in full poster foot-dark">
+    <div class="plate"><img src="{{root}}img/deck/noodle-box/dark-kitchen.jpg" width="2880" height="1620" alt="Concept: a red warehouse dark kitchen, a Noodle Box stir-fry line down each side under gantry rails with red robot arms, conveyors carrying red and white boxes to the open roller doors where delivery riders collect, their wordmark over the doors and their Slurping since 1996 badge on the wall"></div>
+    <div class="foot"><p>Concept. No crew on the line, the riders collect at the door</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+
+<!-- The numbers (Jesse, 27 Oct 2026: "you took out all the numbers, cost saving, time saving", then "just place them
+     in as placeholders please so the deck actually lands"). PLACEHOLDERS, not quotes: two minutes a box is Motong's own
+     figure for noodles (China Daily, 8 Aug 2025); thirty an hour follows from it; the wages are one wok cook on every
+     shift; the payback sets those against our listed price for the wok. Ryan confirms every one before it is sent. -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The numbers">
+  <div class="slide night"><div class="in figs-page">
+    <p class="lab r">[ The numbers, one wok ]</p>
+    <h2 class="l r">Faster at the pass. Lighter on the roster.</h2>
+    <dl class="figs">
+      <div class="r"><dt>2<small>min</small></dt><dd>A box, from order to lid.</dd></div>
+      <div class="r"><dt>30</dt><dd>Boxes an hour from one wok, every hour you trade.</dd></div>
+      <div class="r"><dt>$52k</dt><dd>Wages back a year, one wok cook off every shift.</dd></div>
+      <div class="r"><dt>&lt;12<small>mo</small></dt><dd>For the machine to pay for itself.</dd></div>
+    </dl>
+    <div class="foot"><p>Placeholder figures, confirmed in your quote</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<!-- Our process, the information deck's own film (Jesse, 27 Oct 2026: "you have nothing to do with our process"):
+     floor plan to first customer, shown on Volta, one page in this deck. It replaces the stir-fry line, the shop and
+     the dark kitchen ("3 random shots of ghost kitchens"). -->
+<!-- take-film: Plan to open, plan -->
+
+
+<!-- Why us (Jesse, 27 Oct 2026: our capacity, "multiple offices across China and Aus", "taking their pain away"; "not text
+     heavy, big images"; 28 Oct: "3 full size scrolling into each other"): three full screens, each scrolling up over
+     the last, one page in the count. Brisbane is our real showroom. Melbourne is generated in the building language of
+     a real Cremorne warehouse office (Biasol's Gwynne St Studio, Domus 2017), a different room, no machine. China is
+     Moton's own factory hall from their Alibaba company video, cleaned up. Both say Concept. -->
+<div class="seq stack" data-one>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Why us">
+  <div class="slide night"><div class="in full place">
+    <div class="plate"><img src="{{root}}img/deck/hub.jpg" width="2600" height="1733" alt="Our showroom and experience hub at 365 St Pauls Terrace: the dining floor, the bar and the booths under a white truss roof"></div>
+    <p class="lab top">[ Why us ]</p>
+    <div class="place-head"><h2 class="l">We take the pain away.</h2><p class="lede">You never source a machine in China on your own, or keep it running yourself.</p></div>
+    <div class="txt"><h2 class="xl">Brisbane</h2><p class="lede">Our studio and showroom.</p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Why us, Melbourne">
+  <div class="slide night"><div class="in full place">
+    <div class="plate"><img src="{{root}}img/deck/noodle-box/place-melbourne-wide.jpg" width="2752" height="1536" alt="Concept: a converted Melbourne warehouse office, steel-framed glass walls and roof trusses under a glazed roof, sketches pinned up, two people at plywood desks beside a violet felt wall"></div>
+    <p class="lab top">[ Why us ]</p>
+    <div class="txt"><h2 class="xl">Melbourne</h2><p class="lede">Our office. <span class="tag">Concept</span></p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Why us, China">
+  <div class="slide night"><div class="in full place">
+    <div class="plate"><img src="{{root}}img/deck/noodle-box/place-china-wide.jpg" width="2752" height="1536" alt="Concept, cleaned up from Moton's own footage: their factory hall in China, a white Moton kiosk and an orange robot booth on a green epoxy floor with yellow lanes"></div>
+    <p class="lab top">[ Why us ]</p>
+    <div class="txt"><h2 class="xl">China</h2><p class="lede">Where the machines are built. <span class="tag">Concept</span></p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+</div><!-- /one -->
+
+
+<!-- take: Who we work with -->
+
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Your recipes, our robots">
+  <div class="slide night"><div class="in full">
+    <p class="lab r">[ Come and see the line ]</p>
+    <div class="open-c">
+      <p class="open-line r">Your recipes, our robots.</p>
+      <p class="r" style="margin-top:calc(40*var(--u));font-size:calc(30*var(--u));line-height:1.35;color:var(--paper)">Visit the robot kitchen at 365 St Pauls Terrace, Fortitude Valley, open six days.<br>Call Ryan Edwards, 0498&nbsp;765&nbsp;142.</p>
+    </div>
+    <div class="foot"><p>Wonder Robotics, Fortitude Valley QLD 4006</p><p>{{n}}</p></div>
+  </div></div>
+</section>

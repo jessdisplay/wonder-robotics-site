@@ -1380,6 +1380,7 @@ def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics f
 
 
 deck("noodle-box", noodle_box_source())
+deck("noodle-box-separate", noodle_box_source("noodle-box-separate-slides.html"))
 # Noodle Box and Wok in a Box together, layered in their own red and yellow (Jesse, 28 Oct 2026: "do a layered deck in
 # their colours and brand")
 deck("concept-eight", noodle_box_source("concept-eight-slides.html", "Wonder Robotics for Concept Eight",
