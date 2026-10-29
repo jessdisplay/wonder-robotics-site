@@ -29,6 +29,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches, v = null, busy = false;
   var tag = document.querySelector('script[data-pass-hash]');
   var hashes = tag ? tag.getAttribute('data-pass-hash').split(',').map(function (h) { return h.trim(); }) : [];
+  // a client's code that closes (data-temp, decks_export.py CLOSES) waves him in until its end, then reads as wrong
+  var temp = /^([0-9a-f]{64})@(\d{10,})$/.exec(((tag && tag.getAttribute('data-temp')) || '').trim());
+  if (temp && Date.now() < +temp[2]) hashes.push(temp[1]);
   function sha(t) {
     return crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function (buf) {
       return Array.prototype.map.call(new Uint8Array(buf), function (x) { return x.toString(16).padStart(2, '0'); }).join('');

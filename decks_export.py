@@ -62,6 +62,12 @@ GATED = {"information": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce165
          "noodle-box-lab37-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-proposal": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4",
          "noodle-box-proposal-maroon": "0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4"}
+# Decks whose client code closes: it opens them until the end (ms since 1970) and not after, as a temporary code on
+# /shared/gate.js (data-temp), while GATED becomes a code for the team alone (Jesse, 29 Oct 2026, of the Concept Eight
+# proposal: "those 3 decks can close off at 6:00pm AEST tomorrow", so 6565 until 18:00 AEST 30 Oct 2026).
+CLOSES = {n: ("0ae3305415102d365f21b19b0ba90eebfebd1c4f38b79ae87dce1655a31650a4", 1793347200000)
+          for n in ("concept-eight", "noodle-box-proposal", "noodle-box-proposal-maroon")}
+GATED.update({n: "4d939723aee58df1d4cc07dc421ca4128d8c69edfcb8f236d1eb961bc440a81d" for n in CLOSES})
 GATE = HERE / "src" / "deck-gate.html"
 # A deck may dress its login: src/<name>-gate.html, or the dressings named here, in order. Every Concept Eight deck wears
 # Concept Eight's own Noodle Box login with the little man's hat in its digit boxes (Jesse, 29 Oct 2026: "change the login
@@ -194,7 +200,12 @@ def main():
         html, head = page.read_text(), '<meta charset="utf-8">\n'
         if html.count(head) != 1:
             sys.exit(f"{name}: no single charset line to put the login after")
-        gate = GATE.read_text().replace("{{hash}}", GATED[name]) + dressing(name) + (GATE_NOTE if name in CONFIDENTIAL else "")
+        gate = GATE.read_text().replace("{{hash}}", GATED[name])
+        if name in CLOSES:
+            gate = gate.replace(f'data-pass-hash="{GATED[name]}"', 'data-pass-hash="{}" data-temp="{}@{}"'.format(GATED[name], *CLOSES[name]), 1)
+            if "data-temp=" not in gate:
+                sys.exit(f"{name}: the closing code did not go into the login")
+        gate += dressing(name) + (GATE_NOTE if name in CONFIDENTIAL else "")
         page.write_text(html.replace(head, head + gate))
         print(f"{decks[name][0]}/: behind its passcode")
     print(f"{len(used)} pictures, films and fonts")

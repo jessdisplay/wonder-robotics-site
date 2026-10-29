@@ -54,6 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var t = document.getElementById('c8-sound'), gong = t && t.content.firstElementChild ? document.body.appendChild(t.content.firstElementChild.cloneNode(true)) : null;
   var pass = false, primed = false, wanted = false;
   var tag = document.querySelector('script[data-pass-hash]'), hash = tag && tag.getAttribute('data-pass-hash');
+  // a client's code that closes (data-temp, decks_export.py CLOSES) strikes the gong until its end, then reads as wrong
+  var temp = /^([0-9a-f]{64})@(\d{10,})$/.exec(((tag && tag.getAttribute('data-temp')) || '').trim());
   function prime() {   // a phone only lets a sound play later if it was started inside a tap or keypress: start it silent now
     if (primed || !gong) return; primed = true;
     gong.muted = true; var p = gong.play();
@@ -73,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var real = gate.querySelector('#gate-pass'); if (!real) return;
     e.preventDefault(); e.stopImmediatePropagation();
     sha(real.value).then(function (h) {
-      if (h !== hash) return through(form);
+      if (h !== hash && !(temp && h === temp[1] && Date.now() < +temp[2])) return through(form);
       gate.classList.add('c8-yes');
       // he moves when the sound is actually heard, not when it was asked for; if it will not play, he moves anyway
       var struck = false;
