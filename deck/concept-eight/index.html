@@ -553,12 +553,14 @@
                   transform:translate(-50%,-50%);pointer-events:none}
   .tm .in.full::after{pointer-events:none}
   /* its line in the posters' capitals, size and place (c8_posters.py stir-fry, as DINNER AND A SHOW), laid in the page's
-     own frame; it rises in as the page comes on, holds about four seconds, and fades so the film plays clear (Jesse,
-     29 Oct 2026: "it needs big text like the rest of the deck then so it lands", "it can fade back after 3 or 5 seconds") */
+     own frame; it rises in each time the page comes into the middle of the window (.say, set by the page's own watch,
+     with its soundtrack), holds about four seconds, and fades so the film plays clear (Jesse, 29 Oct 2026: "it needs big
+     text like the rest of the deck then so it lands", "it can fade back after 3 or 5 seconds"). Not on the deck's .on:
+     that lights the first time a page passes the middle, even on the way past, and stays lit, so it was missed. */
   .stir-say{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:0% 100%;z-index:2;pointer-events:none}
   @media (prefers-reduced-motion:no-preference){
     .js .stage .stir-say{opacity:0}
-    .js .stage.on .stir-say{animation:stir-say 5.4s ease .2s 1 both}
+    .js .stage .stir-say.say{animation:stir-say 5.4s ease .2s 1 both}
   }
   .stir-sound{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;background:none;border:0;padding:0;
               margin-right:calc(28*var(--u));cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.3em}
@@ -809,14 +811,16 @@
     }, { rootMargin: "50% 0px" }).observe(box);
   })();
   // Its soundtrack, ours (Jesse, 29 Oct 2026: "add a sound track to this one to make it pop"): from its first hit each
-  // time the page comes into the middle of the window, as the words land, and faded out when it leaves. Its own watch,
+  // time the page comes into the middle of the window, as the words land (they rise in again on each visit, .say), and
+  // faded out when it leaves. Its own watch,
   // on the deck's own band (-35%): the deck's .on stays lit once a page has been seen, so it cannot say the page left. It plays by
   // default; the Mute button in the small print turns it off for the rest of the visit ("sound will play as default
   // with mute button on it"). A phone plays it only if it was first started inside a tap or a
   // keypress, so the first one primes it, silently.
   (function () {
     var page = document.getElementById("tm-film").closest(".stage"), track = document.getElementById("stir-track");
-    var button = page.querySelector(".stir-sound"), peak = 0.85, primed = false, on = false, fade = 0, off = false;
+    var button = page.querySelector(".stir-sound"), words = page.querySelector(".stir-say");
+    var peak = 0.85, primed = false, on = false, fade = 0, off = false;
     try { off = sessionStorage.getItem("c8-stir-sound") === "off"; } catch (e) { /* no storage: sound on */ }
     function show() { button.textContent = off ? "Unmute" : "Mute"; button.setAttribute("aria-pressed", String(off)); }
     function start() {   // at full straight away: a fade would soften the first hit
@@ -844,10 +848,11 @@
       if (off) stop(); else if (on) start();
     });
     show();
-    if (!window.IntersectionObserver) return;
+    function say() { words.classList.remove("say"); void words.offsetWidth; words.classList.add("say"); }   // from the start again
+    if (!window.IntersectionObserver) { words.classList.add("say"); return; }
     new IntersectionObserver(function (es) {
       var now = es[0].isIntersecting;
-      if (now && !on) { on = true; start(); } else if (!now && on) { on = false; stop(); }
+      if (now && !on) { on = true; say(); start(); } else if (!now && on) { on = false; words.classList.remove("say"); stop(); }
     }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 }).observe(page);
   })();
   </script>
