@@ -52,7 +52,8 @@ CLIENTS = [
         ("information", "Information deck"), ("company", "Introduction"), ("profile", "Corporate profile"),
         ("opening", "Opening"), ("offer", "Robot coffee in your brand"), ("franchise", "Franchise proposal"),
         ("coffee", "Coffee bar, sold whole"), ("coffee-machine", "Robot coffee bars"), ("education", "Education"),
-        ("coffee-partners", "Coffee partners MOU"), ("agreement", "Quote and agreement"), ("signatures", "Email signatures")]),
+        ("coffee-partners", "Coffee partners MOU"), ("agreement", "Quote and agreement"), ("signatures", "Email signatures"),
+        ("work", "The work")]),
 ]
 
 
@@ -65,7 +66,7 @@ def live_pages():
     git("fetch", "-q", "origin")
     pages = {}
     for f in git("ls-tree", "-r", "--name-only", "origin/main", ROOT).split():
-        if not f.endswith("/index.html") or f == ROOT + "index.html":
+        if not f.endswith("/index.html") or f == ROOT + "index.html" or f.endswith("/gate/index.html"):   # a login is not a page
             continue
         path = f[len(ROOT):-len("/index.html")]
         page = git("show", f"origin/main:{f}")
