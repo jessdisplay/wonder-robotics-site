@@ -46,6 +46,8 @@ DECKS = {
     # the same two without Lab37 in the address or the PDF (Jesse, 29 Oct 2026); the white one is the plain name
     "noodle-box-proposal": ("noodle-box-proposal", "Wonder-Robotics-for-Noodle-Box.pdf"),
     "noodle-box-proposal-maroon": ("noodle-box-proposal-maroon", "Wonder-Robotics-for-Noodle-Box-maroon.pdf"),
+    # inside the job's own address, so the greeter page's server lock covers it too (Jesse, 6 Nov 2026)
+    "new-farm-curry-house": ("new-farm-curry-house/deck", "Wonder-Robotics-for-New-Farm-Curry-House.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -84,7 +86,9 @@ def dressing(name):
                    if p.exists())
 # Decks sent as a page only, with no PDF to download (Jesse, 29 Oct 2026, of the Concept Eight deck: "I don't want to
 # send it as a PDF as it could be copied").
-NO_PDF = {"concept-eight"}
+NO_PDF = {"concept-eight",
+          # a PDF would carry a locked page out from behind its lock
+          "new-farm-curry-house"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
 CONFIDENTIAL = set(CONCEPT_EIGHT)
@@ -159,7 +163,8 @@ def main():
             sys.exit(f"no built deck at {src}: run build.py first")
         html = src.read_text()
         html = re.sub(r'href="(?:\.\./)+([^"#]*)', lambda m: 'href="' + SITE + m.group(1), html)
-        html = html.replace("../../", "../")
+        up = "../" * (folder.count("/") + 1)   # from the page to the folder that holds img/ and fonts/
+        html = html.replace("../../", up)
         for old, new in CONTACT_FOR.get(name, CONTACT):
             html = html.replace(old, new)
         if re.search(r"1800[ ]?983[ ]?404", html):
@@ -169,9 +174,10 @@ def main():
         if re.search(r"407\D{0,6}474\D{0,6}025|peter@", html):   # Peter is an advisor, no longer a contact (29 Oct 2026)
             sys.exit(f"{name}: Peter's number or email is still on the page")
         seen = html + (GATE.read_text() + dressing(name) if name in GATED else "")   # the login is put in later; its pictures go now
-        files = set(re.findall(r'(?:src|srcset|poster)="\.\./((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?\.\./((?:img|fonts)/[^)"\'?]+)', seen))
+        u = re.escape(up)
+        files = set(re.findall(r'(?:src|srcset|poster)="' + u + r'((?:img|fonts)/[^"?\s]+)', seen)) | set(re.findall(r'url\(["\']?' + u + r'((?:img|fonts)/[^)"\'?]+)', seen))
         # a film the scroll plays (src/scrub.js) names its frames once, with {n} for the frame number
-        for path, count in re.findall(r'data-frames="\.\./((?:img)/[^"]+)" data-count="(\d+)"', seen):
+        for path, count in re.findall(r'data-frames="' + u + r'((?:img)/[^"]+)" data-count="(\d+)"', seen):
             files |= {path.replace("{n}", f"{i:03d}") for i in range(int(count))}
         for f in files:
             if not (HERE / f).exists():

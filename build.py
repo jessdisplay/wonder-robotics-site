@@ -1333,7 +1333,7 @@ for name, body in (("noodle-box-lab37-red", "dark red screen"), ("noodle-box-lab
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
                       description="Wonder Robotics for Noodle Box: who we are, our stir-fry robot built in their brand, "
-                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True, edits=()):
+                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True, edits=(), job=None):
     """Wonder Robotics for Noodle Box, about ten pages (Jesse, 27 Oct 2026: "like a 10 pager about the company for
     noodle box with a scroller that shows how it works"; the 26 Oct build was the whole information deck, 45 slides).
     The running order is src/<running>; each <!-- take: Label --> in it is that slide of the information
@@ -1375,7 +1375,17 @@ def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics f
         want = re.findall(r'<a class="btn want" href="https://wonder\.fish/robotics/coffee/".*?</a>', head, re.S)
         card = re.findall(r'  <section class="menu-sec" aria-labelledby="numbers-h">.*?</section>\n', tail, re.S)
         assert len(want) == 1 and len(card) == 1, ("the numbers button and menu card", len(want), len(card))
-        head, tail = head.replace(want[0], ""), tail.replace(card[0], "")
+        # job = (label, address, picture, line): the job's other page in their place, so the header and the menu both
+        # lead to it (rule, 1 Nov 2026: every job keeps a menu of its pages)
+        go, card_for = "", ""
+        if job:
+            label, href, pic, line = job
+            go = f'<a class="btn want" href="{href}"><span>{label}</span><i aria-hidden="true"><b>&nearr;</b></i></a>'
+            card_for = (f'  <section class="menu-sec" aria-labelledby="job-h">\n    <p class="menu-lab" id="job-h">{label}</p>\n'
+                        f'    <a class="menu-card" href="{href}">\n      <img src="{{{{root}}}}{pic}" width="1280" height="720" alt="">\n'
+                        f'      <span class="t"><b>{label}</b><span>{line}</span></span>\n'
+                        f'      <span class="menu-go">Open <span aria-hidden="true">&nearr;</span></span>\n    </a>\n  </section>\n')
+        head, tail = head.replace(want[0], go), tail.replace(card[0], card_for)
     return head + '<main id="deck">' + slides + tail
 
 
@@ -1391,6 +1401,16 @@ deck("concept-eight", noodle_box_source("concept-eight-slides.html", "Wonder Rob
                                         edits=[(" Robot dumpling kitchen, Gold Coast. Visualisation.</p>", " Robot dumpling kitchen, Gold Coast.</p>"),
                                                ('<p class="lab top r">[ The work ]</p>\n    <div class="foot"><p>Wonder Robotics</p>',
                                                 '<p class="lab top r">[ The work ]</p>\n    <div class="foot"><p>Little Red Dumpling: concept</p>')]))
+# New Farm Curry House: who we are, the room, and the greeter and server as two options in their colours (Jesse, 6 Nov
+# 2026). It sits beside the job's greeter page behind that page's passcode (decks_export.py), so the two lead to each other.
+deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html", "Wonder Robotics for New Farm Curry House",
+                                               "Wonder Robotics for New Farm Curry House: who we are, our room in Fortitude "
+                                               "Valley, and a greeter and server for the restaurant.",
+                                               numbers=False, brackets=False,
+                                               edits=[('<p class="lab r">[ Corporate profile, 2026 ]</p>',
+                                                       '<p class="lab r">[ For New Farm Curry House ]</p>')],
+                                               job=("The greeter", "/robotics/new-farm-curry-house/", "img/deck/nfch/greeter.jpg",
+                                                    "Your greeter as it runs on the Cruzr: say hello, then the menu.")))
 
 
 # Not found. Served from any depth, so its links are absolute from the root.

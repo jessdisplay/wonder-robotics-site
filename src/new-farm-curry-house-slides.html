@@ -1,0 +1,117 @@
+<!-- Wonder Robotics for New Farm Curry House, the running order (build.py, noodle_box_source). Jesse, 6 Nov 2026: "a deck
+     about us, the space, and also a couple of options; they are looking at a greeter robot and I think we will do the
+     greeter and server", then "the team, who we work with, also our options, which I can also just talk directly with her
+     about". So: who we are, the team, the room at 365 St Pauls Terrace, who we work with, then the two options in their
+     own green and gold with no prices on them (Jesse talks Geeta through those), the ownership notice, and the close
+     every deck has (rule, 22 Oct). A "take" marker below is that slide of the information deck, word for word. The
+     options stand the real robots (the catalogue's cut-outs, img/machines/cut/, with the matte tightened for a dark ground
+     in img/deck/nfch/) on the greeter's own ground, so nothing here is drawn. The
+     greeter itself is the job's other page, one passcode for both.
+
+     Notes on the pages below. Nothing after the running order line may carry a comment: the slides are published as
+     written, comments and all, to a client.
+     - Option one is the greeter they asked about: the Cruzr 1S, which already wears their brand and speaks in Sreeja's
+       voice (the job's greeter page, built 5 Nov 2026). It greets and shows the menu; ordering through it is not built,
+       so the page claims neither.
+     - Option two is Jesse's call (6 Nov 2026: "I think we will do the greeter and server"): the same greeter and a CadeBot
+       running from the pass. The Cruzr stands on the same spot on both pages, so the CadeBot joins it.
+     - Ownership is the greeter page's own notice, for this deck (rule, 29 Oct 2026).
+     - The viewed check every deck and proposal carries (wonder.fish/robotics/views/) closes the file. The server lock is
+       the login here, so the page loads it itself, as the greeter page does; it only reports on wonder.fish. -->
+
+<nav class="label" aria-label="Sections">
+      <a href="#" data-go="What we do">What we do</a><a href="#" data-go="The team">The team</a><a href="#" data-go="The experience hub">The space</a><a href="#" data-go="Who we work with">Who we work with</a><a href="#" data-go="Option one">The options</a>
+    </nav>
+
+<style>
+  /* Their pages: the greeter's ground, their mark and their gold (wonder-robot-apps greeting.json: #274B3A, #C79A15),
+     our type. The robots stand on the floor of the slide with a shadow under each, at one height, as they stand in the
+     room. Gold is only ever a ground under dark ink: as text on their green it is too faint to read. */
+  .nf{--gold:#C79A15;background:#094C3A url({{root}}img/deck/nfch/ground.jpg) center/cover no-repeat;color:var(--paper)}
+  .nf .lab{color:var(--paper-2)}
+  .nf .lede{color:var(--paper-2);max-width:calc(820*var(--u))}
+  .nf .l{max-width:calc(820*var(--u))}
+  .nf-mark{position:absolute;left:calc(84*var(--u));top:calc(70*var(--u));width:calc(190*var(--u));height:auto}
+  .nf-txt{position:absolute;left:calc(96*var(--u));bottom:calc(150*var(--u));width:calc(820*var(--u));z-index:1}
+  .nf-tag{display:inline-block;margin-left:calc(18*var(--u));padding:calc(6*var(--u)) calc(14*var(--u));border-radius:calc(8*var(--u));
+          background:var(--gold);color:var(--ink);vertical-align:calc(2*var(--u))}
+  .nf-go{display:inline-flex;align-items:center;gap:calc(16*var(--u));margin-top:calc(44*var(--u));padding:calc(20*var(--u)) calc(30*var(--u));
+         border-radius:calc(999*var(--u));background:var(--gold);color:var(--ink);text-decoration:none;font-family:var(--mono);
+         font-size:calc(22*var(--u));letter-spacing:.06em;text-transform:uppercase}
+  .nf-go:hover{background:#D9AE2B}
+  .nf-go:focus-visible{outline:calc(3*var(--u)) solid var(--paper);outline-offset:calc(4*var(--u))}
+  /* The Cruzr stands on the same spot on both pages, so on the second the CadeBot simply joins it. Its left edge is the
+     text column's right edge plus a clear gap (96 + 820 + 90 = 1006). */
+  .nf-bots{position:absolute;left:calc(1006*var(--u));bottom:calc(100*var(--u));height:calc(820*var(--u));display:flex;align-items:flex-end;gap:calc(48*var(--u))}
+  .nf-bots figure{position:relative;height:100%;margin:0}
+  .nf-bots img{position:relative;height:100%;width:auto;z-index:1}
+  .nf-bots figure::after{content:"";position:absolute;left:8%;right:8%;bottom:calc(-14*var(--u));height:calc(40*var(--u));border-radius:50%;
+                         background:radial-gradient(closest-side,rgba(2,22,15,.62),rgba(2,22,15,0))}
+  /* the model's name on the footer's line (the foot sits 46 from the bottom, the robots 100) */
+  .nf-bots figcaption{position:absolute;left:0;right:0;bottom:calc(-54*var(--u));text-align:center;font-family:var(--mono);
+                      font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--paper-2)}
+  .nf .foot{color:var(--paper-2)}
+  .own .lab{color:var(--paper-2)}
+  .own p.own-text{margin:calc(40*var(--u)) 0 0;font-size:calc(30*var(--u));line-height:1.45;color:var(--paper);max-width:calc(1650*var(--u))}
+  @media screen and (max-width:760px),screen and (max-height:440px){   /* the deck's own phone rule: screen only */
+    .nf-mark{position:static;width:96px;margin-bottom:18px}
+    .nf-txt{position:static;width:auto}
+    .nf .lede,.nf .l{max-width:none}
+    .nf-go{font-size:12px;padding:12px 18px;margin-top:22px}
+    .nf-tag{font-size:10px;padding:3px 8px;margin-left:10px}
+    .nf-bots{position:static;height:300px;justify-content:center;gap:24px;margin:28px 0 30px}
+    .nf-bots figcaption{font-size:10px;bottom:-26px}
+    .own p.own-text{font-size:15px}
+  }
+</style>
+
+<!-- running order -->
+<!-- take: Wonder Robotics -->
+<!-- take: What we do -->
+<!-- take: The team -->
+<!-- take: The experience hub -->
+<!-- take: Who we work with -->
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Option one">
+  <div class="slide"><div class="in nf">
+    <img class="nf-mark" src="{{root}}img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="nf-txt">
+      <p class="lab r">Option one</p>
+      <h2 class="l r">A greeter at the door.</h2>
+      <p class="lede r">The first ten seconds of the night: a namaste in your colours, then your menu to browse while the table is set.</p>
+      <a class="nf-go r" href="/robotics/new-farm-curry-house/">Meet your greeter <span aria-hidden="true">&nearr;</span></a>
+    </div>
+    <div class="nf-bots r">
+      <figure><img src="{{root}}img/deck/nfch/cruzr-1s.webp" width="532" height="1100" alt="The UBTECH Cruzr 1S greeter robot"><figcaption>Cruzr 1S</figcaption></figure>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Option two">
+  <div class="slide"><div class="in nf">
+    <img class="nf-mark" src="{{root}}img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="nf-txt">
+      <p class="lab r">Option two <span class="nf-tag">Our recommendation</span></p>
+      <h2 class="l r">A greeter at the door, and a runner from the pass.</h2>
+      <p class="lede r">The curries and sharing plates come to the table on the robot, so your team stays with your guests.</p>
+    </div>
+    <div class="nf-bots r">
+      <figure><img src="{{root}}img/deck/nfch/cruzr-1s.webp" width="532" height="1100" alt="The UBTECH Cruzr 1S greeter robot"><figcaption>Cruzr 1S</figcaption></figure>
+      <figure><img src="{{root}}img/deck/nfch/cadebot.webp" width="511" height="1100" alt="The UBTECH CadeBot serving robot"><figcaption>CadeBot</figcaption></figure>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Ownership">
+  <div class="slide night"><div class="in say-it own">
+    <p class="lab r">Ownership</p>
+    <h2 class="big r">This concept is ours until it is yours.</h2>
+    <p class="own-text r">The concepts in this deck, the greeter, its screens, script, voice recordings and menu experience, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks and menu are yours.</p>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<!-- take: Wonder Robotics, Fortitude Valley -->
+<script src="/shared/viewed.js" defer></script>
