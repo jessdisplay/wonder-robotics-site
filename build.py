@@ -1333,7 +1333,8 @@ for name, body in (("noodle-box-lab37-red", "dark red screen"), ("noodle-box-lab
 
 def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics for Noodle Box",
                       description="Wonder Robotics for Noodle Box: who we are, our stir-fry robot built in their brand, "
-                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True, edits=(), job=None):
+                                  "the line, the shop and the dark kitchen.", numbers=True, brackets=True, edits=(), job=None,
+                      share=()):
     """Wonder Robotics for Noodle Box, about ten pages (Jesse, 27 Oct 2026: "like a 10 pager about the company for
     noodle box with a scroller that shows how it works"; the 26 Oct build was the whole information deck, 45 slides).
     The running order is src/<running>; each <!-- take: Label --> in it is that slide of the information
@@ -1365,7 +1366,9 @@ def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics f
         slides = re.sub(r'(<p class="lab[^"]*">)\[ (.*?) \](</p>)', r"\1\2\3", slides)
     nav = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', head, re.S).group(0)
     ours = re.search(r'<nav class="label" aria-label="Sections">.*?</nav>', notes, re.S).group(0)
-    style = re.search(r"<style>.*?</style>", notes, re.S).group(0)
+    # share: other running orders whose look this deck wears too, so a job's decks keep one stylesheet between them
+    style = "\n".join([re.search(r"<style>.*?</style>", (SRC / f).read_text().split("<!-- running order -->")[0], re.S).group(0)
+                       for f in share] + [re.search(r"<style>.*?</style>", notes, re.S).group(0)])
     for mark in ("<title>Wonder Robotics, information deck</title>", "</head>"):
         assert head.count(mark) == 1, mark
     head = (head.replace(nav, ours).replace("</head>", style + "\n</head>")
@@ -1375,16 +1378,17 @@ def noodle_box_source(running="noodle-box-slides.html", title="Wonder Robotics f
         want = re.findall(r'<a class="btn want" href="https://wonder\.fish/robotics/coffee/".*?</a>', head, re.S)
         card = re.findall(r'  <section class="menu-sec" aria-labelledby="numbers-h">.*?</section>\n', tail, re.S)
         assert len(want) == 1 and len(card) == 1, ("the numbers button and menu card", len(want), len(card))
-        # job = (label, address, picture, line): the job's other page in their place, so the header and the menu both
-        # lead to it (rule, 1 Nov 2026: every job keeps a menu of its pages)
+        # job = (label, address, picture, line), or a list of them: the job's other pages in their place, so the header
+        # leads to the first and the menu to every one (rule, 1 Nov 2026: every job keeps a menu of its pages)
         go, card_for = "", ""
-        if job:
-            label, href, pic, line = job
-            go = f'<a class="btn want" href="{href}"><span>{label}</span><i aria-hidden="true"><b>&nearr;</b></i></a>'
-            card_for = (f'  <section class="menu-sec" aria-labelledby="job-h">\n    <p class="menu-lab" id="job-h">{label}</p>\n'
-                        f'    <a class="menu-card" href="{href}">\n      <img src="{{{{root}}}}{pic}" width="1280" height="720" alt="">\n'
-                        f'      <span class="t"><b>{label}</b><span>{line}</span></span>\n'
-                        f'      <span class="menu-go">Open <span aria-hidden="true">&nearr;</span></span>\n    </a>\n  </section>\n')
+        for k, (label, href, pic, line) in enumerate([job] if job and isinstance(job[0], str) else list(job or ())):
+            hid = "job-h" if k == 0 else f"job-h-{k + 1}"
+            if k == 0:
+                go = f'<a class="btn want" href="{href}"><span>{label}</span><i aria-hidden="true"><b>&nearr;</b></i></a>'
+            card_for += (f'  <section class="menu-sec" aria-labelledby="{hid}">\n    <p class="menu-lab" id="{hid}">{label}</p>\n'
+                         f'    <a class="menu-card" href="{href}">\n      <img src="{{{{root}}}}{pic}" width="1280" height="720" alt="">\n'
+                         f'      <span class="t"><b>{label}</b><span>{line}</span></span>\n'
+                         f'      <span class="menu-go">Open <span aria-hidden="true">&nearr;</span></span>\n    </a>\n  </section>\n')
         head, tail = head.replace(want[0], go), tail.replace(card[0], card_for)
     return head + '<main id="deck">' + slides + tail
 
@@ -1402,15 +1406,28 @@ deck("concept-eight", noodle_box_source("concept-eight-slides.html", "Wonder Rob
                                                ('<p class="lab top r">[ The work ]</p>\n    <div class="foot"><p>Wonder Robotics</p>',
                                                 '<p class="lab top r">[ The work ]</p>\n    <div class="foot"><p>Little Red Dumpling: concept</p>')]))
 # New Farm Curry House: who we are, the room, and the greeter and server as two options in their colours (Jesse, 6 Nov
-# 2026). It sits beside the job's greeter page behind that page's passcode (decks_export.py), so the two lead to each other.
+# 2026). It sits beside the job's greeter page behind that page's passcode (decks_export.py), so the pages lead to each other.
+NFCH_GREETER = ("The greeter", "/robotics/new-farm-curry-house/", "img/deck/nfch/greeter.jpg",
+                "Your greeter as it runs on the Cruzr: say hello, then the menu.")
+NFCH_DECK = ("The deck", "/robotics/new-farm-curry-house/deck/", "img/deck/nfch/ground.jpg",
+             "Who we are, our room in the Valley, and the two options for the floor.")
+NFCH_KITCHEN = ("The kitchen", "/robotics/new-farm-curry-house/kitchen/", "img/deck/nfch/ground.jpg",
+                "Your menu on six bases, and which machine cooks what.")
 deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html", "Wonder Robotics for New Farm Curry House",
                                                "Wonder Robotics for New Farm Curry House: who we are, our room in Fortitude "
                                                "Valley, and a greeter and server for the restaurant.",
                                                numbers=False, brackets=False,
                                                edits=[('<p class="lab r">[ Corporate profile, 2026 ]</p>',
                                                        '<p class="lab r">[ For New Farm Curry House ]</p>')],
-                                               job=("The greeter", "/robotics/new-farm-curry-house/", "img/deck/nfch/greeter.jpg",
-                                                    "Your greeter as it runs on the Cruzr: say hello, then the menu.")))
+                                               job=[NFCH_GREETER, NFCH_KITCHEN]))
+# Their kitchen: the menu matched to the machines that cook it, and how the spices are kept (Jesse, 11 Nov 2026), in the
+# deck's own green and gold, one folder beside it behind the same passcode.
+deck("new-farm-curry-house-kitchen", noodle_box_source("new-farm-curry-house-kitchen-slides.html",
+                                                       "Wonder Robotics for New Farm Curry House: the kitchen",
+                                                       "New Farm Curry House: the menu on six bases, the stations that cook it, "
+                                                       "and how the spices are kept.",
+                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_DECK],
+                                                       share=("new-farm-curry-house-slides.html",)))
 
 
 # Not found. Served from any depth, so its links are absolute from the root.

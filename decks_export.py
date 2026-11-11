@@ -48,6 +48,7 @@ DECKS = {
     "noodle-box-proposal-maroon": ("noodle-box-proposal-maroon", "Wonder-Robotics-for-Noodle-Box-maroon.pdf"),
     # inside the job's own address, so the greeter page's server lock covers it too (Jesse, 6 Nov 2026)
     "new-farm-curry-house": ("new-farm-curry-house/deck", "Wonder-Robotics-for-New-Farm-Curry-House.pdf"),
+    "new-farm-curry-house-kitchen": ("new-farm-curry-house/kitchen", "Wonder-Robotics-New-Farm-Curry-House-kitchen.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -88,7 +89,7 @@ def dressing(name):
 # send it as a PDF as it could be copied").
 NO_PDF = {"concept-eight",
           # a PDF would carry a locked page out from behind its lock
-          "new-farm-curry-house"}
+          "new-farm-curry-house", "new-farm-curry-house-kitchen"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
 CONFIDENTIAL = set(CONCEPT_EIGHT)
