@@ -1438,6 +1438,22 @@ deck("new-farm-curry-house-kitchen", noodle_box_source("new-farm-curry-house-kit
                                                        "passes, finished for the table and packed for delivery.",
                                                        numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_DECK, NFCH_SCREEN],
                                                        share=("new-farm-curry-house-slides.html",)))
+# Comuna: their title card and their hat first, then the coffee cart, its spec sheet, the numbers and the social side,
+# then our process and who we are, on their colours (Jesse, 12 Nov 2026: "at the end we intro ourselves on their brand",
+# "lets try just to move with the simpler coffee machine"). It sits inside the job's address, behind the job's own login
+# (decks_export.py).
+COMUNA_DRAWINGS = ("The drawings", "/robotics/comuna/drawings/", "img/deck/comuna/card-drawings.jpg",
+                   "The spec sheets for the coffee cart, the cocktail cradles and CASA's taco line.")
+COMUNA_JOB = ("The job", "/robotics/comuna/", "img/deck/comuna/card-job.jpg",
+              "Comuna's brand as we read it, the rooms, and everything on the job so far.")
+COMUNA_DECK = noodle_box_source("comuna-slides.html", "Wonder Robotics for Comuna",
+                                "Wonder Robotics for Comuna: the hat, the robot barista on Comuna's own coffee cart, "
+                                "what it adds up to, and who we are.",
+                                numbers=False, brackets=False,
+                                job=[COMUNA_DRAWINGS, COMUNA_JOB])
+# a phone's browser bar takes their cocoa, not our night (rule, 11 Nov 2026: no purple on a client's pages)
+assert COMUNA_DECK.count("{{icons}}") == 1 and ICONS.count("#20103A") == 1
+deck("comuna", COMUNA_DECK.replace("{{icons}}", ICONS.replace("#20103A", "#3A1515")))
 
 
 # Not found. Served from any depth, so its links are absolute from the root.

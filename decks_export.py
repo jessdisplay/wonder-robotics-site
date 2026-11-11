@@ -49,6 +49,8 @@ DECKS = {
     # inside the job's own address, so the greeter page's server lock covers it too (Jesse, 6 Nov 2026)
     "new-farm-curry-house": ("new-farm-curry-house/deck", "Wonder-Robotics-for-New-Farm-Curry-House.pdf"),
     "new-farm-curry-house-kitchen": ("new-farm-curry-house/kitchen", "Wonder-Robotics-New-Farm-Curry-House-kitchen.pdf"),
+    # inside Comuna's job address, behind the job's own band login like every Comuna page (Jesse, 12 Nov 2026)
+    "comuna": ("comuna/deck", "Wonder-Robotics-for-Comuna.pdf"),
 }
 # Decks behind a passcode: name -> SHA-256 of the passcode, never the code itself. The login is src/deck-gate.html,
 # put in after the PDF is printed (a printed login would be the whole PDF). Jesse, 22 Oct 2026: the
@@ -89,7 +91,10 @@ def dressing(name):
 # send it as a PDF as it could be copied").
 NO_PDF = {"concept-eight",
           # a PDF would carry a locked page out from behind its lock
-          "new-farm-curry-house", "new-farm-curry-house-kitchen"}
+          "new-farm-curry-house", "new-farm-curry-house-kitchen", "comuna"}
+# A deck inside a job that already has its own login wears that login, not the deck gate: src/<name>-login.html, the
+# job pages' gate lines byte for byte, put in after the charset line like the deck gate.
+OWN_LOGIN = {"comuna"}
 # Concept decks carry the ice cream proposal's line under the passcode (Jesse, 29 Oct 2026: "add the disclaimer similar
 # to the ice cream job and add that to every single concept we do"; its words, robotics/wonder-whip/).
 CONFIDENTIAL = set(CONCEPT_EIGHT)
@@ -216,6 +221,13 @@ def main():
         gate += dressing(name) + (GATE_NOTE if name in CONFIDENTIAL else "")
         page.write_text(html.replace(head, head + gate))
         print(f"{decks[name][0]}/: behind its passcode")
+    for name in set(decks) & OWN_LOGIN:
+        page = out / decks[name][0] / "index.html"
+        html, head = page.read_text(), '<meta charset="utf-8">\n'
+        if html.count(head) != 1:
+            sys.exit(f"{name}: no single charset line to put the login after")
+        page.write_text(html.replace(head, head + (HERE / "src" / f"{name}-login.html").read_text()))
+        print(f"{decks[name][0]}/: behind the job's own login")
     print(f"{len(used)} pictures, films and fonts")
 
 

@@ -1,0 +1,240 @@
+<!-- Wonder Robotics for Comuna, the running order (build.py, noodle_box_source).
+
+     Jesse, 12 Nov 2026, the order: open on their brand ("wonder he already kind of knows us ... at the end we intro
+     ourselves on their brand"), "start in just with the hats", then the ideas easiest first, "lets try just to move with
+     the simpler coffee machine", "the photo of the coffee machine and up close on the right side", spec and design
+     drawings, "some numbers", "first mover", the look "we had for Fonzie Abbott number plate", "a slide for the social
+     side", our process, then us. So: the title card (El Charro on their slate, their wordmark and their line set in
+     their own Pitch Sans, baked into the picture), the pink hat, the coffee cart and its spec sheet, the numbers laid
+     over the cart, the social side, our process, who we are and the team, the ownership notice, the close (rule,
+     22 Oct). The cocktail cradles and CASA's taco line wait for their photoreal renders (Jesse, 11 Nov: "these need to
+     be really nice renders im not showing this illustartive").
+
+     Their palette only (rule, 11 Nov 2026: no purple on a client's pages), including on the pages taken from the
+     information deck: its night ground, signal and shading are mapped to Comuna's cocoa and rust below, so we
+     introduce ourselves on their brand. The close keeps the website's header, as every deck's does.
+
+     Notes on the pages below. Nothing after the running order line may carry a comment: the slides are published as
+     written, comments and all, to a client.
+     - Numbers: $722m is Westpac's card data for Australian cafés in June 2025 (westpac.com.au, Oct 2025); "close to 1 in
+       3 venues" short of staff is Lightspeed's State of Hospitality 2025; 2.4 x 1 m and "about a minute a latte" are
+       the coffee cart spec sheet's (sheet 01, rev A), both still marked to confirm there. First mover is NOT checked:
+       robot bars have run in Sydney (Darlinghurst, 2020) and Melbourne, and our own bar is in the Valley, so the page
+       says it in the deck's to-confirm style until someone confirms the narrower claim.
+     - "The drawings" leads to robotics/comuna/drawings/, which must be live before this deck is. -->
+
+<nav class="label" aria-label="Sections">
+      <a href="#" data-go="Comuna">Comuna</a><a href="#" data-go="The hat">The hat</a><a href="#" data-go="Coffee">Coffee</a><a href="#" data-go="The numbers">The numbers</a><a href="#" data-go="Every cup is a post">Social</a><a href="#" data-go="Plan to open, plan">Our process</a><a href="#" data-go="What we do">Who we are</a>
+    </nav>
+
+<style>
+  /* Comuna's pages: "Pink runs the room. Cocoa does the talking." (their brand read, 3 Nov 2026). Blush ground, cocoa
+     ink, rust labels; the picture sits on the wall like a print, the words beside it. */
+  .cm{--blush:#EEE0DE;--cream:#FBF4ED;--rose:#DCA3A5;--terra:#BB7256;--rust:#BA4618;--cocoa:#3A1515;--cocoa-2:rgba(58,21,21,.72);
+      background:var(--blush);color:var(--cocoa)}
+  .cm .lab{color:var(--rust)}
+  .cm .lede{color:var(--cocoa-2)}
+  .cm .foot{color:var(--cocoa-2)}
+  .cm.dark{background:var(--cocoa);color:var(--cream)}
+  .cm.dark .lab{color:var(--rose)}
+  .cm.dark .lede,.cm.dark .foot{color:rgba(251,244,237,.72)}
+  /* the pages taken from the information deck, on Comuna's colours: its night is their cocoa, its signal their rust */
+  :root{--night:#3A1515;--signal:#BA4618;--ink:#3A1515;--ink-2:rgba(58,21,21,.72);--paper:#FBF4ED;--paper-2:rgba(251,244,237,.74)}
+  .full::after{background:linear-gradient(to top,rgba(58,21,21,.94) 0%,rgba(58,21,21,.62) 34%,rgba(58,21,21,0) 68%)}
+  .full.deep::after{background:linear-gradient(to top,rgba(58,21,21,.96) 0%,rgba(58,21,21,.8) 40%,rgba(58,21,21,0) 80%)}
+  .cover::after{background:linear-gradient(to top,rgba(58,21,21,.9) 0%,rgba(58,21,21,.5) 30%,rgba(58,21,21,0) 60%)}
+  /* and its gold (#E8A84C) with night ink is their rose with cocoa ink */
+  .slide:not(.night){background:#DCA3A5;color:#3A1515;--ink:#3A1515;--ink-2:rgba(58,21,21,.74);--rule:rgba(58,21,21,.24)}
+  .slide.sun{background:#DCA3A5;color:#3A1515}
+  .full.sun::after{background:linear-gradient(to top,rgba(220,163,165,.97) 0%,rgba(220,163,165,.86) 30%,rgba(220,163,165,0) 62%)}
+  .life-steps li.done{border-color:rgba(220,163,165,.65)}
+  .life-steps li.now{border-color:#DCA3A5}
+
+  /* the title card: their poster, whole. The picture is 2400 x 1350 with the slate run out 400 a side (title-wide), so
+     a wide screen gets more slate, never a cut hat; a screen squarer than 16:10 shows it whole on the same slate. */
+  .cm-title{background:#677B89}
+  .cm-title .plate>img{object-position:50% 50%}
+  @media (max-aspect-ratio:8/5){.cm-title .plate>img{object-fit:contain}}
+  .cm-title .foot{color:rgba(251,244,237,.7)}
+
+  /* a picture and its close-up: the picture as a print on the wall (3:2, 1200 x 800), the close-up and the words in
+     the column beside it */
+  .cm-pic{position:absolute;top:calc(110*var(--u));left:calc(96*var(--u));width:calc(1200*var(--u));height:calc(800*var(--u));margin:0;
+          box-shadow:0 calc(18*var(--u)) calc(50*var(--u)) rgba(58,21,21,.18)}
+  .cm-pic img,.cm-close img{display:block;width:100%;height:100%;object-fit:cover}
+  .cm-close{position:absolute;top:calc(110*var(--u));right:calc(96*var(--u));width:calc(468*var(--u));margin:0;
+            box-shadow:0 calc(12*var(--u)) calc(36*var(--u)) rgba(58,21,21,.16)}
+  .cm-close.sq{height:calc(468*var(--u))}
+  .cm-close.wide{height:calc(231*var(--u))}
+  .cm-side{position:absolute;right:calc(96*var(--u));width:calc(468*var(--u));bottom:calc(170*var(--u))}
+  .cm-side .l{font-size:calc(58*var(--u))}
+  .cm-side .lede{font-size:calc(26*var(--u))}
+  .cm-when{font-family:var(--mono);font-size:calc(22*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--rust)}
+  .cm-go{display:inline-flex;align-items:center;gap:calc(14*var(--u));margin-top:calc(30*var(--u));
+         padding:calc(18*var(--u)) calc(28*var(--u));border-radius:calc(999*var(--u));background:var(--cocoa);color:var(--cream);
+         text-decoration:none;font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;text-transform:uppercase}
+  .cm-go:hover{background:var(--rust)}
+  .cm-go:focus-visible{outline:calc(3*var(--u)) solid var(--rust);outline-offset:calc(4*var(--u))}
+  .cm-go.on-sheet{position:absolute;right:calc(96*var(--u));bottom:calc(46*var(--u));margin:0;z-index:2}
+  /* the spec sheet, whole, as printed; centred by its margins, because the reveal (.r) owns the transform */
+  .cm-sheet{position:absolute;left:0;right:0;top:calc(84*var(--u));height:calc(860*var(--u));width:max-content;margin:0 auto;
+            box-shadow:0 calc(18*var(--u)) calc(50*var(--u)) rgba(58,21,21,.2)}
+  .cm-sheet img{display:block;height:100%;width:auto}
+
+  /* the numbers, laid over the cart the way the Fonzie Abbott lane camera carried its graphics: a box the shape of the
+     render that covers the screen, so each tag stays on its part of the cart however the screen is cut */
+  .cm-hud{position:absolute;left:50%;top:50%;width:max(100cqw,calc(100cqh*1.4907));aspect-ratio:2400/1610;transform:translate(-50%,-50%)}
+  .cm-hud>img{position:absolute;inset:0;width:100%;height:100%}
+  .cm-hud::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(58,21,21,.9) 0%,rgba(58,21,21,.72) 26%,rgba(58,21,21,0) 50%)}
+  .cm-tag{position:absolute;z-index:1;display:flex;align-items:center;gap:calc(10*var(--u));margin:0;transform:translate(calc(-8*var(--u)),-50%)}
+  .cm-tag i{width:calc(16*var(--u));height:calc(16*var(--u));border-radius:50%;background:var(--cream);box-shadow:0 0 0 calc(6*var(--u)) rgba(251,244,237,.35);flex:none}
+  .cm-tag span{font-family:var(--mono);font-size:calc(19*var(--u));letter-spacing:.05em;text-transform:uppercase;color:var(--cocoa);
+               background:var(--cream);padding:calc(10*var(--u)) calc(14*var(--u));border-radius:calc(8*var(--u));white-space:nowrap}
+  .cm-tbc{color:var(--rust)}
+  .cm-nums{position:absolute;left:calc(96*var(--u));top:calc(110*var(--u));width:calc(640*var(--u));z-index:2;color:var(--cream)}
+  .cm-nums .lab{color:var(--rose)}
+  .cm-nums h2{font-weight:500;font-size:calc(60*var(--u));line-height:1.02;letter-spacing:-.04em;margin-top:calc(18*var(--u))}
+  .cm-nums h2 .cm-tbc{color:var(--rose);font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.06em;display:block;margin-top:calc(14*var(--u));font-weight:400}
+  .cm-nums dl{margin-top:calc(44*var(--u))}
+  .cm-nums dl div{border-top:calc(2*var(--u)) solid rgba(251,244,237,.3);padding:calc(18*var(--u)) 0}
+  .cm-nums dt{font-weight:400;font-size:calc(88*var(--u));line-height:1;letter-spacing:-.05em}
+  .cm-nums dd{margin:calc(8*var(--u)) 0 0;font-size:calc(22*var(--u));line-height:1.3;color:rgba(251,244,237,.8)}
+  .cm-nums dd small{display:block;font-family:var(--mono);font-size:calc(15*var(--u));letter-spacing:.05em;text-transform:uppercase;color:rgba(251,244,237,.55);margin-top:calc(4*var(--u))}
+  .cm-hud-foot{z-index:2}
+
+  /* the social side: the cart as somebody's post */
+  .cm-phone{position:absolute;left:calc(260*var(--u));top:calc(70*var(--u));width:calc(470*var(--u));height:calc(940*var(--u));margin:0;
+            border-radius:calc(64*var(--u));background:var(--cocoa);padding:calc(18*var(--u));box-shadow:0 calc(24*var(--u)) calc(60*var(--u)) rgba(58,21,21,.28)}
+  .cm-phone img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;border-radius:calc(48*var(--u))}
+  .cm-social{position:absolute;left:calc(900*var(--u));right:calc(140*var(--u));top:50%;transform:translateY(-50%)}
+  .cm-social .l{font-size:calc(96*var(--u))}
+  .cm-social .lede{font-size:calc(30*var(--u));margin-top:calc(24*var(--u));max-width:calc(760*var(--u))}
+
+  .cm-sun{position:absolute;right:calc(96*var(--u));bottom:calc(100*var(--u));width:calc(150*var(--u));height:auto;opacity:.9}
+  .own .lab{color:var(--rose)}
+  .own p.own-text{margin:calc(40*var(--u)) 0 0;font-size:calc(30*var(--u));line-height:1.45;color:var(--cream);max-width:calc(1650*var(--u))}
+
+  @media screen and (max-width:760px),screen and (max-height:440px){   /* the deck's own phone rule: screen only */
+    .cm-title .plate{aspect-ratio:16/9}
+    .cm-title .plate>img{object-fit:contain}
+    .cm-pic,.cm-close,.cm-side,.cm-sheet,.cm-phone,.cm-social,.cm-nums{position:static;width:auto;height:auto;transform:none}
+    .cm-pic{aspect-ratio:3/2;margin:0 0 14px}
+    .cm-close{margin:0 0 18px}
+    .cm-close.sq{aspect-ratio:1/1;height:auto;width:60%}
+    .cm-close.wide{aspect-ratio:2600/1280;height:auto}
+    .cm-side .l{font-size:30px}
+    .cm-side .lede{font-size:15px}
+    .cm-go{font-size:12px;padding:12px 18px;margin-top:18px}
+    .cm-go.on-sheet{position:static;align-self:flex-start}
+    .cm-sheet img{width:100%;height:auto}
+    .cm-hud{position:relative;left:auto;top:auto;transform:none;width:100%;margin:0 0 18px;aspect-ratio:auto;display:flex;flex-direction:column;gap:6px}
+    .cm-hud::after{display:none}
+    .cm-hud>img{position:static;height:auto;margin-bottom:6px}
+    .cm-tag{position:static;transform:none}
+    .cm-tag span{font-size:10px;padding:5px 8px;white-space:normal}
+    .cm-tag i{width:7px;height:7px;box-shadow:0 0 0 3px rgba(251,244,237,.35)}
+    .cm-nums{color:var(--cream)}
+    .cm-nums h2{font-size:28px}
+    .cm-nums dt{font-size:40px}
+    .cm-nums dd{font-size:14px}
+    .cm-nums dd small{font-size:10px}
+    .cm-phone{width:58%;height:auto;aspect-ratio:1/2;margin:0 auto 22px;border-radius:32px;padding:9px}
+    .cm-phone img{border-radius:24px}
+    .cm-social .l{font-size:32px}
+    .cm-social .lede{font-size:15px}
+    .cm-sun{display:none}
+    .own p.own-text{font-size:15px}
+  }
+</style>
+
+<!-- running order -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Comuna">
+  <div class="slide"><div class="in full poster cm-title">
+    <div class="plate"><img src="{{root}}img/deck/comuna/title-wide.jpg" width="3200" height="1350" alt="COMUNA, and under it Tacos, Margs, Tunes, Robots, on Comuna's slate blue; beside it a robot mariachi in Comuna's pink sombrero plays a pink vihuela toward the name"></div>
+    <div class="foot"><p>Comuna &times; Wonder Robotics</p><p>Concept</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The hat">
+  <div class="slide"><div class="in cm">
+    <figure class="cm-pic r"><img src="{{root}}img/deck/comuna/hat.jpg" width="1800" height="1195" alt="Concept: a sombrero in Comuna's pink straw, the rising sun woven into the crown, COMUNA in their inline lettering on a cocoa band, the brim turned up in rust, cream, cocoa and rose stripes"></figure>
+    <figure class="cm-close sq r"><img src="{{root}}img/deck/comuna/hat-inside.jpg" width="1100" height="1100" alt="Concept: the underside of the same hat, Comuna's dog, taco, margarita, vinyl and casita marks round the brim and their stamp, Flavour that moves you, made for the moment, inside the crown"></figure>
+    <div class="cm-side">
+      <p class="cm-when r">The hat</p>
+      <h2 class="l r">Every mark on it is already yours.</h2>
+      <p class="lede r">Your sun, your lettering and the marks from your 2026 posters, woven and printed into one hat.</p>
+    </div>
+    <div class="foot"><p>Comuna: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Coffee">
+  <div class="slide"><div class="in cm">
+    <figure class="cm-pic r"><img src="{{root}}img/deck/comuna/coffee-cart.jpg" width="2400" height="1610" alt="Concept: Comuna's own fluted coffee cart outside the glazing, two robot arms in Comuna's pink and terracotta either side of the coffee machines, cups in their colours, the menu on a pink screen at the front"></figure>
+    <figure class="cm-close wide r"><img src="{{root}}img/deck/comuna/coffee-screen.jpg" width="1600" height="788" alt="Concept: the cart's menu screen, COMUNA coffee and breakfast in their wave lettering, the dog, the sun and the taco, their own items and prices"></figure>
+    <div class="cm-side">
+      <p class="cm-when r">7 am, the coffee cart</p>
+      <h2 class="l r">Coffee for the park before the doors open.</h2>
+      <p class="lede r">Two arms on the fluted cart you already own. Guests order on the screen and lift their cup from a lit spot at the edge.</p>
+    </div>
+    <div class="foot"><p>Comuna: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Coffee, the spec sheet">
+  <div class="slide"><div class="in cm">
+    <figure class="cm-sheet r"><img src="{{root}}img/deck/comuna/coffee-spec.jpg" width="2339" height="1653" alt="Spec sheet 01, the coffee cart: front, side, top and three-quarter drawings, sizes in millimetres, output, services, and every figure still to be confirmed marked in rust"></figure>
+    <a class="cm-go on-sheet" href="/robotics/comuna/drawings/#coffee">The drawings <span aria-hidden="true">&nearr;</span></a>
+    <div class="foot"><p>Comuna: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The numbers">
+  <div class="slide"><div class="in cm dark">
+    <div class="cm-hud">
+      <img src="{{root}}img/deck/comuna/coffee-cart.jpg" width="2400" height="1610" alt="">
+      <p class="cm-tag" style="left:50.5%;top:57%"><i></i><span>About a minute a latte <b class="cm-tbc">{timed test}</b></span></p>
+      <p class="cm-tag" style="left:72%;top:50%"><i></i><span>Orders go straight to the arms</span></p>
+      <p class="cm-tag" style="left:58%;top:68%"><i></i><span>2.4 &times; 1 m &middot; the cart you already own</span></p>
+    </div>
+    <div class="cm-nums">
+      <p class="lab r">The numbers</p>
+      <h2 class="r">The first robot barista at a Brisbane cantina.<span class="cm-tbc">{to confirm}</span></h2>
+      <dl class="r">
+        <div><dt>$722m</dt><dd>spent in Australian caf&eacute;s in a single month<small>Westpac card data, June 2025</small></dd></div>
+        <div><dt>1 in 3</dt><dd>venues struggling to find staff<small>Lightspeed, State of Hospitality 2025</small></dd></div>
+      </dl>
+    </div>
+    <div class="foot cm-hud-foot"><p>Comuna: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Every cup is a post">
+  <div class="slide"><div class="in cm">
+    <figure class="cm-phone r"><img src="{{root}}img/deck/comuna/coffee-cart.jpg" width="2400" height="1610" alt="Concept: the coffee cart framed tall on a phone, the arms at work, the way a guest would film it"></figure>
+    <div class="cm-social">
+      <p class="cm-when r">The social side</p>
+      <h2 class="l r">Every cup is a post.</h2>
+      <p class="lede r">A robot making the coffee is the thing people stop and film. Your cart, your cups and your marks are in every shot.</p>
+    </div>
+    <div class="foot"><p>Comuna: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<!-- take-film: Plan to open, plan -->
+<!-- take: What we do -->
+<!-- take: The team -->
+<!-- take: The experience hub -->
+<!-- take: Who we work with -->
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Ownership">
+  <div class="slide"><div class="in say-it own cm dark">
+    <p class="lab r">Ownership</p>
+    <h2 class="big r">This concept is ours until it is yours.</h2>
+    <p class="own-text r">The concepts in this deck, the coffee cart, the hat and the robot mariachi, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours.</p>
+    <img class="cm-sun" src="{{root}}img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<!-- take: Wonder Robotics, Fortitude Valley -->
