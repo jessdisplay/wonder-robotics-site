@@ -1447,7 +1447,7 @@ COMUNA_DRAWINGS = ("The drawings", "/robotics/comuna/drawings/", "img/deck/comun
 COMUNA_JOB = ("The job", "/robotics/comuna/", "img/deck/comuna/card-job.jpg",
               "Comuna's brand as we read it, the rooms, and everything on the job so far.")
 COMUNA_DECK = noodle_box_source("comuna-slides.html", "Wonder Robotics for Comuna",
-                                "Wonder Robotics for Comuna: the coffee cart, the hat, the band, CASA all night, "
+                                "Wonder Robotics for Comuna: the coffee cart, the cocktail bar, the hat, CASA all night, "
                                 "and who we are.",
                                 numbers=False, brackets=False,
                                 # no kicker over the logo wall (rule, 12 Nov 2026: no describing lines)
