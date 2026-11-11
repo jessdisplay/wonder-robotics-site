@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Wonder Robotics for New Farm Curry House: the kitchen</title>
-<meta name="description" content="New Farm Curry House: their own line, every dish under the piece that cooks it, what we add, and how the spices are kept.">
+<meta name="description" content="New Farm Curry House: every dish followed through every station it passes, finished for the table and packed for delivery.">
 <script>
   /* Every deck opens at its first slide (Jesse, 20 Oct 2026): the browser never
      acts on a #slide left in the address, and never puts back an old place. */
@@ -559,8 +559,69 @@
   .nk-mach dt,.nk-mach dd{margin:0;padding:calc(12*var(--u)) 0;border-top:calc(2*var(--u)) solid var(--paper-rule)}
   .nk-mach dt{font-size:calc(26*var(--u));line-height:1.3;font-weight:500;color:var(--paper)}
   .nk-mach .nk-dishes{margin:0;padding:0;border:0;max-width:none;font-size:calc(24*var(--u));line-height:1.45}
+  /* A station heading inside a list that holds more than one station, with a small gold tag for a new piece. */
+  .nk-mach dt.nk-st{grid-column:1/-1;padding-top:calc(22*var(--u));font-family:var(--mono);font-size:calc(20*var(--u));font-weight:400;
+                    letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+  .nk-mach dd.nk-st{display:none}
+  .nk-new{display:inline-block;margin-left:calc(12*var(--u));padding:calc(2*var(--u)) calc(9*var(--u));border-radius:calc(6*var(--u));
+          background:var(--gold);color:var(--ink);font-size:calc(14*var(--u));letter-spacing:.06em;vertical-align:calc(2*var(--u))}
+  .nk-pg .l{font-size:calc(72*var(--u))}
+  .nk-pg .lede{margin-top:calc(20*var(--u));font-size:calc(26*var(--u))}
+  .nk-pg .nk-mach{margin-top:calc(28*var(--u))}
+  .nk-pg .nk-mach dt,.nk-pg .nk-mach dd{padding:calc(9*var(--u)) 0}
+  /* A concept render beside the list, on the catalogue's warm card. */
+  .nk-pic{position:absolute;right:calc(84*var(--u));top:calc(150*var(--u));width:calc(470*var(--u));aspect-ratio:4/5;margin:0;
+          border-radius:calc(14*var(--u));background:#EFEBDB;overflow:hidden}
+  .nk-pic img{display:block;width:100%;height:100%;object-fit:cover}
+  .nk-pic figcaption{position:absolute;left:calc(16*var(--u));bottom:calc(14*var(--u));font-family:var(--mono);font-size:calc(14*var(--u));
+                     letter-spacing:.08em;text-transform:uppercase;color:#4a4636}
+  .nk-pic-wide{aspect-ratio:16/9;width:calc(560*var(--u));background:#120c22}
+  .nk-pic-wide figcaption{color:#cfc6e6}
+  .nk-has-pic .l,.nk-has-pic .lede{max-width:calc(1150*var(--u))}
+  .nk-has-pic .nk-mach{max-width:calc(1200*var(--u));grid-template-columns:calc(340*var(--u)) 1fr}
+  /* The plan: three lists side by side. */
+  .nk-plan{display:grid;grid-template-columns:1fr 1fr calc(360*var(--u));column-gap:calc(56*var(--u));margin-top:calc(56*var(--u));max-width:calc(1728*var(--u))}
+  .nk-plan h3{margin:0;font-family:var(--mono);font-size:calc(20*var(--u));font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+  .nk-plan .nk-dishes{margin-top:calc(16*var(--u));font-size:calc(28*var(--u))}
+  /* Dine-in and delivery: two numbered columns. */
+  .nk-two{display:grid;grid-template-columns:1fr 1fr;column-gap:calc(72*var(--u));margin-top:calc(48*var(--u));max-width:calc(1728*var(--u))}
+  .nk-two h3{margin:0 0 calc(10*var(--u));font-family:var(--mono);font-size:calc(20*var(--u));font-weight:400;letter-spacing:.08em;
+             text-transform:uppercase;color:var(--gold)}
+  .nk-steps{list-style:none;margin:0;padding:0;counter-reset:nk}
+  .nk-steps li{counter-increment:nk;display:grid;grid-template-columns:calc(52*var(--u)) 1fr;padding:calc(14*var(--u)) 0;
+               border-top:calc(2*var(--u)) solid var(--paper-rule);font-size:calc(24*var(--u));line-height:1.4;color:var(--paper-2)}
+  .nk-steps li::before{content:counter(nk,decimal-leading-zero);grid-row:1/3;font-family:var(--mono);font-size:calc(18*var(--u));
+                       color:var(--gold);padding-top:calc(4*var(--u))}
+  .nk-steps b{display:block;font-weight:500;color:var(--paper)}
+  /* One order, start to finish: the track in three columns, read down. */
+  .nk-track{list-style:none;margin:calc(40*var(--u)) 0 0;padding:0;counter-reset:nk;display:grid;grid-auto-flow:column;
+            grid-template-rows:repeat(5,auto);grid-template-columns:repeat(3,1fr);column-gap:calc(48*var(--u));max-width:calc(1752*var(--u))}
+  .nk-track li{counter-increment:nk;position:relative;padding:calc(12*var(--u)) 0 calc(12*var(--u)) calc(52*var(--u));
+               border-top:calc(2*var(--u)) solid var(--paper-rule);font-size:calc(20*var(--u));line-height:1.35;color:var(--paper-2)}
+  .nk-track li::before{content:counter(nk,decimal-leading-zero);position:absolute;left:0;top:calc(14*var(--u));font-family:var(--mono);
+                       font-size:calc(16*var(--u));color:var(--gold)}
+  .nk-track b{display:block;font-weight:500;font-size:calc(22*var(--u));color:var(--paper)}
+  .nk-track i{display:block;font-style:normal;font-family:var(--mono);font-size:calc(15*var(--u));letter-spacing:.06em;color:var(--gold)}
+  .nk-track .nk-end{border-top-color:var(--gold)}
   @media screen and (max-width:760px),screen and (max-height:440px){
     .nk .l,.nk .lede{max-width:none}
+    .nk-pg .l{font-size:30px}
+    .nk-pg .lede{font-size:15px}
+    .nk-pic,.nk-pic-wide{position:relative;right:auto;top:auto;width:100%;max-width:340px;margin:18px 0 0}
+    .nk-pic figcaption{font-size:9px;left:10px;bottom:8px}
+    .nk-has-pic .l,.nk-has-pic .lede,.nk-has-pic .nk-mach{max-width:none}
+    .nk-mach dt.nk-st{font-size:11px;padding-top:16px;color:var(--gold)}
+    .nk-new{font-size:9px;padding:1px 6px}
+    .nk-plan,.nk-two{grid-template-columns:1fr;row-gap:20px;margin-top:18px}
+    .nk-plan h3,.nk-two h3{font-size:11px}
+    .nk-plan .nk-dishes{font-size:15px}
+    .nk-steps li{grid-template-columns:30px 1fr;font-size:14px;padding:10px 0;border-top-width:1px}
+    .nk-steps li::before{font-size:11px}
+    .nk-track{display:block;margin-top:18px}
+    .nk-track li{font-size:13px;padding:10px 0 10px 34px;border-top-width:1px}
+    .nk-track li::before{font-size:10px;top:12px}
+    .nk-track b{font-size:14px}
+    .nk-track i{font-size:10px}
     .nk-dishes{font-size:15px;margin-top:20px;padding-top:12px;border-top-width:1px}
     .nk-dishes li:not(:last-child)::after{margin:0 8px}
     .nk-mach{grid-template-columns:1fr;margin-top:18px}
@@ -576,7 +637,7 @@
     <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#" data-go="Your kitchen">Your kitchen</a><a href="#" data-go="What we add">What we add</a><a href="#" data-go="The finishing station">The stations</a><a href="#" data-go="The naan">The naan</a><a href="#" data-go="The spices">The spices</a><a href="#" data-go="To settle">To settle</a>
+      <a href="#" data-go="The plan">The plan</a><a href="#" data-go="New: the line fridge">The new pieces</a><a href="#" data-go="Dine-in and delivery">Dine-in and delivery</a><a href="#" data-go="One order, start to finish">One order</a><a href="#" data-go="The kitchen screen">The screen</a><a href="#" data-go="To settle">To settle</a>
     </nav>
     <div class="cta"><a class="btn want" href="/robotics/new-farm-curry-house/"><span>The greeter</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
@@ -588,69 +649,202 @@
     <div class="nf-txt">
       <p class="lab r">The kitchen</p>
       <h2 class="l r">Your menu, station by station.</h2>
-      <p class="lede r">Twenty-one curries, seven breads and everything from the fryer, cooked on the line you already have, with five new pieces beside it. A first plan read from your menu and your floor plan, to settle with Chef Mahesh.</p>
+      <p class="lede r">Every dish on your menu, followed through every station it passes, from the morning pots to the table and to the driver's bag. A first design read from your menu and your floor plan, to settle with Chef Mahesh.</p>
     </div>
     <div class="foot"><p>New Farm Curry House: concept</p><p>01</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s2" aria-label="Slide 2. Your kitchen">
+<section class="stage" id="s2" data-nk="machines" aria-label="Slide 2. The plan">
   <div class="slide"><div class="in nf nk">
-    <p class="lab r">Your kitchen</p>
-    <h2 class="l r">Your line stays where it is, and still does most of the cooking.</h2>
-    <dl class="nk-mach r">
-      <dt>Combi oven</dt>
-      <dd><ul class="nk-dishes"><li>Steamed Rice</li><li>Saffron Rice</li><li>Steamed Momo</li><li>Tandoori chicken for the butter chicken and tikka masala</li><li>The dal for Tadka Daal</li><li>Goat Curry on the bone, overnight</li><li>Burrito wraps, warmed</li></ul></dd>
-      <dt>Stock pot boiler</dt>
-      <dd><ul class="nk-dishes"><li>Makhani</li><li>Masala</li><li>Korma</li><li>Vindaloo</li><li>Goan</li><li>Palak</li><li>Stock</li></ul></dd>
-      <dt>Six burners</dt>
-      <dd><ul class="nk-dishes"><li>Aloo Gobhi</li><li>The tadka on Tadka Daal</li><li>Back-up on a big night</li></ul></dd>
-      <dt>Twin fryer</dt>
-      <dd><ul class="nk-dishes"><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas for the deals</li><li>Chicken 65</li><li>Fried Momo</li><li>Bombay Crunch potatoes</li><li>Pappadums</li></ul></dd>
-      <dt>Clay tandoor</dt>
-      <dd><ul class="nk-dishes"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li><li>Laccha Paratha</li><li>Chicken Tikka</li></ul></dd>
-    </dl>
+    <p class="lab r">The plan</p>
+    <h2 class="l r">Your line stays where it is, and 11 new pieces join it.</h2>
+    <div class="nk-plan r">
+      <div><h3>Yours, as they are</h3><ul class="nk-dishes"><li>Cold room</li><li>Dry store</li><li>Stock pot boiler</li><li>Combi oven</li><li>Six burners</li><li>Twin fryer</li><li>Clay tandoor</li><li>Island fridges</li><li>Bar</li></ul></div>
+      <div><h3>New</h3><ul class="nk-dishes"><li>Line fridge</li><li>Finishing station</li><li>Filling machine</li><li>Naan press</li><li>Hot hold</li><li>The pass</li><li>Pack bench</li><li>Label printer</li><li>Heated shelf</li><li>Driver shelf</li><li>The server</li></ul></div>
+      <div><h3>To find</h3><ul class="nk-dishes"><li>Freezer</li></ul></div>
+    </div>
     <div class="foot"><p>New Farm Curry House: concept</p><p>02</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s3" aria-label="Slide 3. Your kitchen, behind the line">
-  <div class="slide"><div class="in nf nk">
-    <p class="lab r">Your kitchen, behind the line</p>
-    <h2 class="l r">The prep happens back here, so the line only has to cook.</h2>
+<section class="stage" id="s3" data-nk="machines" aria-label="Slide 3. Your stock pot boiler">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Your stock pot boiler</p>
+    <h2 class="l r">Six pots before opening, and every curry starts from one of them.</h2>
+    <p class="lede r">Each base cooks from a sealed spice kit Chef Mahesh weighed, so the recipe stays his and never lives in a machine.</p>
     <dl class="nk-mach r">
-      <dt>Cold room</dt>
-      <dd><ul class="nk-dishes"><li>Marinades</li><li>Bases, chilled</li><li>Filled dough balls</li><li>The portions for the line fridge</li></ul></dd>
-      <dt>Island fridges</dt>
-      <dd><ul class="nk-dishes"><li>Garnish</li><li>Raita</li><li>Chutney and pickle</li><li>The next pans of base</li></ul></dd>
-      <dt>Dry store</dt>
-      <dd><ul class="nk-dishes"><li>Spice kits</li><li>Flour</li><li>Rice</li></ul></dd>
+      <dt class="nk-st">Stock pot boiler</dt><dd class="nk-st"></dd>
+      <dt>Cooks the six bases</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Aloo Gobhi</li><li>Goat Curry</li><li>Eggplant Pasanda</li><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
+      <dt class="nk-st">Dry store</dt><dd class="nk-st"></dd>
+      <dt>Holds the flour</dt>
+      <dd><ul class="nk-dishes"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li></ul></dd>
+      <dt>Holds the wraps</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
     </dl>
     <div class="foot"><p>New Farm Curry House: concept</p><p>03</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s4" aria-label="Slide 4. What we add">
-  <div class="slide"><div class="in nf nk">
-    <p class="lab r">What we add</p>
-    <h2 class="l r">Five new pieces, and the griddle gives up its place to the first.</h2>
+<section class="stage" id="s4" data-nk="machines" aria-label="Slide 4. Your combi oven">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Your combi oven</p>
+    <h2 class="l r">Ten jobs on five trays, most of them done before the first order.</h2>
     <dl class="nk-mach r">
-      <dt>Finishing station</dt>
-      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Momo in chilli sauce</li></ul></dd>
-      <dt>Line fridge</dt>
-      <dd><ul class="nk-dishes"><li>Tandoori chicken</li><li>Diced chicken</li><li>Lamb</li><li>Beef</li><li>Prawns</li><li>Paneer</li><li>Potato and eggplant</li></ul></dd>
-      <dt>Auto-lift baskets</dt>
-      <dd><ul class="nk-dishes"><li>Your twin fryer, timed to the second</li></ul></dd>
-      <dt>Filling machine and press</dt>
-      <dd><ul class="nk-dishes"><li>Plain dough balls</li><li>Cheese</li><li>Cheese and garlic</li><li>Spinach and cheese</li><li>Tasty cheese</li><li>Wholemeal, for Roti Naan</li></ul></dd>
-      <dt>Heated pickup shelf</dt>
-      <dd><ul class="nk-dishes"><li>Orders held hot on the bar side of the doors, where the server collects them</li></ul></dd>
+      <dt>Roasts the tandoori chicken</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Chicken Tikka Masala</li><li>Butter Chicken Burrito</li></ul></dd>
+      <dt>Cooks the chicken through</dt>
+      <dd><ul class="nk-dishes"><li>Murg Balti</li><li>Chicken Curry</li><li>Chicken Korma</li><li>Chicken Cashew</li><li>Chicken Vindaloo</li><li>Chicken Nilgiri</li></ul></dd>
+      <dt>Braises the lamb and beef</dt>
+      <dd><ul class="nk-dishes"><li>Lamb Rogan Josh</li><li>Lamb Korma</li><li>Lamb Cashew</li><li>Beef Vindaloo</li><li>Beef Goan</li></ul></dd>
+      <dt>Steams the vegetables</dt>
+      <dd><ul class="nk-dishes"><li>Aloo Baingan Bagarey</li><li>Aloo Gobhi</li><li>Bombay Crunch</li></ul></dd>
+      <dt>Cooks the dal</dt>
+      <dd><ul class="nk-dishes"><li>Tadka Daal</li></ul></dd>
+      <dt>Braises the goat overnight</dt>
+      <dd><ul class="nk-dishes"><li>Goat Curry</li></ul></dd>
+      <dt>Softens the eggplant</dt>
+      <dd><ul class="nk-dishes"><li>Eggplant Pasanda</li></ul></dd>
+      <dt>Steams the momo to order</dt>
+      <dd><ul class="nk-dishes"><li>Chicken Momo, steamed</li><li>Vegetable Momo, steamed</li></ul></dd>
+      <dt>Steams the rice</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li><li>Steamed Rice</li><li>Saffron Rice</li></ul></dd>
+      <dt>Warms the wraps</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
     </dl>
     <div class="foot"><p>New Farm Curry House: concept</p><p>04</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s5" aria-label="Slide 5. The bases">
+<section class="stage" id="s5" data-nk="machines" aria-label="Slide 5. Your burners and tandoor">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Your burners and tandoor</p>
+    <h2 class="l r">Where the chef&#x27;s own hands stay on the food.</h2>
+    <dl class="nk-mach r">
+      <dt class="nk-st">Six burners</dt><dd class="nk-st"></dd>
+      <dt>Pan dishes to order</dt>
+      <dd><ul class="nk-dishes"><li>Aloo Gobhi</li></ul></dd>
+      <dt>The tadka</dt>
+      <dd><ul class="nk-dishes"><li>Tadka Daal</li></ul></dd>
+      <dt>By hand, the chef&#x27;s own</dt>
+      <dd><ul class="nk-dishes"><li>Chicken Nilgiri</li><li>Eggplant Pasanda</li></ul></dd>
+      <dt class="nk-st">Clay tandoor</dt><dd class="nk-st"></dd>
+      <dt>Bakes the breads</dt>
+      <dd><ul class="nk-dishes"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li><li>Laccha Paratha</li></ul></dd>
+      <dt>Cooks the tikka</dt>
+      <dd><ul class="nk-dishes"><li>Chicken Tikka</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>05</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s6" data-nk="machines" aria-label="Slide 6. Your twin fryer, with auto-lift baskets">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Your twin fryer, with auto-lift baskets</p>
+    <h2 class="l r">Out of the oil on the second, every time.</h2>
+    <p class="lede r">Auto-lift baskets go on your own fryer. Each basket drops and lifts on its timer, so nothing sits in the oil while the pass is busy.</p>
+    <dl class="nk-mach r">
+      <dt>Part-fries the bhaji</dt>
+      <dd><ul class="nk-dishes"><li>Onion Bhaji</li></ul></dd>
+      <dt>Fries to order</dt>
+      <dd><ul class="nk-dishes"><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas</li><li>Chicken 65</li><li>Chicken Momo, fried</li><li>Chicken Momo, chilli sauce</li><li>Vegetable Momo, fried</li><li>Vegetable Momo, chilli sauce</li><li>Bombay Crunch</li></ul></dd>
+      <dt>Fries the pappadums</dt>
+      <dd><ul class="nk-dishes"><li>Pappadums</li></ul></dd>
+      <dt>Fries the gulab jamun</dt>
+      <dd><ul class="nk-dishes"><li>Gulab Jamun</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>06</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s7" data-nk="machines" aria-label="Slide 7. Your cold room">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Your cold room</p>
+    <h2 class="l r">Everything that loads the line is weighed back here.</h2>
+    <dl class="nk-mach r">
+      <dt>Marinates overnight</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Chicken Tikka Masala</li><li>Chicken 65</li><li>Chicken Tikka</li><li>Butter Chicken Burrito</li></ul></dd>
+      <dt>Packs the kits for the line fridge</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Aloo Gobhi</li><li>Chicken Nilgiri</li><li>Eggplant Pasanda</li><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas</li><li>Chicken 65</li><li>Chicken Momo, steamed</li><li>Chicken Momo, fried</li><li>Chicken Momo, chilli sauce</li><li>Vegetable Momo, steamed</li><li>Vegetable Momo, fried</li><li>Vegetable Momo, chilli sauce</li><li>Bombay Crunch</li><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
+      <dt>Holds what is made ahead</dt>
+      <dd><ul class="nk-dishes"><li>Paneer Butter Masala</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li><li>Laccha Paratha</li><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas</li><li>Chicken Momo, steamed</li><li>Chicken Momo, fried</li><li>Chicken Momo, chilli sauce</li><li>Vegetable Momo, steamed</li><li>Vegetable Momo, fried</li><li>Vegetable Momo, chilli sauce</li><li>Paneer Butter Masala Burrito</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>07</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s8" data-nk="machines" aria-label="Slide 8. New: the line fridge">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">New: the line fridge</p>
+    <h2 class="l r">Thirty-three dishes start with one kit, handed over the moment the order lands.</h2>
+    <p class="lede r">Kits are packed in the cold room and loaded to a plan before service. When an order comes in from the table, your online menu, Uber Eats or DoorDash, the fridge hands that dish&#x27;s kit out at the line, as ours does in the Valley.</p>
+    <dl class="nk-mach r">
+      <dt>Hands out the kit</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Aloo Gobhi</li><li>Chicken Nilgiri</li><li>Eggplant Pasanda</li><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas</li><li>Chicken 65</li><li>Chicken Tikka</li><li>Chicken Momo, steamed</li><li>Chicken Momo, fried</li><li>Chicken Momo, chilli sauce</li><li>Vegetable Momo, steamed</li><li>Vegetable Momo, fried</li><li>Vegetable Momo, chilli sauce</li><li>Bombay Crunch</li><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>08</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s9" data-nk="machines" aria-label="Slide 9. New: the finishing station">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">New: the finishing station</p>
+    <h2 class="l r">Twenty dishes finished to order, and a full rinse after every nut gravy.</h2>
+    <p class="lede r">A chef tips in the kit the line fridge hands over and takes out what the station finishes. In between, the station keeps the heat, the timing and the measures, so the butter chicken at nine at night tastes like the one at noon.</p>
+    <dl class="nk-mach r">
+      <dt>Finishes to order</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
+      <dt>Tosses the chilli momo</dt>
+      <dd><ul class="nk-dishes"><li>Chicken Momo, chilli sauce</li><li>Vegetable Momo, chilli sauce</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>09</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s10" data-nk="machines" aria-label="Slide 10. New: the filling machine and the press">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">New: the filling machine and the press</p>
+    <h2 class="l r">Your idea: every naan the same, filled or plain.</h2>
+    <p class="lede r">Dough and filling go in the hopper and the machine closes each ball before service. When an order comes in, a ball is pressed flat and goes straight onto the wall of your tandoor.</p>
+    <dl class="nk-mach r">
+      <dt class="nk-st">Filling machine<span class="nk-new">New</span></dt><dd class="nk-st"></dd>
+      <dt>Closes the dough balls</dt>
+      <dd><ul class="nk-dishes"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li></ul></dd>
+      <dt class="nk-st">Naan press<span class="nk-new">New</span></dt><dd class="nk-st"></dd>
+      <dt>Presses to order</dt>
+      <dd><ul class="nk-dishes"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>10</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s11" data-nk="machines" aria-label="Slide 11. New: the hot hold, beside your fridges">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">New: the hot hold, beside your fridges</p>
+    <h2 class="l r">Rice, dal and goat curry a scoop away, the cold sides an arm&#x27;s length.</h2>
+    <dl class="nk-mach r">
+      <dt class="nk-st">Hot hold<span class="nk-new">New</span></dt><dd class="nk-st"></dd>
+      <dt>Serves from the well</dt>
+      <dd><ul class="nk-dishes"><li>Tadka Daal</li><li>Goat Curry</li><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li><li>Steamed Rice</li><li>Saffron Rice</li><li>Gulab Jamun</li></ul></dd>
+      <dt class="nk-st">Island fridges</dt><dd class="nk-st"></dd>
+      <dt>Holds the day&#x27;s fresh paste</dt>
+      <dd><ul class="nk-dishes"><li>Chicken Nilgiri</li></ul></dd>
+      <dt>Holds the cold sides</dt>
+      <dd><ul class="nk-dishes"><li>Bombay Crunch</li><li>Raita</li><li>Mango Chutney</li><li>Lime Pickle</li></ul></dd>
+      <dt>Serves the cold sides</dt>
+      <dd><ul class="nk-dishes"><li>Raita</li><li>Mango Chutney</li><li>Lime Pickle</li></ul></dd>
+      <dt class="nk-st">Freezer<span class="nk-new">To find</span></dt><dd class="nk-st"></dd>
+      <dt>Holds the kulfi</dt>
+      <dd><ul class="nk-dishes"><li>Mango Kulfi</li></ul></dd>
+      <dt>Serves the kulfi</dt>
+      <dd><ul class="nk-dishes"><li>Mango Kulfi</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>11</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s12" aria-label="Slide 12. The bases">
   <div class="slide"><div class="in nf nk">
     <p class="lab r">The bases</p>
     <h2 class="l r">Six gravies carry nineteen of your curries.</h2>
@@ -663,51 +857,68 @@
       <div><h3>Palak</h3><p>Palak Paneer</p></div>
     </div>
     <ul class="nk-dishes r"><li>Cooked each morning in big pots on your stock pot boiler</li><li>Chicken Nilgiri and Tadka Daal stand on their own</li></ul>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>05</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>12</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s6" aria-label="Slide 6. The finishing station">
+<section class="stage" id="s13" data-nk="endings" aria-label="Slide 13. Dine-in and delivery">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Dine-in and delivery</p>
+    <h2 class="l r">Every order is cooked once and finished two ways.</h2>
+    <p class="lede r">The same track to the last station. Then the table's dish goes to the pass, and the driver's to the pack bench beside it.</p>
+    <div class="nk-two r"><div><h3>Dine-in</h3><ol class="nk-steps"><li><b>The pass</b>Plated under the heat lamp, garnished, every dish of the table together</li><li><b>Heated shelf</b>Bar side of the doors, the table&#x27;s dishes wait hot</li><li><b>The server</b>Takes them to the table</li></ol></div><div><h3>Uber Eats, DoorDash and pickup</h3><ol class="nk-steps"><li><b>Pack bench</b>Tubs, side pots, paper naan bags, vented boxes</li><li><b>Label printer</b>Uber Eats, DoorDash or Pickup, the order code, the name, the items, and CONTAINS NUTS when it does</li><li><b>The bag</b>Folded, sealed with a tamper sticker, the label across the seal</li><li><b>Driver shelf</b>Bar side of the doors, code facing out, so no driver comes into the kitchen</li></ol></div></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>13</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s14" data-nk="endings" aria-label="Slide 14. Packed for Uber Eats and DoorDash">
+  <div class="slide"><div class="in nf nk nk-pg">
+    <p class="lab r">Packed for Uber Eats and DoorDash</p>
+    <h2 class="l r">Packed for the ride, not the table.</h2>
+    <dl class="nk-mach r">
+      <dt>650 ml tub, garnish in a side pot, rice with it</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Aloo Gobhi</li><li>Tadka Daal</li><li>Goat Curry</li><li>Chicken Nilgiri</li><li>Eggplant Pasanda</li></ul></dd>
+      <dt>Paper bag, never a sealed tub</dt>
+      <dd><ul class="nk-dishes"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li><li>Laccha Paratha</li><li>Pappadums</li></ul></dd>
+      <dt>Vented box, chutney in a side pot</dt>
+      <dd><ul class="nk-dishes"><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas</li><li>Chicken 65</li><li>Chicken Momo, fried</li><li>Vegetable Momo, fried</li></ul></dd>
+      <dt>Lidded tub, the dip on the side</dt>
+      <dd><ul class="nk-dishes"><li>Chicken Tikka</li><li>Chicken Momo, steamed</li><li>Chicken Momo, chilli sauce</li><li>Vegetable Momo, steamed</li><li>Vegetable Momo, chilli sauce</li></ul></dd>
+      <dt>Toppings each in a side pot, built at home</dt>
+      <dd><ul class="nk-dishes"><li>Bombay Crunch</li></ul></dd>
+      <dt>Wrapped, then in foil</dt>
+      <dd><ul class="nk-dishes"><li>Butter Chicken Burrito</li><li>Paneer Butter Masala Burrito</li></ul></dd>
+      <dt>Lidded pots and tubs</dt>
+      <dd><ul class="nk-dishes"><li>Steamed Rice</li><li>Saffron Rice</li><li>Raita</li><li>Mango Chutney</li><li>Lime Pickle</li><li>Gulab Jamun</li></ul></dd>
+      <dt>Insulated pot, packed last</dt>
+      <dd><ul class="nk-dishes"><li>Mango Kulfi</li></ul></dd>
+      <dt>Upright, in a cup holder</dt>
+      <dd><ul class="nk-dishes"><li>Mango Lassi</li><li>Soft Drinks</li><li>Lemon, Lime and Bitters</li><li>Ginger Beer</li><li>Sparkling Water</li></ul></dd>
+    </dl>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>14</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s15" data-nk="endings" aria-label="Slide 15. One order, start to finish">
   <div class="slide"><div class="in nf nk">
-    <p class="lab r">The finishing station</p>
-    <h2 class="l r">Sixteen curries, finished to order.</h2>
-    <p class="lede r">A chef loads the portion the line fridge hands over and plates what comes out. In between, the station keeps the heat, the timing and the measures, so the butter chicken at nine at night tastes like the one at noon.</p>
-    <ul class="nk-dishes r"><li>Butter Chicken</li><li>Paneer Butter Masala</li><li>Chicken Tikka Masala</li><li>Murg Balti</li><li>Chicken Curry</li><li>Lamb Rogan Josh</li><li>Aloo Baingan Bagarey</li><li>Chicken Korma</li><li>Lamb Korma</li><li>Chicken Cashew</li><li>Lamb Cashew</li><li>Chicken Vindaloo</li><li>Beef Vindaloo</li><li>Beef Goan</li><li>Prawn Goan</li><li>Palak Paneer</li><li>Momo in chilli sauce</li></ul>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>06</p></div>
+    <p class="lab r">One order, start to finish</p>
+    <h2 class="l r">A butter chicken, from the morning pot to the table or the driver's bag.</h2>
+    <ol class="nk-track r" style="grid-template-rows:repeat(3,auto)"><li><b>Stock pot boiler</b><span>Tadka in ghee, then the makhani base in a big pot, stirred, about two hours</span><i>2 h</i></li><li><b>Cold room</b><span>Chicken breast in the tandoori marinade, overnight</span></li><li><b>Combi oven</b><span>Roasted on trays, combi steam and dry heat, 18 minutes, then diced</span><i>18 min</i></li><li><b>Cold room</b><span>Base and protein weighed into one kit pot per dish, lidded, labelled</span></li><li><b>Line fridge</b><span>Hands out the Butter Chicken kit: makhani base and tandoori chicken</span><i>20 s</i></li><li><b>Finishing station</b><span>Kit tipped into the drum. The station heats and stirs it, then adds butter and cream</span><i>2.5 min</i></li><li><b>Finishing station</b><span>A full rinse, because this gravy carries nuts</span><i>45 s</i></li><li class="nk-end"><b>Dine-in: the pass</b><span>Into the serving bowl, finished with a swirl of cream</span><i>25 s</i></li><li class="nk-end"><b>Delivery: the pack bench</b><span>Into a 650 ml tub, lid pressed down, a swirl of cream in a side pot so it arrives fresh</span><i>35 s</i></li></ol>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>15</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s7" aria-label="Slide 7. The line fridge">
+<section class="stage" id="s16" aria-label="Slide 16. The kitchen screen">
   <div class="slide"><div class="in nf nk">
-    <p class="lab r">The line fridge</p>
-    <h2 class="l r">Weighed in the morning, handed over when the order lands.</h2>
-    <p class="lede r">Every protein is portioned in the cold room before service and loaded to a plan. When an order lands, from your online menu or the till, the fridge hands that dish's portion out at the finishing station, as ours does in the Valley.</p>
-    <ul class="nk-dishes r"><li>Tandoori chicken</li><li>Diced chicken</li><li>Lamb</li><li>Beef</li><li>Prawns</li><li>Paneer</li><li>Potato and eggplant</li></ul>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>07</p></div>
+    <p class="lab r">The kitchen screen</p>
+    <h2 class="l r">Every order on one screen, and every station's queue in sight.</h2>
+    <p class="lede r">A first mock of the screen your team would run: orders from the table, your online menu, Uber Eats and DoorDash in one line, each dish's track step by step, and a dinner rush you can play to see where it queues.</p>
+    <a class="nf-go r" href="/robotics/new-farm-curry-house/kitchen-screen/">Open the kitchen screen <span aria-hidden="true">&nearr;</span></a>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>16</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s8" aria-label="Slide 8. The fryer">
-  <div class="slide"><div class="in nf nk">
-    <p class="lab r">The fryer</p>
-    <h2 class="l r">Out of the oil on the second, every time.</h2>
-    <p class="lede r">Auto-lift baskets go on your own twin fryer. Each basket drops and lifts on its timer, so nothing sits in the oil while the pass is busy.</p>
-    <ul class="nk-dishes r"><li>Onion Bhaji</li><li>Veg Samosa</li><li>Mini samosas for the deals</li><li>Chicken 65</li><li>Fried Momo</li><li>Bombay Crunch potatoes</li><li>Pappadums</li></ul>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>08</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s9" aria-label="Slide 9. The naan">
-  <div class="slide"><div class="in nf nk">
-    <p class="lab r">The naan, your idea</p>
-    <h2 class="l r">Filled or plain, every naan the same.</h2>
-    <p class="lede r">Dough and filling go in the hopper and the machine closes each ball, with cheese or without, before service. When an order comes in, a ball is pressed flat and goes straight onto the wall of your tandoor.</p>
-    <ul class="nk-dishes r"><li>Plain Naan</li><li>Garlic Naan</li><li>Cheese and Garlic Naan</li><li>Spinach and Cheese Naan</li><li>Tasty Cheese Naan</li><li>Roti Naan</li></ul>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>09</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s10" aria-label="Slide 10. The spices">
+<section class="stage" id="s17" aria-label="Slide 17. The spices">
   <div class="slide"><div class="in nf nk">
     <p class="lab r">The spices</p>
     <h2 class="l r">Your blends stay yours.</h2>
@@ -719,21 +930,21 @@
       <div><h3>Marinades</h3><p>Tikka, tandoori and Chicken 65 marinate overnight in the cold room, then go to the line fridge in portions.</p></div>
       <div><h3>Herbs</h3><p>Coriander, mint and fresh curry leaf go on by hand at the pass.</p></div>
     </div>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>10</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>17</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s11" aria-label="Slide 11. By hand">
+<section class="stage" id="s18" aria-label="Slide 18. By hand">
   <div class="slide"><div class="in nf nk">
     <p class="lab r">By hand</p>
     <h2 class="l r">Chef Mahesh's Nilgiri stays Chef Mahesh's.</h2>
     <p class="lede r">The house signature keeps its freshly ground paste and its chef, and the Eggplant Pasanda is still rolled and stuffed by hand. The pass stays human too.</p>
     <ul class="nk-dishes r"><li>Chicken Nilgiri</li><li>Eggplant Pasanda</li><li>Bombay Crunch</li><li>The burritos</li><li>Raita</li><li>Chutney and pickle</li><li>Mango Kulfi</li><li>Gulab Jamun</li><li>Mango Lassi</li></ul>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>11</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>18</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s12" aria-label="Slide 12. Later">
+<section class="stage" id="s19" aria-label="Slide 19. Later">
   <div class="slide"><div class="in nf nk">
     <p class="lab r">Later</p>
     <h2 class="l r">Two machines wait until your kitchen asks for them.</h2>
@@ -741,36 +952,52 @@
       <div><h3>A self-stirring kettle</h3><p>The bases cook for hours with nobody at the pot. It saves the most hours of anything here, so it comes first when you are ready.</p></div>
       <div><h3>A turning naan oven</h3><p>Naan without a tandoor cook. Worth its place only if the tandoor is to retire.</p></div>
     </div>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>12</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>19</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s13" aria-label="Slide 13. To settle">
+<section class="stage" id="s20" aria-label="Slide 20. To settle">
   <div class="slide"><div class="in nf nk">
     <p class="lab r">To settle</p>
     <h2 class="l r">Six answers from your kitchen, before anything is ordered.</h2>
     <div class="three r">
       <div><h3>The six bases</h3><p>Whether your curries sit on six gravies, and whether Tikka Masala and Balti start from makhani or masala.</p></div>
-      <div><h3>Nuts</h3><p>Ten curries and the saffron rice carry almond or cashew. One finishing station washed between orders, or two: one for nut gravies, one nut free.</p></div>
+      <div><h3>Your busiest hour</h3><p>Played on the kitchen screen, a busy night of forty orders waits about forty minutes for a table on one finishing station, and about seventeen on two. How many do you send on a Friday at eight?</p></div>
+      <div><h3>Nuts</h3><p>Eleven dishes from the station carry almond or cashew. One station rinsed after each, or two: one for nut gravies, one nut free, which also answers the busy night.</p></div>
       <div><h3>Your dough</h3><p>A trial of your own naan dough on the filling machine, plain and with cheese.</p></div>
-      <div><h3>Your line, up close</h3><p>Photos of the line and the plates on the combi, fryer, tandoor and stock pot boiler, so each new piece is sized to its slot.</p></div>
-      <div><h3>Power</h3><p>Three-phase to the finishing station, and a look at your switchboard.</p></div>
-      <div><h3>Sinks</h3><p>A hand basin, and a pre-rinse sink at the dishwasher. Neither is drawn on your plan.</p></div>
+      <div><h3>Your line, up close</h3><p>Photos of the line, the plates on the combi, fryer, tandoor and stock pot boiler, and where your freezer is.</p></div>
+      <div><h3>Power and water</h3><p>Three-phase to the finishing station, a look at your switchboard, a hand basin and a pre-rinse sink, neither drawn on your plan.</p></div>
     </div>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>13</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>20</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s14" aria-label="Slide 14. Ownership">
+<section class="stage" id="s21" aria-label="Slide 21. Ownership">
   <div class="slide night"><div class="in say-it own">
     <p class="lab r">Ownership</p>
     <h2 class="big r">This concept is ours until it is yours.</h2>
-    <p class="own-text r">The concepts in this deck, the stations, the plan for your line, the match of your menu to the machines that cook it and the way the spices are kept, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks, menu and recipes are yours, and so are your own ideas in it, the filled naan among them.</p>
-    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>14</p></div>
+    <p class="own-text r">The concepts in this deck, the stations, the plan for your line, the dish tracks and the kitchen screen, the match of your menu to the machines that cook it and the way the spices are kept, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks, menu and recipes are yours, and so are your own ideas in it, the filled naan among them.</p>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>21</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s15" aria-label="Slide 15. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s22" aria-label="Slide 22. Wonder Robotics, Fortitude Valley">
+  <div class="slide"><div class="in hero">
+    <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
+    <div class="wrap">
+      <p class="eyebrow r">Fortitude Valley, Brisbane</p>
+      <h1 class="r">We build fully automated kitchens, bars and cafés.</h1>
+      <div class="where r">
+        <div><p class="cap">Call</p><a href="tel:+61498765142">Ryan Edwards 0498&nbsp;765&nbsp;142</a></div>
+        <div><p class="cap">Email</p><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></div>
+      </div>
+      <p class="cap r" style="margin-top:calc(30*var(--u))">365 St Pauls Terrace, Fortitude Valley QLD 4006</p>
+    </div>
+  </div></div>
+</section>
+<script src="/shared/viewed.js" defer></script>
+
+<section class="stage" id="s23" aria-label="Slide 23. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
     <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
@@ -805,6 +1032,14 @@
       <span class="menu-go">Open <span aria-hidden="true">&nearr;</span></span>
     </a>
   </section>
+  <section class="menu-sec" aria-labelledby="job-h-3">
+    <p class="menu-lab" id="job-h-3">The kitchen screen</p>
+    <a class="menu-card" href="/robotics/new-farm-curry-house/kitchen-screen/">
+      <img src="../../img/deck/nfch/ground.jpg" width="1280" height="720" alt="">
+      <span class="t"><b>The kitchen screen</b><span>Orders, stations and every dish's track, played out as a Friday rush.</span></span>
+      <span class="menu-go">Open <span aria-hidden="true">&nearr;</span></span>
+    </a>
+  </section>
   <section class="menu-sec" aria-labelledby="slides-h">
     <p class="menu-lab" id="slides-h">The deck</p>
     <ol class="menu-slides" id="menu-slides"></ol>
@@ -819,7 +1054,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 15</output>
+  <output id="count" aria-live="polite">01 / 23</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>

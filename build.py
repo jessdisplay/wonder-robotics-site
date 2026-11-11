@@ -1412,21 +1412,23 @@ NFCH_GREETER = ("The greeter", "/robotics/new-farm-curry-house/", "img/deck/nfch
 NFCH_DECK = ("The deck", "/robotics/new-farm-curry-house/deck/", "img/deck/nfch/ground.jpg",
              "Who we are, our room in the Valley, and the two options for the floor.")
 NFCH_KITCHEN = ("The kitchen", "/robotics/new-farm-curry-house/kitchen/", "img/deck/nfch/ground.jpg",
-                "Your line as it stands, every dish under the piece that cooks it, and what we add.")
+                "Every dish under each machine it passes, and the two endings: the table and the driver.")
+NFCH_SCREEN = ("The kitchen screen", "/robotics/new-farm-curry-house/kitchen-screen/", "img/deck/nfch/ground.jpg",
+               "Orders, stations and every dish's track, played out as a Friday rush.")
 deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html", "Wonder Robotics for New Farm Curry House",
                                                "Wonder Robotics for New Farm Curry House: who we are, our room in Fortitude "
                                                "Valley, and a greeter and server for the restaurant.",
                                                numbers=False, brackets=False,
                                                edits=[('<p class="lab r">[ Corporate profile, 2026 ]</p>',
                                                        '<p class="lab r">[ For New Farm Curry House ]</p>')],
-                                               job=[NFCH_GREETER, NFCH_KITCHEN]))
+                                               job=[NFCH_GREETER, NFCH_KITCHEN, NFCH_SCREEN]))
 # Their kitchen: the menu matched to the machines that cook it, and how the spices are kept (Jesse, 11 Nov 2026), in the
 # deck's own green and gold, one folder beside it behind the same passcode.
 deck("new-farm-curry-house-kitchen", noodle_box_source("new-farm-curry-house-kitchen-slides.html",
                                                        "Wonder Robotics for New Farm Curry House: the kitchen",
-                                                       "New Farm Curry House: their own line, every dish under the piece that "
-                                                       "cooks it, what we add, and how the spices are kept.",
-                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_DECK],
+                                                       "New Farm Curry House: every dish followed through every station it "
+                                                       "passes, finished for the table and packed for delivery.",
+                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_DECK, NFCH_SCREEN],
                                                        share=("new-farm-curry-house-slides.html",)))
 
 
