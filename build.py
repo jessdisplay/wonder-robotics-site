@@ -1412,7 +1412,7 @@ NFCH_GREETER = ("The greeter", "/robotics/new-farm-curry-house/", "img/deck/nfch
 NFCH_DECK = ("The deck", "/robotics/new-farm-curry-house/deck/", "img/deck/nfch/ground.jpg",
              "Who we are, our room in the Valley, and the two options for the floor.")
 NFCH_KITCHEN = ("The kitchen", "/robotics/new-farm-curry-house/kitchen/", "img/deck/nfch/ground.jpg",
-                "Your menu on six bases, and which machine cooks what.")
+                "Your line as it stands, every dish under the piece that cooks it, and what we add.")
 deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html", "Wonder Robotics for New Farm Curry House",
                                                "Wonder Robotics for New Farm Curry House: who we are, our room in Fortitude "
                                                "Valley, and a greeter and server for the restaurant.",
@@ -1424,8 +1424,8 @@ deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html
 # deck's own green and gold, one folder beside it behind the same passcode.
 deck("new-farm-curry-house-kitchen", noodle_box_source("new-farm-curry-house-kitchen-slides.html",
                                                        "Wonder Robotics for New Farm Curry House: the kitchen",
-                                                       "New Farm Curry House: the menu on six bases, the stations that cook it, "
-                                                       "and how the spices are kept.",
+                                                       "New Farm Curry House: their own line, every dish under the piece that "
+                                                       "cooks it, what we add, and how the spices are kept.",
                                                        numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_DECK],
                                                        share=("new-farm-curry-house-slides.html",)))
 
