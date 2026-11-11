@@ -19,6 +19,8 @@
        machines branded in the Comuna treatments and with really basic text on the numbers"): coffee and CASA are the
        ghost kitchen session's pairs (photoreal-12-nov/slides). The bar is one large and one split in four, images only
        ("on this one maybe just the concept and up closes in images will do"), never the measured build ("gash").
+     - The close is the new Wonder (Jesse: "the last slide is not the new wonder which we are using in the HN deck"):
+       the HN opener's sheet and W-1 rig (rise-stories harvey-norman), in cocoa, with the website's line and contacts.
      - The machine slides and the bar's large one carry words or people at their edges, so they are always shown whole
        (cm-whole) on their own ground; the in-situ slides and the bar's four cover.
      - Jesse, 12 Nov 2:15 am: the title first, then the hat and vihuela ("bring this after the title"); the hat page out
@@ -28,8 +30,8 @@
        YouTube's own controls, so the presenter can bring the sound up.
      - Jesse, 12 Nov, 2 to 3 am: the R&D sell after CASA (the taco line is the eligible build, the cart is not), the
        ghost kitchen session's comuna-rd-tax.jpg; the factory after the team ("our full factory", "you can say AU
-       based", "AU owned factory in China too"); the band after Who we work with, full width, "¡OTRA!" in Solana
-       ("who we play with sounds weird, I want a nice heavy font"), the ball light blue.
+       based", "AU owned factory in China too"); the band after Who we work with, full width, "OUR ROBOTS, YOUR KITCHENS." in Solana
+       ("who we play with sounds weird, I want a nice heavy font"; "otra should be the our robots your kitchens"), the ball light blue.
      - "The drawings" leads to robotics/comuna/drawings/, which must be live before this deck is. -->
 
 <nav class="label" aria-label="Sections">
@@ -64,6 +66,36 @@
      dark into cocoa and its white ground into nothing, so JPEG logos on white need no blend mode. */
   section[aria-label$=". Who we work with"] .slide{background:#DCE0EC}
   section[aria-label$=". Who we work with"] .wall img{filter:url(#cm-ink);mix-blend-mode:normal;opacity:1}
+  /* the close: the new Wonder (Jesse, 12 Nov: "the last slide is not the new wonder which we are using in the HN
+     deck"): the HN opener's sheet, W-1 standing as the o of the drawn mark and waving, on our cream studio, inked in
+     Comuna's cocoa (never our purple on their pages); the website's line and our contacts under it */
+  .cm-close{background:var(--paper);color:#3A1515}
+  .cm-close .in{padding:0}
+  .cm-close .sweep{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cm-close .sheet{position:absolute;left:calc(50% - 960*var(--u));top:calc(50% - 540*var(--u));width:calc(1920*var(--u));height:calc(1080*var(--u))}
+  .cm-close .sheet>*{position:absolute}
+  .cm-close .word{left:0;top:calc(292*var(--u));width:100%!important;height:auto!important;mix-blend-mode:multiply}
+  .cm-close .bot{left:calc(453*var(--u));bottom:calc(56*var(--u));width:calc(373.4*var(--u))}
+  .cm-close .bot img{display:block;width:100%;height:auto}
+  .cm-close .bot .me{position:relative}
+  .cm-close .bot .sh{position:absolute;left:-64.7%;top:83.65%;width:201%;max-width:none;height:auto;mix-blend-mode:multiply}
+  .cm-close .bot .rig{position:absolute;left:-41.67%;top:-20.7%;width:183.33%;height:141.41%;max-width:none;display:block;pointer-events:none}
+  .cm-close .bot.is-live .me{visibility:hidden}
+  @media print{ .cm-close .bot .rig{display:none} .cm-close .bot.is-live .me{visibility:visible} }
+  .cm-close .say{right:calc(96*var(--u));bottom:calc(64*var(--u));width:calc(640*var(--u))}
+  .cm-close .say .who{font-family:var(--mono);font-weight:500;font-size:calc(19*var(--u));line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--signal);margin:0 0 calc(18*var(--u))}
+  .cm-close .say h1{font-weight:500;font-size:calc(52*var(--u));line-height:1.06;letter-spacing:-.03em;color:#3A1515;margin:0}
+  .cm-close .say .more{font-size:calc(26*var(--u));line-height:1.3;color:rgba(58,21,21,.78);margin:calc(22*var(--u)) 0 0}
+  .cm-close .say .more a{color:inherit;text-decoration:none}
+  .cm-close .say .tag{font-family:var(--mono);font-size:calc(17*var(--u));letter-spacing:.06em;text-transform:uppercase;color:rgba(58,21,21,.66);margin:calc(12*var(--u)) 0 0}
+  @media screen and (max-width:760px),screen and (max-height:440px){
+    .cm-close .in{--u:calc(100cqw/1920);position:relative;inset:auto;padding:0 0 170px}
+    .cm-close .sheet{position:relative;left:0;top:0}
+    .cm-close .sheet .say{left:22px;right:22px;top:100%;bottom:auto;width:auto;margin-top:12px}
+    .cm-close .say h1{font-size:24px}
+    .cm-close .say .more{font-size:15px;margin-top:8px}
+    .cm-close .say .who,.cm-close .say .tag{font-size:11px}
+  }
   .cm-film .plate{container-type:size;display:grid;place-items:center}
   .cm-film iframe{display:block;border:0;width:min(100cqw,calc(100cqh*16/9));height:min(100cqh,calc(100cqw*9/16))}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
@@ -201,9 +233,9 @@
 
 <!-- take: Who we work with -->
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Otra">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Our robots, your kitchens">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#F8C5CE">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="¡OTRA! over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="OUR ROBOTS, YOUR KITCHENS. over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
   </div></div>
 </section>
 
@@ -217,4 +249,288 @@
   </div></div>
 </section>
 
-<!-- take: Wonder Robotics, Fortitude Valley -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics, Fortitude Valley">
+  <div class="slide cm-close"><div class="in">
+    <img class="sweep" src="{{root}}img/deck/harvey-norman/plate-clean.jpg" width="2400" height="1340" alt="">
+    <div class="sheet">
+      <canvas class="word" data-wonder-mark data-ink="#3A1515" data-w="1920" data-pxr="0.1927" data-hr="0.24" role="img" aria-label="Wonder"></canvas>
+      <div class="bot w1">
+        <img class="sh" src="{{root}}img/deck/harvey-norman/w1-shadow.png" width="820" height="220" alt="">
+        <img class="me" src="{{root}}img/deck/harvey-norman/w1-cut.png" width="408" height="821" alt="W-1, the Wonder robot, his helmet standing as the o in Wonder">
+        <canvas class="rig" data-wave="{{root}}img/deck/harvey-norman/w1-wave.mp4" aria-hidden="true"></canvas>
+      </div>
+      <div class="say">
+        <p class="who r">Fortitude Valley, Brisbane</p>
+        <h1 class="r">We build fully automated kitchens, bars and caf&eacute;s.</h1>
+        <p class="more r"><a href="tel:+61498765142">Ryan Edwards 0498&nbsp;765&nbsp;142</a><br><a href="mailto:info@wonderbytech.com">info@wonderbytech.com</a></p>
+        <p class="tag r">365 St Pauls Terrace, Fortitude Valley QLD 4006</p>
+      </div>
+    </div>
+  </div></div>
+  <script>
+  (function () {
+    "use strict";
+    var bot = document.querySelector(".bot.w1");
+    var still = bot && bot.querySelector("img.me");
+    var canvas = bot && bot.querySelector("canvas.rig");
+    if (!bot || !still || !canvas) return;
+  
+    var hold = parseFloat(new URLSearchParams(location.search).get("t"));
+    var held = isFinite(hold);
+    var calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var gl = (calm && !held) ? null : canvas.getContext("webgl", { alpha: true, premultipliedAlpha: true, antialias: false });
+    if (!gl) { canvas.remove(); return; }
+  
+    var PAD = 170;
+    var FRAG = [
+      "precision highp float;",
+      "uniform sampler2D tex;",
+      "uniform sampler2D film;",
+      "uniform float yaw, pitch, roll, bend, armL, wave;",
+      "varying vec2 at;",
+      "const vec2 SIZE = vec2(408., 821.);",
+      "const vec2 HEAD = vec2(202., 253.), R = vec2(168., 160.);",
+      "const vec2 NECK = vec2(202., 410.);",
+      "const vec2 SHOULDER_L = vec2(105., 455.);",
+      "const vec4 FILM = vec4(264., 100., 314., 660.);",
+      "vec2 spin(vec2 p, vec2 c, float a) {",
+      "  float s = sin(a), k = cos(a); vec2 d = p - c;",
+      "  return c + vec2(k * d.x + s * d.y, -s * d.x + k * d.y);",
+      "}",
+      "vec4 read(vec2 p) {",
+      "  if (p.x < 0. || p.y < 0. || p.x > SIZE.x || p.y > SIZE.y) return vec4(0.);",
+      "  return texture2D(tex, p / SIZE);",
+      "}",
+      "float arm(vec2 p) {",
+      "  float e = mix(295., 300., smoothstep(484., 500., p.y));",
+      "  return smoothstep(464., 469., p.y) * smoothstep(712., 706., p.y) * smoothstep(e - 2., e + 2., p.x);",
+      "}",
+      "void main() {",
+      "  vec2 p = at;",
+      "  float along = smoothstep(480., 590., p.y) * smoothstep(752., 742., p.y);",
+      "  float edge = mix(92., 134., smoothstep(565., 600., p.y));",
+      "  edge = mix(edge, 100., smoothstep(700., 730., p.y));",
+      "  p = mix(p, spin(p, SHOULDER_L, armL), along * smoothstep(edge + 9., edge - 9., p.x));",
+      "  p = mix(p, spin(p, NECK, roll), smoothstep(418., 396., p.y));",
+      "  float up = clamp((92. - p.y) / 90., 0., 1.);",
+      "  p.x -= bend * up * up;",
+      "  vec2 q = (p - HEAD) / R;",
+      "  float r = length(q);",
+      "  if (r < 1.) {",
+      "    vec3 v = vec3(q, sqrt(1. - r * r));",
+      "    float cy = cos(yaw), sy = sin(yaw), cx = cos(pitch), sx = sin(pitch);",
+      "    v = vec3(cy * v.x - sy * v.z, v.y, sy * v.x + cy * v.z);",
+      "    v = vec3(v.x, cx * v.y - sx * v.z, sx * v.y + cx * v.z);",
+      "    vec2 w = v.z < 0. ? normalize(v.xy) : v.xy;",
+      "    p = mix(p, HEAD + R * w, smoothstep(.98, .7, r));",
+      "  }",
+      "  vec4 body = read(p) * (1. - arm(at));",
+      "  vec4 c = read(at);",
+      "  float keep = smoothstep(.3, .95, c.a) * arm(at);",
+      "  c *= keep / max(c.a, .001) * min(c.a, 1.) * (1. - wave);",
+      "  vec2 f = (at - FILM.xy) / FILM.zw;",
+      "  if (wave > 0. && f.x > 0. && f.y > 0. && f.x < 1. && f.y < 1.) {",
+      "    float al = texture2D(film, vec2(.5 + f.x * .5, f.y)).r * wave;",
+      "    c += texture2D(film, vec2(f.x * .5, f.y)) * al;",
+      "  }",
+      "  gl_FragColor = c + body * (1. - c.a);",
+      "}"
+    ].join("\n");
+    var VERT = [
+      "attribute vec2 a;",
+      "varying vec2 at;",
+      "void main() {",
+      "  at = vec2(mix(" + (-PAD).toFixed(1) + ", " + (408 + PAD).toFixed(1) + ", a.x * .5 + .5),",
+      "            mix(" + (821 + PAD).toFixed(1) + ", " + (-PAD).toFixed(1) + ", a.y * .5 + .5));",
+      "  gl_Position = vec4(a, 0., 1.);",
+      "}"
+    ].join("\n");
+  
+    function fail(why) {
+      console.warn("w1-rig:", why);
+      bot.classList.remove("is-live");
+      canvas.remove();
+    }
+    function shader(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      return s;
+    }
+  
+    var u = {}, ready = false;
+    function build() {
+      var prog = gl.createProgram();
+      gl.attachShader(prog, shader(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      var a = gl.getAttribLocation(prog, "a");
+      gl.enableVertexAttribArray(a);
+      gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+      ["yaw", "pitch", "roll", "bend", "armL", "wave"].forEach(function (n) { u[n] = gl.getUniformLocation(prog, n); });
+      gl.uniform1i(gl.getUniformLocation(prog, "film"), 1);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, still);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      size();
+      ready = true;
+      bot.classList.add("is-live");
+    }
+    function size() {
+      var box = canvas.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+      var w = Math.round(box.width * d), h = Math.round(box.height * d);
+      if (!w || !h) return;
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+      gl.viewport(0, 0, w, h);
+    }
+    new ResizeObserver(function () { if (ready) size(); }).observe(bot);
+  
+    var px = 0, py = 0, lastMove = -1e9;
+    if (!held) addEventListener("pointermove", function (e) {
+      px = (e.clientX / innerWidth - 0.5) * 2;
+      py = (e.clientY / innerHeight - 0.5) * 2;
+      lastMove = performance.now();
+    }, { passive: true });
+  
+    var CYCLE = 20, FADE = 0.33;     // seconds the film and the resting arm take to hand over
+    var LOOKS = [            // from, yaw, tip, nod
+      [0, 0, 0, 0],          // still for the wave, so his helmet stays in the mark's o
+      [6.2, 0.085, -0.06, 0],  // along the word
+      [8.6, 0, 0.02, 0],     // back to the room
+      [10.6, -0.075, 0.075, 0.02],
+      [12.8, 0, -0.03, -0.01],
+      [14.8, 0.07, -0.05, 0.01],
+      [17, 0, 0, 0]
+    ];
+    function ease(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+    function lookAt(c) {
+      var l = LOOKS[0];
+      for (var i = 0; i < LOOKS.length; i++) if (c >= LOOKS[i][0]) l = LOOKS[i];
+      return l;
+    }
+  
+    var film = null;
+    if (canvas.dataset.wave) {
+      film = document.createElement("video");
+      film.muted = true;
+      film.setAttribute("muted", "");
+      film.setAttribute("playsinline", "");
+      film.setAttribute("aria-hidden", "true");
+      film.preload = "auto";
+      film.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
+      film.addEventListener("error", noFilm);
+      film.src = canvas.dataset.wave;
+      bot.appendChild(film);
+    }
+    function noFilm() {
+      console.warn("w1-rig: no wave film");
+      film = null;
+    }
+    function cue() {
+      if (!film || held) return;
+      film.currentTime = 0;
+      var p = film.play();
+      if (p && p.catch) p.catch(noFilm);
+    }
+    function waved() {
+      if (!film || film.readyState < 2 || !film.duration || (!held && film.paused)) return 0;
+      return ease(film.currentTime / FADE) * (1 - ease((film.currentTime - film.duration + FADE) / FADE));
+    }
+  
+    var START = 0.6;         // a beat after the slide lands, before the first wave
+    var yaw, pitch, roll, bend, bendV, clock, start, played, was;
+    function reset() { yaw = pitch = roll = bend = bendV = clock = was = 0; start = START; played = false; }
+    reset();
+    function step(dt) {
+      clock += dt;
+      var c = clock - start, on = c >= 0;
+      c = on ? c % CYCLE : 0;
+      if (on && (!played || c < was)) { played = true; cue(); }
+      was = c;
+      var look = on ? lookAt(c) : [0, 0, 0, 0];
+      var mine = held || performance.now() - lastMove > 2500;
+      var ty = mine ? look[1] : px * 0.085;
+      var tr = mine ? look[2] : -px * 0.06;
+      var tp = mine ? look[3] : py * 0.03;
+      var k = 1 - Math.exp(-dt * 6.5);       // a quick move, settled in about a third of a second
+      var turn = yaw + roll;
+      yaw += (ty - yaw) * k; pitch += (tp - pitch) * k; roll += (tr - roll) * k;
+      bendV += (yaw + roll - turn) * 1100 + (-bend * 88 - bendV * 2.4) * dt;
+      bend += bendV * dt;
+    }
+    function draw() {
+      var w = waved();
+      if (w > 0) {
+        try {
+          gl.activeTexture(gl.TEXTURE1);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, film);
+          gl.activeTexture(gl.TEXTURE0);
+        } catch (e) { noFilm(); w = 0; }
+      }
+      gl.uniform1f(u.wave, w);
+      gl.uniform1f(u.yaw, yaw);
+      gl.uniform1f(u.pitch, pitch);
+      gl.uniform1f(u.roll, roll);
+      gl.uniform1f(u.bend, bend);
+      gl.uniform1f(u.armL, Math.sin(clock * 0.9 + 0.4) * 0.03);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+    function seek(t) {
+      reset();
+      for (var i = 0, n = Math.round(t * 120); i < n; i++) step(1 / 120);
+      if (film) film.currentTime = Math.max(0, (clock - start) % CYCLE);
+      draw();
+    }
+  
+    var onScreen = true;
+    new IntersectionObserver(function (es) {
+      var now = es[0].isIntersecting;
+      if (now && !onScreen && !held) { start = clock + START; played = false; }
+      onScreen = now;
+    }, { threshold: 0.4 }).observe(bot);
+  
+    var last = 0;
+    function frame(now) {
+      requestAnimationFrame(frame);
+      if (!ready) return;
+      var dt = Math.min((now - last) / 1000, 0.05); last = now;
+      if (document.hidden || !onScreen) return;
+      if (!held && dt > 0) step(dt);
+      draw();
+    }
+    function begin() {
+      try {
+        build();
+        if (held) {
+          window.W1Rig = { seek: seek };
+          if (film) film.addEventListener("seeked", draw);
+          seek(hold);
+        }
+        requestAnimationFrame(frame);
+      } catch (e) { fail(e.message || e); }
+    }
+    canvas.addEventListener("webglcontextlost", function () { fail("context lost"); });
+    if (still.complete && still.naturalWidth) begin();
+    else { still.addEventListener("load", begin, { once: true }); still.addEventListener("error", function () { fail("no picture"); }, { once: true }); }
+  })();
+  
+  </script>
+</section>
