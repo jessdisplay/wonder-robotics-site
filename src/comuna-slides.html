@@ -68,6 +68,8 @@
   .cm-film iframe{display:block;border:0;width:min(100cqw,calc(100cqh*16/9));height:min(100cqh,calc(100cqw*9/16))}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
   .cm-title{background:#677B89}
+  /* who the deck is between (Jesse, 12 Nov: "wonder x parent company name"): Comuna's group, Together Hospitality */
+  .cm-x{position:absolute;left:calc(96*var(--u));top:calc(84*var(--u));z-index:2;margin:0;color:#FBF4ED;opacity:.92}
   .cm-title .plate>img{object-position:50% 50%}
   @media (max-aspect-ratio:8/5){.cm-title .plate>img{object-fit:contain}}
   /* the spec sheet, whole, as printed; centred by its margins, because the reveal (.r) owns the transform */
@@ -96,6 +98,7 @@
 <!-- running order -->
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Comuna">
   <div class="slide"><div class="in full poster cm-title">
+    <p class="lab cm-x">Wonder Robotics &times; Together Hospitality</p>
     <svg class="cm-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
       <filter id="cm-ink" color-interpolation-filters="sRGB">
         <feColorMatrix type="matrix" values="0 0 0 0 0.2275  0 0 0 0 0.0824  0 0 0 0 0.0824  -0.6644 -2.235 -0.2256 0 2.875" result="ink"/>
