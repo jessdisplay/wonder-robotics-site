@@ -1,31 +1,24 @@
 <!-- Wonder Robotics for Comuna, the running order (build.py, noodle_box_source).
 
-     Jesse, 12 Nov 2026: "everything full screen beautiful and like posters", "focus on their concepts and concept art,
-     nothing to do with Volta", "like the poster deck for Fonzie, not wordy or detailed", "we need a yes and we push
-     towards that coffee machine first", "we get the R and D tax credit phrase in early", "do our team slide in the
-     Comuna style and be creative", and on the hat "throw one of the guys in too". So every Comuna page is one poster,
-     the Fonzie Abbott poster deck's grammar in Comuna's own type and colours, built and baked by
-     Drive *Claude files/comuna/deck-posters/source/posters.py (their fonts never leave the artwork): the title card,
-     COFFEE FIRST, the R&D line, HATS OFF, how it works, the numbers, EVERY CUP IS A POST, the cart's spec sheet,
-     THE BAND BEHIND THE BAND (us, on their colours), the ask, then the ownership notice and the close (rule, 22 Oct).
-     The cocktail cradles and CASA wait for their photoreal renders.
+     Jesse, 12 Nov 2026: "pretty much all full screen imagery", "we get to show each concept, minimal words, full screen;
+     if anything we can pin in the technical drawings or the design render of the machine on a nice clean second
+     screen, but not the gashy fade outs and lots of words, this is all about the concepts", "hat and guitar we can open
+     with", "brands we have worked with definitely in there", and the R and D line early. RULE (12 Nov): no describing
+     lines anywhere. So each concept is its render full screen, then at most one clean second screen of its drawing.
+     Pages are cut by Drive *Claude files/comuna/deck-posters/source/art.py (2880 x 1620, words baked only where they are
+     facts). The cocktail cradles wait for their final render.
 
      Their palette only (rule, 11 Nov 2026: no purple on a client's pages): the information deck's night, gold and
      signal are mapped to Comuna's cocoa, rose and rust below; the close keeps the website's header.
 
      Notes on the pages below. Nothing after the running order line may carry a comment: the slides are published as
      written, comments and all, to a client.
-     - Numbers: $722m is Westpac's card data for Australian cafés, June 2025; 1 in 3 venues short of staff is
-       Lightspeed's State of Hospitality 2025; 43.5% is the R&D Tax Incentive's refundable offset for most companies
-       under $20m aggregated turnover (ATO), and the poster says eligibility is the adviser's call; 2.4 x 1 m and "a
-       latte, to be timed" are the cart's spec sheet. FIRST is marked to confirm on the poster: robot bars have run in
-       Sydney and Melbourne and ours is in the Valley.
-     - The cart picture is the deck session's photoreal render; Jesse is choosing pink or cream for its menu. Rebuild
-       the posters from Drive once he picks.
+     - 43.5% is the R&D Tax Incentive's refundable offset for most companies under $20m aggregated turnover (ATO); the
+       page says eligibility is the adviser's call.
      - "The drawings" leads to robotics/comuna/drawings/, which must be live before this deck is. -->
 
 <nav class="label" aria-label="Sections">
-      <a href="#" data-go="Comuna">Comuna</a><a href="#" data-go="Coffee first">Coffee first</a><a href="#" data-go="Hats off">Hats off</a><a href="#" data-go="How it works">How it works</a><a href="#" data-go="The numbers">Numbers</a><a href="#" data-go="The spec sheet">Spec</a><a href="#" data-go="The band behind the band">The band</a><a href="#" data-go="Your cart, our robots">Next</a>
+      <a href="#" data-go="Comuna">Comuna</a><a href="#" data-go="The coffee cart">Coffee</a><a href="#" data-go="The hat">The hat</a><a href="#" data-go="The band">The band</a><a href="#" data-go="CASA, all night">CASA</a><a href="#" data-go="Wonder Robotics">Wonder</a><a href="#" data-go="Who we work with">Who we work with</a>
     </nav>
 
 <style>
@@ -46,6 +39,8 @@
   .cm-poster{background:var(--ground)}
   .cm-poster .plate>img{object-fit:cover;object-position:50% 50%}
   @media (max-aspect-ratio:33/20),(min-aspect-ratio:2/1){.cm-poster .plate>img{object-fit:contain}}
+  /* a page whose picture reaches its own edges (the opener's headstocks) is always shown whole, on its own flat pink */
+  .cm-whole .plate>img{object-fit:contain}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
   .cm-title{background:#677B89}
   .cm-title .plate>img{object-position:50% 50%}
@@ -74,72 +69,86 @@
 </style>
 
 <!-- running order -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The hat and the vihuela">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F8E3E1">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/01-hat-and-vihuela.jpg" width="2880" height="1620" alt="Concept: Comuna's pink sombrero beside two vihuelas, one face up in pink, one face down showing its striped back"></div>
+  </div></div>
+</section>
+
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Comuna">
   <div class="slide"><div class="in full poster cm-title">
     <div class="plate"><img src="{{root}}img/deck/comuna/title-wide.jpg" width="3200" height="1350" alt="COMUNA, and under it Tacos, Margs, Tunes, Robots, on Comuna's slate blue; beside it a robot mariachi in Comuna's pink sombrero plays a pink vihuela toward the name"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Coffee first">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee cart">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/02-coffee-first.jpg" width="2880" height="1620" alt="COFFEE FIRST. Robots on the cart you already have. 2.4 by 1 metres, the cart as it stands; 1 minute, a latte, to be timed. Beside it, Comuna's fluted coffee cart with two pink and terracotta robot arms"></div>
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/03-cart.jpg" width="2880" height="1620" alt="Concept: Comuna's fluted coffee cart with two robot arms in their pink and terracotta, the coffee machines between them and their menu on a pink screen"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The R&amp;D Tax Incentive">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/03-rd-tax.jpg" width="2880" height="1620" alt="43.5% back on eligible R&amp;D, through the R&amp;D Tax Incentive. For eligible R&amp;D, for most companies under $20m aggregated turnover; your tax adviser confirms what qualifies"></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee cart, its menu">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#E3A9AD">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/05-menu.jpg" width="2880" height="1620" alt="Concept: the cart's menu screen, COMUNA coffee and breakfast with their dog, sun and taco, their own items and prices"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Hats off">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#EEE0DE">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/04-hats-off.jpg" width="2880" height="1620" alt="HATS OFF. Every mark on it is already yours. The robot mariachi holds his pink Comuna sombrero out toward the words, his vihuela at his side"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. How it works">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/05-how-it-works.jpg" width="2880" height="1620" alt="HOW IT WORKS. 1 Order, on the screen. 2 Made, by the arms. 3 Lift, from the lit spot. 4 Film, then post it"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The numbers">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#6A7C88">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/06-numbers.jpg" width="2880" height="1620" alt="$722M in Australian cafes in one month. 1 in 3 venues short of staff. 7 am, coffee before the doors open. First robot barista at a Brisbane cantina, to confirm. Westpac card data, June 2025; Lightspeed, State of Hospitality 2025"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Every cup is a post">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#DCA3A5">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/07-every-cup.jpg" width="2880" height="1620" alt="EVERY CUP IS A POST. The robot is the thing people film. Beside it, the arms at work on Comuna's cart"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The spec sheet">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee cart, drawn">
   <div class="slide"><div class="in cm dark">
     <figure class="cm-sheet r"><img src="{{root}}img/deck/comuna/coffee-spec.jpg" width="2339" height="1653" alt="Spec sheet 01, the coffee cart: front, side, top and three-quarter drawings, sizes in millimetres, output, services, and every figure still to be confirmed marked in rust"></figure>
     <a class="cm-go" href="/robotics/comuna/drawings/#coffee">The drawings <span aria-hidden="true">&nearr;</span></a>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The band behind the band">
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The R&amp;D Tax Incentive">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/09-the-band.jpg" width="2880" height="1620" alt="THE BAND BEHIND THE BAND. Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth. Each portrait in an arch, each with one of Comuna's marks"></div>
+    <div class="plate"><img src="{{root}}img/deck/comuna/posters/03-rd-tax.jpg" width="2880" height="1620" alt="43.5% back on eligible R&amp;D, through the R&amp;D Tax Incentive. For most companies under $20m aggregated turnover; your tax adviser confirms what qualifies"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Your cart, our robots">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/posters/10-the-ask.jpg" width="2880" height="1620" alt="YOUR CART. OUR ROBOTS. Comuna by Wonder Robotics. Coffee first, then the bar, then CASA"></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The hat">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F6EBE7">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/07-hat.jpg" width="2880" height="1620" alt="Concept: Comuna's pink sombrero, the rising sun woven into the crown, COMUNA on a cocoa band, the brim turned up in rust, cream, cocoa and rose"></div>
   </div></div>
 </section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. El Charro">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#EEE0DE">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/08-charro-hat.jpg" width="2880" height="1620" alt="Concept: the robot mariachi holds his pink Comuna sombrero out, his vihuela at his side"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The band">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FCD1D8">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/09-band.jpg" width="2880" height="1620" alt="Concept: the robot mariachi band in Comuna's sombreros, the robot dog with his ball, a vihuela, a guitarron, a singer and a grand piano"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. CASA, all night">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/11-casa.jpg" width="2880" height="1620" alt="Concept: CASA at night from the footpath, TACOS ALL NIGHT in cream neon, the taco line behind the glass, people eating at the window ledge, a rider at the PICK UP HERE lockers"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. CASA, the line drawn">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F9F2EA">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/12-casa-line.jpg" width="2880" height="1620" alt="CASA's taco line drawn from the path and from above at 1:25: tortilla, meats, toppings, sauces, check and out, six metres along the glass"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
+  </div></div>
+</section>
+
+<!-- take: Who we work with -->
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Ownership">
   <div class="slide"><div class="in say-it own cm dark">
     <p class="lab r">Ownership</p>
     <h2 class="big r">This concept is ours until it is yours.</h2>
-    <p class="own-text r">The concepts in this deck, the coffee cart, the hat and the robot mariachi, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours.</p>
+    <p class="own-text r">The concepts in this deck, the coffee cart, CASA's taco line, the hat, the vihuela and the robot mariachi, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours.</p>
     <img class="cm-sun" src="{{root}}img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
     <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>{{n}}</p></div>
   </div></div>

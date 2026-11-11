@@ -1447,9 +1447,11 @@ COMUNA_DRAWINGS = ("The drawings", "/robotics/comuna/drawings/", "img/deck/comun
 COMUNA_JOB = ("The job", "/robotics/comuna/", "img/deck/comuna/card-job.jpg",
               "Comuna's brand as we read it, the rooms, and everything on the job so far.")
 COMUNA_DECK = noodle_box_source("comuna-slides.html", "Wonder Robotics for Comuna",
-                                "Wonder Robotics for Comuna: the hat, the robot barista on Comuna's own coffee cart, "
-                                "what it adds up to, and who we are.",
+                                "Wonder Robotics for Comuna: the coffee cart, the hat, the band, CASA all night, "
+                                "and who we are.",
                                 numbers=False, brackets=False,
+                                # no kicker over the logo wall (rule, 12 Nov 2026: no describing lines)
+                                edits=[('    <p class="lab r">[ The company we keep ]</p>\n', '')],
                                 job=[COMUNA_DRAWINGS, COMUNA_JOB])
 # a phone's browser bar takes their cocoa, not our night (rule, 11 Nov 2026: no purple on a client's pages)
 assert COMUNA_DECK.count("{{icons}}") == 1 and ICONS.count("#20103A") == 1

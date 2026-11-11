@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Wonder Robotics for Comuna</title>
-<meta name="description" content="Wonder Robotics for Comuna: the hat, the robot barista on Comuna's own coffee cart, what it adds up to, and who we are.">
+<meta name="description" content="Wonder Robotics for Comuna: the coffee cart, the hat, the band, CASA all night, and who we are.">
 <script>
   /* Every deck opens at its first slide (Jesse, 20 Oct 2026): the browser never
      acts on a #slide left in the address, and never puts back an old place. */
@@ -519,6 +519,8 @@
   .cm-poster{background:var(--ground)}
   .cm-poster .plate>img{object-fit:cover;object-position:50% 50%}
   @media (max-aspect-ratio:33/20),(min-aspect-ratio:2/1){.cm-poster .plate>img{object-fit:contain}}
+  /* a page whose picture reaches its own edges (the opener's headstocks) is always shown whole, on its own flat pink */
+  .cm-whole .plate>img{object-fit:contain}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
   .cm-title{background:#677B89}
   .cm-title .plate>img{object-position:50% 50%}
@@ -552,84 +554,120 @@
     <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#" data-go="Comuna">Comuna</a><a href="#" data-go="Coffee first">Coffee first</a><a href="#" data-go="Hats off">Hats off</a><a href="#" data-go="How it works">How it works</a><a href="#" data-go="The numbers">Numbers</a><a href="#" data-go="The spec sheet">Spec</a><a href="#" data-go="The band behind the band">The band</a><a href="#" data-go="Your cart, our robots">Next</a>
+      <a href="#" data-go="Comuna">Comuna</a><a href="#" data-go="The coffee cart">Coffee</a><a href="#" data-go="The hat">The hat</a><a href="#" data-go="The band">The band</a><a href="#" data-go="CASA, all night">CASA</a><a href="#" data-go="Wonder Robotics">Wonder</a><a href="#" data-go="Who we work with">Who we work with</a>
     </nav>
     <div class="cta"><a class="btn want" href="/robotics/comuna/drawings/"><span>The drawings</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
 </header>
 <main id="deck">
-<section class="stage" id="s1" aria-label="Slide 1. Comuna">
+<section class="stage" id="s1" aria-label="Slide 1. The hat and the vihuela">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F8E3E1">
+    <div class="plate"><img src="../../img/deck/comuna/art/01-hat-and-vihuela.jpg" width="2880" height="1620" alt="Concept: Comuna's pink sombrero beside two vihuelas, one face up in pink, one face down showing its striped back"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s2" aria-label="Slide 2. Comuna">
   <div class="slide"><div class="in full poster cm-title">
     <div class="plate"><img src="../../img/deck/comuna/title-wide.jpg" width="3200" height="1350" alt="COMUNA, and under it Tacos, Margs, Tunes, Robots, on Comuna's slate blue; beside it a robot mariachi in Comuna's pink sombrero plays a pink vihuela toward the name"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s2" aria-label="Slide 2. Coffee first">
+<section class="stage" id="s3" aria-label="Slide 3. The coffee cart">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="../../img/deck/comuna/posters/02-coffee-first.jpg" width="2880" height="1620" alt="COFFEE FIRST. Robots on the cart you already have. 2.4 by 1 metres, the cart as it stands; 1 minute, a latte, to be timed. Beside it, Comuna's fluted coffee cart with two pink and terracotta robot arms"></div>
+    <div class="plate"><img src="../../img/deck/comuna/art/03-cart.jpg" width="2880" height="1620" alt="Concept: Comuna's fluted coffee cart with two robot arms in their pink and terracotta, the coffee machines between them and their menu on a pink screen"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s3" aria-label="Slide 3. The R&amp;D Tax Incentive">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
-    <div class="plate"><img src="../../img/deck/comuna/posters/03-rd-tax.jpg" width="2880" height="1620" alt="43.5% back on eligible R&amp;D, through the R&amp;D Tax Incentive. For eligible R&amp;D, for most companies under $20m aggregated turnover; your tax adviser confirms what qualifies"></div>
+<section class="stage" id="s4" aria-label="Slide 4. The coffee cart, its menu">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#E3A9AD">
+    <div class="plate"><img src="../../img/deck/comuna/art/05-menu.jpg" width="2880" height="1620" alt="Concept: the cart's menu screen, COMUNA coffee and breakfast with their dog, sun and taco, their own items and prices"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s4" aria-label="Slide 4. Hats off">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#EEE0DE">
-    <div class="plate"><img src="../../img/deck/comuna/posters/04-hats-off.jpg" width="2880" height="1620" alt="HATS OFF. Every mark on it is already yours. The robot mariachi holds his pink Comuna sombrero out toward the words, his vihuela at his side"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s5" aria-label="Slide 5. How it works">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="../../img/deck/comuna/posters/05-how-it-works.jpg" width="2880" height="1620" alt="HOW IT WORKS. 1 Order, on the screen. 2 Made, by the arms. 3 Lift, from the lit spot. 4 Film, then post it"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s6" aria-label="Slide 6. The numbers">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#6A7C88">
-    <div class="plate"><img src="../../img/deck/comuna/posters/06-numbers.jpg" width="2880" height="1620" alt="$722M in Australian cafes in one month. 1 in 3 venues short of staff. 7 am, coffee before the doors open. First robot barista at a Brisbane cantina, to confirm. Westpac card data, June 2025; Lightspeed, State of Hospitality 2025"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s7" aria-label="Slide 7. Every cup is a post">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#DCA3A5">
-    <div class="plate"><img src="../../img/deck/comuna/posters/07-every-cup.jpg" width="2880" height="1620" alt="EVERY CUP IS A POST. The robot is the thing people film. Beside it, the arms at work on Comuna's cart"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s8" aria-label="Slide 8. The spec sheet">
+<section class="stage" id="s5" aria-label="Slide 5. The coffee cart, drawn">
   <div class="slide"><div class="in cm dark">
     <figure class="cm-sheet r"><img src="../../img/deck/comuna/coffee-spec.jpg" width="2339" height="1653" alt="Spec sheet 01, the coffee cart: front, side, top and three-quarter drawings, sizes in millimetres, output, services, and every figure still to be confirmed marked in rust"></figure>
     <a class="cm-go" href="/robotics/comuna/drawings/#coffee">The drawings <span aria-hidden="true">&nearr;</span></a>
   </div></div>
 </section>
 
-<section class="stage" id="s9" aria-label="Slide 9. The band behind the band">
+<section class="stage" id="s6" aria-label="Slide 6. The R&amp;D Tax Incentive">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
-    <div class="plate"><img src="../../img/deck/comuna/posters/09-the-band.jpg" width="2880" height="1620" alt="THE BAND BEHIND THE BAND. Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth. Each portrait in an arch, each with one of Comuna's marks"></div>
+    <div class="plate"><img src="../../img/deck/comuna/posters/03-rd-tax.jpg" width="2880" height="1620" alt="43.5% back on eligible R&amp;D, through the R&amp;D Tax Incentive. For most companies under $20m aggregated turnover; your tax adviser confirms what qualifies"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s10" aria-label="Slide 10. Your cart, our robots">
+<section class="stage" id="s7" aria-label="Slide 7. The hat">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F6EBE7">
+    <div class="plate"><img src="../../img/deck/comuna/art/07-hat.jpg" width="2880" height="1620" alt="Concept: Comuna's pink sombrero, the rising sun woven into the crown, COMUNA on a cocoa band, the brim turned up in rust, cream, cocoa and rose"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s8" aria-label="Slide 8. El Charro">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#EEE0DE">
+    <div class="plate"><img src="../../img/deck/comuna/art/08-charro-hat.jpg" width="2880" height="1620" alt="Concept: the robot mariachi holds his pink Comuna sombrero out, his vihuela at his side"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s9" aria-label="Slide 9. The band">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FCD1D8">
+    <div class="plate"><img src="../../img/deck/comuna/art/09-band.jpg" width="2880" height="1620" alt="Concept: the robot mariachi band in Comuna's sombreros, the robot dog with his ball, a vihuela, a guitarron, a singer and a grand piano"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s10" aria-label="Slide 10. CASA, all night">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="../../img/deck/comuna/posters/10-the-ask.jpg" width="2880" height="1620" alt="YOUR CART. OUR ROBOTS. Comuna by Wonder Robotics. Coffee first, then the bar, then CASA"></div>
+    <div class="plate"><img src="../../img/deck/comuna/art/11-casa.jpg" width="2880" height="1620" alt="Concept: CASA at night from the footpath, TACOS ALL NIGHT in cream neon, the taco line behind the glass, people eating at the window ledge, a rider at the PICK UP HERE lockers"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s11" aria-label="Slide 11. Ownership">
+<section class="stage" id="s11" aria-label="Slide 11. CASA, the line drawn">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F9F2EA">
+    <div class="plate"><img src="../../img/deck/comuna/art/12-casa-line.jpg" width="2880" height="1620" alt="CASA's taco line drawn from the path and from above at 1:25: tortilla, meats, toppings, sauces, check and out, six metres along the glass"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s12" aria-label="Slide 12. Wonder Robotics">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
+    <div class="plate"><img src="../../img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s13" aria-label="Slide 13. Who we work with">
+  <div class="slide"><div class="in">
+    <h2 class="l r">Who we work with.</h2>
+    <ul class="wall r">
+      <li><img src="../../img/partners/airtree.png" alt="AirTree"></li>
+      <li><img src="../../img/partners/uq.svg" alt="The University of Queensland"></li>
+      <li><img src="../../img/partners/ubtech-mark.png" alt="UBTECH"></li>
+      <li><img src="../../img/partners/unitree.png" alt="Unitree"></li>
+      <li><img src="../../img/partners/agibot.png" alt="AgiBot"></li>
+      <li><img class="tall" src="../../img/partners/armhub.png" alt="ArmHub"></li>
+      <li><img src="../../img/partners/uniquest.png" alt="UniQuest"></li>
+      <li><img src="../../img/partners/qut.jpg" alt="QUT"></li>
+      <li><img src="../../img/partners/kuehne-nagel.jpg" alt="Kuehne+Nagel"></li>
+      <li><img class="tall" src="../../img/partners/onyx-tyres.jpg" alt="Onyx Tyres"></li>
+      <li><img src="../../img/partners/powerskills-ai.jpg" alt="PowerSkills AI"></li>
+      <li><img src="../../img/partners/muzix-audio.jpg" alt="Muzix Audio"></li>
+      <li><img class="tall" src="../../img/partners/stellaris-robotics.jpg" alt="Stellaris Robotics"></li>
+      <li><img src="../../img/partners/blue-sun-group.jpg" alt="Blue Sun Group"></li>
+      <li><img class="tall" src="../../img/partners/little-red-dumplings.jpg" alt="Little Red Dumpling"></li>
+    </ul>
+    <div class="foot"><p>Wonder Robotics</p><p>13</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s14" aria-label="Slide 14. Ownership">
   <div class="slide"><div class="in say-it own cm dark">
     <p class="lab r">Ownership</p>
     <h2 class="big r">This concept is ours until it is yours.</h2>
-    <p class="own-text r">The concepts in this deck, the coffee cart, the hat and the robot mariachi, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours.</p>
+    <p class="own-text r">The concepts in this deck, the coffee cart, CASA's taco line, the hat, the vihuela and the robot mariachi, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours.</p>
     <img class="cm-sun" src="../../img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
-    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>11</p></div>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>14</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s12" aria-label="Slide 12. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s15" aria-label="Slide 15. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
     <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
@@ -677,7 +715,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 12</output>
+  <output id="count" aria-live="polite">01 / 15</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>
