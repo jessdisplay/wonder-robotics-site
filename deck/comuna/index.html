@@ -523,6 +523,18 @@
   .cm-whole .plate>img{object-fit:contain}
   /* a film page: their player, 16:9, as large as the screen allows, centred on its own ground (it is Makr Shakr's film,
      embedded from their own channel, never re-hosted) */
+  /* Who we work with, in Comuna's colours (Jesse, 12 Nov: "these should be brown and maybe we use the light blue there
+     again"): the coffee slide's light blue #DCE0EC, and every logo in one cocoa ink. The ink filter turns each logo's
+     dark into cocoa and its white ground into nothing, so JPEG logos on white need no blend mode. */
+  section[aria-label$=". Who we work with"] .slide{background:#DCE0EC}
+  section[aria-label$=". Who we work with"] .wall img{filter:url(#cm-ink);mix-blend-mode:normal;opacity:1}
+  /* the band, the callback to Who we work with: the same heading, the band whole below it on their pink */
+  section[aria-label$=". Who we play with"] .slide{background:#F9C6CF}
+  .cm-band{display:flex;flex-direction:column}
+  .cm-band .cm-band-pic{flex:1 1 auto;min-height:0;margin-top:calc(24*var(--u));display:grid;place-items:center;container-type:size}
+  .cm-band .cm-band-pic img{display:block;max-width:100cqw;max-height:100cqh;width:auto;height:auto;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent),linear-gradient(transparent,#000 9%,#000 91%,transparent);
+    -webkit-mask-composite:source-in;mask-composite:intersect}
   .cm-film .plate{container-type:size;display:grid;place-items:center}
   .cm-film iframe{display:block;border:0;width:min(100cqw,calc(100cqh*16/9));height:min(100cqh,calc(100cqw*9/16))}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
@@ -566,6 +578,12 @@
 <main id="deck">
 <section class="stage" id="s1" aria-label="Slide 1. Comuna">
   <div class="slide"><div class="in full poster cm-title">
+    <svg class="cm-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+      <filter id="cm-ink" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="0 0 0 0 0.2275  0 0 0 0 0.0824  0 0 0 0 0.0824  -0.6644 -2.235 -0.2256 0 2.875" result="ink"/>
+        <feComposite in="ink" in2="SourceGraphic" operator="in"/>
+      </filter>
+    </svg>
     <div class="plate"><img src="../../img/deck/comuna/title-wide.jpg" width="3200" height="1350" alt="COMUNA, and under it Tacos, Margs, Tunes, Robots, on Comuna's slate blue; beside it a robot mariachi in Comuna's pink sombrero plays a pink vihuela toward the name"></div>
   </div></div>
 </section>
@@ -602,8 +620,32 @@
 
 <section class="stage" id="s7" aria-label="Slide 7. The duel">
   <div class="slide"><div class="in full poster cm-poster cm-film" style="--ground:#000000">
-    <div class="plate"><iframe src="https://www.youtube-nocookie.com/embed/fcScX-pFMkU?rel=0&amp;playsinline=1" title="Makr Shakr: their robot bartender Toni against Silvia Daniela Istrate in a cocktail duel, Milan, December 2021" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <div class="plate"><iframe id="cm-duel" src="https://www.youtube-nocookie.com/embed/fcScX-pFMkU?enablejsapi=1&amp;start=38&amp;end=68&amp;mute=1&amp;controls=1&amp;playsinline=1&amp;rel=0" title="Makr Shakr: their robot bartender Toni against Silvia Daniela Istrate in a cocktail duel, Milan, December 2021" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   </div></div>
+  <script>
+  (function () {
+    var f = document.getElementById("cm-duel"), p = null, on = false;
+    if (!f || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function go() { if (p && p.seekTo) { p.seekTo(38, true); p.playVideo(); } }
+    var before = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () {
+      if (before) before();
+      p = new YT.Player(f, { events: {
+        onReady: function () { if (on) go(); },
+        onStateChange: function (e) { if (e.data === YT.PlayerState.ENDED && on) go(); }
+      } });
+    };
+    new IntersectionObserver(function (es) {
+      on = es[0].isIntersecting;
+      if (!p || !p.playVideo) return;
+      if (on) go(); else p.pauseVideo();
+    }, { threshold: 0.35 }).observe(f.closest(".stage"));
+    var s = document.createElement("script");
+    s.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(s);
+  })();
+  </script>
 </section>
 
 <section class="stage" id="s8" aria-label="Slide 8. CASA, all night">
@@ -648,17 +690,25 @@
   </div></div>
 </section>
 
-<section class="stage" id="s12" aria-label="Slide 12. Ownership">
-  <div class="slide"><div class="in say-it own cm dark">
-    <p class="lab r">Ownership</p>
-    <h2 class="big r">This concept is ours until it is yours.</h2>
-    <p class="own-text r">The concepts in this deck, the coffee cart, the cocktail bar, CASA's taco line, the hat, the vihuela and the robot mariachi, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours. The cocktail duel is Makr Shakr's film, shown from their own channel.</p>
-    <img class="cm-sun" src="../../img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
-    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>12</p></div>
+<section class="stage" id="s12" aria-label="Slide 12. Who we play with">
+  <div class="slide"><div class="in cm-band">
+    <h2 class="l r">And who we play with.</h2>
+    <div class="cm-band-pic r"><img src="../../img/deck/comuna/art/12-band.jpg" width="2016" height="1024" alt="Comuna's robot band in their pink hats: the brown robot dog with his ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
+    <div class="foot"><p>Wonder Robotics</p><p>12</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s13" aria-label="Slide 13. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s13" aria-label="Slide 13. Ownership">
+  <div class="slide"><div class="in say-it own cm dark">
+    <p class="lab r">Ownership</p>
+    <h2 class="big r">This concept is ours until it is yours.</h2>
+    <p class="own-text r">The concepts in this deck, the coffee cart, the cocktail bar, CASA's taco line, the hat, the vihuela, the robot mariachi and his band, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours. The cocktail duel is Makr Shakr's film, shown from their own channel.</p>
+    <img class="cm-sun" src="../../img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>13</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s14" aria-label="Slide 14. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
     <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
@@ -706,7 +756,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 13</output>
+  <output id="count" aria-live="polite">01 / 14</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>
