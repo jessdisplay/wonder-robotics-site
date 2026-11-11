@@ -26,6 +26,10 @@
        hat"); El Charro holding the hat out ("this is irrelevant"). The duel plays 0:38 to 1:08 and loops while on screen
        ("cut out the opening ... stop at 1:08 just before the bottle flash", "only show 20 or 30 seconds"), muted with
        YouTube's own controls, so the presenter can bring the sound up.
+     - Jesse, 12 Nov, 2 to 3 am: the R&D sell after CASA (the taco line is the eligible build, the cart is not), the
+       ghost kitchen session's comuna-rd-tax.jpg; the factory after the team ("our full factory", "you can say AU
+       based", "AU owned factory in China too"); the band after Who we work with, full width, "¡OTRA!" in Solana
+       ("who we play with sounds weird, I want a nice heavy font"), the ball light blue.
      - "The drawings" leads to robotics/comuna/drawings/, which must be live before this deck is. -->
 
 <nav class="label" aria-label="Sections">
@@ -60,13 +64,6 @@
      dark into cocoa and its white ground into nothing, so JPEG logos on white need no blend mode. */
   section[aria-label$=". Who we work with"] .slide{background:#DCE0EC}
   section[aria-label$=". Who we work with"] .wall img{filter:url(#cm-ink);mix-blend-mode:normal;opacity:1}
-  /* the band, the callback to Who we work with: the same heading, the band whole below it on their pink */
-  section[aria-label$=". Who we play with"] .slide{background:#F9C6CF}
-  .cm-band{display:flex;flex-direction:column}
-  .cm-band .cm-band-pic{flex:1 1 auto;min-height:0;margin-top:calc(24*var(--u));display:grid;place-items:center;container-type:size}
-  .cm-band .cm-band-pic img{display:block;max-width:100cqw;max-height:100cqh;width:auto;height:auto;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent),linear-gradient(transparent,#000 9%,#000 91%,transparent);
-    -webkit-mask-composite:source-in;mask-composite:intersect}
   .cm-film .plate{container-type:size;display:grid;place-items:center}
   .cm-film iframe{display:block;border:0;width:min(100cqw,calc(100cqh*16/9));height:min(100cqh,calc(100cqw*9/16))}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
@@ -181,19 +178,29 @@
   </div></div>
 </section>
 
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The R and D Tax Incentive">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#667B89">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/11-rd-tax.jpg" width="1920" height="1080" alt="¡GRACIAS, ATO! 43.5% of eligible R&D spend, back, through the R&D Tax Incentive, beside El Charro serenading with his vihuela. At a 25% company tax rate, for companies under $20m aggregated turnover (connected companies count). The claim goes to whoever funds and owns the R&D. Your tax adviser confirms what qualifies."></div>
+  </div></div>
+</section>
+
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
     <div class="plate"><img src="{{root}}img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
   </div></div>
 </section>
 
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Where our machines are built">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/14-factory.jpg" width="2880" height="1620" alt="WHERE OUR MACHINES ARE BUILT, over the factory floor in Comuna's cocoa and cream, two finished machines standing on it. Australian owned. Our factory in China. Installed and serviced here. Visualisation, from the factory as filmed."></div>
+  </div></div>
+</section>
+
 <!-- take: Who we work with -->
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Who we play with">
-  <div class="slide"><div class="in cm-band">
-    <h2 class="l r">And who we play with.</h2>
-    <div class="cm-band-pic r"><img src="{{root}}img/deck/comuna/art/12-band.jpg" width="2016" height="1024" alt="Comuna's robot band in their pink hats: the brown robot dog with his ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
-    <div class="foot"><p>Wonder Robotics</p><p>{{n}}</p></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Otra">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F8C5CE">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="¡OTRA! over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
   </div></div>
 </section>
 

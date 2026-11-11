@@ -528,13 +528,6 @@
      dark into cocoa and its white ground into nothing, so JPEG logos on white need no blend mode. */
   section[aria-label$=". Who we work with"] .slide{background:#DCE0EC}
   section[aria-label$=". Who we work with"] .wall img{filter:url(#cm-ink);mix-blend-mode:normal;opacity:1}
-  /* the band, the callback to Who we work with: the same heading, the band whole below it on their pink */
-  section[aria-label$=". Who we play with"] .slide{background:#F9C6CF}
-  .cm-band{display:flex;flex-direction:column}
-  .cm-band .cm-band-pic{flex:1 1 auto;min-height:0;margin-top:calc(24*var(--u));display:grid;place-items:center;container-type:size}
-  .cm-band .cm-band-pic img{display:block;max-width:100cqw;max-height:100cqh;width:auto;height:auto;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent),linear-gradient(transparent,#000 9%,#000 91%,transparent);
-    -webkit-mask-composite:source-in;mask-composite:intersect}
   .cm-film .plate{container-type:size;display:grid;place-items:center}
   .cm-film iframe{display:block;border:0;width:min(100cqw,calc(100cqh*16/9));height:min(100cqh,calc(100cqw*9/16))}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
@@ -660,13 +653,25 @@
   </div></div>
 </section>
 
-<section class="stage" id="s10" aria-label="Slide 10. Wonder Robotics">
+<section class="stage" id="s10" aria-label="Slide 10. The R and D Tax Incentive">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#667B89">
+    <div class="plate"><img src="../../img/deck/comuna/art/11-rd-tax.jpg" width="1920" height="1080" alt="¡GRACIAS, ATO! 43.5% of eligible R&D spend, back, through the R&D Tax Incentive, beside El Charro serenading with his vihuela. At a 25% company tax rate, for companies under $20m aggregated turnover (connected companies count). The claim goes to whoever funds and owns the R&D. Your tax adviser confirms what qualifies."></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s11" aria-label="Slide 11. Wonder Robotics">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
     <div class="plate"><img src="../../img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s11" aria-label="Slide 11. Who we work with">
+<section class="stage" id="s12" aria-label="Slide 12. Where our machines are built">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
+    <div class="plate"><img src="../../img/deck/comuna/art/14-factory.jpg" width="2880" height="1620" alt="WHERE OUR MACHINES ARE BUILT, over the factory floor in Comuna's cocoa and cream, two finished machines standing on it. Australian owned. Our factory in China. Installed and serviced here. Visualisation, from the factory as filmed."></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s13" aria-label="Slide 13. Who we work with">
   <div class="slide"><div class="in">
     <h2 class="l r">Who we work with.</h2>
     <ul class="wall r">
@@ -686,29 +691,27 @@
       <li><img src="../../img/partners/blue-sun-group.jpg" alt="Blue Sun Group"></li>
       <li><img class="tall" src="../../img/partners/little-red-dumplings.jpg" alt="Little Red Dumpling"></li>
     </ul>
-    <div class="foot"><p>Wonder Robotics</p><p>11</p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>13</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s12" aria-label="Slide 12. Who we play with">
-  <div class="slide"><div class="in cm-band">
-    <h2 class="l r">And who we play with.</h2>
-    <div class="cm-band-pic r"><img src="../../img/deck/comuna/art/12-band.jpg" width="2016" height="1024" alt="Comuna's robot band in their pink hats: the brown robot dog with his ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
-    <div class="foot"><p>Wonder Robotics</p><p>12</p></div>
+<section class="stage" id="s14" aria-label="Slide 14. Otra">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F8C5CE">
+    <div class="plate"><img src="../../img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="¡OTRA! over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s13" aria-label="Slide 13. Ownership">
+<section class="stage" id="s15" aria-label="Slide 15. Ownership">
   <div class="slide"><div class="in say-it own cm dark">
     <p class="lab r">Ownership</p>
     <h2 class="big r">This concept is ours until it is yours.</h2>
     <p class="own-text r">The concepts in this deck, the coffee cart, the cocktail bar, CASA's taco line, the hat, the vihuela, the robot mariachi and his band, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours. The cocktail duel is Makr Shakr's film, shown from their own channel.</p>
     <img class="cm-sun" src="../../img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
-    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>13</p></div>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>15</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s14" aria-label="Slide 14. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s16" aria-label="Slide 16. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
     <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
@@ -756,7 +759,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 14</output>
+  <output id="count" aria-live="polite">01 / 16</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>
