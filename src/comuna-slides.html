@@ -15,9 +15,12 @@
      written, comments and all, to a client.
      - Jesse, 12 Nov: "cut all, I just want big concept screens with little to no text to start with" (the menu screen,
        the coffee spec sheet, the R&D page, CASA's line drawing and the band are out; he will ask for anything missing).
-     - The cocktail bar: never the measured build (Jesse, 12 Nov: "gash"). Its pages are the bar session's photoreal
-       close-ups he approved on 11 Nov ("the up closes look sick, use these", "the hat on [her] maybe too", "a cropped
-       up close-ish is best"), the bar opening first, then a drink in the order it happens, one click each.
+     - Each concept is two slides (Jesse, 12 Nov: "each concept is 2 slides, one of the in situ and one of the clean
+       machines branded in the Comuna treatments and with really basic text on the numbers"): coffee and CASA are the
+       ghost kitchen session's pairs (photoreal-12-nov/slides). The bar is one large and one split in four, images only
+       ("on this one maybe just the concept and up closes in images will do"), never the measured build ("gash").
+     - The machine slides and the bar's large one carry words or people at their edges, so they are always shown whole
+       (cm-whole) on their own ground; the in-situ slides and the bar's four cover.
      - "The drawings" leads to robotics/comuna/drawings/, which must be live before this deck is. -->
 
 <nav class="label" aria-label="Sections">
@@ -37,7 +40,7 @@
   .cover::after{background:linear-gradient(to top,rgba(58,21,21,.9) 0%,rgba(58,21,21,.5) 30%,rgba(58,21,21,0) 60%)}
   .slide:not(.night){background:#DCA3A5;color:#3A1515;--ink:#3A1515;--ink-2:rgba(58,21,21,.74);--rule:rgba(58,21,21,.24)}
 
-  /* a poster page: the poster (2880 x 1620, its words baked in) fills the screen on its own ground. Between 33:20 and
+  /* a poster page: the poster (16:9, its words baked in) fills the screen on its own ground. Between 33:20 and
      2:1 it covers (no word is within 5% of an edge); squarer or wider screens show it whole on the same ground. */
   .cm-poster{background:var(--ground)}
   .cm-poster .plate>img{object-fit:cover;object-position:50% 50%}
@@ -85,44 +88,26 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee cart">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/03-cart.jpg" width="2880" height="1620" alt="Concept: Comuna's fluted coffee cart with two robot arms in their pink and terracotta, the coffee machines between them and their menu on a pink screen"></div>
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/03-coffee.jpg" width="1920" height="1080" alt="Concept: Comuna's coffee cart at the park terrace, two robot arms between the machines; beside it, the fork setting a rust cup on the lit grate, and a guest at 7 am taking her slate cup as the arm draws back"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The coffee cart, the machine">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#FBD7DB">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/03-coffee-machine.jpg" width="1920" height="1080" alt="Concept: the coffee cart clean on blush, every part branded. 2 arms, about 0.6 m reach. About 1 min a latte, the maker's figure. Up to 60 cups an hour, to be timed"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The cocktail bar">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-close.jpg" width="1920" height="1080" alt="Concept: Comuna's cocktail bar opening under the COMUNA neon, two robot arms in their pink and terracotta at work, a coupe on its lit spot"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#A9533F">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-people.jpg" width="1920" height="1080" alt="Concept: Comuna's cocktail bar under the COMUNA neon, two robot arms at work, guests at the bar, one wearing a Comuna sombrero, SCAN TO ORDER across the top"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The pour">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-pour.jpg" width="2048" height="1152" alt="Concept: a robot arm holds an iced shaker up into the pourer under a row of tequila bottles"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The serve">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-serve.jpg" width="2048" height="1152" alt="Concept: the gripper sets a salt-rimmed margarita on the lit spot in front of a guest"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The hats">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-hat-pile.jpg" width="2048" height="1152" alt="Concept: the gripper lifts the top Comuna sombrero off a stack beside a margarita"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The hat on">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-hat-on.jpg" width="2336" height="1314" alt="Concept: a robot arm sets a Comuna sombrero on a laughing guest's head at the bar window"></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. At rest">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-at-rest.jpg" width="2048" height="1152" alt="Concept: the bar arm at rest with its shaker under the pourers, the Comuna dog on its shoulder"></div>
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The cocktail bar, up close">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-four.jpg" width="1920" height="1080" alt="Concept, four close-ups: an arm holds an iced shaker up into the pourer; the gripper sets a margarita on the lit spot; the gripper lifts the top sombrero off the stack; the arm at rest under the pourers"></div>
   </div></div>
 </section>
 
@@ -139,8 +124,14 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. CASA, all night">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="{{root}}img/deck/comuna/art/11-casa.jpg" width="2880" height="1620" alt="Concept: CASA at night from the footpath, TACOS ALL NIGHT in cream neon, the taco line behind the glass, people eating at the window ledge, a rider at the PICK UP HERE lockers"></div>
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/11-casa-situ.jpg" width="1920" height="1080" alt="Concept: CASA at night from the footpath, TACOS ALL NIGHT in cream neon, the taco line behind the glass, people eating at the window ledge; beside it, the arm mid-scoop behind the glass, and a rider at locker 5"></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. CASA, the machine">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F1D7D8">
+    <div class="plate"><img src="{{root}}img/deck/comuna/art/11-casa-machine.jpg" width="1920" height="1080" alt="Concept: CASA's taco line clean on blush, the arm in Comuna pink. 6 m, one line along the glass. 150 to 250 tacos an hour, to be timed. About 90 s from order to the window. 9 heated pick-up doors"></div>
   </div></div>
 </section>
 
