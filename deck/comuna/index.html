@@ -560,12 +560,12 @@
   }
   /* the intro: Moon time, W-1 hopping in to become the o (Jesse, 12 Nov: "put the wonder intro like the pres we just did
      into this deck", "not this one, that one": the demos deck's opener, not the ident). The film whole in the middle on its
-     own paper, the paper carried on past its edge at the film's scale; served from the work deck, never copied. */
+     own paper, the paper carried on past its edge at the film's scale; copied here, because the work deck keeps its files behind its own server lock. */
   .cm-intro{background:#EDE7E1}
   .cm-intro .in{padding:0;container-type:size}
   .cm-intro .in::before{content:"";position:absolute;left:50%;top:50%;width:calc(2*min(100cqw,100cqh*16/9));aspect-ratio:16/9;transform:translate(-50%,-50%);
-                        background:url("/robotics/work/img/moon-time-paper.jpg") 50% 50%/100% 100% no-repeat}
-  .cm-intro .cm-mt{position:absolute;left:50%;top:50%;width:min(100cqw,calc(100cqh*16/9));height:auto;aspect-ratio:16/9;transform:translate(-50%,-50%);display:block}
+                        background:url("../../img/deck/comuna/intro/moon-time-paper.jpg") 50% 50%/100% 100% no-repeat}
+  .cm-intro .cm-mt{opacity:1;position:absolute;left:50%;top:50%;width:min(100cqw,calc(100cqh*16/9));height:auto;aspect-ratio:16/9;transform:translate(-50%,-50%);display:block}
   .cm-intro .cm-play{position:absolute;left:50%;bottom:calc(120*var(--u));transform:translateX(-50%);z-index:2;padding:calc(18*var(--u)) calc(30*var(--u));
                      border:0;border-radius:999px;background:#3A1515;color:#FBF4ED;cursor:pointer;font:500 calc(22*var(--u))/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
   .cm-intro .cm-play[hidden]{display:none}
@@ -614,14 +614,14 @@
 <main id="deck">
 <section class="stage" id="s1" aria-label="Slide 1. Wonder">
   <div class="slide cm-intro"><div class="in">
-    <video class="cm-mt" src="/robotics/work/img/moon-time.mp4" poster="/robotics/work/img/moon-time-start.jpg" playsinline preload="auto" width="1920" height="1080" aria-label="The word wonder drops in letter by letter, then W-1, the Wonder robot, bounds in on moon gravity and becomes its o"></video>
+    <video class="cm-mt" src="../../img/deck/comuna/intro/moon-time.mp4" poster="../../img/deck/comuna/intro/moon-time-start.jpg" playsinline preload="auto" width="1920" height="1080" aria-label="The word wonder drops in letter by letter, then W-1, the Wonder robot, bounds in on moon gravity and becomes its o"></video>
     <button class="cm-play" type="button" hidden>Play with sound</button>
   </div></div>
   <script>
   (function () {
     var v = document.querySelector(".cm-intro .cm-mt"), b = document.querySelector(".cm-intro .cm-play");
     if (!v || !("IntersectionObserver" in window)) return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { v.poster = "/robotics/work/img/moon-time-end.jpg"; return; }
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { v.poster = "../../img/deck/comuna/intro/moon-time-end.jpg"; return; }
     function go() {
       v.muted = false; v.currentTime = 0;
       var p = v.play();
