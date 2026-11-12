@@ -514,13 +514,23 @@
   .cover::after{background:linear-gradient(to top,rgba(58,21,21,.9) 0%,rgba(58,21,21,.5) 30%,rgba(58,21,21,0) 60%)}
   .slide:not(.night){background:#DCA3A5;color:#3A1515;--ink:#3A1515;--ink-2:rgba(58,21,21,.74);--rule:rgba(58,21,21,.24)}
 
-  /* a poster page: the poster (16:9, its words baked in) fills the screen on its own ground. Between 33:20 and
-     2:1 it covers (no word is within 5% of an edge); squarer or wider screens show it whole on the same ground. */
+  /* a poster page: its picture on its own ground */
   .cm-poster{background:var(--ground)}
-  .cm-poster .plate>img{object-fit:cover;object-position:50% 50%}
-  @media (max-aspect-ratio:31/20),(min-aspect-ratio:21/10){.cm-poster .plate>img{object-fit:contain}}
-  /* a page whose picture reaches its own edges (the opener's headstocks) is always shown whole, on its own flat pink */
-  .cm-whole .plate>img{object-fit:contain}
+  /* a page that fills any screen (Jesse, 12 Nov 2026, on his 3440 wide screen: "these are cut off", "asked for full
+     screen"): the picture always whole and as large as the screen allows, its own backdrop filling the rest. A studio
+     backdrop is run on past its edges; a photo is widened by outpaint with the picture set back in byte for byte.
+     --ar the picture's shape, --kw the canvas width over the picture's, --Ar the canvas shape, --cx/--cy the
+     picture's centre on the canvas, --ty where that centre sits (100%: a picture standing on its bottom edge).
+     The canvas covers the screen, sliding off centre where one side runs out; past the canvas, up to 6% of the
+     picture may go before the page's own ground shows. */
+  .cm-ext .plate{container-type:size;background:var(--ground)}
+  .cm-ext .plate>img{inset:auto;object-fit:fill;max-width:none;
+    --fit:calc(var(--kw) * min(100cqw, 100cqh * var(--ar)));
+    --iw:max(var(--fit), min(max(100cqw, calc(100cqh * var(--Ar))), calc(var(--fit) / .94)));
+    --ih:calc(var(--iw) / var(--Ar));
+    width:var(--iw);height:var(--ih);
+    left:clamp(min(0px, 100cqw - var(--iw)), calc(50% - var(--cx) * var(--iw)), max(0px, 100cqw - var(--iw)));
+    top:clamp(min(0px, 100cqh - var(--ih)), calc(var(--ty) - var(--cy) * var(--ih)), max(0px, 100cqh - var(--ih)))}
   /* a film page: their player, 16:9, as large as the screen allows, centred on its own ground (it is Makr Shakr's film,
      embedded from their own channel, never re-hosted) */
   /* Who we work with, in Comuna's colours (Jesse, 12 Nov: "these should be brown and maybe we use the light blue there
@@ -636,7 +646,7 @@
 </section>
 
 <section class="stage" id="s2" aria-label="Slide 2. Comuna">
-  <div class="slide"><div class="in full poster cm-title">
+  <div class="slide"><div class="in full poster cm-title cm-ext" style="--ground:#677B89;--ar:2.3704;--kw:1.5188;--Ar:1.8223;--cx:.5;--cy:.4998;--ty:50%">
     <p class="lab cm-x">Wonder Robotics &times; Together Hospitality</p>
     <svg class="cm-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
       <filter id="cm-ink" color-interpolation-filters="sRGB">
@@ -644,37 +654,37 @@
         <feComposite in="ink" in2="SourceGraphic" operator="in"/>
       </filter>
     </svg>
-    <div class="plate"><img src="../../img/deck/comuna/title-wide.jpg" width="3200" height="1350" alt="COMUNA, and under it Tacos, Margs, Tunes, Robots, on Comuna's slate blue; beside it a robot mariachi in Comuna's pink sombrero plays a pink vihuela toward the name"></div>
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/00-title.jpg" width="4860" height="2667" alt="COMUNA, and under it Tacos, Margs, Tunes, Robots, on Comuna's slate blue; beside it a robot mariachi in Comuna's pink sombrero plays a pink vihuela toward the name"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s3" aria-label="Slide 3. The hat and the vihuela">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F8E3E1">
-    <div class="plate"><img src="../../img/deck/comuna/art/01-hat-and-vihuela.jpg" width="2880" height="1620" alt="Concept: Comuna's pink sombrero, a second one flipped to show its inside, and two vihuelas, one face up in pink, one face down showing its striped back"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#F6DCDA;--ar:1.7778;--kw:2.025;--Ar:2.43;--cx:.5;--cy:1;--ty:100%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/01-hat-and-vihuela.jpg" width="5832" height="2400" alt="Concept: Comuna's pink sombrero, a second one flipped to show its inside, and two vihuelas, one face up in pink, one face down showing its striped back"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s4" aria-label="Slide 4. The coffee cart">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
-    <div class="plate"><img src="../../img/deck/comuna/art/03-coffee.jpg" width="1920" height="1080" alt="Concept: Comuna's coffee cart at the park terrace, two robot arms between the machines; beside it, the fork setting a rust cup on the lit grate, and a guest at 7 am taking her slate cup as the arm draws back"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#835E45;--ar:1.7778;--kw:1.3813;--Ar:2.3573;--cx:.6176;--cy:.5004;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/03-coffee.jpg" width="2652" height="1125" alt="Concept: Comuna's coffee cart at the park terrace, two robot arms between the machines; beside it, the fork setting a rust cup on the lit grate, and a guest at 7 am taking her slate cup as the arm draws back"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s5" aria-label="Slide 5. The coffee cart, the machine">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#DCE0EC">
-    <div class="plate"><img src="../../img/deck/comuna/art/03-coffee-machine.jpg" width="1920" height="1080" alt="Concept: the coffee cart clean on blush, every part branded. 2 arms, about 0.6 m reach. About 1 min a latte, the maker's figure. Up to 60 cups an hour, to be timed"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#DBDFEB;--ar:1.7778;--kw:2.025;--Ar:2.43;--cx:.5;--cy:.5;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/03-coffee-machine.jpg" width="3888" height="1600" alt="Concept: the coffee cart clean on blush, every part branded. 2 arms, about 0.6 m reach. About 1 min a latte, the maker's figure. Up to 60 cups an hour, to be timed"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s6" aria-label="Slide 6. The cocktail bar">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#A9533F">
-    <div class="plate"><img src="../../img/deck/comuna/art/04-bar-people.jpg" width="1920" height="1080" alt="Concept: Comuna's cocktail bar under the COMUNA neon, two robot arms at work, guests at the bar, one wearing a Comuna sombrero, SCAN TO ORDER across the top"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#7D4D36;--ar:1.7778;--kw:1.7437;--Ar:2.3577;--cx:.5;--cy:.5007;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/04-bar-people.jpg" width="3348" height="1420" alt="Concept: Comuna's cocktail bar under the COMUNA neon, two robot arms at work, guests at the bar, one wearing a Comuna sombrero, SCAN TO ORDER across the top"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s7" aria-label="Slide 7. The cocktail bar, up close">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
-    <div class="plate"><img src="../../img/deck/comuna/art/04-bar-four.jpg" width="1920" height="1080" alt="Concept, four close-ups: an arm holds an iced shaker up into the pourer; the gripper sets a margarita on the lit spot; the gripper lifts the top sombrero off the stack; the arm at rest under the pourers"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#874C2E;--ar:1.7778;--kw:2.0068;--Ar:2.3566;--cx:.5012;--cy:.5058;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/04-bar-four.jpg" width="3853" height="1635" alt="Concept, four close-ups: an arm holds an iced shaker up into the pourer; the gripper sets a margarita on the lit spot; the gripper lifts the top sombrero off the stack; the arm at rest under the pourers"></div>
   </div></div>
 </section>
 
@@ -709,38 +719,38 @@
 </section>
 
 <section class="stage" id="s9" aria-label="Slide 9. CASA, all night">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#3A1515;--ar:1.7778;--kw:1;--Ar:1.7778;--cx:.5;--cy:.5;--ty:50%">
     <div class="plate"><img src="../../img/deck/comuna/art/11-casa-situ.jpg" width="1920" height="1080" alt="Concept: CASA at night from the footpath, TACOS ALL NIGHT in cream neon, the taco line behind the glass, people eating at the window ledge; beside it, the arm mid-scoop behind the glass, and a rider at locker 5"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s10" aria-label="Slide 10. CASA, the machine">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F1D7D8">
-    <div class="plate"><img src="../../img/deck/comuna/art/11-casa-machine.jpg" width="1920" height="1080" alt="Concept: CASA's taco line clean on blush, the arm in Comuna pink. 6 m, one line along the glass. 150 to 250 tacos an hour, to be timed. About 90 s from order to the window. 9 heated pick-up doors"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#ECD1CF;--ar:1.7778;--kw:2.025;--Ar:2.43;--cx:.5;--cy:.5;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/11-casa-machine.jpg" width="3888" height="1600" alt="Concept: CASA's taco line clean on blush, the arm in Comuna pink. 6 m, one line along the glass. 150 to 250 tacos an hour, to be timed. About 90 s from order to the window. 9 heated pick-up doors"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s11" aria-label="Slide 11. The R and D Tax Incentive">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#667B89">
-    <div class="plate"><img src="../../img/deck/comuna/art/11-rd-tax.jpg" width="1920" height="1080" alt="¡GRACIAS, ATO! 43.5% of eligible R&D spend, back, through the R&D Tax Incentive, beside El Charro serenading with his vihuela. At a 25% company tax rate, for companies under $20m aggregated turnover (connected companies count). The claim goes to whoever funds and owns the R&D. Your tax adviser confirms what qualifies."></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#697B88;--ar:1.7778;--kw:2.025;--Ar:2.43;--cx:.5;--cy:1;--ty:100%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/11-rd-tax.jpg" width="3888" height="1600" alt="¡GRACIAS, ATO! 43.5% of eligible R&D spend, back, through the R&D Tax Incentive, beside El Charro serenading with his vihuela. At a 25% company tax rate, for companies under $20m aggregated turnover (connected companies count). The claim goes to whoever funds and owns the R&D. Your tax adviser confirms what qualifies."></div>
   </div></div>
 </section>
 
 <section class="stage" id="s12" aria-label="Slide 12. The first robot cantina">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#3A1515">
-    <div class="plate"><img src="../../img/deck/comuna/art/11-socials.jpg" width="2880" height="1620" alt="THE FIRST ROBOT CANTINA. 41% of diners use social to choose where to eat. 38% of Gen Z find new places on TikTok first. 1.2M views, one clip of one robot bar. Beside it, a phone playing our pour: the arm holding the pale blue COMUNA shaker under the tequila. Sources: TouchBistro Diner Trends Report 2025; Toast, US adults, October 2025; the Tipsy Robot, Las Vegas, on TikTok; no robot cantina found in Australia, November 2026, and Heineken's robot pop-up in Darlinghurst in 2020 poured alcohol-free beer for four days."></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#391515;--ar:1.7778;--kw:2.025;--Ar:2.43;--cx:.5;--cy:.5;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/11-socials.jpg" width="5832" height="2400" alt="THE FIRST ROBOT CANTINA. 41% of diners use social to choose where to eat. 38% of Gen Z find new places on TikTok first. 1.2M views, one clip of one robot bar. Beside it, a phone playing our pour: the arm holding the pale blue COMUNA shaker under the tequila. Sources: TouchBistro Diner Trends Report 2025; Toast, US adults, October 2025; the Tipsy Robot, Las Vegas, on TikTok; no robot cantina found in Australia, November 2026, and Heineken's robot pop-up in Darlinghurst in 2020 poured alcohol-free beer for four days."></div>
   </div></div>
 </section>
 
 <section class="stage" id="s13" aria-label="Slide 13. Wonder Robotics">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#BB7256">
-    <div class="plate"><img src="../../img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#BC7257;--ar:1.7778;--kw:2.025;--Ar:2.43;--cx:.5;--cy:.5;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/13-team.jpg" width="5832" height="2400" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
   </div></div>
 </section>
 
 <section class="stage" id="s14" aria-label="Slide 14. Where our machines are built">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
-    <div class="plate"><img src="../../img/deck/comuna/art/14-factory.jpg" width="2880" height="1620" alt="WHERE OUR MACHINES ARE BUILT. Australian owned. Our factory in China. Seen from above, CASA's taco line half built on the factory floor: its stainless frame and conveyor, the pink arm and the topping hoppers fitted, the wiring open, three technicians at work and its pink fluted panels waiting on a cart. Visualisation."></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#CECDCD;--ar:1.7778;--kw:2.0253;--Ar:3.6006;--cx:.4972;--cy:.5;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/14-factory.jpg" width="5833" height="1620" alt="WHERE OUR MACHINES ARE BUILT. Australian owned. Our factory in China. Seen from above, CASA's taco line half built on the factory floor: its stainless frame and conveyor, the pink arm and the topping hoppers fitted, the wiring open, three technicians at work and its pink fluted panels waiting on a cart. Visualisation."></div>
   </div></div>
 </section>
 
@@ -769,8 +779,8 @@
 </section>
 
 <section class="stage" id="s16" aria-label="Slide 16. Our robots, your kitchens">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F8C5CE">
-    <div class="plate"><img src="../../img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="OUR ROBOTS, YOUR KITCHENS. over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
+  <div class="slide"><div class="in full poster cm-poster cm-ext" style="--ground:#F9C8D1;--ar:1.7778;--kw:2.0248;--Ar:2.4298;--cx:.5;--cy:.5;--ty:50%">
+    <div class="plate"><img src="../../img/deck/comuna/art/wide/12-band.jpg" width="4082" height="1680" alt="OUR ROBOTS, YOUR KITCHENS. over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
   </div></div>
 </section>
 
