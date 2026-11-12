@@ -62,7 +62,7 @@
      2:1 it covers (no word is within 5% of an edge); squarer or wider screens show it whole on the same ground. */
   .cm-poster{background:var(--ground)}
   .cm-poster .plate>img{object-fit:cover;object-position:50% 50%}
-  @media (max-aspect-ratio:33/20),(min-aspect-ratio:2/1){.cm-poster .plate>img{object-fit:contain}}
+  @media (max-aspect-ratio:31/20),(min-aspect-ratio:21/10){.cm-poster .plate>img{object-fit:contain}}
   /* a page whose picture reaches its own edges (the opener's headstocks) is always shown whole, on its own flat pink */
   .cm-whole .plate>img{object-fit:contain}
   /* a film page: their player, 16:9, as large as the screen allows, centred on its own ground (it is Makr Shakr's film,
@@ -200,7 +200,7 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The cocktail bar">
-  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#A9533F">
+  <div class="slide"><div class="in full poster cm-poster" style="--ground:#A9533F">
     <div class="plate"><img src="{{root}}img/deck/comuna/art/04-bar-people.jpg" width="1920" height="1080" alt="Concept: Comuna's cocktail bar under the COMUNA neon, two robot arms at work, guests at the bar, one wearing a Comuna sombrero, SCAN TO ORDER across the top"></div>
   </div></div>
 </section>
@@ -213,14 +213,14 @@
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The duel">
   <div class="slide"><div class="in full poster cm-poster cm-film" style="--ground:#000000">
-    <div class="plate"><iframe id="cm-duel" src="https://www.youtube-nocookie.com/embed/fcScX-pFMkU?enablejsapi=1&amp;start=38&amp;end=68&amp;mute=1&amp;controls=1&amp;playsinline=1&amp;rel=0" title="Makr Shakr: their robot bartender Toni against Silvia Daniela Istrate in a cocktail duel, Milan, December 2021" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <div class="plate"><iframe id="cm-duel" src="https://www.youtube-nocookie.com/embed/fcScX-pFMkU?enablejsapi=1&amp;start=38&amp;end=68&amp;controls=1&amp;playsinline=1&amp;rel=0" title="Makr Shakr: their robot bartender Toni against Silvia Daniela Istrate in a cocktail duel, Milan, December 2021" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   </div></div>
   <script>
   (function () {
     var f = document.getElementById("cm-duel"), p = null, on = false;
     if (!f || !("IntersectionObserver" in window)) return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    function go() { if (p && p.seekTo) { p.seekTo(38, true); p.playVideo(); } }
+    function go() { if (p && p.seekTo) { p.unMute(); p.setVolume(100); p.seekTo(38, true); p.playVideo(); } }
     var before = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = function () {
       if (before) before();
@@ -260,13 +260,13 @@
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The first robot cantina">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#3A1515">
     <div class="plate"><img src="{{root}}img/deck/comuna/art/11-socials.jpg" width="2880" height="1620" alt="THE FIRST ROBOT CANTINA. 41% of diners use social to choose where to eat. 38% of Gen Z find new places on TikTok first. 1.2M views, one clip of one robot bar. Beside it, a phone playing our pour: the arm holding the pale blue COMUNA shaker under the tequila. Sources: TouchBistro Diner Trends Report 2025; Toast, US adults, October 2025; the Tipsy Robot, Las Vegas, on TikTok; no robot cantina found in Australia, November 2026, and Heineken's robot pop-up in Darlinghurst in 2020 poured alcohol-free beer for four days."></div>
   </div></div>
 </section>
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder Robotics">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#BB7256">
     <div class="plate"><img src="{{root}}img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
   </div></div>
 </section>
@@ -280,7 +280,7 @@
 <!-- take: Who we work with -->
 
 <section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Our robots, your kitchens">
-  <div class="slide"><div class="in full poster cm-poster" style="--ground:#F8C5CE">
+  <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F8C5CE">
     <div class="plate"><img src="{{root}}img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="OUR ROBOTS, YOUR KITCHENS. over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
   </div></div>
 </section>

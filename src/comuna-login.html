@@ -1,3 +1,45 @@
 <link rel="stylesheet" href="/shared/gate.css?v=band2">
 <style>#gate{--perform-ground:#FACAD2;--perform-ink:#3A1515;--perform-accent:#BA4618;--perform-on-accent:#FBF4ED;--perform-panel-bg:#FBF4ED;--perform-ratio:1.96875;--perform-aspect:1.96875;font-family:"Host Grotesk",system-ui,sans-serif}#gate.is-panel form::before{content:"";display:block;width:min(clamp(132px,15vh,210px),calc(100% - 8px));aspect-ratio:520/102;background:url(/robotics/comuna/login/badge-wordmark-v1.png) center/contain no-repeat;margin-bottom:8px}#gate.is-panel label{font-size:11px;line-height:16px;letter-spacing:.2em;max-width:150px;text-align:center}#gate.is-panel button{display:none}#gate .pin-box input{background:#FFFFFF;border:2px solid rgba(58,21,21,.14);box-shadow:0 8px 22px rgba(58,21,21,.08)}#gate .pin-box input:focus{outline:3px solid #BA4618;outline-offset:3px;border-color:#BA4618}#gate .gate-error{max-width:150px;text-align:center;min-height:42px}</style>
 <script src="/shared/gate.js?v=band2" data-pass-hash="da6e2f539726fabd1f8cd7c9469a22b36769137975b28abc65fe2dc29e659b77,5b2b722628c243e02f367c322afd67ff4ef00628ebee6428c429adae17eb7965" data-remember="device" data-pin="4" data-pin-icons="/robotics/comuna/login/icon-taco-v1.png,/robotics/comuna/login/icon-margarita-v1.png,/robotics/comuna/login/icon-vinyl-v1.png,/robotics/comuna/login/icon-dog-ball-v1.png" data-pin-colors="#BA4618,#DCA3A5,#6A7C88,#3A1515" data-perform="/robotics/comuna/login/band-play-v9.mp4" data-perform-still="/robotics/comuna/login/band-still-v9.jpg" data-perform-sound="/robotics/comuna/login/band-play-v9.m4a" data-perform-miss="/robotics/comuna/login/band-miss-v9.mp4" data-perform-miss-sound="/robotics/comuna/login/band-miss-v9.m4a" data-perform-open="3800" data-perform-layout="panel"></script>
+<script>
+(function () {
+  var IDLE = "/robotics/comuna/login/band-idle-v9.mp4", NOTES = [220, 277.18, 329.63, 440], ctx = null;
+  function pluck(f) {
+    try {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === "suspended") ctx.resume();
+      var t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(), lp = ctx.createBiquadFilter();
+      o.type = "triangle"; o.frequency.value = f;
+      lp.type = "lowpass"; lp.frequency.setValueAtTime(3200, t); lp.frequency.exponentialRampToValueAtTime(600, t + 0.4);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.16, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+      o.connect(lp); lp.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.65);
+    } catch (e) {}
+  }
+  document.addEventListener("input", function (e) {
+    var b = e.target;
+    if (!b || !b.closest || !b.closest(".pin-box") || !b.value) return;
+    var boxes = Array.prototype.slice.call(document.querySelectorAll(".pin-box input"));
+    pluck(NOTES[Math.max(0, boxes.indexOf(b)) % NOTES.length]);
+  }, true);
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var tries = 0, timer = setInterval(function () {
+    var still = document.querySelector('img[src*="band-still-v9"]');
+    if (!still && ++tries < 120) return;
+    clearInterval(timer);
+    if (!still) return;
+    var v = document.createElement("video");
+    v.src = IDLE; v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+    v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
+    function fit() {
+      var cs = getComputedStyle(still);
+      v.style.cssText = "position:absolute;pointer-events:none;left:" + still.offsetLeft + "px;top:" + still.offsetTop + "px;width:" + still.offsetWidth +
+        "px;height:" + still.offsetHeight + "px;object-fit:" + cs.objectFit + ";object-position:" + cs.objectPosition + ";opacity:" + cs.opacity;
+    }
+    still.parentNode.insertBefore(v, still.nextSibling);
+    fit(); addEventListener("resize", fit);
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+    document.addEventListener("play", function (e) { if (e.target !== v && e.target.tagName === "VIDEO") { v.pause(); v.style.visibility = "hidden"; } }, true);
+    document.addEventListener("ended", function (e) { if (e.target !== v && e.target.tagName === "VIDEO" && document.contains(v)) { v.style.visibility = ""; v.play().catch(function () {}); } }, true);
+  }, 50);
+})();
+</script>
