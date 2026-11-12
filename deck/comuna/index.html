@@ -558,6 +558,17 @@
     .cm-close .say .more{font-size:15px;margin-top:8px}
     .cm-close .say .who,.cm-close .say .tag{font-size:11px}
   }
+  /* the intro: Moon time, W-1 hopping in to become the o (Jesse, 12 Nov: "put the wonder intro like the pres we just did
+     into this deck", "not this one, that one": the demos deck's opener, not the ident). The film whole in the middle on its
+     own paper, the paper carried on past its edge at the film's scale; served from the work deck, never copied. */
+  .cm-intro{background:#EDE7E1}
+  .cm-intro .in{padding:0;container-type:size}
+  .cm-intro .in::before{content:"";position:absolute;left:50%;top:50%;width:calc(2*min(100cqw,100cqh*16/9));aspect-ratio:16/9;transform:translate(-50%,-50%);
+                        background:url("/robotics/work/img/moon-time-paper.jpg") 50% 50%/100% 100% no-repeat}
+  .cm-intro .cm-mt{position:absolute;left:50%;top:50%;width:min(100cqw,calc(100cqh*16/9));height:auto;aspect-ratio:16/9;transform:translate(-50%,-50%);display:block}
+  .cm-intro .cm-play{position:absolute;left:50%;bottom:calc(120*var(--u));transform:translateX(-50%);z-index:2;padding:calc(18*var(--u)) calc(30*var(--u));
+                     border:0;border-radius:999px;background:#3A1515;color:#FBF4ED;cursor:pointer;font:500 calc(22*var(--u))/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .cm-intro .cm-play[hidden]{display:none}
   .cm-film .plate{container-type:size;display:grid;place-items:center}
   .cm-film iframe{display:block;border:0;width:min(100cqw,calc(100cqh*16/9));height:min(100cqh,calc(100cqw*9/16))}
   /* the title card: the slate run out 400 a side (title-wide), so a wide screen gets more slate, never a cut hat */
@@ -601,7 +612,30 @@
   </div>
 </header>
 <main id="deck">
-<section class="stage" id="s1" aria-label="Slide 1. Comuna">
+<section class="stage" id="s1" aria-label="Slide 1. Wonder">
+  <div class="slide cm-intro"><div class="in">
+    <video class="cm-mt" src="/robotics/work/img/moon-time.mp4" poster="/robotics/work/img/moon-time-start.jpg" playsinline preload="auto" width="1920" height="1080" aria-label="The word wonder drops in letter by letter, then W-1, the Wonder robot, bounds in on moon gravity and becomes its o"></video>
+    <button class="cm-play" type="button" hidden>Play with sound</button>
+  </div></div>
+  <script>
+  (function () {
+    var v = document.querySelector(".cm-intro .cm-mt"), b = document.querySelector(".cm-intro .cm-play");
+    if (!v || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { v.poster = "/robotics/work/img/moon-time-end.jpg"; return; }
+    function go() {
+      v.muted = false; v.currentTime = 0;
+      var p = v.play();
+      if (p && p.then) p.then(function () { b.hidden = true; }, function () { v.pause(); v.currentTime = 0; b.hidden = false; });
+    }
+    b.addEventListener("click", function () { b.hidden = true; v.muted = false; v.currentTime = 0; v.play().catch(function () { v.muted = true; v.play(); }); });
+    new IntersectionObserver(function (es) {
+      if (es[es.length - 1].intersectionRatio >= .5) go(); else { v.pause(); b.hidden = true; }
+    }, { threshold: [0, .5, 1] }).observe(v.closest(".stage"));
+  })();
+  </script>
+</section>
+
+<section class="stage" id="s2" aria-label="Slide 2. Comuna">
   <div class="slide"><div class="in full poster cm-title">
     <p class="lab cm-x">Wonder Robotics &times; Together Hospitality</p>
     <svg class="cm-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
@@ -614,37 +648,37 @@
   </div></div>
 </section>
 
-<section class="stage" id="s2" aria-label="Slide 2. The hat and the vihuela">
+<section class="stage" id="s3" aria-label="Slide 3. The hat and the vihuela">
   <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F8E3E1">
     <div class="plate"><img src="../../img/deck/comuna/art/01-hat-and-vihuela.jpg" width="2880" height="1620" alt="Concept: Comuna's pink sombrero, a second one flipped to show its inside, and two vihuelas, one face up in pink, one face down showing its striped back"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s3" aria-label="Slide 3. The coffee cart">
+<section class="stage" id="s4" aria-label="Slide 4. The coffee cart">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
     <div class="plate"><img src="../../img/deck/comuna/art/03-coffee.jpg" width="1920" height="1080" alt="Concept: Comuna's coffee cart at the park terrace, two robot arms between the machines; beside it, the fork setting a rust cup on the lit grate, and a guest at 7 am taking her slate cup as the arm draws back"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s4" aria-label="Slide 4. The coffee cart, the machine">
+<section class="stage" id="s5" aria-label="Slide 5. The coffee cart, the machine">
   <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#DCE0EC">
     <div class="plate"><img src="../../img/deck/comuna/art/03-coffee-machine.jpg" width="1920" height="1080" alt="Concept: the coffee cart clean on blush, every part branded. 2 arms, about 0.6 m reach. About 1 min a latte, the maker's figure. Up to 60 cups an hour, to be timed"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s5" aria-label="Slide 5. The cocktail bar">
+<section class="stage" id="s6" aria-label="Slide 6. The cocktail bar">
   <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#A9533F">
     <div class="plate"><img src="../../img/deck/comuna/art/04-bar-people.jpg" width="1920" height="1080" alt="Concept: Comuna's cocktail bar under the COMUNA neon, two robot arms at work, guests at the bar, one wearing a Comuna sombrero, SCAN TO ORDER across the top"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s6" aria-label="Slide 6. The cocktail bar, up close">
+<section class="stage" id="s7" aria-label="Slide 7. The cocktail bar, up close">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
     <div class="plate"><img src="../../img/deck/comuna/art/04-bar-four.jpg" width="1920" height="1080" alt="Concept, four close-ups: an arm holds an iced shaker up into the pourer; the gripper sets a margarita on the lit spot; the gripper lifts the top sombrero off the stack; the arm at rest under the pourers"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s7" aria-label="Slide 7. The duel">
+<section class="stage" id="s8" aria-label="Slide 8. The duel">
   <div class="slide"><div class="in full poster cm-poster cm-film" style="--ground:#000000">
     <div class="plate"><iframe id="cm-duel" src="https://www.youtube-nocookie.com/embed/fcScX-pFMkU?enablejsapi=1&amp;start=38&amp;end=68&amp;mute=1&amp;controls=1&amp;playsinline=1&amp;rel=0" title="Makr Shakr: their robot bartender Toni against Silvia Daniela Istrate in a cocktail duel, Milan, December 2021" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   </div></div>
@@ -674,43 +708,43 @@
   </script>
 </section>
 
-<section class="stage" id="s8" aria-label="Slide 8. CASA, all night">
+<section class="stage" id="s9" aria-label="Slide 9. CASA, all night">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#FBF4ED">
     <div class="plate"><img src="../../img/deck/comuna/art/11-casa-situ.jpg" width="1920" height="1080" alt="Concept: CASA at night from the footpath, TACOS ALL NIGHT in cream neon, the taco line behind the glass, people eating at the window ledge; beside it, the arm mid-scoop behind the glass, and a rider at locker 5"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s9" aria-label="Slide 9. CASA, the machine">
+<section class="stage" id="s10" aria-label="Slide 10. CASA, the machine">
   <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#F1D7D8">
     <div class="plate"><img src="../../img/deck/comuna/art/11-casa-machine.jpg" width="1920" height="1080" alt="Concept: CASA's taco line clean on blush, the arm in Comuna pink. 6 m, one line along the glass. 150 to 250 tacos an hour, to be timed. About 90 s from order to the window. 9 heated pick-up doors"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s10" aria-label="Slide 10. The R and D Tax Incentive">
+<section class="stage" id="s11" aria-label="Slide 11. The R and D Tax Incentive">
   <div class="slide"><div class="in full poster cm-poster cm-whole" style="--ground:#667B89">
     <div class="plate"><img src="../../img/deck/comuna/art/11-rd-tax.jpg" width="1920" height="1080" alt="¡GRACIAS, ATO! 43.5% of eligible R&D spend, back, through the R&D Tax Incentive, beside El Charro serenading with his vihuela. At a 25% company tax rate, for companies under $20m aggregated turnover (connected companies count). The claim goes to whoever funds and owns the R&D. Your tax adviser confirms what qualifies."></div>
   </div></div>
 </section>
 
-<section class="stage" id="s11" aria-label="Slide 11. The first robot cantina">
+<section class="stage" id="s12" aria-label="Slide 12. The first robot cantina">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
     <div class="plate"><img src="../../img/deck/comuna/art/11-socials.jpg" width="2880" height="1620" alt="THE FIRST ROBOT CANTINA. 41% of diners use social to choose where to eat. 38% of Gen Z find new places on TikTok first. 1.2M views, one clip of one robot bar. Beside it, a phone playing our pour: the arm holding the pale blue COMUNA shaker under the tequila. Sources: TouchBistro Diner Trends Report 2025; Toast, US adults, October 2025; the Tipsy Robot, Las Vegas, on TikTok; no robot cantina found in Australia, November 2026, and Heineken's robot pop-up in Darlinghurst in 2020 poured alcohol-free beer for four days."></div>
   </div></div>
 </section>
 
-<section class="stage" id="s12" aria-label="Slide 12. Wonder Robotics">
+<section class="stage" id="s13" aria-label="Slide 13. Wonder Robotics">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#BB7256">
     <div class="plate"><img src="../../img/deck/comuna/art/13-team.jpg" width="2880" height="1620" alt="Wonder Robotics: Jesse Costelloe, design and fabrication; Ryan Edwards, commercial; Logan Baker, marketing; Gino Feng, engineering and robotics; Peter White, advisor, franchising; Don Sanka Small, advisor, growth"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s13" aria-label="Slide 13. Where our machines are built">
+<section class="stage" id="s14" aria-label="Slide 14. Where our machines are built">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#3A1515">
     <div class="plate"><img src="../../img/deck/comuna/art/14-factory.jpg" width="2880" height="1620" alt="WHERE OUR MACHINES ARE BUILT. Australian owned. Our factory in China. Seen from above, CASA's taco line half built on the factory floor: its stainless frame and conveyor, the pink arm and the topping hoppers fitted, the wiring open, three technicians at work and its pink fluted panels waiting on a cart. Visualisation."></div>
   </div></div>
 </section>
 
-<section class="stage" id="s14" aria-label="Slide 14. Who we work with">
+<section class="stage" id="s15" aria-label="Slide 15. Who we work with">
   <div class="slide"><div class="in">
     <h2 class="l r">Who we work with.</h2>
     <ul class="wall r">
@@ -730,27 +764,27 @@
       <li><img src="../../img/partners/blue-sun-group.jpg" alt="Blue Sun Group"></li>
       <li><img class="tall" src="../../img/partners/little-red-dumplings.jpg" alt="Little Red Dumpling"></li>
     </ul>
-    <div class="foot"><p>Wonder Robotics</p><p>14</p></div>
+    <div class="foot"><p>Wonder Robotics</p><p>15</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s15" aria-label="Slide 15. Our robots, your kitchens">
+<section class="stage" id="s16" aria-label="Slide 16. Our robots, your kitchens">
   <div class="slide"><div class="in full poster cm-poster" style="--ground:#F8C5CE">
     <div class="plate"><img src="../../img/deck/comuna/art/12-band.jpg" width="2016" height="1134" alt="OUR ROBOTS, YOUR KITCHENS. over Comuna's robot band in their pink hats: the brown robot dog with his light blue ball, El Charro on a stool with the vihuela, El Charro Callado with the guitarrón, Ojos Negros at the microphone, El Gordo de Oro at the sunburst piano"></div>
   </div></div>
 </section>
 
-<section class="stage" id="s16" aria-label="Slide 16. Ownership">
+<section class="stage" id="s17" aria-label="Slide 17. Ownership">
   <div class="slide"><div class="in say-it own cm dark">
     <p class="lab r">Ownership</p>
     <h2 class="big r">This concept is ours until it is yours.</h2>
     <p class="own-text r">The concepts in this deck, the coffee cart, the cocktail bar, CASA's taco line, the hat, the vihuela, the robot mariachi and his band, their designs, drawings and renders, and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the deposit paid, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The Comuna name and marks are yours. The cocktail duel is Makr Shakr's film, shown from their own channel.</p>
     <img class="cm-sun" src="../../img/deck/comuna/sun-cream.png" width="580" height="416" alt="">
-    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>16</p></div>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>17</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s17" aria-label="Slide 17. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s18" aria-label="Slide 18. Wonder Robotics, Fortitude Valley">
   <div class="slide cm-close"><div class="in">
     <img class="sweep" src="../../img/deck/harvey-norman/plate-clean.jpg" width="2400" height="1340" alt="">
     <div class="sheet">
@@ -1069,7 +1103,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 17</output>
+  <output id="count" aria-live="polite">01 / 18</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>
