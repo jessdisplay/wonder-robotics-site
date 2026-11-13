@@ -1419,6 +1419,8 @@ NFCH_DOSSIER = ("The dossier", "/robotics/new-farm-curry-house/dossier/", "img/d
                 "Every machine with its render, the run lines, dine-in and delivery, and what is left to settle.")
 NFCH_RECIPES = ("Your recipes", "/robotics/new-farm-curry-house/recipes/", "img/deck/nfch/ground.jpg",
                 "All fifty-five, each linked to the machines it passes through, in order.")
+NFCH_RUNNER = ("Run a dish", "/robotics/new-farm-curry-house/runner/", "img/deck/nfch/ground.jpg",
+               "Pick any dish and follow it from the order to the table, with what goes in at each machine.")
 NFCH_PLAN = ("The kitchen plan", "/robotics/new-farm-curry-house/kitchen-plan/", "img/deck/nfch/ground.jpg",
              "Traced from your floor plan: where every piece goes, and the way a dish walks out.")
 NFCH_TOOL = ("Your kitchen, in place", "/robotics/new-farm-curry-house/kitchen-tool/", "img/deck/nfch/kitchen-cutaway.jpg",
@@ -1429,14 +1431,14 @@ deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html
                                                numbers=False, brackets=False,
                                                edits=[('<p class="lab r">[ Corporate profile, 2026 ]</p>',
                                                        '<p class="lab r">[ For New Farm Curry House ]</p>')],
-                                               job=[NFCH_GREETER, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_SCREEN]))
+                                               job=[NFCH_GREETER, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_SCREEN]))
 # Their kitchen: the menu matched to the machines that cook it, and how the spices are kept (Jesse, 11 Nov 2026), in the
 # deck's own green and gold, one folder beside it behind the same passcode.
 deck("new-farm-curry-house-kitchen", noodle_box_source("new-farm-curry-house-kitchen-slides.html",
                                                        "Wonder Robotics for New Farm Curry House: the kitchen",
                                                        "New Farm Curry House: every dish followed through every station it "
                                                        "passes, finished for the table and packed for delivery.",
-                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_DECK, NFCH_SCREEN],
+                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_DECK, NFCH_SCREEN],
                                                        share=("new-farm-curry-house-slides.html",)))
 # Comuna: their title card and their hat first, then the coffee cart, its spec sheet, the numbers and the social side,
 # then our process and who we are, on their colours (Jesse, 12 Nov 2026: "at the end we intro ourselves on their brand",
