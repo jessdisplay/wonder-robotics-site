@@ -560,8 +560,8 @@
   .fm-wide .nf-txt{width:calc(1500*var(--u))}
   .in.fm-photo{background:#062E24}   /* on a phone the words sit under the photograph, on their green */
   .fm-photo::after{background:linear-gradient(to top,rgba(6,46,36,.95) 0%,rgba(6,46,36,.66) 34%,rgba(6,46,36,0) 68%)}
-  .fm-photo .txt{width:calc(1240*var(--u))}
-  .fm-photo .l{max-width:none}
+  .fm-photo .txt{width:calc(1400*var(--u))}
+  .fm-photo .l{max-width:none;font-size:calc(84*var(--u))}
   .fm-nums{position:absolute;left:calc(96*var(--u));bottom:calc(150*var(--u));z-index:1}
   .fm-nums .lab{margin:0}
   .fm-two{display:grid;grid-template-columns:repeat(2,auto);justify-content:start;column-gap:calc(150*var(--u));margin-top:calc(30*var(--u))}
@@ -569,8 +569,34 @@
   .fm-two b{display:block;font-weight:400;font-size:calc(290*var(--u));line-height:.86;letter-spacing:-.055em;color:var(--paper)}
   .fm-two span{display:block;margin-top:calc(30*var(--u));font-family:var(--mono);font-size:calc(26*var(--u));letter-spacing:.06em;
                text-transform:uppercase;color:var(--paper-2)}
+  /* Where it could go: two places side by side under the line, each on a gold rule, its facts on ruled rows. */
+  .fm-where{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(150*var(--u));z-index:1}
+  .fm-where .lab{margin:0}
+  .fm-where .l{margin-top:calc(22*var(--u));max-width:calc(1500*var(--u))}
+  .fm-places{display:grid;grid-template-columns:1fr 1fr;column-gap:calc(96*var(--u));margin-top:calc(56*var(--u))}
+  .fm-places>div{border-top:calc(3*var(--u)) solid var(--gold);padding-top:calc(22*var(--u))}
+  .fm-places h3{margin:0;font-weight:400;font-size:calc(46*var(--u));line-height:1.08;letter-spacing:-.03em;color:var(--paper)}
+  .fm-places h3 span{display:block;margin-bottom:calc(10*var(--u));font-family:var(--mono);font-size:calc(20*var(--u));letter-spacing:.08em;
+                     text-transform:uppercase;color:var(--paper-2)}
+  .fm-places ul{list-style:none;margin:calc(20*var(--u)) 0 0;padding:0}
+  .fm-places li{padding:calc(10*var(--u)) 0;border-top:calc(2*var(--u)) solid var(--paper-rule);font-size:calc(26*var(--u));line-height:1.3;
+                color:var(--paper-2)}
+  /* A name of its own: the names as big as the figures on the R&D page, New Farm Curry House under each. */
+  .fm-names b{font-size:calc(168*var(--u));line-height:.95;letter-spacing:-.045em}
+  .fm-names i{display:block;margin-top:calc(22*var(--u));font-style:normal;font-family:var(--mono);font-size:calc(22*var(--u));
+              letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+  .fm-names span{margin-top:calc(14*var(--u));text-transform:none;letter-spacing:-.01em;font-family:inherit;font-size:calc(30*var(--u))}
   @media screen and (max-width:760px),screen and (max-height:440px){
     .fm .nf-txt,.fm-wide .nf-txt,.fm-photo .txt{width:auto}
+    .fm-where{position:static}
+    .fm-places{grid-template-columns:1fr;row-gap:22px;margin-top:20px}
+    .fm-places>div{border-top-width:2px;padding-top:12px}
+    .fm-places h3{font-size:22px}
+    .fm-places h3 span{font-size:10px;margin-bottom:6px}
+    .fm-places li{font-size:14px;padding:7px 0;border-top-width:1px}
+    .fm-names b{font-size:54px}
+    .fm-names i{font-size:10px;margin-top:10px}
+    .fm-names span{font-size:15px}
     .fm .l{font-size:30px}
     .fm-pic{position:relative;right:auto;top:auto;width:100%;max-width:340px;margin-top:22px}
     .fm-band{position:relative;left:auto;right:auto;top:auto;width:100%;margin:0 0 22px}
@@ -589,35 +615,81 @@
     <a class="mark" href="#" id="bar-mark" aria-label="Wonder Robotics, back to the first slide"><canvas id="bar-canvas" data-wonder-mark data-sub="ROBOTICS" data-ink="#131316" data-w="150" data-hr="0.30" width="300" height="45" role="img" aria-label="Wonder Robotics"></canvas></a>
     <div class="clock label"><span class="dot" id="floor-dot" aria-hidden="true"></span>BNE <b id="clock">--:--</b> &nbsp;<span id="floor-state">Floor hours 9 to 7</span></div>
     <nav class="label" aria-label="Sections">
-      <a href="#" data-go="The mapping">The mapping</a><a href="#" data-go="The stir fryer">The stir fryer</a><a href="#" data-go="The R&amp;D">The R&amp;D</a><a href="#" data-go="The new kitchen">The new kitchen</a>
+      <a href="#" data-go="The new kitchen">The new kitchen</a><a href="#" data-go="A name of its own">The name</a><a href="#" data-go="Where it could go">Where</a><a href="#" data-go="The stir fryer">The R&amp;D</a>
     </nav>
     <div class="cta"><a class="btn want" href="/robotics/new-farm-curry-house/"><span>The greeter</span><i aria-hidden="true"><b>&nearr;</b></i></a><button type="button" class="btn ghost menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i aria-hidden="true"><b></b></i></button></div>
   </div>
 </header>
 <main id="deck">
-<section class="stage" id="s1" aria-label="Slide 1. R&amp;D first">
+<section class="stage" id="s1" aria-label="Slide 1. The plan">
   <div class="slide"><div class="in nf fm">
     <img class="nf-mark" src="../../img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
     <div class="nf-txt">
-      <p class="lab r">R&amp;D first</p>
-      <h2 class="l r">First we prove it together. Then we build your new kitchen.</h2>
+      <p class="lab r">The plan</p>
+      <h2 class="l r">A new kitchen, a new name and a new home, starting with one machine.</h2>
     </div>
     <div class="foot"><p>New Farm Curry House: concept</p><p>01</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s2" aria-label="Slide 2. The mapping">
+<section class="stage" id="s2" aria-label="Slide 2. The new kitchen">
+  <div class="slide"><div class="in full fm-photo">
+    <div class="plate" style="--op:50% 40%"><img src="../../img/deck/nfch/kitchen-aisle.jpg" width="2400" height="1340" alt="The full kitchen in New Farm Curry House green: two stir fryers, two robot arms and the pass"></div>
+    <div class="txt">
+      <p class="lab r">The new kitchen</p>
+      <h2 class="l r">A brand new kitchen, two stir fryers and two arms, built with you in a new premises.</h2>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept render</p><p>02</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s3" aria-label="Slide 3. The mapping">
   <div class="slide"><div class="in nf fm fm-wide">
     <figure class="fm-band r"><img src="../../img/deck/nfch/machines/kit-together.jpg" width="2400" height="742" alt="Every machine of the kitchen design in a row, in New Farm Curry House green and gold: the line fridge, two arms, two stir fryers, the hot hold, the server, the filling machine and the gravy kettle"><figcaption>Concept render</figcaption></figure>
     <div class="nf-txt">
       <p class="lab r">The mapping</p>
       <h2 class="l r">All 55 dishes on your menu, mapped station by station.</h2>
     </div>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>02</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>03</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s3" aria-label="Slide 3. The stir fryer">
+<section class="stage" id="s4" aria-label="Slide 4. A name of its own">
+  <div class="slide"><div class="in nf fm">
+    <img class="nf-mark" src="../../img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="fm-nums r">
+      <p class="lab">A name of its own</p>
+      <div class="fm-two fm-names">
+        <div><b>Ghee &amp; Steel</b><i>by New Farm Curry House</i><span>The warm kitchen and the machine, in one name.</span></div>
+        <div><b>Bhuna</b><i>by New Farm Curry House</i><span>Spices fried until the oil parts, all night long.</span></div>
+      </div>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>04</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s5" aria-label="Slide 5. Where it could go">
+  <div class="slide"><div class="in nf fm">
+    <img class="nf-mark" src="../../img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="fm-where r">
+      <p class="lab">Where it could go</p>
+      <h2 class="l">We help you find the room. Two in the Valley already have a kitchen built.</h2>
+      <div class="fm-places">
+        <div>
+          <h3><span>Fortitude Valley</span>Shop C, 174 Wickham Street</h3>
+          <ul><li>208 m², with a 59 m² mezzanine</li><li>Fitted kitchen and cold room, a Thai restaurant before</li><li>$117,600 a year gross, plus GST</li><li>Shop D next door, 189 m², can join it</li></ul>
+        </div>
+        <div>
+          <h3><span>Fortitude Valley</span>209 Brunswick Street, the old Foresters&rsquo; Hall</h3>
+          <ul><li>581 m² restaurant floor and a 279 m² rooftop bar</li><li>Grease trap, exhaust canopy, walk-in cool room</li><li>Rent on application, fit-out incentives offered</li><li>Heritage listed</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><p>On the market 17 Nov 2026</p><p>05</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s6" aria-label="Slide 6. The stir fryer">
   <div class="slide"><div class="in nf fm">
     <img class="nf-mark" src="../../img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
     <div class="nf-txt">
@@ -625,22 +697,22 @@
       <h2 class="l r">The R&amp;D starts with one stir fryer, cooking your curries to Chef Mahesh&rsquo;s recipe.</h2>
     </div>
     <figure class="fm-pic r"><img src="../../img/deck/nfch/machines/finishing-station-light.jpg" width="1208" height="1500" alt="The stir fryer in New Farm Curry House green, its steel bowl tilted over the cabinet and a curry on its screen"><figcaption>Concept render</figcaption></figure>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>03</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>06</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s4" aria-label="Slide 4. Built in the Valley">
+<section class="stage" id="s7" aria-label="Slide 7. Built in the Valley">
   <div class="slide"><div class="in full fm-photo">
     <div class="plate" style="--op:50% 40%"><img src="../../img/valley-baths.jpg" width="1800" height="1168" alt="Our robot line in Fortitude Valley: three lift arms over the noodle baths, in brushed steel"></div>
     <div class="txt">
       <p class="lab r">Built in the Valley</p>
-      <h2 class="l r">We develop it and test it on our own robot line, before it ever reaches your kitchen.</h2>
+      <h2 class="l r">We prove it on our own line first. Then it can work in your kitchen until the new one opens.</h2>
     </div>
-    <div class="foot"><p>Our robot kitchen, Fortitude Valley</p><p>04</p></div>
+    <div class="foot"><p>Our robot kitchen, Fortitude Valley</p><p>07</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s5" aria-label="Slide 5. The R&amp;D">
+<section class="stage" id="s8" aria-label="Slide 8. The R&amp;D">
   <div class="slide"><div class="in nf fm">
     <img class="nf-mark" src="../../img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
     <div class="fm-nums r">
@@ -650,31 +722,20 @@
         <div><b>$60k</b><span>Our R&amp;D, in kind</span></div>
       </div>
     </div>
-    <div class="foot"><p>New Farm Curry House: concept</p><p>05</p></div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>08</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s6" aria-label="Slide 6. The new kitchen">
-  <div class="slide"><div class="in full fm-photo">
-    <div class="plate" style="--op:50% 40%"><img src="../../img/deck/nfch/kitchen-aisle.jpg" width="2400" height="1340" alt="The full kitchen in New Farm Curry House green: two stir fryers, two robot arms and the pass"></div>
-    <div class="txt">
-      <p class="lab r">The new kitchen</p>
-      <h2 class="l r">Then the full kitchen, two stir fryers and the arms, in a new premises built around them.</h2>
-    </div>
-    <div class="foot"><p>New Farm Curry House: concept render</p><p>06</p></div>
-  </div></div>
-</section>
-
-<section class="stage" id="s7" aria-label="Slide 7. Ownership">
+<section class="stage" id="s9" aria-label="Slide 9. Ownership">
   <div class="slide"><div class="in say-it own nf">
     <p class="lab r">Ownership</p>
     <h2 class="big r">This concept is ours until it is yours.</h2>
-    <p class="own-text r">The concepts in this deck, the stir fryer, its build and testing on our line, the menu mapping, the kitchen designs, the renders and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the first payment made, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks, menu and recipes are yours.</p>
-    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>07</p></div>
+    <p class="own-text r">The concepts in this deck, the stir fryer, its build and testing on our line, the menu mapping, the kitchen designs, the names Ghee &amp; Steel and Bhuna, the renders and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the first payment made, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks, menu and recipes are yours.</p>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>09</p></div>
   </div></div>
 </section>
 
-<section class="stage" id="s8" aria-label="Slide 8. Wonder Robotics, Fortitude Valley">
+<section class="stage" id="s10" aria-label="Slide 10. Wonder Robotics, Fortitude Valley">
   <div class="slide"><div class="in hero">
     <picture><source media="(max-width:760px)" srcset="../../img/hero-bot.jpg"><img class="bg" src="../../img/hero-bot-wide.jpg" width="4800" height="1340" alt="W-1, the Wonder robot, in his studio"></picture>
     <div class="wrap">
@@ -779,7 +840,7 @@
 
 <nav class="nav" aria-label="Slide controls">
   <button type="button" id="prev" aria-label="Previous slide">&#8592;</button>
-  <output id="count" aria-live="polite">01 / 08</output>
+  <output id="count" aria-live="polite">01 / 10</output>
   <button type="button" id="next" aria-label="Next slide">&#8594;</button>
   <button type="button" id="full" aria-label="Full screen">&#x26F6;</button>
 </nav>

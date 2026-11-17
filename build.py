@@ -1435,7 +1435,7 @@ NFCH_PLAN = ("The kitchen plan", "/robotics/new-farm-curry-house/kitchen-plan/",
 NFCH_TOOL = ("Your kitchen, in place", "/robotics/new-farm-curry-house/kitchen-tool/", "img/deck/nfch/kitchen-cutaway.jpg",
              "Every machine where it will stand: tap one for its size, power and dishes, or follow a dish to the table.")
 NFCH_FIRST = ("R&amp;D first","/robotics/new-farm-curry-house/first-machine/", "img/deck/nfch/kitchen-aisle.jpg",
-              "One stir fryer, developed and tested on our line, then the full kitchen in a new premises.")
+              "A new kitchen, a new name and a new home, starting with one stir fryer on our line.")
 deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html", "Wonder Robotics for New Farm Curry House",
                                                "Wonder Robotics for New Farm Curry House: who we are, our room in Fortitude "
                                                "Valley, and a greeter and server for the restaurant.",
