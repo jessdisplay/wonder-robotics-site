@@ -1425,21 +1425,32 @@ NFCH_PLAN = ("The kitchen plan", "/robotics/new-farm-curry-house/kitchen-plan/",
              "Traced from your floor plan: where every piece goes, and the way a dish walks out.")
 NFCH_TOOL = ("Your kitchen, in place", "/robotics/new-farm-curry-house/kitchen-tool/", "img/deck/nfch/kitchen-cutaway.jpg",
              "Every machine where it will stand: tap one for its size, power and dishes, or follow a dish to the table.")
+NFCH_FIRST = ("R&amp;D first","/robotics/new-farm-curry-house/first-machine/", "img/deck/nfch/kitchen-aisle.jpg",
+              "One stir fryer, developed and tested on our line, then the full kitchen in a new premises.")
 deck("new-farm-curry-house", noodle_box_source("new-farm-curry-house-slides.html", "Wonder Robotics for New Farm Curry House",
                                                "Wonder Robotics for New Farm Curry House: who we are, our room in Fortitude "
                                                "Valley, and a greeter and server for the restaurant.",
                                                numbers=False, brackets=False,
                                                edits=[('<p class="lab r">[ Corporate profile, 2026 ]</p>',
                                                        '<p class="lab r">[ For New Farm Curry House ]</p>')],
-                                               job=[NFCH_GREETER, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_SCREEN]))
+                                               job=[NFCH_GREETER, NFCH_FIRST, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_SCREEN]))
 # Their kitchen: the menu matched to the machines that cook it, and how the spices are kept (Jesse, 11 Nov 2026), in the
 # deck's own green and gold, one folder beside it behind the same passcode.
 deck("new-farm-curry-house-kitchen", noodle_box_source("new-farm-curry-house-kitchen-slides.html",
                                                        "Wonder Robotics for New Farm Curry House: the kitchen",
                                                        "New Farm Curry House: every dish followed through every station it "
                                                        "passes, finished for the table and packed for delivery.",
-                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_DECK, NFCH_SCREEN],
+                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_FIRST, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_DECK, NFCH_SCREEN],
                                                        share=("new-farm-curry-house-slides.html",)))
+# R&D first, then a new kitchen (Jesse, 17 Nov 2026: "a separate preso please for tomorrow", "steer them towards R&D and
+# then a new kitchen", "its the stir fryer x2 we will just demo one"): the mapping, one stir fryer developed and tested on
+# our line in the Valley, the R&D, then the full kitchen in a new premises. Beside the other two, behind the same passcode.
+deck("new-farm-curry-house-first-machine", noodle_box_source("new-farm-curry-house-first-machine-slides.html",
+                                                             "Wonder Robotics for New Farm Curry House: R&D first",
+                                                             "New Farm Curry House: one stir fryer developed and tested on our "
+                                                             "robot line, then the full kitchen in a new premises.",
+                                                             numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_DECK, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_SCREEN],
+                                                             share=("new-farm-curry-house-slides.html",)))
 # Comuna: their title card and their hat first, then the coffee cart, its spec sheet, the numbers and the social side,
 # then our process and who we are, on their colours (Jesse, 12 Nov 2026: "at the end we intro ourselves on their brand",
 # "lets try just to move with the simpler coffee machine"). It sits inside the job's address, behind the job's own login

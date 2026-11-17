@@ -1,0 +1,151 @@
+<!-- New Farm Curry House, R&D first, then a new kitchen: the running order (build.py, noodle_box_source). Jesse, 17 Nov 2026:
+     "the plan for NFC is to use a boiler and our equipment on site at 60k investment so that we can build it out before
+     placing it in their kitchen and test it. We will put in kind 60k R&D as well on the machine. They will ultimately need a
+     new premises if they want to do full kitchen", then "just for a separate preso please for tomorrow", then "you can add
+     mapping etc but we need to steer them towards R&D and then a new kitchen", then the correction: "its the stir fryer x2
+     we will just demo one not boiler". So this deck stands apart from the deck and the kitchen pages, which are left as
+     they were, and steers: the mapping we have done, one stir fryer developed and tested on our own line in the Valley, the
+     two sixty thousands, then the full kitchen with two stir fryers and the arms in a new premises. One picture and one
+     line a page (rule, 2 Oct 2026), in the deck's green and gold (share=), the ownership notice and the website close.
+
+     Notes on the pages below. Nothing after the running order line may carry a comment: the slides are published as
+     written, comments and all, to a client.
+     - The stir fryer is the finishing station of the kitchen design, our wok robot in their green and gold
+       (machines/finishing-station-light.jpg, 11 Nov 2026). Jesse's word for it is the stir fryer, so the deck uses his.
+     - The mapping is the line-up of every machine in the kitchen design (machines/kit-together.jpg, the dossier's own),
+       and the 55 is the dish count of rise-stories tools/nfch/kitchen.py, the recipes page's rows.
+     - The Valley page is our own robot line, a real photograph (img/valley-baths.jpg), under their green, not ours. Not the
+       fryers photograph: their maker's name is on every fryer. Not the website's kitchen photograph: the kitchen software's
+       poster reads in it. Client copy carries no supplier names.
+     - The R&D page says whose sixty thousand goes into the machine no more plainly than Jesse did: "60k investment".
+     - The new kitchen is the kitchen aisle render (kitchen-aisle.jpg): two stir fryers, two arms, the pass.
+     - Ownership names a first payment, not a deposit: this job speaks of investment.
+     - The viewed check closes the file, as on the deck. -->
+
+<nav class="label" aria-label="Sections">
+      <a href="#" data-go="The mapping">The mapping</a><a href="#" data-go="The stir fryer">The stir fryer</a><a href="#" data-go="The R&amp;D">The R&amp;D</a><a href="#" data-go="The new kitchen">The new kitchen</a>
+    </nav>
+
+<style>
+  /* R&D first, then a new kitchen: the deck's green and gold (share=). A render stands to the right of the line on the
+     kitchen deck's warm card; the line-up runs as a band across the top on its own dark green; the photographs run full
+     bleed under their green, never our purple; the two figures stand side by side on the floor of the slide. */
+  .fm .nf-txt{width:calc(920*var(--u))}
+  .fm .l{max-width:none;font-size:calc(84*var(--u))}
+  .fm-pic{position:absolute;right:calc(96*var(--u));top:calc(96*var(--u));width:calc(688*var(--u));aspect-ratio:4/5;margin:0;
+          border-radius:calc(14*var(--u));background:#EFEBDB;overflow:hidden}
+  .fm-pic img{display:block;width:100%;height:100%;object-fit:cover}
+  .fm-pic figcaption,.fm-band figcaption{position:absolute;left:calc(18*var(--u));bottom:calc(16*var(--u));font-family:var(--mono);
+                     font-size:calc(16*var(--u));letter-spacing:.08em;text-transform:uppercase;color:#4a4636}
+  .fm-band{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));top:calc(96*var(--u));aspect-ratio:2400/742;margin:0;
+           border-radius:calc(14*var(--u));background:#062E24;overflow:hidden}
+  .fm-band img{display:block;width:100%;height:100%;object-fit:cover}
+  .fm-band figcaption{color:var(--paper-2)}
+  .fm-wide .nf-txt{width:calc(1500*var(--u))}
+  .in.fm-photo{background:#062E24}   /* on a phone the words sit under the photograph, on their green */
+  .fm-photo::after{background:linear-gradient(to top,rgba(6,46,36,.95) 0%,rgba(6,46,36,.66) 34%,rgba(6,46,36,0) 68%)}
+  .fm-photo .txt{width:calc(1240*var(--u))}
+  .fm-photo .l{max-width:none}
+  .fm-nums{position:absolute;left:calc(96*var(--u));bottom:calc(150*var(--u));z-index:1}
+  .fm-nums .lab{margin:0}
+  .fm-two{display:grid;grid-template-columns:repeat(2,auto);justify-content:start;column-gap:calc(150*var(--u));margin-top:calc(30*var(--u))}
+  .fm-two div{border-top:calc(3*var(--u)) solid var(--gold);padding-top:calc(26*var(--u))}
+  .fm-two b{display:block;font-weight:400;font-size:calc(290*var(--u));line-height:.86;letter-spacing:-.055em;color:var(--paper)}
+  .fm-two span{display:block;margin-top:calc(30*var(--u));font-family:var(--mono);font-size:calc(26*var(--u));letter-spacing:.06em;
+               text-transform:uppercase;color:var(--paper-2)}
+  @media screen and (max-width:760px),screen and (max-height:440px){
+    .fm .nf-txt,.fm-wide .nf-txt,.fm-photo .txt{width:auto}
+    .fm .l{font-size:30px}
+    .fm-pic{position:relative;right:auto;top:auto;width:100%;max-width:340px;margin-top:22px}
+    .fm-band{position:relative;left:auto;right:auto;top:auto;width:100%;margin:0 0 22px}
+    .fm-pic figcaption,.fm-band figcaption{font-size:9px;left:10px;bottom:8px}
+    .fm-nums{position:static}
+    .fm-two{grid-template-columns:1fr;row-gap:26px;margin-top:18px}
+    .fm-two div{border-top-width:2px;padding-top:12px}
+    .fm-two b{font-size:96px}
+    .fm-two span{font-size:12px;margin-top:12px}
+  }
+</style>
+
+<!-- running order -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. R&amp;D first">
+  <div class="slide"><div class="in nf fm">
+    <img class="nf-mark" src="{{root}}img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="nf-txt">
+      <p class="lab r">R&amp;D first</p>
+      <h2 class="l r">First we prove it together. Then we build your new kitchen.</h2>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The mapping">
+  <div class="slide"><div class="in nf fm fm-wide">
+    <figure class="fm-band r"><img src="{{root}}img/deck/nfch/machines/kit-together.jpg" width="2400" height="742" alt="Every machine of the kitchen design in a row, in New Farm Curry House green and gold: the line fridge, two arms, two stir fryers, the hot hold, the server, the filling machine and the gravy kettle"><figcaption>Concept render</figcaption></figure>
+    <div class="nf-txt">
+      <p class="lab r">The mapping</p>
+      <h2 class="l r">All 55 dishes on your menu, mapped station by station.</h2>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The stir fryer">
+  <div class="slide"><div class="in nf fm">
+    <img class="nf-mark" src="{{root}}img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="nf-txt">
+      <p class="lab r">The stir fryer</p>
+      <h2 class="l r">The R&amp;D starts with one stir fryer, cooking your curries to Chef Mahesh&rsquo;s recipe.</h2>
+    </div>
+    <figure class="fm-pic r"><img src="{{root}}img/deck/nfch/machines/finishing-station-light.jpg" width="1208" height="1500" alt="The stir fryer in New Farm Curry House green, its steel bowl tilted over the cabinet and a curry on its screen"><figcaption>Concept render</figcaption></figure>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Built in the Valley">
+  <div class="slide"><div class="in full fm-photo">
+    <div class="plate" style="--op:50% 40%"><img src="{{root}}img/valley-baths.jpg" width="1800" height="1168" alt="Our robot line in Fortitude Valley: three lift arms over the noodle baths, in brushed steel"></div>
+    <div class="txt">
+      <p class="lab r">Built in the Valley</p>
+      <h2 class="l r">We develop it and test it on our own robot line, before it ever reaches your kitchen.</h2>
+    </div>
+    <div class="foot"><p>Our robot kitchen, Fortitude Valley</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The R&amp;D">
+  <div class="slide"><div class="in nf fm">
+    <img class="nf-mark" src="{{root}}img/deck/nfch/logo-white.png" width="512" height="512" alt="New Farm Curry House">
+    <div class="fm-nums r">
+      <p class="lab">The R&amp;D</p>
+      <div class="fm-two">
+        <div><b>$60k</b><span>Into the machine</span></div>
+        <div><b>$60k</b><span>Our R&amp;D, in kind</span></div>
+      </div>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The new kitchen">
+  <div class="slide"><div class="in full fm-photo">
+    <div class="plate" style="--op:50% 40%"><img src="{{root}}img/deck/nfch/kitchen-aisle.jpg" width="2400" height="1340" alt="The full kitchen in New Farm Curry House green: two stir fryers, two robot arms and the pass"></div>
+    <div class="txt">
+      <p class="lab r">The new kitchen</p>
+      <h2 class="l r">Then the full kitchen, two stir fryers and the arms, in a new premises built around them.</h2>
+    </div>
+    <div class="foot"><p>New Farm Curry House: concept render</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Ownership">
+  <div class="slide"><div class="in say-it own nf">
+    <p class="lab r">Ownership</p>
+    <h2 class="big r">This concept is ours until it is yours.</h2>
+    <p class="own-text r">The concepts in this deck, the stir fryer, its build and testing on our line, the menu mapping, the kitchen designs, the renders and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the first payment made, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks, menu and recipes are yours.</p>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p><p>{{n}}</p></div>
+  </div></div>
+</section>
+
+<!-- take: Wonder Robotics, Fortitude Valley -->
+<script src="/shared/viewed.js" defer></script>

@@ -49,6 +49,7 @@ DECKS = {
     # inside the job's own address, so the greeter page's server lock covers it too (Jesse, 6 Nov 2026)
     "new-farm-curry-house": ("new-farm-curry-house/deck", "Wonder-Robotics-for-New-Farm-Curry-House.pdf"),
     "new-farm-curry-house-kitchen": ("new-farm-curry-house/kitchen", "Wonder-Robotics-New-Farm-Curry-House-kitchen.pdf"),
+    "new-farm-curry-house-first-machine": ("new-farm-curry-house/first-machine", "Wonder-Robotics-New-Farm-Curry-House-first-machine.pdf"),
     # inside Comuna's job address, behind the job's own band login like every Comuna page (Jesse, 12 Nov 2026)
     "comuna": ("comuna/deck", "Wonder-Robotics-for-Comuna.pdf"),
 }
@@ -91,7 +92,7 @@ def dressing(name):
 # send it as a PDF as it could be copied").
 NO_PDF = {"concept-eight",
           # a PDF would carry a locked page out from behind its lock
-          "new-farm-curry-house", "new-farm-curry-house-kitchen", "comuna"}
+          "new-farm-curry-house", "new-farm-curry-house-kitchen", "new-farm-curry-house-first-machine", "comuna"}
 # A deck inside a job that already has its own login wears that login, not the deck gate: src/<name>-login.html, the
 # job pages' gate lines byte for byte, put in after the charset line like the deck gate.
 OWN_LOGIN = {"comuna"}
