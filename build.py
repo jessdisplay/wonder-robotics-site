@@ -433,8 +433,15 @@ def robots_json():
 # link previews) and can never disagree with the quote.
 def engine_js():
     """site.js with the build's values written in: the showroom robots, and whether prices show."""
-    return ((SRC / "site.js").read_text().replace("/*{{robots}}*/[]", robots_json())
-            .replace("/*{{poa}}*/false", "/*{{poa}}*/" + ("true" if POA else "false")))
+    src = (SRC / "site.js").read_text()
+    # A marker that is not there would ship the source's own value without a word: prices on, no robots.
+    for marker in ("/*{{robots}}*/[]", "/*{{poa}}*/false"):
+        if src.count(marker) != 1:
+            sys.exit(f"src/site.js: {marker} should be there once, found {src.count(marker)}")
+    # The marker goes with the value it stood for. Left in, its {{ reads as an unfilled token
+    # to wonder.fish's static check, which failed on the coffee deck from 12 Nov 2026.
+    return (src.replace("/*{{robots}}*/[]", robots_json())
+            .replace("/*{{poa}}*/false", "true" if POA else "false"))
 
 
 @functools.lru_cache(maxsize=None)
@@ -831,6 +838,8 @@ def render(body, cfg, name=None):
         leak = re.search(r"\$\d[\d,]*", re.sub(r"<script.*?</script>", "", doc, flags=re.S))
         if leak:
             sys.exit(f'{cfg["out"]}: shows a price while prices are off: {leak.group(0)}')
+    if "{{" in doc:
+        sys.exit(f'{cfg["out"]} has an unfilled token')
     out = HERE / cfg["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc)
