@@ -1,0 +1,187 @@
+<!-- New Farm Curry House: the tandoor, a deck of its own (build.py, noodle_box_source). Jesse, 18 Nov 2026: "do a deck for
+     the tandor aswell as they may go for the tandor with it", then, of the Few and Far page for a vintage Indian brass lassi
+     cup (fewandfar.com.au), "try doing the drck and the macbie ins this style maybe". Geeta wants the tandoor automated
+     (Jesse, 12 Nov 2026), and the turning oven she found takes the clay tandoor's corner: rise-stories tools/nfch/kitchen.py.
+
+     Notes on the pages below. Nothing after the running order line may carry a comment: the slides are published as
+     written, comments and all, to a client.
+     - The look is Few and Far's product page: a warm off-white ground, the object alone on a pale seamless, a classic serif
+       for names (Playfair Display, theirs), small grotesk details on thin rules. Not the posters of the R&D deck: this one
+       reads like a catalogue page for one machine.
+     - The machine is the turning naan oven of the kitchen design (machines/naan-oven-light.jpg), its form kept exactly,
+       its finish changed to hand-engraved brass and nickel after the lassi cups, the Ghee & Steel drop in relief on the
+       hood. A concept render. The bread shot is that same render with the breads added and nothing else changed.
+     - Every working fact is kitchen.py's: up to 300 breads an hour; each naan about 90 seconds as it comes round; laccha
+       shaped by hand, 2 minutes; the tikka grilled on the plate to trial against her tandoor's char; the fry arm lays each
+       bread and lifts it off; the cook presses each ball to order; the dough mixed the afternoon before, stuffed balls on
+       the filling machine. Those times are our estimates, and the page says so.
+     - The line doubles as the parts list for the tandoor: four machines plus the arm it shares with the fryer. No makers, no
+       prices. The mixer, filling machine and press are still the green renders of the kitchen design.
+     - No figures for the tandoor's R&D: Jesse has not given them. A money page waits on him.
+     - The viewed check closes the file, as on the deck. -->
+
+<nav class="label" aria-label="Sections">
+      <a href="#" data-go="The tandoor">The tandoor</a><a href="#" data-go="The breads">The breads</a><a href="#" data-go="The line">The line</a><a href="#" data-go="Trialled on our line">The trial</a>
+    </nav>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap");
+  /* The build carries this style block, never a link: the serif loads from here. */
+  /* A catalogue page for one machine, after Few and Far: warm off-white, the object alone on a pale seamless, a classic
+     serif for names, small grotesk details on thin rules. */
+  .in.ff{--ink:#2F2A24;--ink-2:rgba(47,42,36,.62);--rule:rgba(47,42,36,.16);background:#F8F6F0;color:var(--ink)}
+  .ff .foot{color:var(--ink-2)}
+  .ff-serif{font-family:"Playfair Display",Georgia,serif;font-weight:400;letter-spacing:-.01em}
+  .ff-pic{position:absolute;top:calc(64*var(--u));bottom:calc(64*var(--u));left:calc(96*var(--u));width:calc(880*var(--u));margin:0;
+          background:#E9E6E0;overflow:hidden}
+  .ff-pic img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+  .ff-pic.dark figcaption{color:rgba(248,246,240,.82)}
+  .ff-pic figcaption{position:absolute;left:calc(20*var(--u));bottom:calc(18*var(--u));font-family:var(--mono);font-size:calc(16*var(--u));
+                     letter-spacing:.08em;text-transform:uppercase;color:rgba(47,42,36,.6)}
+  .ff-col{position:absolute;left:calc(1080*var(--u));right:calc(96*var(--u));top:calc(150*var(--u))}
+  .ff-kick{margin:0;display:flex;align-items:center;gap:calc(16*var(--u));font-size:calc(19*var(--u));letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .ff-kick svg{width:calc(44*var(--u));height:calc(44*var(--u))}
+  .ff-col h2{margin:calc(28*var(--u)) 0 0;font-size:calc(104*var(--u));line-height:1.02}
+  .ff-col .lede{margin:calc(26*var(--u)) 0 0;font-size:calc(30*var(--u));line-height:1.35;color:var(--ink)}
+  .ff-spec{margin:calc(48*var(--u)) 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+  .ff-spec li{display:grid;grid-template-columns:calc(220*var(--u)) 1fr;gap:calc(20*var(--u));padding:calc(18*var(--u)) 0;
+              border-bottom:1px solid var(--rule);font-size:calc(24*var(--u));line-height:1.3}
+  .ff-spec span{color:var(--ink-2)}
+  .ff-big{margin:0;font-size:calc(300*var(--u));line-height:1;font-variant-numeric:lining-nums}
+  .ff-big+p{margin:calc(40*var(--u)) 0 0;font-size:calc(30*var(--u));line-height:1.35}
+  .ff-list{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));margin:0;padding:0;list-style:none;
+           display:grid;grid-template-columns:1fr 1fr;column-gap:calc(96*var(--u));border-top:1px solid var(--rule)}
+  .ff-list li{display:flex;justify-content:space-between;align-items:baseline;gap:calc(24*var(--u));padding:calc(20*var(--u)) 0;border-bottom:1px solid var(--rule)}
+  .ff-list b{font-family:"Playfair Display",Georgia,serif;font-weight:400;font-size:calc(40*var(--u));letter-spacing:-.01em}
+  .ff-list span{font-size:calc(22*var(--u));color:var(--ink-2);text-align:right}
+  .ff-head{position:absolute;left:calc(96*var(--u));top:calc(110*var(--u));margin:0;font-size:calc(96*var(--u));line-height:1.02}
+  .ff-head small{display:block;margin-top:calc(18*var(--u));font-family:var(--display);font-size:calc(22*var(--u));letter-spacing:.06em;
+                 text-transform:uppercase;color:var(--ink-2)}
+  .ff-row{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(110*var(--u));margin:0;padding:0;list-style:none;
+          display:grid;grid-template-columns:repeat(5,1fr);gap:calc(28*var(--u))}
+  .ff-row figure{margin:0;aspect-ratio:4/5;background:#E9E6E0;overflow:hidden}
+  .ff-row img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+  .ff-row b{display:block;margin-top:calc(16*var(--u));font-family:"Playfair Display",Georgia,serif;font-weight:400;font-size:calc(32*var(--u))}
+  .ff-row p{margin:calc(6*var(--u)) 0 0;font-size:calc(21*var(--u));line-height:1.35;color:var(--ink-2)}
+  .ff-steps{margin:calc(48*var(--u)) 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+  .ff-steps li{display:grid;grid-template-columns:calc(80*var(--u)) 1fr;padding:calc(20*var(--u)) 0;border-bottom:1px solid var(--rule)}
+  .ff-steps i{font-style:normal;font-family:var(--mono);font-size:calc(19*var(--u));letter-spacing:.06em;color:var(--ink-2);padding-top:calc(10*var(--u))}
+  .ff-steps b{font-family:"Playfair Display",Georgia,serif;font-weight:400;font-size:calc(40*var(--u))}
+  .ff-steps span{display:block;margin-top:calc(4*var(--u));font-size:calc(22*var(--u));color:var(--ink-2)}
+  /* The notice, in this page's ink: the green deck's sizes do not travel here. */
+  .ff.own .lab{color:var(--ink-2)}
+  .ff.own .big{font-family:"Playfair Display",Georgia,serif;font-weight:400;letter-spacing:-.01em;color:var(--ink)}
+  .ff.own p.own-text{margin:calc(40*var(--u)) 0 0;font-size:calc(30*var(--u));line-height:1.45;color:var(--ink-2);max-width:calc(1650*var(--u))}
+  @media screen and (max-width:760px),screen and (max-height:440px){
+    .ff.own p.own-text{font-size:15px}
+    .ff-pic{position:relative;left:auto;top:auto;bottom:auto;width:100%;aspect-ratio:4/5;margin:0 0 22px}
+    .ff-col,.ff-list,.ff-head,.ff-row{position:static}
+    .ff-kick{font-size:10px}
+    .ff-kick svg{width:24px;height:24px}
+    .ff-col h2{font-size:44px;margin-top:12px}
+    .ff-col .lede{font-size:16px;margin-top:12px}
+    .ff-spec{margin-top:20px}
+    .ff-spec li{grid-template-columns:96px 1fr;font-size:13px;padding:9px 0}
+    .ff-big{font-size:110px}
+    .ff-big+p{font-size:16px}
+    .ff-list{grid-template-columns:1fr;margin-top:22px}
+    .ff-list b{font-size:20px}
+    .ff-list span{font-size:12px}
+    .ff-head{font-size:40px}
+    .ff-head small{font-size:10px}
+    .ff-row{grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+    .ff-row b{font-size:18px}
+    .ff-row p{font-size:12px}
+    .ff-steps{margin-top:20px}
+    .ff-steps li{grid-template-columns:40px 1fr;padding:10px 0}
+    .ff-steps i{font-size:10px;padding-top:4px}
+    .ff-steps b{font-size:20px}
+    .ff-steps span{font-size:12px}
+    .in.own{padding-bottom:104px}
+  }
+</style>
+
+<!-- running order -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The tandoor">
+  <div class="slide"><div class="in ff">
+    <figure class="ff-pic r"><img src="{{root}}img/deck/nfch/gs/tandoor-brass.jpg" width="928" height="1152" alt="The turning tandoor oven in hand-engraved brass and nickel, the Ghee and Steel drop in relief on its hood, alone on a pale studio backdrop"><figcaption>Concept render</figcaption></figure>
+    <div class="ff-col r">
+      <p class="ff-kick"><svg viewBox="0 0 100 100" role="img" aria-label="The Ghee and Steel icon: the drop in steel, brass and enamel on an emerald tile"><rect width="100" height="100" rx="22" fill="#0E4A3A"/><rect x="47.25" y="22.45" width="5.50" height="5.50" rx="1" fill="#E2A33A"/><rect x="41.05" y="28.65" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="47.25" y="28.65" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="53.45" y="28.65" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="41.05" y="34.85" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="47.25" y="34.85" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="53.45" y="34.85" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="34.85" y="41.05" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="41.05" y="41.05" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="47.25" y="41.05" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="53.45" y="41.05" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="59.65" y="41.05" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="28.65" y="47.25" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="34.85" y="47.25" width="5.50" height="5.50" rx="1" fill="#1F6F8B"/><rect x="41.05" y="47.25" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="47.25" y="47.25" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="53.45" y="47.25" width="5.50" height="5.50" rx="1" fill="#A23B2A"/><rect x="59.65" y="47.25" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="65.85" y="47.25" width="5.50" height="5.50" rx="1" fill="#C9CCC9"/><rect x="28.65" y="53.45" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="34.85" y="53.45" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="41.05" y="53.45" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="47.25" y="53.45" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="53.45" y="53.45" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="59.65" y="53.45" width="5.50" height="5.50" rx="1" fill="#E2A33A"/><rect x="65.85" y="53.45" width="5.50" height="5.50" rx="1" fill="#A23B2A"/><rect x="28.65" y="59.65" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="34.85" y="59.65" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="41.05" y="59.65" width="5.50" height="5.50" rx="1" fill="#1F6F8B"/><rect x="47.25" y="59.65" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="53.45" y="59.65" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="59.65" y="59.65" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="65.85" y="59.65" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="34.85" y="65.85" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="41.05" y="65.85" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="47.25" y="65.85" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="53.45" y="65.85" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="59.65" y="65.85" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="41.05" y="72.05" width="5.50" height="5.50" rx="1" fill="#C9A45E"/><rect x="47.25" y="72.05" width="5.50" height="5.50" rx="1" fill="#A23B2A"/><rect x="53.45" y="72.05" width="5.50" height="5.50" rx="1" fill="#C9A45E"/></svg><span>Ghee &amp; Steel, by New Farm Curry House</span></p>
+      <h2 class="ff-serif">The Tandoor</h2>
+      <p class="lede">Naan to order. The arm lays each bread on the turning plate and lifts it off baked.</p>
+      <ul class="ff-spec">
+        <li><span>Bakes</span>Up to 300 breads an hour</li>
+        <li><span>Breads</span>Five naans, the roti naan and laccha</li>
+        <li><span>Also</span>Chicken tikka, to trial against your tandoor</li>
+        <li><span>Stands</span>In the clay tandoor&rsquo;s corner</li>
+      </ul>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. 300 an hour">
+  <div class="slide"><div class="in ff">
+    <figure class="ff-pic r"><img src="{{root}}img/deck/nfch/gs/tandoor-naan.jpg" width="928" height="1152" alt="The engraved brass tandoor with three naan baking on its turning plate and a brass plate of buttered naan on its shelf"><figcaption>Concept render</figcaption></figure>
+    <div class="ff-col r">
+      <p class="ff-big ff-serif">300</p>
+      <p>Breads an hour, each about ninety seconds as the plate comes round. Pressed as it is ordered, so every naan leaves hot.</p>
+    </div>
+    <div class="foot"><p></p><p>Our estimates, to trial on our line</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The breads">
+  <div class="slide"><div class="in ff">
+    <h2 class="ff-head ff-serif r">Your breads<small>Every one on the turning plate</small></h2>
+    <ul class="ff-list r">
+      <li><b>Plain Naan</b><span>Brushed with butter</span></li>
+      <li><b>Garlic Naan</b><span>Brushed with garlic butter</span></li>
+      <li><b>Cheese and Garlic Naan</b><span>Filled, then garlic butter</span></li>
+      <li><b>Spinach and Cheese Naan</b><span>Filled, then butter</span></li>
+      <li><b>Tasty Cheese Naan</b><span>Filled, then butter</span></li>
+      <li><b>Roti Naan</b><span>Wholemeal, then butter</span></li>
+      <li><b>Laccha</b><span>Shaped by hand, two minutes</span></li>
+      <li><b>Chicken Tikka</b><span>Grilled on the plate, to trial</span></li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. The line">
+  <div class="slide"><div class="in ff">
+    <h2 class="ff-head ff-serif r">The line<small>Four machines and one arm, supplied by us</small></h2>
+    <ul class="ff-row r">
+      <li><figure><img src="{{root}}img/deck/nfch/machines/mixer-light.jpg" width="1208" height="1500" alt="Spiral mixer"></figure><b>Spiral mixer</b><p>The dough, the afternoon before</p></li>
+      <li><figure><img src="{{root}}img/deck/nfch/machines/filling-machine-light.jpg" width="1208" height="1500" alt="Filling machine"></figure><b>Filling machine</b><p>Cheese, garlic and spinach balls, before service</p></li>
+      <li><figure><img src="{{root}}img/deck/nfch/machines/naan-press-light.jpg" width="1208" height="1500" alt="Naan press"></figure><b>Naan press</b><p>Each ball pressed as it is ordered</p></li>
+      <li><figure><img src="{{root}}img/deck/nfch/machines/arms-light.jpg" width="1208" height="1500" alt="Robot arm"></figure><b>The arm</b><p>Lays each bread and lifts it off baked</p></li>
+      <li><figure><img src="{{root}}img/deck/nfch/gs/tandoor-brass.jpg" width="928" height="1152" alt="The engraved brass tandoor"></figure><b>The tandoor</b><p>Bakes as the plate comes round</p></li>
+    </ul>
+    <div class="foot"><p>Concept renders</p></div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Trialled on our line">
+  <div class="slide"><div class="in ff">
+    <figure class="ff-pic dark r"><img src="{{root}}img/valley-baths.jpg" width="1800" height="1168" alt="Our robot line in Fortitude Valley: three lift arms over the noodle baths, in brushed steel"><figcaption>Our robot kitchen, Fortitude Valley</figcaption></figure>
+    <div class="ff-col r">
+      <h2 class="ff-serif">Trialled on our line</h2>
+      <ol class="ff-steps">
+        <li><i>01</i><div><b>On our line</b><span>Your dough, your breads, against your tandoor&rsquo;s char</span></div></li>
+        <li><i>02</i><div><b>In New Farm</b><span>Into the clay tandoor&rsquo;s corner, your team trained on it</span></div></li>
+        <li><i>03</i><div><b>In Ghee &amp; Steel</b><span>Beside the stir fryers in the new kitchen</span></div></li>
+      </ol>
+    </div>
+  </div></div>
+</section>
+
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Ownership">
+  <div class="slide"><div class="in say-it own ff">
+    <p class="lab r">Ownership</p>
+    <h2 class="big r">This concept is ours until it is yours.</h2>
+    <p class="own-text r">The concepts in this deck, the tandoor and its line, its build and testing on our line, the kitchen designs, the Ghee &amp; Steel name and identity, the renders and this deck itself, belong to Wonder Byte Technology Pty Ltd (ACN 649 247 156), trading as Wonder Robotics, and are shared in confidence for evaluation only. Without a signed agreement and the first payment made, none of it may be used, copied, adapted, shared or built, and nor may anything substantially similar to it in look, layout or design, by you or by anyone acting for you. The New Farm Curry House name, marks, menu and recipes are yours.</p>
+    <div class="foot"><p>&copy; 2026 Wonder Byte Technology Pty Ltd, trading as Wonder Robotics</p></div>
+  </div></div>
+</section>
+
+<!-- take: Wonder Robotics, Fortitude Valley -->
+<script src="/shared/viewed.js" defer></script>

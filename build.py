@@ -1460,6 +1460,16 @@ deck("new-farm-curry-house-first-machine", noodle_box_source("new-farm-curry-hou
                                                              "robot line, then the full kitchen in a new premises.",
                                                              numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_DECK, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_SCREEN],
                                                              share=("new-farm-curry-house-slides.html",)))
+# The tandoor, a deck of its own (Jesse, 18 Nov 2026: "do a deck for the tandor aswell as they may go for the tandor with
+# it", then of the Few and Far lassi cup page "try doing the drck and the macbie ins this style maybe"): the turning oven in
+# engraved brass, its breads, its line and the trial on our line, as a catalogue page. Beside the others, same passcode.
+NFCH_TANDOOR = ("The tandoor", "/robotics/new-farm-curry-house/tandoor/", "img/deck/nfch/gs/tandoor-brass.jpg",
+                "The turning tandoor in engraved brass: your breads to order, trialled on our line first.")
+deck("new-farm-curry-house-tandoor", noodle_box_source("new-farm-curry-house-tandoor-slides.html",
+                                                       "Wonder Robotics for New Farm Curry House: the tandoor",
+                                                       "New Farm Curry House: the turning tandoor, its breads and its line, "
+                                                       "trialled on our robot line.",
+                                                       numbers=False, brackets=False, job=[NFCH_GREETER, NFCH_FIRST, NFCH_DECK, NFCH_KITCHEN, NFCH_TOOL, NFCH_DOSSIER, NFCH_PLAN, NFCH_RECIPES, NFCH_RUNNER, NFCH_SCREEN]))
 # Comuna: their title card and their hat first, then the coffee cart, its spec sheet, the numbers and the social side,
 # then our process and who we are, on their colours (Jesse, 12 Nov 2026: "at the end we intro ourselves on their brand",
 # "lets try just to move with the simpler coffee machine"). It sits inside the job's address, behind the job's own login
