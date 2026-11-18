@@ -75,7 +75,12 @@
        site, the full kitchen and its parts, the restaurant, the brand, the front and the room, what we do, the road map,
        the tax credit, the ask. The tax credit slide states the R&D Tax Incentive refundable offset, 43.5% for companies
        under $20 million turnover; whether New Farm Curry House is eligible is for their accountant, and the foot says so.
-       Read by Claude, not confirmed by Jesse: 63.5% may be the 43.5% plus 20% from us; the slides never add the two.
+       Jesse, the same day: "R&D is 43.5", so the ask reads 43.5% back on the R&D, the figure the tax credit slide explains.
+     - The close, 18 Nov 2026, Jesse: "the final slide can be a close like wonder x nfch and the final robot is just the big
+       wonder not ryan edwards, the wonder ... where he hops in and his words are around him, full screen it without the nav".
+       So this deck does NOT close on the website header: it closes on Moon time, the Comuna deck's opener (W-1 hops in and
+       becomes the o of WONDER), its four files copied into img/deck/nfch/intro/, with Wonder Robotics x New Farm Curry House
+       above it; the bar steps away while the close is on screen.
      - The viewed check closes the file, as on the deck. -->
 
 <nav class="label" aria-label="Sections">
@@ -185,6 +190,24 @@
   .in.gs-photo{background:#2B231B}
   .gs-photo::after{background:linear-gradient(to top,rgba(30,24,18,.86) 0%,rgba(30,24,18,.42) 22%,rgba(30,24,18,0) 40%)}
   .gs-photo .fp-w{font-size:calc(150*var(--u))}
+  /* The close: Moon time on its own paper, the film whole in the middle and the paper carried past its edge at its scale. */
+  .slide.nf-moon{background:#EDE7E1}
+  .nf-moon .in{padding:0;container-type:size}
+  .nf-moon .in::before{content:"";position:absolute;left:50%;top:50%;width:calc(2*min(100cqw,100cqh*16/9));aspect-ratio:16/9;
+                       transform:translate(-50%,-50%);background:url("{{root}}img/deck/nfch/intro/moon-time-paper.jpg") 50% 50%/100% 100% no-repeat}
+  .nf-moon .nf-mt{position:absolute;left:50%;top:50%;width:min(100cqw,calc(100cqh*16/9));height:auto;aspect-ratio:16/9;
+                  transform:translate(-50%,-50%);display:block}
+  .nf-moon .nf-x{position:absolute;left:calc(96*var(--u));top:calc(72*var(--u));z-index:2;margin:0;color:#274B3A}
+  .nf-moon .nf-play{position:absolute;left:50%;bottom:calc(120*var(--u));transform:translateX(-50%);z-index:2;
+                    padding:calc(18*var(--u)) calc(30*var(--u));border:0;border-radius:999px;background:#274B3A;color:#F3F1E4;cursor:pointer;
+                    font:500 calc(22*var(--u))/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .nf-moon .nf-play[hidden]{display:none}
+  /* while the close is on screen the bar becomes its paper, so the whole screen is Moon time and nothing shows through */
+  #bar{transition:background-color .5s ease,border-color .5s ease}
+  #bar>*{transition:opacity .5s ease}
+  body.nf-full{background:#EDE7E1}
+  body.nf-full #bar{background:#EDE7E1;border-color:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+  body.nf-full #bar>*{opacity:0;pointer-events:none}
   /* The stationery: the paper on its own stone, the headline in the picture's empty corner, nothing shading it. */
   .in.gs-paper{background:#E6E0D6}
   .gs-paper::after{display:none}
@@ -460,7 +483,7 @@
   <div class="slide"><div class="in nf fp pk">
     <h2 class="fp-h fp-x fp-big r"><span class="fp-w">$60k</span><span class="fp-w">To start</span><span class="fp-line">It comes off your build</span></h2>
     <div class="fp-x fp-side r">
-      <div><span class="fp-w">63.5%</span><span class="fp-line">Off the R&amp;D</span></div>
+      <div><span class="fp-w">43.5%</span><span class="fp-line">Back on the R&amp;D</span></div>
     </div>
   </div></div>
 </section>
@@ -474,5 +497,32 @@
   </div></div>
 </section>
 
-<!-- take: Wonder Robotics, Fortitude Valley -->
+<section class="stage" id="s{{i}}" aria-label="Slide {{i}}. Wonder">
+  <div class="slide nf-moon"><div class="in">
+    <video class="nf-mt" src="{{root}}img/deck/nfch/intro/moon-time.mp4" poster="{{root}}img/deck/nfch/intro/moon-time-start.jpg" playsinline preload="auto" width="1920" height="1080" aria-label="The word wonder drops in letter by letter, then W-1, the Wonder robot, bounds in on moon gravity and becomes its o"></video>
+    <p class="lab nf-x">Wonder Robotics &times; New Farm Curry House</p>
+    <button class="nf-play" type="button" hidden>Play with sound</button>
+  </div></div>
+  <script>
+  (function () {
+    var v = document.querySelector(".nf-moon .nf-mt"), b = document.querySelector(".nf-moon .nf-play");
+    if (!v || !("IntersectionObserver" in window)) return;
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (still) v.poster = "{{root}}img/deck/nfch/intro/moon-time-end.jpg";
+    function go() {
+      if (still) return;
+      v.muted = false; v.currentTime = 0;
+      var p = v.play();
+      if (p && p.then) p.then(function () { b.hidden = true; }, function () { v.pause(); v.currentTime = 0; b.hidden = false; });
+    }
+    b.addEventListener("click", function () { b.hidden = true; v.muted = false; v.currentTime = 0; v.play().catch(function () { v.muted = true; v.play(); }); });
+    new IntersectionObserver(function (es) {
+      var on = es[es.length - 1].intersectionRatio >= .5;
+      document.body.classList.toggle("nf-full", on);
+      if (on) go(); else { v.pause(); b.hidden = true; }
+    }, { threshold: [0, .5, 1] }).observe(v.closest(".stage"));
+  })();
+  </script>
+</section>
+
 <script src="/shared/viewed.js" defer></script>
