@@ -657,12 +657,10 @@
                     padding:calc(18*var(--u)) calc(30*var(--u));border:0;border-radius:999px;background:#274B3A;color:#F3F1E4;cursor:pointer;
                     font:500 calc(22*var(--u))/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
   .nf-moon .nf-play[hidden]{display:none}
-  /* while the close is on screen the bar becomes its paper, so the whole screen is Moon time and nothing shows through */
-  #bar{transition:background-color .5s ease,border-color .5s ease}
-  #bar>*{transition:opacity .5s ease}
-  body.nf-full{background:#EDE7E1}
-  body.nf-full #bar{background:#EDE7E1;border-color:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
-  body.nf-full #bar>*{opacity:0;pointer-events:none}
+  /* Presented full screen (Jesse, 18 Nov 2026: "I want to hide the nav"): no bar and no menu on any slide, every slide the
+     whole window. The deck still moves by keys, scroll and swipe. */
+  :root{--bar:0px!important}
+  #bar,#menu,.menu-scrim{display:none!important}
   /* The stationery: the paper on its own stone, the headline in the picture's empty corner, nothing shading it. */
   .in.gs-paper{background:#E6E0D6}
   .gs-paper::after{display:none}
@@ -983,9 +981,7 @@
     }
     b.addEventListener("click", function () { b.hidden = true; v.muted = false; v.currentTime = 0; v.play().catch(function () { v.muted = true; v.play(); }); });
     new IntersectionObserver(function (es) {
-      var on = es[es.length - 1].intersectionRatio >= .5;
-      document.body.classList.toggle("nf-full", on);
-      if (on) go(); else { v.pause(); b.hidden = true; }
+      if (es[es.length - 1].intersectionRatio >= .5) go(); else { v.pause(); b.hidden = true; }
     }, { threshold: [0, .5, 1] }).observe(v.closest(".stage"));
   })();
   </script>
